@@ -1,12 +1,8 @@
 import {bootstrap} from '@angular/platform-browser-dynamic';
-import {Component} from '@angular/core';
 
-@Component({
-	selector: 'mymicds-app',
-	template: `<h1>Hello World!</h1>`
-})
-export class App {
+import {AppComponent} from './app.component';
+import {appRouterProviders} from './app.routes';
 
-}
-
-bootstrap(App);
+bootstrap(AppComponent, [
+	appRouterProviders
+]);
