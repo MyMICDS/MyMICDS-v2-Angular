@@ -33,7 +33,7 @@ gulp.task('copy:libs', function() {
 
 // Copy static assets - i.e. non TypeScript compiled source
 gulp.task('copy:assets', function() {
-	return gulp.src(['app/**/*', 'index.html', '!app/**/*.ts', '!app/**/*.scss'], { base: './' })
+	return gulp.src(['app/**/*', '!app/**/*.ts', '!app/**/*.scss'], { base: './' })
 		.pipe(gulp.dest('dist'));
 });
 
@@ -47,4 +47,9 @@ gulp.task('sass', function() {
 gulp.task('build', ['compile', 'sass', 'copy:libs', 'copy:assets']);
 gulp.task('default', ['clean'], function() {
 	gulp.run('build');
+});
+
+var watcher = gulp.watch(['app/**/*'], ['default']);
+watcher.on('change', function(event) {
+	console.log('File ' + event.path + ' was' + event.type);
 });
