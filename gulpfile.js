@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const del = require('del');
-const ignoreErrors = require('gulp-ignore-errors');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const typescript = require('gulp-typescript');
@@ -14,8 +13,7 @@ gulp.task('clean', function() {
 // TypeScript compile
 gulp.task('compile', function() {
 	return gulp
-		.src('app/**/*.ts')
-		// .pipe(ignoreErrors())
+		.src(['app/**/*.ts', 'typings/**/*.ts'])
 		.pipe(sourcemaps.init())
 		.pipe(typescript(tscConfig.compilerOptions))
 		.pipe(sourcemaps.write('.'))
@@ -46,10 +44,7 @@ gulp.task('sass', function() {
 		.pipe(gulp.dest('dist/app'));
 });
 
-gulp.task('build', ['compile']);
+gulp.task('build', ['compile', 'sass', 'copy:libs', 'copy:assets']);
 gulp.task('default', ['clean'], function() {
-	gulp.run('compile');
-	gulp.run('sass');
-	gulp.run('copy:libs');
-	gulp.run('copy:assets');
+	gulp.run('build');
 });
