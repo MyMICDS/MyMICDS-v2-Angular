@@ -11,10 +11,11 @@
 		// Span background whole parent
 		content: ' ';
 		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
+		$offset: calc((#{$blurRadius} + #{$padding}) * -1);
+		top: $offset;
+		left: $offset;
+		right: $offset;
+		bottom: $offset;
 		z-index: -10;
 
 		// Add blurred background image
@@ -22,13 +23,6 @@
 		background-size: cover;
 		background-attachment: fixed;
 		filter: blur($blurRadius);
-
-		// Fix so edges are blurred too
-		$randomOffset: 2rem;
-		$offset: #{$blurRadius} + #{$padding} + #{$randomOffset};
-		margin: calc((#{$offset}) * -1);
-		height: calc(100% + (#{$offset}) * 2);
-		width: calc(100% + (#{$offset}) * 2);
 
 	}
 }

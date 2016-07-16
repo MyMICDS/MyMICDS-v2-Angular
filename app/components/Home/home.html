@@ -1,10 +1,34 @@
 <div class="modules container">
 	<div class="blur">
-		<p>Full module</p>
+		<base-chart class="chart"
+			[data]="doughnutChartData"
+			[labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)"></base-chart>
 	</div>
 	<div class="blur blur-half">
 		<p>Half module</p>
 	</div>
+	<div class="blur blur-half">
+		<p>Half module</p>
+	</div>
+
+	<div class="blur blur-half">
+		<p>Half module</p>
+	</div>
+	<div class="blur blur-half">
+		<p>Half module</p>
+	</div>
+
+	<div class="blur blur-half">
+		<p>Half module</p>
+	</div>
+
+	<div class="blur">
+		<p>Full module</p>
+	</div>
+
 	<div class="blur blur-half">
 		<p>Half module</p>
 	</div>
