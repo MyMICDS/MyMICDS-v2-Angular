@@ -3,8 +3,8 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 
 @Component({
 	selector: 'navbar',
-	templateUrl: 'app/components/navbar/navbar.html',
-	styleUrls: ['dist/app/components/navbar/navbar.css'],
+	templateUrl: 'app/components/Navbar/navbar.html',
+	styleUrls: ['dist/app/components/Navbar/navbar.css'],
 	directives: [ROUTER_DIRECTIVES],
 })
 export class NavbarComponent {

@@ -1,0 +1,34 @@
+@import 'settings';
+@import 'utils';
+
+@mixin blur($blurRadius: 5px, $color: rgba(0, 0, 0, 0.5), $margin: 0rem, $padding: 0rem) {
+	position: relative;
+	margin: $margin;
+	padding: $padding;
+	overflow: hidden;
+	z-index: 0;
+
+	&:after {
+		// Span background whole parent
+		content: ' ';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: -10;
+
+		// Add blurred background image
+		background: linear-gradient($color, $color), url($background-url);
+		background-size: cover;
+		background-attachment: fixed;
+		filter: blur($blurRadius);
+
+		// Fix so edges are blurred too
+		$offset: #{$blurRadius} + #{$margin} + #{$padding};
+		margin: calc((#{$offset}) * -1);
+		height: calc(100% + (#{$offset}) * 2);
+		width: calc(100% + (#{$offset}) * 2);
+
+	}
+}

@@ -9,4 +9,5 @@ html, body {
 	background-image: url($background-url);
 	background-size: cover;
 	background-attachment: fixed;
+	z-index: -100;
 }

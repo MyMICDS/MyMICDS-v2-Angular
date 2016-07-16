@@ -1,0 +1,14 @@
+@import 'app/styles/mixins';
+
+.modules {
+	padding-top: 2rem;
+
+	.blur {
+		display: inline-block;
+		color: #eee;
+		@include blur(5px, rgba(0, 0, 0, 0.5), 0rem, 0.5rem);
+
+		margin-top: 25vw;
+		margin-left: 25vw;
+	}
+}
