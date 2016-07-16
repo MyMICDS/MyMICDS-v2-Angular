@@ -54,6 +54,7 @@
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.13.6",
+    "jimp": "^0.2.24",
     "lite-server": "^2.2.2",
     "typescript": "^1.8.10",
     "typings": "^1.0.4"
