@@ -1,9 +1,8 @@
 @import 'settings';
 @import 'utils';
 
-@mixin blur($blurRadius: 5px, $color: rgba(0, 0, 0, 0.5), $margin: 0rem, $padding: 0rem) {
+@mixin blur($blurRadius: 5px, $color: rgba(0, 0, 0, 0.5), $padding: 0rem) {
 	position: relative;
-	margin: $margin;
 	padding: $padding;
 	overflow: hidden;
 	z-index: 0;
@@ -25,7 +24,8 @@
 		filter: blur($blurRadius);
 
 		// Fix so edges are blurred too
-		$offset: #{$blurRadius} + #{$margin} + #{$padding};
+		$randomOffset: 2rem;
+		$offset: #{$blurRadius} + #{$padding} + #{$randomOffset};
 		margin: calc((#{$offset}) * -1);
 		height: calc(100% + (#{$offset}) * 2);
 		width: calc(100% + (#{$offset}) * 2);

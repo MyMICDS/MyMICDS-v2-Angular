@@ -1,14 +1,28 @@
 @import 'app/styles/mixins';
+@import 'app/styles/settings';
 
 .modules {
 	padding-top: 2rem;
 
 	.blur {
 		display: inline-block;
+		margin-bottom: $blur-margin;
 		color: #eee;
-		@include blur(5px, rgba(0, 0, 0, 0.5), 0rem, 0.5rem);
+		@include blur(10px, rgba(0, 0, 0, 0.5), 0.5rem);
+		width: 100%;
 
-		margin-top: 25vw;
-		margin-left: 25vw;
+		&.blur-half {
+			width: calc(50% - #{$blur-margin});
+
+			// Left halves
+			&:nth-of-type(2n) {
+				float: left;
+			}
+
+			// Right halves
+			&:nth-of-type(2n + 1) {
+				float: right;
+			}
+		}
 	}
 }
