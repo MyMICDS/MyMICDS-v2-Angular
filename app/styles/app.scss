@@ -10,3 +10,9 @@ html, body {
 	background-size: cover;
 	background-attachment: fixed;
 }
+
+// ng2-charts fix
+.chart {
+	display: block;
+	width: 100%;
+}

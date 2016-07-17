@@ -40,5 +40,5 @@ gulp.task('default', ['clean'], function() {
 
 var watcher = gulp.watch(['app/**/*', 'tsconfig', 'systemjs.config.js', 'typings.json'], ['default']);
 watcher.on('change', function(event) {
-	console.log('File ' + event.path + ' was' + event.type);
+	console.log('File ' + event.path + ' was ' + event.type);
 });

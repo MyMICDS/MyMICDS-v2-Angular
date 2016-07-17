@@ -1,0 +1,15 @@
+.progress {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+
+	.progress-day {
+		margin: 2rem auto 1rem auto;
+	}
+
+	.chart {
+		display: block;
+		width: 100%;
+	}
+}
