@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
+import {UserService} from './services/user.service'
+import {AuthService} from './services/auth.service';
 
 import {NavbarComponent} from './components/Navbar/navbar.component';
 import {HomeComponent} from './components/Home/home.component';
@@ -14,7 +16,7 @@ import {RegisterComponent} from './components/Register/register.component'
 		<navbar></navbar>
 		<router-outlet></router-outlet>
 	`,
-	providers: [HTTP_PROVIDERS],
+	providers: [HTTP_PROVIDERS, AuthService, UserService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES],
 	precompile: [NavbarComponent, HomeComponent, LunchComponent, LoginComponent, RegisterComponent]
 })

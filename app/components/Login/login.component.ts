@@ -2,7 +2,6 @@ import {Component, Output, EventEmitter} from '@angular/core';
 import {NgIf, NgForm} from '@angular/common';
 import {Router} from '@angular/router'
 
-import {UserService} from '../../services/user.service'
 import {AuthService} from '../../services/auth.service';
 
 @Component({
@@ -10,20 +9,14 @@ import {AuthService} from '../../services/auth.service';
 	templateUrl: 'app/components/Login/login.html',
     styleUrls: ['dist/app/components/Login/login.css'],
     directives: [NgIf],
-    providers: [AuthService, UserService]
+    providers: []
 })
 
 
 export class LoginComponent {
-    constructor(private router:Router, private authService: AuthService, private userService: UserService) {}
+    constructor(private router:Router, private authService: AuthService) {}
 
-    @Output() onLogin = new EventEmitter<boolean>()
-
-    public loginModel: {
-        user: string;
-        password: string;
-        remember: any;
-    } = {
+    public loginModel = {
         user: '',
         password: '',
         remember: '',
@@ -49,20 +42,13 @@ export class LoginComponent {
                     this.errorMessage = loginRes.error;
                     console.log(this.errorMessage);
                 } else { 
-                    this.isLoggedIn = true;
-                    this.onLogin.emit(true);
-                    this.userService.getInfo().subscribe(
-                        userInfo => {
-                            if (userInfo.error) {this.userErrMsg = userInfo.error}
-                            else {this.userName = userInfo.user.firstName+' '+userInfo.user.lastName}
-                        },
-                        error => {
-                            this.userErrMsg = error;
-                        }
-                    );
+                    localStorage.setItem('user', this.loginModel.user)
+                    this.isLoggedIn = this.authService.isLoggedIn();
+                    this.userName = this.loginModel.user;
                     if(loginRes.cookie.token) {
 						document.cookie = 'rememberme=' + loginRes.cookie.selector + ':' + loginRes.cookie.token + '; expires=' + loginRes.cookie.expires;
 					}
+                    this.router.navigate(['home'])
                 }
             },
             error => {
@@ -78,8 +64,9 @@ export class LoginComponent {
                 if (logoutRes.error) {
                     console.log(logoutRes.error)
                 } else {
-                    this.isLoggedIn = false;
-                    this.onLogin.emit(false);
+                    localStorage.removeItem('user');
+                    this.isLoggedIn = this.authService.isLoggedIn();
+                    this.router.navigate(['home'])
                 }
             },
             error => {
@@ -89,17 +76,14 @@ export class LoginComponent {
     }
 
     public onClickAccount() {
-        this.router.navigate(['/Account'])
+        this.router.navigate(['/register'])
     }
 
     public formActive:boolean = true;
 
     ngOnInit() {
-        this.userService.getInfo().subscribe(
-            info => {if (info.error) {this.isLoggedIn = false;this.onLogin.emit(false);
-                } else {this.onLogin.emit(true);this.isLoggedIn = true;this.userName=info.user.user}},
-            error => {this.isLoggedIn = false;this.onLogin.emit(true);}
-        )
+        //get the login state
+        this.isLoggedIn = this.authService.isLoggedIn();
     }
 
 }

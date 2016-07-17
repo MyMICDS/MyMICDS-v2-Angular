@@ -1,16 +1,18 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import '../rxjs-operators';
 import {Http, Response} from '@angular/http';
+import {UserService} from './user.service';
 import {Observable} from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class AuthService {
 
-    constructor (private http: Http) {}
+    constructor (private http: Http, public userService: UserService) { 
+        
+    }
 
-    private extractData(res: Response
-    ) {
+    private extractData(res: Response) {
         let body = res.json();
         return body || { };
     }
@@ -34,7 +36,7 @@ export class AuthService {
         let body = JSON.stringify(loginModel);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        
+
         return this.http.post(this.authUrl+'/login', body, options)
                         .map(this.extractData)
                         .catch(this.handleError);
@@ -66,6 +68,14 @@ export class AuthService {
                         .map(this.extractData)
                         .catch(this.handleError);
     }
+
+    public isLoggedIn() {
+        if (localStorage.getItem('user') === null) {
+            return false
+        } else {
+            return true
+        }
+    }
 }
 
-export const AUTH_PROVIDERS = null
+export const AUTH_PROVIDERS = UserService
