@@ -5,11 +5,13 @@
 	padding-top: 2rem;
 
 	.blur {
+		width: 100%;
 		display: inline-block;
 		margin-bottom: $blur-margin;
+		padding: 0.5rem;
 		color: #eee;
-		@include blur(10px, rgba(0, 0, 0, 0.5), 0.5rem);
-		width: 100%;
+
+		@include blur(10px, rgba(0, 0, 0, 0.5));
 
 		&.blur-half {
 			width: calc(50% - #{$blur-margin});
