@@ -6,6 +6,7 @@ import {NavbarComponent} from './components/Navbar/navbar.component';
 import {HomeComponent} from './components/Home/home.component';
 import {LunchComponent} from './components/Lunch/lunch.component';
 import {LoginComponent} from './components/Login/login.component'
+import {RegisterComponent} from './components/Register/register.component' 
 
 @Component({
 	selector: 'mymicds-app',
@@ -15,7 +16,7 @@ import {LoginComponent} from './components/Login/login.component'
 	`,
 	providers: [HTTP_PROVIDERS],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES],
-	precompile: [NavbarComponent, HomeComponent, LunchComponent, LoginComponent]
+	precompile: [NavbarComponent, HomeComponent, LunchComponent, LoginComponent, RegisterComponent]
 })
 export class AppComponent {
 

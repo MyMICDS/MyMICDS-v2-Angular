@@ -1,4 +1,4 @@
-<div class="col-lg-12">
+<div class="container">
     <div class="alert alert-danger" *ngIf="userErrMsg"><strong>Error getting user information!</strong>{{userErrMsg}}</div>
     <p class="text-muted login-text" *ngIf="isLoggedIn && displayText">Logged in as {{userName}}.</p>
     <button *ngIf="isLoggedIn" (click)="onClickLogout()" id="logoutButton" type="button" class="btn btn-primary btn-lg" >logout</button>
