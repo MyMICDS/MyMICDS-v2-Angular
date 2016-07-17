@@ -38,7 +38,7 @@ gulp.task('default', ['clean'], function() {
 	gulp.run('build');
 });
 
-var watcher = gulp.watch(['app/**/*'], ['default']);
+var watcher = gulp.watch(['app/**/*', 'tsconfig', 'systemjs.config.js', 'typings.json'], ['default']);
 watcher.on('change', function(event) {
 	console.log('File ' + event.path + ' was' + event.type);
 });
