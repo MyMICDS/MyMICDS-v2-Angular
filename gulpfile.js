@@ -20,17 +20,6 @@ gulp.task('compile', function() {
 		.pipe(gulp.dest('dist/app'));
 });
 
-// Copy dependencies
-gulp.task('copy:libs', function() {
-	return gulp.src([
-		'node_modules/core-js/client/shim.min.js',
-		'node_modules/zone.js/dist/zone.js',
-		'node_modules/reflect-metadata/Reflect.js',
-		'node_modules/systemjs/dist/system.src.js'
-	])
-	.pipe(gulp.dest('dist/lib'));
-});
-
 // Copy static assets - i.e. non TypeScript compiled source
 gulp.task('copy:assets', function() {
 	return gulp.src(['app/**/*', '!app/**/*.ts', '!app/**/*.scss'], { base: './' })
@@ -44,7 +33,7 @@ gulp.task('sass', function() {
 		.pipe(gulp.dest('dist/app'));
 });
 
-gulp.task('build', ['compile', 'sass', 'copy:libs', 'copy:assets']);
+gulp.task('build', ['compile', 'sass', 'copy:assets']);
 gulp.task('default', ['clean'], function() {
 	gulp.run('build');
 });

@@ -11,7 +11,7 @@ import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
 export class HomeComponent {
 	// Doughnut
 	public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
-	public doughnutChartData:number[] = [350, 450, 100];
+	public doughnutChartData:number[] = [350, 450, 101];
 	public doughnutChartType:string = 'doughnut';
 
 	// events
