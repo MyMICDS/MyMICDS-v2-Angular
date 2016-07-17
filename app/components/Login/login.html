@@ -3,7 +3,7 @@
     <p class="text-muted login-text" *ngIf="isLoggedIn && displayText">Logged in as {{userName}}.</p>
     <button *ngIf="isLoggedIn" (click)="onClickLogout()" id="logoutButton" type="button" class="btn btn-primary btn-lg" >logout</button>
 
-    <div *ngIf="!isLoggedIn">
+    <div *ngIf="!isLoggedIn" class="col-lg-6">
         <h1>LOGIN</h1>
         <div class="alert alert-danger" *ngIf="errorMessage"><strong>Error Logging in!</strong> {{errorMessage}} </div>
         <div>
