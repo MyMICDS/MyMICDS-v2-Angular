@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 /*
- * Map out forecast.io icon strings into weather icon classes
+ * Round degrees to 16-point compass direction
  */
 
 @Pipe({name: 'compassDirection'})
