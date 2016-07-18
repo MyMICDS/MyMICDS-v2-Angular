@@ -1,4 +1,69 @@
-.current-conditions {
+.weather {
+	.weather-header {
+
+	}
+
+	.temperature {
+		display: inline-block;
+		float: right;
+
+		.temp-actual {
+			.temp-range {
+				.temp-high {
+
+				}
+
+				.temp-low {
+
+				}
+
+				.temp-range-label {
+
+				}
+
+				.temp-spacer {
+
+				}
+			}
+
+			.current-temp {
+
+			}
+		}
+
+		.temp-feels-like {
+
+		}
+	}
+
+	.weather-misc {
+		display: inline-block;
+
+		.humidity,
+		.precipitation {
+			.weather-label {
+
+			}
+		}
+	}
+
+	.wind {
+		.wind-vector {
+			.wind-magnitude {
+
+			}
+
+			.wind-direction {
+
+			}
+		}
+	}
+}
+
+
+
+
+/*.current-conditions {
     float: left;
 }
 
@@ -90,4 +155,4 @@
 
 .wind-speed {
     font-weight: 700;
-}
+}*/

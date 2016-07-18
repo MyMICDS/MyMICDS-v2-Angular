@@ -1,42 +1,57 @@
-<h1 class="weather-header">
-	<span class="wi wi-day-sunny"></span>
-	Weather <small>at</small> MICDS
-</h1>
-<div class="temperature">
-	<div class="temp-actual">
-        <div class="temp-range">
-            <div class="temp-high">
-                <span class="temp-range-label">High</span>
-                96&#8457;
-            </div>
-
-            <span class="temp-spacer"></span>
-
-            <div class="low-temp">
-                <span class="temp-range-label">Low</span>
-                42&#8457;
-            </div>
-        </div>
-        <div class="current-temp">87<span>&#8457;</span></div>
-    </div>
-
-    <p class="temp-feels-like">Feels like 52&#8457;</p>
+<div *ngIf="weather === null" class="weather-loading">
+	<p>Loading weather data...<p>
 </div>
 
-<div class="humidity">
-    <span class="weather-label">Humidity</span>
-    62.0%
-</div>
+<div *ngIf="weather !== null" class="weather">
+	<h1 class="weather-header">
+		<span class="wi {{weather.currently.icon | weatherIcon}}"></span>
+		Weather at MICDS
+	</h1>
+	<div class="temperature">
+		<div class="temp-actual">
+	        <div class="temp-range">
+	            <div class="temp-high">
+	                <span class="temp-range-label">High</span>
+	                {{weather.daily.data[0].temperatureMax}}&#8457;
+	            </div>
 
-<div class="precipitation">
-    <span class="weather-label">Precipitation Chance</span>
-    0.0%
-</div>
+	            <span class="temp-spacer"></span>
 
-<div class="wind">
-    <span class="wi wi-wind from-312-deg"></span>
-    <div class="wind-vector">
-        <div class="wind-magnitude">Wind <span class="wind-speed">3.4</span> miles per hour</div>
-        <div class="wind-direction">From Northwest</div>
-    </div>
+	            <div class="temp-low">
+	                <span class="temp-range-label">Low</span>
+	                {{weather.daily.data[0].temperatureMin}}&#8457;
+	            </div>
+	        </div>
+	        <div class="current-temp">
+				{{weather.currently.temperature}}
+				<span>&#8457;</span>
+			</div>
+	    </div>
+
+	    <div class="temp-feels-like">
+			Feels like
+			{{weather.currently.apparentTemperature}}
+			&#8457;
+		</div>
+	</div>
+
+	<div class="weather-misc">
+		<div class="humidity">
+		    <span class="weather-label">Humidity</span>
+		    {{weather.currently.humidity}}%
+		</div>
+
+		<div class="precipitation">
+		    <span class="weather-label">Precipitation Chance</span>
+		    {{weather?.currently.precipProbability}}%
+		</div>
+	</div>
+
+	<div class="wind">
+	    <span class="wi wi-wind from-{{weather.currently.windBearing}}-deg"></span>
+	    <div class="wind-vector">
+	        <div class="wind-magnitude">Wind <span class="wind-speed">{{weather.currently.windSpeed}}</span> miles per hour</div>
+	        <div class="wind-direction">From {{weather.currently.windBearing | compassDirection}}</div>
+	    </div>
+	</div>
 </div>
