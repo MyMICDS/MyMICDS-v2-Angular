@@ -3,6 +3,7 @@ import {NgIf, NgForm} from '@angular/common';
 import {Router} from '@angular/router'
 
 import {AuthService} from '../../services/auth.service';
+import {UserService} from '../../services/user.service';
 
 @Component({
 	selector: 'login',
@@ -14,7 +15,7 @@ import {AuthService} from '../../services/auth.service';
 
 
 export class LoginComponent {
-    constructor(private router:Router, private authService: AuthService) {}
+    constructor(private router:Router, private authService: AuthService, private userSerivce: UserService) {}
 
     public loginModel = {
         user: '',
@@ -34,6 +35,19 @@ export class LoginComponent {
     public errorMessage:string; 
     public userErrMsg:string;
     public userName:string;
+
+    private getUserInfo() {
+        this.userSerivce.getInfo().subscribe(
+            res => {
+                localStorage.setItem('user-info', JSON.stringify(res.user))
+                console.dir(res)
+            },
+            error => {
+                console.log('Error occured when getting user information: '+error)
+            }
+        )
+    }
+
     public onClickLogin() {
         this.authService.logIn(this.loginModel).subscribe(
             loginRes => {
@@ -42,7 +56,7 @@ export class LoginComponent {
                     this.errorMessage = loginRes.error;
                     console.log(this.errorMessage);
                 } else { 
-                    localStorage.setItem('user', this.loginModel.user)
+                    localStorage.setItem('user', this.loginModel.user);
                     this.isLoggedIn = this.authService.isLoggedIn();
                     this.userName = this.loginModel.user;
                     if(loginRes.cookie.token) {
@@ -54,6 +68,9 @@ export class LoginComponent {
             error => {
                 this.errorMessage = <any>error;
                 console.log('If this keeps happening, contact the support!')
+            },
+            () => {
+                this.getUserInfo();
             }
         )
     }
@@ -65,6 +82,7 @@ export class LoginComponent {
                     console.log(logoutRes.error)
                 } else {
                     localStorage.removeItem('user');
+                    localStorage.removeItem('user-info');
                     this.isLoggedIn = this.authService.isLoggedIn();
                     this.router.navigate(['home'])
                 }
@@ -84,6 +102,7 @@ export class LoginComponent {
     ngOnInit() {
         //get the login state
         this.isLoggedIn = this.authService.isLoggedIn();
+        this.userName = localStorage.getItem('user');
     }
 
 }
