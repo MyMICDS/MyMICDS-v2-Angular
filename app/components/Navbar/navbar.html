@@ -11,7 +11,7 @@
 		<button class="btn btn-primary" [routerLink]="['/register']">Register</button>
 	</div>
 	<div *ngIf="userName" class="navbar-right">
-		<small class="text-muted">Logged in as {{userName}}</small>
+		<p class="logged-in-user text-muted">Logged in as {{userName}}</p>
 		<button class="btn btn-danger" [routerLink]="['/login']">Logout</button>
 	</div>
 </nav>

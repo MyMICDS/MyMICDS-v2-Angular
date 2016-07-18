@@ -8,5 +8,10 @@
 
 	.navbar-right {
 		margin-left: auto;
+
+		.logged-in-user {
+			display: inline;
+			margin: 0 1rem 0 0;
+		}
 	}
 }
