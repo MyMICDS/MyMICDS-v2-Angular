@@ -1,6 +1,6 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
-import {string_to_color} from '../../../../common/stringToColor';
+import {string_to_color} from '../../../../common/string-to-color';
 
 @Component({
 	selector: 'progress-day',

@@ -1,8 +1,7 @@
-import {Injectable} from '@angular/core';
-import '../common/rxjs-operators';
-import {Http, Response} from '@angular/http';
+import {Injectable, Inject} from '@angular/core';
+import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import { Headers, RequestOptions } from '@angular/http';
+import '../common/rxjs-operators';
 
 @Injectable()
 export class UserService {

@@ -1,9 +1,8 @@
 import {Injectable, Inject} from '@angular/core';
-import '../common/rxjs-operators';
-import {Http, Response} from '@angular/http';
-import {UserService} from './user.service';
+import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import { Headers, RequestOptions } from '@angular/http';
+import '../common/rxjs-operators';
+import {UserService} from './user.service';
 
 @Injectable()
 export class AuthService {

@@ -19,8 +19,8 @@ export class HomeComponent {
 	scheduleDate:any = this.current;
 	schedule:any;
 
-	constructor(portalService: PortalService) {
-		this.getSchedule(this.scheduleDate, portalService);
+	constructor(private portalService: PortalService) {
+		this.getSchedule(this.scheduleDate);
 	}
 
 	ngOnInit() {
@@ -37,8 +37,8 @@ export class HomeComponent {
 	}
 
 	// Get schedule from date object and assign to schedule variable
-	getSchedule(scheduleDate, portalService: PortalService) {
-		portalService.getSchedule({
+	getSchedule(scheduleDate) {
+		this.portalService.getSchedule({
 			year: scheduleDate.getFullYear(),
 			month: scheduleDate.getMonth() + 1,
 			day: scheduleDate.getDate()
