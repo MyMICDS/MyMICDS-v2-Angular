@@ -18,7 +18,7 @@
 		@include blur(10px, rgba(0, 0, 0, 0.5));
 
 		&.blur-half {
-			width: calc(50% - #{$blur-margin / 2});
+			width: calc(50% - #{$blur-margin});
 		}
 	}
 }

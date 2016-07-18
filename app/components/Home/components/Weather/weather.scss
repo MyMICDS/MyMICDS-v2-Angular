@@ -1,6 +1,7 @@
 .weather {
 	.weather-header {
-
+		margin-bottom: 1rem;
+		font-weight: 300;
 	}
 
 	.temperature {
@@ -8,53 +9,93 @@
 		float: right;
 
 		.temp-actual {
-			.temp-range {
-				.temp-high {
 
-				}
+			.current-temp {
+				display: flex;
+				align-items: flex-start;
+				line-height: 0.7;
+				margin-bottom: 1rem;
+				font-size: 6rem;
 
-				.temp-low {
-
-				}
-
-				.temp-range-label {
-
-				}
-
-				.temp-spacer {
-
+				.degrees {
+					font-size: 3rem;
+					font-weight: 300;
 				}
 			}
 
-			.current-temp {
+			.temp-range {
+				display: flex;
+				justify-content: center;
+				margin-right: 2.8rem;
 
+				.temp-high,
+				.temp-low {
+					letter-spacing: 0.03rem;
+					font-weight: 700;
+
+					.temp-range-label {
+						font-weight: 300;
+					}
+				}
+
+				.temp-spacer {
+					width: 1px;
+					margin: 0 1rem;
+					background: rgba(238, 238, 238, 0.5);
+				}
 			}
 		}
 
 		.temp-feels-like {
+			text-align: center;
+			letter-spacing: 0.02rem;
+			font-size: 1.5rem;
+			font-weight: 700;
 
+			.temp-feels-label {
+				font-weight: 400;
+			}
 		}
 	}
 
 	.weather-misc {
 		display: inline-block;
+		margin-top: 1rem;
 
 		.humidity,
 		.precipitation {
-			.weather-label {
+			font-size: 1.2rem;
+			font-weight: 600;
 
+			.weather-label {
+				font-weight: 300;
 			}
 		}
 	}
 
 	.wind {
+		display: inline-flex;
+		justify-content: center;
+		width: 100%;
+
+		.wi {
+			font-size: 8rem;
+		}
+
 		.wind-vector {
+			display: flex;
+		    flex-direction: column;
+			justify-content: center;
+		    align-items: flex-start;
+		    margin-left: 1rem;
+
 			.wind-magnitude {
+				font-size: 1.5rem;
+				font-weight: 300;
 
-			}
-
-			.wind-direction {
-
+				.wind-speed {
+				    font-weight: 700;
+				}
 			}
 		}
 	}
