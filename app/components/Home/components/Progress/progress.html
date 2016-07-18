@@ -5,7 +5,7 @@
 	</div>
 	<div class="day">
 		<h1 class="time">{{ today | date:'h:mm:ss' }}</h1>
-		<h3 class="day-rotation">{{ schedule?.day || 'No School' }}</h3>
+		<h3 class="day-rotation">{{ schedule?.day | dayRotation }}</h3>
 	</div>
 </div>
 <div class="progress">

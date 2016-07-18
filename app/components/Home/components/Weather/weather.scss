@@ -1,4 +1,9 @@
+@import '../../../../styles/settings';
+
 .weather {
+	position: relative;
+	height: 100%;
+
 	.weather-header {
 		margin-bottom: 1rem;
 		font-weight: 300;
@@ -41,7 +46,7 @@
 				.temp-spacer {
 					width: 1px;
 					margin: 0 1rem;
-					background: rgba(238, 238, 238, 0.5);
+					background: rgba($sophisticated-white, 0.5);
 				}
 			}
 		}
@@ -99,101 +104,25 @@
 			}
 		}
 	}
+
+	.forecast-io {
+		display: inline-block;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		margin: 0;
+
+		a {
+			color: darken($sophisticated-white, 10%);
+			font-size: 1.5rem;
+			font-weight: 500;
+			text-decoration: none;
+
+			transition-duration: 0.25s;
+
+			&:hover {
+				text-shadow:2px 2px 2px #333;
+			}
+		}
+	}
 }
-
-
-
-
-/*.current-conditions {
-    float: left;
-}
-
-.temperature {
-    float: right;
-}
-
-.actual-temp {
-    display: flex;
-    align-items: center;
-    height: 8em;
-}
-
-.temp-range {
-    float: left;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.temp-spacer {
-    height: 1px;
-    width: 2em;
-    background: rgba(255, 255, 255, 0.5);
-    display: block;
-    margin: 0.25em 0 0.25em 0;
-}
-
-.high-temp, .low-temp {
-    font-weight: 300;
-    font-size: 1.2em;
-}
-
-.current-temp {
-    display: flex;
-    font-weight: 300;
-    font-size: 8em;
-    font-family: 'Slim Joe', 'Open Sans', sans-serif;
-    align-items: center;
-}
-
-.current-temp small {
-    font-size: 0.4em;
-}
-
-.temp-feels-like {
-    align-self: flex-end;
-    font-weight: 300;
-    letter-spacing: 0.1em;
-}
-
-.humidity, .precipitation {
-    float: left;
-    clear: left;
-    font-size: 1.5em;
-}
-
-.humidity-label, .precipitation-label {
-    font-weight: 600;
-}
-
-.humidity-data, .precipitation-data {
-    font-weight: 300;
-}
-
-.wind {
-    clear: both;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.wind .wi {
-    font-size: 8em;
-}
-
-.wind-vector {
-    margin-left: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-}
-
-.wind-magnitude {
-    font-size: 1.5em;
-    font-weight: 300;
-}
-
-.wind-speed {
-    font-weight: 700;
-}*/

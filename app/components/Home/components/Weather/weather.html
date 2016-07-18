@@ -1,8 +1,8 @@
-<div *ngIf="weather === null" class="weather-loading">
+<div *ngIf="!weather" class="weather-loading">
 	<p>Loading weather data...<p>
 </div>
 
-<div *ngIf="weather !== null" class="weather">
+<div *ngIf="weather" class="weather">
 	<h1 class="weather-header">
 		<span class="wi {{weather.currently.icon | weatherIcon}}"></span>
 		Weather at MICDS
@@ -48,4 +48,6 @@
 	        <div class="wind-direction">From {{weather.currently.windBearing | compassDirection}}</div>
 	    </div>
 	</div>
+
+	<p class="forecast-io">Powered by <a href="https://forecast.io" target="_blank">Forecast.io</a></p>
 </div>

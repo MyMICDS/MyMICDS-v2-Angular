@@ -1,1 +1,22 @@
-Schedule
+<div *ngIf="!schedule">
+	<p>Loading schedule...</p>
+</div>
+<div *ngIf="schedule?.classes?.length === 0">
+	<p>There are no classes today!</p>
+</div>
+<table *ngIf="schedule?.classes?.length > 0" class="table">
+	<thead class="thead-default">
+		<tr>
+			<th class="start">Start</th>
+			<th class="end">End</th>
+			<th class="class-name">Class</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let block of schedule.classes">
+			<td>{{block.start | date:'hh:mm'}}</td>
+			<td>{{block.end | date:'hh:mm'}}</td>
+			<td>{{block.name}}</td>
+		</tr>
+	</tbody>
+</table>

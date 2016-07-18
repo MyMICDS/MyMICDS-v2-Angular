@@ -44,7 +44,10 @@ export class HomeComponent {
 			day: scheduleDate.getDate()
 		}).subscribe(
 			(schedule) => {
+				console.log(schedule.schedule);
+				console.log(schedule.schedule.classes);
 				this.schedule = schedule.schedule;
+				// this.schedule = {"day":"4","classes":[{"name":"World History","start":"2016-05-23T13:00:00.000Z","end":"2016-05-23T13:45:00.000Z"},{"name":"US Memorial Day Assembly","start":"2016-05-23T14:40:00.000Z","end":"2016-05-23T15:10:00.000Z"},{"name":"English 9: Crossing Thresholds","start":"2016-05-23T15:15:00.000Z","end":"2016-05-23T16:00:00.000Z"},{"name":"Concert Choir 2","start":"2016-05-23T16:05:00.000Z","end":"2016-05-23T16:50:00.000Z"},{"name":"Chemical and Physical Systems Accelerated","start":"2016-05-23T17:40:00.000Z","end":"2016-05-23T18:25:00.000Z"},{"name":"Integrated Math 1 Accelerated","start":"2016-05-23T18:30:00.000Z","end":"2016-05-23T19:15:00.000Z"},{"name":"Spanish Level 2 Accelerated","start":"2016-05-23T19:30:00.000Z","end":"2016-05-23T20:15:00.000Z"},{"name":"Track & Field","start":"2016-05-23T20:30:00.000Z","end":"2016-05-23T22:45:00.000Z"}],"allDay":["US Formal Dress","US End of Trimester Assessment Structure"]}
 			},
 			(error) => {
 				console.error(error);

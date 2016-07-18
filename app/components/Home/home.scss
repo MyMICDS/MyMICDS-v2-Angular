@@ -13,7 +13,7 @@
 		display: inline-block;
 		margin-bottom: $blur-margin;
 		padding: 0.5rem;
-		color: #eee;
+		color: $sophisticated-white;
 
 		@include blur(10px, rgba(0, 0, 0, 0.5));
 
