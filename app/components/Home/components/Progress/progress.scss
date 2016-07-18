@@ -1,12 +1,22 @@
 .today {
 	.date {
 		display: inline-block;
+
+		.date-full,
+		.date-numbered {
+			font-weight: 300;
+		}
 	}
 
 	.day {
 		display: inline-block;
 		float: right;
 		text-align: right;
+
+		.time,
+		.day-rotation {
+			font-weight: 300;
+		}
 	}
 }
 
