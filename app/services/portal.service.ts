@@ -20,7 +20,7 @@ export class PortalService {
     }
 
     private Url = 'http://localhost:1420/portal'
-    public getSchedule(date:any):
+    public getSchedule(date?:any):
     Observable<{
         error: string;
         schedule: {
