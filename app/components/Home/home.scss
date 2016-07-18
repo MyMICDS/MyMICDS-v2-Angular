@@ -3,6 +3,9 @@
 
 .modules {
 	padding-top: 2rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 
 	.blur {
 		width: 100%;
@@ -14,17 +17,7 @@
 		@include blur(10px, rgba(0, 0, 0, 0.5));
 
 		&.blur-half {
-			width: calc(50% - #{$blur-margin});
-
-			// Left halves
-			&:nth-of-type(2n) {
-				float: left;
-			}
-
-			// Right halves
-			&:nth-of-type(2n + 1) {
-				float: right;
-			}
+			width: calc(50% - #{$blur-margin / 2});
 		}
 	}
 }

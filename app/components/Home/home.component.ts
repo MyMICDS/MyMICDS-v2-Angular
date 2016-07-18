@@ -1,6 +1,9 @@
 import {Component} from '@angular/core';
-import {ProgressComponent} from './components/Progress/progress.component';
 import {Observable, Subject} from 'rxjs/Rx';
+
+import {ProgressComponent} from './components/Progress/progress.component';
+import {ScheduleComponent} from './components/Schedule/schedule.component';
+import {WeatherComponent} from './components/Weather/weather.component';
 
 import {PortalService} from '../../services/portal.service';
 
@@ -8,7 +11,7 @@ import {PortalService} from '../../services/portal.service';
 	selector: 'home',
 	templateUrl: 'app/components/Home/home.html',
 	styleUrls: ['dist/app/components/Home/home.css'],
-	directives: [ProgressComponent],
+	directives: [ProgressComponent, ScheduleComponent, WeatherComponent],
 	providers: [PortalService]
 })
 export class HomeComponent {

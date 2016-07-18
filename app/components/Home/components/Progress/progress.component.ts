@@ -8,7 +8,7 @@ import {string_to_color} from '../../../../common/stringToColor';
 	styleUrls: ['dist/app/components/Home/components/Progress/progress.css'],
 	directives: [CHART_DIRECTIVES]
 })
-export class ProgressComponent implements OnChanges {
+export class ProgressComponent {
 
 	@Input()
 	today: any;
