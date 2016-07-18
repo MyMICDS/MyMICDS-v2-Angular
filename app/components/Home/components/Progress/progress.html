@@ -17,10 +17,14 @@
 			[labels]="progressClasses"
 			[colors]="progressColors"
 			[data]="progressPercentages"></base-chart>
-		<div class="progress-percentage">
-			<span class="class-label">Class is</span>
-			<span class="class-percent">56%</span>
+		<div *ngIf="currentClass" class="progress-percentage">
+			<span class="class-label">{{currentClass}} is</span>
+			<span class="class-percent">{{currentClassPercent}}</span>
 			<span class="class-label">Done</span>
+		</div>
+		<div *ngIf="!currentClass" class="progress-percentage">
+			<span class="class-label">School is</span>
+			<span class="class-percent">Done.</span>
 		</div>
 	</div>
 </div>

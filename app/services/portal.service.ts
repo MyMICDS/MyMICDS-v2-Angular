@@ -37,7 +37,24 @@ export class PortalService {
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.Url+'/get-schedule', body, options)
-                        .map(this.extractData)
+                        .map((res) => {
+							let data = this.extractData(res);
+
+							// Check of any server-side error
+							if(data.error) {
+								this.handleError(data.error);
+								return;
+							}
+
+							let schedule = data.schedule;
+
+							// Convert start and end times into Javascript data objects
+							for(let i = 0; i < schedule.classes.length; i++) {
+								schedule.classes[i].start = new Date(schedule.classes[i].start);
+								schedule.classes[i].end = new Date(schedule.classes[i].end);
+							}
+							return schedule;
+						})
                         .catch(this.handleError);
     }
 
