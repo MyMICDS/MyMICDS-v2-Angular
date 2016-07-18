@@ -1,5 +1,5 @@
 import {Injectable, Inject} from '@angular/core';
-import '../rxjs-operators';
+import '../common/rxjs-operators';
 import {Http, Response} from '@angular/http';
 import {UserService} from './user.service';
 import {Observable} from 'rxjs/Observable';
@@ -8,8 +8,8 @@ import { Headers, RequestOptions } from '@angular/http';
 @Injectable()
 export class AuthService {
 
-    constructor (private http: Http, public userService: UserService) { 
-        
+    constructor (private http: Http, public userService: UserService) {
+
     }
 
     private extractData(res: Response) {
@@ -63,7 +63,7 @@ export class AuthService {
         let body = JSON.stringify(info);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        
+
         return this.http.post(this.authUrl+'/register', body, options)
                         .map(this.extractData)
                         .catch(this.handleError);

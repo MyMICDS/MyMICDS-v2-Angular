@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {Observable, Subject} from 'rxjs/Rx';
 
 import {ProgressComponent} from './components/Progress/progress.component';
 import {ScheduleComponent} from './components/Schedule/schedule.component';

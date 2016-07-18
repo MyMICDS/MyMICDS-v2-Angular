@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import '../rxjs-operators';
+import '../common/rxjs-operators';
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';

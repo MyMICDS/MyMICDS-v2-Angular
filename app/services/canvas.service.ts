@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import '../rxjs-operators';
+import '../common/rxjs-operators';
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import { Headers, RequestOptions } from '@angular/http';
@@ -28,7 +28,7 @@ export class CanvasService {
         let body = JSON.stringify(date);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        
+
         return this.http.post(this.Url+'/get-events', body, options)
                         .map(this.extractData)
                         .catch(this.handleError);
