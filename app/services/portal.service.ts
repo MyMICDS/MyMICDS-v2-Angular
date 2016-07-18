@@ -20,7 +20,7 @@ export class PortalService {
     }
 
     private Url = 'http://localhost:1420/portal'
-    public getSchedule(date:{year:number;month:number;day:number}):
+    public getSchedule(date:any):
     Observable<{
         error: string;
         schedule: {
@@ -35,7 +35,7 @@ export class PortalService {
         let body = JSON.stringify(date);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        
+
         return this.http.post(this.Url+'/get-schedule', body, options)
                         .map(this.extractData)
                         .catch(this.handleError);

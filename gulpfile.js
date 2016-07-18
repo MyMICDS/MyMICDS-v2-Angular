@@ -34,9 +34,7 @@ gulp.task('sass', function() {
 });
 
 gulp.task('build', ['compile', 'sass', 'copy:assets']);
-gulp.task('default', ['clean'], function() {
-	gulp.run('build');
-});
+gulp.task('default', ['build']);
 
 var watcher = gulp.watch(['app/**/*', 'tsconfig', 'systemjs.config.js', 'typings.json'], ['default']);
 watcher.on('change', function(event) {
