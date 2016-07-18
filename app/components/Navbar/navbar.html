@@ -4,10 +4,12 @@
 	<div class="nav navbar-nav">
 		<a class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">Home</a>
 		<a class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']">Lunch</a>
+		<a class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']">Settings</a>
 	</div>
 	<div class="navbar-right">
-		<small class="text-muted">logged in as </small>
-		<button class="btn btn-success" [routerLink]="['/login']">Login/Logout</button>
+		<small *ngIf="userName" class="text-muted">logged in as {{userName}}</small>
+		<button *ngIf="userName" class="btn btn-success" [routerLink]="['/login']">Logout</button>
+		<button *ngIf="!userName" class="btn btn-success" [routerLink]="['/login']">Login</button>
 		<button class="btn btn-primary" [routerLink]="['/register']">Register</button>
 	</div>
 </nav>

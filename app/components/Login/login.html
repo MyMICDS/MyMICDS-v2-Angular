@@ -1,7 +1,7 @@
 <div class="container">
     <div class="alert alert-danger" *ngIf="userErrMsg"><strong>Error getting user information!</strong>{{userErrMsg}}</div>
-    <h2 class="login-text" *ngIf="isLoggedIn">Logged in as {{userName}}.</h2>
-    <button *ngIf="isLoggedIn" (click)="onClickLogout()" id="logoutButton" type="button" class="btn btn-primary btn-lg" >logout</button>
+    <!--<h2 class="login-text" *ngIf="isLoggedIn">Logged in as {{userName}}.</h2>
+    <button *ngIf="isLoggedIn" (click)="onClickLogout()" id="logoutButton" type="button" class="btn btn-primary btn-lg" >logout</button>-->
 
     <div *ngIf="!isLoggedIn" class="col-lg-6">
         <h1>LOGIN</h1>

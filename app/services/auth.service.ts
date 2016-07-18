@@ -2,12 +2,11 @@ import {Injectable, Inject} from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import '../common/rxjs-operators';
-import {UserService} from './user.service';
 
 @Injectable()
 export class AuthService {
 
-    constructor (private http: Http, public userService: UserService) {
+    constructor (private http: Http) {
 
     }
 
@@ -77,4 +76,3 @@ export class AuthService {
     }
 }
 
-export const AUTH_PROVIDERS = UserService

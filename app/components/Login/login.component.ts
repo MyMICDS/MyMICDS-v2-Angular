@@ -4,6 +4,7 @@ import {Router} from '@angular/router'
 
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
+import {LocalStorageService} from '../../services/localStorage.service'
 
 @Component({
 	selector: 'login',
@@ -15,7 +16,7 @@ import {UserService} from '../../services/user.service';
 
 
 export class LoginComponent {
-    constructor(private router:Router, private authService: AuthService, private userSerivce: UserService) {}
+    constructor(private router:Router, private authService: AuthService, private userSerivce: UserService, private localStorage: LocalStorageService) {}
 
     public loginModel = {
         user: '',
@@ -39,7 +40,7 @@ export class LoginComponent {
     private getUserInfo() {
         this.userSerivce.getInfo().subscribe(
             res => {
-                localStorage.setItem('user-info', JSON.stringify(res.user))
+                this.localStorage.setItem('user-info', JSON.stringify(res.user))
                 console.dir(res)
             },
             error => {
@@ -56,7 +57,7 @@ export class LoginComponent {
                     this.errorMessage = loginRes.error;
                     console.log(this.errorMessage);
                 } else { 
-                    localStorage.setItem('user', this.loginModel.user);
+                    this.localStorage.setItem('user', this.loginModel.user);
                     this.isLoggedIn = this.authService.isLoggedIn();
                     this.userName = this.loginModel.user;
                     if(loginRes.cookie.token) {
@@ -81,8 +82,8 @@ export class LoginComponent {
                 if (logoutRes.error) {
                     console.log(logoutRes.error)
                 } else {
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('user-info');
+                    this.localStorage.removeItem('user');
+                    this.localStorage.removeItem('user-info');
                     this.isLoggedIn = this.authService.isLoggedIn();
                     this.router.navigate(['home'])
                 }
@@ -102,7 +103,8 @@ export class LoginComponent {
     ngOnInit() {
         //get the login state
         this.isLoggedIn = this.authService.isLoggedIn();
-        this.userName = localStorage.getItem('user');
+        this.userName = this.localStorage.getItem('user');
+        if (this.isLoggedIn) {this.onClickLogout()}
     }
 
 }

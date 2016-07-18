@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgForm, NgFor} from '@angular/common';
-import {AuthService, AUTH_PROVIDERS} from '../../services/auth.service';
+import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 
 @Component ({
@@ -8,7 +8,7 @@ import {UserService} from '../../services/user.service';
     templateUrl: 'app/components/Register/register.html',
     styleUrls: ['dist/app/components/Register/register.css'],
     directives: [NgFor],
-    providers: [AuthService, UserService, AUTH_PROVIDERS]
+    providers: [AuthService, UserService]
 })
 
 export class RegisterComponent{
