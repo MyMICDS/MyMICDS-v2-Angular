@@ -23,13 +23,13 @@ export class UserService {
     public getInfo():Observable<{
         error:any,
         user:{
-            canvasURL:string
+            canvasURL?:string
             firstName:string;
             gradYear:number;
             grade:number;
             lastName:string;
             password:string;
-            portalURL:string;
+            portalURL?:string;
             user:string;
         }
     }> {
