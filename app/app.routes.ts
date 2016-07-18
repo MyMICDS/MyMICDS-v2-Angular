@@ -5,7 +5,7 @@ import {LunchComponent} from './components/Lunch/lunch.component';
 import {LoginComponent} from './components/Login/login.component';
 import {RegisterComponent} from './components/Register/register.component'
 import {SettingsComponent} from './components/Settings/settings.component'
-import {AuthGuard} from './guards/auth.guard'
+import {AuthGuard} from './common/auth.guard'
 
 const routes: RouterConfig = [
 	{
