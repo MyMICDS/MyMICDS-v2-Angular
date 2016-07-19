@@ -8,8 +8,12 @@
 		<h3 class="day-rotation">{{ schedule?.day | dayRotation }}</h3>
 	</div>
 </div>
+{{progressOptions | json}}
+{{progressClasses}}
+{{progressColors | json}}
+{{progressPercentages}}
 <div class="progress">
-	<div class="progress-day label label-pill label-info">School Day is 56% Complete!</div>
+	<div class="progress-day label label-pill label-info">{{schoolPercent | schoolPercentage}}</div>
 	<div class="progress-circular">
 		<base-chart class="chart"
 			[chartType]="'doughnut'"
@@ -17,14 +21,14 @@
 			[labels]="progressClasses"
 			[colors]="progressColors"
 			[data]="progressPercentages"></base-chart>
-		<div *ngIf="currentClass" class="progress-percentage">
+		<div *ngIf="0 < schoolPercent && schoolPercent < 100" class="progress-percentage">
 			<span class="class-label">{{currentClass}} is</span>
 			<span class="class-percent">{{currentClassPercent}}</span>
 			<span class="class-label">Done</span>
 		</div>
-		<div *ngIf="!currentClass" class="progress-percentage">
+		<div *ngIf="!schoolPercent || schoolPercent === 0 || schoolPercent === 100" class="progress-percentage">
 			<span class="class-label">School is</span>
-			<span class="class-percent">Done.</span>
+			<span class="school-done">Not in session.</span>
 		</div>
 	</div>
 </div>
