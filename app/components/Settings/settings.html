@@ -3,6 +3,8 @@
 <div class="protected-settings my-top-content">
     <div class="alert alert-danger col-xs-12" *ngIf="errMsg">{{errMsg}}</div>
     <h1>Update your information</h1>
+
+    <div class="blur">
     <form #nameForm="ngForm" (ngSubmit)="onSubmitName()">
         <div class="row">
             <h3>Username: {{username}}</h3>
@@ -40,6 +42,39 @@
 
         <button type="submit" class="btn btn-default" [disabled]="!nameForm.form.valid">Update</button>
     </form>
+    </div>
+
+    <div class="blur">
+    <form #urlForm="ngForm" (ngSubmit)="onSubmitURL()">
+        <div class="alert alert-danger col-xs-12" *ngIf="errMsg">{{URLerrMsg}}</div>
+
+        <div class="row">
+            <h3>URL Settings</h3>
+        </div>
+
+        <div class="row">
+            <fieldset class="form-group col-lg-4">
+            <label for="canvasURL">Set Canvas URL</label>
+            <div class="input-group">
+                <input #canvasURL="ngModel" type="text" class="form-control" id="InputCanvasURL" placeholder="" [(ngModel)]="user.canvasURL" name="canvasURL" (ngModelChange)="onChangeCanvasURL($event)">
+                <div class="input-group-addon" *ngIf="testingC">testing...</div> <div class="input-group-addon" *ngIf="validC">Valid!</div> <div class="input-group-addon" *ngIf="!validC">Invalid!</div>
+            </div>
+            <div [hidden]="canvasURL.value" class="alert alert-warning">You wont be able to get the schedule if this is set to empty.</div>
+            </fieldset>
+
+            <fieldset class="form-group col-lg-4">
+            <label for="portalURL">Set Portal URL</label>
+            <div class="input-group">
+                <input #portalURL="ngModel" type="text" class="form-control" id="InputPortalURL" placeholder="" [(ngModel)]="user.portalURL" name="portalURL" (ngModelChange)="onChangePortalURL($event)">
+                <div class="input-group-addon" *ngIf="testingP">testing...</div> <div class="input-group-addon" *ngIf="validP">Valid!</div> <div class="input-group-addon" *ngIf="!validP">Invalid!</div>
+            </div>
+            <div [hidden]="portalURL.value" class="alert alert-warning">You wont be able to get the planner events from the portal if this is set to empty.</div>
+            </fieldset>
+        </div>
+
+        <button type="submit" class="btn btn-default" [disabled]="!(validC && validP)">Update</button>
+    </form>
+    </div>
 </div>
 
 </div>

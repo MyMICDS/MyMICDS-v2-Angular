@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {PortalService} from '../../services/portal.service';
-import {CanvasService} from '../../services/canvas.service'
+import {CanvasService} from '../../services/canvas.service';
 import {UserService} from '../../services/user.service';
 import {NgFor, NgIf, NgForm} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
@@ -35,34 +35,16 @@ export class SettingsComponent{
         }
     }
 
-    constructor (private protalService: PortalService, private canvasService: CanvasService, private userService: UserService) {}
-
-    username = '';
-    user: {
-        'first-name': string,
-        'last-name': string,
-        'grad-year': number
-    }
-    = {
-        'first-name': '',
-        'last-name': '',
-        'grad-year': null
-    }
-    gradeRange = []
-
-    errMsg: string;
+    constructor (private portalService: PortalService, private canvasService: CanvasService, private userService: UserService) {}
 
     getUserInfo() {
         this.userService.getInfo().subscribe(
             userInfo => {
-                if (userInfo.error) {
+                if (userInfo.error||userInfo==null) {
                     this.errMsg = userInfo.error + ' (this is not a connection problem)';
                 }
                 else {
-                    this.username = userInfo.user.user;
-                    this.user['first-name'] = userInfo.user.firstName;
-                    this.user['last-name'] = userInfo.user.lastName;
-                    this.user['grad-year'] = userInfo.user.gradYear;
+                    localStorage.setItem('user-info', JSON.stringify(userInfo.user))
                     console.dir(userInfo)
                 }
             },
@@ -70,10 +52,22 @@ export class SettingsComponent{
                 this.errMsg = 'Connection Error: ' + error;
             }
         );
-    }  
+    }
+
+    username = '';
+    user = {
+        'first-name': '',
+        'last-name': '',
+        'grad-year': null,
+        canvasURL: '',
+        portalURL: '',
+    }
+    gradeRange = []
+
+    errMsg: string;
 
     ngOnInit() {
-        this.getUserInfo();
+        this.user = JSON.parse(localStorage.getItem('user-info')) || this.user
 
         this.userService.getGradeRange().subscribe(
             gradeRange => {
@@ -82,7 +76,7 @@ export class SettingsComponent{
             error => {
                 console.log(error)
             }
-        )
+        ) //add maunal input if graderange cannot be gotten
 
     }
 
@@ -96,7 +90,89 @@ export class SettingsComponent{
         this.userService.changeInfo(postUser).subscribe(
             res => {res.error? this.errMsg = res.error : console.log('changed submitted')},
             error => this.errMsg = error,
-            () => this.getUserInfo()
+            () => {
+                this.getUserInfo()
+            }
         );
+    }
+
+
+    public URLerrMsg:string = null;
+    private testingC:boolean = false;
+    public validC:boolean;
+    onChangeCanvasURL($event:string) {
+        if (!this.testingC && $event) {
+            this.testingC = true
+            this.canvasService.testUrl($event).subscribe(
+                res => {
+                    if (res.error) {
+                        this.URLerrMsg = 'There was a problem testing your url.'
+                    } else {
+                        this.URLerrMsg = null;
+                        res.valid == true ? this.validC = true : this.validC = false;
+                    }
+                },
+                error => {this.URLerrMsg = error}
+            )
+            setTimeout(
+                () => {
+                    this.testingC = false;
+                }, 
+                1000
+            )
+        }
+    }
+
+    private testingP:boolean = false;
+    public validP:boolean;
+    onChangePortalURL($event:string) {
+        if (!this.testingP && event) {
+            this.testingP = true
+            this.portalService.testUrl($event).subscribe(
+                res => {
+                    if (res.error) {
+                        this.URLerrMsg = 'There was a problem testing your url.'
+                    } else {
+                        this.URLerrMsg = null;
+                        res.valid == true ? this.validC = true : this.validC = false;
+                    }
+                },
+                error => {this.URLerrMsg = error}
+            )
+            setTimeout(
+                () => {
+                    this.testingP = false;
+                }, 
+                1000
+            )
+        }
+    }
+
+    onSubmitURL() {
+        console.info('you have submitted',this.user.canvasURL, this.user.portalURL);
+        this.canvasService.setUrl(this.user.canvasURL).subscribe(
+            res => {
+                if (res.error) {this.URLerrMsg = res.error}
+                else {if (res.valid != true){this.URLerrMsg = res.valid} }
+            },
+            error => {
+                this.URLerrMsg = error
+            },
+            () => {
+                this.getUserInfo();
+            } 
+        );
+        this.portalService.setUrl(this.user.canvasURL).subscribe(
+            res => {
+                if (res.error) {this.URLerrMsg = res.error}
+                else {if (res.valid != true){this.URLerrMsg = res.valid} }
+            },
+            error => {
+                this.URLerrMsg = error
+            },
+            () => {
+                this.getUserInfo();
+            } 
+        )
     }
 }

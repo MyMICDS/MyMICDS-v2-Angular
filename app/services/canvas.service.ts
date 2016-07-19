@@ -34,7 +34,7 @@ export class CanvasService {
                         .catch(this.handleError);
     }
 
-    public setUrl(url:string):Observable<{error:string;valid:boolean;url:string}> {
+    public setUrl(url:string):Observable<{error:string;valid:any;url:string}> {
         let body = JSON.stringify({url:url});
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
@@ -44,7 +44,7 @@ export class CanvasService {
                         .catch(this.handleError);
     }
 
-    public testUrl(url:string):Observable<{error:string;valid:boolean;url:string}> {
+    public testUrl(url:string):Observable<{error:string;valid:any;url:string}> {
         let body = JSON.stringify({url:url});
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
