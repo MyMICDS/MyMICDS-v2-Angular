@@ -19,32 +19,32 @@ export class ProgressComponent {
 	today:any;
 
 	@Input()
-	schedule:any = null;
+	schedule:any;
+	// Check if we should set animation to true
+	prevSchedule:any;
 
 	/*
 	 * Configure progress bar
 	 */
 
-	// Progress bar options
-	progressOptions:any = {
+	progressChartType:string = 'doughnut';
+	progressOptionsDefault:any = {
+		animation: false,
+		cutoutPercentage: 95,
 		legend: {
-			display: false,
-			fullWidth: false
-		},
-		cutoutPercentage: 95
+			display: false
+		}
 	};
-
-	// Array of class names
-	progressClasses:string[] = [];
-	// Array of percentages for each class
-	progressPercentages:number[] = [100];
-
-	// Array of colors
-	progressColors:any[] = [{
-		backgroundColor: [],
-		borderColor: ['rgba(0,0,0,0)'],
+	progressDataDefault:number[] = [100];
+	progressLabelsDefault:string[] = ['School'];
+	progressColorsDefault:any[] = [{
 		borderWidth: [0]
 	}];
+
+	progressOptions = this.progressOptionsDefault;
+	progressData = this.progressDataDefault;
+	progressLabels = this.progressLabelsDefault;
+	progressColors = this.progressColorsDefault;
 
 	/*
 	 * Start / destroy interval that calculates percentages
@@ -56,9 +56,10 @@ export class ProgressComponent {
 		// Start timer
 		console.log('Init progress bar timer');
 		this.calculatePercentages();
-		this.timer = setTimeout(() => {
+		this.timer = setInterval(() => {
 			this.calculatePercentages();
 		}, 1000);
+
 	}
 
 	ngOnDestroy() {
@@ -75,30 +76,35 @@ export class ProgressComponent {
 	schoolPercent:number = null;
 
 	calculatePercentages() {
-		// console.log(this.schedule);
 
 		// Fallback if schedule is not set or no school
 		if(!this.schedule || this.schedule.classes.length === 0) {
-			this.progressOptions = {
-				legend: {
-					display: false,
-					fullWidth: false
-				},
-				cutoutPercentage: 95
-			};
-
-			this.currentClass = null;
-			this.currentClassPercent = null;
-
-			this.progressClasses = [];
-			this.progressPercentages = [100];
-			this.progressColors = [{
-				backgroundColor: ['#123'],
-				borderColor: ['rgba(0,0,0,0)'],
-				borderWidth: [0]
-			}];
+			// Just set default parameters
+			this.progressOptions = this.progressOptionsDefault;
+			this.progressData = this.progressDataDefault;
+			this.progressLabels = this.progressLabelsDefault;
+			this.progressColors = this.progressColorsDefault;
 			return;
 		}
+
+		// Because Angular's change detection is a bit whacky,
+		// we need to generate an array THEN assign it to the progress bar data.
+		let newProgressOptions:any = this.progressOptionsDefault;
+		let newProgressData:number[] = [];
+		let newProgressLabels:string[] = [];
+		let newProgressColors:any[] = [{
+			backgroundColor: [],
+			borderWidth: []
+		}];
+
+		// If schedule changes from last calculation, remove animation set to false
+		if(this.prevSchedule !== this.schedule) {
+			delete newProgressOptions.animation;
+		} else {
+			// Reinforce good behavior because it doesn't work without this
+			newProgressOptions.animation = false;
+		}
+		this.prevSchedule = this.schedule;
 
 		// Get length of school
 		let classCount = this.schedule.classes.length;
@@ -109,7 +115,7 @@ export class ProgressComponent {
 
 		this.schoolPercent = +schoolPercent.toFixed(2);
 
-		this.progressOptions.circumference = 2 * Math.PI * (schoolPercent / 100);
+		// this.progressOptions.circumference = 2 * Math.PI * (schoolPercent / 100);
 
 		// Loop through classes and calculate stuff
 		for(let i = 0; i < this.schedule.classes.length; i++) {
@@ -124,20 +130,22 @@ export class ProgressComponent {
 			let finalPercentage = classPercent * classRatio;
 
 			// Add values to their respective array
-			this.progressClasses[i] = block.name;
-			this.progressColors[0].backgroundColor[i] = '#' + string_to_color(block.name, 40);
-			this.progressPercentages[i] = +finalPercentage.toFixed(2);
+			newProgressLabels[i] = block.name;
+			newProgressColors[0].backgroundColor[i] = '#' + string_to_color(block.name);
+			newProgressData[i] = +finalPercentage.toFixed(2);
 
-			// If
-
+			// If class is the current class
+			if(0 < classPercent && classPercent < 100) {
+				this.currentClass = block.name;
+				this.currentClassPercent = classPercent;
+			}
 		}
 
-		// Cut out any classes that could have been removed since last update
-		this.progressClasses.length = classCount;
-		this.progressColors[0].backgroundColor.length = classCount;
-		this.progressPercentages.length = classCount;
-
-		console.log(this.progressClasses, this.progressColors[0].backgroundColor, this.progressPercentages);
+		// Assign new arrays to progress bar data
+		this.progressOptions = newProgressOptions;
+		this.progressData = newProgressData;
+		this.progressLabels = newProgressLabels;
+		this.progressColors = newProgressColors;
 
 	}
 
