@@ -6,7 +6,6 @@ import {LoginComponent} from './components/Login/login.component';
 import {RegisterComponent} from './components/Register/register.component'
 import {SettingsComponent} from './components/Settings/settings.component'
 import {AuthGuard} from './common/auth.guard'
-import {CanDeactivateGuard} from './common/canDeactivate.guard'
 
 const routes: RouterConfig = [
 	{
@@ -33,11 +32,10 @@ const routes: RouterConfig = [
 	{
 		path: 'settings',
 		component: SettingsComponent,
-		canActivate: [AuthGuard],
-		canDeactivate: [CanDeactivateGuard]
+		canActivate: [AuthGuard]
 	}
 ];
 
 export const appRouterProviders = [
-	provideRouter(routes), AuthGuard, CanDeactivateGuard
+	provideRouter(routes), AuthGuard
 ];
