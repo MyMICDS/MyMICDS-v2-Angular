@@ -3,6 +3,8 @@ import {PortalService} from '../../services/portal.service';
 import {CanvasService} from '../../services/canvas.service'
 import {UserService} from '../../services/user.service';
 import {NgFor, NgIf, NgForm} from '@angular/common';
+import {Observable} from 'rxjs/Observable';
+import '../../common/rxjs-operators'
 
 @Component ({
     selector: 'app-content',
@@ -13,6 +15,26 @@ import {NgFor, NgIf, NgForm} from '@angular/common';
 })
 
 export class SettingsComponent{
+    valueChanged():boolean {
+        let localUser = JSON.parse(localStorage.getItem('user-info'));
+        if (localUser &&
+            localUser['firstName'] === this.user['first-name'] &&
+            localUser['lastName'] === this.user['last-name'] &&
+            localUser['gradYear'] === this.user['grad-year']) {return false};
+        return true
+    }
+
+    canDeactivate() {
+        if (this.valueChanged()) {
+            let p:Promise<boolean> = new Promise<boolean>((res: (boolean)=>void, rej: ()=>void) => {
+                window.confirm('Are you sure you want to discard the unsaved changes on the page?') ? 
+                res(true) : res(false);
+            })
+            let o = Observable.fromPromise(p)
+            return o
+        }
+    }
+
     constructor (private protalService: PortalService, private canvasService: CanvasService, private userService: UserService) {}
 
     username = '';
@@ -48,7 +70,7 @@ export class SettingsComponent{
                 this.errMsg = 'Connection Error: ' + error;
             }
         );
-    }
+    }  
 
     ngOnInit() {
         this.getUserInfo();
