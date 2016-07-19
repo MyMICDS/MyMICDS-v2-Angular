@@ -17,22 +17,28 @@ import '../../common/rxjs-operators'
 export class SettingsComponent{
     valueChanged():boolean {
         let localUser = JSON.parse(localStorage.getItem('user-info'));
-        if (localUser &&
-            localUser['firstName'] === this.user['first-name'] &&
-            localUser['lastName'] === this.user['last-name'] &&
-            localUser['gradYear'] === this.user['grad-year']) {return false};
+        if (!localUser) {
+            console.error('cannot find local user information!')
+            return false
+        } else {
+            if (localUser['firstName'] === this.user['first-name'] &&
+                localUser['lastName'] === this.user['last-name'] &&
+                localUser['gradYear'] === this.user['grad-year'] &&
+                localUser.canvasURL === this.user.canvasURL &&
+                localUser.portalURL === this.user.portalURL) {return false}
+        }
         return true
     }
 
-    canDeactivate() {
-        if (this.valueChanged()) {
-            let p:Promise<boolean> = new Promise<boolean>((res: (boolean)=>void, rej: ()=>void) => {
-                window.confirm('Are you sure you want to discard the unsaved changes on the page?') ? 
-                res(true) : res(false);
-            })
-            let o = Observable.fromPromise(p)
-            return o
-        }
+    canDeactivate():Observable<boolean> | boolean {
+        console.info('candeactivate called')
+        if (!this.valueChanged()) {return true}
+        let p:Promise<boolean> = new Promise<boolean>((res: (boolean)=>void, rej: ()=>void) => {
+            window.confirm('Are you sure you want to discard the unsaved changes on the page?') ? 
+            res(true) : res(false);
+        })
+        let o = Observable.fromPromise(p)
+        return o
     }
 
     constructor (private portalService: PortalService, private canvasService: CanvasService, private userService: UserService) {}
