@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
 import {string_to_color} from '../../../../common/string-to-color';
+import {default as prisma} from 'prisma/index';
 
 import {DayRotation} from '../../../../pipes/day-rotation.pipe';
 import {SchoolPercentage} from '../../../../pipes/school-percentage.pipe';
@@ -76,7 +77,6 @@ export class ProgressComponent {
 	schoolPercent:number = null;
 
 	calculatePercentages() {
-
 		// Fallback if schedule is not set or no school
 		if(!this.schedule || this.schedule.classes.length === 0) {
 			// Just set default parameters
@@ -106,10 +106,40 @@ export class ProgressComponent {
 		}
 		this.prevSchedule = this.schedule;
 
+		// Insert a 'break' period in between classes that aren't back-to-back
+		let breaks = [];
+		for(let i = 0; i < this.schedule.classes.length - 1; i++) {
+			let currBlock = this.schedule.classes[i];
+			let nextBlock = this.schedule.classes[i + 1];
+
+			if(currBlock.end !== nextBlock.start) {
+				breaks.push({
+					name : 'Break',
+					start: currBlock.end,
+					end  : nextBlock.start,
+					color: 'rgba(0,0,0,0.1)'
+				});
+			}
+		}
+		// Join breaks array with schedule and sort it
+		let schedule = this.schedule.classes.concat(breaks);
+		schedule.sort(function(a, b) {
+			return a.start - b.start;
+		});
+
+		// Generate colors for each class
+		for(let i = 0; i < schedule.length; i++) {
+			if(!schedule[i].color) {
+				let color = prisma(schedule[i].name);
+				console.log(color);
+				schedule[i].color = '#' + string_to_color(schedule[i].name);
+			}
+		}
+
 		// Get length of school
-		let classCount = this.schedule.classes.length;
-		let firstBlock = this.schedule.classes[0];
-		let lastBlock = this.schedule.classes[classCount - 1];
+		let classCount = schedule.length;
+		let firstBlock = schedule[0];
+		let lastBlock = schedule[classCount - 1];
 		let schoolLength = lastBlock.end.getTime() - firstBlock.start.getTime();
 		let schoolPercent = this.getPercent(firstBlock.start, lastBlock.end);
 
@@ -118,8 +148,8 @@ export class ProgressComponent {
 		// this.progressOptions.circumference = 2 * Math.PI * (schoolPercent / 100);
 
 		// Loop through classes and calculate stuff
-		for(let i = 0; i < this.schedule.classes.length; i++) {
-			let block = this.schedule.classes[i];
+		for(let i = 0; i < schedule.length; i++) {
+			let block = schedule[i];
 
 
 			// Get class percentage
@@ -131,13 +161,14 @@ export class ProgressComponent {
 
 			// Add values to their respective array
 			newProgressLabels[i] = block.name;
-			newProgressColors[0].backgroundColor[i] = '#' + string_to_color(block.name);
+			newProgressColors[0].backgroundColor[i] = block.color;
+			newProgressColors[0].borderWidth[i] = 0;
 			newProgressData[i] = +finalPercentage.toFixed(2);
 
 			// If class is the current class
 			if(0 < classPercent && classPercent < 100) {
 				this.currentClass = block.name;
-				this.currentClassPercent = classPercent;
+				this.currentClassPercent = +classPercent.toFixed(2);
 			}
 		}
 
@@ -156,7 +187,7 @@ export class ProgressComponent {
 
 	getPercent(start, end):number {
 
-		var numerator = Date.now() - start.getTime();
+		var numerator = new Date(2016, 4, 23, 11, 30).getTime() - start.getTime();
 		var denominator = end.getTime() - start.getTime();
 
 		let answer = (numerator / denominator) * 100;

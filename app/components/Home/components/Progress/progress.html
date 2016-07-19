@@ -20,7 +20,7 @@
 			[colors]="progressColors"></base-chart>
 		<div *ngIf="0 < schoolPercent && schoolPercent < 100" class="progress-percentage">
 			<span class="class-label">{{currentClass}} is</span>
-			<span class="class-percent">{{currentClassPercent}}</span>
+			<span class="class-percent">{{currentClassPercent}}%</span>
 			<span class="class-label">Done</span>
 		</div>
 		<div *ngIf="!schoolPercent || schoolPercent === 0 || schoolPercent === 100" class="progress-percentage">
