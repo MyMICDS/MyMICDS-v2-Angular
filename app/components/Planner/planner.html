@@ -16,10 +16,10 @@
                 <tbody>
                     <!--Todo: use text masking svg for more styling options-->
                     <tr *ngFor="let eventsRow of eventsList; let k = index">
-                        <th *ngFor="let events of eventsRow; let i = index" class="table-date">
-                            <div *ngFor="let event of events; let j = index" class="table-cell">
+                        <th *ngFor="let events of eventsRow; let i = index" class="table-cell">
+                            <div *ngFor="let event of events; let j = index" class="table-event">
                                 <div *ngIf="event.date" class="event-date">{{event.date}}</div>
-                                <div *ngIf="!event.date" class="event-title" [ngClass]="eventChecker(k, i, j)" >{{event.title}}</div>
+                                <div *ngIf="!event.date" class="event-title" [ngClass]="eventChecker(k, i, j)">{{event.title}}</div>
                             </div>
                         </th>
                     </tr>

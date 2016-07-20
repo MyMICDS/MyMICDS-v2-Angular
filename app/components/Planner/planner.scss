@@ -15,7 +15,7 @@
 		}
 	}
 
-.table-date {
+.table-cell {
     //background-color: $sophisticated-white;
     @include blur(10px, rgba(255, 255, 255, 0.5));
     color: rgba(0, 0, 0, 0.5);
@@ -32,11 +32,26 @@ thead th{
     border-color: white;
 }
 
-.table-cell:nth-child(n+2) {
-    background-color: orangered;
-    border-radius: 0.5em;
+.table-event {
+    
 }
 
-.extendNone {
+.event-title {
+    width: 100%
+}
 
+.extendBoth {
+    background-color: orange;
+    border-radius: 0;
+    color: transparent;
+}
+
+.extendLeft {
+    background-color: orange;
+    border-radius: 0 0.5em 0.5em 0;
+}
+
+.extendRight {
+    background-color: orange;
+    border-radius: 0.5em 0 0 0.5em;
 }
