@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 
 import {LocalStorageService} from '../../services/localStorage.service'
 import {Title} from '@angular/platform-browser'
@@ -11,7 +11,7 @@ import {Title} from '@angular/platform-browser'
 	directives: [ROUTER_DIRECTIVES],
 })
 export class NavbarComponent {
-	constructor (private localStorage: LocalStorageService, private titleService: Title) {
+	constructor (private localStorage: LocalStorageService, private titleService: Title, private router: Router) {
 		this.userName = this.localStorage.getItem('user');
 		this.localStorage.setItem$.subscribe(item => {
 			if (item.index === 'user') {this.userName = item.value;}
@@ -21,12 +21,15 @@ export class NavbarComponent {
 		})
 	}
 
-	changeTitle(route:string) {
-		this.titleService.setTitle('MyMCIDS-'+route);
+	CFL(str:string) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+	changeTitle() {
+		this.titleService.setTitle('MyMCIDS-'+this.CFL(this.router.url.substr(1)));
 	}
 
 	ngOnInit() {
-		this.titleService.setTitle('MyMCIDS-Home');
+		this.titleService.setTitle('MyMICDS-Home');
 	}
 
 	public userName: string
