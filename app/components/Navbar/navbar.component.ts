@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES, Router} from '@angular/router';
+import {ROUTER_DIRECTIVES, Router, NavigationStart} from '@angular/router';
 
 import {LocalStorageService} from '../../services/localStorage.service'
 import {Title} from '@angular/platform-browser'
@@ -24,12 +24,14 @@ export class NavbarComponent {
 	CFL(str:string) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
-	changeTitle() {
-		this.titleService.setTitle('MyMCIDS-'+this.CFL(this.router.url.substr(1)));
-	}
 
 	ngOnInit() {
 		this.titleService.setTitle('MyMICDS-Home');
+		this.router.events.subscribe(event => {
+            if(event instanceof NavigationStart) {
+                this.titleService.setTitle('MyMCIDS-'+this.CFL(event.url.substr(1)));
+            }
+        });
 	}
 
 	public userName: string
