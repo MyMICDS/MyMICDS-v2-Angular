@@ -7,14 +7,14 @@
     <div class="blur">
     <form #nameForm="ngForm" (ngSubmit)="onSubmitName()">
         <div class="row">
-            <h3>Username: {{username}}</h3>
+            <h3>Username: {{user.user}}</h3>
         </div>
 
         <div class="row">
             <fieldset class="form-group col-lg-4">
             <label for="firstname">First Name</label>
             <div class="input-group">
-                <input #firstname="ngModel" type="text" class="form-control" id="InputFirstName" placeholder="" [(ngModel)]="user['first-name']" name="firstname" required>
+                <input #firstname="ngModel" type="text" class="form-control" id="InputFirstName" placeholder="" [(ngModel)]="user.firstName" name="firstname" required>
                 <div [hidden]="firstname.valid || firstname.pristine" class="alert alert-danger input-group-addon">Name is required</div>
             </div>
             </fieldset>
@@ -22,7 +22,7 @@
             <fieldset class="form-group col-lg-4">
             <label for="lastname">Last Name</label>
             <div class="input-group">
-                <input #lastname="ngModel" type="text" class="form-control" id="InputLastName" placeholder="" [(ngModel)]="user['last-name']" name="lastname" required>
+                <input #lastname="ngModel" type="text" class="form-control" id="InputLastName" placeholder="" [(ngModel)]="user.lastName" name="lastname" required>
                 <div [hidden]="lastname.valid || lastname.pristine" class="alert alert-danger input-group-addon">Name is required</div>
             </div>
             </fieldset>
@@ -32,7 +32,7 @@
             <fieldset class="form-group col-lg-4">
             <label for="gradyear">Year of graduation</label>
             <div class="input-group">
-                <select class="c-select" #gradyear="ngModel" type="gradyear" id="InputGradyear" placeholder="9th grade: 2019" [(ngModel)]="user['grad-year']" name ="gradyear" required>
+                <select class="c-select" #gradyear="ngModel" type="gradyear" id="InputGradyear" placeholder="9th grade: 2019" [(ngModel)]="user.gradYear" name ="gradyear" required>
                     <option *ngFor="let g of gradeRange" [value]="g" [selected]="g==user.gradYear">{{g}}</option>
                 </select>
                 <div [hidden]="gradyear.valid || gradyear.pristine" class="alert alert-danger">Year of graduation is required</div>

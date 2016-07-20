@@ -1,0 +1,20 @@
+@import 'app/styles/mixins';
+@import 'app/styles/settings';
+
+.blur {
+		width: 100%;
+		display: inline-block;
+		margin-bottom: $blur-margin;
+		padding: 0.5rem;
+		color: $sophisticated-white;
+
+		@include blur(10px, rgba(0, 0, 0, 0.5));
+
+		&.blur-half {
+			width: calc(50% - #{$blur-margin});
+		}
+	}
+
+.calendar-container {
+    
+}

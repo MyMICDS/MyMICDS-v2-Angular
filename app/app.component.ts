@@ -3,6 +3,8 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {UserService} from './services/user.service';
 import {AuthService} from './services/auth.service';
+import {PortalService} from './services/portal.service';
+import {CanvasService} from './services/canvas.service';
 import {LocalStorageService} from './services/localStorage.service'
 
 import {NavbarComponent} from './components/Navbar/navbar.component';
@@ -10,7 +12,8 @@ import {HomeComponent} from './components/Home/home.component';
 import {LunchComponent} from './components/Lunch/lunch.component';
 import {LoginComponent} from './components/Login/login.component';
 import {RegisterComponent} from './components/Register/register.component';
-import {SettingsComponent} from './components/Settings/settings.component'
+import {SettingsComponent} from './components/Settings/settings.component';
+import {PlannerComponent} from './components/Planner/planner.component'
 
 @Component({
 	selector: 'mymicds-app',
@@ -18,9 +21,9 @@ import {SettingsComponent} from './components/Settings/settings.component'
 		<navbar></navbar>
 		<router-outlet></router-outlet>
 	`,
-	providers: [HTTP_PROVIDERS, AuthService, UserService, LocalStorageService],
+	providers: [HTTP_PROVIDERS, AuthService, UserService, LocalStorageService, CanvasService, PortalService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES],
-	precompile: [NavbarComponent, HomeComponent, LunchComponent, LoginComponent, RegisterComponent, SettingsComponent]
+	precompile: [NavbarComponent, HomeComponent, LunchComponent, LoginComponent, RegisterComponent, SettingsComponent, PlannerComponent]
 })
 export class AppComponent {
 

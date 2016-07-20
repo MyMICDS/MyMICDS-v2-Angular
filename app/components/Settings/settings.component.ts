@@ -10,7 +10,7 @@ import '../../common/rxjs-operators'
     selector: 'app-content',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
-    providers: [PortalService, CanvasService, UserService],
+    providers: [],
     directives: [NgFor, NgIf]
 })
 
@@ -21,9 +21,9 @@ export class SettingsComponent{
             console.error('cannot find local user information!')
             return false
         } else {
-            if (localUser['firstName'] === this.user['first-name'] &&
-                localUser['lastName'] === this.user['last-name'] &&
-                localUser['gradYear'] === this.user['grad-year'] &&
+            if (localUser['firstName'] === this.user.firstName &&
+                localUser['lastName'] === this.user.lastName &&
+                localUser['gradYear'] === this.user.gradYear &&
                 localUser.canvasURL === this.user.canvasURL &&
                 localUser.portalURL === this.user.portalURL) {return false}
         }
@@ -60,11 +60,11 @@ export class SettingsComponent{
         );
     }
 
-    username = '';
     user = {
-        'first-name': '',
-        'last-name': '',
-        'grad-year': null,
+        user: '',
+        firstName: '',
+        lastName: '',
+        gradYear: '',
         canvasURL: '',
         portalURL: '',
     }
@@ -74,7 +74,7 @@ export class SettingsComponent{
 
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('user-info')) || this.user
-
+        console.dir(this.user)
         this.userService.getGradeRange().subscribe(
             gradeRange => {
                 this.gradeRange = gradeRange.gradYears;
@@ -88,9 +88,9 @@ export class SettingsComponent{
 
     onSubmitName() {
         let postUser = {
-            'first-name': this.user['first-name'],
-            'last-name': this.user['last-name'],
-            'grad-year': this.user['grad-year'].toString()
+            'first-name': this.user.firstName,
+            'last-name': this.user.lastName,
+            'grad-year': this.user.gradYear.toString()
         }
         console.dir(postUser);
         this.userService.changeInfo(postUser).subscribe(
