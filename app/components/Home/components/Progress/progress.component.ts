@@ -1,8 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
-import {string_to_color} from '../../../../common/string-to-color';
-import {default as prisma} from 'prisma/index';
+import {default as prisma} from 'prisma/index'; // This gives an error for some reason, but trust me, it works.
 
 import {DayRotation} from '../../../../pipes/day-rotation.pipe';
 import {SchoolPercentage} from '../../../../pipes/school-percentage.pipe';
@@ -29,23 +28,31 @@ export class ProgressComponent {
 	 */
 
 	progressChartType:string = 'doughnut';
-	progressOptionsDefault:any = {
-		animation: false,
-		cutoutPercentage: 95,
-		legend: {
-			display: false
-		}
-	};
-	progressDataDefault:number[] = [100];
-	progressLabelsDefault:string[] = ['School'];
-	progressColorsDefault:any[] = [{
-		borderWidth: [0]
-	}];
+	progressOptionsDefault():any {
+		return {
+			animation: false,
+			cutoutPercentage: 95,
+			legend: {
+				display: false
+			}
+		};
+	}
+	progressDataDefault():number[] {
+		return [100];
+	}
+	progressLabelsDefault():string[] {
+		return ['School'];
+	}
+	progressColorsDefault():any[] {
+		return [{
+			borderWidth: [0]
+		}];
+	}
 
-	progressOptions = this.progressOptionsDefault;
-	progressData = this.progressDataDefault;
-	progressLabels = this.progressLabelsDefault;
-	progressColors = this.progressColorsDefault;
+	progressOptions = this.progressOptionsDefault();
+	progressData = this.progressDataDefault();
+	progressLabels = this.progressLabelsDefault();
+	progressColors = this.progressColorsDefault();
 
 	/*
 	 * Start / destroy interval that calculates percentages
@@ -80,16 +87,16 @@ export class ProgressComponent {
 		// Fallback if schedule is not set or no school
 		if(!this.schedule || this.schedule.classes.length === 0) {
 			// Just set default parameters
-			this.progressOptions = this.progressOptionsDefault;
-			this.progressData = this.progressDataDefault;
-			this.progressLabels = this.progressLabelsDefault;
-			this.progressColors = this.progressColorsDefault;
+			this.progressOptions = this.progressOptionsDefault();
+			this.progressData = this.progressDataDefault();
+			this.progressLabels = this.progressLabelsDefault();
+			this.progressColors = this.progressColorsDefault();
 			return;
 		}
 
 		// Because Angular's change detection is a bit whacky,
 		// we need to generate an array THEN assign it to the progress bar data.
-		let newProgressOptions:any = this.progressOptionsDefault;
+		let newProgressOptions:any = this.progressOptionsDefault();
 		let newProgressData:number[] = [];
 		let newProgressLabels:string[] = [];
 		let newProgressColors:any[] = [{
@@ -117,7 +124,7 @@ export class ProgressComponent {
 					name : 'Break',
 					start: currBlock.end,
 					end  : nextBlock.start,
-					color: 'rgba(0,0,0,0.1)'
+					color: 'rgba(0, 0, 0, 0.1)'
 				});
 			}
 		}
@@ -131,8 +138,7 @@ export class ProgressComponent {
 		for(let i = 0; i < schedule.length; i++) {
 			if(!schedule[i].color) {
 				let color = prisma(schedule[i].name);
-				console.log(color);
-				schedule[i].color = '#' + string_to_color(schedule[i].name);
+				schedule[i].color = 'rgba(' + color.rgbaArray[0] + ', ' + color.rgbaArray[1] + ', ' + color.rgbaArray[2] + ', 0.8)';
 			}
 		}
 
@@ -171,6 +177,12 @@ export class ProgressComponent {
 				this.currentClassPercent = +classPercent.toFixed(2);
 			}
 		}
+
+		// Add a filler datapoint if school isn't complete yet
+		newProgressLabels.push('School Left');
+		newProgressData.push(100 - +schoolPercent.toFixed(2));
+		newProgressColors[0].backgroundColor.push('rgba(0, 0, 0, 0.1)');
+		newProgressColors[0].borderWidth.push(0);
 
 		// Assign new arrays to progress bar data
 		this.progressOptions = newProgressOptions;
