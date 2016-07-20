@@ -49,9 +49,10 @@ export class SettingsComponent{
                 if (userInfo.error||userInfo==null) {
                     this.errMsg = userInfo.error + ' (this is not a connection problem)';
                 }
-                else {
-                    localStorage.setItem('user-info', JSON.stringify(userInfo.user))
-                    console.dir(userInfo)
+                else {;
+                    localStorage.setItem('user-info', JSON.stringify(userInfo.user));
+                    console.dir(userInfo);
+                    this.user = userInfo.user;
                 }
             },
             error => {
@@ -64,7 +65,7 @@ export class SettingsComponent{
         user: '',
         firstName: '',
         lastName: '',
-        gradYear: '',
+        gradYear: 0,
         canvasURL: '',
         portalURL: '',
     }
@@ -105,11 +106,12 @@ export class SettingsComponent{
 
     public URLerrMsg:string = null;
     private testingC:boolean = false;
-    public validC:boolean;
+    public validC:boolean = true;
     onChangeCanvasURL($event:string) {
-        if (!this.testingC && $event) {
+        if (!$event) {this.validC = true;}
+        if (!this.testingC && $event.trim()) {
             this.testingC = true
-            this.canvasService.testUrl($event).subscribe(
+            this.canvasService.testUrl($event.trim()).subscribe(
                 res => {
                     if (res.error) {
                         this.URLerrMsg = 'There was a problem testing your url.'
@@ -126,15 +128,16 @@ export class SettingsComponent{
                 }, 
                 1000
             )
-        }
+        } 
     }
 
     private testingP:boolean = false;
-    public validP:boolean;
+    public validP:boolean = true;
     onChangePortalURL($event:string) {
-        if (!this.testingP && event) {
+        if (!$event) {this.validP = true;}
+        if (!this.testingP && $event.trim()) {
             this.testingP = true
-            this.portalService.testUrl($event).subscribe(
+            this.portalService.testUrl($event.trim()).subscribe(
                 res => {
                     if (res.error) {
                         this.URLerrMsg = 'There was a problem testing your url.'

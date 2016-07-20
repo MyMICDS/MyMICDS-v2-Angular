@@ -2,9 +2,10 @@ import {Injectable, Inject} from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import '../common/rxjs-operators';
+import {UserService} from './user.service';
 
 @Injectable()
-export class UserService {
+export class PlannerService {
     constructor (private http: Http) {}
 
     private extractData(res: Response) {
@@ -18,50 +19,45 @@ export class UserService {
         return Observable.throw(errMsg);
     }
 
-    private userUrl = 'http://localhost:1420/user'
+    private Url = 'http://localhost:1420/planner';
 
-    public getInfo():Observable<{
-        error:any,
-        user:{
-            canvasURL:string
-            firstName:string;
-            gradYear:number;
-            grade:number;
-            lastName:string;
-            password:string;
-            portalURL:string;
-            user:string;
-        }
-    }> {
-        let body = null;
+    public getEvents(month: {year:number, month: number}):Observable<{error:any, events:any[]}> {
+        let body = JSON.stringify(month);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.userUrl+'/get-info', body, options)
+        return this.http.post(this.Url+'/get', body, options)
                         .map(this.extractData)
                         .catch(this.handleError);
     }
 
-    public getGradeRange():Observable<{gradYears:number[]}> {
-        let body = null;
+    public addEvent(info: {
+        id: string,
+        title: string,
+        desc: string,
+        'class-id': string,
+        'start-year': number,
+        'start-month': number,
+        'start-day': number,
+        'end-year': number,
+        'end-month': number,
+        'end-day': number,
+    }):Observable<{error:any, id: string}> {
+        let body = JSON.stringify(info);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.userUrl+'/grade-range', body, options)
+        return this.http.post(this.Url+'/add', body, options)
                         .map(this.extractData)
                         .catch(this.handleError);
     }
 
-    public changeInfo(user: {
-        'first-name': string;
-        'last-name': string;
-        'grad-year': string;
-    }):Observable<{error:any}> {
-        let body = JSON.stringify(user);
+    public deleteEvent(id: string):Observable<{error:any}> {
+        let body = JSON.stringify(id);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.userUrl+'/change-info', body, options)
+        return this.http.post(this.Url+'/delete', body, options)
                         .map(this.extractData)
                         .catch(this.handleError);
     }

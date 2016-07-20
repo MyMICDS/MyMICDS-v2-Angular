@@ -4,16 +4,26 @@
             <table class="table">
                 <thead>
                     <tr>
+                    <th>Sunday</th>
                     <th>Monday</th>
                     <th>Tuesday</th>
                     <th>Wednsday</th>
                     <th>Thursday</th>
                     <th>Friday</th>
-                    <th>Saturdat</th>
-                    <th>Sunday</th>
+                    <th>Saturday</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <!--Todo: use text masking svg for more styling options-->
+                    <tr *ngFor="let eventsRow of eventsList; let k = index">
+                        <th *ngFor="let events of eventsRow; let i = index" class="table-date">
+                            <div *ngFor="let event of events; let j = index" class="table-cell">
+                                <div *ngIf="event.date" class="event-date">{{event.date}}</div>
+                                <div *ngIf="!event.date" class="event-title" [ngClass]="eventChecker(k, i, j)" >{{event.title}}</div>
+                            </div>
+                        </th>
+                    </tr>
+                </tbody>
             </table>
         </div>
         <div class="blur calendar-right col-lg-4">

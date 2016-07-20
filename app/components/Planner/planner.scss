@@ -2,7 +2,7 @@
 @import 'app/styles/settings';
 
 .blur {
-		width: 100%;
+	    border-radius: 15px;
 		display: inline-block;
 		margin-bottom: $blur-margin;
 		padding: 0.5rem;
@@ -15,6 +15,28 @@
 		}
 	}
 
-.calendar-container {
-    
+.table-date {
+    //background-color: $sophisticated-white;
+    @include blur(10px, rgba(255, 255, 255, 0.5));
+    color: rgba(0, 0, 0, 0.5);
+    line-height: 1;
+    height: 100px;
+    width: 100px;
+}
+
+tbody th{
+    border: 1px solid rgba(0, 0, 0, 0.5)
+}
+
+thead th{
+    border-color: white;
+}
+
+.table-cell:nth-child(n+2) {
+    background-color: orangered;
+    border-radius: 0.5em;
+}
+
+.extendNone {
+
 }
