@@ -179,7 +179,7 @@ export class ProgressComponent {
 		}
 
 		// Add a filler datapoint if school isn't complete yet
-		newProgressLabels.push('School Left');
+		newProgressLabels.push('School');
 		newProgressData.push(100 - +schoolPercent.toFixed(2));
 		newProgressColors[0].backgroundColor.push('rgba(0, 0, 0, 0.1)');
 		newProgressColors[0].borderWidth.push(0);
