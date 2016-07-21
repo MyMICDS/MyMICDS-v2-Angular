@@ -213,4 +213,20 @@ export class PlannerComponent {
         )
         this.reinitialize();
     }
+
+    public bindEvent(event) {
+        let ESD = new Date(event.start);
+        let EED = new Date(event.end);
+        this.eventModel['start-year'] = ESD.getFullYear();
+        this.eventModel['start-month'] = ESD.getMonth();
+        this.eventModel['start-day'] = ESD.getDate();
+        this.eventModel['end-year'] = EED.getFullYear();
+        this.eventModel['end-month'] = EED.getMonth();
+        this.eventModel['end-day'] = EED.getDate();
+        this.eventModel.id = event._id;
+        this.eventModel.title = event.title;
+        this.eventModel.desc = event.desc;
+        if (event.class) {this.eventModel['class-id'] = event.class._id;}
+        console.log(this.eventModel)
+    }
 }
