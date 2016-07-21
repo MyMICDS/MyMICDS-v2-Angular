@@ -82,8 +82,7 @@ export class LoginComponent {
                 if (logoutRes.error) {
                     console.log(logoutRes.error)
                 } else {
-                    this.localStorage.removeItem('user');
-                    this.localStorage.removeItem('user-info');
+                    this.localStorage.clear;
                     this.isLoggedIn = this.authService.isLoggedIn();
                     this.router.navigate(['home'])
                 }

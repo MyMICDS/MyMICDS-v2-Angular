@@ -6,6 +6,7 @@ export class LocalStorageService {
     public setItem$: EventEmitter<{}>;
     public removeItem$: EventEmitter<{}>;
     public getItem$: EventEmitter<{}>;
+    public clear$: EventEmitter<{}>;
 
     constructor () {
         this.setItem$ = new EventEmitter();
@@ -26,5 +27,10 @@ export class LocalStorageService {
     public getItem(index:string) {
         this.getItem$.emit({index});
         return localStorage.getItem(index);
+    }
+
+    public clear() {
+        this.clear$.emit(true);
+        localStorage.clear();
     }
 }

@@ -5,7 +5,7 @@ import '../common/rxjs-operators';
 import {UserService} from './user.service';
 
 @Injectable()
-export class PlannerService {
+export class ClassesService {
     constructor (private http: Http) {}
 
     private extractData(res: Response) {
@@ -19,10 +19,10 @@ export class PlannerService {
         return Observable.throw(errMsg);
     }
 
-    private Url = 'http://localhost:1420/planner';
+    private Url = 'http://localhost:1420/classes';
 
-    public getEvents(month: {year:number, month: number}):Observable<{error:any, events:any[]}> {
-        let body = JSON.stringify(month);
+    public getClasses():Observable<{error:any, classes:any[]}> {
+        let body = null;
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
@@ -31,17 +31,17 @@ export class PlannerService {
                         .catch(this.handleError);
     }
 
-    public addEvent(info: {
-        id: any,
-        title: string,
-        desc: string,
-        'class-id': string,
-        'start-year': number,
-        'start-month': number,
-        'start-day': number,
-        'end-year': number,
-        'end-month': number,
-        'end-day': number,
+    public addClass(info: {
+        id: string,
+        name: string,
+        color: string,
+        block: string,
+        type: string,
+        teacher: {
+            prefix: string,
+            firstName: string,
+            lastName: string
+        },
     }):Observable<{error:any, id: string}> {
         let body = JSON.stringify(info);
         let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -52,7 +52,7 @@ export class PlannerService {
                         .catch(this.handleError);
     }
 
-    public deleteEvent(id: string):Observable<{error:any}> {
+    deleteClass(id: string):Observable<{error:any}> {
         let body = JSON.stringify(id);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });

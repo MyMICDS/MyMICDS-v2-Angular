@@ -1,6 +1,17 @@
 @import 'app/styles/mixins';
 @import 'app/styles/settings';
 
+.ng-valid[required] {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.calendar-right {
+    
+}
+
 .blur {
 	    border-radius: 15px;
 		display: inline-block;
@@ -37,21 +48,46 @@ thead th{
 }
 
 .event-title {
-    width: 100%
+    width: 100%;
+    margin-top: 0.3em; 
 }
 
 .extendBoth {
-    background-color: orange;
     border-radius: 0;
     color: transparent;
 }
 
 .extendLeft {
-    background-color: orange;
     border-radius: 0 0.5em 0.5em 0;
 }
 
 .extendRight {
-    background-color: orange;
     border-radius: 0.5em 0 0 0.5em;
+}
+
+.extendNone {
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.detail-title h3, .form-title{
+    display: inline-block
+}
+
+.delete-sign {
+    cursor: pointer;
+    float: right;
+}
+
+.add-button {
+    cursor: pointer;
+    float: right;
+}
+
+.edit-sign {
+    cursor: pointer;
+}
+
+.add-event {
+    @include blur(10px, rgba(255, 255, 255, 0.5));
+    color: black
 }
