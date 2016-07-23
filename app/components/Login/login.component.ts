@@ -107,6 +107,18 @@ export class LoginComponent {
         this.router.navigate(['home'])
     }
 
+    public forgotPassMsg: string
+    public onClickForgot() {
+        this.userSerivce.forgotPassword({user: this.userName}).subscribe(
+            res => {
+                res.error ? this.forgotPassMsg = 'Unable to send password reset email: '+res.error : this.forgotPassMsg = 'An email has been sent to your school account.';
+            },
+            error => {
+                this.forgotPassMsg = 'Unable to send password reset email: '+error;
+            }
+        )
+    }
+
     public formActive:boolean = true;
 
     ngOnInit() {

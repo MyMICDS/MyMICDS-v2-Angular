@@ -65,4 +65,14 @@ export class UserService {
                         .map(this.extractData)
                         .catch(this.handleError);
     }
+
+    public forgotPassword(user: {user: string}):Observable<any> {
+        let body = JSON.stringify(user);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.userUrl+'/forgot-password', body, options)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+    }
 }

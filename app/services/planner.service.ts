@@ -2,7 +2,6 @@ import {Injectable, Inject} from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import '../common/rxjs-operators';
-import {UserService} from './user.service';
 
 @Injectable()
 export class PlannerService {

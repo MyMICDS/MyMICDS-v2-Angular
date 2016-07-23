@@ -36,9 +36,11 @@
                 <button type="submit" [disabled]="!loginForm.form.valid" class="btn btn-primary">Login</button>
             </form>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onClickCancel()">Close</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onClickAccount()">Creat an account</button>
+        <div class="">
+            <button type="button" class="btn btn-secondary" (click)="onClickForgot()">myForgot</button>
+            <button type="button" class="btn btn-secondary" (click)="onClickCancel()">Close</button>
+            <button type="button" class="btn btn-secondary" (click)="onClickAccount()">Creat an account</button>
         </div>
+        <div *ngIf="forgotPassMsg" class="alert alert-danger">{{forgotPassMsg}}</div>
     </div>
 </div>
