@@ -5,4 +5,4 @@
  * Any config.ts is under the .gitignore so we can change parameters depending on the dev environment.
  */
 
-export const backendUrl = 'http://localhost:1420';
+export const backendURL = 'http://localhost:1420';

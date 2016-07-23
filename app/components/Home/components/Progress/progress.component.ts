@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
-import {default as prisma} from 'prisma/index'; // This gives an error for some reason, but trust me, it works.
+import {default as prisma} from 'prisma'; // This gives an error for some reason, but trust me, it works.
 
 import {DayRotation} from '../../../../pipes/day-rotation.pipe';
 import {SchoolPercentage} from '../../../../pipes/school-percentage.pipe';

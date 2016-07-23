@@ -11,7 +11,8 @@
 	'rxjs':                       'node_modules/rxjs',
 	'ng2-charts':                 'node_modules/ng2-charts',
 	'angular2-fontawesome':       'node_modules/angular2-fontawesome',
-	'prisma':                     'node_modules/prisma/lib'
+	'prisma':                     'node_modules/prisma/lib',
+	'angular2-jwt':               'node_modules/angular2-jwt'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -20,7 +21,8 @@
 	'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
 	'ng2-charts':                 { defaultExtension: 'js' },
 	'angular2-fontawesome':       { defaultExtension: 'js' },
-	'prisma':                     { main: 'index.js', defaultExtention: 'js' }
+	'prisma':                     { main: 'index.js', defaultExtention: 'js' },
+	'angular2-jwt':               { defaultExtention: 'js' }
   };
   var ngPackageNames = [
 	'common',

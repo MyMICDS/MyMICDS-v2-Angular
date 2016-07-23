@@ -1,10 +1,10 @@
 import {Component, Output, EventEmitter} from '@angular/core';
 import {NgIf, NgForm} from '@angular/common';
-import {Router, ActivatedRoute} from '@angular/router'
+import {Router, ActivatedRoute} from '@angular/router';
 
 import {AuthService} from '../../services/auth.service';
+import {LocalStorageService} from '../../services/localStorage.service';
 import {UserService} from '../../services/user.service';
-import {LocalStorageService} from '../../services/localStorage.service'
 
 @Component({
 	selector: 'login',
@@ -39,9 +39,9 @@ export class LoginComponent {
             token:string,
             expires:string
             }
-    } 
+    }
     public isLoggedIn: boolean;
-    public errorMessage:string; 
+    public errorMessage:string;
     public userErrMsg:string;
     public userName:string;
 
@@ -58,13 +58,13 @@ export class LoginComponent {
     }
 
     public onClickLogin() {
-        this.authService.logIn(this.loginModel).subscribe(
+        this.authService.login(this.loginModel.user, this.loginModel.password, this.loginModel.remember).subscribe(
             loginRes => {
                 this.loginRes = loginRes;
-                if (loginRes.error) { 
+                if (loginRes.error) {
                     this.errorMessage = loginRes.error;
                     console.log(this.errorMessage);
-                } else { 
+                } else {
                     this.localStorage.setItem('user', this.loginModel.user);
                     this.isLoggedIn = this.authService.isLoggedIn();
                     this.userName = this.loginModel.user;
@@ -83,7 +83,7 @@ export class LoginComponent {
     }
 
     public onClickLogout() {
-        this.authService.logOut().subscribe(
+        this.authService.logout().subscribe(
             logoutRes => {
                 if (logoutRes.error) {
                     console.log(logoutRes.error)

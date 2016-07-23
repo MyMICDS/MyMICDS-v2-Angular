@@ -34,8 +34,8 @@ export class RegisterComponent{
         password: '',
         firstName: '',
         lastName: '',
-        'grad-year':null,
-        teacher:''
+        gradYear: null,
+        teacher: false
     };
     submitted = false;
     submitSuccess = false;

@@ -1,78 +1,91 @@
+import * as config from '../common/config';
+
 import {Injectable, Inject} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
+import {Http, RequestOptions} from '@angular/http';
+import {AuthHttp} from 'angular2-jwt';
+import {xhrHeaders} from '../common/xhr-headers';
+import {handleError} from '../common/http-helpers';
 import {Observable} from 'rxjs/Observable';
 import '../common/rxjs-operators';
+import {LocalStorage, SessionStorage} from 'h5webstorage';
 
 @Injectable()
 export class AuthService {
 
-    constructor (private http: Http) {
+    constructor(private http: Http, private authHttp: AuthHttp, private localStorage: LocalStorage, private sessionStorage: SessionStorage) {}
 
+    login(user:string, password:string, remember:any) {
+        let body = JSON.stringify({
+			user,
+			password,
+			rembmer: !!remember
+		});
+        let headers = xhrHeaders();
+        let options = { headers };
+
+        return this.http.post(config.backendURL + '/login', body, options)
+            .map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return {
+					success: data.success,
+					jwt: data.jwt
+				};
+			})
+            .catch(handleError);
     }
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || { };
-    }
-    private handleError (error: any) {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : error;
-        console.error(errMsg); // log to console instead
-        return Observable.throw(errMsg);
-    }
-
-    private authUrl = 'http://localhost:1420/auth'
-    public logIn(loginModel:{user:string,password:string,remember:any}):
-    Observable<{
-        error: string;
-        success: boolean;
-        cookie: {
-            selector:string,
-            token:string,
-            expires:string
-            }}> {
-        let body = JSON.stringify(loginModel);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.post(this.authUrl+'/login', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
-    }
-
-    public logOut():Observable<any> {
+    logout() {
         let body = null;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.authUrl+'/logout', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.authHttp.post(config.backendURL + '/logout', body, options)
+        	.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+				return;
+			})
+        	.catch(handleError);
     }
 
-    public register(info: {
-        user: string;
-        password: string;
-        firstName: string;
-        lastName: string;
-        'grad-year': any;
-        teacher: any;
-    }):Observable<{error:any}>{
+    public register(info: UserData) {
         let body = JSON.stringify(info);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.authUrl+'/register', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.http.post(config.backendURL + '/register', body, options)
+            .map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+				return;
+			})
+            .catch(handleError);
     }
 
     public isLoggedIn() {
-        if (localStorage.getItem('user') === null) {
-            return false
-        } else {
-            return true
-        }
+    	return (this.sessionStorage['id_token'] || this.localStorage['id_token']);
     }
 }
 
+interface UserData {
+	user: string;
+	password: string;
+	firstName: string;
+	lastName: string;
+	gradYear?: number;
+	teacher?: boolean;
+}

@@ -1,14 +1,14 @@
 import {provideRouter, RouterConfig} from '@angular/router';
 
 import {HomeComponent} from './components/Home/home.component';
-import {LunchComponent} from './components/Lunch/lunch.component';
 import {LoginComponent} from './components/Login/login.component';
-import {RegisterComponent} from './components/Register/register.component'
-import {SettingsComponent} from './components/Settings/settings.component'
-import {PlannerComponent} from './components/Planner/planner.component'
+import {LunchComponent} from './components/Lunch/lunch.component';
+import {PlannerComponent} from './components/Planner/planner.component';
+import {RegisterComponent} from './components/Register/register.component';
+import {SettingsComponent} from './components/Settings/settings.component';
 
-import {AuthGuard} from './common/auth.guard'
-import {CanDeactivateGuard} from './common/canDeactivate.guard'
+import {AuthGuard} from './common/auth.guard';
+import {CanDeactivateGuard} from './common/canDeactivate.guard';
 
 const routes: RouterConfig = [
 	{
@@ -25,12 +25,8 @@ const routes: RouterConfig = [
 		component: LunchComponent
 	},
 	{
-		path: 'login',
-		component: LoginComponent
-	},
-	{
-		path: 'register',
-		component: RegisterComponent
+		path: 'planner',
+		component: PlannerComponent,
 	},
 	{
 		path: 'settings',
@@ -39,8 +35,12 @@ const routes: RouterConfig = [
 		canDeactivate: [CanDeactivateGuard]
 	},
 	{
-		path: 'planner',
-		component: PlannerComponent,
+		path: 'login',
+		component: LoginComponent
+	},
+	{
+		path: 'register',
+		component: RegisterComponent
 	}
 ];
 
