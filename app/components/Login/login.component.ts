@@ -1,6 +1,6 @@
 import {Component, Output, EventEmitter} from '@angular/core';
 import {NgIf, NgForm} from '@angular/common';
-import {Router} from '@angular/router'
+import {Router, ActivatedRoute} from '@angular/router'
 
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
@@ -16,7 +16,15 @@ import {LocalStorageService} from '../../services/localStorage.service'
 
 
 export class LoginComponent {
-    constructor(private router:Router, private authService: AuthService, private userSerivce: UserService, private localStorage: LocalStorageService) {}
+    constructor(private router:Router, private authService: AuthService, private userSerivce: UserService, private localStorage: LocalStorageService, private route: ActivatedRoute) {
+        this.route.params.subscribe(
+            params => {
+                if (params['logout']) {
+                    this.onClickLogout();
+                }
+            }
+        )
+    }
 
     public loginModel = {
         user: '',
@@ -60,15 +68,13 @@ export class LoginComponent {
                     this.localStorage.setItem('user', this.loginModel.user);
                     this.isLoggedIn = this.authService.isLoggedIn();
                     this.userName = this.loginModel.user;
-                    if(loginRes.cookie.token) {
-						document.cookie = 'rememberme=' + loginRes.cookie.selector + ':' + loginRes.cookie.token + '; expires=' + loginRes.cookie.expires;
-					}
+                    //add jwt things
                     this.router.navigate(['home'])
                 }
             },
             error => {
                 this.errorMessage = <any>error;
-                console.log('If this keeps happening, contact the support!')
+                console.log('Error logging in')
             },
             () => {
                 this.getUserInfo();
@@ -82,19 +88,23 @@ export class LoginComponent {
                 if (logoutRes.error) {
                     console.log(logoutRes.error)
                 } else {
-                    this.localStorage.clear;
+                    this.localStorage.removeItem('user');
                     this.isLoggedIn = this.authService.isLoggedIn();
                     this.router.navigate(['home'])
                 }
             },
             error => {
                 console.error(error)
+                this.router.navigate(['home'])
             }
         )
     }
 
     public onClickAccount() {
-        this.router.navigate(['/register'])
+        this.router.navigate(['register'])
+    }
+    public onClickCancel() {
+        this.router.navigate(['home'])
     }
 
     public formActive:boolean = true;
@@ -103,7 +113,6 @@ export class LoginComponent {
         //get the login state
         this.isLoggedIn = this.authService.isLoggedIn();
         this.userName = this.localStorage.getItem('user');
-        if (this.isLoggedIn) {this.onClickLogout()}
     }
 
 }

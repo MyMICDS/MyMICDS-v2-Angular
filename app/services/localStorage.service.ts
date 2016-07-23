@@ -12,6 +12,7 @@ export class LocalStorageService {
         this.setItem$ = new EventEmitter();
         this.removeItem$ = new EventEmitter();
         this.getItem$ = new EventEmitter();
+        this.clear$ = new EventEmitter();
     }
 
     public setItem(index:string, value:string) {
@@ -30,7 +31,7 @@ export class LocalStorageService {
     }
 
     public clear() {
-        this.clear$.emit(true);
         localStorage.clear();
+        this.clear$.emit(true);
     }
 }

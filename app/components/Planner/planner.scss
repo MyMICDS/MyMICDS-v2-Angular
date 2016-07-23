@@ -74,20 +74,28 @@ thead th{
 }
 
 .delete-sign {
-    cursor: pointer;
     float: right;
 }
 
 .add-button {
-    cursor: pointer;
     float: right;
-}
-
-.edit-sign {
-    cursor: pointer;
 }
 
 .add-event {
     @include blur(10px, rgba(255, 255, 255, 0.5));
     color: black
+}
+
+.calendar-nav {
+    text-align: center;
+    .calendar-nav-select {
+        display: inline-block;
+        .calendar-month {
+            display: inline-block;
+        }
+    }
+}
+
+.clickable {
+    cursor: pointer;
 }

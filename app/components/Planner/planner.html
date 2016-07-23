@@ -1,6 +1,17 @@
 <div class="container">
     <div id="my-fadeout" class="calendar-container ">
         <div class="blur calendar-left col-lg-8">
+            <div class="calendar-nav">
+                <i (click)="onSelectMonth(selectedDate.month-1)" class="calendar-nav-arrow clickable" fa [name]="'angle-double-left'" [size]="'3'" [pull]="'left'"></i>
+                <div *ngIf="!selectingMonth" class="calendar-nav-select">
+                    <h1 class="calendar-month"> {{monthList[selectedDate.month].string}} </h1>
+                    <i (click)="selectingMonth = true" class="calendar-nav-dropdown clickable" fa [name]="'sort-desc'" [size]="'3'"></i>
+                </div>
+                <select *ngIf="selectingMonth" (ngModelChange)="onSelectMonth($event)" class="c-select" #selectMonth="ngModel" type="selectMonth" id="selectMonth" [ngModel]="selectedDate.month" name="selectMonth" required>
+                    <option *ngFor="let month of monthList" [value]="month.value-1">{{month.string}}</option>
+                </select>
+                <i (click)="onSelectMonth(selectedDate.month-1)" class="calendar-nav-arrow clickable" fa [name]="'angle-double-right'" [size]="'3'" [pull]="'right'"></i>
+            </div>
             <table class="table">
                 <thead>
                     <tr>
@@ -16,7 +27,7 @@
                 <tbody>
                     <!--Todo: use text masking svg for more styling options-->
                     <tr *ngFor="let eventsRow of eventsList; let k = index">
-                        <th *ngFor="let events of eventsRow; let i = index" class="table-cell" (click)="selectedEvents = events; toggle = false; isAdding = false">
+                        <th *ngFor="let events of eventsRow; let i = index" class="table-cell" (click)="selectDay(events)">
                             <div *ngFor="let event of events; let j = index" class="table-event">
                                 <div *ngIf="event.date" class="event-date">{{event.date}}</div>
                                 <div *ngIf="!event.date" class="event-title" [ngClass]="eventChecker(k, i, j)" [ngStyle]="applyColor(event)">{{event.title}}</div>
@@ -33,9 +44,8 @@
                     <div *ngIf="event.date"><h2>Events in {{date.getMonth()+1}}/{{event.date}}, {{date.getFullYear()}}</h2></div>
                     <div *ngIf="!event.date">
                         <div class="detail-title"><h3>{{i}}. {{event.title}}</h3>
-                        <svg (click)="bindEvent(event); toggle = true; isAdding = false" class="edit-sign" height="24px" version="1.1" viewBox="0 0 24 24" width="24px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><desc/><defs/><g fill="none" fill-rule="evenodd" id="miu" stroke="none" stroke-width="1"><g id="Artboard-1" transform="translate(-899.000000, -227.000000)"><g id="slice" transform="translate(215.000000, 119.000000)"/><path d="M914.000027,248.002414 L914.000464,232.002414 L914.000464,232.002414 L907.001354,232.002414 L907.000079,248.002414 L914.000027,248.002414 Z M913.998311,249.002414 L910.501672,254 L907.00169,249.002414 L913.998311,249.002414 Z M914.000492,231.002414 L914.000574,228.002414 C914.000574,227 912.99816,227 912.99816,227 L908.004086,227 C908.004086,227 907.001672,227 907.001672,228.002414 L907.001433,231.002414 L914.000492,231.002414 L914.000492,231.002414 Z" fill="#eee" id="editor-pencil-pen-edit-write-glyph" transform="translate(910.500326, 240.500000) rotate(45.000000) translate(-910.500326, -240.500000) "/></g></g></svg>  
-                        
-                        <svg height="24px" width="24px" class="delete-sign" data-name="Livello 1" id="Livello_1" viewBox="0 0 151.57 151.57" xmlns="http://www.w3.org/2000/svg"><circle cx="1038.5" cy="467.01" r="72.28" style="fill:#da2244;stroke:#f2f2f2;stroke-linecap:round;stroke-linejoin:round;stroke-width:7px" transform="translate(-988.78 479.89) rotate(-45)"/><line style="fill:#da2244;stroke:#f2f2f2;stroke-linecap:round;stroke-linejoin:round;stroke-width:7px" x1="47.57" x2="103.99" y1="103.99" y2="47.57"/><line style="fill:#da2244;stroke:#f2f2f2;stroke-linecap:round;stroke-linejoin:round;stroke-width:7px" x1="45.8" x2="105.7" y1="45.87" y2="105.77"/></svg></div>
+                        <i (click)="bindEvent(event); toggle = true; isAdding = false" class="edit-sign clickable" fa [name]="'pencil'" [size]=2></i>
+                        <i class="delete-sign clickable" fa [name]="'times'" [size]=2></i></div>
                         <div class="detail-desc">description: {{event.desc}}</div>
                         <div class="detail-link">link: {{event.link}}</div>
                     </div>
@@ -43,7 +53,7 @@
                 <div class="add-event">
                     <h2 *ngIf="isAdding" class="form-title">Add an Event</h2>
                     <h2 *ngIf="!isAdding" class="form-title">Change an Event</h2>
-                    <svg (click)="toggleForm(); isAdding = true" [style.transform]="toggle ? 'rotate(45deg)' : 'initial'" height="30px" width="30px" class="add-button" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 128 128" id="Layer_1" version="1.1" viewBox="0 0 128 128" xml:space="preserve"><g><g><path d="M64,0C28.656,0,0,28.656,0,64s28.656,64,64,64s64-28.656,64-64S99.344,0,64,0z M64,120    C33.125,120,8,94.875,8,64S33.125,8,64,8s56,25.125,56,56S94.875,120,64,120z" fill="#B0BEC5"/></g></g><g><g><path d="M96,56H72V32c0-4.414-3.586-8-8-8s-8,3.586-8,8v24H32c-4.414,0-8,3.586-8,8s3.586,8,8,8h24v24    c0,4.414,3.586,8,8,8s8-3.586,8-8V72h24c4.414,0,8-3.586,8-8S100.414,56,96,56z" fill="#8BC34A"/></g></g></svg>
+                    <i class="add-button clickable" (click)="toggleForm()" [style.transform]="toggle ? 'rotate(45deg)' : 'initial'" fa [name]="'plus'" [size]="3"></i>
                     
                     <form *ngIf="toggle" (ngSubmit)="addEvent()" #eventForm="ngForm" id="eventForm">
                         <fieldset class="form-group">
@@ -61,17 +71,17 @@
                         <fieldset>
                             <label for="eventDesc"><h3>Description</h3></label>
                             <textarea rows="3" class="form-control" id="eventDesc" placeholder="Description"
-                            [(ngModel)]="eventModel.Desc" name="eventDesc" #eventDesc="ngModel"></textarea>
+                            [(ngModel)]="eventModel.desc" name="eventDesc" #eventDesc="ngModel"></textarea>
                         </fieldset>
                         <fieldset>
                             <div class="input-group">
                                 <h3>From</h3>
                                 <input type="text" class="form-control" id="eventFromYear" placeholder="4-digit year" required
                                 [(ngModel)]="eventModel['start-year']" name="eventFromYear" #eventFromYear="ngModel">
-                                <select class="c-select" #eventFromMonth="ngModel" type="eventFromMonth" id="eventFromMonth" [(ngModel)]="eventModel['start-month']" name ="eventFromMonth" required>
+                                <select class="c-select" #eventFromMonth="ngModel" type="eventFromMonth" id="eventFromMonth" [(ngModel)]="eventModel['start-month']" name="eventFromMonth" required>
                                     <option *ngFor="let month of monthList" [value]="month.value">{{month.string}}</option>
                                 </select>
-                                <select class="c-select" #eventFromDate="ngModel" type="eventFromDate" id="eventFromDate" [(ngModel)]="eventModel['start-day']" name ="eventFromDate" required>
+                                <select class="c-select" #eventFromDate="ngModel" type="eventFromDate" id="eventFromDate" [(ngModel)]="eventModel['start-day']" name="eventFromDate" required>
                                     <option *ngFor="let d of dateList" [value]="d">{{d}}</option>
                                 </select>
                             </div>
@@ -79,10 +89,10 @@
                                 <h3>To</h3>
                                 <input type="text" class="form-control" id="eventToYear" placeholder="4-digit year" required
                                 [(ngModel)]="eventModel['end-year']" name="eventToYear" #eventToYear="ngModel">
-                                <select class="c-select" #eventToMonth="ngModel" type="eventToMonth" id="eventToMonth" [(ngModel)]="eventModel['end-month']" name ="eventToMonth" required>
+                                <select class="c-select" #eventToMonth="ngModel" type="eventToMonth" id="eventToMonth" [(ngModel)]="eventModel['end-month']" name="eventToMonth" required>
                                     <option *ngFor="let month of monthList" [value]="month.value">{{month.string}}</option>
                                 </select>
-                                <select class="c-select" #eventToDate="ngModel" type="eventToDate" id="eventToDate" [(ngModel)]="eventModel['end-day']" name ="eventToDate" required>
+                                <select class="c-select" #eventToDate="ngModel" type="eventToDate" id="eventToDate" [(ngModel)]="eventModel['end-day']" name="eventToDate" required>
                                     <option *ngFor="let d of dateList" [value]="d">{{d}}</option>
                                 </select>
                             </div>

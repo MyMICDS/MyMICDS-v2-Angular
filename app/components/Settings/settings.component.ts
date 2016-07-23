@@ -65,7 +65,7 @@ export class SettingsComponent{
         user: '',
         firstName: '',
         lastName: '',
-        gradYear: 0,
+        gradYear: undefined,
         canvasURL: '',
         portalURL: '',
     }
@@ -83,7 +83,7 @@ export class SettingsComponent{
             error => {
                 console.log(error)
             }
-        ) //add maunal input if graderange cannot be gotten
+        ) //add maunal input if graderange cannot be got
 
     }
 
