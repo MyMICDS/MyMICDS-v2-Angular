@@ -1,64 +1,84 @@
-import {Injectable, Inject} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import * as config from '../common/config';
+
+import {Injectable} from '@angular/core';
+import {AuthHttp} from 'angular2-jwt';
+import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
-import {UserService} from './user.service';
 
 @Injectable()
 export class ClassesService {
-    constructor (private http: Http) {}
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || { };
-    }
-    private handleError (error: any) {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : error;
-        console.error(errMsg); // log to console instead
-        return Observable.throw(errMsg);
-    }
+    constructor (private authHttp: AuthHttp) {}
 
-    private Url = 'http://localhost:1420/classes';
+    public getClasses() {
+		let body = JSON.stringify({});
+		let headers = xhrHeaders();
+        let options = { headers };
 
-    public getClasses():Observable<{error:any, classes:any[]}> {
-        let body = null;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        return this.authHttp.post(config.backendURL + '/classes/get', body, options)
+			.map(res => {
+				let data = res.json();
 
-        return this.http.post(this.Url+'/get', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return data.classes;
+			})
+			.catch(handleError);
     }
 
-    public addClass(info: {
-        id: string,
-        name: string,
-        color: string,
-        block: string,
-        type: string,
-        teacher: {
-            prefix: string,
-            firstName: string,
-            lastName: string
-        },
-    }):Observable<{error:any, id: string}> {
-        let body = JSON.stringify(info);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+    addClass(scheduleClass:Class) {
+		let body = JSON.stringify(scheduleClass);
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.Url+'/add', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.authHttp.post(config.backendURL + '/planner/add', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return data.id;
+			})
+			.catch(handleError);
     }
 
-    deleteClass(id: string):Observable<{error:any}> {
-        let body = JSON.stringify(id);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+    deleteClass(id:string) {
+		let body = JSON.stringify({ id });
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.Url+'/delete', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.authHttp.post(config.backendURL + '/planner/delete', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
     }
+}
+
+interface Class {
+	id?:string;
+	name:string;
+	color?:string;
+	block?:string;
+	type?:string;
+	teacher:Teacher;
+}
+
+interface Teacher {
+	prefix:string;
+	firstName:string;
+	lastName:string;
 }
