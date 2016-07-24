@@ -15,9 +15,9 @@ export class RegisterComponent{
     constructor(private authService: AuthService, private userService: UserService) {}
 
     ngOnInit() {
-        this.userService.getGradeRange().subscribe(
+        this.userService.gradeRange().subscribe(
             gradeRange => {
-                this.gradeRange = gradeRange.gradYears;
+                this.gradeRange = gradeRange;
                 console.log(gradeRange)
             },
             error => {

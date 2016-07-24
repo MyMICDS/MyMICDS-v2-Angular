@@ -57,7 +57,7 @@ export class PlannerComponent {
         this.classesService.getClasses().subscribe(
             classesInfo => {
                 if (classesInfo.error) {
-                    this.plannerMsg = 'To use the planner feature, you have to login first.'
+                    this.plannerMsg = classesInfo.error;
                 } else {
                     this.classesList = classesInfo.classes;
                     console.dir(classesInfo)

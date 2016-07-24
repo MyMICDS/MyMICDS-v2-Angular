@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 
 @Component ({
-    selector: 'app-content',
+    selector: 'settings',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
     providers: [],
@@ -15,17 +15,17 @@ import '../../common/rxjs-operators'
 })
 
 export class SettingsComponent{
-    valueChanged():boolean {
-        let localUser = JSON.parse(localStorage.getItem('user-info'));
-        if (!localUser) {
-            console.error('cannot find local user information!')
+    constructor (private portalService: PortalService, private canvasService: CanvasService, private userService: UserService) {}
+
+    valueChanged():boolean { 
+        if (!this.userCopy) {
             return false
         } else {
-            if (localUser['firstName'] === this.user.firstName &&
-                localUser['lastName'] === this.user.lastName &&
-                localUser['gradYear'] === this.user.gradYear &&
-                localUser.canvasURL === this.user.canvasURL &&
-                localUser.portalURL === this.user.portalURL) {return false}
+            if (this.userCopy['firstName'] === this.user.firstName &&
+                this.userCopy['lastName'] === this.user.lastName &&
+                this.userCopy['gradYear'] === this.user.gradYear &&
+                this.userCopy.canvasURL === this.user.canvasURL &&
+                this.userCopy.portalURL === this.user.portalURL) {return false}
         }
         return true
     }
@@ -41,22 +41,20 @@ export class SettingsComponent{
         return o
     }
 
-    constructor (private portalService: PortalService, private canvasService: CanvasService, private userService: UserService) {}
-
     getUserInfo() {
         this.userService.getInfo().subscribe(
             userInfo => {
                 if (userInfo.error||userInfo==null) {
-                    this.errMsg = userInfo.error + ' (this is not a connection problem)';
+                    console.log(userInfo)
+                    this.errMsg = userInfo.error
                 }
-                else {;
-                    localStorage.setItem('user-info', JSON.stringify(userInfo.user));
-                    console.dir(userInfo);
-                    this.user = userInfo.user;
+                else {
+                    this.userCopy = userInfo;
+                    this.user = userInfo;
                 }
             },
             error => {
-                this.errMsg = 'Connection Error: ' + error;
+                this.errMsg = error;
             }
         );
     }
@@ -69,19 +67,29 @@ export class SettingsComponent{
         canvasURL: '',
         portalURL: '',
     }
+
+    userCopy = {
+        user: '',
+        firstName: '',
+        lastName: '',
+        gradYear: undefined,
+        canvasURL: '',
+        portalURL: '',
+    }
+
     gradeRange = []
 
     errMsg: string;
 
     ngOnInit() {
-        this.user = JSON.parse(localStorage.getItem('user-info')) || this.user
+        this.getUserInfo();
         console.dir(this.user)
-        this.userService.getGradeRange().subscribe(
+        this.userService.gradeRange().subscribe(
             gradeRange => {
-                this.gradeRange = gradeRange.gradYears;
+                this.gradeRange = gradeRange;
             },
             error => {
-                console.log(error)
+                console.error(error)
             }
         ) //add maunal input if graderange cannot be got
 
@@ -103,7 +111,7 @@ export class SettingsComponent{
         );
     }
 
-
+//Url settings
     public URLerrMsg:string = null;
     private testingC:boolean = false;
     public validC:boolean = true;

@@ -15,7 +15,7 @@ export class UserService {
 
 	// Gets username of current session. Use this to check if a user is logged in and JWT is valid. Returns null if no username.
 	jwtHelper = new JwtHelper();
-	getUsername() {
+	getUsername(): string {
 		// Get JWT
 		let token = sessionStorage['id_token'] || localStorage['id_token'];
 		// If not JWT, then user isn't logged in

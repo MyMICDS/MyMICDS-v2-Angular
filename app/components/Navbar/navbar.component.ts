@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES, Router, NavigationStart} from '@angular/router';
 
-import {LocalStorageService} from '../../services/localStorage.service'
+import {AuthService} from '../../services/auth.service' //import auth service to listen for the login event
+import {UserService} from '../../services/user.service' //import user service to get username
 import {Title} from '@angular/platform-browser'
 
 @Component({
@@ -11,23 +12,26 @@ import {Title} from '@angular/platform-browser'
 	directives: [ROUTER_DIRECTIVES],
 })
 export class NavbarComponent {
-	constructor (private localStorage: LocalStorageService, private titleService: Title, private router: Router) {
-		this.userName = this.localStorage.getItem('user');
-		this.localStorage.setItem$.subscribe(item => {
-			if (item.index === 'user') {this.userName = item.value;}
-		});
-		this.localStorage.removeItem$.subscribe(item => {
-			this.userName = undefined;
-		})
+	constructor (private authService: AuthService, private userService: UserService, private titleService: Title, private router: Router) {
+		this.authService.loginEvent$.subscribe( //listens to the login event and set the username
+			state => {
+				if (state) {
+					this.userName = this.userService.getUsername();
+				} else {
+					this.userName = undefined
+				}
+			}
+		)
 	}
 
-	CFL(str:string) {
+	CFL(str:string) {//capitalize first letter
 		return str.charAt(0).toUpperCase() + str.slice(1);
 	}
 
 	ngOnInit() {
-		this.titleService.setTitle('MyMICDS-Home');
-		this.router.events.subscribe(event => {
+		this.userName = this.userService.getUsername();
+		this.titleService.setTitle('MyMICDS-Home'); //default set page title to home
+		this.router.events.subscribe(event => {//listens to page navigation event, and set the corresponding page title
             if(event instanceof NavigationStart) {
                 this.titleService.setTitle('MyMCIDS-'+this.CFL(event.url.substr(1)));
             }

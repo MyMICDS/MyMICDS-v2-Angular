@@ -7,7 +7,7 @@
         <h1>LOGIN</h1>
         <div class="alert alert-danger" *ngIf="errorMessage"><strong>Error Logging in!</strong> {{errorMessage}} </div>
         <div>
-            <form *ngIf="formActive" (ngSubmit)="onClickLogin()" #loginForm="ngForm" id="login-form">
+            <form (ngSubmit)="onClickLogin()" #loginForm="ngForm" id="login-form">
                 <fieldset class="form-group">
                     <label for="loginUser">Username</label>
                     <input type="text" class="form-control" id="loginUser" placeholder="Enter username" required
