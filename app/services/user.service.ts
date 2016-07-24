@@ -1,4 +1,4 @@
-import * as config from '../common/config.js';
+import * as config from '../common/config';
 
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';

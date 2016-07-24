@@ -30,6 +30,14 @@ export class AuthService {
 					return handleError(data.error);
 				}
 
+				if(!remember) {
+					// Store in session storage. Do not remember outside of the session!
+					sessionStorage['id_token'] = data.jwt
+				} else {
+					// Save in local storage. Remember this outside of the session!
+					localStorage['id_token'] = data.jwt
+				}
+
 				return {
 					success: data.success,
 					jwt: data.jwt
@@ -51,6 +59,11 @@ export class AuthService {
 				if(data.error) {
 					return handleError(data.error);
 				}
+
+				// Delete JWT from the client
+				sessionStorage.removeItem('id_token');
+				localStorage.removeItem('id_token');
+
 				return;
 			})
         	.catch(handleError);
