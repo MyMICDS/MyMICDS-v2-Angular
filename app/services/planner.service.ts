@@ -1,63 +1,81 @@
-import {Injectable, Inject} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import * as config from '../common/config';
+
+import {Injectable} from '@angular/core';
+import {AuthHttp} from 'angular2-jwt';
+import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
 
 @Injectable()
 export class PlannerService {
-    constructor (private http: Http) {}
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || { };
-    }
-    private handleError (error: any) {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : error;
-        console.error(errMsg); // log to console instead
-        return Observable.throw(errMsg);
-    }
+    constructor (private authHttp: AuthHttp) {}
 
-    private Url = 'http://localhost:1420/planner';
+	getEvents(date:Date) {
+		let body = JSON.stringify(date);
+		let headers = xhrHeaders();
+        let options = { headers };
 
-    public getEvents(month: {year:number, month: number}):Observable<{error:any, events:any[]}> {
-        let body = JSON.stringify(month);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        return this.authHttp.post(config.backendURL + '/planner/get', body, options)
+			.map(res => {
+				let data = res.json();
 
-        return this.http.post(this.Url+'/get', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
-    }
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
 
-    public addEvent(info: {
-        id: any,
-        title: string,
-        desc: string,
-        'class-id': string,
-        'start-year': number,
-        'start-month': number,
-        'start-day': number,
-        'end-year': number,
-        'end-month': number,
-        'end-day': number,
-    }):Observable<{error:any, id: string}> {
-        let body = JSON.stringify(info);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+				return data.events;
+			})
+			.catch(handleError);
+	}
 
-        return this.http.post(this.Url+'/add', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+    addEvent(event:Event) {
+		let body = JSON.stringify(event);
+		let headers = xhrHeaders();
+        let options = { headers };
+
+        return this.authHttp.post(config.backendURL + '/planner/add', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return data.id;
+			})
+			.catch(handleError);
     }
 
-    public deleteEvent(id: string):Observable<{error:any}> {
-        let body = JSON.stringify(id);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+    public deleteEvent(id:string) {
+		let body = JSON.stringify({ id });
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.Url+'/delete', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.authHttp.post(config.backendURL + '/planner/delete', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
     }
+}
+
+interface Date {
+	year?:number;
+	month?:number;
+}
+
+interface Event {
+	id?:string;
+	title:string;
+	desc?:string;
+	classId?:string;
 }
