@@ -10,7 +10,7 @@ export class PortalService {
 
     constructor (private authHttp: AuthHttp) {}
 
-	getEvents(date:Date) {
+	getSchedule(date:Date) {
         let body = JSON.stringify(date);
 		let headers = xhrHeaders();
         let options = { headers };
@@ -24,11 +24,7 @@ export class PortalService {
 					return handleError(data.error);
 				}
 
-				return {
-					day    : data.schedule.day,
-					classes: data.schedule.classes,
-					allDay : data.schedule.allDay
-				};
+				return data.schedule;
 			})
 			.catch(handleError);
     }

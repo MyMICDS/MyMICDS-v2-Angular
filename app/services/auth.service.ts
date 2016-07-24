@@ -1,10 +1,9 @@
 import * as config from '../common/config';
 
-import {Injectable, Inject} from '@angular/core';
-import {Http, RequestOptions} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
-import {Observable} from 'rxjs/Observable';
 import '../common/rxjs-operators';
 import {LocalStorage, SessionStorage} from 'h5webstorage';
 
@@ -22,7 +21,7 @@ export class AuthService {
         let headers = xhrHeaders();
         let options = { headers };
 
-        return this.http.post(config.backendURL + '/login', body, options)
+        return this.http.post(config.backendURL + '/auth/login', body, options)
             .map(res => {
 				let data = res.json();
 
@@ -40,11 +39,11 @@ export class AuthService {
     }
 
     logout() {
-        let body = null;
+        let body = JSON.stringify({});
 		let headers = xhrHeaders();
         let options = { headers };
 
-        return this.authHttp.post(config.backendURL + '/logout', body, options)
+        return this.authHttp.post(config.backendURL + '/auth/logout', body, options)
         	.map(res => {
 				let data = res.json();
 
@@ -57,12 +56,12 @@ export class AuthService {
         	.catch(handleError);
     }
 
-    public register(info: UserData) {
+    register(info: UserData) {
         let body = JSON.stringify(info);
 		let headers = xhrHeaders();
         let options = { headers };
 
-        return this.http.post(config.backendURL + '/register', body, options)
+        return this.http.post(config.backendURL + '/auth/register', body, options)
             .map(res => {
 				let data = res.json();
 
@@ -74,6 +73,24 @@ export class AuthService {
 			})
             .catch(handleError);
     }
+
+	confirm(user:string, hash:string) {
+		let body = JSON.stringify({ user, hash });
+		let headers = xhrHeaders();
+        let options = { headers };
+
+        return this.http.post(config.backendURL + '/auth/confirm', body, options)
+            .map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+				return;
+			})
+            .catch(handleError);
+	}
 
     public isLoggedIn() {
     	return (this.sessionStorage['id_token'] || this.localStorage['id_token']);
