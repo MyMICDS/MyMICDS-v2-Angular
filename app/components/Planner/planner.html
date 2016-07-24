@@ -1,5 +1,6 @@
 <div class="container">
     <div id="my-fadeout" class="calendar-container ">
+        <div *ngIf="plannerMsg" class="alert alert-warning"> {{plannerMsg}} </div>
         <div class="blur calendar-left col-lg-8">
             <div class="calendar-nav">
                 <i (click)="onSelectMonth(selectedDate.month-1)" class="calendar-nav-arrow clickable" fa [name]="'angle-double-left'" [size]="'3'" [pull]="'left'"></i>

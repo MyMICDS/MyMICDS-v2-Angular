@@ -11,7 +11,7 @@ import {UserService} from '../../services/user.service';
 	templateUrl: 'app/components/Login/login.html',
     styleUrls: ['dist/app/components/Login/login.css'],
     directives: [NgIf],
-    providers: []
+    //providers: []
 })
 
 

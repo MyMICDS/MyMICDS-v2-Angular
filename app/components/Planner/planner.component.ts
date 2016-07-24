@@ -26,6 +26,7 @@ export class PlannerComponent {
     public monthList = [];
     public dateList = [];
     public isAdding = true;
+    public plannerMsg: string;
 
     public initialize() {
         console.info('refreshing the planner...')
@@ -56,7 +57,7 @@ export class PlannerComponent {
         this.classesService.getClasses().subscribe(
             classesInfo => {
                 if (classesInfo.error) {
-                    console.log(classesInfo.error)
+                    this.plannerMsg = 'To use the planner feature, you have to login first.'
                 } else {
                     this.classesList = classesInfo.classes;
                     console.dir(classesInfo)
