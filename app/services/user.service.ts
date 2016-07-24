@@ -1,78 +1,129 @@
-import {Injectable, Inject} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import * as config from '../common/config.js';
+
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
+import {AuthHttp} from 'angular2-jwt';
+import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
 
 @Injectable()
 export class UserService {
-    constructor (private http: Http) {}
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || { };
-    }
-    private handleError (error: any) {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : error;
-        console.error(errMsg); // log to console instead
-        return Observable.throw(errMsg);
-    }
+    constructor (private http: Http, private authHttp: AuthHttp) {}
 
-    private userUrl = 'http://localhost:1420/user'
+    getInfo() {
+		let body = JSON.stringify({});
+		let headers = xhrHeaders();
+        let options = { headers };
 
-    public getInfo():Observable<{
-        error:any,
-        user:{
-            canvasURL:string
-            firstName:string;
-            gradYear:number;
-            grade:number;
-            lastName:string;
-            password:string;
-            portalURL:string;
-            user:string;
-        }
-    }> {
-        let body = null;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+        return this.authHttp.post(config.backendURL + '/user/get-info', body, options)
+			.map(res => {
+				let data = res.json();
 
-        return this.http.post(this.userUrl+'/get-info', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return data.user;
+			})
+			.catch(handleError);
     }
 
-    public getGradeRange():Observable<{gradYears:number[]}> {
-        let body = null;
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+	gradeRange() {
+		let body = JSON.stringify({});
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.userUrl+'/grade-range', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.http.post(config.backendURL + '/user/grade-range', body, options)
+			.map(res => {
+				let data = res.json();
+				return data.gradYears;
+			})
+			.catch(handleError);
     }
 
-    public changeInfo(user: {
-        'first-name': string;
-        'last-name': string;
-        'grad-year': string;
-    }):Observable<{error:any}> {
-        let body = JSON.stringify(user);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+    changeInfo(info:UserInfo) {
+		let body = JSON.stringify(info);
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.userUrl+'/change-info', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.authHttp.post(config.backendURL + '/user/change-info', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
     }
 
-    public forgotPassword(user: {user: string}):Observable<any> {
-        let body = JSON.stringify(user);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+	changePassword(oldPassword:string, newPassword:string) {
+		let body = JSON.stringify({ oldPassword, newPassword });
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.userUrl+'/forgot-password', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
-    }
+        return this.authHttp.post(config.backendURL + '/user/change-password', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
+
+	forgotPassword(user:string) {
+		let body = JSON.stringify({ user });
+		let headers = xhrHeaders();
+        let options = { headers };
+
+        return this.http.post(config.backendURL + '/user/forgot-password', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
+
+	resetPassword(user:string, password:string, hash:string) {
+		let body = JSON.stringify({ user });
+		let headers = xhrHeaders();
+        let options = { headers };
+
+        return this.http.post(config.backendURL + '/user/reset-password', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
+
+}
+
+interface UserInfo {
+	firstName?:string;
+	lastName?:string;
+	gradYear?:string;
+	teacher?:any;
 }
