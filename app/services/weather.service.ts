@@ -2,6 +2,7 @@ import * as config from '../common/config';
 
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
+import {handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class WeatherService {
 
 	getWeather() {
 		return this.http.get(config.backendURL + '/json/weather.json')
-						.map(res => res.json());
+			.map(res => res.json())
+			.catch(handleError);
 	}
 }

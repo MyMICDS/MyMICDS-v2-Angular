@@ -1,32 +1,37 @@
-import {Injectable, Inject} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import * as config from '../common/config';
+
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
+import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
 
 @Injectable()
-export class LunchService {
-    constructor (private http: Http) {}
+export class WeatherService {
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || { };
-    }
-    private handleError (error: any) {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : error;
-        console.error(errMsg); // log to console instead
-        return Observable.throw(errMsg);
-    }
+	constructor(private http: Http) {}
 
-    private Url = 'http://localhost:1420/lunch';
+	getLunch(date:Date) {
+		let body = JSON.stringify(date);
+		let headers = xhrHeaders();
+		let options = { headers };
 
-    public getLunch(date: {year: number, month: number, day: number}): Observable<any> {
-        let body = JSON.stringify(date);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+		return this.http.post(config.backendURL + '/lunch/get', body, options)
+			.map(res => {
+				let data = res.json();
 
-        return this.http.post(this.Url+'/get', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
-    }
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return data.lunch;
+			})
+			.catch(handleError);
+	}
+}
+
+interface Date {
+	year?:number;
+	month?:number;
+	day?:number;
 }
