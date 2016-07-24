@@ -1,56 +1,82 @@
-import {Injectable, Inject} from '@angular/core';
-import {Headers, Http, RequestOptions, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import * as config from '../common/config.js';
+
+import {Injectable} from '@angular/core';
+import {AuthHttp} from 'angular2-jwt';
+import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
-import {UserService} from './user.service';
 
 @Injectable()
 export class CanvasService {
-    constructor (private http: Http) {}
+    constructor (private authHttp: AuthHttp) {}
 
-    private extractData(res: Response) {
-        let body = res.json();
-        return body || { };
-    }
-    private handleError (error: any) {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : error;
-        console.error(errMsg); // log to console instead
-        return Observable.throw(errMsg);
-    }
-
-    private Url = 'http://localhost:1420/canvas'
-    public getEvents(date:{year:number;month:number}):
-    Observable<{
-        error: string;
-        hasURL: boolean;
-        events: any[]}> {
+    getEvents(date:Date) {
         let body = JSON.stringify(date);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.Url+'/get-events', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.authHttp.post(config.backendURL + '/canvas/get-events', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return {
+					hasURL: data.hasURL,
+					events: data.events
+				};
+			})
+			.catch(handleError);
     }
 
-    public setUrl(url:string):Observable<{error:string;valid:any;url:string}> {
-        let body = JSON.stringify({url:url});
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+    testUrl(url:string) {
+        let body = JSON.stringify({ url });
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.Url+'/set-url', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.authHttp.post(config.backendURL + '/canvas/test-url', body, options)
+            .map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return {
+					valid: data.valid,
+					url  : data.url
+				};
+			})
+            .catch(handleError);
     }
 
-    public testUrl(url:string):Observable<{error:string;valid:any;url:string}> {
-        let body = JSON.stringify({url:url});
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions({ headers: headers });
+	setUrl(url:string) {
+        let body = JSON.stringify({ url });
+		let headers = xhrHeaders();
+        let options = { headers };
 
-        return this.http.post(this.Url+'/test-url', body, options)
-                        .map(this.extractData)
-                        .catch(this.handleError);
+        return this.authHttp.post(config.backendURL + '/canvas/set-url', body, options)
+            .map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					return handleError(data.error);
+				}
+
+				return {
+					valid: data.valid,
+					url  : data.url
+				};
+			})
+            .catch(handleError);
     }
+}
+
+interface Date {
+	year?:number;
+	month?:number;
 }
