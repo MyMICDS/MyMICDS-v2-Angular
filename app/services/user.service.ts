@@ -2,14 +2,32 @@ import * as config from '../common/config';
 
 import {Injectable} from '@angular/core';
 import {Http} from '@angular/http';
-import {AuthHttp} from 'angular2-jwt';
+import {AuthHttp, JwtHelper} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
 
 @Injectable()
 export class UserService {
 
-    constructor (private http: Http, private authHttp: AuthHttp) {}
+    constructor(private http: Http, private authHttp: AuthHttp) {
+		this.getUsername();
+	}
+
+	// Gets username of current session. Use this to check if a user is logged in and JWT is valid. Returns null if no username.
+	jwtHelper = new JwtHelper();
+	getUsername() {
+		// Get JWT
+		let token = sessionStorage['id_token'] || localStorage['id_token'];
+		// If not JWT, then user isn't logged in
+		if(!token) return null;
+		// Check if token is expired
+		if(this.jwtHelper.isTokenExpired(token)) return null;
+
+		// Decode token so we can get username
+		let payload  = this.jwtHelper.decodeToken(token);
+		let username = payload.user;
+		return username;
+	}
 
     getInfo() {
 		let body = JSON.stringify({});
