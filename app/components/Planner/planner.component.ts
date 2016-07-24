@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {PlannerService} from '../../services/planner.service';
 import {ClassesService} from '../../services/classes.service'
 import {NgFor, NgIf, NgClass, NgStyle, NgForm} from '@angular/common';
+import { FaDirective } from 'angular2-fontawesome/directives';
 
 @Component({
     selector: 'planner',
@@ -195,8 +196,8 @@ export class PlannerComponent {
     }
 
     public selectDay(events) {
-        this.selectedEvents = events;
-        this.toggle = false;
+        this.selectedEvents = events; 
+        this.toggle = false; 
         this.isAdding = true;
         if (events[0]) {
             this.eventModel['start-day'] = events[0].date;
