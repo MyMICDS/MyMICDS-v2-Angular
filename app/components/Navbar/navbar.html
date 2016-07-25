@@ -6,14 +6,15 @@
 		<a class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']">Lunch</a>
 		<a class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']">Planner</a>
 		<a class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']">Daily Bulletin</a>
-		<a class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']">Settings</a>
+		<a *ngIf="userService.getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']">Settings</a>
+		<a class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']">About</a>
 	</div>
-	<div *ngIf="!userName" class="navbar-right">
+	<div *ngIf="!userService.getUsername()" class="navbar-right">
 		<button class="btn btn-success" [routerLink]="['/login']">Login</button>
 		<button class="btn btn-primary" [routerLink]="['/register']">Register</button>
 	</div>
-	<div *ngIf="userName" class="navbar-right">
-		<p class="logged-in-user text-muted">Logged in as {{userName}}</p>
+	<div *ngIf="userService.getUsername()" class="navbar-right">
+		<p class="logged-in-user text-muted">Logged in as {{userService.getUsername()}}</p>
 		<button class="btn btn-danger" [routerLink]="['/login', {logout:true}]">Logout</button>
 	</div>
 </nav>

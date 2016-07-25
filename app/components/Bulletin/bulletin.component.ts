@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {BulletinService} from '../../services/bulletin.service'
+import {BulletinService} from '../../services/bulletin.service';
 
 @Component({
 	selector: 'daily-bulletin',

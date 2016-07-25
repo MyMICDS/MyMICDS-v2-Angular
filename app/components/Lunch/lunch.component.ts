@@ -7,7 +7,7 @@ import {NgIf, DatePipe, NgFor, NgClass} from '@angular/common'
 	templateUrl: 'app/components/Lunch/lunch.html',
 	styleUrls: ['dist/app/components/Lunch/lunch.css'],
 	providers: [LunchService],
-	directives: [NgIf, NgFor, NgClass] 
+	directives: [NgIf, NgFor, NgClass]
 })
 export class LunchComponent {
 	constructor(private lunchService: LunchService) {}
@@ -45,12 +45,12 @@ export class LunchComponent {
 	//check if date is today
 	isToday(date:Date): boolean {
 		let today = new Date()
-		return date.getDate() == today.getDate() && date.getMonth() == today.getMonth() && date.getFullYear() == date.getFullYear(); 
+		return date.getDate() == today.getDate() && date.getMonth() == today.getMonth() && date.getFullYear() == date.getFullYear();
 	}
 	//check if date is a weekend
 	isWeekend(date:Date): boolean {
 		return date.getDay() == 0 || date.getDay() == 6
-	} 
+	}
 
 	ngOnInit() {
 		let d = new Date()

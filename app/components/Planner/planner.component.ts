@@ -13,7 +13,6 @@ import { FaDirective } from 'angular2-fontawesome/directives';
 })
 
 export class PlannerComponent {
-
     constructor(private plannerService: PlannerService, private classesService: ClassesService) {}
 
     public eventsList: Array<Array<any>> = [];
@@ -196,8 +195,8 @@ export class PlannerComponent {
     }
 
     public selectDay(events) {
-        this.selectedEvents = events; 
-        this.toggle = false; 
+        this.selectedEvents = events;
+        this.toggle = false;
         this.isAdding = true;
         if (events[0]) {
             this.eventModel['start-day'] = events[0].date;

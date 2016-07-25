@@ -10,8 +10,7 @@ import {UserService} from '../../services/user.service';
 	selector: 'login',
 	templateUrl: 'app/components/Login/login.html',
     styleUrls: ['dist/app/components/Login/login.css'],
-    directives: [NgIf],
-    //providers: []
+    directives: [NgIf]
 })
 
 
@@ -19,7 +18,7 @@ export class LoginComponent {
     constructor(private router:Router, private authService: AuthService, private userService: UserService, private localStorage: LocalStorage, private sessionStorage: SessionStorage, private route: ActivatedRoute) {
         this.route.params.subscribe(
             params => {
-                if (params['logout']) {
+                if(params['logout']) {
                     this.onClickLogout();
                 }
             }
@@ -35,7 +34,7 @@ export class LoginComponent {
     public loginModel = {
         user: '',
         password: '',
-        remember: '',
+        remember: true,
     }
     public isLoggedIn: boolean;
     public errorMessage:string;

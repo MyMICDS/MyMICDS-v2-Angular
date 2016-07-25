@@ -1,5 +1,6 @@
 .navbar {
 	display: flex;
+	align-items: center;
 
 	img.navbar-brand {
 		height: 2rem;
@@ -8,6 +9,12 @@
 
 	.navbar-right {
 		margin-left: auto;
+		display: flex;
+		align-items: center;
+
+		*:first-child {
+			margin-right: 0.25rem;
+		}
 
 		.logged-in-user {
 			display: inline;
