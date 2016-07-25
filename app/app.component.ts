@@ -9,6 +9,7 @@ import {NavbarComponent} from './components/Navbar/navbar.component';
 import {PlannerComponent} from './components/Planner/planner.component';
 import {RegisterComponent} from './components/Register/register.component';
 import {SettingsComponent} from './components/Settings/settings.component';
+import {BulletinComponent} from './components/Bulletin/bulletin.component'
 
 import {AuthService} from './services/auth.service';
 import {CanvasService} from './services/canvas.service';
@@ -25,6 +26,6 @@ import {UserService} from './services/user.service';
 	`,
 	providers: [HTTP_PROVIDERS, AuthService, CanvasService, LocalStorageService, PortalService, UserService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES],
-	precompile: [HomeComponent, LoginComponent, LunchComponent, NavbarComponent, PlannerComponent, RegisterComponent, SettingsComponent]
+	precompile: [HomeComponent, LoginComponent, LunchComponent, NavbarComponent, PlannerComponent, RegisterComponent, SettingsComponent, BulletinComponent]
 })
 export class AppComponent {}

@@ -6,6 +6,7 @@ import {LunchComponent} from './components/Lunch/lunch.component';
 import {PlannerComponent} from './components/Planner/planner.component';
 import {RegisterComponent} from './components/Register/register.component';
 import {SettingsComponent} from './components/Settings/settings.component';
+import {BulletinComponent} from './components/Bulletin/bulletin.component'
 
 import {AuthGuard} from './common/auth.guard';
 import {CanDeactivateGuard} from './common/canDeactivate.guard';
@@ -41,6 +42,10 @@ const routes: RouterConfig = [
 	{
 		path: 'register',
 		component: RegisterComponent
+	},
+	{
+		path: 'bulletin',
+		component: BulletinComponent
 	}
 ];
 
