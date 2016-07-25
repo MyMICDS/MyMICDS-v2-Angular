@@ -59,13 +59,13 @@ export class LunchComponent {
 		this.generateDates();
 	}
 //user action methods
-	loadBuffer = false;
+	loadBuffer = false;//the request for lunch content will only trigger once every 500ms
 	previousDay() {
 		this.currentDate.day--;
 		if (!this.loadBuffer) {
 			this.getLunch();
 			this.loadBuffer = true;
-			setTimeout(() => this.loadBuffer = false, 700)
+			setTimeout(() => this.loadBuffer = false, 500)
 		};
 		this.generateDates();
 	}
@@ -75,7 +75,7 @@ export class LunchComponent {
 		if (!this.loadBuffer) {
 			this.getLunch();
 			this.loadBuffer = true;
-			setTimeout(() => this.loadBuffer = false, 700)
+			setTimeout(() => this.loadBuffer = false, 500)
 		};
 		this.generateDates();
 	}
@@ -86,7 +86,11 @@ export class LunchComponent {
 			month: date.getMonth(),
 			day: date.getDate()
 		}
-		this.getLunch();
+		if (!this.loadBuffer) {
+			this.getLunch();
+			this.loadBuffer = true;
+			setTimeout(() => this.loadBuffer = false, 300)
+		};
 		this.generateDates();
 	}
 
