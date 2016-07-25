@@ -61,7 +61,7 @@ export class LunchComponent {
 //user action methods
 	loadBuffer = false;//the request for lunch content will only trigger once every 500ms
 	previousDay() {
-		this.currentDate.day--;
+		this.currentDate.day = this.currentDate.day - 7;
 		if (!this.loadBuffer) {
 			this.getLunch();
 			this.loadBuffer = true;
@@ -71,7 +71,7 @@ export class LunchComponent {
 	}
 
 	nextDay() {
-		this.currentDate.day++;
+		this.currentDate.day = this.currentDate.day + 7;
 		if (!this.loadBuffer) {
 			this.getLunch();
 			this.loadBuffer = true;

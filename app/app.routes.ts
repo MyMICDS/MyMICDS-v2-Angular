@@ -4,6 +4,7 @@ import {HomeComponent} from './components/Home/home.component';
 import {LunchComponent} from './components/Lunch/lunch.component';
 import {PlannerComponent} from './components/Planner/planner.component';
 import {BulletinComponent} from './components/Bulletin/bulletin.component';
+import {BulletinArchivesComponent} from './components/BulletinArchives/bulletin-archives.component';
 import {SettingsComponent} from './components/Settings/settings.component';
 import {AboutComponent} from './components/About/about.component';
 import {LoginComponent} from './components/Login/login.component';
@@ -33,6 +34,10 @@ const routes: RouterConfig = [
 	{
 		path: 'daily-bulletin',
 		component: BulletinComponent
+	},
+	{
+		path: 'bulletin-archives',
+		component: BulletinArchivesComponent
 	},
 	{
 		path: 'settings',

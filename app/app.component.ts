@@ -2,14 +2,16 @@ import {Component} from '@angular/core';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 
-import {HomeComponent} from './components/Home/home.component';
-import {LoginComponent} from './components/Login/login.component';
-import {LunchComponent} from './components/Lunch/lunch.component';
 import {NavbarComponent} from './components/Navbar/navbar.component';
+import {HomeComponent} from './components/Home/home.component';
+import {LunchComponent} from './components/Lunch/lunch.component';
 import {PlannerComponent} from './components/Planner/planner.component';
-import {RegisterComponent} from './components/Register/register.component';
+import {BulletinComponent} from './components/Bulletin/bulletin.component';
+import {BulletinArchivesComponent} from './components/BulletinArchives/bulletin-archives.component';
 import {SettingsComponent} from './components/Settings/settings.component';
-import {BulletinComponent} from './components/Bulletin/bulletin.component'
+import {AboutComponent} from './components/About/about.component';
+import {LoginComponent} from './components/Login/login.component';
+import {RegisterComponent} from './components/Register/register.component';
 
 import {AuthService} from './services/auth.service';
 import {CanvasService} from './services/canvas.service';
@@ -26,6 +28,11 @@ import {UserService} from './services/user.service';
 	`,
 	providers: [HTTP_PROVIDERS, AuthService, CanvasService, LocalStorageService, PortalService, UserService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES],
-	precompile: [HomeComponent, LoginComponent, LunchComponent, NavbarComponent, PlannerComponent, RegisterComponent, SettingsComponent, BulletinComponent]
+	precompile: [
+				NavbarComponent, HomeComponent, LunchComponent,
+				PlannerComponent, BulletinComponent, BulletinArchivesComponent,
+				SettingsComponent, AboutComponent, LoginComponent,
+				RegisterComponent
+			]
 })
 export class AppComponent {}

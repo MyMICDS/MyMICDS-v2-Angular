@@ -10,7 +10,7 @@ export class BulletinService {
 
     constructor(private http: Http) {}
 
-    getBulletin() {
+    listBulletins() {
         let body = JSON.stringify({});
         let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
@@ -24,7 +24,10 @@ export class BulletinService {
 					throw new Error(data.error);
 				}
 
-                return data.bulletins;
+                return {
+					baseURL: data.baseURL,
+					bulletins: data.bulletins
+				};
             })
 			.catch(handleError);
     }
