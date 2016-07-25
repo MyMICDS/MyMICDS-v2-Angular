@@ -44,14 +44,10 @@ export class SettingsComponent{
     getUserInfo() {
         this.userService.getInfo().subscribe(
             userInfo => {
-                if (userInfo.error||userInfo==null) {
-                    console.log(userInfo)
-                    this.errMsg = userInfo.error
-                }
-                else {
-                    this.userCopy = userInfo;
-                    this.user = userInfo;
-                }
+                console.log(userInfo)
+                this.userCopy = userInfo;
+                this.user = userInfo;
+                this.userIsTeacher = userInfo.grade ? true : false;
             },
             error => {
                 this.errMsg = error;
@@ -77,6 +73,8 @@ export class SettingsComponent{
         portalURL: '',
     }
 
+    userIsTeacher: boolean; //this seems redundant but this is the variable that the ngModel of the check box directly binded to, and the getUserInfo response doesnt naturally return an isTeacher value
+
     gradeRange = []
 
     errMsg: string;
@@ -97,13 +95,14 @@ export class SettingsComponent{
 
     onSubmitName() {
         let postUser = {
-            'first-name': this.user.firstName,
-            'last-name': this.user.lastName,
-            'grad-year': this.user.gradYear.toString()
+            firstName: this.user.firstName,
+            lastName: this.user.lastName,
+            gradYear: this.user.gradYear.toString(),
+            teacher: this.userIsTeacher
         }
         console.dir(postUser);
         this.userService.changeInfo(postUser).subscribe(
-            res => {res.error? this.errMsg = res.error : console.log('changed submitted')},
+            res => console.log('changed submitted'),
             error => this.errMsg = error,
             () => {
                 this.getUserInfo()
@@ -121,12 +120,8 @@ export class SettingsComponent{
             this.testingC = true
             this.canvasService.testUrl($event.trim()).subscribe(
                 res => {
-                    if (res.error) {
-                        this.URLerrMsg = 'There was a problem testing your url.'
-                    } else {
-                        this.URLerrMsg = null;
-                        res.valid == true ? this.validC = true : this.validC = false;
-                    }
+                    this.URLerrMsg = null;
+                    res.valid == true ? this.validC = true : this.validC = false;
                 },
                 error => {this.URLerrMsg = error}
             )
@@ -147,12 +142,8 @@ export class SettingsComponent{
             this.testingP = true
             this.portalService.testUrl($event.trim()).subscribe(
                 res => {
-                    if (res.error) {
-                        this.URLerrMsg = 'There was a problem testing your url.'
-                    } else {
-                        this.URLerrMsg = null;
-                        res.valid == true ? this.validC = true : this.validC = false;
-                    }
+                    this.URLerrMsg = null;
+                    res.valid == true ? this.validC = true : this.validC = false;
                 },
                 error => {this.URLerrMsg = error}
             )
@@ -169,8 +160,7 @@ export class SettingsComponent{
         console.info('you have submitted',this.user.canvasURL, this.user.portalURL);
         this.canvasService.setUrl(this.user.canvasURL).subscribe(
             res => {
-                if (res.error) {this.URLerrMsg = res.error}
-                else {if (res.valid != true){this.URLerrMsg = res.valid} }
+                if (res.valid != true){this.URLerrMsg = res.valid} 
             },
             error => {
                 this.URLerrMsg = error
@@ -181,8 +171,7 @@ export class SettingsComponent{
         );
         this.portalService.setUrl(this.user.canvasURL).subscribe(
             res => {
-                if (res.error) {this.URLerrMsg = res.error}
-                else {if (res.valid != true){this.URLerrMsg = res.valid} }
+                if (res.valid != true){this.URLerrMsg = res.valid} 
             },
             error => {
                 this.URLerrMsg = error
@@ -193,6 +182,7 @@ export class SettingsComponent{
         )
     }
 
+//change password
     oldPass= '';
     newPass= '';
     repNewPass= '';

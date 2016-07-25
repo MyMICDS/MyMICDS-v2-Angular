@@ -33,8 +33,8 @@ export class PlannerComponent {
         let selectedDate = {year: this.selectedDate.year, month: this.selectedDate.month+1}
         this.plannerService.getEvents(selectedDate).subscribe(
             eventsInfo => {
-                if (eventsInfo.events) {
-                    this.eventsList = this.sortEvents(this.pushEvents(eventsInfo.events))
+                if (eventsInfo) {
+                    this.eventsList = this.sortEvents(this.pushEvents(eventsInfo))
                     console.dir(this.eventsList)
                 }
             },

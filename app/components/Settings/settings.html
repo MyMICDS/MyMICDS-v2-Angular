@@ -29,7 +29,7 @@
         </div>
     
         <div class="row">  
-            <fieldset class="form-group col-lg-4">
+            <fieldset class="form-group col-lg-2">
             <label for="gradyear">Year of graduation</label>
             <div class="input-group">
                 <select class="c-select" #gradyear="ngModel" type="gradyear" id="InputGradyear" placeholder="9th grade: 2019" [(ngModel)]="user.gradYear" name ="gradyear" required>
@@ -38,29 +38,42 @@
                 <div [hidden]="gradyear.valid || gradyear.pristine" class="alert alert-danger">Year of graduation is required</div>
             </div>
             </fieldset>
-        </div>
-
-        <button type="submit" class="btn btn-default" [disabled]="!nameForm.form.valid">Update</button>
-    </form>
-    <form #passForm="ngForm" (ngSubmit)="onSubmitPass()">
-        <div class="row">
-            <div class="alert alert-danger">{{passErrMsg}}</div>
-        </div>
-        <div class="row">
-            <fieldset class="form-group col-lg-8">
-                <div class="input-group">
-                    <label for="oldPass">Old password</label>
-                    <input #oldPass="ngModel" type="password" [(ngModel)]="oldPass" name="oldPass" required>
-                    <label for="newPass">New password</label>
-                    <input #newPass="ngModel" type="password" [(ngModel)]="newPass" name="newPass" required>
-                    <label for="repNewPass">Repeat new password</label>
-                    <input #repNewPass="ngModel" type="password" [(ngModel)]="RepNewPass" name="repNewPass" required>
+            <div class="col-lg-2"><h2>OR</h2></div>
+            <fieldset class="form-group col-lg-4">
+            <div class="checkbox">
+                    <label>
+                    <input #teacher="ngModel" class="form-control" type="checkbox" id="InputCheckbox" name="teacher" [(ngModel)]="userIsTeacher"> Are you a teacher/faculty in MICDS? Check if yes. (Will override year of graduation)
+                    </label>
                 </div>
             </fieldset>
-            <div class="alert alert-danger" *ngIf="passwordValid()"></div>
         </div>
 
-        <button type="submit" class="btn btn-default" [disabled]="!passForm.form.valid && passwordValid()">Update Password</button>
+        <button type="submit" class="btn btn-default" [disabled]="!nameForm.form.valid || !valueChanged()">Update</button>
+    </form>
+    <form #passForm="ngForm" (ngSubmit)="onSubmitPass()">
+            <div class="alert alert-danger" *ngIf="passErrMsg">{{passErrMsg}}</div>
+        <div class="row">
+            <fieldset class="form-group col-lg-4">
+                <div class="input-group">
+                    <label for="oldPass">Old password</label>
+                    <input class="form-control" type="password" [(ngModel)]="oldPass" name="oldPass" required>
+                </div>
+            </fieldset>
+            <fieldset class="form-group col-lg-4">
+                <div class="input-group">
+                    <label for="newPass">New password</label>
+                    <input class="form-control" type="password" [(ngModel)]="newPass" name="newPass" required>
+                </div>
+            </fieldset>
+            <fieldset class="form-group col-lg-4">
+                <div class="input-group">
+                    <label for="repNewPass">Repeat new password</label>
+                    <input class="form-control" type="password" [(ngModel)]="repNewPass" name="repNewPass" required>
+                </div>
+            </fieldset>
+        </div>
+
+        <button type="submit" class="btn btn-default" [disabled]="!passForm.form.valid || !passwordValid()">Update Password</button>
     </form>
     </div>
 
