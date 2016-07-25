@@ -1,6 +1,7 @@
 import * as config from '../common/config';
 
 import {Injectable} from '@angular/core';
+import {RequestOptions} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
@@ -13,7 +14,7 @@ export class CanvasService {
     getEvents(date:Date) {
         let body = JSON.stringify(date);
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/canvas/get-events', body, options)
 			.map(res => {
@@ -35,7 +36,7 @@ export class CanvasService {
     testUrl(url:string) {
         let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/canvas/test-url', body, options)
             .map(res => {
@@ -57,7 +58,7 @@ export class CanvasService {
 	setUrl(url:string) {
         let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/canvas/set-url', body, options)
             .map(res => {

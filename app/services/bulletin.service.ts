@@ -1,7 +1,7 @@
 import * as config from '../common/config';
 
 import {Injectable} from '@angular/core'
-import {Http} from '@angular/http';
+import {Http, RequestOptions} from '@angular/http';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
 
@@ -13,7 +13,7 @@ export class BulletinService {
     getBulletin() {
         let body = JSON.stringify({});
         let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.http.post(config.backendURL + '/daily-bulletin/list', body, options)
             .map(res => {

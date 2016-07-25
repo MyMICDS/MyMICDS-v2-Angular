@@ -1,6 +1,7 @@
 import * as config from '../common/config';
 
 import {Injectable} from '@angular/core';
+import {RequestOptions} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
@@ -13,7 +14,7 @@ export class PlannerService {
 	getEvents(date:Date) {
 		let body = JSON.stringify(date);
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/planner/get', body, options)
 			.map(res => {
@@ -32,7 +33,7 @@ export class PlannerService {
     addEvent(event:Event) {
 		let body = JSON.stringify(event);
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/planner/add', body, options)
 			.map(res => {
@@ -51,7 +52,7 @@ export class PlannerService {
     public deleteEvent(id:string) {
 		let body = JSON.stringify({ id });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/planner/delete', body, options)
 			.map(res => {

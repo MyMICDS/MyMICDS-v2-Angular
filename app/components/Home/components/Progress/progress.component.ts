@@ -62,7 +62,6 @@ export class ProgressComponent {
 	ngOnInit() {
 
 		// Start timer
-		console.log('Init progress bar timer');
 		this.calculatePercentages();
 		this.timer = setInterval(() => {
 			this.calculatePercentages();

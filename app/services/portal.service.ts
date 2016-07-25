@@ -1,6 +1,7 @@
 import * as config from '../common/config';
 
 import {Injectable} from '@angular/core';
+import {RequestOptions} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
@@ -13,7 +14,7 @@ export class PortalService {
 	getSchedule(date:Date) {
         let body = JSON.stringify(date);
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/portal/get-schedule', body, options)
 			.map(res => {
@@ -32,7 +33,7 @@ export class PortalService {
 	testUrl(url:string) {
         let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/portal/test-url', body, options)
             .map(res => {
@@ -54,7 +55,7 @@ export class PortalService {
 	setUrl(url:string) {
         let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/portal/set-url', body, options)
             .map(res => {

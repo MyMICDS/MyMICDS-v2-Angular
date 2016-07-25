@@ -1,6 +1,7 @@
 import * as config from '../common/config';
 
 import {Injectable} from '@angular/core';
+import {RequestOptions} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
@@ -13,9 +14,9 @@ export class BackgroundService {
 	getBackground() {
 		let body = JSON.stringify({});
         let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
-        return this.http.post(config.backendURL + '/background/get', body, options)
+        return this.authHttp.post(config.backendURL + '/background/get', body, options)
             .map(res => {
                 let data = res.json();
 
@@ -32,9 +33,9 @@ export class BackgroundService {
 	deleteBackground() {
 		let body = JSON.stringify({});
         let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
-        return this.http.post(config.backendURL + '/background/delete', body, options)
+        return this.authHttp.post(config.backendURL + '/background/delete', body, options)
             .map(res => {
                 let data = res.json();
 

@@ -1,15 +1,16 @@
 import * as config from '../common/config';
 
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, RequestOptions} from '@angular/http';
 import {AuthHttp, JwtHelper} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
+import {LocalStorage, SessionStorage} from 'h5webstorage';
 
 @Injectable()
 export class UserService {
 
-    constructor(private http: Http, private authHttp: AuthHttp) {
+    constructor(private http: Http, private authHttp: AuthHttp, private localStorage: LocalStorage, private sessionStorage: SessionStorage) {
 		this.getUsername();
 	}
 
@@ -17,7 +18,7 @@ export class UserService {
 	jwtHelper = new JwtHelper();
 	getUsername(): string {
 		// Get JWT
-		let token = sessionStorage['id_token'] || localStorage['id_token'];
+		let token = this.sessionStorage.getItem('id_token') || this.localStorage.getItem('id_token');
 		// If not JWT, then user isn't logged in
 		if(!token) return null;
 		// Check if token is expired
@@ -32,7 +33,7 @@ export class UserService {
     getInfo() {
 		let body = JSON.stringify({});
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/user/get-info', body, options)
 			.map(res => {
@@ -51,7 +52,7 @@ export class UserService {
 	gradeRange() {
 		let body = JSON.stringify({});
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.http.post(config.backendURL + '/user/grade-range', body, options)
 			.map(res => {
@@ -64,7 +65,7 @@ export class UserService {
     changeInfo(info:UserInfo) {
 		let body = JSON.stringify(info);
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/user/change-info', body, options)
 			.map(res => {
@@ -83,7 +84,7 @@ export class UserService {
 	changePassword(oldPassword:string, newPassword:string) {
 		let body = JSON.stringify({ oldPassword, newPassword });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/user/change-password', body, options)
 			.map(res => {
@@ -102,7 +103,7 @@ export class UserService {
 	forgotPassword(user:string) {
 		let body = JSON.stringify({ user });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.http.post(config.backendURL + '/user/forgot-password', body, options)
 			.map(res => {
@@ -121,7 +122,7 @@ export class UserService {
 	resetPassword(user:string, password:string, hash:string) {
 		let body = JSON.stringify({ user });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.http.post(config.backendURL + '/user/reset-password', body, options)
 			.map(res => {

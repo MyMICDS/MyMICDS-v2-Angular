@@ -45,18 +45,13 @@ export class LoginComponent {
     public onClickLogin() {
         this.authService.login(this.loginModel.user, this.loginModel.password, this.loginModel.remember).subscribe(
             loginRes => {
-                if (loginRes.error) {
-                    this.errorMessage = loginRes.error;
-                    console.log(this.errorMessage);
-                } else {
-                    this.isLoggedIn = this.userService.getUsername() ? true : false;
-                    this.userName = this.userService.getUsername();
-                    this.router.navigate(['home'])
-                }
+                this.isLoggedIn = !!this.userService.getUsername();
+                this.userName = this.userService.getUsername();
+                this.router.navigate(['home']);
             },
             error => {
                 this.errorMessage = <any>error;
-                console.log('Error logging in')
+                console.log('Error logging in', error);
             }
         )
     }
@@ -64,16 +59,12 @@ export class LoginComponent {
     public onClickLogout() {
         this.authService.logout().subscribe(
             logoutRes => {
-                if (logoutRes.error) {
-                    console.log(logoutRes.error)
-                } else {
-                    this.isLoggedIn = this.userService.getUsername() ? true : false;
-                    this.router.navigate(['home'])
-                }
+                this.isLoggedIn = !!this.userService.getUsername();
+                this.router.navigate(['home']);
             },
             error => {
                 console.error(error)
-                this.router.navigate(['home'])
+                this.router.navigate(['home']);
             }
         )
     }

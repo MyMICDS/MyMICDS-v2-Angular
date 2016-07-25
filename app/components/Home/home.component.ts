@@ -20,12 +20,26 @@ export class HomeComponent {
 	schedule:any;
 
 	constructor(private portalService: PortalService) {
-		this.getSchedule(this.scheduleDate);
+
+		// Get schedule from date object and assign to schedule variable
+		portalService.getSchedule({
+			year : this.scheduleDate.getFullYear(),
+			month: this.scheduleDate.getMonth(),
+			day  : this.scheduleDate.getDate()
+		}).subscribe(
+			(schedule) => {
+				console.log('Get Schedule', schedule);
+				this.schedule = schedule;
+			},
+			(error) => {
+				console.log('Schedule error', error);
+			}
+		);
+
 	}
 
 	ngOnInit() {
 		// Start timer
-		console.log('Init clock')
 		this.timer = setInterval(() => {
 			this.current = new Date();
 		}, 100);
@@ -34,22 +48,6 @@ export class HomeComponent {
 	ngOnDestroy() {
 		// Stop timer
 		clearInterval(this.timer);
-	}
-
-	// Get schedule from date object and assign to schedule variable
-	getSchedule(scheduleDate) {
-		this.portalService.getSchedule({
-			year: scheduleDate.getFullYear(),
-			month: scheduleDate.getMonth() + 1,
-			day: scheduleDate.getDate()
-		}).subscribe(
-			(schedule) => {
-				this.schedule = schedule;
-			},
-			(error) => {
-				console.error(error);
-			}
-		);
 	}
 
 }

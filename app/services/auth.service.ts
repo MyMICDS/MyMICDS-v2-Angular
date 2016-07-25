@@ -1,7 +1,7 @@
 import * as config from '../common/config';
 
 import {Injectable, EventEmitter} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, RequestOptions} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
@@ -18,27 +18,31 @@ export class AuthService {
         let body = JSON.stringify({
 			user,
 			password,
-			rembmer: !!remember
+			remember: !!remember
 		});
         let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.http.post(config.backendURL + '/auth/login', body, options)
             .map(res => {
 				let data = res.json();
 
 				// Check if server-side error
+				console.log(data.error);
 				if(data.error) {
 					return handleError(data.error);
 				}
 
 				if(!remember) {
 					// Store in session storage. Do not remember outside of the session!
-					sessionStorage['id_token'] = data.jwt
+					this.sessionStorage.setItem('id_token', data.jwt);
 				} else {
 					// Save in local storage. Remember this outside of the session!
-					localStorage['id_token'] = data.jwt
+					this.localStorage.setItem('id_token', data.jwt)
 				}
+
+				console.log('Right after auth', this.sessionStorage.getItem('id_token'),
+				this.localStorage.getItem('id_token'));
 
 				this.loginEvent$.emit(true);
 
@@ -53,7 +57,7 @@ export class AuthService {
     logout() {
         let body = JSON.stringify({});
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.authHttp.post(config.backendURL + '/auth/logout', body, options)
         	.map(res => {
@@ -65,8 +69,8 @@ export class AuthService {
 				}
 
 				// Delete JWT from the client
-				sessionStorage.removeItem('id_token');
-				localStorage.removeItem('id_token');
+				this.sessionStorage.removeItem('id_token');
+				this.localStorage.removeItem('id_token');
 
 				this.loginEvent$.emit(false);
 
@@ -78,7 +82,7 @@ export class AuthService {
     register(info: UserData) {
         let body = JSON.stringify(info);
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.http.post(config.backendURL + '/auth/register', body, options)
             .map(res => {
@@ -96,7 +100,7 @@ export class AuthService {
 	confirm(user:string, hash:string) {
 		let body = JSON.stringify({ user, hash });
 		let headers = xhrHeaders();
-        let options = { headers };
+        let options = new RequestOptions({ headers });
 
         return this.http.post(config.backendURL + '/auth/confirm', body, options)
             .map(res => {
