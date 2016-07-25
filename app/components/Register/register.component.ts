@@ -46,15 +46,9 @@ export class RegisterComponent{
         this.submitted = true;
         this.authService.register(this.form).subscribe(
             res => {
-                if (res.error) {
-                    this.submitSuccess = false;
-                    this.submitted = false;
-                    this.errMsg = res.error;
-                } else {
-                    this.submitSuccess = true;
-                    this.submitted = true;
-                    console.dir(this.form)
-                }
+                this.submitSuccess = true;
+                this.submitted = true;
+                console.dir(this.form)
             },
             error => {
                 this.errMsg = error;

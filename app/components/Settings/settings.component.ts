@@ -18,14 +18,11 @@ export class SettingsComponent{
     constructor (private portalService: PortalService, private canvasService: CanvasService, private userService: UserService) {}
 
     valueChanged():boolean { 
-        if (!this.userCopy) {
+        let originalUser = JSON.parse(sessionStorage.getItem('user-info'));
+        if (!originalUser) {
             return false
         } else {
-            if (this.userCopy['firstName'] === this.user.firstName &&
-                this.userCopy['lastName'] === this.user.lastName &&
-                this.userCopy['gradYear'] === this.user.gradYear &&
-                this.userCopy.canvasURL === this.user.canvasURL &&
-                this.userCopy.portalURL === this.user.portalURL) {return false}
+            if (JSON.stringify(originalUser) == JSON.stringify(this.user)) {return false}
         }
         return true
     }
@@ -44,10 +41,9 @@ export class SettingsComponent{
     getUserInfo() {
         this.userService.getInfo().subscribe(
             userInfo => {
-                console.log(userInfo)
-                this.userCopy = userInfo;
                 this.user = userInfo;
-                this.userIsTeacher = userInfo.grade ? true : false;
+                this.userIsTeacher = userInfo.gradYear ? false : true;
+                sessionStorage.setItem('user-info', JSON.stringify(userInfo));
             },
             error => {
                 this.errMsg = error;
@@ -64,15 +60,6 @@ export class SettingsComponent{
         portalURL: '',
     }
 
-    userCopy = {
-        user: '',
-        firstName: '',
-        lastName: '',
-        gradYear: undefined,
-        canvasURL: '',
-        portalURL: '',
-    }
-
     userIsTeacher: boolean; //this seems redundant but this is the variable that the ngModel of the check box directly binded to, and the getUserInfo response doesnt naturally return an isTeacher value
 
     gradeRange = []
@@ -81,7 +68,6 @@ export class SettingsComponent{
 
     ngOnInit() {
         this.getUserInfo();
-        console.dir(this.user)
         this.userService.gradeRange().subscribe(
             gradeRange => {
                 this.gradeRange = gradeRange;

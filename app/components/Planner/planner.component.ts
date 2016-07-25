@@ -40,6 +40,7 @@ export class PlannerComponent {
             },
             error => {
                 console.error(error)
+                this.plannerMsg = "Try logging in before using the planner"
             }
         );
         this.toggle = false;
@@ -56,14 +57,13 @@ export class PlannerComponent {
         this.initialize();
         this.classesService.getClasses().subscribe(
             classesInfo => {
-                if (classesInfo.error) {
-                    this.plannerMsg = classesInfo.error;
-                } else {
-                    this.classesList = classesInfo.classes;
-                    console.dir(classesInfo)
-                }
+                this.classesList = classesInfo.classes;
+                console.dir(classesInfo)
             },
-            error => console.log(error)
+            error => {
+                console.log(error)
+                this.plannerMsg = "Try logging in before using the planner"
+            }
         )
     }
 

@@ -1,7 +1,16 @@
-h1 {
-    color: black;
-} 
+@import 'app/styles/mixins';
+@import 'app/styles/settings';
 
+.blur {
+	    border-radius: 15px;
+		display: inline-block;
+		margin-bottom: $blur-margin;
+		padding: 0.5rem;
+		color: $sophisticated-white;
+
+		@include blur(10px, rgba(0, 0, 0, 0.5));
+	}
+  
 input {
     border-width: 2px;
     transition: all 0.4s ease;
