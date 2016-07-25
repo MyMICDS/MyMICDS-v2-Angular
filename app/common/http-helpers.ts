@@ -17,5 +17,5 @@ export function handleError(error:any) {
 		throw new Error(error);
 	}
 	// Check if client-side error
-	return Observable.throw(error.message);
+	return Observable.throw(error.statusText);
 }
