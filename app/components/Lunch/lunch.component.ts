@@ -59,15 +59,24 @@ export class LunchComponent {
 		this.generateDates();
 	}
 //user action methods
+	loadBuffer = false;
 	previousDay() {
 		this.currentDate.day--;
-		this.getLunch();
+		if (!this.loadBuffer) {
+			this.getLunch();
+			this.loadBuffer = true;
+			setTimeout(() => this.loadBuffer = false, 700)
+		};
 		this.generateDates();
 	}
 
 	nextDay() {
 		this.currentDate.day++;
-		this.getLunch();
+		if (!this.loadBuffer) {
+			this.getLunch();
+			this.loadBuffer = true;
+			setTimeout(() => this.loadBuffer = false, 700)
+		};
 		this.generateDates();
 	}
 
