@@ -71,6 +71,16 @@ export class LunchComponent {
 		this.generateDates();
 	}
 
+	changeDate(date: Date) {
+		this.currentDate = {
+			year: date.getFullYear(),
+			month: date.getMonth(),
+			day: date.getDate()
+		}
+		this.getLunch();
+		this.generateDates();
+	}
+
 
 }
 

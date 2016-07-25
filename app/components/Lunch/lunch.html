@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="blur col-lg-12 lunch-date">
-            <div *ngFor="let date of dateList; let i = index" class="blur-white" [ngClass]="{'date-focused': i == 3}">
+            <div *ngFor="let date of dateList; let i = index" class="blur-white" [ngClass]="{'date-focused': i == 3}" (click)="changeDate(date)">
                 <h3 [ngClass]="{'date-disabled': isWeekend(date), 'date-today': isToday(date)}">{{date | date:'yMd'}}<br>({{date | date:'EEE'}})</h3>
             </div>
         </div>
