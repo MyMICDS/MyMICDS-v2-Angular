@@ -6,7 +6,7 @@ import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
 
 @Injectable()
-export class WeatherService {
+export class LunchService {
 
 	constructor(private http: Http) {}
 

@@ -13,6 +13,17 @@ $lunchElementsHeight: 70vh;
 		@include blur(10px, rgba(0, 0, 0, 0.5));
 	}
 
+.blur-white {
+	    border-radius: 15px;
+		display: inline-block;
+        margin: 0.25rem;
+		padding: 0.5rem;
+		color: black;
+        width: 100%;
+        height: 100%;
+		@include blur(10px, rgba(255, 255, 255, 0.5));
+	}
+
 .lunch-container {
     height: $lunchElementsHeight;
 }
@@ -24,7 +35,24 @@ $lunchElementsHeight: 70vh;
 
 .lunch-left-nav, .lunch-right-nav {
     text-align: center;
+    cursor: pointer;
     .blur .fa{
-        line-height: $lunchElementsHeight
+        line-height: $lunchElementsHeight;
     }
+}
+
+.lunch-date {
+    h3 {cursor: pointer;}
+    text-align: center;
+    display: flex;
+    .date-disabled {
+        color: grey;
+    }
+    .date-today {
+        font-weight: 700;
+    }
+}
+
+.date-focused {
+    margin-top: 20px;
 }

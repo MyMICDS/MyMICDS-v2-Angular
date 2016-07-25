@@ -1,11 +1,23 @@
-<div class="container-fluid lunch-container">
-    <div class="lunch-left-nav col-lg-2"><div class="blur">
-        <i class="fa fa-caret-left fa-5x"></i>
-    </div></div>
-    <div class="lunch-content col-lg-8"><div class="blur">
+<div class="container-fluid">
+    <div class="row">
+        <div class="blur col-lg-12 lunch-date">
+            <div *ngFor="let date of dateList; let i = index" class="blur-white" [ngClass]="{'date-focused': i == 3}">
+                <h3 [ngClass]="{'date-disabled': isWeekend(date), 'date-today': isToday(date)}">{{date | date:'yMd'}}<br>({{date | date:'EEE'}})</h3>
+            </div>
+        </div>
+    </div>
+    <div class="row lunch-container">
+
+        <div class="lunch-left-nav col-lg-2"><div class="blur" (click)="previousDay()">
+            <i class="fa fa-caret-left fa-5x"></i>
+        </div></div>
         
-    </div></div>
-    <div class="lunch-right-nav col-lg-2"><div class="blur">
-        <i class="fa fa-caret-right fa-5x"></i>
-    </div></div>
+        <div class="lunch-content col-lg-8"><div class="blur">
+            <div *ngIf="lunchErr" class="alert alert-danger">{{lunchErr}}</div>
+        </div></div>
+
+        <div class="lunch-right-nav col-lg-2"><div class="blur" (click)="nextDay()">
+            <i class="fa fa-caret-right fa-5x"></i>
+        </div></div>
+    </div>
 </div>
