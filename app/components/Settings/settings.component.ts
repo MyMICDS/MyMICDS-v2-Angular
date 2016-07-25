@@ -192,4 +192,20 @@ export class SettingsComponent{
             } 
         )
     }
+
+    oldPass= '';
+    newPass= '';
+    repNewPass= '';
+    passErrMsg: string;
+    passwordValid() {
+        return this.oldPass!=this.newPass && this.newPass==this.repNewPass
+    }
+
+    changePassword() {
+        this.userService.changePassword(this.oldPass, this.newPass).subscribe(
+            error => {
+                this.passErrMsg = error;
+            }
+        )
+    }
 }

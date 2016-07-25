@@ -1,0 +1,30 @@
+@import 'app/styles/mixins';
+@import 'app/styles/settings';
+
+$lunchElementsHeight: 70vh;
+.blur {
+	    border-radius: 15px;
+		display: inline-block;
+		margin-bottom: $blur-margin;
+		padding: 0.5rem;
+		color: $sophisticated-white;
+        width: 100%;
+        height: 100%;
+		@include blur(10px, rgba(0, 0, 0, 0.5));
+	}
+
+.lunch-container {
+    height: $lunchElementsHeight;
+}
+
+.lunch-left-nav, .lunch-right-nav, .lunch-content {
+    padding: 0.5rem;
+    height: 100%;
+}
+
+.lunch-left-nav, .lunch-right-nav {
+    text-align: center;
+    .blur .fa{
+        line-height: $lunchElementsHeight
+    }
+}

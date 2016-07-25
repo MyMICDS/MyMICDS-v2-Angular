@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 
 @Component({
 	selector: 'lunch',
-	template: `<h1>Lunch Page!</h1>`
+	templateUrl: 'app/components/Lunch/lunch.html',
+	styleUrls: ['dist/app/components/Lunch/lunch.css'],
 })
 export class LunchComponent {
-
+	
 }

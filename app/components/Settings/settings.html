@@ -42,6 +42,26 @@
 
         <button type="submit" class="btn btn-default" [disabled]="!nameForm.form.valid">Update</button>
     </form>
+    <form #passForm="ngForm" (ngSubmit)="onSubmitPass()">
+        <div class="row">
+            <div class="alert alert-danger">{{passErrMsg}}</div>
+        </div>
+        <div class="row">
+            <fieldset class="form-group col-lg-8">
+                <div class="input-group">
+                    <label for="oldPass">Old password</label>
+                    <input #oldPass="ngModel" type="password" [(ngModel)]="oldPass" name="oldPass" required>
+                    <label for="newPass">New password</label>
+                    <input #newPass="ngModel" type="password" [(ngModel)]="newPass" name="newPass" required>
+                    <label for="repNewPass">Repeat new password</label>
+                    <input #repNewPass="ngModel" type="password" [(ngModel)]="RepNewPass" name="repNewPass" required>
+                </div>
+            </fieldset>
+            <div class="alert alert-danger" *ngIf="passwordValid()"></div>
+        </div>
+
+        <button type="submit" class="btn btn-default" [disabled]="!passForm.form.valid && passwordValid()">Update Password</button>
+    </form>
     </div>
 
     <div class="blur">
