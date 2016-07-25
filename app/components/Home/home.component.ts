@@ -31,7 +31,7 @@ export class HomeComponent {
 				this.schedule = schedule;
 			},
 			(error) => {
-				console.log('Schedule error', error);
+				console.log('Schedule error of type ' + typeof error, error);
 			}
 		);
 

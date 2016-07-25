@@ -20,9 +20,9 @@ export class BackgroundService {
             .map(res => {
                 let data = res.json();
 
-                // Check if server-side error
+				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
                 return data.urls;
@@ -39,9 +39,9 @@ export class BackgroundService {
             .map(res => {
                 let data = res.json();
 
-                // Check if server-side error
+				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
                 return;

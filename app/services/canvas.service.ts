@@ -22,7 +22,7 @@ export class CanvasService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return {
@@ -44,7 +44,7 @@ export class CanvasService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return {
@@ -66,7 +66,7 @@ export class CanvasService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return {

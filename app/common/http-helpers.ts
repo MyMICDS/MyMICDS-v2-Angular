@@ -11,11 +11,22 @@ export function xhrHeaders() {
 
 // Generate error to display to user
 export function handleError(error:any) {
-	console.log('Handel error!', error);
-	// Check if server-side error
+
+	console.log('Handle error!', error);
+
+	// Check if error is string
 	if(typeof error === 'string') {
-		throw new Error(error);
+		return Observable.throw(error);
+	}
+	// Check if server-side error
+	if(typeof error.message === 'string') {
+		return Observable.throw(error.message);
 	}
 	// Check if client-side error
-	return Observable.throw(error.statusText);
+	if(typeof error.statusText === 'string') {
+		return Observable.throw('Error: ' + error.statusText);
+	}
+
+	// Fallback to generic error
+	return Observable.throw('Something went wrong connecting to MyMICDS.net!');
 }

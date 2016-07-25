@@ -29,7 +29,7 @@ export class AuthService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				if(!remember) {
@@ -61,7 +61,7 @@ export class AuthService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				// Delete JWT from the client
@@ -86,7 +86,7 @@ export class AuthService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 				return;
 			})
@@ -104,7 +104,7 @@ export class AuthService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 				return;
 			})

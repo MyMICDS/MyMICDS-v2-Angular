@@ -22,7 +22,7 @@ export class ClassesService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return data.classes;
@@ -41,7 +41,7 @@ export class ClassesService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return data.id;
@@ -60,7 +60,7 @@ export class ClassesService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return;

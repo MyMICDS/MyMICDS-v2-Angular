@@ -22,7 +22,7 @@ export class PortalService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return data.schedule;
@@ -41,7 +41,7 @@ export class PortalService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return {
@@ -63,7 +63,7 @@ export class PortalService {
 
 				// Check if server-side error
 				if(data.error) {
-					return handleError(data.error);
+					throw new Error(data.error);
 				}
 
 				return {
