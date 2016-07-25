@@ -21,7 +21,6 @@ export class WeatherComponent {
 		weatherService.getWeather().subscribe(
 			(data) => {
 				this.weather = data;
-				console.log('Got weather!');
 			},
 			(error) => {
 				console.error('Weather error!', error);

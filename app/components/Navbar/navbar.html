@@ -4,9 +4,9 @@
 	<div class="nav navbar-nav">
 		<a class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">Home</a>
 		<a class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']">Lunch</a>
-		<a class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']">Settings</a>
 		<a class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']">Planner</a>
-		<a class="nav-item nav-link" [routerLink]="['/bulletin']" [routerLinkActive]="['active']">Bulletin</a>
+		<a class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']">Daily Bulletin</a>
+		<a class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']">Settings</a>
 	</div>
 	<div *ngIf="!userName" class="navbar-right">
 		<button class="btn btn-success" [routerLink]="['/login']">Login</button>

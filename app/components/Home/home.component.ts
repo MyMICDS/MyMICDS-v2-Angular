@@ -28,7 +28,6 @@ export class HomeComponent {
 			day  : this.scheduleDate.getDate()
 		}).subscribe(
 			(schedule) => {
-				console.log('Get Schedule', schedule);
 				this.schedule = schedule;
 			},
 			(error) => {

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {BulletinService} from '../../services/bulletin.service'
 
 @Component({
-	selector: 'bulletin',
+	selector: 'daily-bulletin',
 	template:  `<div class="alert alert-danger">{{bulletinErr}}</div>
 				<div>{{bulletinList}}</div>`,
 	providers: [BulletinService]

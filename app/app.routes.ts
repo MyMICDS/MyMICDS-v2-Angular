@@ -30,6 +30,10 @@ const routes: RouterConfig = [
 		component: PlannerComponent,
 	},
 	{
+		path: 'daily-bulletin',
+		component: BulletinComponent
+	},
+	{
 		path: 'settings',
 		component: SettingsComponent,
 		canActivate: [AuthGuard],
@@ -42,10 +46,6 @@ const routes: RouterConfig = [
 	{
 		path: 'register',
 		component: RegisterComponent
-	},
-	{
-		path: 'bulletin',
-		component: BulletinComponent
 	}
 ];
 

@@ -28,7 +28,6 @@ export class AuthService {
 				let data = res.json();
 
 				// Check if server-side error
-				console.log(data.error);
 				if(data.error) {
 					return handleError(data.error);
 				}
@@ -40,9 +39,6 @@ export class AuthService {
 					// Save in local storage. Remember this outside of the session!
 					this.localStorage.setItem('id_token', data.jwt)
 				}
-
-				console.log('Right after auth', this.sessionStorage.getItem('id_token'),
-				this.localStorage.getItem('id_token'));
 
 				this.loginEvent$.emit(true);
 
