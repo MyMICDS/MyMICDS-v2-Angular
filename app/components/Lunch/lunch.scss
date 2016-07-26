@@ -11,6 +11,9 @@ $lunchElementsHeight: 70vh;
         width: 100%;
         height: 100%;
 		@include blur(10px, rgba(0, 0, 0, 0.5));
+        .btn {
+            color: black;
+        }
 	}
 
 .blur-white {
@@ -55,4 +58,23 @@ $lunchElementsHeight: 70vh;
 
 .date-focused {
     margin-top: 20px;
+}
+
+.lunch-buttons {
+    text-align: center;
+}
+
+.lunch-station {
+    border-radius: 15px;
+    display: inline-block;
+    margin-bottom: $blur-margin;
+    padding: 0.5rem;
+    color: black;
+    width: 100%;
+    height: 100%;
+    @include blur(10px, rgba(255, 255, 255, 0.5));
+}
+
+.lunch-dishes {
+    display: flex;
 }

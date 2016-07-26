@@ -6,6 +6,7 @@
 // Statics
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/observable/fromEvent'
 
 // Operators
 import 'rxjs/add/operator/catch';
