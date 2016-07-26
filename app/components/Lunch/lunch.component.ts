@@ -19,9 +19,14 @@ export class LunchComponent {
 
 	getLunch() {
 		console.info('Retrieving lunch')
-		this.lunchService.getLunch(this.currentDate).subscribe(
+		let d = new Date(this.currentDate.year, this.currentDate.month, this.currentDate.day)
+		let postDate: postDate = {
+			year: d.getFullYear(),
+			month: d.getMonth(),
+			day: d.getDate()
+		}
+		this.lunchService.getLunch(postDate).subscribe(
 			lunch => {
-				console.info('Retrieving completed')
 				if (lunch = {}) {
 					this.lunchErr = "There is no lunch for the selected date";
 				} else {
@@ -91,10 +96,14 @@ export class LunchComponent {
 			this.loadBuffer = true;
 			setTimeout(() => this.loadBuffer = false, 300)
 		};
-		this.generateDates();
+		//this.generateDates();
 	}
 
-
+	focus = [false, false, false, true, false, false, false]
+	toggleFocus(i) {
+		this.focus = [false, false, false, false, false, false, false];
+		this.focus[i] = true;
+	}
 }
 
 interface postDate {
