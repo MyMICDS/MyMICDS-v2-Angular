@@ -79,4 +79,10 @@ interface Event {
 	title:string;
 	desc?:string;
 	classId?:string;
+	startYear;
+	startMonth;
+	startDay;
+	endYear;
+	endMonth;
+	endDay;
 }

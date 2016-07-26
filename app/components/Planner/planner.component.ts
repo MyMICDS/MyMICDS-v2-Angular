@@ -26,20 +26,25 @@ export class PlannerComponent {
     public dateList = [];
     public isAdding = true;
     public plannerMsg: string;
+    loading: boolean; //to toggle the loading animations
 
     public initialize() {
+        this.loading = true;
         console.info('refreshing the planner...')
         let selectedDate = {year: this.selectedDate.year, month: this.selectedDate.month+1}
         this.plannerService.getEvents(selectedDate).subscribe(
             eventsInfo => {
                 if (eventsInfo) {
                     this.eventsList = this.sortEvents(this.pushEvents(eventsInfo))
-                    console.dir(this.eventsList)
+                    console.log(this.eventsList)
                 }
             },
             error => {
                 console.error(error)
                 this.plannerMsg = "Try logging in before using the planner"
+            },
+            () => {
+                this.loading = false;
             }
         );
         this.toggle = false;
@@ -56,8 +61,7 @@ export class PlannerComponent {
         this.initialize();
         this.classesService.getClasses().subscribe(
             classesInfo => {
-                this.classesList = classesInfo.classes;
-                console.dir(classesInfo)
+                this.classesList = classesInfo;
             },
             error => {
                 console.log(error)
@@ -177,16 +181,16 @@ export class PlannerComponent {
 //under is all the user action related methods. above is the planner rendering methods
 
     public eventModel = {
-        id: '',
+        id: undefined,
         title: '',
         desc: '',
-        'class-id': '',
-        'start-year': this.date.getFullYear(),
-        'start-month': this.date.getMonth()+1,
-        'start-day': this.date.getDate(),
-        'end-year': this.date.getFullYear(),
-        'end-month': this.date.getMonth()+1,
-        'end-day': this.date.getDate(),
+        classId: '',
+        startYear: this.date.getFullYear(),
+        startMonth: this.date.getMonth()+1,
+        startDay: this.date.getDate(),
+        endYear: this.date.getFullYear(),
+        endMonth: this.date.getMonth()+1,
+        endDay: this.date.getDate(),
     }
 
     public toggleForm() {
@@ -199,16 +203,17 @@ export class PlannerComponent {
         this.toggle = false;
         this.isAdding = true;
         if (events[0]) {
-            this.eventModel['start-day'] = events[0].date;
-            this.eventModel['end-day'] = events[0].date;
+            this.eventModel.startDay = events[0].date;
+            this.eventModel.endDay = events[0].date;
         }
     }
 
     public addEvent() {
-        console.dir(this.eventModel)
+        this.loading = true;
+        console.log(this.eventModel)
         this.plannerService.addEvent(this.eventModel).subscribe(
             id => {
-                id.error ? console.log(id.error) : console.log('Submitted event id: '+id.id);
+                console.log('Submitted event id: '+id);
             },
             error => {console.log(error)},
             () => {
@@ -218,6 +223,7 @@ export class PlannerComponent {
     }
 
     public deleteEvent(id:string) {
+        this.loading = true;
         this.plannerService.deleteEvent(id).subscribe(
             deleteError => console.log,
             error => console.log,
@@ -230,16 +236,16 @@ export class PlannerComponent {
     public bindEvent(event) {
         let ESD = new Date(event.start);
         let EED = new Date(event.end);
-        this.eventModel['start-year'] = ESD.getFullYear();
-        this.eventModel['start-month'] = ESD.getMonth()+1;
-        this.eventModel['start-day'] = ESD.getDate();
-        this.eventModel['end-year'] = EED.getFullYear();
-        this.eventModel['end-month'] = EED.getMonth()+1;
-        this.eventModel['end-day'] = EED.getDate();
+        this.eventModel.startYear = ESD.getFullYear();
+        this.eventModel.startMonth = ESD.getMonth()+1;
+        this.eventModel.startDay = ESD.getDate();
+        this.eventModel.endYear = EED.getFullYear();
+        this.eventModel.endMonth = EED.getMonth()+1;
+        this.eventModel.endDay = EED.getDate();
         this.eventModel.id = event._id;
         this.eventModel.title = event.title;
         this.eventModel.desc = event.desc;
-        if (event.class) {this.eventModel['class-id'] = event.class._id;}
+        if (event.class) {this.eventModel.classId = event.class._id;}
         console.log(this.eventModel)
     }
 

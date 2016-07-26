@@ -11,7 +11,7 @@
                 <select *ngIf="selectingMonth" (ngModelChange)="onSelectMonth($event)" class="c-select" #selectMonth="ngModel" type="selectMonth" id="selectMonth" [ngModel]="selectedDate.month" name="selectMonth" required>
                     <option *ngFor="let month of monthList" [value]="month.value-1">{{month.string}}</option>
                 </select>
-                <i (click)="onSelectMonth(selectedDate.month-1)" class="calendar-nav-arrow clickable" fa [name]="'angle-double-right'" [size]="'3'" [pull]="'right'"></i>
+                <i (click)="onSelectMonth(selectedDate.month+1)" class="calendar-nav-arrow clickable" fa [name]="'angle-double-right'" [size]="'3'" [pull]="'right'"></i>
             </div>
             <table class="table">
                 <thead>
@@ -42,11 +42,11 @@
             <div *ngIf="selectedEvents.length == 0"><h2>Click on a day to select it.</h2></div>
             <div *ngIf="!selectedEvents.length == 0">
                 <div *ngFor="let event of selectedEvents; let i = index">
-                    <div *ngIf="event.date"><h2>Events in {{date.getMonth()+1}}/{{event.date}}, {{date.getFullYear()}}</h2></div>
+                    <div *ngIf="event.date"><h2>Events in {{selectedDate.month+1}}/{{event.date}}, {{selectedDate.year}}</h2></div>
                     <div *ngIf="!event.date">
                         <div class="detail-title"><h3>{{i}}. {{event.title}}</h3>
                         <i (click)="bindEvent(event); toggle = true; isAdding = false" class="edit-sign clickable" fa [name]="'pencil'" [size]=2></i>
-                        <i class="delete-sign clickable" fa [name]="'times'" [size]=2></i></div>
+                        <i class="delete-sign clickable" fa [name]="'times'" [size]=2 (click)="deleteEvent(event._id)"></i></div>
                         <div class="detail-desc">description: {{event.desc}}</div>
                         <div class="detail-link">link: {{event.link}}</div>
                     </div>
@@ -64,7 +64,7 @@
                         </fieldset>
                         <fieldset>
                             <label for="eventType"><h3>Class</h3></label>
-                            <select class="c-select" #eventType="ngModel" type="eventType" id="eventType" [(ngModel)]="eventModel['class-id']" name ="eventType">
+                            <select class="c-select" #eventType="ngModel" type="eventType" id="eventType" [(ngModel)]="eventModel.classId" name ="eventType">
                                 <option [value]="null" selected>Select the class you want to associate the event with.</option>
                                 <option *ngFor="let class of classesList" [value]="class._id">{{class.name}}</option>
                             </select>
@@ -78,22 +78,22 @@
                             <div class="input-group">
                                 <h3>From</h3>
                                 <input type="text" class="form-control" id="eventFromYear" placeholder="4-digit year" required
-                                [(ngModel)]="eventModel['start-year']" name="eventFromYear" #eventFromYear="ngModel">
-                                <select class="c-select" #eventFromMonth="ngModel" type="eventFromMonth" id="eventFromMonth" [(ngModel)]="eventModel['start-month']" name="eventFromMonth" required>
+                                [(ngModel)]="eventModel.startYear" name="eventFromYear" #eventFromYear="ngModel">
+                                <select class="c-select" #eventFromMonth="ngModel" type="eventFromMonth" id="eventFromMonth" [(ngModel)]="eventModel.startMonth" name="eventFromMonth" required>
                                     <option *ngFor="let month of monthList" [value]="month.value">{{month.string}}</option>
                                 </select>
-                                <select class="c-select" #eventFromDate="ngModel" type="eventFromDate" id="eventFromDate" [(ngModel)]="eventModel['start-day']" name="eventFromDate" required>
+                                <select class="c-select" #eventFromDate="ngModel" type="eventFromDate" id="eventFromDate" [(ngModel)]="eventModel.startDay" name="eventFromDate" required>
                                     <option *ngFor="let d of dateList" [value]="d">{{d}}</option>
                                 </select>
                             </div>
                             <div class="input-group">
                                 <h3>To</h3>
                                 <input type="text" class="form-control" id="eventToYear" placeholder="4-digit year" required
-                                [(ngModel)]="eventModel['end-year']" name="eventToYear" #eventToYear="ngModel">
-                                <select class="c-select" #eventToMonth="ngModel" type="eventToMonth" id="eventToMonth" [(ngModel)]="eventModel['end-month']" name="eventToMonth" required>
+                                [(ngModel)]="eventModel.endYear" name="eventToYear" #eventToYear="ngModel">
+                                <select class="c-select" #eventToMonth="ngModel" type="eventToMonth" id="eventToMonth" [(ngModel)]="eventModel.endMonth" name="eventToMonth" required>
                                     <option *ngFor="let month of monthList" [value]="month.value">{{month.string}}</option>
                                 </select>
-                                <select class="c-select" #eventToDate="ngModel" type="eventToDate" id="eventToDate" [(ngModel)]="eventModel['end-day']" name="eventToDate" required>
+                                <select class="c-select" #eventToDate="ngModel" type="eventToDate" id="eventToDate" [(ngModel)]="eventModel.endDay" name="eventToDate" required>
                                     <option *ngFor="let d of dateList" [value]="d">{{d}}</option>
                                 </select>
                             </div>
