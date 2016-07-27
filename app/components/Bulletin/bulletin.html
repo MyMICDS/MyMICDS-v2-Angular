@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="bulletin-header">
 		<h1>Daily Bulletin</h1>
-		<h3>{{bulletinDate | date:'EEEE, MMMM d, y'}}</h3>
+		<h3>{{bulletinDate? | date:'EEEE, MMMM d, y'}}</h3>
 		<button routerLink="/bulletin-archives" class="btn btn-info btn-lg">See Archived Bulletins</button>
 	</div>
 	<embed class="bulletin-pdf" [src]="bulletinURL | safe">
