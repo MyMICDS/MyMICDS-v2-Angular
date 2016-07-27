@@ -67,6 +67,8 @@ export class SettingsComponent{
 
     errMsg: string;
 
+    urlInput$;
+
     ngOnInit() {
         this.getUserInfo();
         this.userService.gradeRange().subscribe(
@@ -78,6 +80,23 @@ export class SettingsComponent{
             }
         ) //add maunal input if graderange cannot be got
 
+        this.urlInput$ = Observable.fromEvent(document.getElementById('InputCanvasURL'), 'input')
+        .debounceTime(250)
+        .subscribe(
+            input => {
+                this.onChangeCanvasURL(input.target.value)
+                console.log(input.target.value)
+            }
+        )
+
+        this.urlInput$ = Observable.fromEvent(document.getElementById('InputPortalURL'), 'input')
+        .debounceTime(250)
+        .subscribe(
+            input => {
+                this.onChangePortalURL(input.target.value)
+                console.log(input.target.value)
+            }
+        )
     }
 
     onSubmitName() {

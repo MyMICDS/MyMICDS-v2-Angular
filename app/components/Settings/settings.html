@@ -6,10 +6,7 @@
 
     <div class="blur">
     <form #nameForm="ngForm" (ngSubmit)="onSubmitName()">
-        <div class="row">
-            <h3>Username: {{user.user}}</h3>
-        </div>
-
+        <h3>Username: {{user.user}}</h3>
         <div class="row">
             <fieldset class="form-group col-lg-4">
             <label for="firstname">First Name</label>
@@ -95,16 +92,12 @@
     <div class="blur">
     <form #urlForm="ngForm" (ngSubmit)="onSubmitURL()">
         <div class="alert alert-danger col-xs-12" *ngIf="errMsg">{{URLerrMsg}}</div>
-
-        <div class="row">
-            <h3>URL Settings</h3>
-        </div>
-
+        <h3>URL Settings</h3>
         <div class="row">
             <fieldset class="form-group col-lg-4">
             <label for="canvasURL">Set Canvas URL</label>
             <div class="input-group">
-                <input #canvasURL="ngModel" type="text" class="form-control" id="InputCanvasURL" placeholder="" [(ngModel)]="user.canvasURL" name="canvasURL" (ngModelChange)="onChangeCanvasURL($event)"
+                <input #canvasURL="ngModel" type="text" class="form-control urlInput" id="InputCanvasURL" placeholder="" [(ngModel)]="user.canvasURL" name="canvasURL"
                 tooltip="You wont be able to get the schedule if this is set to empty."
                 tooltipPlacement="bottom"
                 tooltipTrigger=""
@@ -118,7 +111,7 @@
             <fieldset class="form-group col-lg-4">
             <label for="portalURL">Set Portal URL</label>
             <div class="input-group">
-                <input #portalURL="ngModel" type="text" class="form-control" id="InputPortalURL" placeholder="" [(ngModel)]="user.portalURL" name="portalURL" (ngModelChange)="onChangePortalURL($event)"
+                <input #portalURL="ngModel" type="text" class="form-control urlInput" id="InputPortalURL" placeholder="" [(ngModel)]="user.portalURL" name="portalURL"
                 tooltip="You wont be able to get the planner events from the portal if this is set to empty."
                 tooltipPlacement="bottom"
                 tooltipTrigger=""
