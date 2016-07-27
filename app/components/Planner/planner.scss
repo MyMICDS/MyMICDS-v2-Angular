@@ -9,7 +9,7 @@
 }
 
 .calendar-right {
-    
+
 }
 
 .blur {
@@ -19,7 +19,7 @@
 		padding: 0.5rem;
 		color: $sophisticated-white;
 
-		@include blur(10px, rgba(0, 0, 0, 0.5));
+		@include blur(rgba(0, 0, 0, 0.5));
 
 		&.blur-half {
 			width: calc(50% - #{$blur-margin});
@@ -28,7 +28,7 @@
 
 .table-cell {
     //background-color: $sophisticated-white;
-    @include blur(10px, rgba(255, 255, 255, 0.5));
+    @include blur(rgba(255, 255, 255, 0.5));
     color: rgba(0, 0, 0, 0.5);
     line-height: 1;
     height: 100px;
@@ -44,12 +44,12 @@ thead th{
 }
 
 .table-event {
-    
+
 }
 
 .event-title {
     width: 100%;
-    margin-top: 0.3em; 
+    margin-top: 0.3em;
 }
 
 .extendBoth {
@@ -82,7 +82,7 @@ thead th{
 }
 
 .add-event {
-    @include blur(10px, rgba(255, 255, 255, 0.5));
+    @include blur(rgba(255, 255, 255, 0.5));
     color: black
 }
 

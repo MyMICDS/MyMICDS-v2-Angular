@@ -10,7 +10,7 @@ $lunchElementsHeight: 70vh;
 		color: $sophisticated-white;
         width: 100%;
         height: 100%;
-		@include blur(10px, rgba(0, 0, 0, 0.5));
+		@include blur();
         .btn {
             color: black;
         }
@@ -24,7 +24,7 @@ $lunchElementsHeight: 70vh;
 		color: black;
         width: 100%;
         height: 100%;
-		@include blur(10px, rgba(255, 255, 255, 0.5));
+		@include blur(rgba(255, 255, 255, 0.5));
 	}
 
 .lunch-container {
@@ -72,7 +72,7 @@ $lunchElementsHeight: 70vh;
     color: black;
     width: 100%;
     height: 100%;
-    @include blur(10px, rgba(255, 255, 255, 0.5));
+    @include blur(rgba(255, 255, 255, 0.5));
 }
 
 .lunch-dishes {

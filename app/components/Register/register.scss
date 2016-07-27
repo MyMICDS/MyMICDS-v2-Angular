@@ -8,9 +8,9 @@
 		padding: 0.5rem;
 		color: $sophisticated-white;
 
-		@include blur(10px, rgba(0, 0, 0, 0.5));
+		@include blur(rgba(0, 0, 0, 0.5));
 	}
-  
+
 input {
     border-width: 2px;
     transition: all 0.4s ease;
@@ -47,7 +47,7 @@ input {
 }
 
 #net {
-  display: inline-block; 
+  display: inline-block;
     overflow: hidden;
   text-align: left;
   width: 2.5em;
@@ -80,9 +80,9 @@ input {
   display: inline-block;
   width: 291.53px;
   transform: translate(-291.53px);
-  text-align: center; 
-  animation: 2s cubic-bezier(0.86, 0, 0.07, 1) 2.6s infinite alternate none running fade; 
-  opacity: 0; 
+  text-align: center;
+  animation: 2s cubic-bezier(0.86, 0, 0.07, 1) 2.6s infinite alternate none running fade;
+  opacity: 0;
 }
 
 @keyframes fade{
