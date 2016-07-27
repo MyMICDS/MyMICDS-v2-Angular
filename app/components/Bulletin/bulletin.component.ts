@@ -23,7 +23,7 @@ export class BulletinComponent {
 	bulletins:string[];
 	bulletinPDFURL:string;
 	bulletinURL:string;
-	bulletinDate:any;
+	bulletinDate:any = new Date();
 
 	ngOnInit() {
 		var source = Observable.combineLatest(
