@@ -7,7 +7,7 @@
 		<a class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']"><fa name="calendar"></fa> Planner</a>
 		<a class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']"><fa name="bullhorn"></fa> Daily Bulletin</a>
 		<a *ngIf="userService.getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']"><fa name="gear"></fa> Settings</a>
-		<a class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']"><fa name="question"></fa> About</a>
+		<a class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']"><fa name="info"></fa> About</a>
 	</div>
 	<div *ngIf="!userService.getUsername()" class="navbar-right">
 		<button class="btn btn-success" [routerLink]="['/login']">Login</button>
