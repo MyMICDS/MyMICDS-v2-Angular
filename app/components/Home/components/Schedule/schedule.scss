@@ -1,9 +1,7 @@
 .table {
 	margin: 0;
 
-	.thead-default {
-		.class-name {
-			width: 100%;
-		}
+	thead .class-name {
+		width: 100%;
 	}
 }
