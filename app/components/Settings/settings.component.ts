@@ -208,9 +208,9 @@ export class SettingsComponent{
     }
 
 //change background
-    URL = config.backendURL + '/background/change'
+    bgURL = config.backendURL + '/background/change'
     bgDropZoneOver = false;
-    public uploader:FileUploader = new FileUploader({url: URL});
+    public uploader:FileUploader = new FileUploader({url: this.bgURL});
 
     public fileOverDropZone(e:any):void {
         this.bgDropZoneOver = e;
