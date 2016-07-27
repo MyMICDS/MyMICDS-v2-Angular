@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES, Router, NavigationStart} from '@angular/router';
 import {capitalize} from '../../common/utils';
+import {FaComponent} from 'angular2-fontawesome/components';
 
 import {UserService} from '../../services/user.service';
 import {Title} from '@angular/platform-browser';
@@ -9,7 +10,7 @@ import {Title} from '@angular/platform-browser';
 	selector: 'navbar',
 	templateUrl: 'app/components/Navbar/navbar.html',
 	styleUrls: ['dist/app/components/Navbar/navbar.css'],
-	directives: [ROUTER_DIRECTIVES],
+	directives: [ROUTER_DIRECTIVES, FaComponent],
 })
 export class NavbarComponent {
 	constructor (private router: Router, private titleService: Title, private userService: UserService) {}
