@@ -1,5 +1,5 @@
-@import 'app/styles/mixins';
 @import 'app/styles/settings';
+@import 'app/styles/mixins';
 
 .modules {
 	margin-bottom: 6rem;
@@ -15,7 +15,7 @@
 		padding: 0.5rem;
 		color: $sophisticated-white;
 
-		@include blur(10px, rgba(0, 0, 0, 0.5));
+		@include blur();
 
 		&.blur-half {
 			width: calc(50% - #{$blur-margin});

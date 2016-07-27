@@ -6,7 +6,8 @@
 // Statics
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/fromEvent'
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/combineLatest';
 
 // Operators
 import 'rxjs/add/operator/catch';

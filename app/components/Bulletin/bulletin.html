@@ -1,4 +1,8 @@
-<h1>Daily Bulletin</h1>
-<button routerLink="/bulletin-archives" class="btn btn-info">See Other Daily Bulletins</button>
-{{bulletinURL}}
-{{buletins}}
+<div class="container">
+	<div class="bulletin-header">
+		<h1>Daily Bulletin</h1>
+		<h3>{{bulletinDate | date:'EEEE, MMMM d, y'}}</h3>
+		<button routerLink="/bulletin-archives" class="btn btn-info">See Archived Bulletins</button>
+	</div>
+	<iframe class="bulletin-iframe" [src]="bulletinURL | safe" scrolling="no"></iframe>
+</div>

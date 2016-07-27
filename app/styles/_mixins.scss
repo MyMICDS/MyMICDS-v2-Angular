@@ -1,7 +1,7 @@
 @import 'settings';
 @import 'utils';
 
-@mixin blur($blurRadius: 5px, $color: rgba(0, 0, 0, 0.5)) {
+@mixin blur($color: rgba(0, 0, 0, 0.5)) {
 	background: linear-gradient($color, $color), url($background-blur-url);
 	background-size: cover;
 	background-attachment: fixed;

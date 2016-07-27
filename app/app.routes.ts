@@ -36,6 +36,10 @@ const routes: RouterConfig = [
 		component: BulletinComponent
 	},
 	{
+		path: 'daily-bulletin/:bulletin',
+		component: BulletinComponent
+	},
+	{
 		path: 'bulletin-archives',
 		component: BulletinArchivesComponent
 	},
