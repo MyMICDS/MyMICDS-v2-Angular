@@ -14,16 +14,26 @@
             <fieldset class="form-group col-lg-4">
             <label for="firstname">First Name</label>
             <div class="input-group">
-                <input #firstname="ngModel" type="text" class="form-control" id="InputFirstName" placeholder="" [(ngModel)]="user.firstName" name="firstname" required>
-                <div [hidden]="firstname.valid || firstname.pristine" class="alert alert-danger input-group-addon">Name is required</div>
+                <input #firstname="ngModel" type="text" class="form-control" id="InputFirstName" placeholder="" [(ngModel)]="user.firstName" name="firstname" required 
+                tooltip="Required"
+                tooltipPlacement="right"
+                tooltipTrigger=""
+                [tooltipEnable]="!firstname.valid && !firstname.pristine"
+                [tooltipIsOpen]="!firstname.valid && !firstname.pristine">
+                <!--<div [hidden]="firstname.valid || firstname.pristine" class="alert alert-danger input-group-addon">Name is required</div>-->
             </div>
             </fieldset>
 
             <fieldset class="form-group col-lg-4">
             <label for="lastname">Last Name</label>
             <div class="input-group">
-                <input #lastname="ngModel" type="text" class="form-control" id="InputLastName" placeholder="" [(ngModel)]="user.lastName" name="lastname" required>
-                <div [hidden]="lastname.valid || lastname.pristine" class="alert alert-danger input-group-addon">Name is required</div>
+                <input #lastname="ngModel" type="text" class="form-control" id="InputLastName" placeholder="" [(ngModel)]="user.lastName" name="lastname" required
+                tooltip="Required"
+                tooltipPlacement="right"
+                tooltipTrigger=""
+                [tooltipEnable]="!lastname.valid && !lastname.pristine"
+                [tooltipIsOpen]="!lastname.valid && !lastname.pristine">
+                <!--<div [hidden]="lastname.valid || lastname.pristine" class="alert alert-danger input-group-addon">Name is required</div>-->
             </div>
             </fieldset>
         </div>
@@ -32,10 +42,15 @@
             <fieldset class="form-group col-lg-2">
             <label for="gradyear">Year of graduation</label>
             <div class="input-group">
-                <select class="c-select" #gradyear="ngModel" type="gradyear" id="InputGradyear" placeholder="9th grade: 2019" [(ngModel)]="user.gradYear" name ="gradyear" required>
+                <select class="c-select" #gradyear="ngModel" type="gradyear" id="InputGradyear" placeholder="9th grade: 2019" [(ngModel)]="user.gradYear" name ="gradyear" required
+                tooltip="Required"
+                tooltipPlacement="right"
+                tooltipTrigger=""
+                [tooltipEnable]="!gradyear.valid && !gradyear.pristine"
+                [tooltipIsOpen]="!gradyear.valid && !gradyear.pristine">
                     <option *ngFor="let g of gradeRange" [value]="g" [selected]="g==user.gradYear">{{g}}</option>
                 </select>
-                <div [hidden]="gradyear.valid || gradyear.pristine" class="alert alert-danger">Year of graduation is required</div>
+                <!--<div [hidden]="gradyear.valid || gradyear.pristine" class="alert alert-danger">Year of graduation is required</div>-->
             </div>
             </fieldset>
             <div class="col-lg-2"><h2>OR</h2></div>
@@ -89,19 +104,29 @@
             <fieldset class="form-group col-lg-4">
             <label for="canvasURL">Set Canvas URL</label>
             <div class="input-group">
-                <input #canvasURL="ngModel" type="text" class="form-control" id="InputCanvasURL" placeholder="" [(ngModel)]="user.canvasURL" name="canvasURL" (ngModelChange)="onChangeCanvasURL($event)">
+                <input #canvasURL="ngModel" type="text" class="form-control" id="InputCanvasURL" placeholder="" [(ngModel)]="user.canvasURL" name="canvasURL" (ngModelChange)="onChangeCanvasURL($event)"
+                tooltip="You wont be able to get the schedule if this is set to empty."
+                tooltipPlacement="bottom"
+                tooltipTrigger=""
+                [tooltipEnable]="!canvasURL.value"
+                [tooltipIsOpen]="!canvasURL.value">
                 <div class="input-group-addon" *ngIf="testingC">testing...</div> <div class="input-group-addon" *ngIf="validC">Valid!</div> <div class="input-group-addon" *ngIf="!validC">Invalid!</div>
             </div>
-            <div [hidden]="canvasURL.value" class="alert alert-warning">You wont be able to get the schedule if this is set to empty.</div>
+            <!--<div [hidden]="canvasURL.value" class="alert alert-warning">You wont be able to get the schedule if this is set to empty.</div>-->
             </fieldset>
 
             <fieldset class="form-group col-lg-4">
             <label for="portalURL">Set Portal URL</label>
             <div class="input-group">
-                <input #portalURL="ngModel" type="text" class="form-control" id="InputPortalURL" placeholder="" [(ngModel)]="user.portalURL" name="portalURL" (ngModelChange)="onChangePortalURL($event)">
+                <input #portalURL="ngModel" type="text" class="form-control" id="InputPortalURL" placeholder="" [(ngModel)]="user.portalURL" name="portalURL" (ngModelChange)="onChangePortalURL($event)"
+                tooltip="You wont be able to get the planner events from the portal if this is set to empty."
+                tooltipPlacement="bottom"
+                tooltipTrigger=""
+                [tooltipEnable]="!portalURL.value"
+                [tooltipIsOpen]="!portalURL.value">
                 <div class="input-group-addon" *ngIf="testingP">testing...</div> <div class="input-group-addon" *ngIf="validP">Valid!</div> <div class="input-group-addon" *ngIf="!validP">Invalid!</div>
             </div>
-            <div [hidden]="portalURL.value" class="alert alert-warning">You wont be able to get the planner events from the portal if this is set to empty.</div>
+            <!--<div [hidden]="portalURL.value" class="alert alert-warning">You wont be able to get the planner events from the portal if this is set to empty.</div>-->
             </fieldset>
         </div>
 

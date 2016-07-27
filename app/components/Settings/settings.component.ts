@@ -5,13 +5,14 @@ import {UserService} from '../../services/user.service';
 import {NgFor, NgIf, NgForm} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
+import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component ({
     selector: 'settings',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
     providers: [],
-    directives: [NgFor, NgIf]
+    directives: [NgFor, NgIf, TOOLTIP_DIRECTIVES]
 })
 
 export class SettingsComponent{
@@ -184,4 +185,7 @@ export class SettingsComponent{
             }
         )
     }
+
+//change background
+    
 }

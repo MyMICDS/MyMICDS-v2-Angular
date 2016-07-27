@@ -3,7 +3,7 @@
     <!--<h2 class="login-text" *ngIf="isLoggedIn">Logged in as {{userName}}.</h2>
     <button *ngIf="isLoggedIn" (click)="onClickLogout()" id="logoutButton" type="button" class="btn btn-primary btn-lg" >logout</button>-->
 
-    <div *ngIf="!isLoggedIn" class="col-lg-6">
+    <div *ngIf="!isLoggedIn" class="col-lg-6 blur">
         <h1>LOGIN</h1>
         <div class="alert alert-danger" *ngIf="errorMessage"><strong>Error Logging in!</strong> {{errorMessage}} </div>
         <div>
@@ -12,19 +12,29 @@
                     <label for="loginUser">Username</label>
                     <input type="text" class="form-control" id="loginUser" placeholder="Enter username" required
                     [(ngModel)]="loginModel.user"
-                        name="user"  #user="ngModel" >
-                    <div [hidden]="user.valid || user.pristine" class="alert alert-danger">
+                        name="user"  #user="ngModel" 
+                    tooltip="Required"
+                    tooltipPlacement="right"
+                    tooltipTrigger=""
+                    [tooltipEnable]="!user.valid && !user.pristine"
+                    [tooltipIsOpen]="!user.valid && !user.pristine">
+                    <!--<div [hidden]="user.valid || user.pristine" class="alert alert-danger">
                     Username is required
-                    </div>
+                    </div>-->
                 </fieldset>
                 <fieldset class="form-group">
                     <label for="loginPassword">Password</label>
                     <input type="password" class="form-control" id="loginPassword" placeholder="Enter password" required
                     [(ngModel)]="loginModel.password"
-                        name="password"  #password="ngModel" >
-                    <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+                        name="password"  #password="ngModel" 
+                    tooltip="Required"
+                    tooltipPlacement="right"
+                    tooltipTrigger=""
+                    [tooltipEnable]="!password.valid && !password.pristine"
+                    [tooltipIsOpen]="!password.valid && !password.pristine">
+                    <!--<div [hidden]="password.valid || password.pristine" class="alert alert-danger">
                     Password is required
-                    </div>
+                    </div>-->
                 </fieldset>
                 <fieldset>
                     <label class="c-input c-checkbox">

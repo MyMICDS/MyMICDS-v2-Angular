@@ -13,7 +13,8 @@
 	'angular2-fontawesome':       'node_modules/angular2-fontawesome',
 	'prisma':                     'node_modules/prisma/lib',
 	'angular2-jwt':               'node_modules/angular2-jwt',
-	'h5webstorage':               'node_modules/h5webstorage'
+	'h5webstorage':               'node_modules/h5webstorage',
+	'moment':                     'node_modules/moment/moment.js'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {

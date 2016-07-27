@@ -1,3 +1,6 @@
+@import 'app/styles/mixins';
+@import 'app/styles/settings';
+
 .ng-valid[required] {
   border-left: 5px solid #42A948; /* green */
 }
@@ -15,3 +18,13 @@
     display: inline-block;
     margin-left: 1em;
 }
+
+.blur {
+	    border-radius: 15px;
+		display: inline-block;
+		margin-bottom: $blur-margin;
+		padding: 0.5rem;
+		color: $sophisticated-white;
+
+		@include blur(rgba(0, 0, 0, 0.5));
+	}

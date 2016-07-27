@@ -1,6 +1,7 @@
 import {Component, Output, EventEmitter} from '@angular/core';
 import {NgIf, NgForm} from '@angular/common';
 import {Router, ActivatedRoute} from '@angular/router';
+import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
 import {AuthService} from '../../services/auth.service';
 import {LocalStorage, SessionStorage} from 'h5webstorage';
@@ -10,7 +11,7 @@ import {UserService} from '../../services/user.service';
 	selector: 'login',
 	templateUrl: 'app/components/Login/login.html',
     styleUrls: ['dist/app/components/Login/login.css'],
-    directives: [NgIf]
+    directives: [NgIf, TOOLTIP_DIRECTIVES]
 })
 
 

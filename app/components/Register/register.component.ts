@@ -2,12 +2,13 @@ import {Component} from '@angular/core';
 import {NgForm, NgFor} from '@angular/common';
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
+import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component ({
     selector: 'register',
     templateUrl: 'app/components/Register/register.html',
     styleUrls: ['dist/app/components/Register/register.css'],
-    directives: [NgFor],
+    directives: [NgFor, TOOLTIP_DIRECTIVES],
     providers: [AuthService, UserService]
 })
 
