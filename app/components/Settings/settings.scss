@@ -27,3 +27,13 @@ h1 {color: black}
   .btn-default {
     color: black;
   }
+
+.dropzone-container {
+	padding: 20px 100px;
+}
+.bg-drop-zone { 
+	border: dotted 3px lightgrey; 
+	background-color: grey;
+	height: 100px;
+	}
+.nv-file-over { border: dotted 3px red; } 

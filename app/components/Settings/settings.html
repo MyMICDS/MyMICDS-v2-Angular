@@ -126,6 +126,23 @@
         <button type="submit" class="btn btn-default" [disabled]="!(validC && validP)">Update</button>
     </form>
     </div>
+
+    <div class="blur">
+        <h3>Background Settings</h3>
+        <div class="col-lg-6 dropzone-container">
+            <div ng2FileDrop
+                [ngClass]="{'nv-file-over': bgDropZoneOver}"
+                (fileOver)="fileOverDropZone($event)"
+                [uploader]="uploader"
+                class="bg-drop-zone">
+                Drop your background here
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <label for="bgSelect">Select a background to upload</label>
+            <input name="bgSelect" type="file" ng2FileSelect [uploader]="uploader" />
+        </div>
+    </div>
 </div>
 
 </div>

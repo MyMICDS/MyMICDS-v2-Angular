@@ -6,13 +6,15 @@ import {NgFor, NgIf, NgForm} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
+import {FILE_UPLOAD_DIRECTIVES, FileUploader} from '/ng2-file-upload/ng2-file-upload';
+import * as config from '../../common/config'
 
 @Component ({
     selector: 'settings',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
     providers: [],
-    directives: [NgFor, NgIf, TOOLTIP_DIRECTIVES]
+    directives: [NgFor, NgIf, TOOLTIP_DIRECTIVES, FILE_UPLOAD_DIRECTIVES]
 })
 
 export class SettingsComponent{
@@ -206,5 +208,11 @@ export class SettingsComponent{
     }
 
 //change background
-    
+    URL = config.backendURL + '/background/change'
+    bgDropZoneOver = false;
+    public uploader:FileUploader = new FileUploader({url: URL});
+
+    public fileOverDropZone(e:any):void {
+        this.bgDropZoneOver = e;
+    }
 }

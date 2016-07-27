@@ -48,5 +48,4 @@ export class BackgroundService {
             })
 			.catch(handleError);
 	}
-
 }
