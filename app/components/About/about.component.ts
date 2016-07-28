@@ -14,28 +14,28 @@ export class AboutComponent {
 			lastName : 'Gira',
 			gradYear : 2019,
 			title    : 'Creator and Lead Developer',
-			image    : 'https://micds.myschoolapp.com/ftpimages/243/user/large_user_3213179.JPG'
+			image    : 'dist/app/resources/developers/michaels-ugly-face.jpg'
 		},
 		{
 			firstName: 'Nick',
 			lastName : 'Clifford',
 			gradYear : 2020,
 			title    : 'System Administrations',
-			image    : 'https://micds.myschoolapp.com/ftpimages/243/user/large_user_3251299.JPG'
+			image    : 'dist/app/resources/developers/nicks-ugly-face.jpg'
 		},
 		{
 			firstName: 'Jack',
 			lastName : 'Cai',
 			gradYear : 2019,
 			title    : 'Front-End Developer',
-			image    : 'https://micds.myschoolapp.com/ftpimages/243/user/large_user_3609440.JPG'
+			image    : 'dist/app/resources/developers/jacks-ugly-face.jpg'
 		},
 		{
 			firstName: 'Bob',
 			lastName : 'Sforza',
 			gradYear : 2017,
 			title    : 'Developer',
-			image    : 'https://micds.myschoolapp.com/ftpimages/243/user/large_user_3339113.JPG'
+			image    : 'dist/app/resources/developers/bobs-ugly-face.jpg'
 		}
 	];
 }

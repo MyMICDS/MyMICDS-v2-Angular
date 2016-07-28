@@ -1,6 +1,6 @@
 import * as config from '../common/config';
 
-import {Injectable, EventEmitter} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Http, RequestOptions} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
@@ -11,8 +11,6 @@ import {LocalStorage, SessionStorage} from 'h5webstorage';
 export class AuthService {
 
     constructor(private http: Http, private authHttp: AuthHttp, private localStorage: LocalStorage, private sessionStorage: SessionStorage) {}
-
-	public loginEvent$: EventEmitter<any> = new EventEmitter() //event emitter for login event, emit true for login, emit false for logout
 
     login(user:string, password:string, remember:any) {
         let body = JSON.stringify({
@@ -40,8 +38,6 @@ export class AuthService {
 					this.localStorage.setItem('id_token', data.jwt)
 				}
 
-				this.loginEvent$.emit(true);
-
 				return {
 					success: data.success,
 					jwt: data.jwt
@@ -67,8 +63,6 @@ export class AuthService {
 				// Delete JWT from the client
 				this.sessionStorage.removeItem('id_token');
 				this.localStorage.removeItem('id_token');
-
-				this.loginEvent$.emit(false);
 
 				return;
 			})

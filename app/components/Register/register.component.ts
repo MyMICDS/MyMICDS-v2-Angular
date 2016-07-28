@@ -1,66 +1,54 @@
 import {Component} from '@angular/core';
-import {NgForm, NgFor} from '@angular/common';
+import {NgForm, NgIf, NgFor} from '@angular/common';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
-import { TOOLTIP_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component ({
     selector: 'register',
     templateUrl: 'app/components/Register/register.html',
     styleUrls: ['dist/app/components/Register/register.css'],
-    directives: [NgFor, TOOLTIP_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, NgIf, NgFor],
     providers: [AuthService, UserService]
 })
-
 export class RegisterComponent{
-    constructor(private authService: AuthService, private userService: UserService) {}
+    constructor(private router: Router, private authService: AuthService, private userService: UserService) {}
+
+	gradeRange:number[];
+	registerModel = {
+		user: '',
+		password: '',
+		firstName: '',
+		lastName: '',
+		gradYear: null,
+		teacher: false
+	};
 
     ngOnInit() {
+
+		// Check if user is already logged in
+		if(this.userService.getUsername()) {
+			this.router.navigate(['home']);
+		}
+
         this.userService.gradeRange().subscribe(
             gradeRange => {
                 this.gradeRange = gradeRange;
-                console.log(gradeRange)
             },
             error => {
-                this.errMsg = error;
-                this.submitted = true;
+				console.log('There was an error getting the grade ranges!', error);
             }
-        )
+        );
     }
 
-    gradeRange = [];
-    repeatPass = '';
-    form = {
-        user:'',
-        password: '',
-        firstName: '',
-        lastName: '',
-        gradYear: null,
-        teacher: false
-    };
-    submitted = false;
-    submitSuccess = false;
-    errMsg = '';
-    onSubmit() {
-        let postForm = this.form;
-        postForm['grad-year'] = this.form['grad-year'].toString();
-        this.submitted = true;
-        this.authService.register(this.form).subscribe(
-            res => {
-                this.submitSuccess = true;
-                this.submitted = true;
-                console.dir(this.form)
-            },
-            error => {
-                this.errMsg = error;
-                this.submitSuccess = false;
-                this.submitted = false;
-            }
-        )
-    }
+	register() {
+		this.authService.register(this.registerModel).subscribe(
+			() => {
 
-    changeEmail() {
-        this.submitted = false;
-        this.submitSuccess = false;
-    }
+			},
+			error => {
+				console.log('Register error', error);
+			}
+		);
+	}
 }

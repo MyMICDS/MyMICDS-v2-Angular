@@ -2,7 +2,7 @@
 	<div class="login-form">
 		<div class="login-header">
 			<h1>Login</h1>
-			<img src="https://mymicds.net/assets/logo/logo.svg">
+			<img src="dist/app/resources/logo/logo.svg">
 		</div>
 		<form #loginForm="ngForm" (ngSubmit)="login()" novalidate>
 			<div class="input-group">
@@ -10,13 +10,13 @@
 				<div class="input-group-addon">@micds.org</div>
 			</div>
 			<input type="password" class="form-control" [(ngModel)]="loginModel.password" name="password" placeholder="Password" required>
-			<label class="form-check-label">
-				<input type="checkbox" class="form-check-input" [(ngModel)]="loginModel.remember" name="remember">
+			<label>
+				<input type="checkbox" [(ngModel)]="loginModel.remember" name="remember">
 				Remember Me
 			</label>
 			<a class="forgot-password" routerLink="/forgot-password">Forgot Password?</a>
 			<button class="btn btn-success btn-lg btn-block" [disabled]="!loginForm.form.valid">Login</button>
-			<button class="btn btn-primary-outline btn-block">Register</button>
+			<button routerLink="/register" class="btn btn-primary-outline btn-block">Register</button>
 		</form>
 	</div>
 </div>
