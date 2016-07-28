@@ -69,7 +69,8 @@ export class SettingsComponent{
 
     errMsg: string;
 
-    urlInput$;
+    urlInputCanvas$;
+    urlInputPortal$;
 
     ngOnInit() {
         this.getUserInfo();
@@ -82,21 +83,25 @@ export class SettingsComponent{
             }
         ) //add maunal input if graderange cannot be got
 
-        this.urlInput$ = Observable.fromEvent(document.getElementById('InputCanvasURL'), 'input')
-        .debounceTime(250)
-        .subscribe(
+        this.urlInputCanvas$ = Observable.fromEvent(document.getElementById('InputCanvasURL'), 'input')
+            .debounceTime(250)
+            .map((event: Event) => {
+                return event.target.value
+        }).subscribe(
             input => {
-                this.onChangeCanvasURL(input.target.value)
-                console.log(input.target.value)
+                this.onChangeCanvasURL(input)
+                console.log(input)
             }
         )
 
-        this.urlInput$ = Observable.fromEvent(document.getElementById('InputPortalURL'), 'input')
+        this.urlInputPortal$ = Observable.fromEvent(document.getElementById('InputPortalURL'), 'input')
         .debounceTime(250)
-        .subscribe(
+        .map((event: Event) => {
+                return event.target.value
+        }).subscribe(
             input => {
-                this.onChangePortalURL(input.target.value)
-                console.log(input.target.value)
+                this.onChangePortalURL(input)
+                console.log(input)
             }
         )
     }
@@ -131,13 +136,10 @@ export class SettingsComponent{
                     this.URLerrMsg = null;
                     res.valid == true ? this.validC = true : this.validC = false;
                 },
-                error => {this.URLerrMsg = error}
-            )
-            setTimeout(
+                error => {this.URLerrMsg = error},
                 () => {
                     this.testingC = false;
-                }, 
-                1000
+                }
             )
         } 
     }
@@ -151,15 +153,12 @@ export class SettingsComponent{
             this.portalService.testUrl($event.trim()).subscribe(
                 res => {
                     this.URLerrMsg = null;
-                    res.valid == true ? this.validC = true : this.validC = false;
+                    res.valid == true ? this.validP = true : this.validP = false;
                 },
-                error => {this.URLerrMsg = error}
-            )
-            setTimeout(
+                error => {this.URLerrMsg = error},
                 () => {
                     this.testingP = false;
-                }, 
-                1000
+                }
             )
         }
     }
