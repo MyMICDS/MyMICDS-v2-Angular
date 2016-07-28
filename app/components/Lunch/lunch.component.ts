@@ -83,6 +83,11 @@ export class LunchComponent {
 		this.focus[d.getDay()] = true
 		this.navClick$ = Observable.fromEvent(document.getElementsByClassName('lunch-nav'), 'click')
 		.debounceTime(200)
+		.map(
+			(res: MouseEvent) => {
+				return res
+			}
+		)
 		.subscribe(
 			click => {
 				click.path[1].classList[1] === "lunch-right-nav" || click.path[2].classList[1] === "lunch-right-nav" ? this.nextWeek() : 
