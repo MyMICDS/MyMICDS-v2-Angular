@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NgForm, NgIf, NgFor} from '@angular/common';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 
@@ -16,13 +17,18 @@ export class RegisterComponent{
 
 	gradeRange:number[];
 	registerModel = {
-		user: '',
-		password: '',
-		firstName: '',
-		lastName: '',
-		gradYear: null,
-		teacher: false
+		user           : '',
+		password       : '',
+		confirmPassword: '',
+		firstName      : '',
+		lastName       : '',
+		gradYear       : null,
+		teacher        : false
 	};
+
+	validEmail(str:string) {
+		return /^[a-zA-Z()]+$/.test(str);
+	}
 
     ngOnInit() {
 

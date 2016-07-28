@@ -1,4 +1,7 @@
-// String is the string to capitalize, offset will ignore the first n characters (for stuff like '/' in a url)
+/*
+ * Capitalize every word of a string, offset will ignore the first n characters.
+ */
+
 export function capitalize(str:string, offset:number = 0) {
 	// Slice string n characters
 	let subStr = str.slice(offset);

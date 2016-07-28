@@ -4,26 +4,29 @@
 		<img src="dist/app/resources/logo/logo.svg">
 	</div>
 	<form #registerForm="ngForm" (ngSubmit)="register()" novalidate>
-		<fieldset>
+		<fieldset class="form-group" [class.has-warning]="user.dirty &&!validEmail(registerModel.user)">
 			<legend>Username</legend>
 			<div class="input-group">
-				<input class="form-control" [(ngModel)]="registerModel.user" name="username" placeholder="Username" required>
+				<input #user="ngModel" class="form-control" [class.form-control-warning]="user.dirty && !validEmail(registerModel.user)" [(ngModel)]="registerModel.user" name="username" placeholder="Username" required>
 				<div class="input-group-addon">@micds.org</div>
 			</div>
-			<p class="form-text text-muted">Your username is the prefix of your MICDS email. This usually <strong>does not</strong> contain numbers.</p>
+			<p class="form-text form-control-feedback text-muted">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
 		</fieldset>
-		<fieldset>
+		<fieldset class="form-group">
 			<legend>Password</legend>
 			<input type="password" class="form-control" [(ngModel)]="registerModel.password" name="password" placeholder="Password" required>
-			<input type="password" class="form-control" [(ngModel)]="registerModel.password" name="confirm-password" placeholder="Confirm Password" required>
+			<input type="password" class="form-control" [(ngModel)]="registerModel.confirmPassword" name="confirm-password" placeholder="Confirm Password" required>
+			<div class="form-control-feedback">Passwords do not match</div>
 			<p class="form-text text-muted">MyMICDS.net is not affiliated with Mary Institute Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
 		</fieldset>
-		<fieldset>
+		<fieldset class="form-group">
 			<legend>Name</legend>
-			<input class="form-control" [(ngModel)]="registerModel.firstName" name="first-name" placeholder="First Name" required>
-			<input class="form-control" [(ngModel)]="registerModel.lastName" name="last-name" placeholder="Last Name" required>
+			<div class="full-name form-inline">
+				<input class="form-control" [(ngModel)]="registerModel.firstName" name="first-name" placeholder="First Name" required>
+				<input class="form-control" [(ngModel)]="registerModel.lastName" name="last-name" placeholder="Last Name" required>
+			</div>
 		</fieldset>
-		<fieldset>
+		<fieldset class="form-group">
 			<legend>Graduation Year</legend>
 			<div class="checkbox">
 				<label>
