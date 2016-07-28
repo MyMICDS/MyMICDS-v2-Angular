@@ -15,7 +15,7 @@ import {UserService} from '../../services/user.service';
 export class LoginComponent {
     constructor(private router:Router, private authService: AuthService, private userService: UserService) {}
 
-    public loginForm = {
+    public loginModel = {
         user: '',
         password: '',
         remember: true,
@@ -29,7 +29,7 @@ export class LoginComponent {
 	}
 
     login() {
-        this.authService.login(this.loginForm.user, this.loginForm.password, this.loginForm.remember).subscribe(
+        this.authService.login(this.loginModel.user, this.loginModel.password, this.loginModel.remember).subscribe(
             loginRes => {
                 this.router.navigate(['home']);
             },

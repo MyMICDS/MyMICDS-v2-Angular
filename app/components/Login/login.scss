@@ -12,6 +12,7 @@
 	align-items: center;
 
 	.login-form {
+		width: 20%;
 		padding: 1rem;
 		color: $sophisticated-white;
 		@include blur();
