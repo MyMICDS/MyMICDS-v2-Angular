@@ -15,6 +15,6 @@
 	</div>
 	<div *ngIf="userService.getUsername()" class="navbar-right">
 		<p class="logged-in-user text-muted">Logged in as {{userService.getUsername()}}</p>
-		<button class="btn btn-danger" [routerLink]="['/login', {logout:true}]">Logout</button>
+		<button class="btn btn-danger" [routerLink]="['/logout']">Logout</button>
 	</div>
 </nav>

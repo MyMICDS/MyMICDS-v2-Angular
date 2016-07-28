@@ -1,30 +1,42 @@
 @import 'app/styles/mixins';
 @import 'app/styles/settings';
 
-.ng-valid[required] {
-  border-left: 5px solid #42A948; /* green */
-}
-.ng-invalid {
-  border-left: 5px solid #a94442; /* red */
-}
+.login-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-.form-control {
-    transition: all 0.4s ease;
-}
-
-.login-text {
-    text-align: center;
-    font-size: 1em;
-    display: inline-block;
-    margin-left: 1em;
-}
-
-.blur {
-	    border-radius: 15px;
-		display: inline-block;
-		margin-bottom: $blur-margin;
-		padding: 0.5rem;
+	.login-form {
+		padding: 1rem;
 		color: $sophisticated-white;
+		@include blur();
 
-		@include blur(rgba(0, 0, 0, 0.5));
+		.login-header {
+			margin-bottom: 1rem;
+			text-align: center;
+
+			h1 {
+				margin-bottom: 1.5rem;
+				font-size: 3rem;
+				font-weight: 300;
+			}
+
+			img {
+				width: 5rem;
+				border-radius: 5rem;
+			}
+		}
+
+		form {
+			.forgot-password {
+				float: right;
+				margin-bottom: 1rem;
+			}
+		}
 	}
+}

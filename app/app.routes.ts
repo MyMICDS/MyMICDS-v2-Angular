@@ -8,6 +8,7 @@ import {BulletinArchivesComponent} from './components/BulletinArchives/bulletin-
 import {SettingsComponent} from './components/Settings/settings.component';
 import {AboutComponent} from './components/About/about.component';
 import {LoginComponent} from './components/Login/login.component';
+import {LogoutComponent} from './components/Logout/logout.component';
 import {RegisterComponent} from './components/Register/register.component';
 
 import {AuthGuard} from './common/auth.guard';
@@ -56,6 +57,10 @@ const routes: RouterConfig = [
 	{
 		path: 'login',
 		component: LoginComponent
+	},
+	{
+		path: 'logout',
+		component: LogoutComponent
 	},
 	{
 		path: 'register',

@@ -5,6 +5,10 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
+html, body {
+	height: 100%;
+}
+
 body {
 	background-image: url($background-url);
 	background-size: cover;

@@ -26,6 +26,8 @@
 			width: 2rem;
 
 			.cls-1, .cls-2 {
+				transition-duration: 0.25s;
+				transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
 				fill:#fff;
 			}
 

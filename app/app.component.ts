@@ -11,6 +11,7 @@ import {BulletinArchivesComponent} from './components/BulletinArchives/bulletin-
 import {SettingsComponent} from './components/Settings/settings.component';
 import {AboutComponent} from './components/About/about.component';
 import {LoginComponent} from './components/Login/login.component';
+import {LogoutComponent} from './components/Logout/logout.component';
 import {RegisterComponent} from './components/Register/register.component';
 
 import {AuthService} from './services/auth.service';
@@ -26,13 +27,14 @@ import {UserService} from './services/user.service';
 		<navbar></navbar>
 		<router-outlet></router-outlet>
 	`,
+	styles: [':host { height: 100%; }'],
 	providers: [HTTP_PROVIDERS, AuthService, CanvasService, LocalStorageService, PortalService, UserService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES],
 	precompile: [
 				NavbarComponent, HomeComponent, LunchComponent,
 				PlannerComponent, BulletinComponent, BulletinArchivesComponent,
 				SettingsComponent, AboutComponent, LoginComponent,
-				RegisterComponent
+				LogoutComponent, RegisterComponent
 			]
 })
 export class AppComponent {}
