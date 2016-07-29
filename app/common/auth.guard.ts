@@ -19,7 +19,13 @@ export class AuthGuard {
 
 		// If there is a token, then user is logged in, otherwise redirect to login page
         if(token && !this.jwtHelper.isTokenExpired(token)) return true;
+
+		// Delete JWT from the client just in case it was simply expired
+		this.sessionStorage.removeItem('id_token');
+		this.localStorage.removeItem('id_token');
+
         console.info('auth.guard.ts triggered.');
+
         this.router.navigate(['/login']);
         return false;
     }

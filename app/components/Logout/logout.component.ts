@@ -11,11 +11,7 @@ import {AuthService} from '../../services/auth.service';
 export class LogoutComponent {
     constructor(private router: Router, private authService: AuthService) {
 		this.authService.logout().subscribe(
-            () => {},
-            error => {
-				console.log('Logout error', error);
-			},
-			() => {
+            () => {
 				/*
 				 * We have a setTimeout with no delay so we navigate home on the next tick.
 				 * If we navigate before the timeout, the system still has a JWT, which is bad.
@@ -24,6 +20,10 @@ export class LogoutComponent {
 				setTimeout(() => {
 					this.router.navigate(['home']);
 				}, 0);
+			},
+            error => {
+				console.log('Logout error', error);
+				this.router.navigate(['home']);
 			}
         )
     }

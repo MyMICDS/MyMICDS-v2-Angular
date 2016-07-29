@@ -3,7 +3,8 @@ import {provide} from '@angular/core';
 import {disableDeprecatedForms, provideForms} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
-import {AuthHttp, AuthConfig} from 'angular2-jwt';
+import {AuthHttp, AuthConfig, JwtHelper} from 'angular2-jwt';
+let jwtHelper = new JwtHelper();
 import {WEB_STORAGE_PROVIDERS} from 'h5webstorage';
 
 import {AppComponent} from './app.component';
@@ -29,6 +30,15 @@ bootstrap(AppComponent, [
 					// Remove any quotations from the sides
 					if(typeof token === 'string') {
 						token = token.split('"').join('');
+
+						// Check if token is expired. If it is, delete and send user to login page
+						if(jwtHelper.isTokenExpired(token)) {
+							this.sessionStorage.removeItem('id_token');
+							this.localStorage.removeItem('id_token');
+
+							this.router.navigate(['/login']);
+							return null;
+						}
 					}
 
 					return token;
