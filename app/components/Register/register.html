@@ -4,10 +4,10 @@
 		<img src="dist/app/resources/logo/logo.svg">
 	</div>
 	<form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
-		<fieldset class="form-group" [class.has-warning]="registerForm.controls.user.dirty && !validEmail(registerForm.controls.user.value)">
+		<fieldset class="form-group" [class.has-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)">
 			<legend>Username</legend>
 			<div class="input-group">
-				<input class="form-control" [class.form-control-warning]="registerForm.controls.user.dirty && !validEmail(registerForm.controls.user.value)" formControlName="user" placeholder="Username" required>
+				<input class="form-control" [class.form-control-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)" formControlName="user" placeholder="Username" required>
 				<div class="input-group-addon">@micds.org</div>
 			</div>
 			<p class="form-text form-control-feedback text-muted">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>

@@ -105,6 +105,63 @@ export class AuthService {
             .catch(handleError);
 	}
 
+	changePassword(oldPassword:string, newPassword:string) {
+		let body = JSON.stringify({ oldPassword, newPassword });
+		let headers = xhrHeaders();
+        let options = new RequestOptions({ headers });
+
+        return this.authHttp.post(config.backendURL + '/auth/change-password', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					throw new Error(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
+
+	forgotPassword(user:string) {
+		let body = JSON.stringify({ user });
+		let headers = xhrHeaders();
+        let options = new RequestOptions({ headers });
+
+        return this.http.post(config.backendURL + '/auth/forgot-password', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					throw new Error(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
+
+	resetPassword(user:string, password:string, hash:string) {
+		let body = JSON.stringify({ user });
+		let headers = xhrHeaders();
+        let options = new RequestOptions({ headers });
+
+        return this.http.post(config.backendURL + '/auth/reset-password', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					throw new Error(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
+
     public isLoggedIn() {
     	return (this.sessionStorage['id_token'] || this.localStorage['id_token']);
     }

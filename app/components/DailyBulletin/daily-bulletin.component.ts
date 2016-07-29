@@ -11,13 +11,13 @@ import {SafePipe} from '../../pipes/safe.pipe';
 
 @Component({
 	selector: 'daily-bulletin',
-	templateUrl: 'app/components/Bulletin/bulletin.html',
-	styleUrls: ['dist/app/components/Bulletin/bulletin.css'],
+	templateUrl: 'app/components/DailyBulletin/daily-bulletin.html',
+	styleUrls: ['dist/app/components/DailyBulletin/daily-bulletin.css'],
 	directives: [ROUTER_DIRECTIVES],
 	pipes: [SafePipe],
 	providers: [BulletinService]
 })
-export class BulletinComponent {
+export class DailyBulletinComponent {
 	constructor(private route: ActivatedRoute, private bulletinService: BulletinService) {}
 
 	bulletins:string[];

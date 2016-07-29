@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {ROUTER_DIRECTIVES, Router, ActivatedRoute} from '@angular/router';
 import {FaComponent} from 'angular2-fontawesome/components';
+import {typeOf} from '../../common/utils';
 
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
@@ -14,6 +15,7 @@ import {UserService} from '../../services/user.service';
 })
 export class ConfirmComponent {
 	constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private userService: UserService) {}
+	typeOf = typeOf;
 
 	confirmResponse:any;
 	confirmIcon:string;

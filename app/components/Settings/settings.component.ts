@@ -1,13 +1,16 @@
+import * as config from '../../common/config'
+
 import {Component} from '@angular/core';
-import {PortalService} from '../../services/portal.service';
-import {CanvasService} from '../../services/canvas.service';
-import {UserService} from '../../services/user.service';
 import {NgFor, NgIf, NgForm} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
-import { TOOLTIP_DIRECTIVES, PROGRESSBAR_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
-import {FILE_UPLOAD_DIRECTIVES, FileUploader} from '/ng2-file-upload/ng2-file-upload';
-import * as config from '../../common/config'
+import {TOOLTIP_DIRECTIVES, PROGRESSBAR_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
+import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';
+
+import {AuthService} from '../../services/auth.service';
+import {CanvasService} from '../../services/canvas.service';
+import {PortalService} from '../../services/portal.service';
+import {UserService} from '../../services/user.service';
 
 @Component ({
     selector: 'settings',
@@ -18,9 +21,9 @@ import * as config from '../../common/config'
 })
 
 export class SettingsComponent{
-    constructor (private portalService: PortalService, private canvasService: CanvasService, private userService: UserService) {}
+    constructor(private authService: AuthService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
 
-    valueChanged():boolean { 
+    valueChanged():boolean {
         let originalUser = JSON.parse(sessionStorage.getItem('user-info'));
         if (!originalUser) {
             return false
@@ -34,7 +37,7 @@ export class SettingsComponent{
         console.info('candeactivate called')
         if (!this.valueChanged()) {return true}
         let p:Promise<boolean> = new Promise<boolean>((res: (boolean)=>void, rej: ()=>void) => {
-            window.confirm('Are you sure you want to discard the unsaved changes on the page?') ? 
+            window.confirm('Are you sure you want to discard the unsaved changes on the page?') ?
             res(true) : res(false);
         })
         let o = Observable.fromPromise(p)
@@ -141,7 +144,7 @@ export class SettingsComponent{
                     this.testingC = false;
                 }
             )
-        } 
+        }
     }
 
     private testingP:boolean = false;
@@ -167,25 +170,25 @@ export class SettingsComponent{
         console.info('you have submitted',this.user.canvasURL, this.user.portalURL);
         this.canvasService.setUrl(this.user.canvasURL).subscribe(
             res => {
-                if (res.valid != true){this.URLerrMsg = res.valid} 
+                if (res.valid != true){this.URLerrMsg = res.valid}
             },
             error => {
                 this.URLerrMsg = error
             },
             () => {
                 this.getUserInfo();
-            } 
+            }
         );
         this.portalService.setUrl(this.user.canvasURL).subscribe(
             res => {
-                if (res.valid != true){this.URLerrMsg = res.valid} 
+                if (res.valid != true){this.URLerrMsg = res.valid}
             },
             error => {
                 this.URLerrMsg = error
             },
             () => {
                 this.getUserInfo();
-            } 
+            }
         )
     }
 
@@ -199,7 +202,7 @@ export class SettingsComponent{
     }
 
     changePassword() {
-        this.userService.changePassword(this.oldPass, this.newPass).subscribe(
+        this.authService.changePassword(this.oldPass, this.newPass).subscribe(
             error => {
                 this.passErrMsg = error;
             }

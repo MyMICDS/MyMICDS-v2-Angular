@@ -78,64 +78,6 @@ export class UserService {
 			})
 			.catch(handleError);
     }
-
-	changePassword(oldPassword:string, newPassword:string) {
-		let body = JSON.stringify({ oldPassword, newPassword });
-		let headers = xhrHeaders();
-        let options = new RequestOptions({ headers });
-
-        return this.authHttp.post(config.backendURL + '/user/change-password', body, options)
-			.map(res => {
-				let data = res.json();
-
-				// Check if server-side error
-				if(data.error) {
-					throw new Error(data.error);
-				}
-
-				return;
-			})
-			.catch(handleError);
-	}
-
-	forgotPassword(user:string) {
-		let body = JSON.stringify({ user });
-		let headers = xhrHeaders();
-        let options = new RequestOptions({ headers });
-
-        return this.http.post(config.backendURL + '/user/forgot-password', body, options)
-			.map(res => {
-				let data = res.json();
-
-				// Check if server-side error
-				if(data.error) {
-					throw new Error(data.error);
-				}
-
-				return;
-			})
-			.catch(handleError);
-	}
-
-	resetPassword(user:string, password:string, hash:string) {
-		let body = JSON.stringify({ user });
-		let headers = xhrHeaders();
-        let options = new RequestOptions({ headers });
-
-        return this.http.post(config.backendURL + '/user/reset-password', body, options)
-			.map(res => {
-				let data = res.json();
-
-				// Check if server-side error
-				if(data.error) {
-					throw new Error(data.error);
-				}
-
-				return;
-			})
-			.catch(handleError);
-	}
-
 }
 
 interface UserInfo {

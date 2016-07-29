@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NgIf, NgFor} from '@angular/common';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
+import {isAlphabetic} from '../../common/utils';
 
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
@@ -15,6 +16,7 @@ import {UserService} from '../../services/user.service';
 })
 export class RegisterComponent {
     constructor(private router: Router, private formBuilder: FormBuilder, private authService: AuthService, private userService: UserService) {}
+	isAlphabetic = isAlphabetic;
 
 	registerForm = this.formBuilder.group({
 		user: ['', Validators.required],
@@ -27,10 +29,6 @@ export class RegisterComponent {
 	}, {validator: confirmRegister(['password', 'confirmPassword'], ['gradYear', 'teacher'])});
 
 	gradeRange:number[];
-
-	validEmail(str:string) {
-		return /^[a-zA-Z()]+$/.test(str);
-	}
 
     ngOnInit() {
 
