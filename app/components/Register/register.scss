@@ -26,7 +26,25 @@
 
 	form {
 		.grad-year {
-			span {
+
+			.grade-spacer {
+				margin-bottom: 0.75rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.line {
+					height: 1px;
+					width:100%;
+					border-bottom: 1px solid $sophisticated-white;
+				}
+
+				.text {
+					margin: 0 1rem;
+				}
+			}
+
+			.student span {
 				margin-right: 0.5rem;
 			}
 		}
