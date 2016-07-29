@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {ROUTER_DIRECTIVES} from '@angular/router';
+import {LocalStorage, SessionStorage} from 'h5webstorage';
 
 import {NavbarComponent} from './components/Navbar/navbar.component';
 import {HomeComponent} from './components/Home/home.component';
@@ -30,7 +31,7 @@ import {UserService} from './services/user.service';
 		<router-outlet></router-outlet>
 	`,
 	styles: [':host { height: 100%; }'],
-	providers: [HTTP_PROVIDERS, AuthService, CanvasService, PortalService, UserService],
+	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AuthService, CanvasService, PortalService, UserService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES],
 	precompile: [
 				NavbarComponent,         HomeComponent,          LunchComponent,
