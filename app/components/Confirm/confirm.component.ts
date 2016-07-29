@@ -18,7 +18,6 @@ export class ConfirmComponent {
 	typeOf = typeOf;
 
 	confirmResponse:any;
-	confirmIcon:string;
 
 	ngOnInit() {
 		// Check if user is already logged in
@@ -32,18 +31,17 @@ export class ConfirmComponent {
 				var user = params.user;
 				var hash = params.hash;
 
-				console.log(user, hash);
-
 				this.authService.confirm(user, hash).subscribe(
 					() => {
 						this.confirmResponse = true;
-						this.confirmIcon = 'check';
 					},
 					error => {
-						this.confirmResponse = error;
-						this.confirmIcon = 'times';
+						this.confirmResponse = 'There was a problem getting the URL variables!';
 					}
 				);
+			},
+			(error) => {
+				this.confirmResponse = '';
 			}
 		);
 	}

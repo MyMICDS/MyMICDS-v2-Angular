@@ -12,6 +12,7 @@ import {LogoutComponent} from './components/Logout/logout.component';
 import {RegisterComponent} from './components/Register/register.component';
 import {ConfirmComponent} from './components/Confirm/confirm.component';
 import {ForgotPasswordComponent} from './components/ForgotPassword/forgot-password.component';
+import {ResetPasswordComponent} from './components/ResetPassword/reset-password.component';
 
 import {AuthGuard} from './common/auth.guard';
 import {CanDeactivateGuard} from './common/canDeactivate.guard';
@@ -75,6 +76,10 @@ const routes: RouterConfig = [
 	{
 		path: 'forgot-password',
 		component: ForgotPasswordComponent
+	},
+	{
+		path: 'reset-password/:user/:hash',
+		component: ResetPasswordComponent
 	}
 ];
 

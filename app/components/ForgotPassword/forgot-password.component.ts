@@ -18,9 +18,9 @@ export class ForgotPasswordComponent {
 	isAlphabetic = isAlphabetic;
 	typeOf       = typeOf;
 
-	user:string;
 	submitted = false;
 	forgotResponse:any = null;
+	user:string;
 
 	ngOnInit() {
 		// Check if user is already logged in

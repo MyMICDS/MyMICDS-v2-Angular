@@ -144,7 +144,7 @@ export class AuthService {
 	}
 
 	resetPassword(user:string, password:string, hash:string) {
-		let body = JSON.stringify({ user });
+		let body = JSON.stringify({ user, password, hash });
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
 

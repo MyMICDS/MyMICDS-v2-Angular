@@ -15,10 +15,10 @@ import {LogoutComponent} from './components/Logout/logout.component';
 import {RegisterComponent} from './components/Register/register.component';
 import {ConfirmComponent} from './components/Confirm/confirm.component';
 import {ForgotPasswordComponent} from './components/ForgotPassword/forgot-password.component';
+import {ResetPasswordComponent} from './components/ResetPassword/reset-password.component';
 
 import {AuthService} from './services/auth.service';
 import {CanvasService} from './services/canvas.service';
-import {LocalStorageService} from './services/localStorage.service';
 import {PortalService} from './services/portal.service';
 import {UserService} from './services/user.service';
 
@@ -30,14 +30,14 @@ import {UserService} from './services/user.service';
 		<router-outlet></router-outlet>
 	`,
 	styles: [':host { height: 100%; }'],
-	providers: [HTTP_PROVIDERS, AuthService, CanvasService, LocalStorageService, PortalService, UserService],
+	providers: [HTTP_PROVIDERS, AuthService, CanvasService, PortalService, UserService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES],
 	precompile: [
 				NavbarComponent,         HomeComponent,          LunchComponent,
 				PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,
 				SettingsComponent,       AboutComponent,         LoginComponent,
 				LogoutComponent,         RegisterComponent,      ConfirmComponent,
-				ForgotPasswordComponent
+				ForgotPasswordComponent, ResetPasswordComponent
 			]
 })
 export class AppComponent {}
