@@ -13,6 +13,7 @@ import {AboutComponent} from './components/About/about.component';
 import {LoginComponent} from './components/Login/login.component';
 import {LogoutComponent} from './components/Logout/logout.component';
 import {RegisterComponent} from './components/Register/register.component';
+import {ConfirmComponent} from './components/Confirm/confirm.component';
 
 import {AuthService} from './services/auth.service';
 import {CanvasService} from './services/canvas.service';
@@ -34,7 +35,7 @@ import {UserService} from './services/user.service';
 				NavbarComponent, HomeComponent, LunchComponent,
 				PlannerComponent, BulletinComponent, BulletinArchivesComponent,
 				SettingsComponent, AboutComponent, LoginComponent,
-				LogoutComponent, RegisterComponent
+				LogoutComponent, RegisterComponent, ConfirmComponent
 			]
 })
 export class AppComponent {}

@@ -70,9 +70,6 @@ export class RegisterComponent {
 function confirmRegister(passwordParams:string[], gradeParams:string[]) {
 	return (group:any): {[key: string]: any} => {
 
-		console.log('pass', confirmPassword(passwordParams[0], passwordParams[1])(group));
-		console.log('grad', confirmGrade(gradeParams[0], gradeParams[1])(group));
-
 		if(confirmPassword(passwordParams[0], passwordParams[1])(group)
 			|| confirmGrade(gradeParams[0], gradeParams[1])(group)) {
 

@@ -1,0 +1,35 @@
+@import 'app/styles/mixins';
+@import 'app/styles/settings';
+
+.confirm-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.confirm-response {
+		width: 30%;
+		padding: 1rem;
+		text-align: center;
+		color: $sophisticated-white;
+		@include blur();
+
+		h1 {
+			font-size: 3rem;
+			font-weight: 300;
+		}
+
+		fa {
+			display: block;
+			margin-bottom: 1rem;
+		}
+
+		.confirm-success {
+			font-size: 2rem;
+		}
+	}
+}

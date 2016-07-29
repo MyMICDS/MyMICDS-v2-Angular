@@ -10,6 +10,7 @@ import {AboutComponent} from './components/About/about.component';
 import {LoginComponent} from './components/Login/login.component';
 import {LogoutComponent} from './components/Logout/logout.component';
 import {RegisterComponent} from './components/Register/register.component';
+import {ConfirmComponent} from './components/Confirm/confirm.component';
 
 import {AuthGuard} from './common/auth.guard';
 import {CanDeactivateGuard} from './common/canDeactivate.guard';
@@ -65,6 +66,10 @@ const routes: RouterConfig = [
 	{
 		path: 'register',
 		component: RegisterComponent
+	},
+	{
+		path: 'confirm/:user/:hash',
+		component: ConfirmComponent
 	}
 ];
 
