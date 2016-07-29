@@ -99,3 +99,13 @@ thead th{
 .clickable {
     cursor: pointer;
 }
+
+.current-date {
+    width: 1.3rem;
+    height: 1.3rem;
+    padding-top: 0.1rem;
+    padding-left: 0.05rem;
+    border-radius: 50%;
+    @include blur(rgba(0, 0, 0, 0.5));
+    color: $sophisticated-white;
+}

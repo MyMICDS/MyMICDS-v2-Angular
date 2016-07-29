@@ -30,7 +30,7 @@
                     <tr *ngFor="let eventsRow of eventsList; let k = index">
                         <th *ngFor="let events of eventsRow; let i = index" class="table-cell" (click)="selectDay(events)">
                             <div *ngFor="let event of events; let j = index" class="table-event">
-                                <div *ngIf="event.date" class="event-date">{{event.date}}</div>
+                                <div *ngIf="event.date" class="event-date" [ngClass]="{'current-date': currentDate == event.date}">{{event.date}}</div>
                                 <div *ngIf="!event.date" class="event-title" [ngClass]="eventChecker(k, i, j)" [ngStyle]="applyColor(event)">{{event.title}}</div>
                             </div>
                         </th>
