@@ -66,7 +66,14 @@ export class AuthService {
 
 				return;
 			})
-        	.catch(handleError);
+        	.catch(error => {
+				// Remove JWT even if error
+				this.sessionStorage.removeItem('id_token');
+				this.localStorage.removeItem('id_token');
+
+				// Now back to our regularly schedule error handling
+				return handleError(error);
+			});
     }
 
     register(info: UserData) {

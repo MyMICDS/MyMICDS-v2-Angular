@@ -11,12 +11,19 @@ import {AuthService} from '../../services/auth.service';
 export class LogoutComponent {
     constructor(private router: Router, private authService: AuthService) {
 		this.authService.logout().subscribe(
-            () => {
-				this.router.navigate(['home']);
-			},
+            () => {},
             error => {
 				console.log('Logout error', error);
-				this.router.navigate(['home']);
+			},
+			() => {
+				/*
+				 * We have a setTimeout with no delay so we navigate home on the next tick.
+				 * If we navigate before the timeout, the system still has a JWT, which is bad.
+				 * Storage events do not (according to specification) alert the current window.
+				 */
+				setTimeout(() => {
+					this.router.navigate(['home']);
+				}, 0);
 			}
         )
     }
