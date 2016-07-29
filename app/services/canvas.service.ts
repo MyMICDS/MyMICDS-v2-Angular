@@ -9,7 +9,7 @@ import '../common/rxjs-operators';
 @Injectable()
 export class CanvasService {
 
-    constructor (private authHttp: AuthHttp) {}
+    constructor(private authHttp: AuthHttp) {}
 
     getEvents(date:Date) {
         let body = JSON.stringify(date);

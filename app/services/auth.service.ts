@@ -55,14 +55,14 @@ export class AuthService {
         	.map(res => {
 				let data = res.json();
 
+				// Delete JWT from the client
+				this.sessionStorage.removeItem('id_token');
+				this.localStorage.removeItem('id_token');
+
 				// Check if server-side error
 				if(data.error) {
 					throw new Error(data.error);
 				}
-
-				// Delete JWT from the client
-				this.sessionStorage.removeItem('id_token');
-				this.localStorage.removeItem('id_token');
 
 				return;
 			})

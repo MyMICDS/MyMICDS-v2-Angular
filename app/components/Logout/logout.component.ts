@@ -9,11 +9,13 @@ import {AuthService} from '../../services/auth.service';
     styleUrls: ['dist/app/components/Logout/logout.css'],
 })
 export class LogoutComponent {
-    constructor(private router:Router, private authService: AuthService) {
+    constructor(private router: Router, private authService: AuthService) {
 		this.authService.logout().subscribe(
-            logoutRes => {},
-            error => { console.log('Logout error', error); },
-			() => {
+            () => {
+				this.router.navigate(['home']);
+			},
+            error => {
+				console.log('Logout error', error);
 				this.router.navigate(['home']);
 			}
         )

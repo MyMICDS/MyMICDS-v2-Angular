@@ -9,7 +9,7 @@ import '../common/rxjs-operators';
 @Injectable()
 export class ClassesService {
 
-    constructor (private authHttp: AuthHttp) {}
+    constructor(private authHttp: AuthHttp) {}
 
     public getClasses() {
 		let body = JSON.stringify({});

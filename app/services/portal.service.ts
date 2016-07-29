@@ -9,7 +9,7 @@ import '../common/rxjs-operators';
 @Injectable()
 export class PortalService {
 
-    constructor (private authHttp: AuthHttp) {}
+    constructor(private authHttp: AuthHttp) {}
 
 	getSchedule(date:Date) {
         let body = JSON.stringify(date);

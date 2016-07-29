@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="https://use.fontawesome.com/c0ef647bae.css">
 		<link rel="stylesheet" href="dist/app/resources/weather-icons/css/weather-icons.css">
 		<link rel="stylesheet" href="dist/app/resources/weather-icons/css/weather-icons-wind.css">
+		<link rel="stylesheet" href="dist/app/styles/loading.css">
 		<link rel="stylesheet" href="dist/app/styles/app.css">
 
 		<!-- 1. Load libraries -->
@@ -31,6 +32,15 @@
 	</head>
 	<!-- 3. Display the application -->
 	<body>
-		<mymicds-app>MyMICDS.net is MyMICDS.loading</mymicds-app>
+		<mymicds-app>
+			<div class="loading-container">
+				<div class="loading">
+					<div class="img-container">
+						<img src="dist/app/resources/logo/logo.svg">
+					</div>
+					<h1>MyMICDS.net is MyMICDS.loading...</h1>
+				</div>
+			</div>
+		</mymicds-app>
 	</body>
 </html>
