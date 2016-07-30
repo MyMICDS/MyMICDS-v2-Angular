@@ -1,0 +1,11 @@
+<div id="sidebar" class="sidebar" [style.width]="open ? '15rem' : '0'">
+  <ol>
+    <li *ngFor="let note of notifications">
+
+    </li>
+  </ol>
+</div>
+
+<div class="sidebar-toggle" (click)="openSidebar()">
+  Notifications ({{notifications?.length}})
+</div>

@@ -17,6 +17,7 @@ import {RegisterComponent} from './components/Register/register.component';
 import {ConfirmComponent} from './components/Confirm/confirm.component';
 import {ForgotPasswordComponent} from './components/ForgotPassword/forgot-password.component';
 import {ResetPasswordComponent} from './components/ResetPassword/reset-password.component';
+import {SidebarComponent} from './components/Sidebar/sidebar.component'
 
 import {AuthService} from './services/auth.service';
 import {CanvasService} from './services/canvas.service';
@@ -28,11 +29,12 @@ import {UserService} from './services/user.service';
 	selector: 'mymicds-app',
 	template: `
 		<navbar></navbar>
+		<sidebar></sidebar>
 		<router-outlet></router-outlet>
 	`,
 	styles: [':host { height: 100%; }'],
 	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AuthService, CanvasService, PortalService, UserService],
-	directives: [NavbarComponent, ROUTER_DIRECTIVES],
+	directives: [NavbarComponent, ROUTER_DIRECTIVES, SidebarComponent],
 	precompile: [
 				NavbarComponent,         HomeComponent,          LunchComponent,
 				PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,

@@ -1,0 +1,22 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    color: #eceeef;
+    background-color: #373a3c;
+    z-index: 1001;
+    transition: 0.5s width cubic-bezier(0.215, 0.61, 0.355, 1);
+    overflow: hidden;
+}
+
+.sidebar-toggle {
+    cursor: pointer;
+    position: fixed;
+    background-color: #373a3c;
+    color: #eceeef;
+    top: 40%;
+    z-index: 1000;
+    font-size: 1.5rem;
+    padding: 6px 12px;
+}
