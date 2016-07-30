@@ -7,7 +7,7 @@ import { FaDirective } from 'angular2-fontawesome/directives';
 @Component({
     selector: 'planner',
     templateUrl: 'app/components/Planner/planner.html',
-    styleUrls: ['dist/app/components/Planner/planner.css'],
+    styleUrls: ['dist/app/components/Planner/planner.css', 'dist/app/styles/loading.css'],
     directives: [NgFor, NgIf, NgClass, NgStyle, FaDirective],
     providers: [PlannerService, ClassesService]
 })

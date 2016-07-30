@@ -1,5 +1,15 @@
 <div class="container">
-    <div id="my-fadeout" class="calendar-container ">
+    <div *ngIf="loading">
+        <div class="loading-container">
+            <div class="loading">
+                <div class="img-container">
+                    <img src="dist/app/resources/logo/logo.svg">
+                </div>
+                <h1>Loading Planner</h1>
+            </div>
+		</div>
+    </div>
+    <div class="calendar-container" *ngIf="!loading">
         <div *ngIf="plannerMsg" class="alert alert-warning"> {{plannerMsg}} </div>
         <div class="blur calendar-left col-lg-8">
             <div class="calendar-nav">
@@ -25,7 +35,7 @@
                     <th>Saturday</th>
                     </tr>
                 </thead>
-                <tbody *ngIf="!loading">
+                <tbody>
                     <!--Todo: use text masking svg for more styling options-->
                     <tr *ngFor="let eventsRow of eventsList; let k = index">
                         <th *ngFor="let events of eventsRow; let i = index" class="table-cell" (click)="selectDay(events)">
@@ -36,14 +46,11 @@
                         </th>
                     </tr>
                 </tbody>
-                <tbody *ngIf="loading">
-                    <tr> loading...</tr>
-                </tbody>
             </table>
         </div>
         <div class="blur calendar-right col-lg-4">
             <div *ngIf="selectedEvents.length == 0"><h2>Click on a day to select it.</h2></div>
-            <div *ngIf="!(selectedEvents.length == 0) && !loading">
+            <div *ngIf="!(selectedEvents.length == 0)">
                 <div *ngFor="let event of selectedEvents; let i = index">
                     <div *ngIf="event.date"><h2>Events in {{selectedDate.month+1}}/{{event.date}}, {{selectedDate.year}}</h2></div>
                     <div *ngIf="!event.date">
@@ -104,9 +111,6 @@
                         <button type="submit" [disabled]="!eventForm.form.valid" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
-            </div>
-            <div *ngIf="loading">
-                <h1> loading...</h1>
             </div>
         </div>
     </div>
