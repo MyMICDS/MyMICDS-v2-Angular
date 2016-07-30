@@ -40,6 +40,11 @@
 			&.half {
 				width: calc(50% - #{$blur-margin / 2});
 			}
+
+			h3 {
+				font-size: 2.5rem;
+				font-weight: 300;
+			}
 		}
 
 		.basic-info form {

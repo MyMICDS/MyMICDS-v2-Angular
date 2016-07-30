@@ -13,8 +13,8 @@
 				<fieldset class="form-group">
 					<legend>Name</legend>
 					<div class="full-name form-inline">
-						<input class="form-control" formControlName="firstName" placeholder="First Name" required>
-						<input class="form-control" formControlName="lastName" placeholder="Last Name" required>
+						<input class="form-control" formControlName="firstName" placeholder="First Name">
+						<input class="form-control" formControlName="lastName" placeholder="Last Name">
 					</div>
 				</fieldset>
 				<fieldset class="grad-year form-group">
@@ -41,9 +41,29 @@
 			</form>
 		</div>
 		<div class="settings-section half">
+			<h3>Change Password</h3>
+			<form [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
+				<div class="form-group">
+					<label class="col-form-label" for="old-password">Old Password</label>
+					<input id="old-password" type="password" class="form-control" formControlName="oldPassword" placeholder="Old Password">
+				</div>
+				<div class="form-group">
+					<label class="col-form-label" for="old-password">New Password</label>
+					<input id="new-password" type="password" class="form-control" formControlName="newPassword" placeholder="New Password">
+				</div>
+				<div class="form-group">
+					<label class="col-form-label" for="old-password">Confirm New Password</label>
+					<input id="confirm-password" type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+					<div *ngIf="passwordForm.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
+				</div>
+				<p class="form-text text-muted">MyMICDS.net is not affiliated with Mary Institute Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
+				<button class="btn btn-info" [disabled]="!passwordForm.valid">Change Password</button>
+			</form>
+		</div>
+		<div class="settings-section half">
 			<h3>Change Background</h3>
 		</div>
-		<div class="settings-section">
+		<div class="settings-section half">
 			<h3>URL Settings</h3>
 		</div>
 		<div class="settings-section">

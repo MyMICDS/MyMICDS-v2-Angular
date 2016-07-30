@@ -26,6 +26,11 @@
 
 	form {
 
+		fieldset legend {
+			font-size: 2.5rem;
+			font-weight: 300;
+		}
+
 		.full-name {
 			display: flex;
 			justify-content: space-between;

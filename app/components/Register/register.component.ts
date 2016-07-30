@@ -27,7 +27,7 @@ export class RegisterComponent {
 		lastName: ['', Validators.required],
 		gradYear: [null],
 		teacher: [false]
-	}, {validator: confirmRegister(['password', 'confirmPassword'], ['gradYear', 'teacher'])});
+	}, { validator: confirmRegister(['password', 'confirmPassword'], ['gradYear', 'teacher']) });
 
 	gradeRange:number[];
 

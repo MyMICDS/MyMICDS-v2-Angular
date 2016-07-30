@@ -2,11 +2,11 @@ import * as config from '../../common/config'
 
 import {Component} from '@angular/core';
 import {NgFor, NgIf, NgForm} from '@angular/common';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import {confirmPassword, confirmGrade} from '../../common/form-validation';
-import {TOOLTIP_DIRECTIVES, PROGRESSBAR_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
 import {AuthService} from '../../services/auth.service';
@@ -19,7 +19,7 @@ import {UserService} from '../../services/user.service';
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
     providers: [],
-    directives: [REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, TOOLTIP_DIRECTIVES, FILE_UPLOAD_DIRECTIVES, PROGRESSBAR_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, FILE_UPLOAD_DIRECTIVES]
 })
 
 export class SettingsComponent{
@@ -31,6 +31,11 @@ export class SettingsComponent{
 	gradeRange:number[];
 
 	infoForm:any = null;
+	passwordForm:any = this.formBuilder.group({
+		oldPassword: ['', Validators.required],
+		newPassword: ['', Validators.required],
+		confirmPassword: ['', Validators.required]
+	}, { validator: confirmPassword('newPassword', 'confirmPassword') });
 
 	ngOnInit() {
 		// Get basic info
@@ -45,7 +50,7 @@ export class SettingsComponent{
 					lastName: [this.userInfo.lastName, Validators.required],
 					gradYear: [this.userInfo.gradYear],
 					teacher: [this.userInfo.gradYear === null]
-				}, {validator: confirmGrade('gradYear', 'teacher')});
+				}, { validator: confirmGrade('gradYear', 'teacher') });
 			},
 			error => {
 				console.log('Settings user info error', error);
@@ -74,7 +79,7 @@ export class SettingsComponent{
 		if (!this.valueChanged()) return true;
 
 		let p = new Promise<boolean>((res: (boolean)=>void, rej: ()=>void) => {
-			window.confirm('Are you sure you want to discard the unsaved changes on the page?') ?
+			window.confirm('Looks like you have some unsaved settings. Are you sure you wanna leave?') ?
 			res(true) : res(false);
 		});
 
@@ -95,6 +100,17 @@ export class SettingsComponent{
 			},
 			error => {
 				console.log('Chagne info error', error);
+			}
+		);
+	}
+
+	changePassword() {
+		this.authService.changePassword(this.passwordForm.controls.oldPassword.value, this.passwordForm.controls.newPassword.value).subscribe(
+			() => {
+				console.log('password change successful');
+			},
+			error => {
+				console.log('password change error', error);
 			}
 		);
 	}

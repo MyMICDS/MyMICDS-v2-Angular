@@ -7,23 +7,23 @@
 		<fieldset class="form-group" [class.has-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)">
 			<legend>Username</legend>
 			<div class="input-group">
-				<input class="form-control" [class.form-control-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)" formControlName="user" placeholder="Username" required>
+				<input class="form-control" [class.form-control-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)" formControlName="user" placeholder="Username">
 				<div class="input-group-addon">@micds.org</div>
 			</div>
 			<p class="form-text form-control-feedback text-muted">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
 		</fieldset>
 		<fieldset class="form-group">
 			<legend>Password</legend>
-			<input type="password" class="form-control" formControlName="password" placeholder="Password" required>
+			<input type="password" class="form-control" formControlName="password" placeholder="Password">
 			<input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
-			<div *ngIf="registerForm.controls.password.value !== registerForm.controls.confirmPassword.value" class="text-danger">Passwords do not match</div>
+			<div *ngIf="registerForm.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
 			<p class="form-text text-muted">MyMICDS.net is not affiliated with Mary Institute Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
 		</fieldset>
 		<fieldset class="form-group">
 			<legend>Name</legend>
 			<div class="full-name form-inline">
-				<input class="form-control" formControlName="firstName" placeholder="First Name" required>
-				<input class="form-control" formControlName="lastName" placeholder="Last Name" required>
+				<input class="form-control" formControlName="firstName" placeholder="First Name">
+				<input class="form-control" formControlName="lastName" placeholder="Last Name">
 			</div>
 		</fieldset>
 		<fieldset class="grad-year form-group">

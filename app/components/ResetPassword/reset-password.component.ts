@@ -28,7 +28,7 @@ export class ResetPasswordComponent {
 	resetForm:any = this.formBuilder.group({
 		password: ['', Validators.required],
 		confirmPassword: ['', Validators.required]
-	}, {validator: confirmPassword('password', 'confirmPassword')});
+	}, { validator: confirmPassword('password', 'confirmPassword') });
 
 	ngOnInit() {
 		// Check if user is already logged in
