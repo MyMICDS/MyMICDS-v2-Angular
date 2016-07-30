@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 import {NgIf} from '@angular/common';
 import {ROUTER_DIRECTIVES, Router, ActivatedRoute} from '@angular/router';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
-import {FaComponent} from 'angular2-fontawesome/components';
+import {confirmPassword} from '../../common/form-validation';
 import {typeOf} from '../../common/utils';
+import {FaComponent} from 'angular2-fontawesome/components';
 
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
@@ -57,22 +58,5 @@ export class ResetPasswordComponent {
 				this.resetResponse = error;
 			}
 		);
-	}
-}
-
-/*
- * Validates if input matches password
- */
-
-function confirmPassword(passwordKey:string, confirmPasswordKey:string) {
-	return (group:any): {[key: string]: any} => {
-		let password = group.controls[passwordKey];
-		let confirmPassword = group.controls[confirmPasswordKey];
-
-		if(password.value !== confirmPassword.value) {
-			return {
-				mismatchedPasswords: true
-			};
-		}
 	}
 }

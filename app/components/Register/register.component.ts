@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NgIf, NgFor} from '@angular/common';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
+import {confirmRegister} from '../../common/form-validation';
 import {isAlphabetic} from '../../common/utils';
 
 import {AuthService} from '../../services/auth.service';
@@ -57,62 +58,5 @@ export class RegisterComponent {
 				console.log('Register error', error);
 			}
 		);
-	}
-}
-
-/*
- * One SUPER function to return a combination of all of the confirm functions we have.
- * @TODO Find out a better way and remove this clustertruck
- */
-
-function confirmRegister(passwordParams:string[], gradeParams:string[]) {
-	return (group:any): {[key: string]: any} => {
-
-		if(confirmPassword(passwordParams[0], passwordParams[1])(group)
-			|| confirmGrade(gradeParams[0], gradeParams[1])(group)) {
-
-			return {
-				invalid: true
-			};
-		} else {
-			console.log('everythign is valid')
-		}
-	}
-}
-
-/*
- * Validates if input matches password
- */
-
-function confirmPassword(passwordKey:string, confirmPasswordKey:string) {
-	return (group:any): {[key: string]: any} => {
-		let password = group.controls[passwordKey];
-		let confirmPassword = group.controls[confirmPasswordKey];
-
-		if(password.value !== confirmPassword.value) {
-			return {
-				mismatchedPasswords: true
-			};
-		}
-	}
-}
-
-/*
- * Makes sure either teacher checkbox is selected or a graduation year is choosen
- */
-
-function confirmGrade(gradYearKey:string, teacherKey:string) {
-	return (group:any): {[key: string]: any} => {
-		let gradYear = group.controls[gradYearKey];
-		let teacher = group.controls[teacherKey];
-
-		// console.log('grad year', gradYear);
-		// console.log('teacher', teacher);
-
-		if(!teacher.value && !gradYear.value) {
-			return {
-				invalidGrade: true
-			};
-		}
 	}
 }

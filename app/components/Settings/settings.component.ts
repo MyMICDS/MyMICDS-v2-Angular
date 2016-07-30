@@ -2,8 +2,10 @@ import * as config from '../../common/config'
 
 import {Component} from '@angular/core';
 import {NgFor, NgIf, NgForm} from '@angular/common';
+import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
+import {confirmPassword, confirmGrade} from '../../common/form-validation';
 import {TOOLTIP_DIRECTIVES, PROGRESSBAR_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
@@ -17,32 +19,88 @@ import {UserService} from '../../services/user.service';
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
     providers: [],
-    directives: [NgFor, NgIf, TOOLTIP_DIRECTIVES, FILE_UPLOAD_DIRECTIVES, PROGRESSBAR_DIRECTIVES]
+    directives: [REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, TOOLTIP_DIRECTIVES, FILE_UPLOAD_DIRECTIVES, PROGRESSBAR_DIRECTIVES]
 })
 
 export class SettingsComponent{
-    constructor(private authService: AuthService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
+    constructor(private formBuilder: FormBuilder, private authService: AuthService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
 
-    valueChanged():boolean {
-        let originalUser = JSON.parse(sessionStorage.getItem('user-info'));
-        if (!originalUser) {
-            return false
-        } else {
-            if (JSON.stringify(originalUser) == JSON.stringify(this.user)) {return false}
-        }
-        return true
-    }
+	// Changed by the forms
+	userInfo:any = null;
+	// Array of graduation years
+	gradeRange:number[];
 
-    canDeactivate():Observable<boolean> | boolean {
-        console.info('candeactivate called')
-        if (!this.valueChanged()) {return true}
-        let p:Promise<boolean> = new Promise<boolean>((res: (boolean)=>void, rej: ()=>void) => {
-            window.confirm('Are you sure you want to discard the unsaved changes on the page?') ?
-            res(true) : res(false);
-        })
-        let o = Observable.fromPromise(p)
-        return o
-    }
+	infoForm:any = null;
+
+	ngOnInit() {
+		// Get basic info
+		this.userService.getInfo().subscribe(
+			data => {
+				this.userInfo = data;
+
+				// Prefil user data in forms
+				console.log(this.userInfo);
+				this.infoForm = this.formBuilder.group({
+					firstName: [this.userInfo.firstName, Validators.required],
+					lastName: [this.userInfo.lastName, Validators.required],
+					gradYear: [this.userInfo.gradYear],
+					teacher: [this.userInfo.gradYear === null]
+				}, {validator: confirmGrade('gradYear', 'teacher')});
+			},
+			error => {
+				console.log('Settings user info error', error);
+			}
+		);
+
+		// Get graduation year range
+		this.userService.gradeRange().subscribe(
+			gradeRange => {
+                this.gradeRange = gradeRange;
+            },
+            error => {
+				console.log('There was an error getting the grade ranges!', error);
+            }
+		);
+	}
+
+	valueChanged():boolean {
+		return (this.userInfo.firstName !== this.infoForm.controls.firstName.value)
+			|| (this.userInfo.lastName !== this.infoForm.controls.lastName.value)
+			|| (this.userInfo.gradYear !== parseInt(this.infoForm.controls.gradYear.value))
+			|| ((this.userInfo.gradYear === null) !== this.infoForm.controls.teacher.value);
+	}
+
+	canDeactivate():Observable<boolean> | boolean {
+		if (!this.valueChanged()) return true;
+
+		let p = new Promise<boolean>((res: (boolean)=>void, rej: ()=>void) => {
+			window.confirm('Are you sure you want to discard the unsaved changes on the page?') ?
+			res(true) : res(false);
+		});
+
+		return Observable.fromPromise(p);
+	}
+
+	changeInfo() {
+		let newInfo = {
+			firstName: this.infoForm.controls.firstName.value,
+			lastName: this.infoForm.controls.lastName.value,
+			gradYear: this.infoForm.controls.gradYear.value,
+			teacher: this.infoForm.controls.teacher.value
+		};
+
+		this.userService.changeInfo(newInfo).subscribe(
+			() => {
+				console.log('change successful');
+			},
+			error => {
+				console.log('Chagne info error', error);
+			}
+		);
+	}
+
+	/*
+
 
     getUserInfo() {
         this.userService.getInfo().subscribe(
@@ -216,5 +274,5 @@ export class SettingsComponent{
 
     public fileOverDropZone(e:any):void {
         this.bgDropZoneOver = e;
-    }
+    }*/
 }
