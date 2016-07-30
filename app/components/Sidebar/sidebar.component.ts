@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgFor} from '@angular/common';
-import {NotificationService} from '../../services/notification.service';
+import {NotificationService, noty} from '../../services/notification.service';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 
@@ -14,8 +14,12 @@ import '../../common/rxjs-operators'
 export class SidebarComponent {
     constructor(private noteService: NotificationService) {}
 
-    notifications = [];
-    
+	announcements:noty[] = [];
+    notifications:noty[] = [];
+
+	open: boolean = false;
+	clickToggle$;
+
     ngOnInit() {
         this.clickToggle$ = Observable.fromEvent(document, 'click')
             .map((event: MouseEvent) => event.target.className)
@@ -23,13 +27,13 @@ export class SidebarComponent {
         this.notifications = this.noteService.getNotifications();
     }
 
-    clickToggle$;
-    open: boolean = false;
-
     openSidebar() {
-        this.open = true;
+        this.open = !this.open;
         this.clickToggle$.subscribe(
-            className => {this.open = false}
+            className => {
+				this.open = false;
+				this.clickToggle$.unsubscribe();
+			}
         )
     }
 }
