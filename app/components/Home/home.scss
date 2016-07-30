@@ -1,24 +1,25 @@
 @import 'app/styles/settings';
 @import 'app/styles/mixins';
 
-.modules {
+.container {
 	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
 
-	.blur {
-		width: 100%;
-		display: inline-block;
-		margin-bottom: $blur-margin;
-		padding: 0.5rem;
-		color: $sophisticated-white;
+	.modules {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
 
-		@include blur();
+		.blur {
+			width: 100%;
+			margin-bottom: $blur-margin;
+			padding: 1rem;
+			color: $sophisticated-white;
+			@include blur();
 
-		&.blur-half {
-			width: calc(50% - #{$blur-margin});
+			&.half {
+				width: calc(50% - #{$blur-margin / 2});
+			}
 		}
 	}
 }

@@ -25,6 +25,22 @@
 	}
 
 	form {
+
+		.full-name {
+			display: flex;
+			justify-content: space-between;
+
+			input:first-child {
+				width: 100%;
+				margin-right: 0.5rem;
+			}
+
+			input:last-child {
+				width: 100%;
+				margin-left: 0.5rem;
+			}
+		}
+
 		.grad-year {
 
 			.grade-spacer {
@@ -46,21 +62,6 @@
 
 			.student span {
 				margin-right: 0.5rem;
-			}
-		}
-
-		.full-name {
-			display: flex;
-			justify-content: space-between;
-
-			input:first-child {
-				width: 100%;
-				margin-right: 0.5rem;
-			}
-
-			input:last-child {
-				width: 100%;
-				margin-left: 0.5rem;
 			}
 		}
 

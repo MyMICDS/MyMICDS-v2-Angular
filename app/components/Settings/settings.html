@@ -7,7 +7,7 @@
 		<h3>{{userInfo.user}}</h3>
 	</div>
 	<div *ngIf="userData !== null && infoForm !== null" class="settings-body">
-		<div class="settings-section basic-info">
+		<div class="settings-section half basic-info">
 			<h3>Basic Info</h3>
 			<form [formGroup]="infoForm" (ngSubmit)="changeInfo()" novalidate>
 				<fieldset class="form-group">
@@ -40,11 +40,11 @@
 				<button class="btn btn-info" [disabled]="!infoForm.valid || !valueChanged()">Save Changes</button>
 			</form>
 		</div>
-		<div class="settings-section">
-			<h3>URL Settings</h3>
+		<div class="settings-section half">
+			<h3>Change Background</h3>
 		</div>
 		<div class="settings-section">
-			<h3>Change Background</h3>
+			<h3>URL Settings</h3>
 		</div>
 		<div class="settings-section">
 			<h3>Set Classes</h3>
