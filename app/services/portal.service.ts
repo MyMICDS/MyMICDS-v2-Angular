@@ -30,7 +30,7 @@ export class PortalService {
 			.catch(handleError);
     }
 
-	testUrl(url:string) {
+	testURL(url:string) {
         let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
@@ -52,7 +52,7 @@ export class PortalService {
             .catch(handleError);
     }
 
-	setUrl(url:string) {
+	setURL(url:string) {
         let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });

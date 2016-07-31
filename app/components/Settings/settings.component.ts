@@ -18,11 +18,10 @@ import {UserService} from '../../services/user.service';
     selector: 'settings',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
-    providers: [],
     directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, FILE_UPLOAD_DIRECTIVES]
 })
 
-export class SettingsComponent{
+export class SettingsComponent {
     constructor(private formBuilder: FormBuilder, private authService: AuthService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
 
 	// Changed by the forms
@@ -30,12 +29,24 @@ export class SettingsComponent{
 	// Array of graduation years
 	gradeRange:number[];
 
+	// Change info form
 	infoForm:any = null;
 	passwordForm:any = this.formBuilder.group({
 		oldPassword: ['', Validators.required],
 		newPassword: ['', Validators.required],
 		confirmPassword: ['', Validators.required]
 	}, { validator: confirmPassword('newPassword', 'confirmPassword') });
+
+	// Portal and Canvas URL form
+	portalSubscription:any;
+	portalURL:string;
+	portalValid:boolean;
+	portalResponse:string;
+
+	canvasSubscription:any;
+	canvasURL:string;
+	canvasValid:boolean;
+	canvasResponse:string;
 
 	ngOnInit() {
 		// Get basic info
@@ -51,6 +62,19 @@ export class SettingsComponent{
 					gradYear: [this.userInfo.gradYear],
 					teacher: [this.userInfo.gradYear === null]
 				}, { validator: confirmGrade('gradYear', 'teacher') });
+
+				// Get URL's
+				this.portalURL = this.userInfo.portalURL;
+				this.canvasURL = this.userInfo.canvasURL;
+
+				if(this.portalURL) {
+					this.portalValid = true;
+					this.portalResponse = 'Valid!';
+				}
+				if(this.canvasURL) {
+					this.canvasValid = true;
+					this.canvasResponse = 'Valid!';
+				}
 			},
 			error => {
 				console.log('Settings user info error', error);
@@ -66,6 +90,60 @@ export class SettingsComponent{
 				console.log('There was an error getting the grade ranges!', error);
             }
 		);
+	}
+
+	ngAfterViewInit() {
+
+		/*
+		 * @TODO
+		 * This is, yet again, one of those things that I can't get to work no matter what I try.
+		 * The ngAfterViewInit lifecycle hook _should_ have loaded the DOM, but the input variables return null.
+		 * I even put a setTimeout of 1000, and they still return null.
+		 * The only way I've found is to have an interval, which the DOM elements are retrieved
+		 * always on the second time.
+		 */
+
+		let interval = setInterval(() => {
+
+			// Get URL inputs
+			let portalInput = document.getElementById('portal-url');
+			let canvasInput = document.getElementById('canvas-url');
+
+			// Keep trying until DOM is loaded
+			if(!portalInput || !canvasInput) return;
+			clearInterval(interval);
+
+			// Subscribe to Portal and Canvas URL inputs to test URL
+			this.portalSubscription = Observable.fromEvent(portalInput, 'keyup')
+				.switchMap(() => this.portalService.testURL(this.portalURL))
+				.subscribe(
+					data => {
+						this.portalValid = (data.valid === true);
+						this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
+					},
+					error => {
+						console.log('portal test error', error);
+					}
+				);
+
+			this.canvasSubscription = Observable.fromEvent(canvasInput, 'keyup')
+				.switchMap(() => this.canvasService.testURL(this.canvasURL))
+				.subscribe(
+					data => {
+						this.canvasValid = (data.valid === true);
+						this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
+					},
+					error => {
+						console.log('canvas test error', error);
+					}
+				);
+		}, 1);
+	}
+
+	ngOnDestroy() {
+		// Unsubscribe to prevent memory leaks or something
+		this.portalSubscription.unsubscribe();
+		this.canvasSubscription.unsubscribe();
 	}
 
 	valueChanged():boolean {
@@ -111,6 +189,36 @@ export class SettingsComponent{
 			},
 			error => {
 				console.log('password change error', error);
+			}
+		);
+	}
+
+	changePortalURL() {
+		this.portalService.setURL(this.portalURL).subscribe(
+			data => {
+				this.portalValid = (data.valid === true);
+				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				if(data.valid === true) {
+					console.log('Successfully changed url!');
+				}
+			},
+			error => {
+				console.log('set portal url error', error);
+			}
+		);
+	}
+
+	changeCanvasURL() {
+		this.canvasService.setURL(this.canvasURL).subscribe(
+			data => {
+				this.canvasValid = (data.valid === true);
+				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				if(data.valid === true) {
+					console.log('Successfully changed url!');
+				}
+			},
+			error => {
+				console.log('set canvas url error', error);
 			}
 		);
 	}
