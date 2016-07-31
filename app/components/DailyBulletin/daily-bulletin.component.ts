@@ -4,6 +4,7 @@ import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators';
+import {contains} from '../../common/utils';
 
 import {BulletinService} from '../../services/bulletin.service';
 
@@ -39,8 +40,7 @@ export class DailyBulletinComponent {
 
 				// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
 				let bulletinParam = data[1]['bulletin'];
-
-				if(bulletinParam !== 'undefined' && this.bulletins.indexOf(bulletinParam) > -1) {
+				if(bulletinParam !== 'undefined' && contains(this.bulletins, bulletinParam)) {
 					// Bulletin parameter is valid! Use that instead.
 					this.bulletinPDFURL = data[0].baseURL + '/' + bulletinParam + '.pdf';
 				} else {

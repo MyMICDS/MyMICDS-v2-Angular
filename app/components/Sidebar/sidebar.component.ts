@@ -1,8 +1,9 @@
 import {Component} from '@angular/core';
 import {NgFor} from '@angular/common';
-import {NotificationService, noty} from '../../services/notification.service';
+import {NotificationService, event} from '../../services/notification.service';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
+import {contains} from '../../common/utils';
 
 @Component({
     selector: 'sidebar',
@@ -12,27 +13,38 @@ import '../../common/rxjs-operators'
     directives: [NgFor]
 })
 export class SidebarComponent {
-    constructor(private noteService: NotificationService) {}
+    constructor(private notificationService: NotificationService) {}
 
-	announcements:noty[] = [];
-    notifications:noty[] = [];
+	announcements:event[] = [];
+    notifications:event[] = [];
 
-	open: boolean = false;
+	open = false;
 	clickToggle$;
 
     ngOnInit() {
+		// Click event for dismissing the sidebar
         this.clickToggle$ = Observable.fromEvent(document, 'click')
-            .map((event: MouseEvent) => event.target.className)
-            .filter((className: string) => className !== 'sidebar' && className !== 'sidebar-toggle');
-        this.notifications = this.noteService.getNotifications();
+            .map((event:any) => event.target.className.split(' '))
+            .filter((className:string[]) => !contains(className, 'sidebar') && !contains(className, 'sidebar-toggle'));
+
+		// Get events
+		this.notificationService.getEvents().subscribe(
+			events => {
+				this.announcements = events.announcements,
+				this.notifications = events.notifications
+			},
+			error => {
+				console.log('Notification service error', error);
+			}
+		);
     }
 
     openSidebar() {
-        this.open = !this.open;
-        this.clickToggle$.subscribe(
+        this.open = true;
+        let subscription = this.clickToggle$.subscribe(
             className => {
 				this.open = false;
-				this.clickToggle$.unsubscribe();
+				subscription.unsubscribe();
 			}
         )
     }

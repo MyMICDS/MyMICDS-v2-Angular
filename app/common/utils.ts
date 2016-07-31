@@ -26,3 +26,12 @@ export function isAlphabetic(str:string) {
 export function typeOf(something:any) {
 	return typeof something;
 }
+
+/*
+ * Returns whether a value is in an array
+ */
+
+export function contains(haystack, needle) {
+	if(!Array.isArray(haystack)) return false;
+	return haystack.indexOf(needle) > -1
+}
