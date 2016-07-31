@@ -116,6 +116,7 @@ export class SettingsComponent {
 			// Subscribe to Portal and Canvas URL inputs to test URL
 			this.portalSubscription = Observable.fromEvent(portalInput, 'keyup')
 				.switchMap(() => this.portalService.testURL(this.portalURL))
+				.debounceTime(250)
 				.subscribe(
 					data => {
 						this.portalValid = (data.valid === true);
@@ -128,6 +129,7 @@ export class SettingsComponent {
 
 			this.canvasSubscription = Observable.fromEvent(canvasInput, 'keyup')
 				.switchMap(() => this.canvasService.testURL(this.canvasURL))
+				.debounceTime(250)
 				.subscribe(
 					data => {
 						this.canvasValid = (data.valid === true);
