@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
 
+import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 
@@ -11,7 +12,7 @@ import {UserService} from '../../services/user.service';
     directives: [ROUTER_DIRECTIVES]
 })
 export class LoginComponent {
-    constructor(private router: Router, private authService: AuthService, private userService: UserService) {}
+    constructor(private router: Router, private alertService: AlertService, private authService: AuthService, private userService: UserService) {}
 
     loginModel = {
         user: '',
@@ -32,7 +33,7 @@ export class LoginComponent {
                 this.router.navigate(['home']);
             },
             error => {
-                console.log('Error logging in', error);
+				this.alertService.addAlert('danger', error);
             }
         )
     }

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
+import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
 
 @Component({
@@ -9,7 +10,7 @@ import {AuthService} from '../../services/auth.service';
     styleUrls: ['dist/app/components/Logout/logout.css'],
 })
 export class LogoutComponent {
-    constructor(private router: Router, private authService: AuthService) {
+    constructor(private router: Router, private alertService: AlertService, private authService: AuthService) {
 		this.authService.logout().subscribe(
             () => {
 				/*
@@ -22,7 +23,7 @@ export class LogoutComponent {
 				}, 0);
 			},
             error => {
-				console.log('Logout error', error);
+				this.alertService.addAlert('danger', error);
 				this.router.navigate(['home']);
 			}
         )

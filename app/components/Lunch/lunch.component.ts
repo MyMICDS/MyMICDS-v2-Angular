@@ -1,9 +1,11 @@
 import {Component, EventEmitter} from '@angular/core';
-import {LunchService} from '../../services/lunch.service';
 import {NgIf, DatePipe, NgFor, NgClass} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import {objKeyArrPipe} from '../../pipes/objKeyArr.pipe'
+
+import {AlertService} from '../../services/alert.service';
+import {LunchService} from '../../services/lunch.service';
 
 @Component({
 	selector: 'lunch',
@@ -14,7 +16,7 @@ import {objKeyArrPipe} from '../../pipes/objKeyArr.pipe'
 	pipes: [objKeyArrPipe]
 })
 export class LunchComponent {
-	constructor(private lunchService: LunchService) {}
+	constructor(private alertService: AlertService, private lunchService: LunchService) {}
 
 	lunchErr: string;
 	currentDate: postDate;
@@ -48,7 +50,7 @@ export class LunchComponent {
 				}
 			},
 			error => {
-				this.lunchErr = error;
+				this.alertService.addAlert('danger', error);
 			},
 			() => {
 				this.loading = false;
@@ -90,12 +92,12 @@ export class LunchComponent {
 		)
 		.subscribe(
 			click => {
-				click.path[1].classList[1] === "lunch-right-nav" || click.path[2].classList[1] === "lunch-right-nav" ? this.nextWeek() : 
+				click.path[1].classList[1] === "lunch-right-nav" || click.path[2].classList[1] === "lunch-right-nav" ? this.nextWeek() :
 				click.path[1].classList[1] === "lunch-left-nav" || click.path[2].classList[1] === "lunch-left-nav"? this.previousWeek() : console.log('Code error')
 			}
 		)
 	}
-//user action methods
+	//user action methods
 	previousWeek() {
 		this.lunchSub.unsubscribe();
 		this.currentDate.day = this.currentDate.day - 7;
@@ -126,8 +128,8 @@ export class LunchComponent {
 	}
 
 	switchSchool(value:number) {
-		value == 0 ? this.lunchList = this.lunchToday['Lower School'] : 
-		value == 1 ? this.lunchList = this.lunchToday['Middle School'] : 
+		value == 0 ? this.lunchList = this.lunchToday['Lower School'] :
+		value == 1 ? this.lunchList = this.lunchToday['Middle School'] :
 		value == 2 ? this.lunchList = this.lunchToday['Upper School'] : this.lunchList = undefined;
 	}
 }

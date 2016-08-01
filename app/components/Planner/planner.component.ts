@@ -1,8 +1,10 @@
 import {Component} from '@angular/core';
-import {PlannerService} from '../../services/planner.service';
-import {ClassesService} from '../../services/classes.service'
 import {NgFor, NgIf, NgClass, NgStyle, NgForm} from '@angular/common';
-import { FaDirective } from 'angular2-fontawesome/directives';
+import {FaDirective} from 'angular2-fontawesome/directives';
+
+import {AlertService} from '../../services/alert.service';
+import {ClassesService} from '../../services/classes.service';
+import {PlannerService} from '../../services/planner.service';
 
 @Component({
     selector: 'planner',
@@ -11,9 +13,8 @@ import { FaDirective } from 'angular2-fontawesome/directives';
     directives: [NgFor, NgIf, NgClass, NgStyle, FaDirective],
     providers: [PlannerService, ClassesService]
 })
-
 export class PlannerComponent {
-    constructor(private plannerService: PlannerService, private classesService: ClassesService) {}
+    constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService) {}
 
     public eventsList: Array<Array<any>> = [];
     public classesList: Array<any> = [];
@@ -40,8 +41,7 @@ export class PlannerComponent {
                 }
             },
             error => {
-                console.error(error)
-                this.plannerMsg = "Try logging in before using the planner"
+				this.alertService.addAlert('danger', error);
             },
             () => {
                 this.loading = false;
@@ -64,8 +64,7 @@ export class PlannerComponent {
                 this.classesList = classesInfo;
             },
             error => {
-                console.log(error)
-                this.plannerMsg = "Try logging in before using the planner"
+                this.alertService.addAlert('danger', error);
             }
         )
     }
@@ -215,7 +214,9 @@ export class PlannerComponent {
             id => {
                 console.log('Submitted event id: '+id);
             },
-            error => {console.log(error)},
+            error => {
+				this.alertService.addAlert('danger', error);
+			},
             () => {
                 this.initialize();
             }
@@ -225,8 +226,12 @@ export class PlannerComponent {
     public deleteEvent(id:string) {
         this.loading = true;
         this.plannerService.deleteEvent(id).subscribe(
-            deleteError => console.log,
-            error => console.log,
+            () => {
+				this.alertService.addAlert('success', 'Successfully deleted event!');
+			},
+            error => {
+				this.alertService.addAlert('danger', error);
+			},
             () => {
                 this.initialize();
             }

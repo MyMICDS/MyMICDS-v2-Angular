@@ -4,6 +4,7 @@ import {ProgressComponent} from './components/Progress/progress.component';
 import {ScheduleComponent} from './components/Schedule/schedule.component';
 import {WeatherComponent} from './components/Weather/weather.component';
 
+import {AlertService} from '../../services/alert.service';
 import {PortalService} from '../../services/portal.service';
 
 @Component({
@@ -19,7 +20,7 @@ export class HomeComponent {
 	scheduleDate:any = new Date(2016, 4, 23);
 	schedule:any;
 
-	constructor(private portalService: PortalService) {
+	constructor(private alertService: AlertService, private portalService: PortalService) {
 
 		// Get schedule from date object and assign to schedule variable
 		portalService.getSchedule({
@@ -31,7 +32,7 @@ export class HomeComponent {
 				this.schedule = schedule;
 			},
 			(error) => {
-				console.log('Schedule error of type ' + typeof error, error);
+				this.alertService.addAlert('danger', error);
 			}
 		);
 

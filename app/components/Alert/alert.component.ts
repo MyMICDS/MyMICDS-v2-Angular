@@ -11,8 +11,10 @@ import {AlertService, Alert} from '../../services/alert.service';
 })
 export class AlertComponent {
 	constructor(private alertService: AlertService) {
+		// Subscribe to alerts service observable
 		this.subscription = alertService.alertEmit$.subscribe(
 			(alertData:Alert) => {
+				// Append alert to beginning of array
 				this.alerts.unshift(alertData);
 			}
 		);
@@ -35,17 +37,17 @@ export class AlertComponent {
 		// How long CSS delete animation is in milliseconds
 		let animationTime = 500;
 
-		console.log('Delete alert ' + id);
-
+		// Apply dismiss class to alert
 		this.alertsDismissed[id] = true;
 
+		// Wait until animation is done before actually removing from array
 		setTimeout(() => {
 			this.deleteAlert(id);
-			console.log('delete alret')
 		}, animationTime);
 	}
 
 	ngOnDestroy() {
+		// Unsubscribe to prevent memory leaks or something
 		this.subscription.unsubscribe();
 	}
 }

@@ -5,6 +5,7 @@ import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms'
 import {confirmRegister} from '../../common/form-validation';
 import {isAlphabetic} from '../../common/utils';
 
+import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 
@@ -16,7 +17,7 @@ import {UserService} from '../../services/user.service';
     providers: [AuthService, UserService]
 })
 export class RegisterComponent {
-    constructor(private router: Router, private formBuilder: FormBuilder, private authService: AuthService, private userService: UserService) {}
+    constructor(private router: Router, private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private userService: UserService) {}
 	isAlphabetic = isAlphabetic;
 
 	registerForm = this.formBuilder.group({
@@ -43,7 +44,7 @@ export class RegisterComponent {
                 this.gradeRange = gradeRange;
             },
             error => {
-				console.log('There was an error getting the grade ranges!', error);
+				this.alertService.addAlert('danger', error);
             }
         );
     }
@@ -55,7 +56,7 @@ export class RegisterComponent {
 
 			},
 			error => {
-				console.log('Register error', error);
+				this.alertService.addAlert('danger', error);
 			}
 		);
 	}

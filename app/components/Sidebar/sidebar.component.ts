@@ -1,9 +1,11 @@
 import {Component} from '@angular/core';
 import {NgFor} from '@angular/common';
-import {NotificationService, Event} from '../../services/notification.service';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import {contains} from '../../common/utils';
+
+import {AlertService} from '../../services/alert.service';
+import {NotificationService, Event} from '../../services/notification.service';
 
 @Component({
     selector: 'sidebar',
@@ -13,7 +15,7 @@ import {contains} from '../../common/utils';
     directives: [NgFor]
 })
 export class SidebarComponent {
-    constructor(private notificationService: NotificationService) {}
+    constructor(private alertService: AlertService, private notificationService: NotificationService) {}
 
 	announcements:Event[] = [];
     notifications:Event[] = [];
@@ -34,7 +36,7 @@ export class SidebarComponent {
 				this.notifications = events.notifications
 			},
 			error => {
-				console.log('Notification service error', error);
+				this.alertService.addAlert('danger', error);
 			}
 		);
     }

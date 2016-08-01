@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NgFor, NgIf} from '@angular/common';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 
+import {AlertService} from '../../services/alert.service';
 import {BulletinService} from '../../services/bulletin.service';
 
 @Component({
@@ -12,7 +13,7 @@ import {BulletinService} from '../../services/bulletin.service';
 	providers: [BulletinService]
 })
 export class BulletinArchivesComponent {
-	constructor(private bulletinService: BulletinService) {}
+	constructor(private alertService: AlertService, private bulletinService: BulletinService) {}
 
 	bulletins:string[];
 	baseURL:string;
@@ -24,7 +25,7 @@ export class BulletinArchivesComponent {
 				this.baseURL = data.baseURL;
 			},
 			error => {
-				console.log('Bulletin error', error);
+				this.alertService.addAlert('danger', error);
 			}
 		)
 	}

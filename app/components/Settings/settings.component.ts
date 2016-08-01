@@ -78,7 +78,7 @@ export class SettingsComponent {
 				}
 			},
 			error => {
-				console.log('Settings user info error', error);
+				this.alertService.addAlert('danger', error);
 			}
 		);
 
@@ -88,7 +88,7 @@ export class SettingsComponent {
                 this.gradeRange = gradeRange;
             },
             error => {
-				console.log('There was an error getting the grade ranges!', error);
+				this.alertService.addAlert('danger', error);
             }
 		);
 	}
@@ -124,7 +124,7 @@ export class SettingsComponent {
 						this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
 					},
 					error => {
-						console.log('portal test error', error);
+						this.alertService.addAlert('warning', error);
 					}
 				);
 
@@ -137,7 +137,7 @@ export class SettingsComponent {
 						this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
 					},
 					error => {
-						console.log('canvas test error', error);
+						this.alertService.addAlert('warning', error);
 					}
 				);
 		}, 1);
@@ -177,10 +177,10 @@ export class SettingsComponent {
 
 		this.userService.changeInfo(newInfo).subscribe(
 			() => {
-				console.log('change successful');
+				this.alertService.addAlert('success', 'Info change successful!');
 			},
 			error => {
-				console.log('Chagne info error', error);
+				this.alertService.addAlert('danger', error);
 			}
 		);
 	}
@@ -188,10 +188,10 @@ export class SettingsComponent {
 	changePassword() {
 		this.authService.changePassword(this.passwordForm.controls.oldPassword.value, this.passwordForm.controls.newPassword.value).subscribe(
 			() => {
-				console.log('password change successful');
+				this.alertService.addAlert('success', 'Password change successful!');
 			},
 			error => {
-				console.log('password change error', error);
+				this.alertService.addAlert('danger', error);
 			}
 		);
 	}
@@ -204,7 +204,7 @@ export class SettingsComponent {
 				if(data.valid === true) {
 					this.alertService.addAlert('success', 'Changed Portal URL!');
 				} else {
-					this.alertService.addAlert('danger', data.valid);
+					this.alertService.addAlert('warning', data.valid);
 				}
 			},
 			error => {
@@ -219,11 +219,13 @@ export class SettingsComponent {
 				this.canvasValid = (data.valid === true);
 				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if(data.valid === true) {
-					console.log('Successfully changed url!');
+					this.alertService.addAlert('success', 'Changed Canvas URL!');
+				} else {
+					this.alertService.addAlert('warning', data.valid);
 				}
 			},
 			error => {
-				console.log('set canvas url error', error);
+				this.alertService.addAlert('danger', error);
 			}
 		);
 	}
