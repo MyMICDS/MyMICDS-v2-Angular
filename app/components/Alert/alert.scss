@@ -10,10 +10,10 @@
 
 		.alert {
 			margin-bottom: 1rem;
-			animation: addAlert 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+			animation: addAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 
 			&.dismissed {
-				animation: deleteAlert 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+				animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 			}
 
 			@keyframes addAlert {

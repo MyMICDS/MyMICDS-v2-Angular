@@ -42,7 +42,7 @@ export class AlertComponent {
 
 	dismiss(id) {
 		// How long CSS delete animation is in milliseconds
-		let animationTime = 500;
+		let animationTime = 200;
 
 		// Apply dismiss class to alert
 		this.alertsDismissed[id] = true;
@@ -50,7 +50,7 @@ export class AlertComponent {
 		// Wait until animation is done before actually removing from array
 		setTimeout(() => {
 			this.deleteAlert(id);
-		}, animationTime);
+		}, animationTime-5);
 	}
 
 	ngOnDestroy() {

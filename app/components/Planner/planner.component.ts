@@ -26,7 +26,7 @@ export class PlannerComponent {
     public monthList = [];
     public dateList = [];
     public isAdding = true;
-    public plannerMsg: string;
+    //public plannerMsg: string;
     loading: boolean; //to toggle the loading animations
 
     public initialize() {

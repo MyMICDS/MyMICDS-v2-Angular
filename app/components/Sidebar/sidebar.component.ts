@@ -5,7 +5,7 @@ import '../../common/rxjs-operators'
 import {contains} from '../../common/utils';
 
 import {AlertService} from '../../services/alert.service';
-import {NotificationService, Event} from '../../services/notification.service';
+import {NotificationService, Event, Announcement} from '../../services/notification.service';
 
 @Component({
     selector: 'sidebar',
@@ -17,7 +17,7 @@ import {NotificationService, Event} from '../../services/notification.service';
 export class SidebarComponent {
     constructor(private alertService: AlertService, private notificationService: NotificationService) {}
 
-	announcements:Event[] = [];
+	announcements:Announcement[] = [];
     notifications:Event[] = [];
 
 	open = false;

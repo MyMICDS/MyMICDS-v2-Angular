@@ -8,20 +8,34 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class NotificationService {
-
-	announcements:Event[] = [];
-    notifications:Event[] = [];
+	constructor(private http: Http) {}
 
 	// Query announcements and events from the back-end
-	getEvents() {
-		// We _would_ query the database at this point
-		return Observable.create(observer => {
-			observer.next({
-				announcements: this.announcements,
-				notifications: this.notifications
-			});
-			observer.complete();
-		});
+	getEvents(): Observable<{notifications: Array<Event>, announcements: Array<Announcement>}> {
+		// We query the database at this point
+
+		let body = null;
+		let headers = xhrHeaders();
+		let options = new RequestOptions({ headers });
+
+		return this.http.post(config.backendURL + '/notification/get', body, options)
+			.map(res => {
+				let data = res.json();
+
+				//check if server-side error
+				if(data.error) {
+					throw new Error(data.error);
+				}
+
+				return data.events
+			})
+			.catch(handleError)
+	}
+
+	//method to alert the sidebar component to add a temporary & dismissable event, like an alert for class ending
+	addEvent$ = new EventEmitter()
+	addTempEvent(event: Event) {
+		this.addEvent$.emit(event)
 	}
 }
 
@@ -30,5 +44,9 @@ export interface Event {
     title: string;
     content: string;
     color?: string; //the color indicates the class the noty is associated to
-    sticky: boolean;
+}
+
+export interface Announcement {
+	title: string;
+	content: string;
 }
