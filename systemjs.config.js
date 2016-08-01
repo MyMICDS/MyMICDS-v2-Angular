@@ -14,7 +14,8 @@
 	'prisma':                     'node_modules/prisma/lib',
 	'angular2-jwt':               'node_modules/angular2-jwt',
 	'h5webstorage':               'node_modules/h5webstorage',
-	'moment':                     'node_modules/moment/moment.js'
+	'moment':                     'node_modules/moment/moment.js',
+	'angular2-uuid':              'node_modules/angular2-uuid'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -25,7 +26,8 @@
 	'angular2-fontawesome':       { defaultExtension: 'js' },
 	'prisma':                     { main: 'index.js', defaultExtention: 'js' },
 	'angular2-jwt':               { main: 'angular2-jwt', defaultExtention: 'js' },
-	'h5webstorage':               { main: 'index.js', defaultExtention: 'js' }
+	'h5webstorage':               { main: 'index.js', defaultExtention: 'js' },
+	'angular2-uuid':              { main: 'index.js', defaultExtention: 'js' }
   };
   var ngPackageNames = [
 	'common',

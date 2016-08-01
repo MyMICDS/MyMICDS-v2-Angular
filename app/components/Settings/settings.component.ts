@@ -9,6 +9,7 @@ import '../../common/rxjs-operators'
 import {confirmPassword, confirmGrade} from '../../common/form-validation';
 import {FILE_UPLOAD_DIRECTIVES, FileUploader} from 'ng2-file-upload/ng2-file-upload';
 
+import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
 import {CanvasService} from '../../services/canvas.service';
 import {PortalService} from '../../services/portal.service';
@@ -22,7 +23,7 @@ import {UserService} from '../../services/user.service';
 })
 
 export class SettingsComponent {
-    constructor(private formBuilder: FormBuilder, private authService: AuthService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
+    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
 
 	// Changed by the forms
 	userInfo:any = null;
@@ -201,11 +202,13 @@ export class SettingsComponent {
 				this.portalValid = (data.valid === true);
 				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if(data.valid === true) {
-					console.log('Successfully changed url!');
+					this.alertService.addAlert('success', 'Changed Portal URL!');
+				} else {
+					this.alertService.addAlert('danger', data.valid);
 				}
 			},
 			error => {
-				console.log('set portal url error', error);
+				this.alertService.addAlert('danger', error);
 			}
 		);
 	}

@@ -9,8 +9,8 @@ import '../common/rxjs-operators';
 @Injectable()
 export class NotificationService {
 
-	announcements:event[] = [];
-    notifications:event[] = [];
+	announcements:Event[] = [];
+    notifications:Event[] = [];
 
 	// Query announcements and events from the back-end
 	getEvents() {
@@ -25,7 +25,7 @@ export class NotificationService {
 	}
 }
 
-export interface event {
+export interface Event {
     type: string; //there will be a label to indicate the component that sended the notification
     title: string;
     content: string;

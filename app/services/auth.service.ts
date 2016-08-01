@@ -169,7 +169,7 @@ export class AuthService {
 			.catch(handleError);
 	}
 
-    public isLoggedIn() {
+    isLoggedIn() {
     	return (this.sessionStorage['id_token'] || this.localStorage['id_token']);
     }
 }

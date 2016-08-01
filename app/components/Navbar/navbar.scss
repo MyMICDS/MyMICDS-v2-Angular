@@ -1,6 +1,7 @@
 .navbar {
 	display: flex;
 	align-items: center;
+	z-index: 100;
 
 	img.navbar-brand {
 		height: 2rem;

@@ -39,6 +39,7 @@
     "angular2-fontawesome": "^0.5.1",
     "angular2-in-memory-web-api": "0.0.14",
     "angular2-jwt": "^0.1.17",
+    "angular2-uuid": "^1.0.7",
     "chart.js": "^2.2.0-rc.1",
     "connect-history-api-fallback": "^1.2.0",
     "core-js": "^2.4.0",

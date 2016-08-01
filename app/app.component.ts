@@ -4,6 +4,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {LocalStorage, SessionStorage} from 'h5webstorage';
 
 import {NavbarComponent} from './components/Navbar/navbar.component';
+import {AlertComponent} from './components/Alert/alert.component';
 import {HomeComponent} from './components/Home/home.component';
 import {LunchComponent} from './components/Lunch/lunch.component';
 import {PlannerComponent} from './components/Planner/planner.component';
@@ -19,6 +20,7 @@ import {ForgotPasswordComponent} from './components/ForgotPassword/forgot-passwo
 import {ResetPasswordComponent} from './components/ResetPassword/reset-password.component';
 import {SidebarComponent} from './components/Sidebar/sidebar.component'
 
+import {AlertService} from './services/alert.service';
 import {AuthService} from './services/auth.service';
 import {CanvasService} from './services/canvas.service';
 import {PortalService} from './services/portal.service';
@@ -29,12 +31,13 @@ import {UserService} from './services/user.service';
 	selector: 'mymicds-app',
 	template: `
 		<navbar></navbar>
+		<alert></alert>
 		<sidebar></sidebar>
 		<router-outlet></router-outlet>
 	`,
 	styles: [':host { height: 100%; }'],
-	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AuthService, CanvasService, PortalService, UserService],
-	directives: [NavbarComponent, ROUTER_DIRECTIVES, SidebarComponent],
+	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AlertService, AuthService, CanvasService, PortalService, UserService],
+	directives: [NavbarComponent, ROUTER_DIRECTIVES, AlertComponent, SidebarComponent],
 	precompile: [
 				NavbarComponent,         HomeComponent,          LunchComponent,
 				PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,

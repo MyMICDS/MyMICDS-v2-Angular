@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgFor} from '@angular/common';
-import {NotificationService, event} from '../../services/notification.service';
+import {NotificationService, Event} from '../../services/notification.service';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import {contains} from '../../common/utils';
@@ -15,8 +15,8 @@ import {contains} from '../../common/utils';
 export class SidebarComponent {
     constructor(private notificationService: NotificationService) {}
 
-	announcements:event[] = [];
-    notifications:event[] = [];
+	announcements:Event[] = [];
+    notifications:Event[] = [];
 
 	open = false;
 	clickToggle$;

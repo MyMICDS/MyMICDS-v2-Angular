@@ -75,7 +75,7 @@
 				<p class="form-text text-muted">
 					Submit your Portal URL to integrate your schedule into the site.
 					<br>
-					<a>Find out how to get your Portal URL.</a>
+					<a routerLink="/help">Find out how to get your Portal URL.</a>
 				</p>
 			</form>
 			<form #canvasForm="ngForm" class="canvas-form" [class.has-success]="canvasValid" [class.has-danger]="!canvasValid" (ngSubmit)="changeCanvasURL()" novalidate>
@@ -88,7 +88,7 @@
 				<p class="form-text text-muted">
 					Submit your Canvas URL to integrate your homework assignments into our digital planner.
 					<br>
-					<a>Find out how to get your Canvas URL.</a>
+					<a routerLink="/help">Find out how to get your Canvas URL.</a>
 				</p>
 			</form>
 		</div>
