@@ -32,7 +32,7 @@ export class HomeComponent {
 				this.schedule = schedule;
 			},
 			(error) => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Get Schedule Error!', error);
 			}
 		);
 

@@ -25,7 +25,7 @@ export class BulletinArchivesComponent {
 				this.baseURL = data.baseURL;
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Get Bulletins Error!', error);
 			}
 		)
 	}

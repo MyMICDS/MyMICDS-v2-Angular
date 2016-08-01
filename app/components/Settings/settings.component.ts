@@ -78,7 +78,7 @@ export class SettingsComponent {
 				}
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Settings Error!', error);
 			}
 		);
 
@@ -88,7 +88,7 @@ export class SettingsComponent {
                 this.gradeRange = gradeRange;
             },
             error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Settings Error!', error);
             }
 		);
 	}
@@ -124,7 +124,7 @@ export class SettingsComponent {
 						this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
 					},
 					error => {
-						this.alertService.addAlert('warning', error);
+						this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
 					}
 				);
 
@@ -137,7 +137,7 @@ export class SettingsComponent {
 						this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
 					},
 					error => {
-						this.alertService.addAlert('warning', error);
+						this.alertService.addAlert('warning', 'Test Canvas URL Error!', error);
 					}
 				);
 		}, 1);
@@ -201,10 +201,10 @@ export class SettingsComponent {
 
 		this.userService.changeInfo(newInfo).subscribe(
 			() => {
-				this.alertService.addAlert('success', 'Info change successful!');
+				this.alertService.addAlert('success', 'Success!', 'Info change successful!', 3);
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Change Info Error!', error);
 			}
 		);
 	}
@@ -212,10 +212,10 @@ export class SettingsComponent {
 	changePassword() {
 		this.authService.changePassword(this.passwordForm.controls.oldPassword.value, this.passwordForm.controls.newPassword.value).subscribe(
 			() => {
-				this.alertService.addAlert('success', 'Password change successful!');
+				this.alertService.addAlert('success', 'Success!', 'Password change successful!', 3);
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Password Change Error!', error);
 			}
 		);
 	}
@@ -226,13 +226,13 @@ export class SettingsComponent {
 				this.portalValid = (data.valid === true);
 				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if(data.valid === true) {
-					this.alertService.addAlert('success', 'Changed Portal URL!');
+					this.alertService.addAlert('success', 'Success!', 'Changed Portal URL!', 3);
 				} else {
-					this.alertService.addAlert('warning', data.valid);
+					this.alertService.addAlert('warning', 'Change Portal URL Warning:', data.valid);
 				}
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Change Portal URL Error!', error);
 			}
 		);
 	}
@@ -243,13 +243,13 @@ export class SettingsComponent {
 				this.canvasValid = (data.valid === true);
 				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if(data.valid === true) {
-					this.alertService.addAlert('success', 'Changed Canvas URL!');
+					this.alertService.addAlert('success', 'Success!', 'Changed Canvas URL!', 3);
 				} else {
-					this.alertService.addAlert('warning', data.valid);
+					this.alertService.addAlert('warning', 'Change Canvas URL Warning:', data.valid);
 				}
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Change Canvas URL Error!', error);
 			}
 		);
 	}

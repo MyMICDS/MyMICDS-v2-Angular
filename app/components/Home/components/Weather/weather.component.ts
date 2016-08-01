@@ -25,7 +25,7 @@ export class WeatherComponent {
 				this.weather = data;
 			},
 			(error) => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Get Weather Error!', error);
 			}
 		);
 	}

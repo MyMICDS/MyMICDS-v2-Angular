@@ -62,7 +62,7 @@ export class DailyBulletinComponent {
 				this.bulletinDate = new Date(this.bulletins[0]);
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Get Bulletins Error!', error);
 			}
 		)
 	}

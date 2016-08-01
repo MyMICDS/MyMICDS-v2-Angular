@@ -36,7 +36,7 @@ export class SidebarComponent {
 				this.notifications = events.notifications
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Get Notifications Error!', error);
 			}
 		);
     }

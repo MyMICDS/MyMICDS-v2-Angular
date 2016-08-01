@@ -12,8 +12,6 @@ export function xhrHeaders() {
 // Generate error to display to user
 export function handleError(error:any) {
 
-	console.log('Handle error!', error);
-
 	// Check if error is string
 	if(typeof error === 'string') {
 		return Observable.throw(error);
@@ -24,7 +22,7 @@ export function handleError(error:any) {
 	}
 	// Check if client-side error
 	if(typeof error.statusText === 'string') {
-		return Observable.throw('Error: ' + error.statusText);
+		return Observable.throw(error.statusText);
 	}
 
 	// Fallback to generic error

@@ -1,6 +1,6 @@
 <div class="alert-container">
 	<div class="container">
-		<div *ngFor="let alert of alerts" class="alert alert-{{alert.class}}" [class.dismissed]="alertsDismissed[alert.id]" role="alert">
+		<div *ngFor="let alert of alerts" class="alert alert-{{alert.type}}" [class.dismissed]="alertsDismissed[alert.id]" role="alert">
 			<button type="button" class="close" (click)="dismiss(alert.id)" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>

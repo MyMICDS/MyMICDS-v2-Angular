@@ -33,7 +33,7 @@ export class LoginComponent {
                 this.router.navigate(['home']);
             },
             error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Login Error!', error);
             }
         )
     }

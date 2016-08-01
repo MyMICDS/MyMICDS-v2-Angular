@@ -41,7 +41,7 @@ export class PlannerComponent {
                 }
             },
             error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Get Planner Error!', error);
             },
             () => {
                 this.loading = false;
@@ -64,7 +64,7 @@ export class PlannerComponent {
                 this.classesList = classesInfo;
             },
             error => {
-                this.alertService.addAlert('danger', error);
+                this.alertService.addAlert('danger', 'Get Classes Error!', error);
             }
         )
     }
@@ -215,7 +215,7 @@ export class PlannerComponent {
                 console.log('Submitted event id: '+id);
             },
             error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Add Event Error!', error);
 			},
             () => {
                 this.initialize();
@@ -227,10 +227,10 @@ export class PlannerComponent {
         this.loading = true;
         this.plannerService.deleteEvent(id).subscribe(
             () => {
-				this.alertService.addAlert('success', 'Successfully deleted event!');
+				this.alertService.addAlert('success', 'Success!', 'Successfully deleted event!', 3);
 			},
             error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Delete Event Error!', error);
 			},
             () => {
                 this.initialize();

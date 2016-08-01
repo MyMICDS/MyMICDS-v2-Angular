@@ -17,17 +17,18 @@ export class AlertService {
 		info   : 'Info:'
 	};
 
-	addAlert(type:string, content:string) {
+	addAlert(type:string, title:string, content:string, expiresIn:number = -1) {
 		// Default alert type to 'info'
 		if(typeof this.alertTypes[type] !== 'string') {
 			type = 'info';
 		}
 
-		let alert = {
+		let alert:Alert = {
 			id: UUID.UUID(),
-			class: type,
-			title: this.alertTypes[type],
-			content: content
+			expiresIn,
+			type,
+			title,
+			content
 		};
 
 		this.alertEmitSource.next(alert);
@@ -37,7 +38,8 @@ export class AlertService {
 
 export interface Alert {
 	id:string;
-	class:string;
+	expiresIn?:number;
+	type:string;
 	title:string;
 	content:string;
 }

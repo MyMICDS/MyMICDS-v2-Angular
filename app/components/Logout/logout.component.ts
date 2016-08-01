@@ -23,7 +23,7 @@ export class LogoutComponent {
 				}, 0);
 			},
             error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Logout Error!', error);
 				this.router.navigate(['home']);
 			}
         )

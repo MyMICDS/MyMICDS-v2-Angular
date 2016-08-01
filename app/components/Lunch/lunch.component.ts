@@ -50,7 +50,7 @@ export class LunchComponent {
 				}
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Get Lunch Error!', error);
 			},
 			() => {
 				this.loading = false;

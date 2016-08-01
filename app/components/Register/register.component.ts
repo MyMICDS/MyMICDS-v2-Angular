@@ -44,7 +44,7 @@ export class RegisterComponent {
                 this.gradeRange = gradeRange;
             },
             error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Get Grade Range Error!', error);
             }
         );
     }
@@ -56,7 +56,7 @@ export class RegisterComponent {
 
 			},
 			error => {
-				this.alertService.addAlert('danger', error);
+				this.alertService.addAlert('danger', 'Register Error!', error);
 			}
 		);
 	}
