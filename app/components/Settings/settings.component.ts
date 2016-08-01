@@ -150,10 +150,27 @@ export class SettingsComponent {
 	}
 
 	valueChanged():boolean {
-		return (this.userInfo.firstName !== this.infoForm.controls.firstName.value)
-			|| (this.userInfo.lastName !== this.infoForm.controls.lastName.value)
-			|| (this.userInfo.gradYear !== parseInt(this.infoForm.controls.gradYear.value))
-			|| ((this.userInfo.gradYear === null) !== this.infoForm.controls.teacher.value);
+
+		// Find out if grade changed
+		let userInfoIsTeacher = (this.userInfo.gradYear === null);
+		let infoFormIsTeacher = this.infoForm.controls.teacher.value;
+
+		let userInfoGradYear = this.userInfo.gradYear;
+		let infoFormGradYear = !infoFormIsTeacher ? parseInt(this.infoForm.controls.gradYear.value) : null;
+
+		let gradeChanged = false;
+
+		if(userInfoIsTeacher !== infoFormIsTeacher) {
+			// Switched from teacher to student or vice versa
+			gradeChanged = true;
+		} else if(userInfoGradYear !== infoFormGradYear) {
+			// Swtiched grades as a student
+			gradeChanged = true;
+		}
+
+		return gradeChanged
+			|| (this.userInfo.firstName !== this.infoForm.controls.firstName.value)
+			|| (this.userInfo.lastName !== this.infoForm.controls.lastName.value);
 	}
 
 	canDeactivate():Observable<boolean> | boolean {
@@ -168,12 +185,19 @@ export class SettingsComponent {
 	}
 
 	changeInfo() {
+		// Create new info object
 		let newInfo = {
 			firstName: this.infoForm.controls.firstName.value,
 			lastName: this.infoForm.controls.lastName.value,
 			gradYear: this.infoForm.controls.gradYear.value,
 			teacher: this.infoForm.controls.teacher.value
 		};
+
+		// Set new values to the userInfo
+		this.userInfo.firstName = newInfo.firstName;
+		this.userInfo.lastName = newInfo.lastName;
+		console.log(newInfo);
+		this.userInfo.gradYear = !newInfo.teacher ? parseInt(newInfo.gradYear) : null;
 
 		this.userService.changeInfo(newInfo).subscribe(
 			() => {
