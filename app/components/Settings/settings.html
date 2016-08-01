@@ -32,7 +32,7 @@
 					</div>
 					<div *ngIf="!infoForm.controls.teacher.value" class="student">
 						<span>Choose your graduation year</span>
-						<select class="c-select" formControlName="gradYear">
+						<select class="custom-select" formControlName="gradYear">
 							<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
 						</select>
 					</div>
@@ -140,7 +140,7 @@
             <fieldset class="form-group col-lg-2">
             <label for="gradyear">Year of graduation</label>
             <div class="input-group">
-                <select class="c-select" #gradyear="ngModel" type="gradyear" id="InputGradyear" placeholder="9th grade: 2019" [(ngModel)]="user.gradYear" name ="gradyear" required
+                <select class="custom-select" #gradyear="ngModel" type="gradyear" id="InputGradyear" placeholder="9th grade: 2019" [(ngModel)]="user.gradYear" name ="gradyear" required
                 tooltip="Required"
                 tooltipPlacement="right"
                 tooltipTrigger=""

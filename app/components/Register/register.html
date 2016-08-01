@@ -41,7 +41,7 @@
 			</div>
 			<div *ngIf="!registerForm?.controls?.teacher.value" class="student">
 				<span>Choose your graduation year</span>
-				<select class="c-select" formControlName="gradYear">
+				<select class="custom-select" formControlName="gradYear">
 					<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
 				</select>
 			</div>
