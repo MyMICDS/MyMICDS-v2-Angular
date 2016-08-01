@@ -3,6 +3,7 @@ import {NgFor} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import {contains} from '../../common/utils';
+import {DatePipe} from '@angular/common'
 
 import {AlertService} from '../../services/alert.service';
 import {NotificationService, Event, Announcement} from '../../services/notification.service';
@@ -27,7 +28,7 @@ export class SidebarComponent {
 		// Click event for dismissing the sidebar
         this.clickToggle$ = Observable.fromEvent(document, 'click')
             .map((event:any) => event.target.className.split(' '))
-            .filter((className:string[]) => !contains(className, 'sidebar') && !contains(className, 'sidebar-toggle'));
+            .filter((className:string[]) => !contains(className, 'sidebar') && !contains(className, 'sidebar-toggle') && !contains(className, 'sidebar-icon'));
 
 		// Get events
 		this.notificationService.getEvents().subscribe(

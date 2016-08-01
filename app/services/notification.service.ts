@@ -1,14 +1,15 @@
 import * as config from '../common/config';
 
 import {Injectable, EventEmitter} from '@angular/core';
-import {Http, RequestOptions} from '@angular/http';
+import {RequestOptions} from '@angular/http';
+import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import {Observable} from 'rxjs/Observable';
 import '../common/rxjs-operators';
 
 @Injectable()
 export class NotificationService {
-	constructor(private http: Http) {}
+	constructor(private http: AuthHttp) {}
 
 	// Query announcements and events from the back-end
 	getEvents(): Observable<{notifications: Array<Event>, announcements: Array<Announcement>}> {
@@ -44,6 +45,7 @@ export interface Event {
     title: string;
     content: string;
     color?: string; //the color indicates the class the noty is associated to
+	dueDate: Date;
 }
 
 export interface Announcement {

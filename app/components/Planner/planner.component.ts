@@ -30,6 +30,18 @@ export class PlannerComponent {
     loading: boolean; //to toggle the loading animations
 
     public initialize() {
+        this.eventModel = {
+            id: undefined,
+            title: '',
+            desc: '',
+            classId: '',
+            startYear: this.date.getFullYear(),
+            startMonth: this.date.getMonth()+1,
+            startDay: this.date.getDate(),
+            endYear: this.date.getFullYear(),
+            endMonth: this.date.getMonth()+1,
+            endDay: this.date.getDate(),
+        }
         this.loading = true;
         console.info('refreshing the planner...')
         let selectedDate = {year: this.selectedDate.year, month: this.selectedDate.month+1}
@@ -77,7 +89,7 @@ export class PlannerComponent {
 
     private pushEvents(rawEvents: any[]): Array<any> { //returns an array containing empty arrays for the calendar offset, and arrays with a date object and all the evnents as objects
         let events = [];
-        let firstDay = new Date(this.date.getFullYear(), this.date.getMonth(), 1)
+        let firstDay = new Date(this.selectedDate.year, this.selectedDate.month, 1)
         for (let i=0;i<firstDay.getDay();i++) {
             events.push([])//create calendar offset
         };

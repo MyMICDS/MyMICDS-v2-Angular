@@ -1,17 +1,27 @@
 <div id="sidebar" class="sidebar" [class.open]="open">
-	<h1>Coming Up</h1>
+	<h1>Announcements</h1>
 	<ul>
-		<li *ngFor="let announcement of announcements">
-
+		<li *ngFor="let announcement of announcements" class="announcement-item">
+			<h3>{{announcement.title}}</h3>
+			{{announcement.content}}
 		</li>
 	</ul>
+	<h1>Coming Up</h1>
 	<ol>
-		<li *ngFor="let notification of notifications">
-
+		<li *ngFor="let notification of notifications.upcoming" class="notification-item">
+			<h3>{{notification.title}}</h3>
+			{{notification.content}}
+		</li>
+	</ol>
+	<h1>Ending in a week</h1>
+	<ol>
+		<li *ngFor="let notification of notifications.ending" class="notification-item">
+			<h3>{{notification.title}}</h3>
+			{{notification.content}}
 		</li>
 	</ol>
 </div>
 
 <div class="sidebar-toggle" (click)="openSidebar()">
-	Notifications ({{notifications?.length}})
+	<i class="fa fa-bars sidebar-icon" aria-hidden="true"></i> {{notifications?.upcoming?.length + notifications?.ending?.length}}
 </div>
