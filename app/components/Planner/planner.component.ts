@@ -5,6 +5,7 @@ import {FaDirective} from 'angular2-fontawesome/directives';
 import {AlertService} from '../../services/alert.service';
 import {ClassesService} from '../../services/classes.service';
 import {PlannerService} from '../../services/planner.service';
+import {UserService} from '../../services/user.service'
 
 @Component({
     selector: 'planner',
@@ -14,8 +15,9 @@ import {PlannerService} from '../../services/planner.service';
     providers: [PlannerService, ClassesService]
 })
 export class PlannerComponent {
-    constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService) {}
+    constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService) {}
 
+    public rawEvents;
     public eventsList: Array<Array<any>> = [];
     public classesList: Array<any> = [];
     public selectedEvents = [];
@@ -46,9 +48,10 @@ export class PlannerComponent {
         console.info('refreshing the planner...')
         let selectedDate = {year: this.selectedDate.year, month: this.selectedDate.month+1}
         this.plannerService.getEvents(selectedDate).subscribe(
-            eventsInfo => {
-                if (eventsInfo) {
-                    this.eventsList = this.sortEvents(this.pushEvents(eventsInfo))
+            rawEvents => {
+                if (rawEvents) {
+                    this.rawEvents = rawEvents;
+                    this.eventsList = this.sortEvents(this.pushEvents(rawEvents))
                     console.log(this.eventsList)
                 }
             },
@@ -63,22 +66,27 @@ export class PlannerComponent {
     }
 
     ngOnInit() {
-        for (let i=1;i<=this.monthDays(this.date);i++) {
-            this.dateList.push(i)
-        }
-        for (let i=1;i<=12;i++) {
-            let monthStringList = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-            this.monthList.push({value: i, string: monthStringList[i-1]})
-        }
-        this.initialize();
-        this.classesService.getClasses().subscribe(
-            classesInfo => {
-                this.classesList = classesInfo;
-            },
-            error => {
-                this.alertService.addAlert('danger', 'Get Classes Error!', error);
+        if (typeof this.userService.getUsername() !== 'string') {
+            this.alertService.addAlert('warning', '', 'Try logging in before using the planner!');
+            this.loading = true;
+        } else {
+            for (let i=1;i<=this.monthDays(this.date);i++) {
+                this.dateList.push(i)
             }
-        )
+            for (let i=1;i<=12;i++) {
+                let monthStringList = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                this.monthList.push({value: i, string: monthStringList[i-1]})
+            }
+            this.initialize();
+            this.classesService.getClasses().subscribe(
+                classesInfo => {
+                    this.classesList = classesInfo;
+                },
+                error => {
+                    this.alertService.addAlert('danger', 'Get Classes Error!', error);
+                }
+            )
+        }
     }
 
     monthDays(date: Date){
@@ -219,33 +227,60 @@ export class PlannerComponent {
         }
     }
 
+    formLoading: boolean;
     public addEvent() {
-        this.loading = true;
+        this.formLoading = true;
         console.log(this.eventModel)
         this.plannerService.addEvent(this.eventModel).subscribe(
             id => {
                 console.log('Submitted event id: '+id);
+                let c;
+                for (let i=0;i<this.classesList.length;i++) {
+                    if (this.classesList[i]._id === this.eventModel.classId) {
+                        c = this.classesList[i]
+                    }
+                }
+                let event = {
+                    _id: id,
+                    class: c,
+                    title: this.eventModel.title,
+                    desc: this.eventModel.desc,
+                    link: '',
+                    start: new Date(this.eventModel.startYear, this.eventModel.startMonth-1, this.eventModel.startDay),
+                    end: new Date(this.eventModel.endYear, this.eventModel.endMonth-1, this.eventModel.endDay),
+                    user: this.userService.getUsername()
+                };
+                this.rawEvents.push(event);
+                this.eventsList = this.sortEvents(this.pushEvents(this.rawEvents));
             },
             error => {
 				this.alertService.addAlert('danger', 'Add Event Error!', error);
 			},
             () => {
-                this.initialize();
+                //this.initialize();
+                this.formLoading = false;
             }
         );
     }
 
     public deleteEvent(id:string) {
-        this.loading = true;
+        this.formLoading = true;
         this.plannerService.deleteEvent(id).subscribe(
             () => {
-				this.alertService.addAlert('success', 'Success!', 'Successfully deleted event!', 3);
+				this.alertService.addAlert('success', 'Success!', 'Successfully deleted event!');
+                for (let i=0;i<this.rawEvents.length;i++) {
+                    if (this.rawEvents[i]._id === id) {
+                        this.rawEvents.splice(i, 1)
+                    }
+                }
+                this.eventsList = this.sortEvents(this.pushEvents(this.rawEvents));
 			},
             error => {
 				this.alertService.addAlert('danger', 'Delete Event Error!', error);
 			},
             () => {
-                this.initialize();
+                //this.initialize();
+                this.formLoading = false;
             }
         )
     }

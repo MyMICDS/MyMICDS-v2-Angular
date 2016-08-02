@@ -9,8 +9,8 @@
             </div>
 		</div>
     </div>
+    <div *ngIf="plannerMsg" class="alert alert-warning"> {{plannerMsg}} </div>
     <div class="calendar-container" *ngIf="!loading">
-        <div *ngIf="plannerMsg" class="alert alert-warning"> {{plannerMsg}} </div>
         <div class="blur calendar-left col-lg-8">
             <div class="calendar-nav">
                 <i (click)="onSelectMonth(selectedDate.month-1)" class="calendar-nav-arrow clickable" fa [name]="'angle-double-left'" [size]="'3'" [pull]="'left'"></i>
@@ -61,7 +61,10 @@
                         <div class="detail-link">link: {{event.link}}</div>
                     </div>
                 </div>
-                <div class="add-event">
+                <div *ngIf="formLoading">
+                    <h2 class="form-title">Loading</h2>
+                </div>
+                <div class="add-event" *ngIf="!formLoading">
                     <h2 *ngIf="isAdding" class="form-title">Add an Event</h2>
                     <h2 *ngIf="!isAdding" class="form-title">Change an Event</h2>
                     <i class="add-button clickable" (click)="toggleForm()" [style.transform]="toggle ? 'rotate(45deg)' : 'initial'" fa [name]="'plus'" [size]="3"></i>
