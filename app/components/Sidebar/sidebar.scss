@@ -2,11 +2,11 @@
 @import 'app/styles/mixins';
 
 .sidebar {
-	width: 18rem;
+	width: 20rem;
 	height: 100%;
     position: fixed;
     top: 0;
-    left: -18rem;
+    left: -20rem;
 
     color: #eceeef;
     z-index: 1000;
@@ -30,4 +30,48 @@
     background-color: #373a3c;
     color: #eceeef;
     font-size: 1.5rem;
+}
+
+.notification-list {
+    padding: 0;
+}
+
+.notification-item {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 0.5em;
+    h3 {
+        margin: 0;
+        line-height: 2em
+    }
+}
+
+.announcement-list {
+    padding: 0.25em;
+}
+
+.announcement-item {
+    list-style-type: none;
+    border-radius: 0.5em;
+    background-color: darken(rgba(41, 171, 226, 1), 20%);
+    color: white;
+    animation: pulse 0.75s infinite
+}
+
+@keyframes pulse{
+    0% {
+        box-shadow: 0 0 0 8px rgba(41, 171, 226, 0.8)
+    }
+    25% {
+        box-shadow: 0 0 0 2px rgba(41, 171, 226, 0.8)
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(41, 171, 226, 0.8)
+    }
+    75% {
+        box-shadow: 0 0 0 8px rgba(41, 171, 226, 0.8)
+    }
+    100% {
+        box-shadow: 0 0 0 12px rgba(41, 171, 226, 0.8)
+    }
 }
