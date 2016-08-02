@@ -30,6 +30,10 @@ export class BackgroundService {
 			.catch(handleError);
 	}
 
+	uploadBackground() {
+		
+	}
+
 	deleteBackground() {
 		let body = JSON.stringify({});
         let headers = xhrHeaders();
