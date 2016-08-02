@@ -34,9 +34,14 @@ export class NotificationService {
 	}
 
 	//method to alert the sidebar component to add a temporary & dismissable event, like an alert for class ending
-	addEvent$ = new EventEmitter()
+	addTempEvent$ = new EventEmitter()
 	addTempEvent(event: Event) {
-		this.addEvent$.emit(event)
+		this.addTempEvent$.emit(event)
+	}
+
+	addPlannerEvent$ = new EventEmitter()
+	addPlannerEvent(event) {
+		this.addPlannerEvent$.emit(event);
 	}
 }
 

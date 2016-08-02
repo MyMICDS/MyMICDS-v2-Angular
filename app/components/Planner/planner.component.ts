@@ -5,7 +5,8 @@ import {FaDirective} from 'angular2-fontawesome/directives';
 import {AlertService} from '../../services/alert.service';
 import {ClassesService} from '../../services/classes.service';
 import {PlannerService} from '../../services/planner.service';
-import {UserService} from '../../services/user.service'
+import {UserService} from '../../services/user.service';
+import {NotificationService, Event, Announcement} from '../../services/notification.service';
 
 @Component({
     selector: 'planner',
@@ -15,7 +16,7 @@ import {UserService} from '../../services/user.service'
     providers: [PlannerService, ClassesService]
 })
 export class PlannerComponent {
-    constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService) {}
+    constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService, private notificationService: NotificationService) {}
 
     public rawEvents;
     public eventsList: Array<Array<any>> = [];
@@ -262,6 +263,7 @@ export class PlannerComponent {
                     this.rawEvents.push(event);
                 }
                 this.eventsList = this.sortEvents(this.pushEvents(this.rawEvents));
+                this.notificationService.addPlannerEvent(event);
             },
             error => {
 				this.alertService.addAlert('danger', 'Add Event Error!', error);

@@ -43,6 +43,20 @@ export class SidebarComponent {
                 }
             );
         }
+
+        this.notificationService.addPlannerEvent$.subscribe(
+            events => {
+                this.notificationService.getEvents().subscribe(
+                    events => {
+                        this.announcements = events.announcements,
+                        this.notifications = events.notifications
+                    },
+                    error => {
+                        this.alertService.addAlert('danger', 'Get Notifications Error!', error);
+                    }
+                );
+            }
+        )
     }
 
     openSidebar() {
