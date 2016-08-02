@@ -1,6 +1,7 @@
 import * as config from '../common/config';
 
 import {Injectable, EventEmitter} from '@angular/core';
+import {contains} from '../common/utils';
 import {Subject} from 'rxjs/Subject';
 import {UUID} from 'angular2-uuid';
 
@@ -10,16 +11,16 @@ export class AlertService {
 	private alertEmitSource = new Subject();
 	alertEmit$ = this.alertEmitSource.asObservable();
 
-	alertTypes = {
-		success: 'Success!',
-		warning: 'Warning!',
-		danger : 'Error!',
-		info   : 'Info:'
-	};
+	alertTypes = [
+		'info',
+		'success',
+		'warning',
+		'danger'
+	];
 
 	addAlert(type:string, title:string, content:string, expiresIn:number = -1) {
 		// Default alert type to 'info'
-		if(typeof this.alertTypes[type] !== 'string') {
+		if(!contains(this.alertTypes, type)) {
 			type = 'info';
 		}
 
