@@ -36,6 +36,7 @@ export class PlannerComponent {
             id: undefined,
             title: '',
             desc: '',
+            link: '',
             classId: '',
             startYear: this.date.getFullYear(),
             startMonth: this.date.getMonth()+1,
@@ -203,6 +204,7 @@ export class PlannerComponent {
         id: undefined,
         title: '',
         desc: '',
+        link: '',
         classId: '',
         startYear: this.date.getFullYear(),
         startMonth: this.date.getMonth()+1,
@@ -245,12 +247,20 @@ export class PlannerComponent {
                     class: c,
                     title: this.eventModel.title,
                     desc: this.eventModel.desc,
-                    link: '',
+                    link: this.eventModel.link,
                     start: new Date(this.eventModel.startYear, this.eventModel.startMonth-1, this.eventModel.startDay),
                     end: new Date(this.eventModel.endYear, this.eventModel.endMonth-1, this.eventModel.endDay),
                     user: this.userService.getUsername()
                 };
-                this.rawEvents.push(event);
+                if (this.eventModel.id === id) {
+                    for (let i=0;i<this.rawEvents.length;i++) {
+                        if (this.rawEvents[i]._id === id) {
+                            this.rawEvents[i] = event
+                        }
+                    }
+                } else {
+                    this.rawEvents.push(event);
+                }
                 this.eventsList = this.sortEvents(this.pushEvents(this.rawEvents));
             },
             error => {
@@ -297,6 +307,7 @@ export class PlannerComponent {
         this.eventModel.id = event._id;
         this.eventModel.title = event.title;
         this.eventModel.desc = event.desc;
+        this.eventModel.link = event.link;
         if (event.class) {this.eventModel.classId = event.class._id;}
         console.log(this.eventModel)
     }
