@@ -24,6 +24,7 @@ import {AlertService} from './services/alert.service';
 import {AuthService} from './services/auth.service';
 import {BackgroundService} from './services/background.service';
 import {CanvasService} from './services/canvas.service';
+import {NotificationService} from './services/notification.service';
 import {PortalService} from './services/portal.service';
 import {UserService} from './services/user.service';
 
@@ -37,7 +38,7 @@ import {UserService} from './services/user.service';
 		<router-outlet></router-outlet>
 	`,
 	styles: [':host { height: 100%; }'],
-	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AlertService, AuthService, BackgroundService, CanvasService, PortalService, UserService],
+	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AlertService, AuthService, BackgroundService, CanvasService, NotificationService, PortalService, UserService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES, AlertComponent, SidebarComponent],
 	precompile: [
 				NavbarComponent,         HomeComponent,          LunchComponent,
