@@ -89,6 +89,12 @@
 			}
 		}
 
+		.change-background {
+			.upload-background-form {
+				margin-bottom: 1rem;
+			}
+		}
+
 		.url-settings {
 			.portal-form,
 			.canvas-form {
@@ -103,35 +109,3 @@
 		}
 	}
 }
-
-/* Bad code below
-
-h1 {color: black}
-
-.blur {
-		width: 100%;
-		display: inline-block;
-		margin-bottom: $blur-margin;
-		padding: 0.5rem;
-		color: $sophisticated-white;
-
-		@include blur(rgba(0, 0, 0, 0.5));
-
-		&.blur-half {
-			width: calc(50% - #{$blur-margin});
-		}
-	}
-
-  .btn-default {
-    color: black;
-  }
-
-.dropzone-container {
-	padding: 20px 100px;
-}
-.bg-drop-zone {
-	border: dotted 3px lightgrey;
-	background-color: grey;
-	height: 100px;
-	}
-.nv-file-over { border: dotted 3px red; }*/

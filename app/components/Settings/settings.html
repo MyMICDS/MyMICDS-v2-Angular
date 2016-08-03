@@ -7,7 +7,7 @@
 		<h3>{{userInfo.user}}</h3>
 	</div>
 	<div *ngIf="userData !== null && infoForm !== null" class="settings-body">
-		<div class="settings-section half basic-info">
+		<div class="basic-info settings-section half">
 			<h3>Basic Info</h3>
 			<form [formGroup]="infoForm" (ngSubmit)="changeInfo()" novalidate>
 				<fieldset class="form-group">
@@ -60,9 +60,9 @@
 				<button class="btn btn-info" [disabled]="!passwordForm.valid">Change Password</button>
 			</form>
 		</div>
-		<div class="settings-section half">
+		<div class="change-background settings-section half">
 			<h3>Change Background</h3>
-			<form (submit)="uploadBackground($event)">
+			<form class="upload-background-form" (submit)="uploadBackground($event)">
 				<div class="form-group">
 					<label for="upload-background">Upload Background</label>
 					<input id="upload-background" type="file" class="form-control-file" (change)="fileChange()" accept="image/png,image/jpeg">
@@ -70,9 +70,9 @@
 				</div>
 				<button class="btn btn-info" [disabled]="!fileSelected">Upload</button>
 			</form>
-			<button class="btn btn-danger">Revert to Default Background</button>
+			<button class="btn btn-danger" (click)="deleteBackground()">Revert to Default Background</button>
 		</div>
-		<div class="settings-section half url-settings">
+		<div class="url-settings settings-section half">
 			<h3>URL Settings</h3>
 			<form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
 				<label for="portal-url">Portal URL</label>

@@ -273,7 +273,18 @@ export class SettingsComponent {
 				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
 			},
 			error => {
-				this.alertService.addAlert('danger', 'Uploading Background Error!', error);
+				this.alertService.addAlert('danger', 'Upload Background Error!', error);
+			}
+		);
+	}
+
+	deleteBackground() {
+		this.backgroundService.delete().subscribe(
+			() => {
+				this.alertService.addAlert('success', 'Success!', 'Deleted background!', 3);
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Delete Background Error!', error);
 			}
 		);
 	}
