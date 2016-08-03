@@ -17,9 +17,9 @@ export class NavbarComponent {
 
 	ngOnInit() {
 		// Subscribe to router events to change title
-		this.router.events.subscribe(event => {
-			if(event instanceof NavigationStart) {
-				this.titleService.setTitle('MyMICDS - ' + capitalize(event.url, 1));
+		this.router.events.subscribe((event:any) => {
+			if(typeof event.urlAfterRedirects === 'string') {
+				this.titleService.setTitle('MyMICDS - ' + capitalize(event.urlAfterRedirects, 1));
 			}
 		});
 	}
