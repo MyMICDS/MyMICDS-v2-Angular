@@ -1,14 +1,13 @@
 # TODO
 - Settings page
+- Update chart.js to use vanilla version
+-Optimize for mobile
+- Do sidebar
+- Use class alias in portal schedule
 - Optimization
   - Webpack?
   - HTTP 2?
   - Make planner response faster?
-- Update chart.js to use vanilla version
--Optimize for mobile
-
-- Do sidebar
-- Fix planner
 
 # Not as Important
 - More modules in homepage
