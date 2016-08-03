@@ -13,7 +13,7 @@ import {NotificationService, Event, Announcement} from '../../services/notificat
     templateUrl: 'app/components/Planner/planner.html',
     styleUrls: ['dist/app/components/Planner/planner.css', 'dist/app/styles/loading.css'],
     directives: [NgFor, NgIf, NgClass, NgStyle, FaDirective],
-    providers: [PlannerService, ClassesService]
+    providers: [PlannerService, ClassesService, NotificationService]
 })
 export class PlannerComponent {
     constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService, private notificationService: NotificationService) {}
