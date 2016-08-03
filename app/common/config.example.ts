@@ -5,4 +5,7 @@
  * Any config.ts is under the .gitignore so we can change parameters depending on the dev environment.
  */
 
+// Where to make all API requests to
 export const backendURL = 'http://localhost:1420';
+// Whether to add a console.log after page load
+export const recruitMessage = true;
