@@ -169,8 +169,8 @@ export class AuthService {
 			.catch(handleError);
 	}
 
-    isLoggedIn() {
-    	return (this.sessionStorage['id_token'] || this.localStorage['id_token']);
+    getJWT() {
+    	return this.sessionStorage['id_token'] || this.localStorage['id_token'];
     }
 }
 

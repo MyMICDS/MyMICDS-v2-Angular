@@ -23,7 +23,7 @@ import {UserService} from '../../services/user.service';
 })
 
 export class SettingsComponent {
-    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
+    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private backgroundService: BackgroundService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
 
 	// Changed by the forms
 	userInfo:any = null;
@@ -38,16 +38,20 @@ export class SettingsComponent {
 		confirmPassword: ['', Validators.required]
 	}, { validator: confirmPassword('newPassword', 'confirmPassword') });
 
-	// Portal and Canvas URL form
+	// Portal URL Form
 	portalSubscription:any;
 	portalURL:string;
 	portalValid:boolean;
 	portalResponse:string;
 
+	// Canvas URL Form
 	canvasSubscription:any;
 	canvasURL:string;
 	canvasValid:boolean;
 	canvasResponse:string;
+
+	// Background Upload Form
+	fileSelected = false;
 
 	ngOnInit() {
 		// Get basic info
@@ -254,8 +258,24 @@ export class SettingsComponent {
 		);
 	}
 
-	uploadBackground() {
+	fileChange() {
+		this.fileSelected = true;
+	}
 
+	uploadBackground($event) {
+		// $event.preventDefault();
+		let fileInput:any = document.getElementById('upload-background');
+		let FileList:FileList = fileInput.files;
+		let file:File = FileList[0];
+
+		this.backgroundService.upload(file).subscribe(
+			() => {
+				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Uploading Background Error!', error);
+			}
+		);
 	}
 
 }
