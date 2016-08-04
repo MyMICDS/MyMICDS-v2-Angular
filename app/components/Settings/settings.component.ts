@@ -23,7 +23,17 @@ import {UserService} from '../../services/user.service';
 })
 
 export class SettingsComponent {
-    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private backgroundService: BackgroundService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {}
+    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private backgroundService: BackgroundService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {
+		this.backgroundService.get().subscribe(
+			data => {
+				console.log(data.hasDefault);
+				this.hasDefaultBackground = data.hasDefault;
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Get Background Error!', error);
+			}
+		);
+	}
 
 	// Changed by the forms
 	userInfo:any = null;
@@ -51,6 +61,7 @@ export class SettingsComponent {
 	canvasResponse:string;
 
 	// Background Upload Form
+	hasDefaultBackground = true;
 	fileSelected = false;
 	uploadingBackground = false;
 
@@ -259,7 +270,7 @@ export class SettingsComponent {
 		);
 	}
 
-	fileChange() {
+	backgroundFileChange() {
 		this.fileSelected = true;
 	}
 
@@ -272,13 +283,20 @@ export class SettingsComponent {
 
 		this.backgroundService.upload(file).subscribe(
 			() => {
+				this.uploadingBackground = false;
 				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
+				this.backgroundService.get().subscribe(
+					data => {
+						this.hasDefaultBackground = data.hasDefault;
+					},
+					error => {
+						this.alertService.addAlert('danger', 'Get Background Error!', error);
+					}
+				);
 			},
 			error => {
-				this.alertService.addAlert('danger', 'Upload Background Error!', error);
-			},
-			() => {
 				this.uploadingBackground = false;
+				this.alertService.addAlert('danger', 'Upload Background Error!', error);
 			}
 		);
 	}
@@ -287,6 +305,14 @@ export class SettingsComponent {
 		this.backgroundService.delete().subscribe(
 			() => {
 				this.alertService.addAlert('success', 'Success!', 'Deleted background!', 3);
+				this.backgroundService.get().subscribe(
+					data => {
+						this.hasDefaultBackground = data.hasDefault;
+					},
+					error => {
+						this.alertService.addAlert('danger', 'Get Background Error!', error);
+					}
+				);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Delete Background Error!', error);

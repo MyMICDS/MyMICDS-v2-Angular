@@ -28,9 +28,19 @@ export class BackgroundService {
 					throw new Error(data.error);
 				}
 
-                return data.urls;
+				// Set background image
+				this.set(data.variants);
+
+                return {
+					variants: data.variants,
+					hasDefault: data.hasDefault
+				};
             })
 			.catch(handleError);
+	}
+
+	set(variants:any) {
+		document.body.style.backgroundImage = 'url("' + variants.normal + '")';
 	}
 
 	upload(file:File) {

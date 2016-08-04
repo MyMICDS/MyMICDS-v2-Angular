@@ -48,4 +48,14 @@ import {UserService} from './services/user.service';
 				ForgotPasswordComponent, ResetPasswordComponent
 			]
 })
-export class AppComponent {}
+export class AppComponent {
+	constructor(private alertService: AlertService, private backgroundService: BackgroundService) {
+		// Get custom user background
+		this.backgroundService.get().subscribe(
+			data => {},
+			error => {
+				this.alertService.addAlert('danger', 'Get Background Error!', error);
+			}
+		);
+	}
+}

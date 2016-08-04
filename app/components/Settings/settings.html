@@ -7,6 +7,8 @@
 		<h3>{{userInfo.user}}</h3>
 	</div>
 	<div *ngIf="userData !== null && infoForm !== null" class="settings-body">
+
+		<!-- Change Basic Information -->
 		<div class="basic-info settings-section half">
 			<h3>Basic Info</h3>
 			<form [formGroup]="infoForm" (ngSubmit)="changeInfo()" novalidate>
@@ -40,6 +42,8 @@
 				<button class="btn btn-info" [disabled]="!infoForm.valid || !valueChanged()">Save Changes</button>
 			</form>
 		</div>
+
+		<!-- Change Password -->
 		<div class="settings-section half">
 			<h3>Change Password</h3>
 			<form [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
@@ -60,18 +64,22 @@
 				<button class="btn btn-info" [disabled]="!passwordForm.valid">Change Password</button>
 			</form>
 		</div>
+
+		<!-- Change Background -->
 		<div class="change-background settings-section half">
 			<h3>Change Background</h3>
 			<form class="upload-background-form" (submit)="uploadBackground($event)">
 				<div class="form-group">
 					<label for="upload-background">Upload Background</label>
-					<input id="upload-background" type="file" class="form-control-file" (change)="fileChange()" accept="image/png,image/jpeg">
+					<input id="upload-background" type="file" class="form-control-file" (change)="backgroundFileChange()" accept="image/png,image/jpeg">
 					<small class="form-text text-muted">All images must be school appropriate. Any violent, graphic or obscene images will be deleted.</small>
 				</div>
 				<button class="btn btn-info" [disabled]="!fileSelected || uploadingBackground">{{ uploadingBackground ? 'Uploading...' : 'Upload'}}</button>
 			</form>
-			<button class="btn btn-danger" (click)="deleteBackground()">Revert to Default Background</button>
+			<button class="btn btn-danger" (click)="deleteBackground()" [disabled]="hasDefaultBackground">Revert to Default Background</button>
 		</div>
+
+		<!-- Set URLs -->
 		<div class="url-settings settings-section half">
 			<h3>URL Settings</h3>
 			<form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
@@ -101,6 +109,8 @@
 				</p>
 			</form>
 		</div>
+
+		<!-- Set Classes -->
 		<div class="settings-section">
 			<h3>Set Classes</h3>
 		</div>
