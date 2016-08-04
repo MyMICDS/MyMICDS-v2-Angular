@@ -7,7 +7,6 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class WeatherService {
-
 	constructor(private http: Http) {}
 
 	getWeather() {

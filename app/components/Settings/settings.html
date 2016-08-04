@@ -1,15 +1,15 @@
 <div class="container">
-	<div *ngIf="userData === null || infoForm === null" class="settings-header">
+	<div *ngIf="userData === null || infoForm === null" class="settings-header blur">
 		<h1>Fetching user settings...</h1>
 	</div>
-	<div *ngIf="userData !== null && infoForm !== null" class="settings-header">
+	<div *ngIf="userData !== null && infoForm !== null" class="settings-header blur">
 		<h1>Settings</h1>
 		<h3>{{userInfo.user}}</h3>
 	</div>
 	<div *ngIf="userData !== null && infoForm !== null" class="settings-body">
 
 		<!-- Change Basic Information -->
-		<div class="basic-info settings-section half">
+		<div class="basic-info settings-section half blur">
 			<h3>Basic Info</h3>
 			<form [formGroup]="infoForm" (ngSubmit)="changeInfo()" novalidate>
 				<fieldset class="form-group">
@@ -44,7 +44,7 @@
 		</div>
 
 		<!-- Change Password -->
-		<div class="settings-section half">
+		<div class="settings-section half blur">
 			<h3>Change Password</h3>
 			<form [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
 				<div class="form-group">
@@ -66,7 +66,7 @@
 		</div>
 
 		<!-- Change Background -->
-		<div class="change-background settings-section half">
+		<div class="change-background settings-section half blur">
 			<h3>Change Background</h3>
 			<form class="upload-background-form" (submit)="uploadBackground($event)">
 				<div class="form-group">
@@ -80,7 +80,7 @@
 		</div>
 
 		<!-- Set URLs -->
-		<div class="url-settings settings-section half">
+		<div class="url-settings settings-section half blur">
 			<h3>URL Settings</h3>
 			<form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
 				<label for="portal-url">Portal URL</label>
@@ -111,7 +111,7 @@
 		</div>
 
 		<!-- Set Classes -->
-		<div class="settings-section">
+		<div class="settings-section blur">
 			<h3>Set Classes</h3>
 		</div>
 	</div>

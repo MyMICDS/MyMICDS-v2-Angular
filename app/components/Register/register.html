@@ -1,23 +1,23 @@
 <div class="register-container">
 	<!-- Loading Screen -->
-	<div *ngIf="submitted && registerResponse === null" class="register-response">
+	<div *ngIf="submitted && registerResponse === null" class="register-response blur">
 		<h1>Sending Email...</h1>
 	</div>
 	<!-- Success Response -->
-	<div *ngIf="submitted && registerResponse === true" class="register-response">
+	<div *ngIf="submitted && registerResponse === true" class="register-response blur">
 		<h1>Confirmation Email Sent!</h1>
 		<fa name="check" size="5"></fa>
 		<a class="btn btn-info btn-lg" href="https://mail.google.com">Click here to go to Gmail</a>
 	</div>
 	<!-- Failure Response -->
-	<div *ngIf="submitted && typeOf(registerResponse) === 'string'" class="register-response">
+	<div *ngIf="submitted && typeOf(registerResponse) === 'string'" class="register-response blur">
 		<h1>{{registerResponse}}</h1>
 		<fa name="times" size="5"></fa>
 		<p><a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error keeps happening.</p>
 	</div>
 </div>
 
-<div *ngIf="!submitted" class="register-form">
+<div *ngIf="!submitted" class="register-form blur">
 	<div class="register-header">
 		<h1>Register</h1>
 		<img src="dist/app/resources/logo/logo.svg">

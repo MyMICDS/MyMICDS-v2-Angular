@@ -1,5 +1,4 @@
 @import 'app/styles/settings';
-@import 'app/styles/mixins';
 
 .container {
 	margin-bottom: 6rem;
@@ -10,12 +9,11 @@
 		flex-wrap: wrap;
 		justify-content: space-between;
 
-		.blur {
+		.module {
 			width: 100%;
 			margin-bottom: $blur-margin;
 			padding: 1rem;
 			color: $sophisticated-white;
-			@include blur();
 
 			&.half {
 				width: calc(50% - #{$blur-margin / 2});

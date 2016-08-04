@@ -11,8 +11,13 @@ import {AuthService} from '../services/auth.service';
 
 @Injectable()
 export class BackgroundService {
-
 	constructor(private authHttp: AuthHttp, private authService: AuthService) {}
+
+	// Store CSS rule indexes for custom backgrounds
+	CSSIndexes:any = {
+		'normal': null,
+		'blur': null
+	};
 
 	get() {
 		let body = JSON.stringify({});
@@ -28,19 +33,12 @@ export class BackgroundService {
 					throw new Error(data.error);
 				}
 
-				// Set background image
-				this.set(data.variants);
-
                 return {
 					variants: data.variants,
 					hasDefault: data.hasDefault
 				};
             })
 			.catch(handleError);
-	}
-
-	set(variants:any) {
-		document.body.style.backgroundImage = 'url("' + variants.normal + '")';
 	}
 
 	upload(file:File) {

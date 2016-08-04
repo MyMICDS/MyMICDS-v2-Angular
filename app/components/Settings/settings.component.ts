@@ -26,7 +26,6 @@ export class SettingsComponent {
     constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private backgroundService: BackgroundService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {
 		this.backgroundService.get().subscribe(
 			data => {
-				console.log(data.hasDefault);
 				this.hasDefaultBackground = data.hasDefault;
 			},
 			error => {
@@ -71,8 +70,7 @@ export class SettingsComponent {
 			data => {
 				this.userInfo = data;
 
-				// Prefil user data in forms
-				console.log(this.userInfo);
+				// Prefill user data in forms
 				this.infoForm = this.formBuilder.group({
 					firstName: [this.userInfo.firstName, Validators.required],
 					lastName: [this.userInfo.lastName, Validators.required],
@@ -212,7 +210,6 @@ export class SettingsComponent {
 		// Set new values to the userInfo
 		this.userInfo.firstName = newInfo.firstName;
 		this.userInfo.lastName = newInfo.lastName;
-		console.log(newInfo);
 		this.userInfo.gradYear = !newInfo.teacher ? parseInt(newInfo.gradYear) : null;
 
 		this.userService.changeInfo(newInfo).subscribe(

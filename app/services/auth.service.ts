@@ -9,7 +9,6 @@ import {LocalStorage, SessionStorage} from 'h5webstorage';
 
 @Injectable()
 export class AuthService {
-
     constructor(private http: Http, private authHttp: AuthHttp, private localStorage: LocalStorage, private sessionStorage: SessionStorage) {}
 
     login(user:string, password:string, remember:any) {

@@ -7,7 +7,6 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class BulletinService {
-
     constructor(private http: Http) {}
 
     listBulletins() {

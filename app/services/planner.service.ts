@@ -8,7 +8,6 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class PlannerService {
-
     constructor(private authHttp: AuthHttp) {}
 
 	getEvents(date:Date) {

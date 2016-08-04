@@ -1,5 +1,4 @@
 @import 'app/styles/settings';
-@import 'app/styles/mixins';
 
 .container {
 	margin-bottom: 6rem;
@@ -10,9 +9,7 @@
 		display: inline-block;
 		margin-bottom: 1rem;
 		padding: 1rem 6rem;
-
 		color: $sophisticated-white;
-		@include blur();
 
 		h1 {
 			font-weight: 600;
@@ -35,7 +32,6 @@
 			padding: 1rem;
 			text-align: left;
 			color: $sophisticated-white;
-			@include blur();
 
 			&.half {
 				width: calc(50% - #{$blur-margin / 2});

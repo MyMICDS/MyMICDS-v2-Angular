@@ -1,5 +1,4 @@
 @import 'app/styles/settings';
-@import 'app/styles/mixins';
 
 .container {
 	margin-bottom: 6rem;
@@ -11,8 +10,6 @@
 		margin-bottom: 1rem;
 		padding: 1rem 6rem;
 		color: $sophisticated-white;
-
-		@include blur();
 
 		h1 {
 			font-weight: 600;
@@ -51,8 +48,6 @@
 			color: $sophisticated-white;
 			text-align: left;
 
-			@include blur();
-
 			p {
 				margin: 0;
 				font-size: 1.25rem;
@@ -63,7 +58,6 @@
 			padding: 1rem;
 			margin-bottom: 1rem;
 			color: $sophisticated-white;
-			@include blur();
 
 			p {
 				margin: 0;
@@ -73,7 +67,6 @@
 		.dev-team {
 			padding: 1rem;
 			margin-bottom: 1rem;
-			@include blur();
 
 			h3 {
 				margin-left: 1rem;
@@ -107,7 +100,6 @@
 		.join-us {
 			padding: 1rem;
 			color: $sophisticated-white;
-			@include blur();
 
 			h3 {
 				text-align: left;

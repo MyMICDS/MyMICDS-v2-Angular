@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="blur col-lg-12 lunch-date">
-            <div *ngFor="let date of dateList; let i = index" class="blur-white" [ngClass]="{'date-focused': focus[i]}" (click)="changeDate(date); toggleFocus(i)">
+            <div *ngFor="let date of dateList; let i = index" class="blur-white blur--white" [ngClass]="{'date-focused': focus[i]}" (click)="changeDate(date); toggleFocus(i)">
                 <h3 [ngClass]="{'date-disabled': isWeekend(date), 'date-today': isToday(date)}">{{date | date:'yMd'}}<br>({{date | date:'EEE'}})</h3>
             </div>
         </div>
@@ -11,7 +11,7 @@
         <div class="lunch-nav lunch-left-nav col-lg-2"><div class="blur">
             <i class="fa fa-caret-left fa-5x"></i>
         </div></div>
-        
+
         <div class="lunch-content col-lg-8"><div class="blur">
             <div *ngIf="loading">Loading</div>
             <div *ngIf="lunchErr" class="alert alert-danger">{{lunchErr}}</div>
@@ -22,7 +22,7 @@
                     <button type="button" class="btn btn-default" (click)="switchSchool(2)">Upper School</button>
                 </div>
                 <div class="" *ngIf="lunchList">
-                    <div *ngFor="let station of lunchList | keyArr" class="lunch-station">
+                    <div *ngFor="let station of lunchList | keyArr" class="lunch-station blur--white">
                         <h2 *ngIf="station === 'title'"> {{lunchList.title}} </h2>
                         <div *ngIf="station !== 'title'">
                             <h2>{{station}}</h2>

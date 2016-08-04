@@ -1,5 +1,4 @@
 @import 'app/styles/settings';
-@import 'app/styles/mixins';
 
 .container {
 	margin-bottom: 6rem;
@@ -10,9 +9,7 @@
 		display: inline-block;
 		margin-bottom: 1rem;
 		padding: 1rem 6rem;
-
 		color: $sophisticated-white;
-		@include blur();
 
 		h1 {
 			font-weight: 600;
@@ -25,26 +22,9 @@
 
 	.table {
 		color: $sophisticated-white;
-		@include blur();
 
-		thead {
-			.bulletin-view {
-				// width: 100%;
-			}
-		}
-
-		tbody tr {
-
-			.bulletin-index {
-
-			}
-
-			.bulletin-name button {
+		tbody tr .bulletin-name button {
 				width: 100%;
-			}
-
-			.bulletin-link {
-
 			}
 		}
 	}

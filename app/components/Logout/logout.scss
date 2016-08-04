@@ -1,5 +1,4 @@
 @import 'app/styles/settings';
-@import 'app/styles/mixins';
 
 .logout-container {
 	position: absolute;
@@ -16,7 +15,6 @@
 		padding: 1rem;
 		text-align: center;
 		color: $sophisticated-white;
-		@include blur();
 
 		h1 {
 			font-size: 3rem;

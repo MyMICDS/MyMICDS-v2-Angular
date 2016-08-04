@@ -1,5 +1,4 @@
 @import 'mixins';
-@import 'settings';
 
 .loading-container {
 	position: absolute;
@@ -16,7 +15,6 @@
 		padding: 1rem;
 		text-align: center;
 		color: $sophisticated-white;
-		@include blur();
 
 		.img-container {
 			margin-bottom: 0.5rem;

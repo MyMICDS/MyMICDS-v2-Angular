@@ -7,7 +7,6 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class LunchService {
-
 	constructor(private http: Http) {}
 
 	getLunch(date:Date) {

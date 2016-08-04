@@ -1,5 +1,4 @@
 @import 'app/styles/settings';
-@import 'app/styles/mixins';
 
 .sidebar {
 	width: 20rem;
@@ -12,8 +11,6 @@
     z-index: 1000;
     transition: 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     overflow: hidden;
-
-	@include blur(rgba(0, 0, 0, 0.8));
 
 	&.open {
 		left: 0;

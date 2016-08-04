@@ -13,8 +13,6 @@ export class NotificationService {
 
 	// Query announcements and events from the back-end
 	getEvents(): Observable<{notifications: Array<Event>, announcements: Array<Announcement>}> {
-		// We query the database at this point
-
 		let body = null;
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });

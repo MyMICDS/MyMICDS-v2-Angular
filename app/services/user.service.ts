@@ -9,7 +9,6 @@ import {LocalStorage, SessionStorage} from 'h5webstorage';
 
 @Injectable()
 export class UserService {
-
     constructor(private http: Http, private authHttp: AuthHttp, private localStorage: LocalStorage, private sessionStorage: SessionStorage) {}
 
 	// Gets username of current session. Use this to check if a user is logged in and JWT is valid. Returns null if no username.

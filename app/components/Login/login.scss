@@ -1,5 +1,4 @@
 @import 'app/styles/settings';
-@import 'app/styles/mixins';
 
 .login-container {
 	position: absolute;
@@ -15,7 +14,6 @@
 		width: 23rem;
 		padding: 1rem;
 		color: $sophisticated-white;
-		@include blur();
 
 		.login-header {
 			margin-bottom: 1rem;

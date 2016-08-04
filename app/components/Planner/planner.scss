@@ -1,5 +1,4 @@
 @import 'app/styles/settings';
-@import 'app/styles/mixins';
 
 .ng-valid[required] {
   border-left: 5px solid #42A948; /* green */
@@ -12,23 +11,20 @@
 
 }
 
-.blur {
-	    border-radius: 15px;
-		display: inline-block;
-		margin-bottom: $blur-margin;
-		padding: 0.5rem;
-		color: $sophisticated-white;
+.calendar-blur {
+	border-radius: 15px;
+	display: inline-block;
+	margin-bottom: $blur-margin;
+	padding: 0.5rem;
+	color: $sophisticated-white;
 
-		@include blur(rgba(0, 0, 0, 0.5));
-
-		&.blur-half {
-			width: calc(50% - #{$blur-margin});
-		}
+	&.blur-half {
+		width: calc(50% - #{$blur-margin});
 	}
+}
 
 .table-cell {
     //background-color: $sophisticated-white;
-    @include blur(rgba(255, 255, 255, 0.5));
     color: rgba(0, 0, 0, 0.5);
     line-height: 1;
     height: 100px;
@@ -82,7 +78,6 @@ thead th{
 }
 
 .add-event {
-    @include blur(rgba(255, 255, 255, 0.5));
     color: black
 }
 
@@ -106,7 +101,5 @@ thead th{
     padding-top: 0.1rem;
     padding-left: 0.05rem;
     border-radius: 50%;
-    @include blur(rgba(0, 0, 0, 0.5));
     color: $sophisticated-white;
 }
-
