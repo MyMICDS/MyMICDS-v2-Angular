@@ -68,7 +68,7 @@
 					<input id="upload-background" type="file" class="form-control-file" (change)="fileChange()" accept="image/png,image/jpeg">
 					<small class="form-text text-muted">All images must be school appropriate. Any violent, graphic or obscene images will be deleted.</small>
 				</div>
-				<button class="btn btn-info" [disabled]="!fileSelected">Upload</button>
+				<button class="btn btn-info" [disabled]="!fileSelected || uploadingBackground">{{ uploadingBackground ? 'Uploading...' : 'Upload'}}</button>
 			</form>
 			<button class="btn btn-danger" (click)="deleteBackground()">Revert to Default Background</button>
 		</div>

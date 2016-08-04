@@ -52,6 +52,7 @@ export class SettingsComponent {
 
 	// Background Upload Form
 	fileSelected = false;
+	uploadingBackground = false;
 
 	ngOnInit() {
 		// Get basic info
@@ -263,7 +264,8 @@ export class SettingsComponent {
 	}
 
 	uploadBackground($event) {
-		// $event.preventDefault();
+		this.uploadingBackground = true;
+
 		let fileInput:any = document.getElementById('upload-background');
 		let FileList:FileList = fileInput.files;
 		let file:File = FileList[0];
@@ -274,6 +276,9 @@ export class SettingsComponent {
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Upload Background Error!', error);
+			},
+			() => {
+				this.uploadingBackground = false;
 			}
 		);
 	}
