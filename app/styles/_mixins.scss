@@ -1,8 +1,0 @@
-@import 'settings';
-@import 'utils';
-
-@mixin blur($color: rgba(0, 0, 0, 0.6)) {
-	background: linear-gradient($color, $color);
-	background-size: cover;
-	background-attachment: fixed;
-}
