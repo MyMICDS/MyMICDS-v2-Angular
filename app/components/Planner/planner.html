@@ -11,7 +11,7 @@
     </div>
     <div *ngIf="plannerMsg" class="alert alert-warning"> {{plannerMsg}} </div>
     <div class="calendar-container" *ngIf="!loading">
-        <div class="calendar-blur blur calendar-left col-lg-8">
+        <div blur class="calendar-blur calendar-left col-lg-8">
             <div class="calendar-nav">
                 <i (click)="onSelectMonth(selectedDate.month-1)" class="calendar-nav-arrow clickable" fa [name]="'angle-double-left'" [size]="'3'" [pull]="'left'"></i>
                 <div *ngIf="!selectingMonth" class="calendar-nav-select">
@@ -38,9 +38,9 @@
                 <tbody>
                     <!--Todo: use text masking svg for more styling options-->
                     <tr *ngFor="let eventsRow of eventsList; let k = index">
-                        <th *ngFor="let events of eventsRow; let i = index" class="table-cell blur--white" (click)="selectDay(events)">
+                        <th blur--white *ngFor="let events of eventsRow; let i = index" class="table-cell" (click)="selectDay(events)">
                             <div *ngFor="let event of events; let j = index" class="table-event">
-                                <div *ngIf="event.date" class="event-date blur" [ngClass]="{'current-date': currentDate == event.date}">{{event.date}}</div>
+                                <div blur *ngIf="event.date" class="event-date" [ngClass]="{'current-date': currentDate == event.date}">{{event.date}}</div>
                                 <div *ngIf="!event.date" class="event-title" [ngClass]="eventChecker(k, i, j)" [ngStyle]="applyColor(event)">{{event.title}}</div>
                             </div>
                         </th>
@@ -48,7 +48,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="blur calendar-right col-lg-4">
+        <div blur class="calendar-right col-lg-4">
             <div *ngIf="selectedEvents.length == 0"><h2>Click on a day to select it.</h2></div>
             <div *ngIf="!(selectedEvents.length == 0)">
                 <div *ngFor="let event of selectedEvents; let i = index">
@@ -61,7 +61,7 @@
                         <div class="detail-link">link: {{event.link}}</div>
                     </div>
                 </div>
-                <div class="add-event blur--white" *ngIf="formLoading">
+                <div blur--white class="add-event" *ngIf="formLoading">
                     <h2 class="form-title">Loading</h2>
                 </div>
                 <div class="add-event" *ngIf="!formLoading">

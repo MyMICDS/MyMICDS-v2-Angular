@@ -6,6 +6,8 @@ import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators';
 import {contains} from '../../common/utils';
 
+import {BlurDirective} from '../../directives/blur.directive';
+
 import {AlertService} from '../../services/alert.service';
 import {BulletinService} from '../../services/bulletin.service';
 
@@ -15,7 +17,7 @@ import {SafePipe} from '../../pipes/safe.pipe';
 	selector: 'daily-bulletin',
 	templateUrl: 'app/components/DailyBulletin/daily-bulletin.html',
 	styleUrls: ['dist/app/components/DailyBulletin/daily-bulletin.css'],
-	directives: [ROUTER_DIRECTIVES],
+	directives: [ROUTER_DIRECTIVES, BlurDirective],
 	pipes: [SafePipe],
 	providers: [BulletinService]
 })

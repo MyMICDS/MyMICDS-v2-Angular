@@ -1,4 +1,6 @@
+@import 'config';
+
 $sophisticated-white: #eee; // "Because pure white doesn't occur in the natural world."
-$background-url: 'http://localhost:1420/user-backgrounds/default/normal.jpg';
-$background-url--blur: 'http://localhost:1420/user-backgrounds/default/blur.jpg';
+$background-url: $backend-url + '/user-backgrounds/default/normal.jpg';
+$background-url--blur: $backend-url + '/user-backgrounds/default/blur.jpg';
 $blur-margin: 5px;

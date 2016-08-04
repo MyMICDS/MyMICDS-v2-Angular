@@ -4,6 +4,8 @@ import {ProgressComponent} from './components/Progress/progress.component';
 import {ScheduleComponent} from './components/Schedule/schedule.component';
 import {WeatherComponent} from './components/Weather/weather.component';
 
+import {BlurDirective} from '../../directives/blur.directive';
+
 import {AlertService} from '../../services/alert.service';
 import {PortalService} from '../../services/portal.service';
 
@@ -11,7 +13,7 @@ import {PortalService} from '../../services/portal.service';
 	selector: 'home',
 	templateUrl: 'app/components/Home/home.html',
 	styleUrls: ['dist/app/components/Home/home.css'],
-	directives: [ProgressComponent, ScheduleComponent, WeatherComponent],
+	directives: [ProgressComponent, ScheduleComponent, WeatherComponent, BlurDirective],
 	providers: [PortalService]
 })
 export class HomeComponent {

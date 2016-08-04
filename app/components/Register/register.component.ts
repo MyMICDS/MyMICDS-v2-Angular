@@ -6,6 +6,8 @@ import {confirmRegister} from '../../common/form-validation';
 import {isAlphabetic, typeOf} from '../../common/utils';
 import {FaComponent} from 'angular2-fontawesome/components';
 
+import {BlurDirective} from '../../directives/blur.directive';
+
 import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
@@ -14,7 +16,7 @@ import {UserService} from '../../services/user.service';
     selector: 'register',
     templateUrl: 'app/components/Register/register.html',
     styleUrls: ['dist/app/components/Register/register.css'],
-    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgIf, NgFor, FaComponent],
+    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgIf, NgFor, FaComponent, BlurDirective],
     providers: [AuthService, UserService]
 })
 export class RegisterComponent {

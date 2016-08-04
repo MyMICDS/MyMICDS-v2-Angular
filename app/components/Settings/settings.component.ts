@@ -8,6 +8,8 @@ import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import {confirmPassword, confirmGrade} from '../../common/form-validation';
 
+import {BlurDirective} from '../../directives/blur.directive';
+
 import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
 import {BackgroundService} from '../../services/background.service';
@@ -19,7 +21,7 @@ import {UserService} from '../../services/user.service';
     selector: 'settings',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
-    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf]
+    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, BlurDirective]
 })
 
 export class SettingsComponent {

@@ -6,6 +6,8 @@ import {confirmPassword} from '../../common/form-validation';
 import {typeOf} from '../../common/utils';
 import {FaComponent} from 'angular2-fontawesome/components';
 
+import {BlurDirective} from '../../directives/blur.directive';
+
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 
@@ -13,7 +15,7 @@ import {UserService} from '../../services/user.service';
 	selector: 'reset-password',
 	templateUrl: 'app/components/ResetPassword/reset-password.html',
 	styleUrls: ['dist/app/components/ResetPassword/reset-password.css'],
-	directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgIf, FaComponent]
+	directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgIf, FaComponent, BlurDirective]
 })
 export class ResetPasswordComponent {
 	constructor(private router: Router, private formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private userService: UserService) {}

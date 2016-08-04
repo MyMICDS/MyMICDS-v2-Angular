@@ -4,6 +4,8 @@ import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import {objKeyArrPipe} from '../../pipes/objKeyArr.pipe'
 
+import {BlurDirective} from '../../directives/blur.directive';
+
 import {AlertService} from '../../services/alert.service';
 import {LunchService} from '../../services/lunch.service';
 
@@ -12,7 +14,7 @@ import {LunchService} from '../../services/lunch.service';
 	templateUrl: 'app/components/Lunch/lunch.html',
 	styleUrls: ['dist/app/components/Lunch/lunch.css'],
 	providers: [LunchService],
-	directives: [NgIf, NgFor, NgClass],
+	directives: [NgIf, NgFor, NgClass, BlurDirective],
 	pipes: [objKeyArrPipe]
 })
 export class LunchComponent {

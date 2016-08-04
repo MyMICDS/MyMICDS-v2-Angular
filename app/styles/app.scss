@@ -1,5 +1,4 @@
 @import 'settings';
-@import 'mixins';
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800);
 
 * {
@@ -10,19 +9,26 @@ html, body {
 	height: 100%;
 }
 
-.background-image {
+body {
+	background-image: url($background-url);
 	background-size: cover;
 	background-attachment: fixed;
 }
 
-.blur {
-	@include blur();
+[blur] {
+	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url($background-url--blur);
+	background-size: cover;
+	background-attachment: fixed;
 }
 
-.blur--dark {
-	@include blur(rgba(0, 0, 0, 0.8));
+[blur--dark] {
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url($background-url--blur);
+	background-size: cover;
+	background-attachment: fixed;
 }
 
-.blur--white {
-	@include blur(rgba(255, 255, 255, 0.5));
+[blur--white] {
+	background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url($background-url--blur);
+	background-size: cover;
+	background-attachment: fixed;
 }

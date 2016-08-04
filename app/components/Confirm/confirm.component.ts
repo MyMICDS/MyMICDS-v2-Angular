@@ -4,6 +4,8 @@ import {ROUTER_DIRECTIVES, Router, ActivatedRoute} from '@angular/router';
 import {FaComponent} from 'angular2-fontawesome/components';
 import {typeOf} from '../../common/utils';
 
+import {BlurDirective} from '../../directives/blur.directive';
+
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 
@@ -11,7 +13,7 @@ import {UserService} from '../../services/user.service';
 	selector: 'confirm',
 	templateUrl: 'app/components/Confirm/confirm.html',
 	styleUrls: ['dist/app/components/Confirm/confirm.css'],
-	directives: [ROUTER_DIRECTIVES, NgIf, FaComponent]
+	directives: [ROUTER_DIRECTIVES, NgIf, FaComponent, BlurDirective]
 })
 export class ConfirmComponent {
 	constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private userService: UserService) {}

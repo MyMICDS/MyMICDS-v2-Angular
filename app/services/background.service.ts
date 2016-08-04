@@ -5,6 +5,7 @@ import {RequestOptions} from '@angular/http';
 import {AuthHttp} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
 import '../common/rxjs-operators';
 
 import {AuthService} from '../services/auth.service';
@@ -13,11 +14,14 @@ import {AuthService} from '../services/auth.service';
 export class BackgroundService {
 	constructor(private authHttp: AuthHttp, private authService: AuthService) {}
 
-	// Store CSS rule indexes for custom backgrounds
-	CSSIndexes:any = {
-		'normal': null,
-		'blur': null
+	private backgroundChangeSource = new Subject();
+	backgroundChange$ = this.backgroundChangeSource.asObservable();
+
+	variants = {
+		normal: config.backendURL + '/user-backgrounds/default/normal.jpg',
+		blur: config.backendURL +  '/user-backgrounds/default/blur.jpg'
 	};
+	hasDefault = true;
 
 	get() {
 		let body = JSON.stringify({});
@@ -33,12 +37,23 @@ export class BackgroundService {
 					throw new Error(data.error);
 				}
 
+				// Assign to private variables
+				this.variants = data.variants;
+				this.hasDefault = data.hasDefault;
+				this.set();
+
                 return {
-					variants: data.variants,
-					hasDefault: data.hasDefault
+					variants: this.variants,
+					hasDefault: this.hasDefault
 				};
             })
 			.catch(handleError);
+	}
+
+	set() {
+		document.body.style.backgroundImage = 'url("' + this.variants.normal + '")';
+		console.log('emit blur', this.variants.blur);
+		this.backgroundChangeSource.next(this.variants.blur);
 	}
 
 	upload(file:File) {

@@ -10,22 +10,7 @@ import {AlertService, Alert} from '../../services/alert.service';
 	directives: [NgFor]
 })
 export class AlertComponent {
-	constructor(private alertService: AlertService) {
-		// Subscribe to alerts service observable
-		this.subscription = alertService.alertEmit$.subscribe(
-			(data:Alert) => {
-				// Append alert to beginning of array
-				this.alerts.unshift(data);
-
-				// If there's an expiration, dismiss it automatically
-				if(data.expiresIn && 0 < data.expiresIn) {
-					setTimeout(() => {
-						this.dismiss(data.id);
-					}, data.expiresIn * 1000);
-				}
-			}
-		);
-	}
+	constructor(private alertService: AlertService) {}
 
 	subscription:any;
 	alerts:Alert[] = [];
@@ -51,6 +36,23 @@ export class AlertComponent {
 		setTimeout(() => {
 			this.deleteAlert(id);
 		}, animationTime-5);
+	}
+
+	ngOnInit() {
+		// Subscribe to alerts service observable
+		this.subscription = this.alertService.alertEmit$.subscribe(
+			(data:Alert) => {
+				// Append alert to beginning of array
+				this.alerts.unshift(data);
+
+				// If there's an expiration, dismiss it automatically
+				if(data.expiresIn && 0 < data.expiresIn) {
+					setTimeout(() => {
+						this.dismiss(data.id);
+					}, data.expiresIn * 1000);
+				}
+			}
+		);
 	}
 
 	ngOnDestroy() {

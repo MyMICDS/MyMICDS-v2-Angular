@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="blur col-lg-12 lunch-date">
+        <div blur class="col-lg-12 lunch-date">
             <div *ngFor="let date of dateList; let i = index" class="blur-white blur--white" [ngClass]="{'date-focused': focus[i]}" (click)="changeDate(date); toggleFocus(i)">
                 <h3 [ngClass]="{'date-disabled': isWeekend(date), 'date-today': isToday(date)}">{{date | date:'yMd'}}<br>({{date | date:'EEE'}})</h3>
             </div>
@@ -8,11 +8,11 @@
     </div>
     <div class="row lunch-container">
 
-        <div class="lunch-nav lunch-left-nav col-lg-2"><div class="blur">
+        <div class="lunch-nav lunch-left-nav col-lg-2"><div blur class="blur">
             <i class="fa fa-caret-left fa-5x"></i>
         </div></div>
 
-        <div class="lunch-content col-lg-8"><div class="blur">
+        <div class="lunch-content col-lg-8"><div blur class="blur">
             <div *ngIf="loading">Loading</div>
             <div *ngIf="lunchErr" class="alert alert-danger">{{lunchErr}}</div>
             <div *ngIf="lunchToday">
@@ -35,7 +35,7 @@
             </div>
         </div></div>
 
-        <div class="lunch-nav lunch-right-nav col-lg-2"><div class="blur">
+        <div class="lunch-nav lunch-right-nav col-lg-2"><div blur class="blur">
             <i class="fa fa-caret-right fa-5x"></i>
         </div></div>
     </div>

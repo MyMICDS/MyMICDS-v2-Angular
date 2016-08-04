@@ -1,13 +1,13 @@
 <div class="confirm-container">
-	<div *ngIf="!confirmResponse" class="confirm-response blur">
+	<div blur *ngIf="!confirmResponse" class="confirm-response">
 		<h1>Confirming Account...</h1>
 	</div>
-	<div *ngIf="confirmResponse === true" class="confirm-response blur">
+	<div blur *ngIf="confirmResponse === true" class="confirm-response">
 		<h1>Account Confirmed!</h1>
 		<fa name="check" size="5"></fa>
 		<p class="confirm-success">You may now <a routerLink="/login">log in.</a></p>
 	</div>
-	<div *ngIf="confirmResponse && typeOf(confirmResponse) === 'string'" class="confirm-response blur">
+	<div blur *ngIf="confirmResponse && typeOf(confirmResponse) === 'string'" class="confirm-response">
 		<h1>{{confirmResponse}}</h1>
 		<fa name="times" size="5"></fa>
 		<p>Make sure you use the most recent email. If this continues, try registering again. Contact support if this keeps happening.</p>

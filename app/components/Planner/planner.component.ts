@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {NgFor, NgIf, NgClass, NgStyle, NgForm} from '@angular/common';
 import {FaDirective} from 'angular2-fontawesome/directives';
 
+import {BlurDirective, WhiteBlurDirective} from '../../directives/blur.directive';
+
 import {AlertService} from '../../services/alert.service';
 import {ClassesService} from '../../services/classes.service';
 import {PlannerService} from '../../services/planner.service';
@@ -12,7 +14,7 @@ import {NotificationService, Event, Announcement} from '../../services/notificat
     selector: 'planner',
     templateUrl: 'app/components/Planner/planner.html',
     styleUrls: ['dist/app/components/Planner/planner.css', 'dist/app/styles/loading.css'],
-    directives: [NgFor, NgIf, NgClass, NgStyle, FaDirective],
+    directives: [NgFor, NgIf, NgClass, NgStyle, FaDirective, BlurDirective, WhiteBlurDirective],
     providers: [PlannerService, ClassesService, NotificationService]
 })
 export class PlannerComponent {

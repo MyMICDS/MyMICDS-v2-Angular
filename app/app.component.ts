@@ -37,17 +37,7 @@ import {UserService} from './services/user.service';
 		<sidebar></sidebar>
 		<router-outlet></router-outlet>
 	`,
-	styles: [`:host {
-			height: 100%;
-		}
-		:host >>> .background-image {
-			background-image: url(backgrounds.normal);
-		}
-		:host >>> .blur,
-		:host >>> .blur--dark,
-		:host >>> .blur--white {
-			background-image: url(backgrounds.blur);
-		}`],
+	styles: [':host { height: 100%; }'],
 	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AlertService, AuthService, BackgroundService, CanvasService, NotificationService, PortalService, UserService],
 	directives: [NavbarComponent, ROUTER_DIRECTIVES, AlertComponent, SidebarComponent],
 	precompile: [
