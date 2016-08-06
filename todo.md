@@ -6,6 +6,9 @@
 - Update data if changed in another tab (socket.io?)
 - Optimize for mobile
 
+-Redo Planner Stylings
+-Redo Lunch Stylings
+
 - Optimization
   - Webpack?
   - HTTP 2?
