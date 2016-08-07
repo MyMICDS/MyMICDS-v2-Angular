@@ -16,5 +16,6 @@
 
 # Not as Important
 - More modules in homepage
+- View schedule in next / previous day
 - Check if classes belong to any user
 - 404 Page

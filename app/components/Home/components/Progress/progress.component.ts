@@ -20,61 +20,30 @@ export class ProgressComponent {
 
 	@Input()
 	schedule:any;
-	// Check if we should set animation to true
-	prevSchedule:any;
 
 	/*
 	 * Configure progress bar
-	 rgb(255, 99, 132),
-    rgb(54, 162, 235),
-    rgb(255, 206, 86),
-    rgb(231, 233, 237),
-    rgb(75, 192, 192),
-    rgb(151, 187, 205),
-    rgb(220, 220, 220),
-    rgb(247, 70, 74),
-    rgb(70, 191, 189),
-    rgb(253, 180, 92),
-    rgb(148, 159, 177),
-	rgb(77, 83, 96)
 	 */
 
-	progressChartType:string = 'doughnut';
-	progressOptionsDefault():any {
-		return {
-			animation: false,
-			cutoutPercentage: 95,
-			legend: {
-				display: false
-			}
-		};
+	// Returns default data for progress bar
+	defaultColors():string[] {
+		return ['rgba(0, 0, 0, 0.4)'];
 	}
-	progressDataDefault():number[] {
+	defaultData():number[] {
 		return [100];
 	}
-	progressLabelsDefault():string[] {
+	defaultLabels():string[] {
 		return ['School'];
 	}
-	progressColorsDefault():any[] {
-		return [{
-			borderWidth: [0]
-		}];
-	}
-
-	// Label Options
-	currentClass:string = null;
-	currentClassPercent:number = null;
-	schoolPercent:number = null;
-
-	// Chart Options
-	progressOptions = this.progressOptionsDefault();
-	progressData = this.progressDataDefault();
-	progressLabels = this.progressLabelsDefault();
-	progressColors = this.progressColorsDefault();
 
 	// Circular Progress References
 	ctx:any;
 	progressBar:any;
+
+	// Current Class Label
+	currentClass:string = null;
+	currentClassPercent:number = null;
+	schoolPercent:number = null;
 
 	/*
 	 * Start / destroy interval that calculates percentages
@@ -82,16 +51,17 @@ export class ProgressComponent {
 
 	timer:any;
 	ngOnInit() {
-		// Initialize Timer
+		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
-		console.log('ctx', this.ctx);
+
+		// Initialize Progress Bar
 		this.progressBar = new Chart(this.ctx, {
 			type: 'doughnut',
 			data: {
-				labels: ['School 1', 'School 2'],
+				labels: this.defaultLabels(),
 				datasets: [{
-					data: [100, 50],
-					backgroundColor: ['rgba(54, 162, 235, 0.2)', 'red'],
+					data: this.defaultData(),
+					backgroundColor: this.defaultColors(),
 					borderWidth: 0
 				}]
 			},
@@ -108,10 +78,10 @@ export class ProgressComponent {
 						// 	console.log(tooltipItems, data);
 						// 	return 'hello'
 						// },
-						label: function(tooltipItem, data) {
-							let classLabel = data.datasets[tooltipItem.datasetIndex].label;
-							return classLabel;
-						}
+						// label: function(tooltipItem, data) {
+						// 	let classLabel = data.datasets[tooltipItem.datasetIndex].label;
+						// 	return classLabel;
+						// }
 					}
 				},
 				cutoutPercentage: 95
@@ -129,12 +99,8 @@ export class ProgressComponent {
 	ngOnDestroy() {
 		// Stop timer
 		clearInterval(this.timer);
-	}
-
-	testUpdate() {
-		console.log('update')
-		this.progressBar.data.datasets[0].data[0] = 50;
-		this.progressBar.update();
+		// Destroy Progress Bar Instance
+		this.progressBar.destroy();
 	}
 
 	/*
@@ -145,31 +111,21 @@ export class ProgressComponent {
 		// Fallback if schedule is not set or no school
 		if(!this.schedule || this.schedule.classes.length === 0) {
 			// Just set default parameters
-			this.progressOptions = this.progressOptionsDefault();
-			this.progressData = this.progressDataDefault();
-			this.progressLabels = this.progressLabelsDefault();
-			this.progressColors = this.progressColorsDefault();
+			this.progressBar.data.datasets[0].backgroundColor = this.defaultColors();
+			this.progressBar.data.datasets[0].data = this.defaultData();
+			this.progressBar.data.labels = this.defaultLabels();
+
+			this.progressBar.update();
 			return;
 		}
 
-		// Because Angular's change detection is a bit whacky,
-		// we need to generate an array THEN assign it to the progress bar data.
-		let newProgressOptions:any = this.progressOptionsDefault();
-		let newProgressData:number[] = [];
-		let newProgressLabels:string[] = [];
-		let newProgressColors:any[] = [{
-			backgroundColor: [],
-			borderWidth: []
-		}];
+		// Create a new array and later assign to progress bar
+		let newColors:string[] = [];
+		let newData:number[] = [];
+		let newLabels:string[] = [];
 
-		// If schedule changes from last calculation, remove animation set to false
-		if(this.prevSchedule !== this.schedule) {
-			delete newProgressOptions.animation;
-		} else {
-			// Reinforce good behavior because it doesn't work without this
-			newProgressOptions.animation = false;
-		}
-		this.prevSchedule = this.schedule;
+		let newCurrentClass = null;
+		let newCurrentClassPercent = null;
 
 		// Insert a 'break' period in between classes that aren't back-to-back
 		let breaks = [];
@@ -182,39 +138,43 @@ export class ProgressComponent {
 					name : 'Break',
 					start: currBlock.end,
 					end  : nextBlock.start,
-					color: 'rgba(0, 0, 0, 0.1)'
+					color: 'rgba(0, 0, 0, 0.4)'
 				});
 			}
 		}
-		// Join breaks array with schedule and sort it
-		let schedule = this.schedule.classes.concat(breaks);
-		schedule.sort(function(a, b) {
+
+		// Combine classes and breaks array into one
+		let formattedSchedule = this.schedule.classes.concat(breaks);
+		// Sort classes by start time
+		formattedSchedule.sort(function(a, b) {
 			return a.start - b.start;
 		});
 
 		// Generate colors for each class
-		for(let i = 0; i < schedule.length; i++) {
-			if(!schedule[i].color) {
-				let color = prisma(schedule[i].name);
-				schedule[i].color = 'rgba(' + color.rgbaArray[0] + ', ' + color.rgbaArray[1] + ', ' + color.rgbaArray[2] + ', 0.8)';
+		for(let i = 0; i < formattedSchedule.length; i++) {
+			if(!formattedSchedule[i].color) {
+				let color = prisma(formattedSchedule[i].name);
+				formattedSchedule[i].color = 'rgba(' + color.rgbaArray[0] + ', ' + color.rgbaArray[1] + ', ' + color.rgbaArray[2] + ', 0.8)';
 			}
 		}
 
-		// Get length of school
-		let classCount = schedule.length;
-		let firstBlock = schedule[0];
-		let lastBlock = schedule[classCount - 1];
-		let schoolLength = lastBlock.end.getTime() - firstBlock.start.getTime();
+		// Get first and last blocks
+		let classCount = formattedSchedule.length;
+		let firstBlock = formattedSchedule[0];
+		let lastBlock  = formattedSchedule[classCount - 1];
+
+		// Get length and percentage of school day
+		let schoolLength  = lastBlock.end.getTime() - firstBlock.start.getTime();
 		let schoolPercent = this.getPercent(firstBlock.start, lastBlock.end);
 
+		// Set school percentage variable to display inside the circle
 		this.schoolPercent = +schoolPercent.toFixed(2);
-
-		// this.progressOptions.circumference = 2 * Math.PI * (schoolPercent / 100);
+		// Set progress bar circumference to only cover school percentage
+		this.progressBar.options.circumference = 2 * Math.PI * (schoolPercent / 100);
 
 		// Loop through classes and calculate stuff
-		for(let i = 0; i < schedule.length; i++) {
-			let block = schedule[i];
-
+		for(let i = 0; i < formattedSchedule.length; i++) {
+			let block = formattedSchedule[i];
 
 			// Get class percentage
 			// Thanks to Amaan for helping me figure out this algorithim back in v1
@@ -224,29 +184,27 @@ export class ProgressComponent {
 			let finalPercentage = classPercent * classRatio;
 
 			// Add values to their respective array
-			newProgressLabels[i] = block.name;
-			newProgressColors[0].backgroundColor[i] = block.color;
-			newProgressColors[0].borderWidth[i] = 0;
-			newProgressData[i] = +finalPercentage.toFixed(2);
+			newColors[i] = block.color;
+			newData[i] = +finalPercentage.toFixed(2);
+			newLabels[i] = block.name;
 
-			// If class is the current class
+			// Check if class is the current class
 			if(0 < classPercent && classPercent < 100) {
-				this.currentClass = block.name;
-				this.currentClassPercent = +classPercent.toFixed(2);
+				newCurrentClass = block.name;
+				newCurrentClassPercent = +classPercent.toFixed(2);
 			}
 		}
 
-		// Add a filler datapoint if school isn't complete yet
-		newProgressLabels.push('School');
-		newProgressData.push(100 - +schoolPercent.toFixed(2));
-		newProgressColors[0].backgroundColor.push('rgba(0, 0, 0, 0.1)');
-		newProgressColors[0].borderWidth.push(0);
+		// Set current class labels in the middle of the progress bar
+		this.currentClass = newCurrentClass;
+		this.currentClassPercent = newCurrentClassPercent;
 
 		// Assign new arrays to progress bar data
-		this.progressOptions = newProgressOptions;
-		this.progressData = newProgressData;
-		this.progressLabels = newProgressLabels;
-		this.progressColors = newProgressColors;
+		this.progressBar.data.datasets[0].backgroundColor = newColors;
+		this.progressBar.data.datasets[0].data = newData;
+		this.progressBar.data.labels = newLabels;
+
+		this.progressBar.update();
 
 	}
 

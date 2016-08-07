@@ -19,7 +19,7 @@ import {PortalService} from '../../services/portal.service';
 export class HomeComponent {
 	timer:any;
 	current:any = new Date();
-	scheduleDate:any = new Date(2016, 4, 23);
+	scheduleDate:any = new Date(2016, 7, 16);
 	schedule:any;
 
 	constructor(private alertService: AlertService, private portalService: PortalService) {
@@ -27,7 +27,7 @@ export class HomeComponent {
 		// Get schedule from date object and assign to schedule variable
 		portalService.getSchedule({
 			year : this.scheduleDate.getFullYear(),
-			month: this.scheduleDate.getMonth(),
+			month: this.scheduleDate.getMonth() + 1,
 			day  : this.scheduleDate.getDate()
 		}).subscribe(
 			(schedule) => {
