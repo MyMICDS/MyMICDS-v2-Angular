@@ -47,10 +47,9 @@
 		position: relative;
 		display: flex;
 
-		.chart {
+		.progress-chart {
 			position: relative;
-			width: 100%;
-			z-index: 10;
+			z-index: 5;
 		}
 
 		.progress-percentage {

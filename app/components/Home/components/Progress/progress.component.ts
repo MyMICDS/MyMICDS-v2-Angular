@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {NgIf} from '@angular/common';
-import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
+import {Chart} from 'chart-js'; // This gives an error for some reason, but trust me, it works.
 import {default as prisma} from 'prisma'; // This gives an error for some reason, but trust me, it works.
 
 import {DayRotation} from '../../../../pipes/day-rotation.pipe';
@@ -10,7 +10,7 @@ import {SchoolPercentage} from '../../../../pipes/school-percentage.pipe';
 	selector: 'progress-day',
 	templateUrl: 'app/components/Home/components/Progress/progress.html',
 	styleUrls: ['dist/app/components/Home/components/Progress/progress.css'],
-	directives: [CHART_DIRECTIVES, NgIf],
+	directives: [NgIf],
 	pipes: [DayRotation, SchoolPercentage]
 })
 export class ProgressComponent {
@@ -25,6 +25,18 @@ export class ProgressComponent {
 
 	/*
 	 * Configure progress bar
+	 rgb(255, 99, 132),
+    rgb(54, 162, 235),
+    rgb(255, 206, 86),
+    rgb(231, 233, 237),
+    rgb(75, 192, 192),
+    rgb(151, 187, 205),
+    rgb(220, 220, 220),
+    rgb(247, 70, 74),
+    rgb(70, 191, 189),
+    rgb(253, 180, 92),
+    rgb(148, 159, 177),
+	rgb(77, 83, 96)
 	 */
 
 	progressChartType:string = 'doughnut';
@@ -49,10 +61,20 @@ export class ProgressComponent {
 		}];
 	}
 
+	// Label Options
+	currentClass:string = null;
+	currentClassPercent:number = null;
+	schoolPercent:number = null;
+
+	// Chart Options
 	progressOptions = this.progressOptionsDefault();
 	progressData = this.progressDataDefault();
 	progressLabels = this.progressLabelsDefault();
 	progressColors = this.progressColorsDefault();
+
+	// Circular Progress References
+	ctx:any;
+	progressBar:any;
 
 	/*
 	 * Start / destroy interval that calculates percentages
@@ -60,6 +82,41 @@ export class ProgressComponent {
 
 	timer:any;
 	ngOnInit() {
+		// Initialize Timer
+		this.ctx = document.getElementsByClassName('progress-chart')[0];
+		console.log('ctx', this.ctx);
+		this.progressBar = new Chart(this.ctx, {
+			type: 'doughnut',
+			data: {
+				labels: ['School 1', 'School 2'],
+				datasets: [{
+					data: [100, 50],
+					backgroundColor: ['rgba(54, 162, 235, 0.2)', 'red'],
+					borderWidth: 0
+				}]
+			},
+			options: {
+				animation: {
+					easing: 'easeInOutCirc'
+				},
+				legend: {
+					display: false
+				},
+				tooltips: {
+					callbacks: {
+						// title: function(tooltipItems, data) {
+						// 	console.log(tooltipItems, data);
+						// 	return 'hello'
+						// },
+						label: function(tooltipItem, data) {
+							let classLabel = data.datasets[tooltipItem.datasetIndex].label;
+							return classLabel;
+						}
+					}
+				},
+				cutoutPercentage: 95
+			}
+		});
 
 		// Start timer
 		this.calculatePercentages();
@@ -74,13 +131,15 @@ export class ProgressComponent {
 		clearInterval(this.timer);
 	}
 
+	testUpdate() {
+		console.log('update')
+		this.progressBar.data.datasets[0].data[0] = 50;
+		this.progressBar.update();
+	}
+
 	/*
 	 * Calculate schedule data and store to variables
 	 */
-
-	currentClass:string = null;
-	currentClassPercent:number = null;
-	schoolPercent:number = null;
 
 	calculatePercentages() {
 		// Fallback if schedule is not set or no school

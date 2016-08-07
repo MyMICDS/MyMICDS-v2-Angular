@@ -10,14 +10,10 @@
 </div>
 
 <div class="progress">
+	<button class="btn btn-info" (click)="testUpdate()">update</button>
 	<div class="progress-day tag tag-primary">{{schoolPercent | schoolPercentage}}</div>
 	<div class="progress-circular">
-		<base-chart class="chart"
-			[chartType]="progressChartType"
-			[options]="progressOptions"
-			[data]="progressData"
-			[labels]="progressLabels"
-			[colors]="progressColors"></base-chart>
+		<canvas class="progress-chart"></canvas>
 		<div *ngIf="0 < schoolPercent && schoolPercent < 100" class="progress-percentage">
 			<span class="class-label">{{currentClass}} is</span>
 			<span class="class-percent">{{currentClassPercent}}%</span>
