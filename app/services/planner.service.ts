@@ -24,6 +24,20 @@ export class PlannerService {
 					throw new Error(data.error);
 				}
 
+				// Convert possible event dates to date objects
+				if(data.events) {
+					for(let i = 0; i < data.events.length; i++) {
+						if(data.events[i].start) {
+							data.events[i].start = new Date(data.events[i].start);
+						}
+						if(data.events[i].end) {
+							data.events[i].end = new Date(data.events[i].end);
+						}
+					}
+				}
+
+				console.log(data.events);
+
 				return data.events;
 			})
 			.catch(handleError);
@@ -78,10 +92,10 @@ interface Event {
 	title:string;
 	desc?:string;
 	classId?:string;
-	startYear;
-	startMonth;
-	startDay;
-	endYear;
-	endMonth;
-	endDay;
+	startYear?:number;
+	startMonth?:number;
+	startDay?:number;
+	endYear?:number;
+	endMonth?:number;
+	endDay?:number;
 }
