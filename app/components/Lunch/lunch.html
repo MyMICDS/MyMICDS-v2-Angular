@@ -4,38 +4,53 @@
 	</div>
 </div>
 <div *ngIf="!loading" class="lunch-container container">
+
+	<!-- School Selection -->
+	<div class="school-selection">
+		<div class="btn-group">
+			<button class="lowerschool btn btn-secondary" [class.active]="school === 'lowerschool'" (click)="school = 'lowerschool'">Lower School</button>
+			<button class="middleschool btn btn-secondary" [class.active]="school === 'middleschool'" (click)="school = 'middleschool'">Middle School</button>
+			<button class="upperschool btn btn-secondary" [class.active]="school === 'upperschool'" (click)="school = 'upperschool'">Upper School</button>
+		</div>
+	</div>
+
+	<!-- Week Navigation -->
 	<div class="week-navigation">
-		<button blur class="previous-week">
+		<button blur class="previous-week" (click)="previousWeek()">
 			<fa name="angle-left"></fa>
 			Previous Week
 		</button>
 
-		<button blur class="current-week">
+		<button blur class="current-week" (click)="currentWeek()">
 			Current Week
 		</button>
 
-		<button blur class="next-week">
+		<button blur class="next-week" (click)="nextWeek()">
 			Next Week
 			<fa name="angle-right"></fa>
 		</button>
 	</div>
-	<!-- <div blur class="lunch-week">
-		<div class="lunch-day">
-			<h1>Lunch Date</h1>
-			<div class="lunch-category">
-				<h3>Lunch Title</h3>
-				<ul>
-					<li>Lunch item</li>
-					<li>Lunch item</li>
-					<li>Lunch item</li>
-					<li>Lunch item</li>
-				</ul>
-			</div>
-		</div>
-	</div> -->
+
+	<!-- Actual Lunch -->
 	<div class="lunch-week">
-		<div class="card">
-			fds
+		<div *ngFor="let day of lunch" class="lunch-day card" [class.today]="day.date.today">
+			<div class="card-header">
+				<h4 class="card-title">{{day.date.weekday}}</h4>
+				<h6 class="card-subtitle text-muted">{{day.date.date}}</h6>
+			</div>
+			<div class="upperschool">
+				<div *ngIf="!day.lunch.upperschool" class="no-lunch">
+					<p>No Lunch Today</p>
+				</div>
+				<div *ngIf="day.lunch.upperschool">
+					<div *ngFor="let data of day.lunch.upperschool.categories | values" class="lunch-category card-block">
+						<h3>{{data.key}}</h3>
+						<ul>
+							<li *ngFor="let item of data.value">{{item}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

@@ -80,13 +80,15 @@
 		</div>
 
 		<!-- Set URLs -->
-		<div blur class="url-settings settings-section half">
+		<div blur class="settings-section half">
 			<h3>URL Settings</h3>
 			<form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
 				<label for="portal-url">Portal URL</label>
-				<div class="url-row">
+				<div class="input-group">
 					<input id="portal-url" class="portal-url form-control form-control-success form-control-danger" [(ngModel)]="portalURL" name="portalURL" placeholder="Portal URL" autocomplete="off" required>
-					<button class="btn btn-info" [disabled]="!portalForm.valid || !portalValid">Save</button>
+					<span class="input-group-btn">
+						<button class="btn btn-info" [disabled]="!portalForm.valid || !portalValid">Save</button>
+					</span>
 				</div>
 				<div *ngIf="portalURL?.length > 0" class="form-control-feedback">{{portalResponse}}</div>
 				<p class="form-text text-muted">
@@ -97,9 +99,11 @@
 			</form>
 			<form #canvasForm="ngForm" class="canvas-form" [class.has-success]="canvasValid" [class.has-danger]="!canvasValid" (ngSubmit)="changeCanvasURL()" novalidate>
 				<label for="canvas-url">Canvas URL</label>
-				<div class="url-row">
+				<div class="input-group">
 					<input id="canvas-url" class="canvas-url form-control form-control-success form-control-danger" [(ngModel)]="canvasURL" name="canvasURL" placeholder="Canvas URL" autocomplete="off" required>
-					<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
+					<span class="input-group-btn">
+						<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
+					</span>
 				</div>
 				<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{portalResponse}}</div>
 				<p class="form-text text-muted">
