@@ -16,10 +16,10 @@ import {SchoolPercentage} from '../../../../pipes/school-percentage.pipe';
 export class ProgressComponent {
 
 	@Input()
-	today:any;
+	today:any = null;
 
 	@Input()
-	schedule:any;
+	schedule:any = null;
 
 	/*
 	 * Configure progress bar
@@ -27,13 +27,13 @@ export class ProgressComponent {
 
 	// Returns default data for progress bar
 	defaultColors():string[] {
-		return ['rgba(0, 0, 0, 0.4)'];
+		return ['rgba(0, 0, 0, 0.1)'];
 	}
 	defaultData():number[] {
 		return [100];
 	}
 	defaultLabels():string[] {
-		return ['School'];
+		return ['No School'];
 	}
 
 	// Circular Progress References
@@ -89,7 +89,7 @@ export class ProgressComponent {
 		});
 
 		// Start timer
-		this.calculatePercentages();
+		// this.calculatePercentages();
 		this.timer = setInterval(() => {
 			this.calculatePercentages();
 		}, 1000);
@@ -169,8 +169,6 @@ export class ProgressComponent {
 
 		// Set school percentage variable to display inside the circle
 		this.schoolPercent = +schoolPercent.toFixed(2);
-		// Set progress bar circumference to only cover school percentage
-		this.progressBar.options.circumference = 2 * Math.PI * (schoolPercent / 100);
 
 		// Loop through classes and calculate stuff
 		for(let i = 0; i < formattedSchedule.length; i++) {
@@ -183,10 +181,14 @@ export class ProgressComponent {
 			let classPercent = this.getPercent(block.start, block.end);
 			let finalPercentage = classPercent * classRatio;
 
-			// Add values to their respective array
-			newColors[i] = block.color;
-			newData[i] = +finalPercentage.toFixed(2);
-			newLabels[i] = block.name;
+			let roundedPercent = +finalPercentage.toFixed(2);
+
+			// Add values to their respective array if data is more than 0
+			if(roundedPercent > 0) {
+				newColors.push(block.color);
+				newData.push();
+				newLabels.push(block.name);
+			}
 
 			// Check if class is the current class
 			if(0 < classPercent && classPercent < 100) {
@@ -198,6 +200,12 @@ export class ProgressComponent {
 		// Set current class labels in the middle of the progress bar
 		this.currentClass = newCurrentClass;
 		this.currentClassPercent = newCurrentClassPercent;
+
+		// Add a filler block for when school isn't complete yet
+		newColors.push('rgba(0, 0, 0, 0.1)');
+		newData.push(100 - +schoolPercent.toFixed(2));
+		newLabels.push('School Left');
+
 
 		// Assign new arrays to progress bar data
 		this.progressBar.data.datasets[0].backgroundColor = newColors;

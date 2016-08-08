@@ -24,6 +24,18 @@ export class PortalService {
 					throw new Error(data.error);
 				}
 
+				// Convert possible block dates to date objects
+				if(data.schedule.classes) {
+					for(let i = 0; i < data.schedule.classes.length; i++) {
+						if(data.schedule.classes[i].start) {
+							data.schedule.classes[i].start = new Date(data.schedule.classes[i].start);
+						}
+						if(data.schedule.classes[i].end) {
+							data.schedule.classes[i].end = new Date(data.schedule.classes[i].end);
+						}
+					}
+				}
+
 				return data.schedule;
 			})
 			.catch(handleError);
