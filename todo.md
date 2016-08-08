@@ -2,7 +2,6 @@
 - Settings page
   - Use class alias in portal schedule
 - Do sidebar
-- Update chart.js to use vanilla version
 - Update data if changed in another tab (socket.io?)
 - Optimize for mobile
 

@@ -1,77 +1,72 @@
 @import 'app/styles/settings';
 
-$lunchElementsHeight: 70vh;
-.blur {
-	border-radius: 15px;
-	display: inline-block;
-	margin-bottom: $blur-margin;
-	padding: 0.5rem;
-	color: $sophisticated-white;
-    width: 100%;
-    height: 100%;
+.loading-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-	.btn {
-		color: black;
-    }
-}
+	.loading {
+		width: 35rem;
+		padding: 1rem;
+		text-align: center;
+		color: $sophisticated-white;
 
-.blur-white {
-	border-radius: 15px;
-	display: inline-block;
-    margin: 0.25rem;
-	padding: 0.5rem;
-	color: black;
-    width: 100%;
-    height: 100%;
+		h1 {
+			font-size: 3rem;
+			font-weight: 300;
+		}
+	}
 }
 
 .lunch-container {
-    height: $lunchElementsHeight;
-}
+	padding: 2rem 0 0 0;
+	margin-bottom: 6rem;
+	color: $sophisticated-white;
 
-.lunch-left-nav, .lunch-right-nav, .lunch-content {
-    padding: 0.5rem;
-    height: 100%;
-}
+	.week-navigation {
+		margin-bottom: 0.5rem;
+		display: flex;
 
-.lunch-left-nav, .lunch-right-nav {
-    text-align: center;
-    cursor: pointer;
-    .blur .fa{
-        line-height: $lunchElementsHeight;
-    }
-}
+		.previous-week,
+		.current-week,
+		.next-week {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 1rem;
 
-.lunch-date {
-    h3 {cursor: pointer;}
-    text-align: center;
-    display: flex;
-    .date-disabled {
-        color: grey;
-    }
-    .date-today {
-        font-weight: 700;
-    }
-}
+			border: none;
+			color: $sophisticated-white;
 
-.date-focused {
-    margin-top: 20px;
-}
+			&:hover {
+				color: darken($sophisticated-white, 20%);
+			}
+			&:active {
+				color: darken($sophisticated-white, 40%);
+			}
+		}
 
-.lunch-buttons {
-    text-align: center;
-}
+		.previous-week,
+		.next-week {
+			font-size: 2rem;
+			font-weight: 300;
 
-.lunch-station {
-    border-radius: 15px;
-    display: inline-block;
-    margin-bottom: $blur-margin;
-    padding: 0.5rem;
-    color: black;
-    width: 100%;
-    height: 100%;
-}
+			fa {
+				margin: 0 0.5rem;
+			}
+		}
 
-.lunch-dishes {
-    display: flex;
+		.current-week {
+			font-size: 2.5rem;
+			font-weight: 600;
+			border-left: 1px solid rgba(white, 0.5);
+			border-right: 1px solid rgba(white, 0.5);
+		}
+	}
 }

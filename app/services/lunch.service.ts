@@ -9,7 +9,7 @@ import '../common/rxjs-operators';
 export class LunchService {
 	constructor(private http: Http) {}
 
-	getLunch(date:Date) {
+	getLunch(date?:Date) {
 		let body = JSON.stringify(date);
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });

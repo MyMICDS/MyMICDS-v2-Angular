@@ -1,42 +1,41 @@
-<div class="container-fluid">
-    <div class="row">
-        <div blur class="col-lg-12 lunch-date">
-            <div *ngFor="let date of dateList; let i = index" class="blur-white blur--white" [ngClass]="{'date-focused': focus[i]}" (click)="changeDate(date); toggleFocus(i)">
-                <h3 [ngClass]="{'date-disabled': isWeekend(date), 'date-today': isToday(date)}">{{date | date:'yMd'}}<br>({{date | date:'EEE'}})</h3>
-            </div>
-        </div>
-    </div>
-    <div class="row lunch-container">
+<div *ngIf="loading" class="loading-container">
+	<div blur class="loading">
+		<h1>Fetching the Lunch Menu...</h1>
+	</div>
+</div>
+<div *ngIf="!loading" class="lunch-container container">
+	<div class="week-navigation">
+		<button blur class="previous-week">
+			<fa name="angle-left"></fa>
+			Previous Week
+		</button>
 
-        <div class="lunch-nav lunch-left-nav col-lg-2"><div blur class="blur">
-            <i class="fa fa-caret-left fa-5x"></i>
-        </div></div>
+		<button blur class="current-week">
+			Current Week
+		</button>
 
-        <div class="lunch-content col-lg-8"><div blur class="blur">
-            <div *ngIf="loading">Loading</div>
-            <div *ngIf="lunchErr" class="alert alert-danger">{{lunchErr}}</div>
-            <div *ngIf="lunchToday">
-                <div class="lunch-buttons">
-                    <button type="button" class="btn btn-default" (click)="switchSchool(0)">Lower School</button>
-                    <button type="button" class="btn btn-default" (click)="switchSchool(1)">Middle School</button>
-                    <button type="button" class="btn btn-default" (click)="switchSchool(2)">Upper School</button>
-                </div>
-                <div class="" *ngIf="lunchList">
-                    <div *ngFor="let station of lunchList | keyArr" class="lunch-station blur--white">
-                        <h2 *ngIf="station === 'title'"> {{lunchList.title}} </h2>
-                        <div *ngIf="station !== 'title'">
-                            <h2>{{station}}</h2>
-                            <div class="lunch-dishes">
-                                <div *ngFor="let dish of lunchList[station]">{{dish}}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div></div>
-
-        <div class="lunch-nav lunch-right-nav col-lg-2"><div blur class="blur">
-            <i class="fa fa-caret-right fa-5x"></i>
-        </div></div>
-    </div>
+		<button blur class="next-week">
+			Next Week
+			<fa name="angle-right"></fa>
+		</button>
+	</div>
+	<!-- <div blur class="lunch-week">
+		<div class="lunch-day">
+			<h1>Lunch Date</h1>
+			<div class="lunch-category">
+				<h3>Lunch Title</h3>
+				<ul>
+					<li>Lunch item</li>
+					<li>Lunch item</li>
+					<li>Lunch item</li>
+					<li>Lunch item</li>
+				</ul>
+			</div>
+		</div>
+	</div> -->
+	<div class="lunch-week">
+		<div class="card">
+			fds
+		</div>
+	</div>
 </div>
