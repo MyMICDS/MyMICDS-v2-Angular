@@ -11,9 +11,8 @@ import {LocalStorage, SessionStorage} from 'h5webstorage';
 export class UserService {
     constructor(private http: Http, private authHttp: AuthHttp, private localStorage: LocalStorage, private sessionStorage: SessionStorage) {}
 
-	// Gets username of current session. Use this to check if a user is logged in and JWT is valid. Returns null if no username.
-	jwtHelper = new JwtHelper();
-	getUsername(): string {
+	// Retrieves the contents of the JWT stored in the browser. Returns null if JWT has expired or is invalid or not there.
+	getJWT(): any {
 		// Get JWT
 		let token = this.sessionStorage.getItem('id_token') || this.localStorage.getItem('id_token');
 		// If not JWT, then user isn't logged in
@@ -22,7 +21,14 @@ export class UserService {
 		if(this.jwtHelper.isTokenExpired(token)) return null;
 
 		// Decode token so we can get username
-		let payload  = this.jwtHelper.decodeToken(token);
+		let payload = this.jwtHelper.decodeToken(token);
+		return payload;
+	}
+
+	// Gets username of current session. Use this to check if a user is logged in and JWT is valid. Returns null if no username.
+	jwtHelper = new JwtHelper();
+	getUsername(): string {
+		let payload = this.getJWT();
 		let username = payload.user;
 		return username;
 	}

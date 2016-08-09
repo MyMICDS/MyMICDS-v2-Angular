@@ -7,6 +7,7 @@ import {BlurDirective} from '../../directives/blur.directive';
 
 import {AlertService} from '../../services/alert.service';
 import {LunchService} from '../../services/lunch.service';
+import {UserService} from '../../services/user.service';
 
 import {ValuesPipe} from '../../pipes/values.pipe';
 
@@ -19,7 +20,16 @@ import {ValuesPipe} from '../../pipes/values.pipe';
 	providers: [FaComponent, LunchService]
 })
 export class LunchComponent {
-	constructor(private alertService: AlertService, private lunchService: LunchService) {}
+	constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {
+		this.userService.getInfo().subscribe(
+			data => {
+				this.school = data.school;
+			},
+			error => {
+				this.alertService.addAlert('warning', 'Warning!', 'We couldn\'t determine your grade. Automatically selected Upper School lunch.', 3);
+			}
+		);
+	}
 
 	loading = true;
 	lunchDate = moment();
