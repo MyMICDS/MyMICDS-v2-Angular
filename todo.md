@@ -12,6 +12,8 @@
   - HTTP 2?
   - Make planner response faster?
 
+- Fix Schedule Parser to include lunch / Advisory
+
 # Not as Important
 - More modules in homepage
 - View schedule in next / previous day

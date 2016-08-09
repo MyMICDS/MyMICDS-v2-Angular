@@ -29,8 +29,8 @@ export class UserService {
 	jwtHelper = new JwtHelper();
 	getUsername(): string {
 		let payload = this.getJWT();
-		let username = payload.user;
-		return username;
+		if(!payload) return null;
+		return payload.user;
 	}
 
     getInfo() {
