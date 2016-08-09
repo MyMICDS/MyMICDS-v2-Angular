@@ -22,9 +22,15 @@ export class LunchComponent {
 	constructor(private alertService: AlertService, private lunchService: LunchService) {}
 
 	loading = true;
-	school = 'upperschool';
 	lunchDate = moment();
 	lunch = [];
+
+	schools = [
+		'upperschool',
+		'middleschool',
+		'lowerschool'
+	];
+	school = this.schools[0];
 
 	ngOnInit() {
 		this.currentWeek();
@@ -86,7 +92,10 @@ export class LunchComponent {
 						lunch: dayLunch
 					});
 				}
-				console.log(this.lunch);
+
+				console.log('lunch', lunch)
+				console.log('formatted lunch', this.lunch);
+
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Lunch Error!', error);

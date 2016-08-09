@@ -33,21 +33,32 @@
 
 	<!-- Actual Lunch -->
 	<div class="lunch-week">
-		<div *ngFor="let day of lunch" class="lunch-day card" [class.today]="day.date.today">
-			<div class="card-header">
-				<h4 class="card-title">{{day.date.weekday}}</h4>
-				<h6 class="card-subtitle text-muted">{{day.date.date}}</h6>
-			</div>
-			<div class="upperschool">
-				<div *ngIf="!day.lunch.upperschool" class="no-lunch">
-					<p>No Lunch Today</p>
-				</div>
-				<div *ngIf="day.lunch.upperschool">
-					<div *ngFor="let data of day.lunch.upperschool.categories | values" class="lunch-category card-block">
-						<h3>{{data.key}}</h3>
-						<ul>
-							<li *ngFor="let item of data.value">{{item}}</li>
-						</ul>
+		<!-- Loop through Weekdays -->
+		<div blur *ngFor="let day of lunch" class="lunch-day" [class.today]="day.date.today">
+			<!-- Within each weekday, loop through the schools -->
+			<div *ngFor="let schoolName of schools">
+				<!-- Only show school lunch if it's selected -->
+				<div *ngIf="school === schoolName">
+					<!-- Lunch Date -->
+					<div class="lunch-date">
+						<h3 class="date-weekday">{{day.date.weekday}}</h3>
+						<h5 class="date-date text-muted">{{day.date.date}}</h5>
+					</div>
+					<!-- Lunch Menu -->
+					<div class="lunch-menu">
+						<!-- Displays if no Lunch -->
+						<div *ngIf="!day.lunch[schoolName]" class="no-lunch">
+							<p>No Lunch Today</p>
+						</div>
+						<!-- Loop through menu and display lists -->
+						<div *ngIf="day.lunch.upperschool" class="lunch">
+							<div *ngFor="let data of day.lunch[schoolName].categories | values" class="lunch-category">
+								<h3>{{data.key}}</h3>
+								<ul>
+									<li *ngFor="let item of data.value">{{item}}</li>
+								</ul>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
