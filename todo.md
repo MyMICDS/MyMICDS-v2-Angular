@@ -6,7 +6,6 @@
 - Optimize for mobile
 
 -Redo Planner Stylings
--Redo Lunch Stylings
 
 - Optimization
   - Webpack?
