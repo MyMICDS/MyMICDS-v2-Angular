@@ -1,0 +1,105 @@
+@import 'app/styles/settings';
+
+.ng-valid[required] {
+  border-left: 5px solid #42A948; /* green */
+}
+.ng-invalid {
+  border-left: 5px solid #a94442; /* red */
+}
+
+.calendar-right {
+
+}
+
+.calendar-blur {
+	border-radius: 15px;
+	display: inline-block;
+	margin-bottom: $blur-margin;
+	padding: 0.5rem;
+	color: $sophisticated-white;
+
+	&.blur-half {
+		width: calc(50% - #{$blur-margin});
+	}
+}
+
+.table-cell {
+    //background-color: $sophisticated-white;
+    color: rgba(0, 0, 0, 0.5);
+    line-height: 1;
+    height: 100px;
+    width: 100px;
+}
+
+tbody th{
+    border: 1px solid rgba(0, 0, 0, 0.5)
+}
+
+thead th{
+    border-color: white;
+}
+
+.table-event {
+
+}
+
+.event-title {
+    width: 100%;
+    margin-top: 0.3em;
+}
+
+.extendBoth {
+    border-radius: 0;
+    color: transparent;
+}
+
+.extendLeft {
+    border-radius: 0 0.5em 0.5em 0;
+}
+
+.extendRight {
+    border-radius: 0.5em 0 0 0.5em;
+}
+
+.extendNone {
+    border-radius: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.detail-title h3, .form-title{
+    display: inline-block
+}
+
+.delete-sign {
+    float: right;
+}
+
+.add-button {
+    float: right;
+}
+
+.add-event {
+    color: black
+}
+
+.calendar-nav {
+    text-align: center;
+    .calendar-nav-select {
+        display: inline-block;
+        .calendar-month {
+            display: inline-block;
+        }
+    }
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.current-date {
+    width: 1.3rem;
+    height: 1.3rem;
+    padding-top: 0.1rem;
+    padding-left: 0.05rem;
+    border-radius: 50%;
+    color: $sophisticated-white;
+}

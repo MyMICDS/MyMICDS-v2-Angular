@@ -1,105 +1,54 @@
 @import 'app/styles/settings';
 
-.ng-valid[required] {
-  border-left: 5px solid #42A948; /* green */
-}
-.ng-invalid {
-  border-left: 5px solid #a94442; /* red */
-}
+.loading-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
-.calendar-right {
+	.loading {
+		width: 35rem;
+		padding: 1rem;
+		text-align: center;
+		color: $sophisticated-white;
 
-}
-
-.calendar-blur {
-	border-radius: 15px;
-	display: inline-block;
-	margin-bottom: $blur-margin;
-	padding: 0.5rem;
-	color: $sophisticated-white;
-
-	&.blur-half {
-		width: calc(50% - #{$blur-margin});
+		h1 {
+			font-size: 3rem;
+			font-weight: 300;
+		}
 	}
 }
 
-.table-cell {
-    //background-color: $sophisticated-white;
-    color: rgba(0, 0, 0, 0.5);
-    line-height: 1;
-    height: 100px;
-    width: 100px;
-}
+.planner-container {
+	padding: 2rem 0 0 0;
+	margin-bottom: 6rem;
+	color: $sophisticated-white;
 
-tbody th{
-    border: 1px solid rgba(0, 0, 0, 0.5)
-}
+	.coming-up {
+		margin-bottom: 1rem;
 
-thead th{
-    border-color: white;
-}
+		.coming-up-event {
 
-.table-event {
+		}
+	}
 
-}
+	.calendar {
+		display: flex;
+		flex-direction: column;
 
-.event-title {
-    width: 100%;
-    margin-top: 0.3em;
-}
+		.calendar-week {
+			display: flex;
 
-.extendBoth {
-    border-radius: 0;
-    color: transparent;
-}
+			.calendar-weekday {
+				width: 100%;
+				padding: 1rem;
 
-.extendLeft {
-    border-radius: 0 0.5em 0.5em 0;
-}
-
-.extendRight {
-    border-radius: 0.5em 0 0 0.5em;
-}
-
-.extendNone {
-    border-radius: 0.5em 0.5em 0.5em 0.5em;
-}
-
-.detail-title h3, .form-title{
-    display: inline-block
-}
-
-.delete-sign {
-    float: right;
-}
-
-.add-button {
-    float: right;
-}
-
-.add-event {
-    color: black
-}
-
-.calendar-nav {
-    text-align: center;
-    .calendar-nav-select {
-        display: inline-block;
-        .calendar-month {
-            display: inline-block;
-        }
-    }
-}
-
-.clickable {
-    cursor: pointer;
-}
-
-.current-date {
-    width: 1.3rem;
-    height: 1.3rem;
-    padding-top: 0.1rem;
-    padding-left: 0.05rem;
-    border-radius: 50%;
-    color: $sophisticated-white;
+				border: 1px solid $sophisticated-white;
+			}
+		}
+	}
 }

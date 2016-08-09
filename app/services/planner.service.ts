@@ -36,8 +36,6 @@ export class PlannerService {
 					}
 				}
 
-				console.log(data.events);
-
 				return data.events;
 			})
 			.catch(handleError);
