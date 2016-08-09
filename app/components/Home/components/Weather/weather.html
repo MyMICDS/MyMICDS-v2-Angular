@@ -32,12 +32,12 @@
 	<div class="weather-misc">
 		<div class="humidity">
 		    <span class="weather-label">Humidity</span>
-		    {{weather.currently.humidity * 100}}%
+		    {{(weather.currently.humidity * 100) | round}}%
 		</div>
 
 		<div class="precipitation">
 		    <span class="weather-label">Precipitation Chance</span>
-		    {{weather?.currently.precipProbability * 100}}%
+		    {{(weather.currently.precipProbability * 100) | round}}%
 		</div>
 	</div>
 

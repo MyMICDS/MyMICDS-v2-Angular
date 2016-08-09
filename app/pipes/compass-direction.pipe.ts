@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
  */
 
 @Pipe({name: 'compassDirection'})
-export class CompassDirection {
+export class CompassDirectionPipe {
 	transform(value:number): string {
 
 		let directions = [

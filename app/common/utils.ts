@@ -36,9 +36,13 @@ export function contains(haystack, needle) {
 	return haystack.indexOf(needle) > -1
 }
 
+/*
+ * Determines if two objects are equal to each other
+ */
+
 export function isEqual(a:Object, b:Object) {
-	if (typeof a !== 'Object') {return};
-	if (typeof b !== 'Object') {return};
+	if (typeof a !== 'object') {return};
+	if (typeof b !== 'object') {return};
 	// Create arrays of property names
     var aProps = Object.getOwnPropertyNames(a);
     var bProps = Object.getOwnPropertyNames(b);

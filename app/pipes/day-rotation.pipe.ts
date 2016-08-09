@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
  */
 
 @Pipe({name: 'dayRotation'})
-export class DayRotation {
+export class DayRotationPipe {
 	transform(value:any): string {
 		if(value) {
 			return 'Day ' + value;

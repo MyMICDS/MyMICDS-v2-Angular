@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
  */
 
 @Pipe({name: 'weatherIcon'})
-export class WeatherIcon {
+export class WeatherIconPipe {
 	transform(value:string): string {
 		let icons = {
 			// From forecast.io docuemtnation

@@ -3,15 +3,15 @@ import {NgIf} from '@angular/common';
 import {Chart} from 'chart-js'; // This gives an error for some reason, but trust me, it works.
 import {default as prisma} from 'prisma'; // This gives an error for some reason, but trust me, it works.
 
-import {DayRotation} from '../../../../pipes/day-rotation.pipe';
-import {SchoolPercentage} from '../../../../pipes/school-percentage.pipe';
+import {DayRotationPipe} from '../../../../pipes/day-rotation.pipe';
+import {SchoolPercentagePipe} from '../../../../pipes/school-percentage.pipe';
 
 @Component({
 	selector: 'progress-day',
 	templateUrl: 'app/components/Home/components/Progress/progress.html',
 	styleUrls: ['dist/app/components/Home/components/Progress/progress.css'],
 	directives: [NgIf],
-	pipes: [DayRotation, SchoolPercentage]
+	pipes: [DayRotationPipe, SchoolPercentagePipe]
 })
 export class ProgressComponent {
 
