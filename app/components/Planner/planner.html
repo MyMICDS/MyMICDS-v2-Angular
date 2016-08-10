@@ -19,7 +19,7 @@
 			</button>
 
 			<button blur class="current-month" (click)="currentMonth()">
-				Current Month
+				{{ months[calendarDate.month()] + ' ' + calendarDate.year() }}
 			</button>
 
 			<button blur class="next-month" (click)="nextMonth()">
@@ -30,18 +30,23 @@
 			</button>
 		</div>
 		<div blur class="calendar-grid">
+			<div class="calendar-weekdays">
+				<div *ngFor="let weekday of weekdays" class="weekday">
+					{{ weekday }}
+				</div>
+			</div>
 			<div *ngFor="let week of formattedMonth" class="calendar-week">
 				<div *ngFor="let day of week" class="calendar-weekday">
-					<div class="calendar-weekday-date" [class.today]="day.today">
-						{{day.date}}
+					<div class="calendar-weekday-date" [class.today]="day?.today">
+						{{ day?.date }}
 					</div>
-					<div *ngFor="let event of day.events" class="event"
-						[style.background-color]="event.data.class?.color || '#7F7F7F'"
-						[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
-						[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
+					<div *ngFor="let event of day?.events" class="event"
+						[style.background-color]="event?.data.class?.color || '#7F7F7F'"
+						[style.border-right-color]="darkenColor(event?.data.class?.color, -20)"
+						[style.border-bottom-color]="darkenColor(event?.data.class?.color, -20)">
 
-						<div class="event-title">{{event.data.title}}</div>
-						<div class="event-desc">{{event.data.desc}}</div>
+						<div class="event-title">{{ event?.data.title }}</div>
+						<div class="event-desc">{{ event?.data.desc }}</div>
 					</div>
 				</div>
 			</div>

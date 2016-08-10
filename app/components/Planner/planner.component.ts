@@ -23,7 +23,6 @@ export class PlannerComponent {
 	darkenColor = darkenColor;
 
 	loading = true;
-	current = moment();
 	// Date to display on calendar. Default to current month.
 	calendarDate = moment();
 	// Array of events to display on calendar
@@ -31,6 +30,20 @@ export class PlannerComponent {
 	// Array dividing events into days
 	formattedMonth:any = null;
 
+	months = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December'
+	];
 	weekdays = [
 		'Sunday',
 		'Monday',
@@ -42,6 +55,7 @@ export class PlannerComponent {
 	];
 
 	ngOnInit() {
+		this.calendarDate = moment();
 		this.getEvents(this.calendarDate);
 	}
 
@@ -75,20 +89,34 @@ export class PlannerComponent {
 
 		// Add week
 		for(let i = 0; i < weeksInMonth; i++) {
-			formattedMonth.push([{},{},{},{},{},{},{}]);
-
-			// If the first week, pay attention when to start first week
-			let j =0;
-			if(i === 0) {
-				 j = beginOffset;
-			}
+			formattedMonth[i] = [];
 
 			// Loop through days in week
-			for(j = j; j < this.weekdays.length; j++) {
+			for(let j = 0; j < this.weekdays.length; j++) {
+				console.log('offset', beginOffset);
 				// Get day of month
-				let dayDate = (i * 7) + j;
+				let dayDate = (i * 7) + j - (beginOffset - 1);
 				// Check if that day is today
-				let today = this.current.isSame(date.date(dayDate), 'day');
+				let dayThisMonth = date.clone().date(dayDate);
+				let today = moment().isSame(dayThisMonth, 'day');
+
+				// Make sure date is within range of month
+				if(dayDate < 1) {
+					formattedMonth[i][j] = {
+						date: '',
+						today: false,
+						events: []
+					};
+					continue;
+				}
+				if(dayDate > this.lengthOfMonth(date)) {
+					formattedMonth[i][j] = {
+						date: '',
+						today: false,
+						events: []
+					};
+					continue;
+				}
 
 				let dayEvents = [];
 				// Loop through events and see if any are included for this specific day
@@ -146,15 +174,21 @@ export class PlannerComponent {
 		return formattedMonth;
 	}
 
-	// Returns the weekday of a given month (0-6)
+	// Returns the weekday of the start a given month (0-6)
 	beginOfMonth(date) {
-		let firstDay = date.startOf('month');
+		let firstDay = date.clone().startOf('month');
 		return firstDay.day();
+	}
+
+	// Returns the weekday of the end of a given month (0-6)
+	endOfMonth(date) {
+		let lastDay = date.clone().endOf('month');
+		return lastDay.day();
 	}
 
 	// Returns the length of any given month
 	lengthOfMonth(date) {
-		let lastDay = date.endOf('month');
+		let lastDay = date.clone().endOf('month');
 		return lastDay.date();
 	}
 
@@ -196,7 +230,7 @@ export class PlannerComponent {
 	 */
 
 	previousMonth() {
-		this.calendarDate.subtract(1, 'month');
+		this.calendarDate.subtract(1, 'months');
 		this.getEvents(this.calendarDate);
 	}
 
@@ -206,7 +240,7 @@ export class PlannerComponent {
 	}
 
 	nextMonth() {
-		this.calendarDate.add(1, 'month');
+		this.calendarDate.add(1, 'months');
 		this.getEvents(this.calendarDate);
 	}
 }
