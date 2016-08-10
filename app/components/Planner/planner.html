@@ -41,6 +41,8 @@
 						{{ day?.date }}
 					</div>
 					<div *ngFor="let event of day?.events" class="event"
+						[class.continue-left]="event?.inside.continueLeft"
+						[class.continue-right]="event?.inside.continueRight"
 						[style.background-color]="event?.data.class?.color || '#7F7F7F'"
 						[style.border-right-color]="darkenColor(event?.data.class?.color, -20)"
 						[style.border-bottom-color]="darkenColor(event?.data.class?.color, -20)">

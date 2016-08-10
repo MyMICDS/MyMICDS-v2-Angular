@@ -93,7 +93,6 @@ export class PlannerComponent {
 
 			// Loop through days in week
 			for(let j = 0; j < this.weekdays.length; j++) {
-				console.log('offset', beginOffset);
 				// Get day of month
 				let dayDate = (i * 7) + j - (beginOffset - 1);
 				// Check if that day is today
@@ -122,7 +121,7 @@ export class PlannerComponent {
 				// Loop through events and see if any are included for this specific day
 				for(let k = 0; k < events.length; k++) {
 					let event = events[k];
-					let inside = this.dayInsideEvent(date, event);
+					let inside = this.dayInsideEvent(dayThisMonth, event);
 
 					// If event is included in the day, add to dayEvents array!
 					if(inside.included) {
