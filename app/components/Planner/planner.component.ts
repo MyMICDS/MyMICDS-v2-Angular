@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgFor, NgIf} from '@angular/common';
-import {FaDirective} from 'angular2-fontawesome/directives';
+import {FaComponent} from 'angular2-fontawesome/components';
 import moment from 'moment/moment';
 import {darkenColor} from '../../common/utils';
 
@@ -15,7 +15,7 @@ import {UserService} from '../../services/user.service';
     selector: 'planner',
     templateUrl: 'app/components/Planner/planner.html',
     styleUrls: ['dist/app/components/Planner/planner.css'],
-    directives: [NgIf, NgFor, FaDirective, BlurDirective],
+    directives: [NgIf, NgFor, FaComponent, BlurDirective],
     providers: [ClassesService, PlannerService]
 })
 export class PlannerComponent {
@@ -23,10 +23,9 @@ export class PlannerComponent {
 	darkenColor = darkenColor;
 
 	loading = true;
-	// Today
 	current = moment();
 	// Date to display on calendar. Default to current month.
-	plannerDate = moment();
+	calendarDate = moment();
 	// Array of events to display on calendar
 	events:any[] = [];
 	// Array dividing events into days
@@ -43,7 +42,7 @@ export class PlannerComponent {
 	];
 
 	ngOnInit() {
-		this.getEvents(this.plannerDate);
+		this.getEvents(this.calendarDate);
 	}
 
 	getEvents(date) {
@@ -190,6 +189,25 @@ export class PlannerComponent {
 			continueLeft, // Multi-day event that spans to left as well (and isn't Sunday)
 			continueRight // Multi-day event that spans to the right as well (and isn't Saturday)
 		};
+	}
+
+	/*
+	 * Calendar Navigation
+	 */
+
+	previousMonth() {
+		this.calendarDate.subtract(1, 'month');
+		this.getEvents(this.calendarDate);
+	}
+
+	currentMonth() {
+		this.calendarDate = moment();
+		this.getEvents(this.calendarDate);
+	}
+
+	nextMonth() {
+		this.calendarDate.add(1, 'month');
+		this.getEvents(this.calendarDate);
 	}
 }
 
