@@ -1,19 +1,28 @@
-<div *ngIf="loading" class="loading-container">
+<div *ngIf="loading && !formattedMonth" class="loading-container">
 	<div blur class="loading">
 		<h1>Fetching Planner Data...</h1>
 	</div>
 </div>
-<div *ngIf="!loading" class="planner-container container">
+<div *ngIf="!loading && formattedMonth" class="planner-container container">
 	<div blur class="coming-up">
 		<div class="coming-up-event">
 			test
 		</div>
 	</div>
 	<div blur class="calendar">
-		<div *ngFor="let week of [0, 1, 2, 3]" class="calendar-week">
-			<div *ngFor="let weekday of weekdays; let day = index" class="calendar-weekday">
-				{{(week * 7) + day + 1}}
-				test event
+		<div *ngFor="let week of formattedMonth" class="calendar-week">
+			<div *ngFor="let day of week" class="calendar-weekday">
+				<div class="calendar-weekday-date" [class.today]="day.today">
+					{{day.date}}
+				</div>
+				<div *ngFor="let event of day.events" class="event"
+					[style.background-color]="event.data.class?.color || '#7F7F7F'"
+					[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
+					[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
+
+					<div class="event-title">{{event.data.title}}</div>
+					<div class="event-desc">{{event.data.desc}}</div>
+				</div>
 			</div>
 		</div>
 	</div>

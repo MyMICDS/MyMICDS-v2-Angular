@@ -52,7 +52,6 @@ export class BackgroundService {
 
 	set() {
 		document.body.style.backgroundImage = 'url("' + this.variants.normal + '")';
-		console.log('emit blur', this.variants.blur);
 		this.backgroundChangeSource.next(this.variants.blur);
 	}
 

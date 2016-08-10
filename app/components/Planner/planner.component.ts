@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NgFor, NgIf} from '@angular/common';
 import {FaDirective} from 'angular2-fontawesome/directives';
 import moment from 'moment/moment';
+import {darkenColor} from '../../common/utils';
 
 import {BlurDirective, WhiteBlurDirective} from '../../directives/blur.directive';
 
@@ -19,6 +20,7 @@ import {UserService} from '../../services/user.service';
 })
 export class PlannerComponent {
     constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService) {}
+	darkenColor = darkenColor;
 
 	loading = true;
 	// Today
@@ -50,7 +52,7 @@ export class PlannerComponent {
 		// Get events from back-end
 		this.plannerService.getEvents({
 			year: date.year(),
-			month: date.month()
+			month: date.month() + 1
 
 		}).subscribe(
 			events => {
@@ -87,7 +89,7 @@ export class PlannerComponent {
 				// Get day of month
 				let dayDate = (i * 7) + j;
 				// Check if that day is today
-				let today = this.current.isSame(date.day(dayDate), 'day');
+				let today = this.current.isSame(date.date(dayDate), 'day');
 
 				let dayEvents = [];
 				// Loop through events and see if any are included for this specific day
@@ -134,7 +136,7 @@ export class PlannerComponent {
 				});
 
 				formattedMonth[i][j] = {
-					date,
+					date: dayDate,
 					today,
 					events: dayEvents
 				};
@@ -170,7 +172,7 @@ export class PlannerComponent {
 		let eventStart = moment(event.start);
 		let eventEnd = moment(event.end);
 
-		let included = date.isBetween(eventStart, eventEnd, 'day');
+		let included = date.isBetween(eventStart, eventEnd, 'day') || date.isSame(eventStart, 'day') || date.isSame(eventEnd, 'day');
 		let continueLeft = false;
 		let continueRight = false;
 
