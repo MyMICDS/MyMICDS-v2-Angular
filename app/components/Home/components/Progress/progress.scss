@@ -2,7 +2,10 @@
 	.date {
 		display: inline-block;
 
-		.date-full,
+		.date-full {
+			font-weight: 400;
+		}
+
 		.date-numbered {
 			font-weight: 300;
 		}
@@ -13,7 +16,10 @@
 		float: right;
 		text-align: right;
 
-		.time,
+		.time {
+			font-weight: 400;
+		}
+
 		.day-rotation {
 			font-weight: 300;
 		}
