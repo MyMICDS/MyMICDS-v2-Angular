@@ -9,24 +9,27 @@
 	'@angular':                   'node_modules/@angular',
 	'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
 	'rxjs':                       'node_modules/rxjs',
+
 	'angular2-fontawesome':       'node_modules/angular2-fontawesome',
-	'prisma':                     'node_modules/prisma/lib/index.js',
 	'angular2-jwt':               'node_modules/angular2-jwt',
-	'h5webstorage':               'node_modules/h5webstorage',
-	'moment':                     'node_modules/moment',
 	'angular2-uuid':              'node_modules/angular2-uuid',
-	'chart-js':                   'node_modules/chart.js/dist/Chart.min.js'
+	'chart-js':                   'node_modules/chart.js/dist/Chart.min.js',
+	'h5webstorage':               'node_modules/h5webstorage',
+	'moment':                     'node_modules/moment/moment.js',
+	'ng2-bootstrap':              'node_modules/ng2-bootstrap',
+	'prisma':                     'node_modules/prisma/lib/index.js'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
 	'app':                        { main: 'main.js',  defaultExtension: 'js' },
 	'rxjs':                       { defaultExtension: 'js' },
 	'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
+
 	'angular2-fontawesome':       { defaultExtension: 'js' },
 	'angular2-jwt':               { main: 'angular2-jwt', defaultExtention: 'js' },
+	'angular2-uuid':              { main: 'index.js', defaultExtention: 'js' },
 	'h5webstorage':               { main: 'index.js', defaultExtention: 'js' },
-	'moment':                     { defaultExtention: 'js' },
-	'angular2-uuid':              { main: 'index.js', defaultExtention: 'js' }
+	'ng2-bootstrap':              { defaultExtention: 'js' }
   };
   var ngPackageNames = [
 	'common',

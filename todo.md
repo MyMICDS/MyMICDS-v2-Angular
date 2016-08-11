@@ -5,7 +5,7 @@
 - Update data if changed in another tab (socket.io?)
 - Optimize for mobile
 
--Redo Planner Stylings
+- Redo Planner Stylings
 
 - Optimization
   - Webpack?

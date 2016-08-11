@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewContainerRef} from '@angular/core';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {LocalStorage, SessionStorage} from 'h5webstorage';
@@ -49,7 +49,13 @@ import {UserService} from './services/user.service';
 			]
 })
 export class AppComponent {
-	constructor(private alertService: AlertService, private backgroundService: BackgroundService) {
+
+	/*
+	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
+	 * You need this small hack in order to catch application root view container ref.
+	 */
+	constructor(private viewContainerRef: ViewContainerRef, private alertService: AlertService, private backgroundService: BackgroundService) {
+
 		// Get custom user background
 		this.backgroundService.get().subscribe(
 			data => {

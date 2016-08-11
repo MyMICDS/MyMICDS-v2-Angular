@@ -1,16 +1,22 @@
+<!-- Loading Message -->
 <div *ngIf="loading && !formattedMonth" class="loading-container">
 	<div blur class="loading">
 		<h1>Fetching Planner Data...</h1>
 	</div>
 </div>
+<!-- Planner -->
 <div *ngIf="!loading && formattedMonth" class="planner-container container">
+	<!-- Events coming up within the next 7 days -->
 	<div blur class="coming-up">
 		<div class="coming-up-event">
 			test
 		</div>
 	</div>
+	<!-- Complete Calendar including navigation bar and selection sidebar -->
 	<div class="calendar-interface">
+		<!-- Calendar including navigation bar -->
 		<div class="calendar">
+			<!-- Month navigation bar -->
 			<div class="month-navigation">
 				<button blur class="previous-month" (click)="previousMonth()">
 					<span>
@@ -30,6 +36,7 @@
 					</span>
 				</button>
 			</div>
+			<!-- Calendar table (we used <div>'s this time!) -->
 			<div blur class="calendar-grid">
 				<div class="calendar-weekdays">
 					<div *ngFor="let weekday of weekdays" class="weekday">
@@ -55,10 +62,17 @@
 				</div>
 			</div>
 		</div>
+		<!-- Lists events for a certain day -->
 		<div blur class="day-selection">
 			<h3 class="selection-header">
 				{{ selectionDay.toDate() | date:'MMMM d, y' }}
 			</h3>
+			<button class="selection-create-event btn btn-info" (click)="createEventModal.show()">
+				<span>
+					<fa name="plus"></fa>
+					Create Event
+				</span>
+			</button>
 			<div *ngIf="selectionEvents.length === 0" class="no-events">
 				There are no events for this day.
 			</div>
@@ -71,6 +85,26 @@
 					<div class="event-title">{{ event.data.title }}</div>
 					<div class="event-desc" [innerHTML]="event.data.desc"></div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal for creating events -->
+<div bsModal #createEventModal="bs-modal" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Create a Planner Event</h4>
+			</div>
+			<div class="modal-body">
+				...
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary">Create Event</button>
 			</div>
 		</div>
 	</div>

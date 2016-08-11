@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NgIf, NgFor} from '@angular/common';
 import {FaComponent} from 'angular2-fontawesome/components';
-import moment from 'moment/moment';
+import moment from 'moment';
 
 import {BlurDirective} from '../../directives/blur.directive';
 
