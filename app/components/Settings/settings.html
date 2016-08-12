@@ -115,8 +115,39 @@
 		</div>
 
 		<!-- Set Classes -->
-		<div blur class="settings-section">
+		<div style="background-color: white">
+			<h3>form value</h3>
+			{{classesForm.value | json}}
+		</div>
+
+		<div blur class="settings-section add-classes-form">
 			<h3>Set Classes</h3>
+			<form #classesForm="ngForm" autocomplete="off" novalidate>
+					<table>
+						<thead>
+							<tr>
+								<th>Class Name</th>
+								<th>Type</th>
+								<th>Display Color</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let class of classesList; let i=index">
+								<td>
+									<input [name]="class._id + '-name'" class="form-control" placeholder="Class Name" required [(ngModel)]="classesModel[i].name">
+								</td>
+								<td>
+									<select [name]="class._id + '-type'" class="form-control" required [(ngModel)]="classesModel[i].type">
+										<option *ngFor="let type of classesTypes" [value]="type">{{type[0] | uppercase}}{{type | slice:1}}</option>
+									</select>
+								</td>
+								<td>
+									
+								</td>
+							</tr>
+						</tbody>
+				</table>
+			</form>
 		</div>
 	</div>
 </div>

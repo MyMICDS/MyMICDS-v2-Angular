@@ -16,16 +16,18 @@ import {BackgroundService} from '../../services/background.service';
 import {CanvasService} from '../../services/canvas.service';
 import {PortalService} from '../../services/portal.service';
 import {UserService} from '../../services/user.service';
+import {ClassesService} from '../../services/classes.service';
 
 @Component ({
     selector: 'settings',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
-    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, BlurDirective]
+    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, BlurDirective],
+    providers: [ClassesService]
 })
 
 export class SettingsComponent {
-    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private backgroundService: BackgroundService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService) {
+    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private backgroundService: BackgroundService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService, private classesService: ClassesService) {
 		this.backgroundService.get().subscribe(
 			data => {
 				this.hasDefaultBackground = data.hasDefault;
@@ -66,6 +68,22 @@ export class SettingsComponent {
 	fileSelected = false;
 	uploadingBackground = false;
 
+  //classes form
+  classesList:Array<Object>;
+  classesModel:Array<Object> = [];
+  classesTypes = [
+  	'art',
+  	'english',
+  	'history',
+  	'math',
+  	'science',
+  	'spanish',
+  	'latin',
+  	'mandarin',
+  	'german',
+  	'french',
+  	'other'
+  ];
 	ngOnInit() {
 		// Get basic info
 		this.userService.getInfo().subscribe(
@@ -107,6 +125,21 @@ export class SettingsComponent {
 				this.alertService.addAlert('danger', 'Settings Error!', error);
             }
 		);
+
+    //get list of user classes from service
+    this.classesService.getClasses().subscribe(
+      classesList => {
+        console.log(classesList);
+        this.classesList = classesList;
+        //prefill the form with the classes information
+        for (let i=0;i<classesList.length;i++) {
+          this.classesModel.push(classesList[i])
+        }
+      },
+      error => {
+        this.alertService.addAlert('danger', 'Classes Error!', error);
+      }
+    )
 	}
 
 	ngAfterViewInit() {
@@ -319,4 +352,8 @@ export class SettingsComponent {
 		);
 	}
 
+//classes form
+  autoCompleteClasses() {
+
+  }
 }
