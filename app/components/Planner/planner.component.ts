@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {NgFor, NgIf} from '@angular/common';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {FaComponent} from 'angular2-fontawesome/components';
 import moment from 'moment';
 import {darkenColor} from '../../common/utils';
-import {MODAL_DIRECTIVES, BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
+import {BS_VIEW_PROVIDERS, DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {BlurDirective, WhiteBlurDirective} from '../../directives/blur.directive';
 
@@ -16,7 +17,7 @@ import {UserService} from '../../services/user.service';
     selector: 'planner',
     templateUrl: 'app/components/Planner/planner.html',
     styleUrls: ['dist/app/components/Planner/planner.css'],
-    directives: [NgIf, NgFor, MODAL_DIRECTIVES, FaComponent, BlurDirective],
+    directives: [ROUTER_DIRECTIVES, NgIf, NgFor, DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES, FaComponent, BlurDirective],
     providers: [ClassesService, PlannerService],
 	viewProviders: [BS_VIEW_PROVIDERS]
 })
@@ -24,7 +25,20 @@ export class PlannerComponent {
     constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService) {}
 	darkenColor = darkenColor;
 
+	weekdays = [
+		'Sunday',
+		'Monday',
+		'Tuesday',
+		'Wednesday',
+		'Thursday',
+		'Friday',
+		'Saturday'
+	];
+
 	loading = true;
+
+	// List of classes the user has
+	classes:Class[] = [];
 
 	// Date to display on calendar. Default to current month.
 	calendarDate = moment();
@@ -38,19 +52,34 @@ export class PlannerComponent {
 	// List of events to show up in selection
 	selectionEvents:Event[] = [];
 
-	weekdays = [
-		'Sunday',
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday'
-	];
+	// Create event form
+	createEventForm = {
+		title: '',
+		desc: '',
+		classId: 'other',
+		start: new Date(),
+		end: new Date()
+	};
 
 	ngOnInit() {
 		this.calendarDate = moment();
-		this.getEvents(this.calendarDate);
+
+		if(this.userService.getUsername()) {
+			// User logged in
+			this.getEvents(this.calendarDate);
+			this.classesService.getClasses().subscribe(
+				classes => {
+					this.classes = classes;
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Classes Error!', error);
+				}
+			);
+		} else {
+			// User not logged in
+			this.loading = false;
+			this.formattedMonth = this.formatEvents(this.calendarDate, []);
+		}
 	}
 
 	getEvents(date) {
@@ -229,17 +258,41 @@ export class PlannerComponent {
 
 	previousMonth() {
 		this.calendarDate.subtract(1, 'months');
-		this.getEvents(this.calendarDate);
+
+		if(this.userService.getUsername()) {
+			// User logged in
+			this.getEvents(this.calendarDate);
+		} else {
+			// User not logged in
+			this.loading = false;
+			this.formattedMonth = this.formatEvents(this.calendarDate, []);
+		}
 	}
 
 	currentMonth() {
 		this.calendarDate = moment();
-		this.getEvents(this.calendarDate);
+
+		if(this.userService.getUsername()) {
+			// User logged in
+			this.getEvents(this.calendarDate);
+		} else {
+			// User not logged in
+			this.loading = false;
+			this.formattedMonth = this.formatEvents(this.calendarDate, []);
+		}
 	}
 
 	nextMonth() {
 		this.calendarDate.add(1, 'months');
-		this.getEvents(this.calendarDate);
+
+		if(this.userService.getUsername()) {
+			// User logged in
+			this.getEvents(this.calendarDate);
+		} else {
+			// User not logged in
+			this.loading = false;
+			this.formattedMonth = this.formatEvents(this.calendarDate, []);
+		}
 	}
 
 	/*

@@ -67,23 +67,30 @@
 			<h3 class="selection-header">
 				{{ selectionDay.toDate() | date:'MMMM d, y' }}
 			</h3>
-			<button class="selection-create-event btn btn-info" (click)="createEventModal.show()">
-				<span>
-					<fa name="plus"></fa>
-					Create Event
-				</span>
-			</button>
-			<div *ngIf="selectionEvents.length === 0" class="no-events">
-				There are no events for this day.
+			<!-- Display message if user isn't logged in -->
+			<div *ngIf="!userService.getUsername()">
+				<a routerLink="/login" class="btn btn-success btn-sm">Login</a> or <a routerLink="/register" class="btn btn-primary btn-sm">Register</a> an account in order to use the planner and other cool features!
 			</div>
-			<div *ngIf="selectionEvents.length > 0" class="selection-events">
-				<div *ngFor="let event of selectionEvents" class="selection-event"
-					[style.background-color]="event.data.class?.color || '#7F7F7F'"
-					[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
-					[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
+			<!-- Only show if user is logged in -->
+			<div *ngIf="userService.getUsername()">
+				<button class="selection-create-event btn btn-info" (click)="createEventModal.show()">
+					<span>
+						<fa name="plus"></fa>
+						Create Event
+					</span>
+				</button>
+				<div *ngIf="selectionEvents.length === 0" class="no-events">
+					There are no events for this day.
+				</div>
+				<div *ngIf="selectionEvents.length > 0" class="selection-events">
+					<div *ngFor="let event of selectionEvents" class="selection-event"
+						[style.background-color]="event.data.class?.color || '#7F7F7F'"
+						[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
+						[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
 
-					<div class="event-title">{{ event.data.title }}</div>
-					<div class="event-desc" [innerHTML]="event.data.desc"></div>
+						<div class="event-title">{{ event.data.title }}</div>
+						<div class="event-desc" [innerHTML]="event.data.desc"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -91,7 +98,7 @@
 </div>
 
 <!-- Modal for creating events -->
-<div bsModal #createEventModal="bs-modal" class="modal fade" tabindex="-1">
+<div bsModal #createEventModal="bs-modal" class="create-event-modal modal fade" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -101,7 +108,34 @@
 				<h4 class="modal-title">Create a Planner Event</h4>
 			</div>
 			<div class="modal-body">
-				...
+				<form novalidate>
+					<fieldset class="form-group">
+						<legend>Event Title</legend>
+						<input class="form-control" name="title" [(ngModel)]="createEventForm.title" placeholder="Title">
+					</fieldset>
+					<fieldset class="form-group">
+						<legend>Event Description</legend>
+						<textarea class="form-control" name="desc" [(ngModel)]="createEventForm.desc" placeholder="Description" autocomplete="off" rows="5"></textarea>
+					</fieldset>
+					<fieldset class="form-group">
+						<legend>Event Class</legend>
+						<select class="custom-select" name="classId" [(ngModel)]="createEventForm.classId">
+							<option *ngFor="let class of classes" [value]="class._id">{{class.name}}</option>
+							<option value="other" selected>Other</option>
+						</select>
+					</fieldset>
+					<div class="event-date">
+						<fieldset class="form-group">
+							<legend>Event Start</legend>
+							<datepicker name="start" [(ngModel)]="createEventForm.start" [showWeeks]="false"></datepicker>
+						</fieldset>
+						<fieldset class="form-group">
+							<legend>Event End</legend>
+							<datepicker name="end" [(ngModel)]="createEventForm.end" [showWeeks]="false"></datepicker>
+						</fieldset>
+					</div>
+					{{createEventForm | json}}
+				</form>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary">Create Event</button>
