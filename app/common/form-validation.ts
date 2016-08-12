@@ -48,9 +48,6 @@ export function confirmGrade(gradYearKey:string, teacherKey:string) {
 		let gradYear = group.controls[gradYearKey];
 		let teacher = group.controls[teacherKey];
 
-		// console.log('grad year', gradYear);
-		// console.log('teacher', teacher);
-
 		if(!teacher.value && !gradYear.value) {
 			return { invalidGrade: true };
 		}

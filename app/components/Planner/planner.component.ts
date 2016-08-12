@@ -52,8 +52,8 @@ export class PlannerComponent {
 	// List of events to show up in selection
 	selectionEvents:Event[] = [];
 
-	// Create event form
-	createEventForm = {
+	// Create Events form
+	createEventModel = {
 		title: '',
 		desc: '',
 		classId: 'other',
@@ -303,15 +303,36 @@ export class PlannerComponent {
 		if(!day) return;
 		this.selectionDay = this.calendarDate.clone().date(day);
 		this.selectionEvents = this.eventsForDay(this.selectionDay, this.events);
-		console.log('select day', day);
-		console.log(this.selectionEvents.length + ' events for day ' + day);
+	}
+
+	/*
+	 * Create Events form
+	 */
+
+	consecutiveDates(start, end) {
+		let startTime = start.getTime();
+		let endTime   = end.getTime();
+		return startTime <= endTime;
+	}
+
+	createEvent() {
+		this.plannerService.addEvent(this.createEventModel).subscribe(
+			() => {
+				this.alertService.addAlert('success', 'Success!', 'Added event to planner!', 3);
+				// Refresh events on calendar since we just added one
+				this.getEvents(this.calendarDate);
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Add Event Error!', error);
+			}
+		);
 	}
 }
 
 interface Event {
 	_id:string;
 	user:string;
-	class:Class;
+	class:string;
 	title:string;
 	desc:string;
 	start:any;

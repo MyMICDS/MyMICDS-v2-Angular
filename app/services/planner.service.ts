@@ -41,7 +41,7 @@ export class PlannerService {
 			.catch(handleError);
 	}
 
-    addEvent(event:Event) {
+    addEvent(event:any) {
 		let body = JSON.stringify(event);
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
@@ -83,17 +83,4 @@ export class PlannerService {
 interface Date {
 	year?:number;
 	month?:number;
-}
-
-interface Event {
-	id?:string;
-	title:string;
-	desc?:string;
-	classId?:string;
-	startYear?:number;
-	startMonth?:number;
-	startDay?:number;
-	endYear?:number;
-	endMonth?:number;
-	endDay?:number;
 }

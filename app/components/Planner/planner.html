@@ -108,18 +108,19 @@
 				<h4 class="modal-title">Create a Planner Event</h4>
 			</div>
 			<div class="modal-body">
-				<form novalidate>
-					<fieldset class="form-group">
+				<form #createEventForm="ngForm" novalidate>
+					<fieldset class="form-group" [class.has-danger]="createEventTitle.dirty && !createEventTitle.valid">
 						<legend>Event Title</legend>
-						<input class="form-control" name="title" [(ngModel)]="createEventForm.title" placeholder="Title">
+						<input #createEventTitle="ngModel" class="form-control" [class.form-control-danger]="createEventTitle.dirty && !createEventTitle.valid" name="title" [(ngModel)]="createEventModel.title" placeholder="Title" required>
+						<p *ngIf="createEventTitle.dirty && !createEventTitle.valid" class="form-control-feedback">Title is required</p>
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Description</legend>
-						<textarea class="form-control" name="desc" [(ngModel)]="createEventForm.desc" placeholder="Description" autocomplete="off" rows="5"></textarea>
+						<textarea class="form-control" name="desc" [(ngModel)]="createEventModel.desc" placeholder="Description" autocomplete="off" rows="5"></textarea>
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Class</legend>
-						<select class="custom-select" name="classId" [(ngModel)]="createEventForm.classId">
+						<select class="custom-select" name="classId" [(ngModel)]="createEventModel.classId">
 							<option *ngFor="let class of classes" [value]="class._id">{{class.name}}</option>
 							<option value="other" selected>Other</option>
 						</select>
@@ -127,18 +128,18 @@
 					<div class="event-date">
 						<fieldset class="form-group">
 							<legend>Event Start</legend>
-							<datepicker name="start" [(ngModel)]="createEventForm.start" [showWeeks]="false"></datepicker>
+							<datepicker name="start" [(ngModel)]="createEventModel.start" [showWeeks]="false"></datepicker>
 						</fieldset>
 						<fieldset class="form-group">
 							<legend>Event End</legend>
-							<datepicker name="end" [(ngModel)]="createEventForm.end" [showWeeks]="false"></datepicker>
+							<datepicker name="end" [(ngModel)]="createEventModel.end" [showWeeks]="false"></datepicker>
 						</fieldset>
 					</div>
-					{{createEventForm | json}}
+					<p *ngIf="!consecutiveDates(createEventModel.start, createEventModel.end)" class="text-danger">Start and end dates must be consecutive!</p>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary">Create Event</button>
+				<button type="button" class="btn btn-primary" (click)="createEvent(); createEventModal.hide()" [disabled]="!createEventForm.valid || !consecutiveDates(createEventModel.start, createEventModel.end)">Create Event</button>
 			</div>
 		</div>
 	</div>

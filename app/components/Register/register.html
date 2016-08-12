@@ -1,4 +1,4 @@
-<div class="register-container">
+<div *ngIf="submitted" class="register-container">
 	<!-- Loading Screen -->
 	<div blur *ngIf="submitted && registerResponse === null" class="register-response">
 		<h1>Sending Email...</h1>
@@ -7,7 +7,7 @@
 	<div blur *ngIf="submitted && registerResponse === true" class="register-response">
 		<h1>Confirmation Email Sent!</h1>
 		<fa name="check" size="5"></fa>
-		<a class="btn btn-info btn-lg" href="https://mail.google.com">Click here to go to Gmail</a>
+		<a class="gmail btn btn-info btn-lg" href="https://mail.google.com">Take me to Gmail</a>
 	</div>
 	<!-- Failure Response -->
 	<div blur *ngIf="submitted && typeOf(registerResponse) === 'string'" class="register-response">
@@ -29,27 +29,30 @@
 				<input class="form-control" [class.form-control-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)" formControlName="user" placeholder="Username">
 				<div class="input-group-addon">@micds.org</div>
 			</div>
-			<p class="form-text form-control-feedback text-muted">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
+			<p class="form-control-feedback">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
 		</fieldset>
 		<fieldset class="form-group">
 			<legend>Password</legend>
 			<input type="password" class="form-control" formControlName="password" placeholder="Password">
 			<input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
 			<div *ngIf="registerForm.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
-			<p class="form-text text-muted">MyMICDS.net is not affiliated with Mary Institute Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
+			<p class="form-text">MyMICDS.net is not affiliated with Mary Institute Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
 		</fieldset>
-		<fieldset class="form-group">
+		<fieldset class="form-group" [class.has-danger]="(registerForm.controls.firstName.dirty && !registerForm.controls.firstName.valid) || (registerForm.controls.lastName.dirty && !registerForm.controls.lastName.valid)">
 			<legend>Name</legend>
 			<div class="full-name form-inline">
-				<input class="form-control" formControlName="firstName" placeholder="First Name">
-				<input class="form-control" formControlName="lastName" placeholder="Last Name">
+				<input class="form-control" [class.form-control-danger]="registerForm.controls.firstName.dirty && !registerForm.controls.firstName.valid" formControlName="firstName" placeholder="First Name">
+				<input class="form-control" [class.form-control-danger]="registerForm.controls.lastName.dirty && !registerForm.controls.lastName.valid" formControlName="lastName" placeholder="Last Name">
 			</div>
+			<p *ngIf="(registerForm.controls.firstName.dirty && !registerForm.controls.firstName.valid) || (registerForm.controls.lastName.dirty && !registerForm.controls.lastName.valid)" class="form-control-feedback">
+				First name and last name are required.
+			</p>
 		</fieldset>
 		<fieldset class="grad-year form-group">
 			<legend>Grade</legend>
 			<div class="teacher checkbox">
 				<label>
-					<input type="checkbox" class="form-check-input" formControlName="teacher">
+					<input type="checkbox" formControlName="teacher">
 					I am a Teacher
 				</label>
 			</div>
