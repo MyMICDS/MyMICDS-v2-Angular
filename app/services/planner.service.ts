@@ -60,7 +60,7 @@ export class PlannerService {
 			.catch(handleError);
     }
 
-    public deleteEvent(id:string) {
+    deleteEvent(id:string) {
 		let body = JSON.stringify({ id });
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });

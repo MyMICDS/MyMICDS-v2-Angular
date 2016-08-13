@@ -1,5 +1,5 @@
 <!-- Loading Message -->
-<div *ngIf="loading && !formattedMonth" class="loading-container">
+<div *ngIf="loading || !formattedMonth" class="loading-container">
 	<div blur class="loading">
 		<h1>Fetching Planner Data...</h1>
 	</div>
@@ -73,22 +73,42 @@
 			</div>
 			<!-- Only show if user is logged in -->
 			<div *ngIf="userService.getUsername()">
+				<!-- Create Event button at the top -->
 				<button class="selection-create-event btn btn-info" (click)="createEventModal.show()">
 					<span>
 						<fa name="plus"></fa>
 						Create Event
 					</span>
 				</button>
+				<!-- Message if there are no events -->
 				<div *ngIf="selectionEvents.length === 0" class="no-events">
 					There are no events for this day.
 				</div>
+				<!-- Loop through events for that specific date -->
 				<div *ngIf="selectionEvents.length > 0" class="selection-events">
-					<div *ngFor="let event of selectionEvents" class="selection-event"
+					<!-- List of events -->
+					<div *ngFor="let event of selectionEvents" class="selection-event" (click)="viewEvent(event.data._id); viewEventModal.show()"
 						[style.background-color]="event.data.class?.color || '#7F7F7F'"
 						[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
 						[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
-
+						<!-- Manage and Manipulate Event -->
+						<div class="event-manage btn-group">
+							<!-- View -->
+							<button class="btn btn-info btn-sm">
+								<fa name="ellipsis-h"></fa>
+							</button>
+							<!-- Edit -->
+							<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()">
+								<fa name="pencil-square-o"></fa>
+							</button>
+							<!-- Delete -->
+							<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)">
+								<fa name="times"></fa>
+							</button>
+						</div>
+						<!-- Event Title -->
 						<div class="event-title">{{ event.data.title }}</div>
+						<!-- Event description (including raw HTML) -->
 						<div class="event-desc" [innerHTML]="event.data.desc"></div>
 					</div>
 				</div>
@@ -140,6 +160,77 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" (click)="createEvent(); createEventModal.hide()" [disabled]="!createEventForm.valid || !consecutiveDates(createEventModel.start, createEventModel.end)">Create Event</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal for viewing events -->
+<div bsModal #viewEventModal="bs-modal" class="view-event-modal modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">{{ viewEventObject?.title }}</h4>
+				<p class="event-modal-subtitle text-muted">{{ viewEventObject?.start | date }} - {{ viewEventObject?.end | date }}</p>
+			</div>
+			<div class="modal-body" [innerHTML]="viewEventObject?.desc"></div>
+			<div class="modal-footer">
+				<!-- Maybe someday... -->
+				<!-- <button class="btn btn-success">Cross out as Completed</button> -->
+				<button class="btn btn-warning" (click)="viewEventModal.hide(); viewEditEventModal(viewEventObject._id, $event); editEventModal.show()">Edit</button>
+				<button class="btn btn-danger" (click)="deleteEvent(viewEventObject._id, $event); viewEventModal.hide()">Delete</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal for editing events -->
+<div bsModal #editEventModal="bs-modal" class="edit-event-modal modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Edit a Planner Event</h4>
+			</div>
+			<div class="modal-body">
+				<form #editEventForm="ngForm" novalidate>
+					<fieldset class="form-group" [class.has-danger]="editEventTitle.dirty && !editEventTitle.valid">
+						<legend>Event Title</legend>
+						<input #editEventTitle="ngModel" class="form-control" [class.form-control-danger]="editEventTitle.dirty && !editEventTitle.valid" name="title" [(ngModel)]="editEventModel.title" placeholder="Title" required>
+						<p *ngIf="editEventTitle.dirty && !editEventTitle.valid" class="form-control-feedback">Title is required</p>
+					</fieldset>
+					<fieldset class="form-group">
+						<legend>Event Description</legend>
+						<textarea class="form-control" name="desc" [(ngModel)]="editEventModel.desc" placeholder="Description" autocomplete="off" rows="5"></textarea>
+					</fieldset>
+					<fieldset class="form-group">
+						<legend>Event Class</legend>
+						<select class="custom-select" name="classId" [(ngModel)]="editEventModel.classId">
+							<option *ngFor="let class of classes" [value]="class._id">{{class.name}}</option>
+							<option value="other" selected>Other</option>
+						</select>
+					</fieldset>
+					<div class="event-date">
+						<fieldset class="form-group">
+							<legend>Event Start</legend>
+							<datepicker name="start" [(ngModel)]="editEventModel.start" [showWeeks]="false"></datepicker>
+						</fieldset>
+						<fieldset class="form-group">
+							<legend>Event End</legend>
+							<datepicker name="end" [(ngModel)]="editEventModel.end" [showWeeks]="false"></datepicker>
+						</fieldset>
+					</div>
+					<p *ngIf="!consecutiveDates(editEventModel.start, editEventModel.end)" class="text-danger">Start and end dates must be consecutive!</p>
+				</form>
+				{{ editEventModel | json }}
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" (click)="editEvent(); editEventModal.hide()" [disabled]="!editEventForm.valid || !consecutiveDates(editEventModel.start, editEventModel.end)">Edit Event</button>
 			</div>
 		</div>
 	</div>

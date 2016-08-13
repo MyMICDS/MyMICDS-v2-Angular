@@ -191,6 +191,8 @@
 				overflow-y: auto;
 
 				.selection-event {
+					display: inline-block;
+					width: 100%;
 					margin-bottom: 0.25rem;
 					padding: 0.25rem;
 
@@ -204,11 +206,21 @@
 					}
 
 					.event-title {
+						font-size: 1.25rem;
 						font-weight: 600;
 					}
 
 					.event-desc {
 						font-weight: 300;
+
+						// Style HTML from Canvas
+						img {
+							width: 100%;
+						}
+					}
+
+					.event-manage {
+						float: right;
 					}
 				}
 			}
@@ -216,7 +228,8 @@
 	}
 }
 
-.create-event-modal {
+.create-event-modal,
+.edit-event-modal {
 	.modal-body {
 		.event-date {
 			display: flex;
@@ -225,6 +238,14 @@
 			datepicker {
 				display: inline-block;
 			}
+		}
+	}
+}
+
+.view-event-modal {
+	.modal-header {
+		.event-modal-subtitle {
+			margin-bottom: 0;
 		}
 	}
 }

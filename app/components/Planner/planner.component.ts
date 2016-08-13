@@ -42,7 +42,7 @@ export class PlannerComponent {
 
 	// Date to display on calendar. Default to current month.
 	calendarDate = moment();
-	// Array of events to display on calendar
+	// Array of events directly from the back-end
 	events:Event[] = [];
 	// Array dividing events into days
 	formattedMonth:any = null;
@@ -54,6 +54,19 @@ export class PlannerComponent {
 
 	// Create Events form
 	createEventModel = {
+		title: '',
+		desc: '',
+		classId: 'other',
+		start: new Date(),
+		end: new Date()
+	};
+
+	// Object of event to view
+	viewEventObject:any = null;
+
+	// Edit Events form
+	editEventModel = {
+		id: '',
 		title: '',
 		desc: '',
 		classId: 'other',
@@ -92,7 +105,6 @@ export class PlannerComponent {
 
 		}).subscribe(
 			events => {
-				console.log('events', events);
 				this.loading = false;
 				this.events = events;
 				// Format events to be displayed on planner
@@ -102,6 +114,17 @@ export class PlannerComponent {
 				this.alertService.addAlert('danger', 'Get Events Error!', error);
 			}
 		);
+	}
+
+	// Returns the object of a specific event. You must call getEvents() first!
+	// Returns null if id isn't valid
+	getEvent(id) {
+		for(let i = 0; i < this.events.length; i++) {
+			let event = this.events[i];
+			if(event._id === id) return event;
+		}
+
+		return null;
 	}
 
 	// Returns an array of events organized for the calendar
@@ -150,7 +173,9 @@ export class PlannerComponent {
 			}
 		}
 
-		console.log('formatted month', formattedMonth);
+		// Reselect day so it refreshes the selection
+		this.selectDay(this.selectionDay.day());
+
 		return formattedMonth;
 	}
 
@@ -306,7 +331,7 @@ export class PlannerComponent {
 	}
 
 	/*
-	 * Create Events form
+	 * Create Event
 	 */
 
 	consecutiveDates(start, end) {
@@ -327,12 +352,81 @@ export class PlannerComponent {
 			}
 		);
 	}
+
+	/*
+	 * View Event
+	 */
+
+	viewEvent(id:string) {
+		let event = this.getEvent(id);
+		this.viewEventObject = event;
+	}
+
+	/*
+	 * Edit Event
+	 */
+
+	viewEditEventModal(id:string, event:any) {
+		// Make sure it doesn't trigger the viewEvent()
+		event.stopPropagation();
+
+		let eventObj = this.getEvent(id);
+
+		let classId = 'other';
+		if(eventObj.class) {
+			classId = eventObj.class._id || 'other';
+		}
+
+		this.editEventModel = {
+			id: eventObj._id,
+			title: eventObj.title,
+			desc: eventObj.desc,
+			classId: classId,
+			start: eventObj.start,
+			end: eventObj.end
+		};
+	}
+
+	editEvent() {
+		this.plannerService.addEvent(this.editEventModel).subscribe(
+			() => {
+				this.alertService.addAlert('success', 'Success!', 'Edited event in planner!', 3);
+				// Refresh events on calendar since we just added one
+				this.getEvents(this.calendarDate);
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Edit Event Error!', error);
+			}
+		);
+	}
+
+	/*
+	 * Delete Event
+	 */
+
+	deleteEvent(id:string, event:any) {
+		// Make sure it doesn't trigger the viewEvent()
+		event.stopPropagation();
+		if(confirm('Are you sure you wanna delete this event from the planner?')) {
+			this.plannerService.deleteEvent(id).subscribe(
+				() => {
+					this.alertService.addAlert('success', 'Success!', 'Deleted event from planner!', 3);
+					// Refresh events on calendar since we just deleted one
+					this.getEvents(this.calendarDate);
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Delete Event Error!', error);
+				}
+			);
+		}
+	}
+
 }
 
 interface Event {
 	_id:string;
 	user:string;
-	class:string;
+	class:any;
 	title:string;
 	desc:string;
 	start:any;
@@ -344,15 +438,8 @@ interface Class {
 	_id:string;
 	user:string;
 	name:string;
-	teacher:Teacher;
+	teacher:any;
 	type:string;
 	block:string;
 	color:string;
-}
-
-interface Teacher {
-	_id:string;
-	prefix:string;
-	firstName:string;
-	lastName:string;
 }
