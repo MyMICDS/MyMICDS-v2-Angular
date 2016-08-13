@@ -117,7 +117,7 @@
 		<!-- Set Classes -->
 		<div style="background-color: white">
 			<h3>form value</h3>
-			{{classesForm.value | json}}
+			{{classesModel | json}}
 		</div>
 
 		<div blur class="settings-section add-classes-form">
@@ -142,7 +142,7 @@
 									</select>
 								</td>
 								<td>
-									
+									<input [name]="class._id + '-color'" class="form-control" required [(colorPicker)]="classesModel[i].color" [style.background]="classesModel[i].color">
 								</td>
 							</tr>
 						</tbody>

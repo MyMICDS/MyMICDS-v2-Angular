@@ -16,14 +16,17 @@ import {BackgroundService} from '../../services/background.service';
 import {CanvasService} from '../../services/canvas.service';
 import {PortalService} from '../../services/portal.service';
 import {UserService} from '../../services/user.service';
-import {ClassesService} from '../../services/classes.service';
+import {ClassesService, Class} from '../../services/classes.service';
+
+import {ColorPickerService} from 'ct-angular2-color-picker/component';
+import {ColorPickerDirective} from 'ct-angular2-color-picker/component'
 
 @Component ({
     selector: 'settings',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
-    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, BlurDirective],
-    providers: [ClassesService]
+    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, BlurDirective, ColorPickerDirective],
+    providers: [ClassesService, ColorPickerService]
 })
 
 export class SettingsComponent {
@@ -69,8 +72,8 @@ export class SettingsComponent {
 	uploadingBackground = false;
 
   //classes form
-  classesList:Array<Object>;
-  classesModel:Array<Object> = [];
+  classesList:Array<Class>;
+  classesModel:Array<Class> = [];
   classesTypes = [
   	'art',
   	'english',
@@ -131,9 +134,11 @@ export class SettingsComponent {
       classesList => {
         console.log(classesList);
         this.classesList = classesList;
-        //prefill the form with the classes information
+        //prefill the form class model with the classes information
         for (let i=0;i<classesList.length;i++) {
-          this.classesModel.push(classesList[i])
+          let pushIndex = this.classesModel.push(classesList[i])-1;
+          //convert the colors to lower letters, because in the case of hex colors, uppercase letter will break the color picker in development mode of angular.
+          this.classesModel[pushIndex].color = this.classesModel[pushIndex].color.toLowerCase()
         }
       },
       error => {
@@ -352,7 +357,7 @@ export class SettingsComponent {
 		);
 	}
 
-//classes form
+//classes form methods
   autoCompleteClasses() {
 
   }

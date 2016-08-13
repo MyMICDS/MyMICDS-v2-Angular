@@ -68,7 +68,7 @@ export class ClassesService {
     }
 }
 
-interface Class {
+export interface Class {
 	id?:string;
 	name:string;
 	color?:string;

@@ -17,7 +17,8 @@
 	'h5webstorage':               'node_modules/h5webstorage',
 	'moment':                     'node_modules/moment/moment.js',
 	'ng2-bootstrap':              'node_modules/ng2-bootstrap',
-	'prisma':                     'node_modules/prisma/lib/index.js'
+	'prisma':                     'node_modules/prisma/lib/index.js',
+  'ct-angular2-color-picker':   'node_modules/ct-angular2-color-picker'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -29,7 +30,8 @@
 	'angular2-jwt':               { main: 'angular2-jwt', defaultExtention: 'js' },
 	'angular2-uuid':              { main: 'index.js', defaultExtention: 'js' },
 	'h5webstorage':               { main: 'index.js', defaultExtention: 'js' },
-	'ng2-bootstrap':              { defaultExtention: 'js' }
+	'ng2-bootstrap':              { defaultExtention: 'js' },
+  'ct-angular2-color-picker':   { defaultExtention: 'js' }
   };
   var ngPackageNames = [
 	'common',
