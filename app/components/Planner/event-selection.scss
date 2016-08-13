@@ -1,0 +1,10 @@
+/*
+ * We need a seperate stylesheet for the planner selection because it is dynamically added.
+ */
+
+.day-selection .selection-events .selection-event .event-desc {
+	// Place styles in here for description stylings dynamically added.
+	img {
+		width: 100%;
+	}
+}
