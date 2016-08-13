@@ -37,18 +37,22 @@ export class PlannerComponent {
 
 	loading = true;
 
+	// Array of events directly from the back-end
+	events:Event[] = [];
 	// List of classes the user has
 	classes:Class[] = [];
 
 	// Date to display on calendar. Default to current month.
 	calendarDate = moment();
-	// Array of events directly from the back-end
-	events:Event[] = [];
-	// Array dividing events into days
-	formattedMonth:any = null;
-
 	// Date selected in the calendar
 	selectionDay = moment();
+
+	// Array dividing events into days
+	formattedMonth:any = null;
+	// Events that are ending within 7 days
+	comingUp:any[] = null;
+
+
 	// List of events to show up in selection
 	selectionEvents:Event[] = [];
 
@@ -91,12 +95,13 @@ export class PlannerComponent {
 		} else {
 			// User not logged in
 			this.loading = false;
-			this.formattedMonth = this.formatEvents(this.calendarDate, []);
+			this.formattedMonth = this.formatMonth(this.calendarDate, []);
 		}
 	}
 
 	getEvents(date) {
 		this.loading = true;
+		let current = moment();
 
 		// Get events from back-end
 		this.plannerService.getEvents({
@@ -108,12 +113,35 @@ export class PlannerComponent {
 				this.loading = false;
 				this.events = events;
 				// Format events to be displayed on planner
-				this.formattedMonth = this.formatEvents(date, this.events);
+				this.formattedMonth = this.formatMonth(date, this.events);
+
+				// If querying current event, also update 'Coming Up' events
+				if(current.isSame(date, 'month')) {
+					this.comingUp = this.formatWeek(this.events);
+				}
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Events Error!', error);
 			}
 		);
+
+		// If not querying current month, also get current month to update 'Coming Up' event
+		if(!current.isSame(date, 'month')) {
+			// Get events from back-end
+			this.plannerService.getEvents({
+				year: current.year(),
+				month: current.month() + 1
+
+			}).subscribe(
+				events => {
+					this.comingUp = this.formatWeek(this.events);
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Events Error!', error);
+				}
+			);
+			this.comingUp = this.formatWeek(this.events);
+		}
 	}
 
 	// Returns the object of a specific event. You must call getEvents() first!
@@ -128,7 +156,7 @@ export class PlannerComponent {
 	}
 
 	// Returns an array of events organized for the calendar
-	formatEvents(date, events:Event[]) {
+	formatMonth(date, events:Event[]) {
 		let formattedMonth = [];
 		let beginOffset = this.beginOfMonth(date);
 		let weeksInMonth = this.weeksInMonth(date);
@@ -177,6 +205,55 @@ export class PlannerComponent {
 		this.selectDay(this.selectionDay.day());
 
 		return formattedMonth;
+	}
+
+	formatWeek(events:Event[]) {
+		console.log('format week')
+		let formattedWeek = [];
+		// How many days ahead to include
+		let daysForward = 7;
+		// What day to start
+		let comingDay = moment();
+
+		// Loop through each day within the next week
+		for(let i = 0; i < daysForward; i++) {
+			comingDay.add(1, 'day');
+			let validEvents = [];
+
+			// Loop through events
+			for(let j = 0; j < events.length; j++) {
+				let event = events[j];
+
+				// Check if event ends on this day
+				if(comingDay.isSame(event.end, 'day')) {
+					// Add to valid events
+					validEvents.push(event);
+				}
+			}
+
+			// If any events, add day to formattedWeek
+			if(validEvents.length > 0) {
+				let weekdayDate = comingDay.clone();
+				let weekdayDisplay = weekdayDate.calendar(null, {
+					sameDay: '[Today]',
+					nextDay: '[Tomorrow]',
+					nextWeek: '[Next] dddd',
+					lastDay: '[Yesterday]',
+					lastWeek: '[Last] dddd',
+					sameElse: 'DD.MM.YYYY'
+				});
+
+				formattedWeek.push({
+					date: {
+						object: weekdayDate,
+						display: weekdayDisplay
+					},
+					events: validEvents
+				});
+			}
+		}
+
+		return formattedWeek;
 	}
 
 	// Lists all the events for a given day
@@ -290,7 +367,7 @@ export class PlannerComponent {
 		} else {
 			// User not logged in
 			this.loading = false;
-			this.formattedMonth = this.formatEvents(this.calendarDate, []);
+			this.formattedMonth = this.formatMonth(this.calendarDate, []);
 		}
 	}
 
@@ -303,7 +380,7 @@ export class PlannerComponent {
 		} else {
 			// User not logged in
 			this.loading = false;
-			this.formattedMonth = this.formatEvents(this.calendarDate, []);
+			this.formattedMonth = this.formatMonth(this.calendarDate, []);
 		}
 	}
 
@@ -316,7 +393,7 @@ export class PlannerComponent {
 		} else {
 			// User not logged in
 			this.loading = false;
-			this.formattedMonth = this.formatEvents(this.calendarDate, []);
+			this.formattedMonth = this.formatMonth(this.calendarDate, []);
 		}
 	}
 

@@ -29,10 +29,53 @@
 	color: $sophisticated-white;
 
 	.coming-up {
+		max-height: 28rem;
+		display: inline-block;
+		padding: 1rem;
 		margin-bottom: 1rem;
 
-		.coming-up-event {
+		h1 {
+			font-weight: 300;
+		}
 
+		.coming-up-days {
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-start;
+			overflow: auto;
+
+			.coming-up-day {
+				display: inline-block;
+				width: 20rem;
+				margin-right: 1rem;
+
+				h3 {
+					font-size: 1rem;
+					font-weight: 600;
+				}
+
+				.coming-up-events {
+					height: 20rem;
+					overflow: auto;
+
+					.coming-up-event {
+						margin-bottom: 0.25rem;
+						padding: 0.25rem;
+
+						border-radius: 0.25rem;
+						border-right: 2px solid;
+						border-bottom: 2px solid;
+
+						.coming-up-event-title {
+							font-weight: 600;
+						}
+
+						.coming-up-event-desc {
+							font-weight: 300;
+						}
+					}
+				}
+			}
 		}
 	}
 

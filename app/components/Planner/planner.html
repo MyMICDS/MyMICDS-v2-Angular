@@ -1,15 +1,29 @@
 <!-- Loading Message -->
-<div *ngIf="loading || !formattedMonth" class="loading-container">
+<div *ngIf="loading || !formattedMonth || !comingUp" class="loading-container">
 	<div blur class="loading">
 		<h1>Fetching Planner Data...</h1>
 	</div>
 </div>
 <!-- Planner -->
-<div *ngIf="!loading && formattedMonth" class="planner-container container">
+<div *ngIf="!loading && formattedMonth && comingUp" class="planner-container container">
 	<!-- Events coming up within the next 7 days -->
 	<div blur class="coming-up">
-		<div class="coming-up-event">
-			test
+		<h1>Coming Up</h1>
+		<div class="coming-up-days">
+			<div *ngFor="let day of comingUp" class="coming-up-day">
+				<h3>{{ day.date.display }}</h3>
+				<div class="coming-up-events">
+					<div *ngFor="let event of day.events" class="coming-up-event"
+						[style.background-color]="event?.class?.color || '#7F7F7F'"
+						[style.border-right-color]="darkenColor(event?.class?.color, -20)"
+						[style.border-bottom-color]="darkenColor(event?.class?.color, -20)">
+						<div class="coming-up-event-title">
+							{{ event.title }}
+						</div>
+						<div class="coming-up-event-desc" [innerHTML]="event.desc"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- Complete Calendar including navigation bar and selection sidebar -->
