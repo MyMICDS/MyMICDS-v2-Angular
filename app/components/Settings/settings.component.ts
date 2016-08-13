@@ -1,7 +1,7 @@
 import * as config from '../../common/config'
 
 import {Component} from '@angular/core';
-import {NgFor, NgIf, NgForm} from '@angular/common';
+import {NgFor, NgIf, NgForm, NgStyle} from '@angular/common';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
@@ -25,7 +25,7 @@ import {ColorPickerDirective} from 'ct-angular2-color-picker/component'
     selector: 'settings',
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
-    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, BlurDirective, ColorPickerDirective],
+    directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, NgStyle, BlurDirective, ColorPickerDirective],
     providers: [ClassesService, ColorPickerService]
 })
 
@@ -87,6 +87,21 @@ export class SettingsComponent {
   	'french',
   	'other'
   ];
+  classesBlocks = [
+  	'a',
+  	'b',
+  	'c',
+  	'd',
+  	'e',
+  	'f',
+  	'g',
+  	'sport',
+  	'other'
+  ];
+  teacherPrefixes = [
+    'Mr.',
+    'Mrs.'
+  ]
 	ngOnInit() {
 		// Get basic info
 		this.userService.getInfo().subscribe(
@@ -359,6 +374,24 @@ export class SettingsComponent {
 
 //classes form methods
   autoCompleteClasses() {
+
+  }
+
+  //function to reverse a hex color
+  reverseColor(color:string) {
+    let num = 0xFFFFFF - parseInt(color.slice(1), 16);
+    console.log(num.toString(16));
+    return '#' + num.toString(16);
+  }
+  //function to generate css styles for the input
+  applyColors(color:string) {
+    return {
+      'background-color': color,
+      color: this.reverseColor(color)
+    }
+  }
+
+  deleteClass(id:string) {
 
   }
 }

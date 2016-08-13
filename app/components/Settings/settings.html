@@ -129,6 +129,8 @@
 								<th>Class Name</th>
 								<th>Type</th>
 								<th>Display Color</th>
+								<th>Teacher</th>
+								<th>Block</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -142,7 +144,22 @@
 									</select>
 								</td>
 								<td>
-									<input [name]="class._id + '-color'" class="form-control" required [(colorPicker)]="classesModel[i].color" [style.background]="classesModel[i].color">
+									<input [name]="class._id + '-color'" class="form-control" required [(colorPicker)]="classesModel[i].color" [ngStyle]="applyColors(classesModel[i].color)" [value]="classesModel[i].color">
+								</td>
+								<td class="form-inline">
+									<select [name]="class._id + '-teacher-prefix'" class="form-control" required [(ngModel)]="classesModel[i].teacher.prefix">
+										<option *ngFor="let prefix of teacherPrefixes" [value]="prefix">{{prefix}}</option>
+									</select>
+									<input [name]="class._id + '-teacher-first-name'" class="form-control" required [(ngModel)]="classesModel[i].teacher.firstName">
+									<input [name]="class._id + '-teacher-last-name'" class="form-control" required [(ngModel)]="classesModel[i].teacher.lastName">
+								</td>
+								<td>
+									<select [name]="class._id + '-block'" class="form-control" required [(ngModel)]="classesModel[i].block">
+										<option *ngFor="let block of classesBlocks" [value]="block">{{block | uppercase}}</option>
+									</select>
+								</td>
+								<td>
+									<button class="btn btn-danger" (click)="deleteClass(class._id)"><i class="fa fa-trash"></i></button>
 								</td>
 							</tr>
 						</tbody>

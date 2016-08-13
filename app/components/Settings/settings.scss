@@ -92,9 +92,9 @@
 		}
 
 		.add-classes-form {
-			.class-group {
-				.class-input-group {
-					margin: 0;
+			.form-inline {
+				input {
+					width: 25%;
 				}
 			}
 		}
