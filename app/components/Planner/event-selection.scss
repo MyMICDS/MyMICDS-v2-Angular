@@ -2,16 +2,24 @@
  * We need a seperate stylesheet for the planner page because they are dynamically added.
  */
 
- .coming-up .coming-up-day .coming-up-events .coming-up-event .coming-up-event-desc {
-	 // Place styles in here for the coming up events dynamically added.
-	 img {
-		 width: 100%;
-	 }
- }
+.coming-up .coming-up-day .coming-up-events .coming-up-event .coming-up-event-desc {
+	// Place styles in here for the coming up events dynamically added.
+	img {
+		width: 100%;
+	}
+
+	ul {
+		padding-left: 1rem;
+	}
+}
 
 .day-selection .selection-events .selection-event .event-desc {
 	// Place styles in here for description stylings dynamically added.
 	img {
 		width: 100%;
+	}
+
+	ul {
+		padding-left: 1rem;
 	}
 }
