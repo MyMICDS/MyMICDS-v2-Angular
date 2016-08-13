@@ -18,13 +18,11 @@ import {RegisterComponent} from './components/Register/register.component';
 import {ConfirmComponent} from './components/Confirm/confirm.component';
 import {ForgotPasswordComponent} from './components/ForgotPassword/forgot-password.component';
 import {ResetPasswordComponent} from './components/ResetPassword/reset-password.component';
-import {SidebarComponent} from './components/Sidebar/sidebar.component'
 
 import {AlertService} from './services/alert.service';
 import {AuthService} from './services/auth.service';
 import {BackgroundService} from './services/background.service';
 import {CanvasService} from './services/canvas.service';
-import {NotificationService} from './services/notification.service';
 import {PortalService} from './services/portal.service';
 import {UserService} from './services/user.service';
 
@@ -34,12 +32,11 @@ import {UserService} from './services/user.service';
 	template: `
 		<navbar></navbar>
 		<alert></alert>
-		<sidebar></sidebar>
 		<router-outlet></router-outlet>
 	`,
 	styles: [':host { height: 100%; }'],
-	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AlertService, AuthService, BackgroundService, CanvasService, NotificationService, PortalService, UserService],
-	directives: [NavbarComponent, ROUTER_DIRECTIVES, AlertComponent, SidebarComponent],
+	providers: [HTTP_PROVIDERS, LocalStorage, SessionStorage, AlertService, AuthService, BackgroundService, CanvasService, PortalService, UserService],
+	directives: [NavbarComponent, ROUTER_DIRECTIVES, AlertComponent],
 	precompile: [
 				NavbarComponent,         HomeComponent,          LunchComponent,
 				PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,
@@ -54,21 +51,6 @@ export class AppComponent {
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
 	 * You need this small hack in order to catch application root view container ref.
 	 */
-	constructor(private viewContainerRef: ViewContainerRef, private alertService: AlertService, private backgroundService: BackgroundService) {
+	constructor(private viewContainerRef: ViewContainerRef) {}
 
-		// Get custom user background
-		this.backgroundService.get().subscribe(
-			data => {
-				this.backgrounds = data.variants;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Background Error!', error);
-			}
-		);
-	}
-
-	backgrounds:any = {
-		normal: 'http://localhost:1420/user-backgrounds/default/normal.jpg',
-		blur: 'http://localhost:1420/user-backgrounds/default/blur.jpg'
-	};
 }
