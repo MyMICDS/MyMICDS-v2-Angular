@@ -227,7 +227,6 @@
 					</div>
 					<p *ngIf="!consecutiveDates(editEventModel.start, editEventModel.end)" class="text-danger">Start and end dates must be consecutive!</p>
 				</form>
-				{{ editEventModel | json }}
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" (click)="editEvent(); editEventModal.hide()" [disabled]="!editEventForm.valid || !consecutiveDates(editEventModel.start, editEventModel.end)">Edit Event</button>

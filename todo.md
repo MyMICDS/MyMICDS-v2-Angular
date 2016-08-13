@@ -19,3 +19,4 @@
 - View schedule in next / previous day
 - Check if classes belong to any user
 - 404 Page
+- Prevent empty titles in planner
