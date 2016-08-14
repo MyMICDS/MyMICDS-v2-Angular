@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {NgFor, NgIf} from '@angular/common';
 import {ROUTER_DIRECTIVES} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 import {FaComponent} from 'angular2-fontawesome/components';
 import moment from 'moment';
-import {darkenColor} from '../../common/utils';
+import {contains, darkenColor} from '../../common/utils';
 import {BS_VIEW_PROVIDERS, DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {BlurDirective, WhiteBlurDirective} from '../../directives/blur.directive';
@@ -45,7 +46,11 @@ export class PlannerComponent {
 	// Date to display on calendar. Default to current month.
 	calendarDate = moment();
 	// Date selected in the calendar
-	selectionDay = moment();
+	selectionDay = null;
+
+	// Event to deselect current day
+	deselect$:any;
+	deselectSubscription:any;
 
 	// Array dividing events into days
 	formattedMonth:any = null;
@@ -97,6 +102,18 @@ export class PlannerComponent {
 			this.loading = false;
 			this.formattedMonth = this.formatMonth(this.calendarDate, []);
 		}
+
+		// Event to trigger deselect of day
+		this.deselect$ = Observable.fromEvent(document, 'click')
+			.map((event:any) => event.target.className.split(' '))
+			.filter((className:string[]) => contains(className, 'planner-interface'));
+
+		this.deselectSubscription = this.deselect$.subscribe(
+			className => {
+				this.deselectDay();
+			}
+		);
+
 	}
 
 	getEvents(date) {
@@ -202,13 +219,14 @@ export class PlannerComponent {
 		}
 
 		// Reselect day so it refreshes the selection
-		this.selectDay(this.selectionDay.day());
+		if(this.selectionDay !== null) {
+			this.selectDay(this.selectionDay.day());
+		}
 
 		return formattedMonth;
 	}
 
 	formatWeek(events:Event[]) {
-		console.log('format week')
 		let formattedWeek = [];
 		// How many days ahead to include
 		let daysForward = 7;
@@ -401,10 +419,22 @@ export class PlannerComponent {
 	 * Select Day
 	 */
 
-	selectDay(day) {
-		if(!day) return;
+	selectDay(day, event?) {
+		if(event) {
+			event.stopPropagation();
+		}
+
+		if(!day) {
+			this.deselectDay();
+			return;
+		}
+
 		this.selectionDay = this.calendarDate.clone().date(day);
 		this.selectionEvents = this.eventsForDay(this.selectionDay, this.events);
+	}
+
+	deselectDay() {
+		this.selectionDay = null;
 	}
 
 	/*

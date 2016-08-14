@@ -4,126 +4,146 @@
 		<h1>Fetching Planner Data...</h1>
 	</div>
 </div>
-<!-- Planner -->
-<div *ngIf="!loading && formattedMonth && comingUp" class="planner-container container">
-	<!-- Events coming up within the next 7 days -->
-	<div blur class="coming-up">
-		<h1>Coming Up</h1>
-		<div class="coming-up-days">
-			<div *ngFor="let day of comingUp" class="coming-up-day">
-				<h3>{{ day.date.display }}</h3>
-				<div class="coming-up-events">
-					<div *ngFor="let event of day.events" class="coming-up-event"
-						[style.background-color]="event?.class?.color || '#7F7F7F'"
-						[style.border-right-color]="darkenColor(event?.class?.color, -20)"
-						[style.border-bottom-color]="darkenColor(event?.class?.color, -20)">
-						<div class="coming-up-event-title">
-							{{ event.title }}
-						</div>
-						<div class="coming-up-event-desc" [innerHTML]="event.desc"></div>
-					</div>
+
+<!-- Detect any click away from planner in this div -->
+<div class="planner-interface">
+	<!-- Planner -->
+	<div *ngIf="!loading && formattedMonth && comingUp" class="planner-container container">
+		<div class="calendar-container">
+			<!-- Calendar including navigation bar -->
+			<div class="calendar">
+				<!-- Month navigation bar -->
+				<div class="month-navigation">
+					<button blur class="previous-month" (click)="previousMonth()">
+						<span>
+							<fa name="angle-left"></fa>
+							Previous Month
+						</span>
+					</button>
+
+					<button blur class="current-month" (click)="currentMonth()">
+						{{ calendarDate.toDate() | date:'MMMM y' }}
+					</button>
+
+					<button blur class="next-month" (click)="nextMonth()">
+						<span>
+							Next Month
+							<fa name="angle-right"></fa>
+						</span>
+					</button>
 				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Complete Calendar including navigation bar and selection sidebar -->
-	<div class="calendar-interface">
-		<!-- Calendar including navigation bar -->
-		<div class="calendar">
-			<!-- Month navigation bar -->
-			<div class="month-navigation">
-				<button blur class="previous-month" (click)="previousMonth()">
-					<span>
-						<fa name="angle-left"></fa>
-						Previous Month
-					</span>
-				</button>
-
-				<button blur class="current-month" (click)="currentMonth()">
-					{{ calendarDate.toDate() | date:'MMMM y' }}
-				</button>
-
-				<button blur class="next-month" (click)="nextMonth()">
-					<span>
-						Next Month
-						<fa name="angle-right"></fa>
-					</span>
-				</button>
-			</div>
-			<!-- Calendar table (we used <div>'s this time!) -->
-			<div blur class="calendar-grid">
-				<div class="calendar-weekdays">
-					<div *ngFor="let weekday of weekdays" class="weekday">
-						{{ weekday }}
-					</div>
-				</div>
-				<div *ngFor="let week of formattedMonth" class="calendar-week">
-					<div *ngFor="let day of week" class="calendar-weekday" (click)="selectDay(day?.date)">
-						<div class="calendar-weekday-date" [class.today]="day?.today">
-							{{ day?.date }}
+				<!-- Calendar table (we used <div>'s this time!) -->
+				<div blur class="calendar-grid">
+					<div class="calendar-weekdays">
+						<div *ngFor="let weekday of weekdays" class="weekday">
+							{{ weekday }}
 						</div>
-						<div *ngFor="let event of day?.events" class="event"
-							[class.continue-left]="event?.inside.continueLeft"
-							[class.continue-right]="event?.inside.continueRight"
-							[style.background-color]="event?.data.class?.color || '#7F7F7F'"
-							[style.border-right-color]="darkenColor(event?.data.class?.color, -20)"
-							[style.border-bottom-color]="darkenColor(event?.data.class?.color, -20)">
+					</div>
+					<div *ngFor="let week of formattedMonth" class="calendar-week">
+						<div *ngFor="let day of week" class="calendar-weekday" (click)="selectDay(day?.date, $event)">
+							<div class="calendar-weekday-date" [class.today]="day?.today">
+								{{ day?.date }}
+							</div>
+							<div *ngFor="let event of day?.events" class="event"
+								[class.continue-left]="event?.inside.continueLeft"
+								[class.continue-right]="event?.inside.continueRight"
+								[style.background-color]="event?.data.class?.color || '#7F7F7F'"
+								[style.border-right-color]="darkenColor(event?.data.class?.color, -20)"
+								[style.border-bottom-color]="darkenColor(event?.data.class?.color, -20)">
 
-							<div class="event-title">{{ event?.data.title }}</div>
-							<div class="event-desc">{{ event?.data.descPlaintext }}</div>
+								<div class="event-title">{{ event?.data.title }}</div>
+								<div class="event-desc">{{ event?.data.descPlaintext }}</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Lists events for a certain day -->
-		<div blur class="day-selection">
-			<h3 class="selection-header">
-				{{ selectionDay.toDate() | date:'MMMM d, y' }}
-			</h3>
-			<!-- Display message if user isn't logged in -->
-			<div *ngIf="!userService.getUsername()">
-				<a routerLink="/login" class="btn btn-success btn-sm">Login</a> or <a routerLink="/register" class="btn btn-primary btn-sm">Register</a> an account in order to use the planner and other cool features!
-			</div>
-			<!-- Only show if user is logged in -->
-			<div *ngIf="userService.getUsername()">
-				<!-- Create Event button at the top -->
-				<button class="selection-create-event btn btn-info" (click)="createEventModal.show()">
-					<span>
-						<fa name="plus"></fa>
-						Create Event
-					</span>
-				</button>
-				<!-- Message if there are no events -->
-				<div *ngIf="selectionEvents.length === 0" class="no-events">
-					There are no events for this day.
+
+			<div blur class="sidebar">
+				<div class="sidebar-header" [class.coming-up]="selectionDay === null">
+					<h1>
+						<span *ngIf="selectionDay === null">Coming Up</span>
+						<span *ngIf="selectionDay !== null">{{ selectionDay.toDate() | date:'MMMM d, y' }}</span>
+					</h1>
 				</div>
-				<!-- Loop through events for that specific date -->
-				<div *ngIf="selectionEvents.length > 0" class="selection-events">
-					<!-- List of events -->
-					<div *ngFor="let event of selectionEvents" class="selection-event" (click)="viewEvent(event.data._id); viewEventModal.show()"
-						[style.background-color]="event.data.class?.color || '#7F7F7F'"
-						[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
-						[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
-						<!-- Manage and Manipulate Event -->
-						<div class="event-manage btn-group">
-							<!-- View -->
-							<button class="btn btn-info btn-sm">
-								<fa name="ellipsis-h"></fa>
-							</button>
-							<!-- Edit -->
-							<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()">
-								<fa name="pencil-square-o"></fa>
-							</button>
-							<!-- Delete -->
-							<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)">
-								<fa name="times"></fa>
-							</button>
+				<!-- View events coming up if no day is selected -->
+				<div *ngIf="selectionDay === null" class="coming-up">
+					<!-- Loop through each day that contains events coming up -->
+					<div *ngFor="let day of comingUp" class="coming-up-day">
+						<!-- Display date -->
+						<div class="coming-up-due">
+							<h5 class="due">Due {{ day.date.display }}</h5>
+							<h5 class="date">{{ day.date.object.toDate() | date:'dd.MM.yyyy' }}</h5>
 						</div>
-						<!-- Event Title -->
-						<div class="event-title">{{ event.data.title }}</div>
-						<!-- Event description (including raw HTML) -->
-						<div class="event-desc" [innerHTML]="event.data.desc"></div>
+						<div class="coming-up-events">
+							<!-- List of events -->
+							<div *ngFor="let event of day.events" class="event" (click)="viewEvent(event._id); viewEventModal.show()"
+								[style.background-color]="event.class?.color || '#7F7F7F'"
+								[style.border-right-color]="darkenColor(event.class?.color, -20)"
+								[style.border-bottom-color]="darkenColor(event.class?.color, -20)">
+								<!-- Manage and Manipulate Event -->
+								<div class="event-manage btn-group">
+									<!-- View -->
+									<button class="btn btn-info btn-sm">
+										<fa name="ellipsis-h"></fa>
+									</button>
+									<!-- Edit -->
+									<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event._id, $event); editEventModal.show()">
+										<fa name="pencil-square-o"></fa>
+									</button>
+									<!-- Delete -->
+									<button class="btn btn-danger btn-sm" (click)="deleteEvent(event._id, $event)">
+										<fa name="times"></fa>
+									</button>
+								</div>
+								<!-- Event Title -->
+								<div class="event-title">{{ event.title }}</div>
+								<!-- Event description (including raw HTML) -->
+								<div class="event-desc" [innerHTML]="event.desc"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Show day events if a day is selected -->
+				<div *ngIf="selectionDay !== null" class="day-selection">
+					<!-- Create Event button at the top -->
+					<button class="selection-create-event btn btn-info" (click)="createEventModal.show()">
+						<span>
+							<fa name="plus"></fa>
+							Create Event
+						</span>
+					</button>
+					<!-- Message if there are no events -->
+					<div *ngIf="selectionEvents.length === 0" class="no-events">
+						There are no events for this day.
+					</div>
+					<!-- Loop through events for that specific date -->
+					<div *ngIf="selectionEvents.length > 0" class="selection-events">
+						<!-- List of events -->
+						<div *ngFor="let event of selectionEvents" class="event" (click)="viewEvent(event.data._id); viewEventModal.show()"
+							[style.background-color]="event.data.class?.color || '#7F7F7F'"
+							[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
+							[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
+							<!-- Manage and Manipulate Event -->
+							<div class="event-manage btn-group">
+								<!-- View -->
+								<button class="btn btn-info btn-sm">
+									<fa name="ellipsis-h"></fa>
+								</button>
+								<!-- Edit -->
+								<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()">
+									<fa name="pencil-square-o"></fa>
+								</button>
+								<!-- Delete -->
+								<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)">
+									<fa name="times"></fa>
+								</button>
+							</div>
+							<!-- Event Title -->
+							<div class="event-title">{{ event.data.title }}</div>
+							<!-- Event description (including raw HTML) -->
+							<div class="event-desc" [innerHTML]="event.data.desc"></div>
+						</div>
 					</div>
 				</div>
 			</div>
