@@ -8,7 +8,9 @@
     "postinstall": "typings install",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
-    "typings": "typings"
+    "typings": "typings",
+    "prod": "pm2 start npm --name=\"angular\" -- start",
+    "prod-console": "pm2 logs angular --lines 1000"
   },
   "repository": {
     "type": "git",
