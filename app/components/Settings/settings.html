@@ -115,15 +115,13 @@
 		</div>
 
 		<!-- Set Classes -->
-		<div style="background-color: white">
-			<h3>form value</h3>
-			{{classesModel | json}}
-		</div>
-
-		<div blur class="settings-section add-classes-form">
-			<h3>Set Classes</h3>
-			<form #classesForm="ngForm" autocomplete="off" novalidate>
-					<table>
+		<div blur class="settings-section classes-form">
+			<form #classesForm="ngForm" autocomplete="off" novalidate (ngSubmit)="updateClasses()">
+				<h3>Set Classes</h3>
+				<button type="button" class="btn btn-default" (click)="addEmptyClass()" [disabled]="!classesList"><i class="fa fa-plus"></i></button>
+				<button type="submit" class="btn btn-info" [disabled]="!classesList">Save</button>
+				<div *ngIf="!classesList">Loading</div>
+					<table *ngIf="classesList">
 						<thead>
 							<tr>
 								<th>Class Name</th>
@@ -134,32 +132,32 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr *ngFor="let class of classesList; let i=index">
+							<tr *ngFor="let class of classesModel; let i=index">
 								<td>
-									<input [name]="class._id + '-name'" class="form-control" placeholder="Class Name" required [(ngModel)]="classesModel[i].name">
+									<input [name]="class._id + '-name-' + i" class="form-control" placeholder="Class Name" required [(ngModel)]="classesModel[i].name">
 								</td>
 								<td>
-									<select [name]="class._id + '-type'" class="form-control" required [(ngModel)]="classesModel[i].type">
+									<select [name]="class._id + '-type-' + i" class="form-control" required [(ngModel)]="classesModel[i].type">
 										<option *ngFor="let type of classesTypes" [value]="type">{{type[0] | uppercase}}{{type | slice:1}}</option>
 									</select>
 								</td>
-								<td>
-									<input [name]="class._id + '-color'" class="form-control" required [(colorPicker)]="classesModel[i].color" [ngStyle]="applyColors(classesModel[i].color)" [value]="classesModel[i].color">
+								<td class="color-picker">
+									<input [name]="class._id + '-color-' + i" class="form-control" required [(colorPicker)]="classesModel[i].color" [ngStyle]="applyColors(classesModel[i].color)" [value]="classesModel[i].color | uppercase">
 								</td>
 								<td class="form-inline">
-									<select [name]="class._id + '-teacher-prefix'" class="form-control" required [(ngModel)]="classesModel[i].teacher.prefix">
+									<select [name]="class._id + '-teacher-prefix-' + i" class="form-control" required [(ngModel)]="classesModel[i].teacher.prefix">
 										<option *ngFor="let prefix of teacherPrefixes" [value]="prefix">{{prefix}}</option>
 									</select>
-									<input [name]="class._id + '-teacher-first-name'" class="form-control" required [(ngModel)]="classesModel[i].teacher.firstName">
-									<input [name]="class._id + '-teacher-last-name'" class="form-control" required [(ngModel)]="classesModel[i].teacher.lastName">
+									<input [name]="class._id + '-teacher-first-name-' + i" class="form-control" required [(ngModel)]="classesModel[i].teacher.firstName" placeholder="First Name">
+									<input [name]="class._id + '-teacher-last-name-' + i" class="form-control" required [(ngModel)]="classesModel[i].teacher.lastName" placeholder="Last Name">
 								</td>
-								<td>
-									<select [name]="class._id + '-block'" class="form-control" required [(ngModel)]="classesModel[i].block">
+								<td class="classes-block">
+									<select [name]="class._id + '-block-' + i" class="form-control" required [(ngModel)]="classesModel[i].block">
 										<option *ngFor="let block of classesBlocks" [value]="block">{{block | uppercase}}</option>
 									</select>
 								</td>
 								<td>
-									<button class="btn btn-danger" (click)="deleteClass(class._id)"><i class="fa fa-trash"></i></button>
+									<button type="button" class="btn btn-danger" (click)="deleteClass(i)"><i class="fa fa-trash"></i></button>
 								</td>
 							</tr>
 						</tbody>

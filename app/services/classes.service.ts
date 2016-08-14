@@ -34,7 +34,7 @@ export class ClassesService {
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
 
-        return this.authHttp.post(config.backendURL + '/planner/add', body, options)
+        return this.authHttp.post(config.backendURL + '/classes/add', body, options)
 			.map(res => {
 				let data = res.json();
 
@@ -53,7 +53,7 @@ export class ClassesService {
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
 
-        return this.authHttp.post(config.backendURL + '/planner/delete', body, options)
+        return this.authHttp.post(config.backendURL + '/classes/delete', body, options)
 			.map(res => {
 				let data = res.json();
 
@@ -69,7 +69,7 @@ export class ClassesService {
 }
 
 export interface Class {
-	id?:string;
+	_id?:string;
 	name:string;
 	color?:string;
 	block?:string;

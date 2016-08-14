@@ -53,6 +53,7 @@ export class SettingsComponent {
 		newPassword: ['', Validators.required],
 		confirmPassword: ['', Validators.required]
 	}, { validator: confirmPassword('newPassword', 'confirmPassword') });
+  userSubscription:any;
 
 	// Portal URL Form
 	portalSubscription:any;
@@ -72,6 +73,7 @@ export class SettingsComponent {
 	uploadingBackground = false;
 
   //classes form
+  classesSubscription:any;
   classesList:Array<Class>;
   classesModel:Array<Class> = [];
   classesTypes = [
@@ -100,11 +102,12 @@ export class SettingsComponent {
   ];
   teacherPrefixes = [
     'Mr.',
-    'Mrs.'
-  ]
+    'Ms.'
+  ];
+
 	ngOnInit() {
 		// Get basic info
-		this.userService.getInfo().subscribe(
+		this.userSubscription = this.userService.getInfo().subscribe(
 			data => {
 				this.userInfo = data;
 
@@ -145,7 +148,7 @@ export class SettingsComponent {
 		);
 
     //get list of user classes from service
-    this.classesService.getClasses().subscribe(
+    this.classesSubscription = this.classesService.getClasses().subscribe(
       classesList => {
         console.log(classesList);
         this.classesList = classesList;
@@ -216,6 +219,8 @@ export class SettingsComponent {
 		// Unsubscribe to prevent memory leaks or something
 		this.portalSubscription.unsubscribe();
 		this.canvasSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
+    this.classesSubscription.unsubscribe();
 	}
 
 	valueChanged():boolean {
@@ -372,26 +377,85 @@ export class SettingsComponent {
 		);
 	}
 
-//classes form methods
-  autoCompleteClasses() {
-
+  //classes form methods
+  //add an empty class at the botton of the list
+  addEmptyClass() {
+    let emptyClassModel = {
+      name: '',
+    	color: '#fff',
+    	block: '',
+    	type: '',
+    	teacher: {
+        prefix: '',
+        firstName: '',
+        lastName: ''
+      }
+    };
+    this.classesModel.push(emptyClassModel);
+  }
+  //use the classes model to update the classes one by one
+  updateClasses() {
+    let successCounter = 0, failCounter = 0;
+    let addClasses = new Observable;
+    let f = function(that) {
+      for (let i=0;i<that.classesModel.length;i++) {
+        let c = that.classesModel[i];
+        let o = that.classesService.addClass(c);
+        addClasses = Observable.merge(addClasses, o);
+      }
+      return addClasses;
+    };
+    f(this).subscribe(
+      id => {
+        successCounter++;
+      },
+      error => {
+        failCounter++;
+        console.log(error);
+      },
+      () => {
+        this.alertService.addAlert('success', '', 'Successfully updated ' + successCounter + ' classes.');
+        this.alertService.addAlert('danger', '', failCounter + ' classes failed to be updated.');
+      }
+    );
   }
 
   //function to reverse a hex color
   reverseColor(color:string) {
-    let num = 0xFFFFFF - parseInt(color.slice(1), 16);
-    console.log(num.toString(16));
-    return '#' + num.toString(16);
+    let red = parseInt(color.slice(1,3), 16);
+    let green = parseInt(color.slice(3,5), 16);
+    let blue = parseInt(color.slice(5,7), 16);
+    let result = '#000'; let r,g,b;
+    red > 0x88 ? r = red - 0x22 : r = red + 0x22;
+    green > 0x88 ? g = green - 0x22 : g = green + 0x22;
+    blue > 0x88 ? b = blue - 0x22 : b = blue + 0x22;
+    result = '#' + r.toString(16).concat(g.toString(16).concat(b.toString(16)));
+    return result;
   }
   //function to generate css styles for the input
   applyColors(color:string) {
     return {
       'background-color': color,
-      color: this.reverseColor(color)
+      color: this.reverseColor(color),
+      'font-size': '2em',
+      padding: 0
     }
   }
 
-  deleteClass(id:string) {
-
+  deleteClass(index:number) {
+    let id = this.classesModel[index]._id;
+    if (id) {
+      this.classesService.deleteClass(id).subscribe(
+        res => {},
+        error => {
+          this.alertService.addAlert('danger', 'Error deleting class: ', error)
+        },
+        () => {
+          this.classesModel.splice(index, 1);
+        }
+      )
+    } else {
+      this.classesModel.splice(index, 1);
+    }
   }
 }

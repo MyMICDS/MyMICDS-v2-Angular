@@ -91,11 +91,22 @@
 			}
 		}
 
-		.add-classes-form {
+		.classes-form {
+			h3 {
+				display: inline-block;
+			}
+			.btn-default, .btn-info{
+				float: right;
+				margin-top: 0.5em;
+			}
 			.form-inline {
-				input {
-					width: 25%;
-				}
+				display: flex;
+			}
+			.color-picker {
+				width: 15%;
+			}
+			.classes-block {
+				width: 10%;
 			}
 		}
 	}
