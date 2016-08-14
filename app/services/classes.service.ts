@@ -30,7 +30,17 @@ export class ClassesService {
     }
 
     addClass(scheduleClass:Class) {
-		let body = JSON.stringify(scheduleClass);
+
+		// Convert teacher object to individual form inputs
+		let formattedClass:any = scheduleClass;
+
+		formattedClass.teacherPrefix = scheduleClass.teacher.prefix;
+		formattedClass.teacherFirstName = scheduleClass.teacher.firstName;
+		formattedClass.teacherLastName = scheduleClass.teacher.lastName;
+
+		delete formattedClass.teacher;
+
+		let body = JSON.stringify(formattedClass);
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
 
