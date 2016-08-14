@@ -76,6 +76,8 @@ export class SettingsComponent {
   classesSubscription:any;
   classesList:Array<Class>;
   classesModel:Array<Class> = [];
+  classesListOnPageLoad:Array<Class>;
+  updatingClasses:boolean = false;
   classesTypes = [
   	'art',
   	'english',
@@ -152,8 +154,9 @@ export class SettingsComponent {
       classesList => {
         console.log(classesList);
         this.classesList = classesList;
+        this.classesListOnPageLoad = JSON.parse(JSON.stringify(classesList));
         //prefill the form class model with the classes information
-        this.classesModel = JSON.parse(JSON.stringify(classesList));
+        this.classesModel = JSON.parse(JSON.stringify(this.classesList));
         for (let i=0;i<this.classesModel.length;i++) {
           //convert the colors to lower letters, because in the case of hex colors, uppercase letters will break the color picker in development mode of angular.
           this.classesModel[i].color = this.classesModel[i].color.toLowerCase()
@@ -244,7 +247,7 @@ export class SettingsComponent {
 
     //if classes value had changed
     let classesChanged:boolean;
-    this.anyClassValueChanged(()=>{
+    this.anyClassValueChanged((modelClass)=>{
       classesChanged = true;
     })
 		return gradeChanged
@@ -402,6 +405,7 @@ export class SettingsComponent {
   }
   //use the classes model to update the classes one by one
   updateClasses() {
+    this.updatingClasses = true;
     let successCounter = 0;
     let addClasses = Observable.empty();
     this.anyClassValueChanged((modelClass)=>{
@@ -416,7 +420,9 @@ export class SettingsComponent {
         this.alertService.addAlert('danger', 'Error in class ' + this.classesModel[successCounter].name + ':', error);
       },
       () => {
-        if (successCounter !== 0) {this.alertService.addAlert('success', '', 'Successfully updated ' + successCounter + ' class(es).')}
+        this.classesList = JSON.parse(JSON.stringify(this.classesModel));
+        if (successCounter !== 0) {this.alertService.addAlert('success', '', 'Successfully updated ' + successCounter + ' class(es).')};
+        this.updatingClasses = false;
       }
     );
   }
@@ -460,6 +466,14 @@ export class SettingsComponent {
     }
   }
 
+  restoreClasses() {
+    this.classesModel = JSON.parse(JSON.stringify(this.classesListOnPageLoad));
+    for (let i=0;i<this.classesModel.length;i++) {
+      //convert the colors to lower letters, because in the case of hex colors, uppercase letters will break the color picker in development mode of angular.
+      this.classesModel[i].color = this.classesModel[i].color.toLowerCase()
+    }
+  }
+
   //detect changes in the class form, call back to be executed when change is detected
   classValueChanged(modelClass:Class, originalClass:Class) {
     return modelClass._id !== originalClass._id ||
@@ -467,9 +481,10 @@ export class SettingsComponent {
            modelClass.color !== originalClass.color.toLowerCase() ||
            modelClass.teacher.prefix !== originalClass.teacher.prefix ||
            modelClass.teacher.firstName !== originalClass.teacher.firstName ||
-           modelClass.teacher.lastName !== originalClass.teacher.lastName
+           modelClass.teacher.lastName !== originalClass.teacher.lastName ||
+           modelClass.block !== originalClass.block
   }
-  anyClassValueChanged(callback:(any?)=>any) {
+  anyClassValueChanged(callback:(modelClass)=>any) {
     for (let i=0;i<this.classesModel.length;i++) {
       let modelClass = this.classesModel[i];
       let originalClass = this.classesList[i] ? this.classesList[i] : {

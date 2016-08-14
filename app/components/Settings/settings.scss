@@ -95,9 +95,10 @@
 			h3 {
 				display: inline-block;
 			}
-			.btn-default, .btn-info{
+			.btn-default, .btn-info, .btn-success{
 				float: right;
 				margin-top: 0.5em;
+				margin-left: 0.5em;
 			}
 			.form-inline {
 				display: flex;

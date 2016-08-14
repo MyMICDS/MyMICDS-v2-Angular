@@ -119,7 +119,8 @@
 			<form #classesForm="ngForm" autocomplete="off" novalidate (ngSubmit)="updateClasses()">
 				<h3>Set Classes</h3>
 				<button type="button" class="btn btn-default" (click)="addEmptyClass()" [disabled]="!classesList"><i class="fa fa-plus"></i></button>
-				<button type="button" class="btn btn-info" (click)="updateClasses()" [disabled]="!classesList || !classesForm.valid">Save</button>
+				<button type="button" class="btn btn-info" (click)="updateClasses()" [disabled]="!classesList || !classesForm.valid || updatingClasses">Save</button>
+				<button type="button" class="btn btn-success" (click)="restoreClasses()" [disabled]="!classesList">restore</button>
 				<div *ngIf="!classesList">Loading</div>
 					<table *ngIf="classesList">
 						<thead>
