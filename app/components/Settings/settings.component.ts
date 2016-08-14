@@ -153,10 +153,10 @@ export class SettingsComponent {
         console.log(classesList);
         this.classesList = classesList;
         //prefill the form class model with the classes information
-        for (let i=0;i<classesList.length;i++) {
-          let pushIndex = this.classesModel.push(classesList[i])-1;
-          //convert the colors to lower letters, because in the case of hex colors, uppercase letter will break the color picker in development mode of angular.
-          this.classesModel[pushIndex].color = this.classesModel[pushIndex].color.toLowerCase()
+        this.classesModel = JSON.parse(JSON.stringify(classesList));
+        for (let i=0;i<this.classesModel.length;i++) {
+          //convert the colors to lower letters, because in the case of hex colors, uppercase letters will break the color picker in development mode of angular.
+          this.classesModel[i].color = this.classesModel[i].color.toLowerCase()
         }
       },
       error => {
@@ -381,6 +381,7 @@ export class SettingsComponent {
   //add an empty class at the botton of the list
   addEmptyClass() {
     let emptyClassModel = {
+      _id: undefined,
       name: '',
     	color: '#fff',
     	block: '',
@@ -395,27 +396,36 @@ export class SettingsComponent {
   }
   //use the classes model to update the classes one by one
   updateClasses() {
-    let successCounter = 0, failCounter = 0;
-    let addClasses = new Observable;
-    let f = function(that) {
-      for (let i=0;i<that.classesModel.length;i++) {
-        let c = that.classesModel[i];
-        let o = that.classesService.addClass(c);
+    let successCounter = 0;
+    let addClasses = Observable.empty();
+    for (let i=0;i<this.classesModel.length;i++) {
+      let modelClass = this.classesModel[i];
+      let originalClass = this.classesList[i] ? this.classesList[i] : {
+        _id: undefined,
+        name: '',
+      	color: '#fff',
+      	block: '',
+      	type: '',
+      	teacher: {
+          prefix: '',
+          firstName: '',
+          lastName: ''
+        }
+      };
+      if (this.classValueChanged(modelClass, originalClass)) {
+        let o = this.classesService.addClass(modelClass);
         addClasses = Observable.merge(addClasses, o);
       }
-      return addClasses;
-    };
-    f(this).subscribe(
+    }
+    addClasses.subscribe(
       id => {
         successCounter++;
       },
       error => {
-        failCounter++;
-        console.log(error);
+        this.alertService.addAlert('danger', 'Error in class ' + this.classesModel[successCounter].name + ':', error);
       },
       () => {
-        this.alertService.addAlert('success', '', 'Successfully updated ' + successCounter + ' classes.');
-        this.alertService.addAlert('danger', '', failCounter + ' classes failed to be updated.');
+        if (successCounter !== 0) {this.alertService.addAlert('success', '', 'Successfully updated ' + successCounter + ' classes.')}
       }
     );
   }
@@ -457,5 +467,14 @@ export class SettingsComponent {
     } else {
       this.classesModel.splice(index, 1);
     }
+  }
+
+  classValueChanged(modelClass:Class, originalClass:Class) {
+    return modelClass._id !== originalClass._id ||
+           modelClass.type !== originalClass.type ||
+           modelClass.color !== originalClass.color.toLowerCase() ||
+           modelClass.teacher.prefix !== originalClass.teacher.prefix ||
+           modelClass.teacher.firstName !== originalClass.teacher.firstName ||
+           modelClass.teacher.lastName !== originalClass.teacher.lastName
   }
 }

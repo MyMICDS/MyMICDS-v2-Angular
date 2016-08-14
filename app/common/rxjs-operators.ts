@@ -8,7 +8,8 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/observable/combineLatest';
-import 'rxjs/add/observable/merge'
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/empty';
 
 // Operators
 import 'rxjs/add/operator/catch';

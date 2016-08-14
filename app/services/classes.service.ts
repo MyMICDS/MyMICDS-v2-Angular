@@ -37,8 +37,7 @@ export class ClassesService {
 		formattedClass.teacherPrefix = scheduleClass.teacher.prefix;
 		formattedClass.teacherFirstName = scheduleClass.teacher.firstName;
 		formattedClass.teacherLastName = scheduleClass.teacher.lastName;
-
-		delete formattedClass.teacher;
+    formattedClass.id = scheduleClass._id;
 
 		let body = JSON.stringify(formattedClass);
 		let headers = xhrHeaders();
