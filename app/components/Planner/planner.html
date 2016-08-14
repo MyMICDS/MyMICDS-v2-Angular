@@ -72,34 +72,42 @@
 					<div *ngFor="let day of comingUp" class="coming-up-day">
 						<!-- Display date -->
 						<div class="coming-up-due">
-							<h5 class="due">Due {{ day.date.display }}</h5>
-							<h5 class="date">{{ day.date.object.toDate() | date:'dd.MM.yyyy' }}</h5>
+							<h3 class="due">Due {{ day.date.display }}</h3>
+							<h3 class="date">{{ day.date.object.toDate() | date:'dd.MM.yy' }}</h3>
 						</div>
 						<div class="coming-up-events">
 							<!-- List of events -->
-							<div *ngFor="let event of day.events" class="event" (click)="viewEvent(event._id); viewEventModal.show()"
-								[style.background-color]="event.class?.color || '#7F7F7F'"
-								[style.border-right-color]="darkenColor(event.class?.color, -20)"
-								[style.border-bottom-color]="darkenColor(event.class?.color, -20)">
-								<!-- Manage and Manipulate Event -->
-								<div class="event-manage btn-group">
-									<!-- View -->
-									<button class="btn btn-info btn-sm">
-										<fa name="ellipsis-h"></fa>
-									</button>
-									<!-- Edit -->
-									<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event._id, $event); editEventModal.show()">
-										<fa name="pencil-square-o"></fa>
-									</button>
-									<!-- Delete -->
-									<button class="btn btn-danger btn-sm" (click)="deleteEvent(event._id, $event)">
-										<fa name="times"></fa>
-									</button>
+							<div *ngFor="let event of day.events" class="event" (click)="viewEvent(event._id); viewEventModal.show()">
+								<!-- Class info for each event -->
+								<div class="event-class">
+									<h4 class="event-class-name">{{ event.class?.name || event.class || 'Other' }}</h4>
+									<h5 class="event-class-teacher">{{ event.class?.teacher?.firstName || '' }} {{ event.class?.teacher?.lastName || '' }}</h5>
 								</div>
-								<!-- Event Title -->
-								<div class="event-title">{{ event.title }}</div>
-								<!-- Event description (including raw HTML) -->
-								<div class="event-desc" [innerHTML]="event.desc"></div>
+								<!-- Actual box with event -->
+								<div class="event-content"
+									[style.background-color]="event.class?.color || '#7F7F7F'"
+									[style.border-right-color]="darkenColor(event.class?.color, -20)"
+									[style.border-bottom-color]="darkenColor(event.class?.color, -20)">
+									<!-- Manage and Manipulate Event -->
+									<div class="event-manage btn-group">
+										<!-- View -->
+										<button class="btn btn-info btn-sm">
+											<fa name="ellipsis-h"></fa>
+										</button>
+										<!-- Edit -->
+										<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event._id, $event); editEventModal.show()">
+											<fa name="pencil-square-o"></fa>
+										</button>
+										<!-- Delete -->
+										<button class="btn btn-danger btn-sm" (click)="deleteEvent(event._id, $event)">
+											<fa name="times"></fa>
+										</button>
+									</div>
+									<!-- Event Title -->
+									<div class="event-title">{{ event.title }}</div>
+									<!-- Event description (including raw HTML) -->
+									<div class="event-desc" [innerHTML]="event.desc"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -120,29 +128,37 @@
 					<!-- Loop through events for that specific date -->
 					<div *ngIf="selectionEvents.length > 0" class="selection-events">
 						<!-- List of events -->
-						<div *ngFor="let event of selectionEvents" class="event" (click)="viewEvent(event.data._id); viewEventModal.show()"
-							[style.background-color]="event.data.class?.color || '#7F7F7F'"
-							[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
-							[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
-							<!-- Manage and Manipulate Event -->
-							<div class="event-manage btn-group">
-								<!-- View -->
-								<button class="btn btn-info btn-sm">
-									<fa name="ellipsis-h"></fa>
-								</button>
-								<!-- Edit -->
-								<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()">
-									<fa name="pencil-square-o"></fa>
-								</button>
-								<!-- Delete -->
-								<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)">
-									<fa name="times"></fa>
-								</button>
+						<div *ngFor="let event of selectionEvents" class="event" (click)="viewEvent(event.data._id); viewEventModal.show()">
+							<!-- Class info for each event -->
+							<div class="event-class">
+								<h4 class="event-class-name">{{ event.data.class?.name || event.data.class || 'Other' }}</h4>
+								<h5 class="event-class-teacher">{{ event.data.class?.teacher?.firstName || '' }} {{ event.data.class?.teacher?.lastName || '' }}</h5>
 							</div>
-							<!-- Event Title -->
-							<div class="event-title">{{ event.data.title }}</div>
-							<!-- Event description (including raw HTML) -->
-							<div class="event-desc" [innerHTML]="event.data.desc"></div>
+							<!-- Actual box with event -->
+							<div class="event-content"
+								[style.background-color]="event.data.class?.color || '#7F7F7F'"
+								[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
+								[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
+								<!-- Manage and Manipulate Event -->
+								<div class="event-manage btn-group">
+									<!-- View -->
+									<button class="btn btn-info btn-sm">
+										<fa name="ellipsis-h"></fa>
+									</button>
+									<!-- Edit -->
+									<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()">
+										<fa name="pencil-square-o"></fa>
+									</button>
+									<!-- Delete -->
+									<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)">
+										<fa name="times"></fa>
+									</button>
+								</div>
+								<!-- Event Title -->
+								<div class="event-title">{{ event.data.title }}</div>
+								<!-- Event description (including raw HTML) -->
+								<div class="event-desc" [innerHTML]="event.data.desc"></div>
+							</div>
 						</div>
 					</div>
 				</div>

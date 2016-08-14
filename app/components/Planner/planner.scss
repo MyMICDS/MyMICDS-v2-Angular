@@ -185,38 +185,60 @@
 				.day-selection {
 
 					.event {
-						display: inline-block;
-						width: 100%;
 						margin-bottom: 0.25rem;
 						padding: 0.25rem;
 
-						border-radius: 0.25rem;
-						border-right: 2px solid;
-						border-bottom: 2px solid;
+						.event-class {
+							margin-bottom: 0.25rem;
+							display: flex;
+							justify-content: space-between;
+							align-items: flex-end;
 
-						&:hover {
-							.event-manage {
-								opacity: 1;
+							.event-class-name,
+							.event-class-teacher {
+								display: inline-block;
+								margin: 0;
+							}
+
+							.event-class-name {
+								font-size: 1.25rem;
+							}
+
+							.event-class-teacher {
+								font-size: 1rem;
 							}
 						}
 
-						.event-manage {
-							opacity: 0;
-							float: right;
-						}
+						.event-content {
+							padding: 0.25rem;
+							border-radius: 0.25rem;
+							border-right: 2px solid;
+							border-bottom: 2px solid;
 
-						.event-title,
-						.event-desc {
-							overflow-wrap: break-word;
-						}
+							&:hover {
+								.event-manage {
+									opacity: 1;
+								}
+							}
 
-						.event-title {
-							font-size: 1.25rem;
-							font-weight: 600;
-						}
+							.event-manage {
+								opacity: 0;
+								float: right;
+							}
 
-						.event-desc {
-							font-weight: 300;
+							.event-title,
+							.event-desc {
+								overflow-wrap: break-word;
+							}
+
+							.event-title {
+								font-size: 1.25rem;
+								font-weight: 600;
+							}
+
+							.event-desc {
+								font-weight: 300;
+							}
 						}
 					}
 				}
@@ -234,15 +256,13 @@
 							.date {
 								display: inline-block;
 								margin: 0;
-								font-weight: 300;
-							}
-
-							.due {
-
+								font-size: 1.25rem;
+								font-weight: 600;
 							}
 
 							.date {
 								float: right;
+								font-weight: 300;
 							}
 						}
 					}
