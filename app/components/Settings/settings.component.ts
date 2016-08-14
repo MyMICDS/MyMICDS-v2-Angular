@@ -242,9 +242,15 @@ export class SettingsComponent {
 			gradeChanged = true;
 		}
 
+    //if classes value had changed
+    let classesChanged:boolean;
+    this.anyClassValueChanged(()=>{
+      classesChanged = true;
+    })
 		return gradeChanged
 			|| (this.userInfo.firstName !== this.infoForm.controls.firstName.value)
-			|| (this.userInfo.lastName !== this.infoForm.controls.lastName.value);
+			|| (this.userInfo.lastName !== this.infoForm.controls.lastName.value)
+      || classesChanged;
 	}
 
 	canDeactivate():Observable<boolean> | boolean {
@@ -398,25 +404,10 @@ export class SettingsComponent {
   updateClasses() {
     let successCounter = 0;
     let addClasses = Observable.empty();
-    for (let i=0;i<this.classesModel.length;i++) {
-      let modelClass = this.classesModel[i];
-      let originalClass = this.classesList[i] ? this.classesList[i] : {
-        _id: undefined,
-        name: '',
-      	color: '#fff',
-      	block: '',
-      	type: '',
-      	teacher: {
-          prefix: '',
-          firstName: '',
-          lastName: ''
-        }
-      };
-      if (this.classValueChanged(modelClass, originalClass)) {
-        let o = this.classesService.addClass(modelClass);
-        addClasses = Observable.merge(addClasses, o);
-      }
-    }
+    this.anyClassValueChanged((modelClass)=>{
+      let o = this.classesService.addClass(modelClass);
+      addClasses = Observable.merge(addClasses, o);
+    })
     addClasses.subscribe(
       id => {
         successCounter++;
@@ -425,7 +416,7 @@ export class SettingsComponent {
         this.alertService.addAlert('danger', 'Error in class ' + this.classesModel[successCounter].name + ':', error);
       },
       () => {
-        if (successCounter !== 0) {this.alertService.addAlert('success', '', 'Successfully updated ' + successCounter + ' classes.')}
+        if (successCounter !== 0) {this.alertService.addAlert('success', '', 'Successfully updated ' + successCounter + ' class(es).')}
       }
     );
   }
@@ -469,6 +460,7 @@ export class SettingsComponent {
     }
   }
 
+  //detect changes in the class form, call back to be executed when change is detected
   classValueChanged(modelClass:Class, originalClass:Class) {
     return modelClass._id !== originalClass._id ||
            modelClass.type !== originalClass.type ||
@@ -476,5 +468,25 @@ export class SettingsComponent {
            modelClass.teacher.prefix !== originalClass.teacher.prefix ||
            modelClass.teacher.firstName !== originalClass.teacher.firstName ||
            modelClass.teacher.lastName !== originalClass.teacher.lastName
+  }
+  anyClassValueChanged(callback:(any?)=>any) {
+    for (let i=0;i<this.classesModel.length;i++) {
+      let modelClass = this.classesModel[i];
+      let originalClass = this.classesList[i] ? this.classesList[i] : {
+        _id: undefined,
+        name: '',
+      	color: '#fff',
+      	block: '',
+      	type: '',
+      	teacher: {
+          prefix: '',
+          firstName: '',
+          lastName: ''
+        }
+      };
+      if (this.classValueChanged(modelClass, originalClass)) {
+        callback(modelClass);
+      }
+    }
   }
 }
