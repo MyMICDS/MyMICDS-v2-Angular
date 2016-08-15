@@ -1,11 +1,8 @@
 # TODO
 - Settings page
   - Use class alias in portal schedule
-- Do sidebar
 - Update data if changed in another tab (socket.io?)
 - Optimize for mobile
-
-- Redo Planner Stylings
 
 - Optimization
   - Webpack?
