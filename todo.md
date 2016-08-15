@@ -18,3 +18,4 @@
 - 404 Page
 - Prevent empty titles in planner
 - Fix Daily Bulletin crashing if no PDF's
+- Typeahead for teacher names
