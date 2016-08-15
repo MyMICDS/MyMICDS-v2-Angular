@@ -12,6 +12,7 @@ import {DailyBulletinComponent} from './components/DailyBulletin/daily-bulletin.
 import {BulletinArchivesComponent} from './components/BulletinArchives/bulletin-archives.component';
 import {SettingsComponent} from './components/Settings/settings.component';
 import {AboutComponent} from './components/About/about.component';
+import {HelpComponent} from './components/Help/help.component';
 import {LoginComponent} from './components/Login/login.component';
 import {LogoutComponent} from './components/Logout/logout.component';
 import {RegisterComponent} from './components/Register/register.component';
@@ -40,9 +41,9 @@ import {UserService} from './services/user.service';
 	precompile: [
 				NavbarComponent,         HomeComponent,          LunchComponent,
 				PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,
-				SettingsComponent,       AboutComponent,         LoginComponent,
-				LogoutComponent,         RegisterComponent,      ConfirmComponent,
-				ForgotPasswordComponent, ResetPasswordComponent
+				SettingsComponent,       AboutComponent,         HelpComponent,
+				LoginComponent,          LogoutComponent,        RegisterComponent,
+				ConfirmComponent,        ForgotPasswordComponent, ResetPasswordComponent
 			]
 })
 export class AppComponent {
