@@ -78,7 +78,7 @@ export class SettingsComponent {
   classesModel:Array<Class> = []; //classes model is the classes the user is editing, it is not saved to the server
   classesListOnPageLoad:Array<Class>; //classes list on page load is the classes list gotten from the server on page load. It provides restoring capabilities
   updatingClasses:boolean = false;
-  deleteClassesArray:Array<number>;
+  deleteClassesArray:Array<number> = [];
   classesTypes = [
   	'art',
   	'english',
@@ -404,19 +404,22 @@ export class SettingsComponent {
     };
     this.classesModel.push(emptyClassModel);
   }
-  //use the classes model to update the classes one by one
+  //use the classes model to update the classes
   updateClasses() {
     this.updatingClasses = true;
     let successCounter = 0;
     let addClasses = Observable.empty();
-    this.anyClassValueChanged((modelClass)=>{
+    let indexArr = [];
+    let idArr = [];
+    this.anyClassValueChanged((modelClass, i)=>{
       let o = this.classesService.addClass(modelClass);
       addClasses = Observable.merge(addClasses, o);
-    })
+      indexArr.push(i);
+    });
     addClasses.subscribe(
       (id:string) => {
         successCounter++;
-        this.classesModel[-1]._id = id;
+        idArr.push(id);
       },
       error => {
         this.alertService.addAlert('danger', 'Error in class ' + this.classesModel[successCounter].name + ':', error);
@@ -425,6 +428,9 @@ export class SettingsComponent {
         this.classesList = JSON.parse(JSON.stringify(this.classesModel));
         if (successCounter !== 0) {this.alertService.addAlert('success', '', 'Successfully updated ' + successCounter + ' class(es).')};
         this.updatingClasses = false;
+        for (let i=0;i<indexArr.length;i++) {
+          this.classesModel[indexArr[i]]._id = idArr[i];
+        }
       }
     );
   }
@@ -459,24 +465,24 @@ export class SettingsComponent {
   			window.confirm('Class "' + this.classesModel[index].name + '"will be deleted. Confirm?') ?
   			res(true) : rej();
   		});
-      p.catch(()=>{
-        this.updatingClasses = false;
-      })
-      .then(()=>{
+      p.then(()=>{
         this.classesService.deleteClass(id).subscribe(
-          res => {},
+          res => {
+            this.alertService.addAlert('success', 'Successfully deleted class', '');
+            this.classesModel.splice(index, 1);
+          },
           error => {
             this.alertService.addAlert('danger', 'Error deleting class: ', error);
             this.updatingClasses = false;
           },
           () => {
-            this.alertService.addAlert('success', 'Successfully deleted class', this.classesModel[index].name);
-            this.classesModel.splice(index, 1);
             this.classesList = JSON.parse(JSON.stringify(this.classesModel));
             this.updatingClasses = false
           }
-        );
-      })
+        )
+      }).catch(()=>{
+        this.updatingClasses = false;
+      });
     } else {
       this.classesModel.splice(index, 1);
     }
@@ -513,7 +519,7 @@ export class SettingsComponent {
            modelClass.teacher.lastName !== originalClass.teacher.lastName ||
            modelClass.block !== originalClass.block
   }
-  anyClassValueChanged(callback:(modelClass)=>any) {
+  anyClassValueChanged(callback:(modelClass, i)=>any) {
     for (let i=0;i<this.classesModel.length;i++) {
       let modelClass = this.classesModel[i];
       let originalClass = this.classesList[i] ? this.classesList[i] : {
@@ -529,7 +535,7 @@ export class SettingsComponent {
         }
       };
       if (this.classValueChanged(modelClass, originalClass)) {
-        callback(modelClass);
+        callback(modelClass, i);
       }
     }
   }
