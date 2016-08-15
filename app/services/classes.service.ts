@@ -10,7 +10,7 @@ import '../common/rxjs-operators';
 export class ClassesService {
     constructor(private authHttp: AuthHttp) {}
 
-    public getClasses() {
+    getClasses() {
 		let body = JSON.stringify({});
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
@@ -37,7 +37,7 @@ export class ClassesService {
 		formattedClass.teacherPrefix = scheduleClass.teacher.prefix;
 		formattedClass.teacherFirstName = scheduleClass.teacher.firstName;
 		formattedClass.teacherLastName = scheduleClass.teacher.lastName;
-    formattedClass.id = scheduleClass._id;
+		formattedClass.id = scheduleClass._id;
 
 		let body = JSON.stringify(formattedClass);
 		let headers = xhrHeaders();
