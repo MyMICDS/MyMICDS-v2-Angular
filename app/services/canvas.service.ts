@@ -32,6 +32,25 @@ export class CanvasService {
 			.catch(handleError);
     }
 
+	getClasses() {
+        let body = JSON.stringify({});
+		let headers = xhrHeaders();
+        let options = new RequestOptions({ headers });
+
+        return this.authHttp.post(config.backendURL + '/canvas/get-classes', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					throw new Error(data.error);
+				}
+
+				return data.classes;
+			})
+			.catch(handleError);
+    }
+
     testURL(url:string) {
         let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
