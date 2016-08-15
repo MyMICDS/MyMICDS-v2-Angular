@@ -118,9 +118,9 @@
 		<div blur class="settings-section classes-form">
 			<form #classesForm="ngForm" autocomplete="off" novalidate (ngSubmit)="updateClasses()">
 				<h3>Set Classes</h3>
-				<button type="button" class="btn btn-default" (click)="addEmptyClass()" [disabled]="!classesList"><i class="fa fa-plus"></i></button>
-				<button type="button" class="btn btn-info" (click)="updateClasses()" [disabled]="!classesList || !classesForm.valid || updatingClasses">Save</button>
-				<button type="button" class="btn btn-success" (click)="restoreClasses()" [disabled]="!classesList">restore</button>
+				<button type="button" class="btn btn-default classes-add-empty" (click)="addEmptyClass()" [disabled]="!classesList"><i class="fa fa-plus"></i></button>
+				<button type="button" class="btn btn-info classes-save" (click)="updateClasses()" [disabled]="!classesList || !classesForm.valid || updatingClasses">Save</button>
+				<button type="button" class="btn btn-success classes-restore" (click)="restoreClasses()" [disabled]="!classesList">restore</button>
 				<div *ngIf="!classesList">Loading</div>
 					<table *ngIf="classesList">
 						<thead>
@@ -158,12 +158,20 @@
 									</select>
 								</td>
 								<td>
-									<button type="button" class="btn btn-danger" (click)="deleteClass(i)" [disabled]="updatingClasses"><i class="fa fa-trash"></i></button>
+									<button type="button" class="btn btn-danger form-control" (click)="deleteClass(i)" [disabled]="updatingClasses"><i class="fa fa-trash"></i></button>
+								</td>
+								<td>
+									<button type="button" class="btn btn-info form-control" (click)="aliasClass(i)" [disabled]="updatingClasses"><i class="fa fa-link"></i></button>
 								</td>
 							</tr>
 						</tbody>
 				</table>
 			</form>
+			<div class="collapse" [ngClass]="{'in': aliasCollapsed}">
+			  <div class="card card-block">
+			    alias for {{aliasModel?.mymicdsClass?.name}}
+			  </div>
+			</div>
 		</div>
 	</div>
 </div>

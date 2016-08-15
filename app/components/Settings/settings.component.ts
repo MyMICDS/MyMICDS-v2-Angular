@@ -9,6 +9,7 @@ import '../../common/rxjs-operators'
 import {confirmPassword, confirmGrade} from '../../common/form-validation';
 
 import {BlurDirective} from '../../directives/blur.directive';
+//import {CollapseDirective} from 'ng2-bootstrap/components/collapse'
 
 import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
@@ -107,6 +108,10 @@ export class SettingsComponent {
     'Mr.',
     'Ms.'
   ];
+
+  //alias form
+  aliasModel:any;
+  aliasCollapsed:boolean = true;
 
 	ngOnInit() {
 		// Get basic info
@@ -537,6 +542,14 @@ export class SettingsComponent {
       if (this.classValueChanged(modelClass, originalClass)) {
         callback(modelClass, i);
       }
+    }
+  }
+
+  //alias methods
+  aliasClass(index:number) {
+    this.aliasCollapsed = !this.aliasCollapsed;
+    this.aliasModel = {
+      mymicdsClass: this.classesList[index]
     }
   }
 }
