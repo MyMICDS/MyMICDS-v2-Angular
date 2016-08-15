@@ -17,3 +17,4 @@
 - Check if classes belong to any user
 - 404 Page
 - Prevent empty titles in planner
+- Fix Daily Bulletin crashing if no PDF's
