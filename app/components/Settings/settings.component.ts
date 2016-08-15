@@ -74,10 +74,11 @@ export class SettingsComponent {
 
   //classes form
   classesSubscription:any;
-  classesList:Array<Class>;
-  classesModel:Array<Class> = [];
-  classesListOnPageLoad:Array<Class>;
+  classesList:Array<Class>; //class list has all the classes after the user saves the classes they are edting, so it should be the same as the classes list in the server
+  classesModel:Array<Class> = []; //classes model is the classes the user is editing, it is not saved to the server
+  classesListOnPageLoad:Array<Class>; //classes list on page load is the classes list gotten from the server on page load. It provides restoring capabilities
   updatingClasses:boolean = false;
+  deleteClassesArray:Array<number>;
   classesTypes = [
   	'art',
   	'english',
@@ -413,8 +414,9 @@ export class SettingsComponent {
       addClasses = Observable.merge(addClasses, o);
     })
     addClasses.subscribe(
-      id => {
+      (id:string) => {
         successCounter++;
+        this.classesModel[-1]._id = id;
       },
       error => {
         this.alertService.addAlert('danger', 'Error in class ' + this.classesModel[successCounter].name + ':', error);
@@ -452,21 +454,48 @@ export class SettingsComponent {
   deleteClass(index:number) {
     let id = this.classesModel[index]._id;
     if (id) {
-      this.classesService.deleteClass(id).subscribe(
-        res => {},
-        error => {
-          this.alertService.addAlert('danger', 'Error deleting class: ', error)
-        },
-        () => {
-          this.classesModel.splice(index, 1);
-        }
-      )
+      this.updatingClasses = true;
+      let p = new Promise<boolean>((res: (boolean)=>void, rej: ()=>void) => {
+  			window.confirm('Class "' + this.classesModel[index].name + '"will be deleted. Confirm?') ?
+  			res(true) : rej();
+  		});
+      p.catch(()=>{
+        this.updatingClasses = false;
+      })
+      .then(()=>{
+        this.classesService.deleteClass(id).subscribe(
+          res => {},
+          error => {
+            this.alertService.addAlert('danger', 'Error deleting class: ', error);
+            this.updatingClasses = false;
+          },
+          () => {
+            this.alertService.addAlert('success', 'Successfully deleted class', this.classesModel[index].name);
+            this.classesModel.splice(index, 1);
+            this.classesList = JSON.parse(JSON.stringify(this.classesModel));
+            this.updatingClasses = false
+          }
+        );
+      })
     } else {
       this.classesModel.splice(index, 1);
     }
   }
+  //delete an array of classes
+  deleteArrayClasses() {
+    let arr = this.deleteClassesArray;
+    for (let i=0;i<arr.length;i++) {
+      this.deleteClass(arr[i]);
+    }
+  }
 
   restoreClasses() {
+    if (this.classesListOnPageLoad.length < this.classesList.length) {
+      for  (let j=this.classesListOnPageLoad.length;j<this.classesList.length;j++) {
+        this.deleteClassesArray.push(j);
+      }
+      this.deleteArrayClasses()
+    }
     this.classesModel = JSON.parse(JSON.stringify(this.classesListOnPageLoad));
     for (let i=0;i<this.classesModel.length;i++) {
       //convert the colors to lower letters, because in the case of hex colors, uppercase letters will break the color picker in development mode of angular.
