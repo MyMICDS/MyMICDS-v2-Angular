@@ -4,6 +4,7 @@
 			<button type="button" class="close" (click)="dismiss(alert.id)" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
-			<strong>{{alert.title}}</strong> {{alert.content}}
+			<strong>{{alert.title}}</strong>
+			<span [innerHTML]="alert.content"></span>
 		</div>
 	</div>
