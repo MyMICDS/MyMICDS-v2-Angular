@@ -48,6 +48,7 @@
     "ct-angular2-color-picker": "^1.0.4",
     "express": "^4.14.0",
     "h5webstorage": "^0.5.2",
+    "intl": "^1.2.4",
     "moment": "^2.14.1",
     "ng2-bootstrap": "^1.0.24",
     "prisma": "^3.1.0",
