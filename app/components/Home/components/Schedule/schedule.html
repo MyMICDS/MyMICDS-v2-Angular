@@ -14,9 +14,9 @@
 	</thead>
 	<tbody>
 		<tr *ngFor="let block of schedule.classes">
-			<td>{{block.start | date:'hh:mm'}}</td>
-			<td>{{block.end | date:'hh:mm'}}</td>
-			<td>{{block.name}}</td>
+			<td>{{ block.start | date:'hh:mm' }}</td>
+			<td>{{ block.end | date:'hh:mm' }}</td>
+			<td>{{ block.class?.name || block.class }}</td>
 		</tr>
 	</tbody>
 </table>
