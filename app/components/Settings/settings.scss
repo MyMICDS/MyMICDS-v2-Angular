@@ -102,6 +102,12 @@
 			}
 			.form-inline {
 				display: flex;
+				.teacher-prefix{
+					flex-shrink:1.4;
+				}
+				.form-control {
+					width: 100%;
+				}
 			}
 			.color-picker {
 				width: 15%;
@@ -111,6 +117,14 @@
 			}
 			.alias-form {
 				color: black
+			}
+			.alias-class-name {
+				width: 35%;
+				font-size: 2.5em;
+				margin-right: 1em;
+			}
+			.alias-canvas {
+				width: 40%
 			}
 		}
 	}

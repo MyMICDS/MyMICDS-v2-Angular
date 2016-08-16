@@ -111,15 +111,11 @@ export class SettingsComponent {
   ];
 
   //alias form
-  aliasModel = {
-    canvas: [],
-    portal: []
-  };
   aliasCollapsed:boolean = true;
   aliasesList:any;
   canvasClasses:any;
   portalClasses:any;
-  aliasSection:any;
+  selectedAliasClass:Class;
 
 	ngOnInit() {
 		// Get basic info
@@ -177,23 +173,6 @@ export class SettingsComponent {
       },
       error => {
         this.alertService.addAlert('danger', 'Classes Error!', error);
-      },
-      () => {
-        //initialize the alias model
-        for (let i=0;i<this.classesList.length;i++) {
-          let emptyCanvasAlias = {
-            type: 'canvas',
-            localClass: this.classesList[i],
-            remoteClass: undefined,
-          }
-          let emptyPortalAlias = {
-            type: 'portal',
-            localClass: this.classesList[i],
-            remoteClass: undefined,
-          }
-          this.aliasModel.canvas.push(emptyCanvasAlias);
-          this.aliasModel.portal.push(emptyPortalAlias);
-        };
       }
     )
 
@@ -204,21 +183,16 @@ export class SettingsComponent {
         console.log(canvasThenPortalClasses);
       },
       error => {
-        this.alertService.addAlert('danger', 'Canvas/portal classes Error: ', error);
+        this.alertService.addAlert('danger', 'Getting canvas/portal classes Error: ', error);
       },
       () => {
         this.aliasService.listAliases().subscribe(
           aliasesList => {
-            //insert the aliases into form model
-            for (let j=0;j<aliasesList.canvas.length;j++) {
-              for (let i=0;i<this.aliasModel.canvas.length;i++) {
-                if (aliasesList.canvas[j].class._id === this.aliasModel.canvas[i].localClass._id) {
-                  this.aliasModel.canvas[i].remoteClass = aliasesList.canvas[j].remoteClass;
-                }
-              }
-            }
             this.aliasesList = aliasesList;
-            console.log(this.aliasModel);
+            console.log(this.aliasesList);
+          },
+          error => {
+            this.alertService.addAlert('danger', 'Error getting the class alias list: ', error);
           }
         )
       }
@@ -605,9 +579,57 @@ export class SettingsComponent {
       this.aliasCollapsed = false;
       this.previousIndex = index;
     }
-    this.aliasSection = {
-      canvas: this.aliasModel.canvas[index],
-      portal: this.aliasModel.portal[index]
+    this.selectedAliasClass = this.classesList[index];
+  }
+
+  aliasRegistered(type, name) {
+    let aliasArr = this.aliasesList ? this.aliasesList[type] : [];
+    for (let i=0;i<aliasArr.length;i++) {
+      if (aliasArr[i].classRemote === name) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  notOwnAlias(type, classId, aliasClass) {
+    let aliasArr = this.aliasesList ? this.aliasesList[type] : [];
+    for (let i=0;i<aliasArr.length;i++) {
+      console.log(aliasArr[i].classRemote, aliasClass)
+      if (aliasArr[i].classNative === classId && aliasArr[i].classRemote !== aliasClass) {
+        return false
+      }
+    }
+    return true;
+  }
+
+  //add input debounce
+  changeAlias(event, type, classString, classId) {
+    if (event.target.checked) {
+      this.aliasService.addAlias(type, classString, classId).subscribe(
+        id => {
+          console.log('added');
+        },
+        error => {
+          this.alertService.addAlert('danger', 'Error adding alias', error)
+        }
+      )
+    } else if (!event.target.checked) {
+      let aliasArr = this.aliasesList ? this.aliasesList[type] : [];
+      let aliasId;
+      for (let i=0;i<aliasArr.length;i++) {
+        if (aliasArr[i].classNative === classId) {
+          aliasId = aliasArr[i]._id;
+        }
+      }
+      this.aliasService.deleteAlias(aliasId).subscribe(
+        res => {
+          console.log('deleted');
+        },
+        error => {
+          this.alertService.addAlert('danger', 'Error deleting alias', error)
+        }
+      )
     }
   }
 }
