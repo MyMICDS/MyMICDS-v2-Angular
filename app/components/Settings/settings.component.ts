@@ -595,11 +595,14 @@ export class SettingsComponent {
   notOwnAlias(type, classId, aliasClass) {
     let aliasArr = this.aliasesList ? this.aliasesList[type] : [];
     for (let i=0;i<aliasArr.length;i++) {
-      if (aliasArr[i].classNative === classId && aliasArr[i].classRemote !== aliasClass) {
+      if (aliasArr[i].classRemote === aliasClass && aliasArr[i].classNative !== classId) {
+        return true
+      }
+      if (aliasArr[i].classRemote === aliasClass && aliasArr[i].classNative === classId) {
         return false
       }
     }
-    return true;
+    return false;
   }
 
   //add input debounce

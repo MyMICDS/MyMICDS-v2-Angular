@@ -184,7 +184,7 @@
 									<td class="alias-canvas">
 										<div class="form-check" *ngIf="canvasClasses[i]">
 										  <label class="form-check-label">
-										    <input class="form-check-input" type="checkbox" [value]="canvasClasses[i]" [checked]="aliasRegistered('canvas', canvasClasses[i])" [disabled]="notOwnAlias('canvas', selectedAliasClass._id, canvasClasses[i])" (change)="changeAlias($event, 'canvas', canvasClasses[i], selectedAliasClass._id)">
+										    <input class="form-check-input" type="checkbox" [value]="canvasClasses[i]" [checked]="aliasRegistered('canvas', canvasClasses[i])" [disabled]="notOwnAlias('canvas', selectedAliasClass?._id, canvasClasses[i])" (change)="changeAlias($event, 'canvas', canvasClasses[i], selectedAliasClass._id)">
 										    {{canvasClasses[i]}}
 										  </label>
 										</div>
@@ -192,7 +192,7 @@
 									<td>
 										<div class="form-check" *ngIf="portalClasses[i]">
 											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" [value]="portalClasses[i]" [checked]="aliasRegistered('portal', portalClasses[i])" (change)="changeAlias($event, 'portal', portalClasses[i], selectedAliasClass._id)">
+												<input class="form-check-input" type="checkbox" [value]="portalClasses[i]" [checked]="aliasRegistered('portal', portalClasses[i])" [disabled]="notOwnAlias('canvas', selectedAliasClass?._id, canvasClasses[i])" (change)="changeAlias($event, 'portal', portalClasses[i], selectedAliasClass._id)">
 												{{portalClasses[i]}}
 											</label>
 										</div>
