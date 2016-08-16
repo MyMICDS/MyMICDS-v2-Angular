@@ -56,7 +56,7 @@ export class AppComponent {
 
 	ngOnInit() {
 		setTimeout(() => {
-			this.alertService.addAlert('info', 'Welcome Back!', 'Over the summer, the MyMICDS Development Team has been hard at work rewriting the website to hopefully add more features in the futre. <strong>This year everyone must re-register an account into our new system.</strong> Don\'t forget to email support@mymicds.net for any new features you would like to see in the new MyMICDS 2.0! (Also please note there are a few bug throughout the site, so email support also if you encounter any problems.)');
+			this.alertService.addAlert('info', 'Welcome Back!', 'Over the summer, the MyMICDS Development Team has been hard at work rewriting the website to hopefully add more features in the futre. <strong>This year everyone must re-register an account into our new system.</strong> Don\'t forget to email support@mymicds.net for any new features you would like to see in the new MyMICDS 2.0! (Also please note there are a few bug throughout the site, so email support also if you encounter any problems. Refreshing sometimes fixes the problem.)');
 		}, 1000);
 	}
 

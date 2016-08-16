@@ -19,3 +19,11 @@
 - Prevent empty titles in planner
 - Fix Daily Bulletin crashing if no PDF's
 - Typeahead for teacher names
+
+# Problems
+- Fix URL title in confirmation page
+- Email confirmation is slow
+- Reset password button has blue text instead of white
+- Reset password need to add 'Wait a few minutes or check spam' just like registration
+- Login crashes if invalid password
+- Schedule is default schedule if you logout and log back in or something
