@@ -1,7 +1,7 @@
 import * as config from './common/config';
 
 import {bootstrap} from '@angular/platform-browser-dynamic';
-import {provide} from '@angular/core';
+import {provide, enableProdMode} from '@angular/core';
 import {disableDeprecatedForms, provideForms} from '@angular/forms';
 import {Title} from '@angular/platform-browser';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
@@ -29,6 +29,11 @@ But you know what you should do? Join the MyMICDS Development Team.
 Fill out this form https://goo.gl/forms/wirh6A3Jnr or email support@mymicds.net. More information at the bottom of the About Page!
 
 `);
+}
+
+// Enable production mode if we are in production mode
+if(config.production) {
+	enableProdMode();
 }
 
 bootstrap(AppComponent, [

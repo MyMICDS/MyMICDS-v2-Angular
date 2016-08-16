@@ -19,7 +19,7 @@ import {PortalService} from '../../services/portal.service';
 export class HomeComponent {
 	timer:any;
 	current:any = new Date();
-	scheduleDate:any = new Date(2016, 7, 16);
+	scheduleDate:any = new Date();
 	schedule:any;
 
 	constructor(private alertService: AlertService, private portalService: PortalService) {

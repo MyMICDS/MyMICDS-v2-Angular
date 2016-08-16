@@ -7,5 +7,7 @@
 
 // Where to make all API requests to
 export const backendURL = 'http://localhost:1420';
+// Whether or not we are running production
+export const production = false;
 // Whether to add a console.log after page load
 export const recruitMessage = true;
