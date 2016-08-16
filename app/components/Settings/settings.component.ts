@@ -7,9 +7,9 @@ import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms'
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators'
 import {confirmPassword, confirmGrade} from '../../common/form-validation';
+import {contains} from '../../common/utils';
 
 import {BlurDirective} from '../../directives/blur.directive';
-//import {CollapseDirective} from 'ng2-bootstrap/components/collapse'
 
 import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
@@ -18,6 +18,7 @@ import {CanvasService} from '../../services/canvas.service';
 import {PortalService} from '../../services/portal.service';
 import {UserService} from '../../services/user.service';
 import {ClassesService, Class} from '../../services/classes.service';
+import {AliasService} from '../../services/alias.service'
 
 import {ColorPickerService} from 'ct-angular2-color-picker/component';
 import {ColorPickerDirective} from 'ct-angular2-color-picker/component'
@@ -27,11 +28,11 @@ import {ColorPickerDirective} from 'ct-angular2-color-picker/component'
     templateUrl: 'app/components/Settings/settings.html',
     styleUrls: ['dist/app/components/Settings/settings.css'],
     directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, NgStyle, BlurDirective, ColorPickerDirective],
-    providers: [ClassesService, ColorPickerService]
+    providers: [ClassesService, ColorPickerService, AliasService]
 })
 
 export class SettingsComponent {
-    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private backgroundService: BackgroundService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService, private classesService: ClassesService) {
+    constructor(private formBuilder: FormBuilder, private alertService: AlertService, private authService: AuthService, private backgroundService: BackgroundService, private canvasService: CanvasService, private portalService: PortalService, private userService: UserService, private classesService: ClassesService, private aliasService:AliasService) {
 		this.backgroundService.get().subscribe(
 			data => {
 				this.hasDefaultBackground = data.hasDefault;
@@ -110,8 +111,15 @@ export class SettingsComponent {
   ];
 
   //alias form
-  aliasModel:any;
+  aliasModel = {
+    canvas: [],
+    portal: []
+  };
   aliasCollapsed:boolean = true;
+  aliasesList:any;
+  canvasClasses:any;
+  portalClasses:any;
+  aliasSection:any;
 
 	ngOnInit() {
 		// Get basic info
@@ -158,7 +166,6 @@ export class SettingsComponent {
     //get list of user classes from service
     this.classesSubscription = this.classesService.getClasses().subscribe(
       classesList => {
-        console.log(classesList);
         this.classesList = classesList;
         this.classesListOnPageLoad = JSON.parse(JSON.stringify(classesList));
         //prefill the form class model with the classes information
@@ -170,8 +177,52 @@ export class SettingsComponent {
       },
       error => {
         this.alertService.addAlert('danger', 'Classes Error!', error);
+      },
+      () => {
+        //initialize the alias model
+        for (let i=0;i<this.classesList.length;i++) {
+          let emptyCanvasAlias = {
+            type: 'canvas',
+            localClass: this.classesList[i],
+            remoteClass: undefined,
+          }
+          let emptyPortalAlias = {
+            type: 'portal',
+            localClass: this.classesList[i],
+            remoteClass: undefined,
+          }
+          this.aliasModel.canvas.push(emptyCanvasAlias);
+          this.aliasModel.portal.push(emptyPortalAlias);
+        };
       }
     )
+
+    //get list of aliases
+    Observable.concat(this.canvasService.getClasses(), this.portalService.getClasses()).subscribe(
+      canvasThenPortalClasses => {
+        !this.canvasClasses ? this.canvasClasses = canvasThenPortalClasses : this.portalClasses = canvasThenPortalClasses;
+        console.log(canvasThenPortalClasses);
+      },
+      error => {
+        this.alertService.addAlert('danger', 'Canvas/portal classes Error: ', error);
+      },
+      () => {
+        this.aliasService.listAliases().subscribe(
+          aliasesList => {
+            //insert the aliases into form model
+            for (let j=0;j<aliasesList.canvas.length;j++) {
+              for (let i=0;i<this.aliasModel.canvas.length;i++) {
+                if (aliasesList.canvas[j].class._id === this.aliasModel.canvas[i].localClass._id) {
+                  this.aliasModel.canvas[i].remoteClass = aliasesList.canvas[j].remoteClass;
+                }
+              }
+            }
+            this.aliasesList = aliasesList;
+            console.log(this.aliasModel);
+          }
+        )
+      }
+    );
 	}
 
 	ngAfterViewInit() {
@@ -546,10 +597,17 @@ export class SettingsComponent {
   }
 
   //alias methods
+  previousIndex:number;
   aliasClass(index:number) {
-    this.aliasCollapsed = !this.aliasCollapsed;
-    this.aliasModel = {
-      mymicdsClass: this.classesList[index]
+    if (this.previousIndex === index) {
+      this.aliasCollapsed = !this.aliasCollapsed;
+    } else {
+      this.aliasCollapsed = false;
+      this.previousIndex = index;
+    }
+    this.aliasSection = {
+      canvas: this.aliasModel.canvas[index],
+      portal: this.aliasModel.portal[index]
     }
   }
 }

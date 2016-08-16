@@ -105,7 +105,7 @@
 						<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
 					</span>
 				</div>
-				<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{portalResponse}}</div>
+				<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{canvasResponse}}</div>
 				<p class="form-text text-muted">
 					Submit your Canvas URL to integrate your homework assignments into our digital planner.
 					<br>
@@ -119,7 +119,7 @@
 			<form #classesForm="ngForm" autocomplete="off" novalidate (ngSubmit)="updateClasses()">
 				<h3>Set Classes</h3>
 				<button type="button" class="btn btn-default classes-add-empty" (click)="addEmptyClass()" [disabled]="!classesList"><i class="fa fa-plus"></i></button>
-				<button type="button" class="btn btn-info classes-save" (click)="updateClasses()" [disabled]="!classesList || !classesForm.valid || updatingClasses">Save</button>
+				<button type="submit" class="btn btn-info classes-save" [disabled]="!classesList || !classesForm.valid || updatingClasses">Save</button>
 				<button type="button" class="btn btn-success classes-restore" (click)="restoreClasses()" [disabled]="!classesList">restore</button>
 				<div *ngIf="!classesList">Loading</div>
 					<table *ngIf="classesList">
@@ -161,15 +161,31 @@
 									<button type="button" class="btn btn-danger form-control" (click)="deleteClass(i)" [disabled]="updatingClasses"><i class="fa fa-trash"></i></button>
 								</td>
 								<td>
-									<button type="button" class="btn btn-info form-control" (click)="aliasClass(i)" [disabled]="updatingClasses"><i class="fa fa-link"></i></button>
+									<button type="button" class="btn btn-info form-control" (click)="aliasClass(i)" [disabled]="updatingClasses"><i *ngIf="previousIndex !== i || aliasCollapsed" class="fa fa-link"></i><i *ngIf="previousIndex === i && !aliasCollapsed" class="fa fa-times"></i></button>
 								</td>
 							</tr>
 						</tbody>
 				</table>
 			</form>
-			<div class="collapse" [ngClass]="{'in': aliasCollapsed}">
+			<div class="collapse alias-form" [ngClass]="{'in': !aliasCollapsed}">
 			  <div class="card card-block">
-			    alias for {{aliasModel?.mymicdsClass?.name}}
+			    <form #aliasForm="ngForm" autocomplete="off" novalidate (ngSubmit)="updateAliases()">
+						<table>
+							<thead>
+								<tr>
+									<th>Class</th>
+									<th>Canvas Alias</th>
+									<th>Portal Alias</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let class of portalClasses; let i = index">
+									<td>{{}}</td>
+									<td>{{canvasClasses[i]}}</td>
+									<td>{{portalClasses[i]}}</td>
+								<tr>
+						</table>
+					</form>
 			  </div>
 			</div>
 		</div>
