@@ -3,28 +3,23 @@
 	align-items: center;
 	z-index: 100;
 
-	.collapsible-navbar {
-		width: 100%;
+	img.navbar-brand {
+		height: 2rem;
+		width: 2rem;
+	}
 
-		img.navbar-brand {
-			height: 2rem;
-			width: 2rem;
+	.navbar-right {
+		margin-left: auto;
+		display: flex;
+		align-items: center;
+
+		*:first-child {
+			margin-right: 0.25rem;
 		}
 
-		.navbar-right {
-			margin-left: auto;
-			float: right;
-			display: flex;
-			align-items: center;
-
-			*:first-child {
-				margin-right: 0.25rem;
-			}
-
-			.logged-in-user {
-				display: inline;
-				margin: 0 1rem 0 0;
-			}
+		.logged-in-user {
+			display: inline;
+			margin: 0 1rem 0 0;
 		}
 	}
 }
