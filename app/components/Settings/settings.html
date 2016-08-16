@@ -161,7 +161,7 @@
 									<button type="button" class="btn btn-danger form-control" (click)="deleteClass(i)" [disabled]="updatingClasses"><i class="fa fa-trash"></i></button>
 								</td>
 								<td>
-									<button type="button" class="btn btn-info form-control" (click)="aliasClass(i)" [disabled]="updatingClasses"><i *ngIf="previousIndex !== i || aliasCollapsed" class="fa fa-link"></i><i *ngIf="previousIndex === i && !aliasCollapsed" class="fa fa-times"></i></button>
+									<button type="button" class="btn btn-info form-control" (click)="aliasClass(i)" [disabled]="updatingClasses || !class._id"><i *ngIf="previousIndex !== i || aliasCollapsed" class="fa fa-link"></i><i *ngIf="previousIndex === i && !aliasCollapsed" class="fa fa-times"></i></button>
 								</td>
 							</tr>
 						</tbody>

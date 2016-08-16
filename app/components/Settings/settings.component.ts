@@ -595,7 +595,6 @@ export class SettingsComponent {
   notOwnAlias(type, classId, aliasClass) {
     let aliasArr = this.aliasesList ? this.aliasesList[type] : [];
     for (let i=0;i<aliasArr.length;i++) {
-      console.log(aliasArr[i].classRemote, aliasClass)
       if (aliasArr[i].classNative === classId && aliasArr[i].classRemote !== aliasClass) {
         return false
       }
