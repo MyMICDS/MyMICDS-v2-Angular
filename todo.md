@@ -34,3 +34,4 @@
 - Disable deletion (possibly editing?) of Canvas events
 - Fix Daily Bulletin date displayed at the top
 - Fix date pipes for iOS Safari
+- Add link to Canvas assignment
