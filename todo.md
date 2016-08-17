@@ -35,3 +35,4 @@
 - Fix Daily Bulletin date displayed at the top
 - Fix date pipes for iOS Safari
 - Add link to Canvas assignment
+- Add 'Quick Links' to the navbar or possibly make it a Homepage module?
