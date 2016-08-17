@@ -27,3 +27,6 @@
 - Reset password need to add 'Wait a few minutes or check spam' just like registration
 - Login crashes if invalid password
 - Schedule is default schedule if you logout and log back in or something
+- When add a class and directly try to add an alias, it says "**Error adding alias** Invalid class id!" until you refresh the page
+- Changes don't take effect after the class has been created
+- Some checkboxes aren't disabled for the aliases even though they should
