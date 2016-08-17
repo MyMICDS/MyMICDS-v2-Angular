@@ -32,3 +32,5 @@
 - Some checkboxes aren't disabled for the aliases even though they should
 - Fix styling when viewing planner modal
 - Disable deletion (possibly editing?) of Canvas events
+- Fix Daily Bulletin date displayed at the top
+- Fix date pipes for iOS Safari
