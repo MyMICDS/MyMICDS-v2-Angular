@@ -37,3 +37,4 @@
 - Add link to Canvas assignment
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
 - Be able to cross out events in Planner
+- Cache Canvas and Portal Events for speed (maybe lunch too?)
