@@ -41,6 +41,7 @@
 - Add link to Canvas assignment
 - Be able to cross out events in Planner
 - Change URL to be /planner/{year}/{month} if you select next or previous month
+- Show dark text if event color is too bright
 
 ## Settings Page
 - When add a class and directly try to add an alias, it says "**Error adding alias** Invalid class id!" until you refresh the page
