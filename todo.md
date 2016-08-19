@@ -26,23 +26,29 @@
 - Fix date pipes for iOS Safari
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
 - Cache Canvas and Portal Events for speed (maybe lunch too?)
+
 ## Home page
 - Schedule is default schedule if you logout and log back in or something
+
 ## Planner
 - Fix styling when viewing planner modal
 - Disable deletion (possibly editing?) of Canvas events
 - Add link to Canvas assignment
 - Be able to cross out events in Planner
 - Change URL to be /planner/{year}/{month} if you select next or previous month
+
 ## Settings Page
 - When add a class and directly try to add an alias, it says "**Error adding alias** Invalid class id!" until you refresh the page
 - Some checkboxes aren't disabled for the aliases even though they should
 - Changes don't take effect after the class has been created
+
 ## Daily Bulletin
 - Fix Daily Bulletin date displayed at the top
 - Daily Bulletin don't use Google Docs for viewing emails
+
 ## Login System
 - Login crashes if invalid password
+
 ## Registration
 - Fix URL title in confirmation page
 - Email confirmation is slow
