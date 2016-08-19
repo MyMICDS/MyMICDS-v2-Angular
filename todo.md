@@ -42,6 +42,7 @@
 - When add a class and directly try to add an alias, it says "**Error adding alias** Invalid class id!" until you refresh the page
 - Some checkboxes aren't disabled for the aliases even though they should
 - Changes don't take effect after the class has been created
+- Last name of teacher and block selection overlap a bit
 
 ## Daily Bulletin
 - Fix Daily Bulletin date displayed at the top
