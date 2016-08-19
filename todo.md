@@ -30,6 +30,7 @@
 ## Home page
 - Schedule is default schedule if you logout and log back in or something
 - Customize labels when you hover over progress bar
+- Fix schedule when it shortens Collaborative period to 'US'
 
 ## Planner
 - Fix styling when viewing planner modal
