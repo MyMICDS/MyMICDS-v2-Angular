@@ -56,7 +56,7 @@ export class AppComponent {
 
 	ngOnInit() {
 		setTimeout(() => {
-			this.alertService.addAlert('info', 'Welcome Back!', 'Over the summer, the MyMICDS Development Team has been hard at work rewriting the website to hopefully add more features in the futre. <strong>This year everyone must re-register an account into our new system.</strong> Don\'t forget to email support@mymicds.net for any new features you would like to see in the new MyMICDS 2.0! (Also please note there are a few bug throughout the site, so email support also if you encounter any problems. Refreshing sometimes fixes the problem.)');
+			this.alertService.addAlert('info', 'Welcome Back!', '<strong>Alright, so even if you have an account from last year you must re-register into the new system.</strong> Also, there\'s a ton of bugs with the site, which we will fix soon. If there\'s any features you want or bugs you find, please email support@mymicds.net! We\'ll get everything under control as soon as possible.');
 		}, 1000);
 	}
 
