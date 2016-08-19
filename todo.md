@@ -19,10 +19,10 @@
 - Fix Daily Bulletin crashing if no PDF's
 - Typeahead for teacher names
 
-# Problems
-
-## **VERY IMPORTANTE!!!!**
+# **VERY IMPORTANTE!!!!**
 - Add rainbow colors for specifically user pshort
+
+# Problems
 
 ## General
 - Fix date pipes for iOS Safari
