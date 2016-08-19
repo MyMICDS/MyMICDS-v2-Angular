@@ -136,7 +136,7 @@ export class ProgressComponent {
 
 			if(currBlock.end !== nextBlock.start) {
 				breaks.push({
-					name : 'Break',
+					class : 'Break',
 					start: currBlock.end,
 					end  : nextBlock.start,
 					color: 'rgba(0, 0, 0, 0.4)'
@@ -180,8 +180,8 @@ export class ProgressComponent {
 		for(let i = 0; i < formattedSchedule.length; i++) {
 			let block = formattedSchedule[i];
 
-			let blockName = block.name;
-			if(block.class) {
+			let blockName = block.class;
+			if(typeof block.class === 'object') {
 				blockName = block.class.name;
 			}
 
