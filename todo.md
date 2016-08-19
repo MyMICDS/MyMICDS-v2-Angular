@@ -33,6 +33,7 @@
 - Disable deletion (possibly editing?) of Canvas events
 - Add link to Canvas assignment
 - Be able to cross out events in Planner
+- Change URL to be /planner/{year}/{month} if you select next or previous month
 ## Settings Page
 - When add a class and directly try to add an alias, it says "**Error adding alias** Invalid class id!" until you refresh the page
 - Some checkboxes aren't disabled for the aliases even though they should
