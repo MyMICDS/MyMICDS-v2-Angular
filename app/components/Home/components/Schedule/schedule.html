@@ -1,7 +1,7 @@
 <div *ngIf="!schedule">
 	<p>Loading schedule...</p>
 </div>
-<div *ngIf="!schedule?.classes || schedule?.classes?.length === 0">
+<div *ngIf="schedule?.classes?.length === 0">
 	<p>There are no classes today!</p>
 </div>
 <table *ngIf="schedule?.classes?.length > 0" class="table">
