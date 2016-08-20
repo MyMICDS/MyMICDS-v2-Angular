@@ -36,7 +36,10 @@ export class PortalService {
 					}
 				}
 
-				return data.schedule;
+				return {
+					hasURL: data.hasURL,
+					classes: data.classes
+				};
 			})
 			.catch(handleError);
     }
