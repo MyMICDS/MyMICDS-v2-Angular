@@ -28,6 +28,7 @@
 - Fix date pipes for iOS Safari
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
 - Cache Canvas and Portal Events for speed (maybe lunch too?)
+- shoot forgot Google Analytics
 
 ## Home Page
 - Schedule is default schedule if you logout and log back in or something
