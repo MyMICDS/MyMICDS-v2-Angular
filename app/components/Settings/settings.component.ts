@@ -109,8 +109,12 @@ export class SettingsComponent {
 	];
 
 	getClassesSubscription:any;
+	// List of classes to the database, these classes are binded to form values
 	classesList:Class[] = [];
+	// Original array of classes from database to compare against new ones
 	ogClasses:Class[] = [];
+	// Array of class ids to delete if user presses 'Save Changes'
+	deleteClassIds:string[] = [];
 
 	getCanvasClassesSubscription:any;
 	canvasClasses = [];
@@ -452,10 +456,25 @@ export class SettingsComponent {
 	 */
 
 	// Detect if index of class experienced any changes
-	classChanged(i) {
-		let currentClass = this.classesList[i];
-		let ogClass = this.ogClasses[i];
+	classChanged(id) {
+		// Find class in class list
+		let currentClass = null;
+		for(let i = 0; i < this.classesList.length; i++) {
+			if(id === this.classesList[i]._id) {
+				currentClass = this.classesList[i];
+				break;
+			}
+		}
+		if(!currentClass) return true;
 
+		// Find original class
+		let ogClass = null;
+		for(let i = 0; i < this.ogClasses.length; i++) {
+			if(id === this.ogClasses[i]._id) {
+				ogClass = this.ogClasses[i];
+				break;
+			}
+		}
 		if(!ogClass) return true;
 
 		return currentClass.name !== ogClass.name
@@ -471,7 +490,7 @@ export class SettingsComponent {
 	anyClassChanged() {
 		let anyChanged = false;
 		for(let i = 0; i < this.classesList.length; i++) {
-			if(this.classChanged(i)) {
+			if(this.classChanged(this.classesList[i]._id)) {
 				anyChanged = true;
 				break;
 			}
@@ -520,33 +539,89 @@ export class SettingsComponent {
 	}
 
 	// Restore a class of a certain index
-	restoreClass(i) {
-		this.classesList[i] = JSON.parse(JSON.stringify(this.ogClasses[i]));
+	restoreClass(id) {
+		// Find original class
+		let ogClass = null;
+		for(let i = 0; i < this.ogClasses.length; i++) {
+			if(id === this.ogClasses[i]._id) {
+				ogClass = this.ogClasses[i];
+				break;
+			}
+		}
+		if(!ogClass) return;
+
+		// Find class in class list
+		for(let i = 0; i < this.classesList.length; i++) {
+			if(id === this.classesList[i]._id) {
+				this.classesList[i] = ogClass;
+			}
+		}
 	}
 
 	// Save any class that has been changed
 	saveClasses() {
+		// Delete any old classes
+		let deleteObservables = [];
+		for(let i = 0; i < this.deleteClassIds.length; i++) {
+			console.log('add to dlete qeue', this.deleteClassIds[i])
+			deleteObservables.push(this.classesService.deleteClass(this.deleteClassIds[i]));
+		}
+
+		// Reset delete class ids
+		this.deleteClassIds = [];
+
+		// Add any new classes
+		let saveObservables = [];
 		for(let i = 0; i < this.classesList.length; i++) {
-			if(this.classChanged(i)) {
-				// Send save request
-				this.classesService.addClass(this.classesList[i]).subscribe(
-					id => {
-						console.log(id);
-						this.alertService.addAlert('success', 'Success!', 'Saved class!', 3);
-					},
-					error => {
-						this.alertService.addAlert('danger', 'Save Class Error!', error);
-					}
-				);
+			let id = this.classesList[i]._id;
+			// If class changed, push
+			if(this.classChanged(id)) {
+				saveObservables.push(this.classesService.addClass(this.classesList[i]));
 			}
 		}
-		this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
+
+		// Combine all of those observables into a MEGA OBSERVABLE
+		let deleteClasses$ = Observable.combineLatest(deleteObservables);
+		let saveClasses$ = Observable.combineLatest(saveObservables);
+
+		let deleteSubscription = deleteClasses$.subscribe(
+			data => {
+				this.alertService.addAlert('success', 'Success!', 'Deleted ' + data.length + ' classes.', 3);
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Delete Class Error!', error);
+			}
+		);
+
+		let saveSubscription = saveClasses$.subscribe(
+			ids => {
+				this.alertService.addAlert('success', 'Success!', 'Saved ' + ids.length + ' classes.', 3);
+				console.log(ids);
+				// Go through all classes without ids and insert their new ids
+				for(let i = 0; i < this.classesList.length; i++) {
+
+					let currentClass = this.classesList[i];
+					if(!currentClass._id) {
+						console.log(i, 'doesnt have an id')
+						// Add first id from new ids
+						currentClass._id = ids[0];
+						// Remove id from ids array
+						ids.splice(0, 1);
+					}
+				}
+
+				this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Save Class Error!', error);
+			}
+		);
 	}
 
 	// Adds a class to the bottom
 	addClass() {
 		// Generate random color
-		let color = "#000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
+		let color = '#000000'.replace(/0/g,function(){ return (~~(Math.random()*16)).toString(16); });
 		this.classesList.push({
 			name: '',
 			color: color,
@@ -561,7 +636,13 @@ export class SettingsComponent {
 	}
 
 	deleteClass(i) {
+		let id = this.classesList[i]._id;
 		this.classesList.splice(i, 1);
+
+		// If id is exists, push to array of deleted classes
+		if(id) {
+			this.deleteClassIds.push(id);
+		}
 	}
 
 }

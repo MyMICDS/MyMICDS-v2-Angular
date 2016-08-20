@@ -158,7 +158,7 @@
 								<fa name="link"></fa>
 								Alias
 							</button>
-							<button class="btn btn-warning" (click)="restoreClass(i)" [disabled]="!classChanged(i)">
+							<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="!classChanged(class._id)">
 								<fa name="undo"></fa>
 								Restore
 							</button>
@@ -171,13 +171,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="!anyClassChanged() || !anyClassAdded() || !anyClassDeleted()">Save Changes</button>
-			Any Changed
-			{{ anyClassChanged() }}
-			Any added
-			{{ anyClassAdded() }}
-			Any deleted
-			{{ anyClassDeleted() }}
+			<button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="!anyClassChanged() && !anyClassAdded() && !anyClassDeleted()">Save Changes</button>
 		</div>
 	</div>
 </div>

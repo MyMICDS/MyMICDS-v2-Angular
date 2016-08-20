@@ -29,11 +29,14 @@
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
 - Cache Canvas and Portal Events for speed (maybe lunch too?)
 
-## Home page
+## Home Page
 - Schedule is default schedule if you logout and log back in or something
 - Customize labels when you hover over progress bar
 - Fix schedule when it shortens Collaborative period to 'US'
 - Progress bar no funciona si the user isn't logged in.
+
+## Lunch Page
+- Lunch doesn't show up for Monday or Tuesday on weekend
 
 ## Planner
 - Fix styling when viewing planner modal
