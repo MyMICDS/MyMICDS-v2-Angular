@@ -110,7 +110,7 @@ export class ProgressComponent {
 
 	calculatePercentages() {
 		// Fallback if schedule is not set or no school
-		if(!this.schedule || this.schedule.classes.length === 0) {
+		if(!this.schedule || !this.schedule.classes || this.schedule.classes.length === 0) {
 			// Just set default parameters
 			this.progressBar.data.datasets[0].backgroundColor = this.defaultColors();
 			this.progressBar.data.datasets[0].data = this.defaultData();
