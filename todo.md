@@ -51,6 +51,8 @@
 - Some checkboxes aren't disabled for the aliases even though they should
 - Changes don't take effect after the class has been created
 - Last name of teacher and block selection overlap a bit
+- Separate Settings sections into their own component.
+  - Add Canvas / Portal link submission component to help page too
 
 ## Daily Bulletin
 - Fix Daily Bulletin date displayed at the top
