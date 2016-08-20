@@ -36,10 +36,7 @@ export class PortalService {
 					}
 				}
 
-				return {
-					hasURL: data.hasURL,
-					classes: data.classes
-				};
+				return data.schedule;
 			})
 			.catch(handleError);
     }
@@ -58,7 +55,10 @@ export class PortalService {
 					throw new Error(data.error);
 				}
 
-				return data.classes;
+				return {
+					hasURL: data.hasURL,
+					classes: data.classes
+				};
 			})
 			.catch(handleError);
     }
