@@ -109,6 +109,8 @@ export class SettingsComponent {
 	];
 
 	getClassesSubscription:any;
+	// If saving classes, prevent user from adding/deleting classes so they don't break anything
+	savingClasses = false;
 	// List of classes to the database, these classes are binded to form values
 	classesList:Class[] = [];
 	// Original array of classes from database to compare against new ones
@@ -560,10 +562,11 @@ export class SettingsComponent {
 
 	// Save any class that has been changed
 	saveClasses() {
+		this.savingClasses = true;
+
 		// Delete any old classes
 		let deleteObservables = [];
 		for(let i = 0; i < this.deleteClassIds.length; i++) {
-			console.log('add to dlete qeue', this.deleteClassIds[i])
 			deleteObservables.push(this.classesService.deleteClass(this.deleteClassIds[i]));
 		}
 
@@ -584,33 +587,50 @@ export class SettingsComponent {
 		let deleteClasses$ = Observable.combineLatest(deleteObservables);
 		let saveClasses$ = Observable.combineLatest(saveObservables);
 
-		let deleteSubscription = deleteClasses$.subscribe(
-			data => {
-				this.alertService.addAlert('success', 'Success!', 'Deleted ' + data.length + ' classes.', 3);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Delete Class Error!', error);
-			}
-		);
+		// Only append to MEGA OBSERVABLE if it's actually going to do anything
+		let MEGAObservableArray = [];
 
-		let saveSubscription = saveClasses$.subscribe(
-			ids => {
-				this.alertService.addAlert('success', 'Success!', 'Saved ' + ids.length + ' classes.', 3);
-				console.log(ids);
-				// Go through all classes without ids and insert their new ids
-				for(let i = 0; i < this.classesList.length; i++) {
+		if(deleteObservables.length > 0) {
+			MEGAObservableArray[0] = deleteClasses$;
+		} else {
+			MEGAObservableArray[0] = Observable.empty().defaultIfEmpty();
+		}
 
-					let currentClass = this.classesList[i];
-					if(!currentClass._id) {
-						console.log(i, 'doesnt have an id')
-						// Add first id from new ids
-						currentClass._id = ids[0];
-						// Remove id from ids array
-						ids.splice(0, 1);
+		if(saveObservables.length > 0) {
+			MEGAObservableArray[1] = saveClasses$;
+		} else {
+			MEGAObservableArray[1] = Observable.empty().defaultIfEmpty();
+		}
+
+		let MEGAObservable$ = Observable.combineLatest(MEGAObservableArray);
+
+		let MEGASubscription = MEGAObservable$.subscribe(
+			(data:any) => {
+				// Deleted class logic
+				if(data[0] && data[0].length > 0) {
+					this.alertService.addAlert('success', 'Success!', 'Deleted ' + data[0].length + ' classes.', 3);
+				}
+
+				// Added class logic
+				let ids = data[1];
+				if(ids && ids.length > 0) {
+					this.alertService.addAlert('success', 'Success!', 'Saved ' + ids.length + ' classes.', 3);
+
+					// Go through all classes without ids and insert their new ids
+					let idOffset = 0;
+					for(let i = 0; i < this.classesList.length; i++) {
+
+						let currentClass = this.classesList[i];
+						if(!currentClass._id) {
+							// Assign this new class the next id in the array
+							currentClass._id = ids[idOffset++];
+						}
 					}
+
 				}
 
 				this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
+				this.savingClasses = false;
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Save Class Error!', error);

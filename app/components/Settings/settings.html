@@ -117,7 +117,7 @@
 		<!-- Set Classes -->
 		<div blur class="set-classes settings-section">
 			<h3>Set Classes</h3>
-			<button class="add-class btn btn-success" (click)="addClass()">Add Class</button>
+			<button class="add-class btn btn-success" (click)="addClass()" [disabled]="savingClasses">Add Class</button>
 			<table>
 				<thead>
 					<tr>
@@ -154,24 +154,25 @@
 							<input class="form-control" placeholder="Last Name" name="teacherLastName" [value]="class.teacher.lastName" [(ngModel)]="class.teacher.lastName">
 						</td>
 						<td class="class-manage">
-							<button class="btn btn-info">
+							<button class="btn btn-info" [disabled]="savingClasses">
 								<fa name="link"></fa>
 								Alias
 							</button>
-							<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="!classChanged(class._id)">
+							<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="savingClasses || !classChanged(class._id)">
 								<fa name="undo"></fa>
 								Restore
 							</button>
-							<button class="btn btn-danger" (click)="deleteClass(i)">
+							<button class="btn btn-danger" (click)="deleteClass(i)" [disabled]="savingClasses">
 								<fa name="times"></fa>
 								Delete
 							</button>
 						</td>
-						<!-- {{ class | json }} -->
 					</tr>
 				</tbody>
 			</table>
-			<button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="!anyClassChanged() && !anyClassAdded() && !anyClassDeleted()">Save Changes</button>
+			<button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="savingClasses || (!anyClassChanged() && !anyClassAdded() && !anyClassDeleted())">
+				{{ savingClasses ? 'Saving Classes...' : 'Save Changes' }}
+			</button>
 		</div>
 	</div>
 </div>
