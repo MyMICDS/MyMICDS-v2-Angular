@@ -23,8 +23,13 @@
 	.table {
 		color: $sophisticated-white;
 
-		tbody tr .bulletin-name button {
-			width: 100%;
+		tbody tr td {
+			text-align: left;
+			vertical-align: middle;
+
+			&.bulletin-name button {
+				width: 100%;
+			}
 		}
 	}
 }
