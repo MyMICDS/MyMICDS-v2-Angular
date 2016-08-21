@@ -124,8 +124,16 @@ export class SettingsComponent {
 	getPortalClassesSubscription:any;
 	portalClasses = [];
 
+	aliasTypes = [
+		'canvas',
+		'portal'
+	];
+
 	aliasesSubscription:any;
-	aliases = [];
+	aliases = {};
+
+	showAliases = false;
+	aliasClass:any = null;
 
 	ngOnInit() {
 		// Get basic info
@@ -458,7 +466,10 @@ export class SettingsComponent {
 	 */
 
 	// Detect if index of class experienced any changes
-	classChanged(id) {
+	classChanged(id:string) {
+		// If class id is empty, then it's a new class and therefore cannot be changed
+		if(!id) return true;
+
 		// Find class in class list
 		let currentClass = null;
 		for(let i = 0; i < this.classesList.length; i++) {
@@ -541,7 +552,7 @@ export class SettingsComponent {
 	}
 
 	// Restore a class of a certain index
-	restoreClass(id) {
+	restoreClass(id:string) {
 		// Find original class
 		let ogClass = null;
 		for(let i = 0; i < this.ogClasses.length; i++) {
@@ -655,13 +666,120 @@ export class SettingsComponent {
 		});
 	}
 
-	deleteClass(i) {
+	deleteClass(i:number) {
 		let id = this.classesList[i]._id;
 		this.classesList.splice(i, 1);
 
 		// If id is exists, push to array of deleted classes
 		if(id) {
 			this.deleteClassIds.push(id);
+		}
+	}
+
+	manageAliases(id:string) {
+		// If id is already selected, dismiss
+		if(this.aliasClass && id === this.aliasClass._id) {
+			this.dismissAliases();
+			return;
+		}
+
+		// Find class in class list
+		let currentClass = null;
+		for(let i = 0; i < this.classesList.length; i++) {
+			if(id === this.classesList[i]._id) {
+				this.aliasClass = this.classesList[i];
+				this.showAliases = true;
+				return;
+			}
+		}
+
+		this.dismissAliases();
+	}
+
+	dismissAliases() {
+		this.showAliases = false;
+		this.aliasClass = null;
+	}
+
+	// Returns native class id alias belongs to is in, or null if no class
+	aliasClassObject(type:string, className:string) {
+		// Make sure it's a valid alias type
+		if(!contains(this.aliasTypes, type)) return;
+
+		let aliases = this.aliases[type];
+		for(let i = 0; i < aliases.length; i++) {
+			let alias = aliases[i];
+
+			if(className === alias.classRemote) {
+				return alias;
+			}
+		}
+
+		return null;
+	}
+
+	// Whether alias checkbox should be checked
+	aliasChecked(type:string, className:string, classId:string) {
+		// Look if class name is in alias
+		let aliasClassObject = this.aliasClassObject(type, className);
+		// If class name is not in alias, default to enabled
+		if(!aliasClassObject) return false;
+		// If class name is in alias, check whether the it is for this class or another
+		return classId === aliasClassObject.classNative;
+	}
+
+	// Whether alias checkbox should be disabled
+	aliasDisabled(type:string, className:string, classId:string) {
+		// Look if class name is in alias
+		let aliasClassObject = this.aliasClassObject(type, className);
+		// If class name is not in alias, default to enabled
+		if(!aliasClassObject) return false;
+		// If class name is in alias, check whether the it is for this class or another
+		return classId !== aliasClassObject.classNative;
+	}
+
+	// When the user either checks or unchecks the box
+	aliasChange(event, type:string, className:string, classId:string) {
+		// Make sure it's a valid alias type
+		if(!contains(this.aliasTypes, type)) return;
+
+		if(event.target.checked) {
+			// Add alias
+			let addAliasSubscription = this.aliasService.addAlias(type, className, classId).subscribe(
+				id => {
+					this.alertService.addAlert('success', 'Success!', 'Linked alias to class!', 3);
+
+					// Add alias to aliases array
+					this.aliases[type].push({
+						_id: id,
+						type,
+						classNative: classId,
+						classRemote: className
+					});
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Add Alias Error!', error);
+				}
+			);
+		} else {
+			// Delete alias
+			let aliasObject = this.aliasClassObject(type, className);
+			let aliasId = aliasObject._id;
+			let deleteAliasSubscription = this.aliasService.deleteAlias(type, aliasId).subscribe(
+				() => {
+					this.alertService.addAlert('success', 'Success!', 'Deleted alias from class!', 3);
+
+					// Remove alias from aliases array
+					for(let i = 0; i < this.aliases[type].length; i++) {
+						if(this.aliases[type][i]._id === aliasId) {
+							this.aliases[type].splice(i, 1);
+						}
+					}
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Delete Alias Error!', error);
+				}
+			);
 		}
 	}
 

@@ -154,11 +154,11 @@
 							<input class="form-control" placeholder="Last Name" name="teacherLastName" [value]="class.teacher.lastName" [(ngModel)]="class.teacher.lastName">
 						</td>
 						<td class="class-manage">
-							<button class="btn btn-info" [disabled]="savingClasses">
+							<button class="btn btn-info selected" [class.active]="class._id === aliasClass?._id" (click)="manageAliases(class._id)" [disabled]="savingClasses || !class._id">
 								<fa name="link"></fa>
 								Alias
 							</button>
-							<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="savingClasses || !classChanged(class._id)">
+							<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="savingClasses || !classChanged(class._id) || !class._id">
 								<fa name="undo"></fa>
 								Restore
 							</button>
@@ -170,6 +170,32 @@
 					</tr>
 				</tbody>
 			</table>
+			<div *ngIf="aliasClass" class="aliases card">
+				<h3>Link Aliases for <strong>{{ aliasClass.name }}</strong></h3>
+				<button class="aliases-dismiss btn btn-danger" (click)="dismissAliases()">
+					<fa name="times"></fa>
+				</button>
+				<div class="aliases-list">
+					<div class="aliases-portal">
+						<h4>Portal Classes</h4>
+						<div *ngFor="let class of portalClasses" class="checkbox">
+							<label>
+								<input type="checkbox" (change)="aliasChange($event, 'portal', class, aliasClass._id)" [checked]="aliasChecked('portal', class, aliasClass._id)" [disabled]="aliasDisabled('portal', class, aliasClass._id)">
+								{{ class }}
+							</label>
+						</div>
+					</div>
+					<div class="aliases-canvas">
+						<h4>Canvas Classes</h4>
+						<div *ngFor="let class of canvasClasses" class="checkbox">
+							<label>
+								<input type="checkbox" (change)="aliasChange($event, 'canvas', class, aliasClass._id)" [checked]="aliasChecked('canvas', class, aliasClass._id)" [disabled]="aliasDisabled('canvas', class, aliasClass._id)">
+								{{ class }}
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
 			<button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="savingClasses || (!anyClassChanged() && !anyClassAdded() && !anyClassDeleted())">
 				{{ savingClasses ? 'Saving Classes...' : 'Save Changes' }}
 			</button>
