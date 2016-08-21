@@ -13,6 +13,7 @@
 - Optimization
   - Webpack?
   - HTTP 2?
+  - Server-side rendering
 
 ## Home Page
 - Customize labels when you hover over progress bar
