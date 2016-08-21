@@ -4,7 +4,6 @@
 - Add rainbow colors for specifically user pshort
 
 ## General
-- Fix date pipes for iOS Safari
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
 - Cache Canvas and Portal Events for speed (maybe lunch too?)
 - Fix Schedule Parser to include lunch / Advisory / free periods
