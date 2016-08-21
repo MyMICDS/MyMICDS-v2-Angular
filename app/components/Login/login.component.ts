@@ -35,7 +35,7 @@ export class LoginComponent {
 				if(loginRes.success) {
                 	this.router.navigate(['home']);
 				} else {
-					this.alertService.addAlert('warning', 'Warning!', 'Invalid username / password.');
+					this.alertService.addAlert('warning', 'Warning!', 'Invalid username / password.', 3);
 				}
             },
             error => {
