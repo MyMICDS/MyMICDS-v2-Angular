@@ -23,9 +23,6 @@
 - Progress bar no funciona si the user isn't logged in.
 - More modules in homepage
 
-## Lunch Page
-- Lunch doesn't show up for Monday or Tuesday on weekend
-
 ## Planner
 - Fix styling when viewing planner modal
 - Disable deletion (possibly editing?) of Canvas events
