@@ -38,8 +38,8 @@
 	</thead>
 	<tbody>
 		<tr *ngFor="let block of viewSchedule.classes">
-			<td>{{ block.start | date:'hh:mm' }}</td>
-			<td>{{ block.end | date:'hh:mm' }}</td>
+			<td>{{ block.start | date:'shortTime' }}</td>
+			<td>{{ block.end | date:'shortTime' }}</td>
 			<td>{{ block.class?.name || block.class }}</td>
 		</tr>
 	</tbody>
