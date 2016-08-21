@@ -24,6 +24,11 @@ export class ClassesService {
 					throw new Error(data.error);
 				}
 
+				// Turn all colors to lowercase
+				for(let i = 0; i < data.classes.length; i++) {
+					data.classes[i].color = data.classes[i].color.toLowerCase();
+				}
+
 				return data.classes;
 			})
 			.catch(handleError);

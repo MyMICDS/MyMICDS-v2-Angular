@@ -28,12 +28,16 @@
 - Fix date pipes for iOS Safari
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
 - Cache Canvas and Portal Events for speed (maybe lunch too?)
+- shoot forgot Google Analytics
 
-## Home page
+## Home Page
 - Schedule is default schedule if you logout and log back in or something
 - Customize labels when you hover over progress bar
 - Fix schedule when it shortens Collaborative period to 'US'
 - Progress bar no funciona si the user isn't logged in.
+
+## Lunch Page
+- Lunch doesn't show up for Monday or Tuesday on weekend
 
 ## Planner
 - Fix styling when viewing planner modal
@@ -48,6 +52,8 @@
 - Some checkboxes aren't disabled for the aliases even though they should
 - Changes don't take effect after the class has been created
 - Last name of teacher and block selection overlap a bit
+- Separate Settings sections into their own component.
+  - Add Canvas / Portal link submission component to help page too
 
 ## Daily Bulletin
 - Fix Daily Bulletin date displayed at the top

@@ -48,8 +48,8 @@ export class AliasService {
 			.catch(handleError);
     }
 
-	deleteAlias(id:string) {
-		let body = JSON.stringify({ id });
+	deleteAlias(type:string, id:string) {
+		let body = JSON.stringify({ type, id });
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
 

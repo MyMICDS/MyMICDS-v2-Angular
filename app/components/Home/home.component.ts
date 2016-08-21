@@ -30,10 +30,10 @@ export class HomeComponent {
 			month: this.scheduleDate.getMonth() + 1,
 			day  : this.scheduleDate.getDate()
 		}).subscribe(
-			(schedule) => {
+			schedule => {
 				this.schedule = schedule;
 			},
-			(error) => {
+			error => {
 				this.alertService.addAlert('danger', 'Get Schedule Error!', error);
 			}
 		);

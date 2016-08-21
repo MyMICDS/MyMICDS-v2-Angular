@@ -115,96 +115,90 @@
 		</div>
 
 		<!-- Set Classes -->
-		<div blur class="settings-section classes-form">
-			<form #classesForm="ngForm" autocomplete="off" novalidate (ngSubmit)="updateClasses()">
-				<h3>Set Classes</h3>
-				<button type="button" class="btn btn-default classes-add-empty" (click)="addEmptyClass()" [disabled]="!classesList"><i class="fa fa-plus"></i></button>
-				<button type="submit" class="btn btn-info classes-save" [disabled]="!classesList || !classesForm.valid || updatingClasses">Save</button>
-				<button type="button" class="btn btn-success classes-restore" (click)="restoreClasses()" [disabled]="!classesList">restore</button>
-				<div *ngIf="!classesList">Loading...</div>
-					<table *ngIf="classesList">
-						<thead>
-							<tr>
-								<th>Class Name</th>
-								<th>Type</th>
-								<th>Display Color</th>
-								<th>Teacher</th>
-								<th>Block</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr *ngFor="let class of classesModel; let i=index">
-								<td>
-									<input [name]="class._id + '-name-' + i" class="form-control" placeholder="Class Name" required [(ngModel)]="classesModel[i].name">
-								</td>
-								<td>
-									<select [name]="class._id + '-type-' + i" class="form-control" required [(ngModel)]="classesModel[i].type">
-										<option *ngFor="let type of classesTypes" [value]="type">{{type[0] | uppercase}}{{type | slice:1}}</option>
-									</select>
-								</td>
-								<td class="color-picker">
-									<input [name]="class._id + '-color-' + i" class="form-control" required [(colorPicker)]="classesModel[i].color" [ngStyle]="applyColors(classesModel[i].color)" [value]="classesModel[i].color | uppercase">
-								</td>
-								<td class="form-inline">
-									<select [name]="class._id + '-teacher-prefix-' + i" class="form-control teacher-prefix" required [(ngModel)]="classesModel[i].teacher.prefix">
-										<option *ngFor="let prefix of teacherPrefixes" [value]="prefix">{{prefix}}</option>
-									</select>
-									<input [name]="class._id + '-teacher-first-name-' + i" class="form-control" required [(ngModel)]="classesModel[i].teacher.firstName" placeholder="First Name">
-									<input [name]="class._id + '-teacher-last-name-' + i" class="form-control" required [(ngModel)]="classesModel[i].teacher.lastName" placeholder="Last Name">
-								</td>
-								<td class="classes-block">
-									<select [name]="class._id + '-block-' + i" class="form-control" required [(ngModel)]="classesModel[i].block">
-										<option *ngFor="let block of classesBlocks" [value]="block">{{block | uppercase}}</option>
-									</select>
-								</td>
-								<td>
-									<button type="button" class="btn btn-danger form-control" (click)="deleteClass(i)" [disabled]="updatingClasses"><i class="fa fa-trash"></i></button>
-								</td>
-								<td>
-									<button type="button" class="btn btn-info form-control" (click)="aliasClass(i)" [disabled]="updatingClasses || !class._id"><i *ngIf="previousIndex !== i || aliasCollapsed" class="fa fa-link"></i><i *ngIf="previousIndex === i && !aliasCollapsed" class="fa fa-times"></i></button>
-								</td>
-							</tr>
-						</tbody>
-				</table>
-			</form>
-			<div class="collapse alias-form" [ngClass]="{'in': !aliasCollapsed}">
-			  <div class="card card-block">
-			    <form #aliasForm="ngForm" autocomplete="off" novalidate (ngSubmit)="updateAliases()" *ngIf="aliasesList">
-						<table>
-							<thead>
-								<tr>
-									<th class="alias-class-name">{{selectedAliasClass?.name}}</th>
-									<th>Canvas Alias</th>
-									<th>Portal Alias</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr *ngFor="let class of portalClasses; let i = index">
-									<td></td>
-									<td class="alias-canvas">
-										<div class="form-check" *ngIf="canvasClasses[i]">
-										  <label class="form-check-label">
-										    <input class="form-check-input" type="checkbox" [value]="canvasClasses[i]" [checked]="aliasRegistered('canvas', canvasClasses[i])" [disabled]="notOwnAlias('canvas', selectedAliasClass?._id, canvasClasses[i])" (change)="changeAlias($event, 'canvas', canvasClasses[i], selectedAliasClass._id)">
-										    {{canvasClasses[i]}}
-										  </label>
-										</div>
-									</td>
-									<td>
-										<div class="form-check" *ngIf="portalClasses[i]">
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" [value]="portalClasses[i]" [checked]="aliasRegistered('portal', portalClasses[i])" [disabled]="notOwnAlias('portal', selectedAliasClass?._id, portalClasses[i])" (change)="changeAlias($event, 'portal', portalClasses[i], selectedAliasClass._id)">
-												{{portalClasses[i]}}
-											</label>
-										</div>
-									</td>
-								<tr>
-						</table>
-					</form>
-					<div *ngIf="!aliasesList">
-						Loading...
+		<div blur class="set-classes settings-section">
+			<h3>Set Classes</h3>
+			<button class="add-class btn btn-success" (click)="addClass()" [disabled]="savingClasses">Add Class</button>
+			<table>
+				<thead>
+					<tr>
+						<th>Class Name</th>
+						<th>Color</th>
+						<th>Block</th>
+						<th>Type</th>
+						<th>Teacher</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let class of classesList; let i = index">
+						<td class="class-name">
+							<input class="form-control" placeholder="Class Name" name="name" [value]="class.name" [(ngModel)]="class.name">
+						</td>
+						<td class="class-color">
+							<input class="form-control" [(colorPicker)]="class.color" [style.background]="class.color" name="color" [value]="class.color | uppercase" [(ngModel)]="class.color">
+						</td>
+						<td>
+							<select class="custom-select" name="block" [value]="class.block" [(ngModel)]="class.block">
+								<option *ngFor="let block of classBlocks" [value]="block">{{ capitalize(block) }}</option>
+							</select>
+						</td>
+						<td>
+							<select class="custom-select" name="type" [value]="class.type" [(ngModel)]="class.type">
+								<option *ngFor="let type of classTypes" [value]="type">{{ capitalize(type) }}</option>
+							</select>
+						</td>
+						<td class="class-teacher form-inline">
+							<select class="custom-select" [value]="class.teacherPrefix" [(ngModel)]="class.teacher.prefix">
+								<option *ngFor="let prefix of teacherPrefixes" name="teacherPrefix" [value]="prefix">{{ prefix }}</option>
+							</select>
+							<input class="form-control" placeholder="First Name" name="teacherFirstName" [value]="class.teacher.firstName" [(ngModel)]="class.teacher.firstName">
+							<input class="form-control" placeholder="Last Name" name="teacherLastName" [value]="class.teacher.lastName" [(ngModel)]="class.teacher.lastName">
+						</td>
+						<td class="class-manage">
+							<button class="btn btn-info selected" [class.active]="class._id === aliasClass?._id" (click)="manageAliases(class._id)" [disabled]="savingClasses || !class._id">
+								<fa name="link"></fa>
+								Alias
+							</button>
+							<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="savingClasses || !classChanged(class._id) || !class._id">
+								<fa name="undo"></fa>
+								Restore
+							</button>
+							<button class="btn btn-danger" (click)="deleteClass(i)" [disabled]="savingClasses">
+								<fa name="times"></fa>
+								Delete
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div *ngIf="aliasClass" class="aliases card">
+				<h3>Link Aliases for <strong>{{ aliasClass.name }}</strong></h3>
+				<button class="aliases-dismiss btn btn-danger" (click)="dismissAliases()">
+					<fa name="times"></fa>
+				</button>
+				<div class="aliases-list">
+					<div class="aliases-portal">
+						<h4>Portal Classes</h4>
+						<div *ngFor="let class of portalClasses" class="checkbox">
+							<label>
+								<input type="checkbox" (change)="aliasChange($event, 'portal', class, aliasClass._id)" [checked]="aliasChecked('portal', class, aliasClass._id)" [disabled]="aliasDisabled('portal', class, aliasClass._id)">
+								{{ class }}
+							</label>
+						</div>
 					</div>
-			  </div>
+					<div class="aliases-canvas">
+						<h4>Canvas Classes</h4>
+						<div *ngFor="let class of canvasClasses" class="checkbox">
+							<label>
+								<input type="checkbox" (change)="aliasChange($event, 'canvas', class, aliasClass._id)" [checked]="aliasChecked('canvas', class, aliasClass._id)" [disabled]="aliasDisabled('canvas', class, aliasClass._id)">
+								{{ class }}
+							</label>
+						</div>
+					</div>
+				</div>
 			</div>
+			<button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="savingClasses || (!anyClassChanged() && !anyClassAdded() && !anyClassDeleted())">
+				{{ savingClasses ? 'Saving Classes...' : 'Save Changes' }}
+			</button>
 		</div>
 	</div>
 </div>

@@ -46,7 +46,10 @@ export class CanvasService {
 					throw new Error(data.error);
 				}
 
-				return data.classes;
+				return {
+					hasURL: data.hasURL,
+					classes: data.classes
+				};
 			})
 			.catch(handleError);
     }
