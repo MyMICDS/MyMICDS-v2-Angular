@@ -17,7 +17,6 @@
 
 ## Home Page
 - View schedule in next / previous day
-- Schedule is default schedule if you logout and log back in or something
 - Customize labels when you hover over progress bar
 - Fix schedule when it shortens Collaborative period to 'US'
 - Progress bar no funciona si the user isn't logged in.

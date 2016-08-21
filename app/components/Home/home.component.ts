@@ -22,10 +22,11 @@ export class HomeComponent {
 	scheduleDate:any = new Date();
 	schedule:any;
 
-	constructor(private alertService: AlertService, private portalService: PortalService) {
+	constructor(private alertService: AlertService, private portalService: PortalService) {}
 
+	ngOnInit() {
 		// Get schedule from date object and assign to schedule variable
-		portalService.getSchedule({
+		this.portalService.getSchedule({
 			year : this.scheduleDate.getFullYear(),
 			month: this.scheduleDate.getMonth() + 1,
 			day  : this.scheduleDate.getDate()
@@ -38,9 +39,6 @@ export class HomeComponent {
 			}
 		);
 
-	}
-
-	ngOnInit() {
 		// Start timer
 		this.timer = setInterval(() => {
 			this.current = new Date();
