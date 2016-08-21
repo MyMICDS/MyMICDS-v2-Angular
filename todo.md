@@ -7,7 +7,7 @@
   - HTTP 2?
   - Make planner response faster?
 
-- Fix Schedule Parser to include lunch / Advisory
+- Fix Schedule Parser to include lunch / Advisory / free periods
 
 # Not as Important
 - More modules in homepage
