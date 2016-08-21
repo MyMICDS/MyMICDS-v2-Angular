@@ -32,7 +32,11 @@ export class LoginComponent {
     login() {
         this.authService.login(this.loginModel.user, this.loginModel.password, this.loginModel.remember).subscribe(
             loginRes => {
-                this.router.navigate(['home']);
+				if(loginRes.success) {
+                	this.router.navigate(['home']);
+				} else {
+					this.alertService.addAlert('warning', 'Warning!', 'Invalid username / password.');
+				}
             },
             error => {
 				this.alertService.addAlert('danger', 'Login Error!', error);

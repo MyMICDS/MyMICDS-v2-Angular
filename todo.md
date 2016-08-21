@@ -40,9 +40,6 @@
 - Daily Bulletin don't use Google Docs for viewing emails
 - Fix Daily Bulletin crashing if no PDF's
 
-## Login System
-- Login crashes if invalid password
-
 ## Registration
 - Fix URL title in confirmation page
 - Email confirmation is slow
