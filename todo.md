@@ -43,5 +43,3 @@
 ## Registration
 - Fix URL title in confirmation page
 - Email confirmation is slow
-- Reset password button has blue text instead of white
-- Reset password need to add 'Wait a few minutes or check spam' just like registration
