@@ -14,7 +14,7 @@
 		<tbody>
 			<tr *ngFor="let bulletin of bulletins; let i = index">
 				<td class="bulletin-index">{{bulletins.length - i}}</td>
-				<td class="bulletin-name"><button [routerLink]="['/daily-bulletin/' + bulletin]" class="btn btn-primary">Daily Bulletin - {{bulletin | date:'EEEE, MMMM d, y'}}</button></td>
+				<td class="bulletin-name"><a [routerLink]="['/daily-bulletin/' + bulletin]">Daily Bulletin - {{bulletin | date:'EEEE, MMMM d, y'}}</a></td>
 				<td class="bulletin-link"><a [href]="baseURL + '/' + bulletin + '.pdf'" class="btn btn-danger">{{bulletin + '.pdf'}}</a></td>
 			</tr>
 		</tbody>
