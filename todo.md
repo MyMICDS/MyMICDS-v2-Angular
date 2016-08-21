@@ -40,11 +40,6 @@
 - Daily Bulletin don't use Google Docs for viewing emails
 - Fix Daily Bulletin crashing if no PDF's
 
-## Login System
-- Login crashes if invalid password
-
 ## Registration
 - Fix URL title in confirmation page
 - Email confirmation is slow
-- Reset password button has blue text instead of white
-- Reset password need to add 'Wait a few minutes or check spam' just like registration

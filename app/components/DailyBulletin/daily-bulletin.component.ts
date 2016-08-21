@@ -11,14 +11,14 @@ import {BlurDirective} from '../../directives/blur.directive';
 import {AlertService} from '../../services/alert.service';
 import {BulletinService} from '../../services/bulletin.service';
 
-import {SafePipe} from '../../pipes/safe.pipe';
+import {SafeResourceUrlPipe} from '../../pipes/safe.pipe';
 
 @Component({
 	selector: 'daily-bulletin',
 	templateUrl: 'app/components/DailyBulletin/daily-bulletin.html',
 	styleUrls: ['dist/app/components/DailyBulletin/daily-bulletin.css'],
 	directives: [ROUTER_DIRECTIVES, BlurDirective],
-	pipes: [SafePipe],
+	pipes: [SafeResourceUrlPipe],
 	providers: [BulletinService]
 })
 export class DailyBulletinComponent {

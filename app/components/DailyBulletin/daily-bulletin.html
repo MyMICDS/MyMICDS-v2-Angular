@@ -4,5 +4,5 @@
 		<h3>{{bulletinDate | date:'EEEE, MMMM d, y'}}</h3>
 		<button routerLink="/bulletin-archives" class="btn btn-info btn-lg">See Archived Bulletins</button>
 	</div>
-	<object class="bulletin-pdf" [data]="bulletinURL | safe"></object>
+	<object class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object>
 </div>

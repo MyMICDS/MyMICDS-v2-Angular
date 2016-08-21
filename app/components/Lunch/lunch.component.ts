@@ -102,10 +102,6 @@ export class LunchComponent {
 						lunch: dayLunch
 					});
 				}
-
-				console.log('lunch', lunch)
-				console.log('formatted lunch', this.lunch);
-
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Lunch Error!', error);

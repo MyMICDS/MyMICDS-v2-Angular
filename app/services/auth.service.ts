@@ -29,12 +29,15 @@ export class AuthService {
 					throw new Error(data.error);
 				}
 
-				if(!remember) {
-					// Store in session storage. Do not remember outside of the session!
-					this.sessionStorage.setItem('id_token', data.jwt);
-				} else {
-					// Save in local storage. Remember this outside of the session!
-					this.localStorage.setItem('id_token', data.jwt)
+				// If login is successful, save the JWT
+				if(data.success && data.jwt) {
+					if(!remember) {
+						// Store in session storage. Do not remember outside of the session!
+						this.sessionStorage.setItem('id_token', data.jwt);
+					} else {
+						// Save in local storage. Remember this outside of the session!
+						this.localStorage.setItem('id_token', data.jwt)
+					}
 				}
 
 				return {
