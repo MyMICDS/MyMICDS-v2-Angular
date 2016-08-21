@@ -1,6 +1,4 @@
 # TODO
-- Settings page
-  - Use class alias in portal schedule
 - Update data if changed in another tab (socket.io?)
 - Optimize for mobile
 
@@ -15,7 +13,6 @@
 - More modules in homepage
 - View schedule in next / previous day
 - 404 Page
-- Prevent empty titles in planner
 - Fix Daily Bulletin crashing if no PDF's
 - Typeahead for teacher names
 
@@ -48,10 +45,6 @@
 - Show dark text if event color is too bright
 
 ## Settings Page
-- When add a class and directly try to add an alias, it says "**Error adding alias** Invalid class id!" until you refresh the page
-- Some checkboxes aren't disabled for the aliases even though they should
-- Changes don't take effect after the class has been created
-- Last name of teacher and block selection overlap a bit
 - Separate Settings sections into their own component.
   - Add Canvas / Portal link submission component to help page too
 
