@@ -16,11 +16,8 @@
   - HTTP 2?
 
 ## Home Page
-- View schedule in next / previous day
 - Customize labels when you hover over progress bar
 - Fix schedule when it shortens Collaborative period to 'US'
-- Progress bar no funciona si the user isn't logged in.
-- More modules in homepage
 
 ## Planner
 - Fix styling when viewing planner modal
@@ -42,4 +39,3 @@
 
 ## Registration
 - Fix URL title in confirmation page
-- Email confirmation is slow
