@@ -20,9 +20,6 @@
 - Fix schedule when it shortens Collaborative period to 'US'
 
 ## Planner
-- Fix styling when viewing planner modal
-- Disable deletion (possibly editing?) of Canvas events
-- Add link to Canvas assignment
 - Be able to cross out events in Planner
 - Change URL to be /planner/{year}/{month} if you select next or previous month
 - Show dark text if event color is too bright
