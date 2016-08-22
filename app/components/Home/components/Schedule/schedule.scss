@@ -46,7 +46,10 @@
 .table {
 	margin: 0;
 
-	thead .class-name {
-		width: 100%;
+	thead {
+		.start,
+		.end {
+			width: 6rem;
+		}
 	}
 }
