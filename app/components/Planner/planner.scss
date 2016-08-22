@@ -132,6 +132,10 @@
 								border-right: 2px solid;
 								border-bottom: 2px solid;
 
+								&.text-dark {
+									color: #333;
+								}
+
 								&.continue-left {
 									border-top-left-radius: 0;
 									border-bottom-left-radius: 0;
@@ -219,6 +223,10 @@
 								.event-manage {
 									opacity: 1;
 								}
+							}
+
+							&.text-dark {
+								color: #333;
 							}
 
 							.event-manage {

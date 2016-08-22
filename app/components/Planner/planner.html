@@ -41,6 +41,7 @@
 								{{ day?.date }}
 							</div>
 							<div *ngFor="let event of day?.events" class="event"
+								[class.text-dark] = "event?.data.class?.textDark"
 								[class.continue-left]="event?.inside.continueLeft"
 								[class.continue-right]="event?.inside.continueRight"
 								[style.background-color]="event?.data.class?.color || '#7F7F7F'"
@@ -81,6 +82,7 @@
 								</div>
 								<!-- Actual box with event -->
 								<div class="event-content"
+									[class.text-dark] = "event?.class?.textDark"
 									[style.background-color]="event.class?.color || '#7F7F7F'"
 									[style.border-right-color]="darkenColor(event.class?.color, -20)"
 									[style.border-bottom-color]="darkenColor(event.class?.color, -20)">
@@ -132,6 +134,7 @@
 							</div>
 							<!-- Actual box with event -->
 							<div class="event-content"
+								[class.text-dark] = "event?.data.class?.textDark"
 								[style.background-color]="event.data.class?.color || '#7F7F7F'"
 								[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
 								[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
