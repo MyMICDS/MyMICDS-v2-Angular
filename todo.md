@@ -22,7 +22,6 @@
 ## Planner
 - Be able to cross out events in Planner
 - Change URL to be /planner/{year}/{month} if you select next or previous month
-- Show dark text if event color is too bright
 
 ## Settings Page
 - Disable buttons if they are in the process of saving / submitting
