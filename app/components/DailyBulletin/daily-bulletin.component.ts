@@ -4,6 +4,8 @@ import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators';
+import moment from 'moment';
+import {FaComponent} from 'angular2-fontawesome/components';
 import {contains} from '../../common/utils';
 
 import {BlurDirective} from '../../directives/blur.directive';
@@ -17,55 +19,73 @@ import {SafeResourceUrlPipe} from '../../pipes/safe.pipe';
 	selector: 'daily-bulletin',
 	templateUrl: 'app/components/DailyBulletin/daily-bulletin.html',
 	styleUrls: ['dist/app/components/DailyBulletin/daily-bulletin.css'],
-	directives: [ROUTER_DIRECTIVES, BlurDirective],
+	directives: [ROUTER_DIRECTIVES, FaComponent, BlurDirective],
 	pipes: [SafeResourceUrlPipe],
 	providers: [BulletinService]
 })
 export class DailyBulletinComponent {
 	constructor(private route: ActivatedRoute, private alertService: AlertService, private bulletinService: BulletinService) {}
 
-	bulletins:string[];
-	bulletinPDFURL:string;
-	bulletinURL:string;
-	bulletinDate:any = new Date();
+	loading = true;
+
+	bulletins:string[] = [];
+	bulletinBaseURL:string = '';
+	bulletinURL:string = '';
+	bulletinDate:any = moment();
+	bulletinIndex:number = 0;
 
 	ngOnInit() {
-		var source = Observable.combineLatest(
+		var source = Observable.combineLatest([
 			this.bulletinService.listBulletins(),
-			this.route.params,
-			function(s1, s2) { return [s1, s2] }
-		);
+			this.route.params
+		]);
 
 		source.subscribe(
-			data => {
+			(data:any) => {
+				this.loading = false;
+				console.log(data)
 
+				this.bulletinBaseURL = data[0].baseURL;
 				this.bulletins = data[0].bulletins;
 
 				// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
 				let bulletinParam = data[1]['bulletin'];
-				if(bulletinParam !== 'undefined' && contains(this.bulletins, bulletinParam)) {
+				if(typeof bulletinParam !== 'undefined' && contains(this.bulletins, bulletinParam)) {
 					// Bulletin parameter is valid! Use that instead.
-					this.bulletinPDFURL = data[0].baseURL + '/' + bulletinParam + '.pdf';
-				} else {
-					// Use most recent bulletin
-					this.bulletinPDFURL = data[0].baseURL + '/' + this.bulletins[0] + '.pdf';
+					this.bulletinIndex = this.bulletins.indexOf(bulletinParam);
 				}
 
-				/*
-				 * WARNING: The Google Docs PDF Viewer does not work if the URL is http.
-				 * Fallback to regular URL if the current backendURL does not have https.
-				 */
-				if(config.backendURL.startsWith('https://')) {
-					this.bulletinURL = 'https://docs.google.com/gview?url=' + this.bulletinPDFURL + '&embedded=true';
-				} else {
-					this.bulletinURL = this.bulletinPDFURL;
-				}
+				this.setBulletin(this.bulletinIndex);
 
-				this.bulletinDate = new Date(this.bulletins[0]);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Bulletins Error!', error);
 			}
 		)
 	}
+
+	setBulletin(index) {
+		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.pdf';
+		this.bulletinDate = moment(this.bulletins[index]);
+	}
+
+	previousBulletin() {
+		if(this.bulletinIndex < this.bulletins.length - 1) {
+			this.bulletinIndex++;
+			this.setBulletin(this.bulletinIndex);
+		}
+	}
+
+	currentBulletin() {
+		this.bulletinIndex = 0;
+		this.setBulletin(this.bulletinIndex);
+	}
+
+	nextBulletin() {
+		if(this.bulletinIndex > 0) {
+			this.bulletinIndex--;
+			this.setBulletin(this.bulletinIndex);
+		}
+	}
+
 }
