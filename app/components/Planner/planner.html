@@ -91,11 +91,11 @@
 											<fa name="ellipsis-h"></fa>
 										</button>
 										<!-- Edit -->
-										<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event._id, $event); editEventModal.show()">
+										<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event._id, $event); editEventModal.show()" [disabled]="event?.canvas">
 											<fa name="pencil-square-o"></fa>
 										</button>
 										<!-- Delete -->
-										<button class="btn btn-danger btn-sm" (click)="deleteEvent(event._id, $event)">
+										<button class="btn btn-danger btn-sm" (click)="deleteEvent(event._id, $event)" [disabled]="event?.canvas">
 											<fa name="times"></fa>
 										</button>
 									</div>
@@ -142,11 +142,11 @@
 										<fa name="ellipsis-h"></fa>
 									</button>
 									<!-- Edit -->
-									<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()">
+									<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()" [disabled]="event.data?.canvas">
 										<fa name="pencil-square-o"></fa>
 									</button>
 									<!-- Delete -->
-									<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)">
+									<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)" [disabled]="event.data?.canvas">
 										<fa name="times"></fa>
 									</button>
 								</div>
@@ -223,11 +223,15 @@
 				<p class="event-modal-subtitle text-muted">{{ viewEventObject?.start | date }} - {{ viewEventObject?.end | date }}</p>
 			</div>
 			<div class="modal-body" [innerHTML]="viewEventObject?.desc"></div>
-			<div class="modal-footer">
+			<div class="modal-footer" *ngIf="!viewEventObject?.canvas || viewEventObject?.link">
 				<!-- Maybe someday... -->
 				<!-- <button class="btn btn-success">Cross out as Completed</button> -->
-				<button class="btn btn-warning" (click)="viewEventModal.hide(); viewEditEventModal(viewEventObject._id, $event); editEventModal.show()">Edit</button>
-				<button class="btn btn-danger" (click)="deleteEvent(viewEventObject._id, $event); viewEventModal.hide()">Delete</button>
+				<!-- Button if there's a link and it's a Canvas Event -->
+				<a *ngIf="viewEventObject?.link && viewEventObject?.canvas" class="btn btn-info" [href]="viewEventObject.link" target="_blank">View Event on Canvas</a>
+				<!-- Button if there's a link and it's NOT a Canvas Event -->
+				<a *ngIf="viewEventObject?.link && !viewEventObject?.canvas" class="btn btn-info" [href]="viewEventObject.link" target="_blank">View Event URL</a>
+				<button *ngIf="!viewEventObject?.canvas" class="btn btn-warning" (click)="viewEventModal.hide(); viewEditEventModal(viewEventObject._id, $event); editEventModal.show()">Edit</button>
+				<button *ngIf="!viewEventObject?.canvas" class="btn btn-danger" (click)="deleteEvent(viewEventObject._id, $event); viewEventModal.hide()">Delete</button>
 			</div>
 		</div>
 	</div>
