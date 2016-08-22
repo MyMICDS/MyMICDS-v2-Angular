@@ -10,6 +10,7 @@ import {BS_VIEW_PROVIDERS, DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES} from 'ng2-bo
 import {BlurDirective, WhiteBlurDirective} from '../../directives/blur.directive';
 
 import {AlertService} from '../../services/alert.service';
+import {CanvasService} from '../../services/canvas.service';
 import {ClassesService} from '../../services/classes.service';
 import {PlannerService} from '../../services/planner.service';
 import {UserService} from '../../services/user.service';
@@ -23,7 +24,7 @@ import {UserService} from '../../services/user.service';
 	viewProviders: [BS_VIEW_PROVIDERS]
 })
 export class PlannerComponent {
-    constructor(private alertService: AlertService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService) {}
+    constructor(private alertService: AlertService, private canvasService: CanvasService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService) {}
 	darkenColor = darkenColor;
 
 	weekdays = [
@@ -36,10 +37,19 @@ export class PlannerComponent {
 		'Saturday'
 	];
 
-	loading = true;
+	plannerLoading = true;
+	canvasLoading = true;
 
-	// Array of events directly from the back-end
-	events:Event[] = [];
+	// Array of total events
+	get events():Event[] {
+		console.log('get all events', this.plannerEvents.length, this.canvasEvents.length)
+		return this.plannerEvents.concat(this.canvasEvents);
+	}
+
+	// Array of Planner events
+	plannerEvents:Event[] = [];
+	// Array of Canvas events
+	canvasEvents:Event[] = [];
 	// List of classes the user has
 	classes:Class[] = [];
 
@@ -85,10 +95,12 @@ export class PlannerComponent {
 
 	ngOnInit() {
 		this.calendarDate = moment();
+		this.formattedMonth = this.formatMonth(this.calendarDate, []);
 
 		if(this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
+			// Get list of classes for when user inserts their own event
 			this.classesService.getClasses().subscribe(
 				classes => {
 					this.classes = classes;
@@ -97,10 +109,26 @@ export class PlannerComponent {
 					this.alertService.addAlert('danger', 'Get Classes Error!', error);
 				}
 			);
+			// Get Canvas events
+			this.canvasService.getEvents().subscribe(
+				data => {
+					this.canvasLoading = false;
+					if(data.hasURL) {
+						this.canvasEvents = data.events;
+						// Recalculate events to add Canvas Events
+						this.comingUp = this.formatWeek(this.events);
+						this.formattedMonth = this.formatMonth(this.calendarDate, this.events);
+					}
+				},
+				error => {
+					this.canvasLoading = false;
+					this.alertService.addAlert('danger', 'Get Canvas Events Error!', error);
+				}
+			);
 		} else {
 			// User not logged in
-			this.loading = false;
-			this.formattedMonth = this.formatMonth(this.calendarDate, []);
+			this.plannerLoading = false;
+			this.canvasLoading = false;
 		}
 
 		// Event to trigger deselect of day
@@ -117,7 +145,7 @@ export class PlannerComponent {
 	}
 
 	getEvents(date) {
-		this.loading = true;
+		this.plannerLoading = true;
 		let current = moment();
 
 		// Get events from back-end
@@ -127,8 +155,8 @@ export class PlannerComponent {
 
 		}).subscribe(
 			events => {
-				this.loading = false;
-				this.events = events;
+				this.plannerLoading = false;
+				this.plannerEvents = events;
 				// Format events to be displayed on planner
 				this.formattedMonth = this.formatMonth(date, this.events);
 
@@ -138,6 +166,7 @@ export class PlannerComponent {
 				}
 			},
 			error => {
+				this.plannerLoading = false;
 				this.alertService.addAlert('danger', 'Get Events Error!', error);
 			}
 		);
@@ -384,7 +413,7 @@ export class PlannerComponent {
 			this.getEvents(this.calendarDate);
 		} else {
 			// User not logged in
-			this.loading = false;
+			this.plannerLoading = false;
 			this.formattedMonth = this.formatMonth(this.calendarDate, []);
 		}
 	}
@@ -397,7 +426,7 @@ export class PlannerComponent {
 			this.getEvents(this.calendarDate);
 		} else {
 			// User not logged in
-			this.loading = false;
+			this.plannerLoading = false;
 			this.formattedMonth = this.formatMonth(this.calendarDate, []);
 		}
 	}
@@ -410,7 +439,7 @@ export class PlannerComponent {
 			this.getEvents(this.calendarDate);
 		} else {
 			// User not logged in
-			this.loading = false;
+			this.plannerLoading = false;
 			this.formattedMonth = this.formatMonth(this.calendarDate, []);
 		}
 	}

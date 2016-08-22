@@ -13,6 +13,7 @@
 - Optimization
   - Webpack?
   - HTTP 2?
+  - Server-side rendering
 
 ## Home Page
 - Customize labels when you hover over progress bar
@@ -27,6 +28,7 @@
 - Show dark text if event color is too bright
 
 ## Settings Page
+- Disable buttons if they are in the process of saving / submitting
 - Separate Settings sections into their own component.
   - Add Canvas / Portal link submission component to help page too
 - Typeahead for teacher names

@@ -1,14 +1,7 @@
-<!-- Loading Message -->
-<div *ngIf="loading || !formattedMonth || !comingUp" class="loading-container">
-	<div blur class="loading">
-		<h1>Fetching Planner Data...</h1>
-	</div>
-</div>
-
 <!-- Detect any click away from planner in this div -->
 <div class="planner-interface">
 	<!-- Planner -->
-	<div *ngIf="!loading && formattedMonth && comingUp" class="planner-container container">
+	<div class="planner-container container">
 		<div class="calendar-container">
 			<!-- Calendar including navigation bar -->
 			<div class="calendar">
@@ -31,6 +24,9 @@
 							<fa name="angle-right"></fa>
 						</span>
 					</button>
+				</div>
+				<div class="planner-loading" *ngIf="plannerLoading || canvasLoading">
+					Fetching Planner Events...
 				</div>
 				<!-- Calendar table (we used <div>'s this time!) -->
 				<div blur class="calendar-grid">
