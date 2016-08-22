@@ -4,5 +4,7 @@
 		<h3>{{bulletinDate | date:'EEEE, MMMM d, y'}}</h3>
 		<button routerLink="/bulletin-archives" class="btn btn-info btn-lg">See Archived Bulletins</button>
 	</div>
-	<object class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object>
+	<p blur *ngIf="loading" class="bulletin-message">Fetching the Daily Bulletins...</p>
+	<p blur *ngIf="!loading && bulletins.length === 0" class="bulletin-message">There are no Daily Bulletins!</p>
+	<object *ngIf="!loading && bulletins.length > 0" class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object>
 </div>

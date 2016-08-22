@@ -22,6 +22,7 @@
 ## Planner
 - Be able to cross out events in Planner
 - Change URL to be /planner/{year}/{month} if you select next or previous month
+- Add scrollbar if sidebar is too big
 
 ## Settings Page
 - Disable buttons if they are in the process of saving / submitting
@@ -31,8 +32,6 @@
 
 ## Daily Bulletin
 - Fix Daily Bulletin date displayed at the top
-- Daily Bulletin don't use Google Docs for viewing emails
-- Fix Daily Bulletin crashing if no PDF's
 
 ## Registration
 - Fix URL title in confirmation page
