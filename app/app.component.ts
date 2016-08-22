@@ -56,7 +56,7 @@ export class AppComponent {
 
 	ngOnInit() {
 		setTimeout(() => {
-			this.alertService.addAlert('info', 'Welcome Back!', '<strong>Alright, so even if you have an account from last year you must re-register into the new system.</strong> Also, there\'s a ton of bugs with the site, which we will fix soon. If there\'s any features you want or bugs you find, please email support@mymicds.net! We\'ll get everything under control as soon as possible.');
+			this.alertService.addAlert('info', 'Hello!', 'Remember when we said we would fix a bunch of bugs over the weekend? Well we fixed a bunch of bugs over the weekend. Email support@mymicds.net if you find any more.');
 		}, 1000);
 	}
 
