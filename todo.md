@@ -30,8 +30,5 @@
   - Add Canvas / Portal link submission component to help page too
 - Typeahead for teacher names
 
-## Daily Bulletin
-- Fix Daily Bulletin date displayed at the top
-
 ## Registration
 - Fix URL title in confirmation page
