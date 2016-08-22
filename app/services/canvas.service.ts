@@ -10,8 +10,8 @@ import '../common/rxjs-operators';
 export class CanvasService {
     constructor(private authHttp: AuthHttp) {}
 
-    getEvents(date:Date) {
-        let body = JSON.stringify(date);
+    getEvents() {
+        let body = JSON.stringify({});
 		let headers = xhrHeaders();
         let options = new RequestOptions({ headers });
 
