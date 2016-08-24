@@ -52,12 +52,5 @@ export class AppComponent {
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
 	 * You need this small hack in order to catch application root view container ref.
 	 */
-	constructor(private viewContainerRef: ViewContainerRef, private alertService: AlertService) {}
-
-	ngOnInit() {
-		setTimeout(() => {
-			this.alertService.addAlert('info', 'Hello!', 'Remember when we said we would fix a bunch of bugs over the weekend? Well we fixed a bunch of bugs over the weekend. Email support@mymicds.net if you find any more.');
-		}, 1000);
-	}
-
+	constructor(private viewContainerRef: ViewContainerRef) {}
 }
