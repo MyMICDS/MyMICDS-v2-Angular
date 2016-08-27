@@ -14,11 +14,13 @@
   - Webpack?
   - HTTP 2?
   - Server-side rendering
+- Add feed for sports (maybe own sports page?)
+- Add MICDS Twitter feed
+- Add school holidays
 
 ## Home Page
 - Progress bar is all weird
 - Customize labels when you hover over progress bar
-- Fix schedule when it shortens Collaborative period to 'US'
 
 ## Planner
 - Be able to cross out events in Planner
