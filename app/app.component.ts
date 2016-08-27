@@ -1,3 +1,5 @@
+import * as config from './common/config';
+
 import {Component, ViewContainerRef} from '@angular/core';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {ROUTER_DIRECTIVES} from '@angular/router';
@@ -52,5 +54,20 @@ export class AppComponent {
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
 	 * You need this small hack in order to catch application root view container ref.
 	 */
-	constructor(private viewContainerRef: ViewContainerRef) {}
+	constructor(private viewContainerRef: ViewContainerRef, private alertService: AlertService, private backgroundService: BackgroundService) {
+		// Get custom user background
+		this.backgroundService.get().subscribe(
+			data => {
+				this.backgrounds = data.variants;
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Get Background Error!', error);
+			}
+		);
+	}
+
+	backgrounds:any = {
+		normal: config.backendURL + '/user-backgrounds/default/normal.jpg',
+		blur: config.backendURL + '/user-backgrounds/default/blur.jpg'
+	};
 }
