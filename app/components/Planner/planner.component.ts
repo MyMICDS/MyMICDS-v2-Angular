@@ -15,6 +15,8 @@ import {ClassesService} from '../../services/classes.service';
 import {PlannerService} from '../../services/planner.service';
 import {UserService} from '../../services/user.service';
 
+import {Router, ActivatedRoute} from '@angular/router';
+
 @Component({
     selector: 'planner',
     templateUrl: 'app/components/Planner/planner.html',
@@ -24,7 +26,7 @@ import {UserService} from '../../services/user.service';
 	viewProviders: [BS_VIEW_PROVIDERS]
 })
 export class PlannerComponent {
-    constructor(private alertService: AlertService, private canvasService: CanvasService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService) {}
+    constructor(private alertService: AlertService, private canvasService: CanvasService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService, private router: Router, private route: ActivatedRoute) {}
 	darkenColor = darkenColor;
 
 	weekdays = [
@@ -97,6 +99,14 @@ export class PlannerComponent {
 		this.calendarDate = moment();
 		this.formattedMonth = this.formatMonth(this.calendarDate, []);
 
+		//Change the month and year according to the route parameters
+		if(this.route.snapshot.url[0].path !== 'planner') {
+			//route has parameters
+			console.log(this.route.snapshot);
+			this.calendarDate.year(this.route.snapshot.params['year']);
+			this.calendarDate.month(this.route.snapshot.params['month']-1);
+		}
+
 		if(this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
@@ -141,7 +151,6 @@ export class PlannerComponent {
 				this.deselectDay();
 			}
 		);
-
 	}
 
 	getEvents(date) {
@@ -408,6 +417,8 @@ export class PlannerComponent {
 	previousMonth() {
 		this.calendarDate.subtract(1, 'months');
 
+		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month()+1]);
+
 		if(this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
@@ -433,6 +444,8 @@ export class PlannerComponent {
 
 	nextMonth() {
 		this.calendarDate.add(1, 'months');
+
+		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month()+1]);
 
 		if(this.userService.getUsername()) {
 			// User logged in

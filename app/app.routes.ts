@@ -33,8 +33,12 @@ const routes: RouterConfig = [
 		component: LunchComponent
 	},
 	{
-		path: 'planner',
+		path: 'planner/:year/:month',
 		component: PlannerComponent,
+	},
+	{
+		path: 'planner',
+		component: PlannerComponent
 	},
 	{
 		path: 'daily-bulletin',
