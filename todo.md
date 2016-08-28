@@ -19,6 +19,7 @@
 - Add school holidays
 
 ## Home Page
+- When you change schedules too fast, the schedule flickers to differnt days
 - Progress bar is all weird
 - Customize labels when you hover over progress bar
 
@@ -33,6 +34,7 @@
 - Separate Settings sections into their own component.
   - Add Canvas / Portal link submission component to help page too
 - Typeahead for teacher names
+- Allow user to input one class per block
 
 ## Registration
 - Fix URL title in confirmation page
