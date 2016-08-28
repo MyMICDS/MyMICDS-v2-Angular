@@ -1,7 +1,7 @@
 <!-- Detect any click away from planner in this div -->
 <div class="planner-interface">
 	<!-- Planner -->
-	<div class="planner-container container">
+	<div class="planner-container">
 		<div class="calendar-container">
 			<!-- Calendar including navigation bar -->
 			<div class="calendar">
@@ -57,7 +57,7 @@
 			</div>
 
 			<div blur class="sidebar">
-				<div class="sidebar-header" [class.coming-up]="selectionDay === null">
+				<div class="sidebar-header" [style.text-align]="selectionDay === null ? 'left' : 'inherit'">
 					<h1>
 						<span *ngIf="selectionDay === null">Coming Up</span>
 						<span *ngIf="selectionDay !== null">{{ selectionDay.toDate() | date:'MMMM d, y' }}</span>

@@ -25,8 +25,6 @@
 
 ## Planner
 - Be able to cross out events in Planner
-- Change URL to be /planner/{year}/{month} if you select next or previous month
-- Add scrollbar if sidebar is too big
 - 'X' doesn't close modal for Viewing / Editing events
 
 ## Settings Page
