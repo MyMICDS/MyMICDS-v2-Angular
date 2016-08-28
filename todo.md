@@ -25,7 +25,6 @@
 
 ## Planner
 - Be able to cross out events in Planner
-- 'X' doesn't close modal for Viewing / Editing events
 
 ## Settings Page
 - Disable buttons if they are in the process of saving / submitting

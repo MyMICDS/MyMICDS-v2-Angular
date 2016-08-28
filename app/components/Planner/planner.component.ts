@@ -570,6 +570,17 @@ export class PlannerComponent {
 		}
 	}
 
+	//custom function that closes the bootstrap modal
+	closeModal(event) {
+		let click = new MouseEvent('click', {
+			'view': window,
+			'bubbles': true,
+			'cancelable': true
+		});
+		console.log(event.path[5]);
+		event.path[5].dispatchEvent(click);
+	}
+
 }
 
 interface Event {
