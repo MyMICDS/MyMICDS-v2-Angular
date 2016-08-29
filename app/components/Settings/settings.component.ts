@@ -557,7 +557,7 @@ export class SettingsComponent {
 		let ogClass = null;
 		for(let i = 0; i < this.ogClasses.length; i++) {
 			if(id === this.ogClasses[i]._id) {
-				ogClass = this.ogClasses[i];
+				ogClass = JSON.parse(JSON.stringify(this.ogClasses[i]));
 				break;
 			}
 		}

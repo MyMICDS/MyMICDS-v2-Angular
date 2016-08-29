@@ -24,7 +24,7 @@
 - Customize labels when you hover over progress bar
 
 ## Planner
-- Be able to cross out events in Planner
+- Be able to cross out events in Planner (add backend)
 
 ## Settings Page
 - Disable buttons if they are in the process of saving / submitting
