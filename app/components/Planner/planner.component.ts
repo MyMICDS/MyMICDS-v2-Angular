@@ -143,7 +143,12 @@ export class PlannerComponent {
 
 		// Event to trigger deselect of day
 		this.deselect$ = Observable.fromEvent(document, 'click')
-			.map((event:any) => event.target.className.split(' '))
+			.map((event:any) => {
+				if (event.target.className.split) {
+					return event.target.className.split(' ');
+				}
+				return [];
+			})
 			.filter((className:string[]) => contains(className, 'planner-interface'));
 
 		this.deselectSubscription = this.deselect$.subscribe(
@@ -570,6 +575,27 @@ export class PlannerComponent {
 		}
 	}
 
+	//Crossout Event
+	crossoutEvent(id:string, event:any) {
+		event.stopPropagation();
+		console.log(event);
+		if (event.path[4].childNodes[11]) {
+			let cl = event.path[4].childNodes[11].classList;
+			if (!cl.contains('cross-animated')) {
+				cl.add('cross-animated');
+			} else {
+				cl.remove('cross-animated');
+			}
+		} else if (event.path[2].childNodes[11]) {
+			let cl = event.path[2].childNodes[11].classList;
+			if (!cl.contains('cross-animated')) {
+				cl.add('cross-animated');
+			} else {
+				cl.remove('cross-animated');
+			}
+		};
+	}
+
 	//custom function that closes the bootstrap modal
 	closeModal(event) {
 		let click = new MouseEvent('click', {
@@ -577,8 +603,7 @@ export class PlannerComponent {
 			'bubbles': true,
 			'cancelable': true
 		});
-		console.log(event.path[5]);
-		event.path[5].dispatchEvent(click);
+		event.path[5].dispatchEvent(click);//not propagated
 	}
 
 }
