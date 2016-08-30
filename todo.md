@@ -19,13 +19,13 @@
 - Add school holidays
 
 ## Home Page
-- When you change schedules too fast, the schedule flickers to differnt days
+- When you change schedules too fast, the schedule flickers to different days
 - Progress bar is all weird
 - Customize labels when you hover over progress bar
 
 ## Planner
 - Be able to cross out events in Planner (add backend)
-- Be able to see the full week in the calendar, even if port of it spans into another month
+- Be able to see the full week in the calendar, even if part of it spans into another month
 
 ## Settings Page
 - Disable buttons if they are in the process of saving / submitting
