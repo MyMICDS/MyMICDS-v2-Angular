@@ -33,7 +33,7 @@ export class LoginComponent {
         this.authService.login(this.loginModel.user, this.loginModel.password, this.loginModel.remember).subscribe(
             loginRes => {
 				if(loginRes.success) {
-                	this.router.navigate(['home']);
+                	this.router.navigateByUrl('/home');
 				} else {
 					this.alertService.addAlert('warning', 'Warning!', 'Invalid username / password.', 3);
 				}

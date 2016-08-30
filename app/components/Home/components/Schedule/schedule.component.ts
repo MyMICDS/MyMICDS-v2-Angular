@@ -38,11 +38,12 @@ export class ScheduleComponent {
 	scheduleDate = moment();
 
 	ngOnInit() {
+		this.getSchedule(this.scheduleDate);
 		this.click$ = Observable.empty();
 	}
 
 	ngOnDestroy() {
-		this.clickSub.unsubscribe()
+		if (this.clickSub) {this.clickSub.unsubscribe()}
 	}
 
 	click$: Observable<{}>; clickSub;
@@ -57,7 +58,7 @@ export class ScheduleComponent {
 			this.previousCreated.push(event.target);
 			this.getSchedule(this.scheduleDate);
 			this.clickSub = this.click$
-				.debounceTime(300)
+				.debounceTime(1000)
 				.subscribe(
 					x => {
 						console.log("buffered")
@@ -76,7 +77,7 @@ export class ScheduleComponent {
 			this.currentCreated.push(event.target);
 			this.getSchedule(this.scheduleDate);
 			this.clickSub = this.click$
-				.debounceTime(300)
+				.debounceTime(1000)
 				.subscribe(
 					x => {
 						console.log("buffered")
@@ -95,7 +96,7 @@ export class ScheduleComponent {
 			this.nextCreated.push(event.target);
 			this.getSchedule(this.scheduleDate);
 			this.clickSub = this.click$
-				.debounceTime(300)
+				.debounceTime(1000)
 				.subscribe(
 					x => {
 						console.log("buffered")

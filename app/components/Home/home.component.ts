@@ -25,6 +25,7 @@ export class HomeComponent {
 	constructor(private alertService: AlertService, private portalService: PortalService) {}
 
 	ngOnInit() {
+		console.log("Home copmonent init");
 		// Get schedule from date object and assign to schedule variable
 		this.portalService.getSchedule({
 			year : this.scheduleDate.getFullYear(),
