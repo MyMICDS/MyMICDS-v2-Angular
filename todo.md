@@ -25,6 +25,7 @@
 
 ## Planner
 - Be able to cross out events in Planner (add backend)
+- Be able to see the full week in the calendar, even if port of it spans into another month
 
 ## Settings Page
 - Disable buttons if they are in the process of saving / submitting
