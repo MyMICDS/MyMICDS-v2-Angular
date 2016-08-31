@@ -42,10 +42,6 @@ export class ScheduleComponent {
 		this.click$ = Observable.empty();
 	}
 
-	ngOnDestroy() {
-		if (this.clickSub) {this.clickSub.unsubscribe()}
-	}
-
 	click$: Observable<{}>; clickSub;
 	previousCreated = []; currentCreated = []; nextCreated = [];
 
