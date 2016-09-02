@@ -156,7 +156,7 @@ export class ProgressComponent {
 			if(!formattedSchedule[i].color) {
 				let color = [255, 255, 255];
 				if(formattedSchedule[i].class.name) {
-					color = prisma(formattedSchedule[i].class.color).rgbaArray;
+					color = hexToRgb(formattedSchedule[i].class.color);
 				} else {
 					color = prisma(formattedSchedule[i].class).rgbaArray;
 				}

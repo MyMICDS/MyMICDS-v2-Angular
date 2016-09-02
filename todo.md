@@ -36,3 +36,6 @@
 
 ## Registration
 - Fix URL title in confirmation page
+
+## About Page
+- Update dev pictures to 2016-2017 year pictures

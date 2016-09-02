@@ -298,10 +298,10 @@ export class PlannerComponent {
 				let weekdayDisplay = weekdayDate.calendar(null, {
 					sameDay: '[Today]',
 					nextDay: '[Tomorrow]',
-					nextWeek: '[Next] dddd',
+					nextWeek: 'dddd',
 					lastDay: '[Yesterday]',
 					lastWeek: '[Last] dddd',
-					sameElse: 'DD.MM.YYYY'
+					sameElse: 'MMMM Do'
 				});
 
 				formattedWeek.push({
