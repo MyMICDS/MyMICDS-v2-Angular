@@ -6,7 +6,6 @@
 ## General
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
 - Cache Canvas and Portal Events for speed (maybe lunch too?)
-- Fix Schedule Parser to include lunch / Advisory / free periods
 - Update data if changed in another tab (socket.io?)
 - 404 Page
 - Optimize for mobile
@@ -18,12 +17,10 @@
 ## Home Page
 - Progress bar is all weird
 - Customize labels when you hover over progress bar
-- Fix schedule when it shortens Collaborative period to 'US'
 
 ## Planner
 - Be able to cross out events in Planner
 - Change URL to be /planner/{year}/{month} if you select next or previous month
-- Add scrollbar if sidebar is too big
 - 'X' doesn't close modal for Viewing / Editing events
 
 ## Settings Page
