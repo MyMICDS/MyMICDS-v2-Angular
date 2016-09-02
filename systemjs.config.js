@@ -18,7 +18,8 @@
 	'moment':                     'node_modules/moment/moment.js',
 	'ng2-bootstrap':              'node_modules/ng2-bootstrap',
 	'prisma':                     'node_modules/prisma/lib/index.js',
-  'ct-angular2-color-picker':   'node_modules/ct-angular2-color-picker'
+  'ct-angular2-color-picker':   'node_modules/ct-angular2-color-picker',
+	'socket.io-client':           'node_modules/socket.io-client/socket.io.js'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -31,7 +32,8 @@
 	'angular2-uuid':              { main: 'index.js', defaultExtention: 'js' },
 	'h5webstorage':               { main: 'index.js', defaultExtention: 'js' },
 	'ng2-bootstrap':              { defaultExtention: 'js' },
-  'ct-angular2-color-picker':   { defaultExtention: 'js' }
+  'ct-angular2-color-picker':   { defaultExtention: 'js' },
+	'socket.io-client':           { defaultExtension: 'js'}
   };
   var ngPackageNames = [
 	'common',
