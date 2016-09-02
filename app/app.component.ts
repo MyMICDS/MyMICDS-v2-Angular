@@ -73,7 +73,7 @@ export class AppComponent {
 
 	ngOnInit() {
 		setTimeout(() => {
-			this.alertService.addAlert('info', 'Help!', 'Hey you. Yeah you. <a class="alert-link" href="https://goo.gl/forms/442vRtzMxuZHQbWK2">Can you give us some feedback on MyMICDS 2.0?</a>');
+			this.alertService.addAlert('info', 'Help!', 'Hey you. Yeah you. <a class="alert-link" href="https://goo.gl/forms/442vRtzMxuZHQbWK2" target="_blank">Can you give us some feedback on MyMICDS 2.0?</a>');
 		}, 1000);
 	}
 }
