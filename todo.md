@@ -6,7 +6,6 @@
 ## General
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
 - Cache Canvas and Portal Events for speed (maybe lunch too?)
-- Fix Schedule Parser to include lunch / Advisory / free periods
 - Update data if changed in another tab (socket.io?)
 - 404 Page
 - Optimize for mobile
