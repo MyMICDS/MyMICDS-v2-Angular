@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
-import {NgFor} from '@angular/common';
 
 import {AlertService, Alert} from '../../services/alert.service';
 
 @Component({
 	selector: 'alert',
 	templateUrl: 'app/components/Alert/alert.html',
-	styleUrls: ['dist/app/components/Alert/alert.css'],
-	directives: [NgFor]
+	styleUrls: ['dist/app/components/Alert/alert.css']
 })
 export class AlertComponent {
 	constructor(private alertService: AlertService) {}

@@ -1,13 +1,10 @@
 import {Component} from '@angular/core';
 import {NgFor, NgIf} from '@angular/common';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {FaComponent} from 'angular2-fontawesome/components';
 import moment from 'moment';
 import {contains, darkenColor} from '../../common/utils';
-import {BS_VIEW_PROVIDERS, DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
-
-import {BlurDirective, WhiteBlurDirective} from '../../directives/blur.directive';
+import {BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {AlertService} from '../../services/alert.service';
 import {CanvasService} from '../../services/canvas.service';
@@ -21,7 +18,6 @@ import {Router, ActivatedRoute} from '@angular/router';
     selector: 'planner',
     templateUrl: 'app/components/Planner/planner.html',
     styleUrls: ['dist/app/components/Planner/planner.css'],
-    directives: [ROUTER_DIRECTIVES, NgIf, NgFor, DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES, FaComponent, BlurDirective],
     providers: [ClassesService, PlannerService],
 	viewProviders: [BS_VIEW_PROVIDERS]
 })

@@ -1,7 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {NgFor, NgIf} from '@angular/common';
 import moment from 'moment';
-import {FaComponent} from 'angular2-fontawesome/components';
 
 import {AlertService} from '../../../../services/alert.service';
 import {PortalService} from '../../../../services/portal.service';
@@ -15,7 +13,6 @@ import {contains} from '../../../../common/utils'
 	selector: 'schedule',
 	templateUrl: 'app/components/Home/components/Schedule/schedule.html',
 	styleUrls: ['dist/app/components/Home/components/Schedule/schedule.css'],
-	directives: [NgFor, NgIf, FaComponent]
 })
 export class ScheduleComponent {
 
