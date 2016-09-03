@@ -17,13 +17,13 @@ import {UserService} from '../../services/user.service';
 import {ClassesService, Class} from '../../services/classes.service';
 import {AliasService} from '../../services/alias.service'
 
-import {ColorPickerService} from 'ct-angular2-color-picker/component';
+import {ColorPickerService} from 'angular2-color-picker/';
 
 @Component ({
 	selector: 'settings',
 	templateUrl: 'app/components/Settings/settings.html',
 	styleUrls: ['dist/app/components/Settings/settings.css'],
-	providers: [ClassesService, ColorPickerService, AliasService]
+	providers: [ClassesService, AliasService]
 })
 
 export class SettingsComponent {

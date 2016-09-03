@@ -28,7 +28,4 @@ if(config.production) {
 	enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-	.catch((e)=> {
-		console.log('Angular Failed to bootstrap the app.', e)
-	});
+platformBrowserDynamic().bootstrapModule(AppModule);

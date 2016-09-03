@@ -29,7 +29,7 @@
 			'moment':                     'node_modules/moment/moment.js',
 			'ng2-bootstrap':              'node_modules/ng2-bootstrap',
 			'prisma':                     'node_modules/prisma/lib/index.js',
-			'ct-angular2-color-picker':   'node_modules/ct-angular2-color-picker',
+			'angular2-color-picker':   		'node_modules/angular2-color-picker',
 			'socket.io-client':           'node_modules/socket.io-client/socket.io.js'
     },
     // packages tells the System loader how to load when no filename and/or no extension
@@ -48,7 +48,7 @@
 			'angular2-jwt':               { main: 'angular2-jwt.js', defaultExtension: 'js' },
 			'angular2-uuid':              { main: 'index.js', defaultExtension: 'js' },
 			'ng2-bootstrap':              { defaultExtension: 'js' },
-			'ct-angular2-color-picker':   { defaultExtension: 'js' },
+			'angular2-color-picker':   		{ main: 'index.js', defaultExtension: 'js' },
 			'socket.io-client':           { defaultExtension: 'js'}
     }
   });

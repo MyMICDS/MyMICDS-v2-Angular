@@ -4,7 +4,6 @@ import {Observable} from 'rxjs/Observable';
 import {FaComponent} from 'angular2-fontawesome/components';
 import moment from 'moment';
 import {contains, darkenColor} from '../../common/utils';
-import {BS_VIEW_PROVIDERS} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {AlertService} from '../../services/alert.service';
 import {CanvasService} from '../../services/canvas.service';
@@ -18,8 +17,7 @@ import {Router, ActivatedRoute} from '@angular/router';
     selector: 'planner',
     templateUrl: 'app/components/Planner/planner.html',
     styleUrls: ['dist/app/components/Planner/planner.css'],
-    providers: [ClassesService, PlannerService],
-	viewProviders: [BS_VIEW_PROVIDERS]
+    providers: [ClassesService, PlannerService]
 })
 export class PlannerComponent {
     constructor(private alertService: AlertService, private canvasService: CanvasService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService, private router: Router, private route: ActivatedRoute) {}

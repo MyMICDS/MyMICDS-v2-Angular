@@ -5,6 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { routing } from './app.routing'
+import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import {AuthHttp, AuthConfig, JwtHelper, AUTH_PROVIDERS, provideAuth} from 'angular2-jwt';
 let jwtHelper = new JwtHelper();
@@ -31,10 +34,9 @@ import {ConfirmComponent} from './components/Confirm/confirm.component';
 import {ForgotPasswordComponent} from './components/ForgotPassword/forgot-password.component';
 import {ResetPasswordComponent} from './components/ResetPassword/reset-password.component';
 
-import {NgFor, NgIf, NgStyle} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {BlurDirective, WhiteBlurDirective, DarkBlurDirective} from './directives/blur.directive';
 import {FaComponent} from 'angular2-fontawesome/components';
-import {DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {SafeResourceUrlPipe} from './pipes/safe.pipe';
 import {DayRotationPipe} from './pipes/day-rotation.pipe';
@@ -43,15 +45,19 @@ import {CompassDirectionPipe} from './pipes/compass-direction.pipe';
 import {RoundPipe} from './pipes/round.pipe';
 import {WeatherIconPipe} from './pipes/weather-icon.pipe';
 import {ValuesPipe} from './pipes/values.pipe';
-import {ColorPickerDirective} from 'ct-angular2-color-picker/component';
-
+import {ColorPickerService} from 'angular2-color-picker';
+import {ColorPickerDirective} from 'angular2-color-picker';
 
 @NgModule({
   imports: [ 
     BrowserModule, 
+    CommonModule,
     HttpModule, 
     FormsModule,
-    routing
+    routing,
+    Ng2BootstrapModule,
+    DatepickerModule,
+    ModalModule
     ],       // module dependencies
   declarations: [ 
     //components
@@ -62,9 +68,8 @@ import {ColorPickerDirective} from 'ct-angular2-color-picker/component';
     LoginComponent,          LogoutComponent,        RegisterComponent,
     ConfirmComponent,        ForgotPasswordComponent, ResetPasswordComponent,
     //directives
-    NgFor,                   NgIf,                   NgStyle, 
     BlurDirective,           FaComponent,            DarkBlurDirective,
-    WhiteBlurDirective,      DATEPICKER_DIRECTIVES,  MODAL_DIRECTIVES,
+    WhiteBlurDirective,      ColorPickerDirective,
     //pipes
     SafeResourceUrlPipe,     DayRotationPipe,        SchoolPercentagePipe, 
     CompassDirectionPipe,    RoundPipe,              WeatherIconPipe,
@@ -72,6 +77,7 @@ import {ColorPickerDirective} from 'ct-angular2-color-picker/component';
     ],
   providers: [
     Title,
+    ColorPickerService,
     {
         provide: AuthHttp,
         useFactory: (http) => {

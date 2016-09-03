@@ -2,6 +2,7 @@
 
 ## **VERY IMPORTANTE!!!!**
 - Add rainbow colors for specifically user pshort
+- update documentation
 
 ## General
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
@@ -28,6 +29,7 @@
 ## Planner
 - Be able to cross out events in Planner (add backend)
 - Be able to see the full week in the calendar, even if part of it spans into another month
+- Illustrate the connected events spanning from date to date. 
 
 ## Settings Page
 - Disable buttons if they are in the process of saving / submitting
