@@ -27,7 +27,7 @@
 			'angular2-jwt':               'node_modules/angular2-jwt',
 			'angular2-uuid':              'node_modules/angular2-uuid',
 			'chart-js':                   'node_modules/chart.js/dist/Chart.min.js',
-			'h5webstorage':               'node_modules/h5webstorage',
+			//'h5webstorage':               'node_modules/h5webstorage',
 			'moment':                     'node_modules/moment/moment.js',
 			'ng2-bootstrap':              'node_modules/ng2-bootstrap',
 			'prisma':                     'node_modules/prisma/lib/index.js',
@@ -50,7 +50,7 @@
 			'angular2-fontawesome':       { defaultExtension: 'js' },
 			'angular2-jwt':               { main: 'angular2-jwt', defaultExtension: 'js' },
 			'angular2-uuid':              { main: 'index.js', defaultExtension: 'js' },
-			'h5webstorage':               { main: 'index.js', defaultExtension: 'js' },
+			//'h5webstorage':               { main: 'index.js', defaultExtension: 'js' },
 			'ng2-bootstrap':              { defaultExtension: 'js' },
 			'ct-angular2-color-picker':   { defaultExtension: 'js' },
 			'socket.io-client':           { defaultExtension: 'js'}
