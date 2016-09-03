@@ -1,7 +1,6 @@
 import * as config from './common/config';
 
 import {Component, ViewContainerRef} from '@angular/core';
-import {LocalStorage, SessionStorage} from 'h5webstorage';
 
 import {AlertService} from './services/alert.service';
 import {AuthService} from './services/auth.service';
@@ -19,7 +18,7 @@ import {UserService} from './services/user.service';
 		<router-outlet></router-outlet>
 	`,
 	styles: [':host { height: 100%; }'],
-	providers: [LocalStorage, SessionStorage, AlertService, AuthService, BackgroundService, CanvasService, PortalService, UserService],
+	providers: [AlertService, AuthService, BackgroundService, CanvasService, PortalService, UserService],
 })
 export class AppComponent {
 

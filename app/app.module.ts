@@ -8,7 +8,6 @@ import { routing } from './app.routing'
 
 import {AuthHttp, AuthConfig, JwtHelper, AUTH_PROVIDERS, provideAuth} from 'angular2-jwt';
 let jwtHelper = new JwtHelper();
-import {WEB_STORAGE_PROVIDERS} from 'h5webstorage';
 import {Title} from '@angular/platform-browser';
 
 import { AppComponent }  from './app.component';
@@ -73,7 +72,6 @@ import {ColorPickerDirective} from 'ct-angular2-color-picker/component';
     ],
   providers: [
     Title,
-    WEB_STORAGE_PROVIDERS,
     {
         provide: AuthHttp,
         useFactory: (http) => {
@@ -91,8 +89,8 @@ import {ColorPickerDirective} from 'ct-angular2-color-picker/component';
 
                             // Check if token is expired. If it is, delete and send user to login page
                             if(jwtHelper.isTokenExpired(token)) {
-                                this.sessionStorage.removeItem('id_token');
-                                this.localStorage.removeItem('id_token');
+                                sessionStorage.removeItem('id_token');
+                                localStorage.removeItem('id_token');
 
                                 this.router.navigate(['/login']);
                                 return null;
