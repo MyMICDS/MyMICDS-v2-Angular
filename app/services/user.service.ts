@@ -5,18 +5,23 @@ import {Http, RequestOptions} from '@angular/http';
 import {AuthHttp, JwtHelper} from 'angular2-jwt';
 import {xhrHeaders, handleError} from '../common/http-helpers';
 import '../common/rxjs-operators';
-import {LocalStorage, SessionStorage} from 'h5webstorage';
 
 @Injectable()
 export class UserService {
-    constructor(private http: Http, private authHttp: AuthHttp, private localStorage: LocalStorage, private sessionStorage: SessionStorage) {}
+    constructor(private http: Http, private authHttp: AuthHttp) {}
 
 	// Retrieves the contents of the JWT stored in the browser. Returns null if JWT has expired or is invalid or not there.
 	getJWT(): any {
 		// Get JWT
-		let token = this.sessionStorage.getItem('id_token') || this.localStorage.getItem('id_token');
+		let token = sessionStorage.getItem('id_token') || localStorage.getItem('id_token');
 		// If not JWT, then user isn't logged in
 		if(!token) return null;
+		if (token.split('.').length !== 3) {
+			console.log("JWT must have three parts!")
+			localStorage.removeItem('id_token');
+			sessionStorage.removeItem('id_token');
+			return null
+		}
 		// Check if token is expired
 		if(this.jwtHelper.isTokenExpired(token)) return null;
 

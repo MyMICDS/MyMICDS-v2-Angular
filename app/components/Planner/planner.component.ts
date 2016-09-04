@@ -1,13 +1,7 @@
 import {Component} from '@angular/core';
-import {NgFor, NgIf} from '@angular/common';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
-import {FaComponent} from 'angular2-fontawesome/components';
 import moment from 'moment';
 import {contains, darkenColor} from '../../common/utils';
-import {BS_VIEW_PROVIDERS, DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES} from 'ng2-bootstrap/ng2-bootstrap';
-
-import {BlurDirective, WhiteBlurDirective} from '../../directives/blur.directive';
 
 import {AlertService} from '../../services/alert.service';
 import {CanvasService} from '../../services/canvas.service';
@@ -15,16 +9,16 @@ import {ClassesService} from '../../services/classes.service';
 import {PlannerService} from '../../services/planner.service';
 import {UserService} from '../../services/user.service';
 
+import {Router, ActivatedRoute} from '@angular/router';
+
 @Component({
     selector: 'planner',
     templateUrl: 'app/components/Planner/planner.html',
     styleUrls: ['dist/app/components/Planner/planner.css'],
-    directives: [ROUTER_DIRECTIVES, NgIf, NgFor, DATEPICKER_DIRECTIVES, MODAL_DIRECTIVES, FaComponent, BlurDirective],
-    providers: [ClassesService, PlannerService],
-	viewProviders: [BS_VIEW_PROVIDERS]
+    providers: [ClassesService, PlannerService]
 })
 export class PlannerComponent {
-    constructor(private alertService: AlertService, private canvasService: CanvasService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService) {}
+    constructor(private alertService: AlertService, private canvasService: CanvasService, private classesService: ClassesService, private plannerService: PlannerService, private userService: UserService, private router: Router, private route: ActivatedRoute) {}
 	darkenColor = darkenColor;
 
 	weekdays = [
@@ -97,6 +91,14 @@ export class PlannerComponent {
 		this.calendarDate = moment();
 		this.formattedMonth = this.formatMonth(this.calendarDate, []);
 
+		//Change the month and year according to the route parameters
+		if(this.route.snapshot.url[0].path !== 'planner') {
+			//route has parameters
+			console.log(this.route.snapshot);
+			this.calendarDate.year(this.route.snapshot.params['year']);
+			this.calendarDate.month(this.route.snapshot.params['month']-1);
+		}
+
 		if(this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
@@ -133,7 +135,12 @@ export class PlannerComponent {
 
 		// Event to trigger deselect of day
 		this.deselect$ = Observable.fromEvent(document, 'click')
-			.map((event:any) => event.target.className.split(' '))
+			.map((event:any) => {
+				if (event.target.className.split) {
+					return event.target.className.split(' ');
+				}
+				return [];
+			})
 			.filter((className:string[]) => contains(className, 'planner-interface'));
 
 		this.deselectSubscription = this.deselect$.subscribe(
@@ -141,7 +148,6 @@ export class PlannerComponent {
 				this.deselectDay();
 			}
 		);
-
 	}
 
 	getEvents(date) {
@@ -284,10 +290,10 @@ export class PlannerComponent {
 				let weekdayDisplay = weekdayDate.calendar(null, {
 					sameDay: '[Today]',
 					nextDay: '[Tomorrow]',
-					nextWeek: 'dddd',
+					nextWeek: '[Next] dddd',
 					lastDay: '[Yesterday]',
 					lastWeek: '[Last] dddd',
-					sameElse: 'MMMM Do'
+					sameElse: 'DD.MM.YYYY'
 				});
 
 				formattedWeek.push({
@@ -408,6 +414,8 @@ export class PlannerComponent {
 	previousMonth() {
 		this.calendarDate.subtract(1, 'months');
 
+		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month()+1]);
+
 		if(this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
@@ -433,6 +441,8 @@ export class PlannerComponent {
 
 	nextMonth() {
 		this.calendarDate.add(1, 'months');
+
+		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month()+1]);
 
 		if(this.userService.getUsername()) {
 			// User logged in
@@ -555,6 +565,37 @@ export class PlannerComponent {
 				}
 			);
 		}
+	}
+
+	//Crossout Event
+	crossoutEvent(id:string, event:any) {
+		event.stopPropagation();
+		console.log(event);
+		if (event.path[4].childNodes[11]) {
+			let cl = event.path[4].childNodes[11].classList;
+			if (!cl.contains('cross-animated')) {
+				cl.add('cross-animated');
+			} else {
+				cl.remove('cross-animated');
+			}
+		} else if (event.path[2].childNodes[11]) {
+			let cl = event.path[2].childNodes[11].classList;
+			if (!cl.contains('cross-animated')) {
+				cl.add('cross-animated');
+			} else {
+				cl.remove('cross-animated');
+			}
+		};
+	}
+
+	//custom function that closes the bootstrap modal
+	closeModal(event) {
+		let click = new MouseEvent('click', {
+			'view': window,
+			'bubbles': true,
+			'cancelable': true
+		});
+		event.path[5].dispatchEvent(click);//not propagated
 	}
 
 }

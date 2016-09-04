@@ -1,26 +1,19 @@
 import * as config from '../../common/config';
 
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators';
 import moment from 'moment';
-import {FaComponent} from 'angular2-fontawesome/components';
 import {contains} from '../../common/utils';
-
-import {BlurDirective} from '../../directives/blur.directive';
 
 import {AlertService} from '../../services/alert.service';
 import {BulletinService} from '../../services/bulletin.service';
-
-import {SafeResourceUrlPipe} from '../../pipes/safe.pipe';
 
 @Component({
 	selector: 'daily-bulletin',
 	templateUrl: 'app/components/DailyBulletin/daily-bulletin.html',
 	styleUrls: ['dist/app/components/DailyBulletin/daily-bulletin.css'],
-	directives: [ROUTER_DIRECTIVES, FaComponent, BlurDirective],
-	pipes: [SafeResourceUrlPipe],
 	providers: [BulletinService]
 })
 export class DailyBulletinComponent {

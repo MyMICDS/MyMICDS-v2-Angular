@@ -1,18 +1,12 @@
 import {Component, Input} from '@angular/core';
-import {NgIf} from '@angular/common';
 import {Chart} from 'chart-js'; // This gives an error for some reason, but trust me, it works.
 import {default as prisma} from 'prisma'; // This gives an error for some reason, but trust me, it works.
 import {hexToRgb} from '../../../../common/utils';
-
-import {DayRotationPipe} from '../../../../pipes/day-rotation.pipe';
-import {SchoolPercentagePipe} from '../../../../pipes/school-percentage.pipe';
 
 @Component({
 	selector: 'progress-day',
 	templateUrl: 'app/components/Home/components/Progress/progress.html',
 	styleUrls: ['dist/app/components/Home/components/Progress/progress.css'],
-	directives: [NgIf],
-	pipes: [DayRotationPipe, SchoolPercentagePipe]
 })
 export class ProgressComponent {
 
@@ -156,7 +150,7 @@ export class ProgressComponent {
 			if(!formattedSchedule[i].color) {
 				let color = [255, 255, 255];
 				if(formattedSchedule[i].class.name) {
-					color = hexToRgb(formattedSchedule[i].class.color);
+					color = prisma(formattedSchedule[i].class.color).rgbaArray;
 				} else {
 					color = prisma(formattedSchedule[i].class).rgbaArray;
 				}

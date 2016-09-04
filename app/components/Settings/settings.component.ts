@@ -1,16 +1,12 @@
 import * as config from '../../common/config'
 
 import {Component} from '@angular/core';
-import {NgFor, NgIf, NgForm, NgStyle} from '@angular/common';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {REACTIVE_FORM_DIRECTIVES, FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators';
 import {FaComponent} from 'angular2-fontawesome/components';
 import {confirmPassword, confirmGrade} from '../../common/form-validation';
 import {contains, capitalize} from '../../common/utils';
-
-import {BlurDirective} from '../../directives/blur.directive';
 
 import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
@@ -21,15 +17,13 @@ import {UserService} from '../../services/user.service';
 import {ClassesService, Class} from '../../services/classes.service';
 import {AliasService} from '../../services/alias.service'
 
-import {ColorPickerService} from 'ct-angular2-color-picker/component';
-import {ColorPickerDirective} from 'ct-angular2-color-picker/component'
+import {ColorPickerService} from 'angular2-color-picker';
 
 @Component ({
 	selector: 'settings',
 	templateUrl: 'app/components/Settings/settings.html',
 	styleUrls: ['dist/app/components/Settings/settings.css'],
-	directives: [ROUTER_DIRECTIVES, REACTIVE_FORM_DIRECTIVES, NgFor, NgIf, NgStyle, FaComponent, BlurDirective, ColorPickerDirective],
-	providers: [ClassesService, ColorPickerService, AliasService]
+	providers: [ClassesService, AliasService]
 })
 
 export class SettingsComponent {
@@ -557,7 +551,7 @@ export class SettingsComponent {
 		let ogClass = null;
 		for(let i = 0; i < this.ogClasses.length; i++) {
 			if(id === this.ogClasses[i]._id) {
-				ogClass = this.ogClasses[i];
+				ogClass = JSON.parse(JSON.stringify(this.ogClasses[i]));
 				break;
 			}
 		}

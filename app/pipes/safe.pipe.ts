@@ -1,6 +1,6 @@
 
 import {Pipe, PipeTransform} from '@angular/core';
-import {DomSanitizationService} from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
 
 /*
  * Bypasses Angular 2's sanitization to display things like URLs for iframes.
@@ -10,7 +10,7 @@ import {DomSanitizationService} from '@angular/platform-browser';
 
 @Pipe({name: 'safeHtml'})
 export class SafeHtmlPipe {
-	constructor(private sanitizer:DomSanitizationService) {}
+	constructor(private sanitizer:DomSanitizer) {}
 
 	transform(style) {
 		return this.sanitizer.bypassSecurityTrustHtml(style);
@@ -19,7 +19,7 @@ export class SafeHtmlPipe {
 
 @Pipe({name: 'safeScript'})
 export class SafeScriptPipe {
-	constructor(private sanitizer:DomSanitizationService) {}
+	constructor(private sanitizer:DomSanitizer) {}
 
 	transform(style) {
 		return this.sanitizer.bypassSecurityTrustScript(style);
@@ -28,7 +28,7 @@ export class SafeScriptPipe {
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe {
-	constructor(private sanitizer:DomSanitizationService) {}
+	constructor(private sanitizer:DomSanitizer) {}
 
 	transform(style) {
 		return this.sanitizer.bypassSecurityTrustStyle(style);
@@ -37,7 +37,7 @@ export class SafeStylePipe {
 
 @Pipe({name: 'safeUrl'})
 export class SafeUrlPipe {
-	constructor(private sanitizer:DomSanitizationService) {}
+	constructor(private sanitizer:DomSanitizer) {}
 
 	transform(style) {
 		return this.sanitizer.bypassSecurityTrustUrl(style);
@@ -46,7 +46,7 @@ export class SafeUrlPipe {
 
 @Pipe({name: 'safeResourceUrl'})
 export class SafeResourceUrlPipe {
-	constructor(private sanitizer:DomSanitizationService) {}
+	constructor(private sanitizer:DomSanitizer) {}
 
 	transform(style) {
 		return this.sanitizer.bypassSecurityTrustResourceUrl(style);
