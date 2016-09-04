@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {NgFor, NgIf} from '@angular/common';
 import {Observable} from 'rxjs/Observable';
-import {FaComponent} from 'angular2-fontawesome/components';
 import moment from 'moment';
 import {contains, darkenColor} from '../../common/utils';
 

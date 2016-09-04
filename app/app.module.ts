@@ -77,7 +77,7 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
   providers: [
     Title,
     ColorPickerService,
-    authProviders,
+    AUTH_PROVIDERS,
     {
         provide: AuthHttp,
         useFactory: (http) => {
@@ -93,6 +93,13 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
                         if(typeof token === 'string') {
                             token = token.split('"').join('');
 
+                            //check validity of jwt token
+                            if (token.split('.').length !== 3) {
+                                console.log("JWT must have three parts!");
+                                localStorage.removeItem('id_token');
+                                sessionStorage.removeItem('id_token');
+                            }
+
                             // Check if token is expired. If it is, delete and send user to login page
                             if(jwtHelper.isTokenExpired(token)) {
                                 sessionStorage.removeItem('id_token');
@@ -101,6 +108,8 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
                                 this.router.navigate(['/login']);
                                 return null;
                             }
+                        } else {
+                            return '';
                         }
 
                         return token;
