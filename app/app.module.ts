@@ -77,6 +77,7 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
   providers: [
     Title,
     ColorPickerService,
+    authProviders,
     AUTH_PROVIDERS,
     {
         provide: AuthHttp,
