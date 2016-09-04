@@ -1,6 +1,4 @@
 import {Component} from '@angular/core';
-import {NgFor, NgIf} from '@angular/common';
-import {ROUTER_DIRECTIVES} from '@angular/router';
 
 import {BlurDirective} from '../../directives/blur.directive';
 
@@ -11,7 +9,6 @@ import {BulletinService} from '../../services/bulletin.service';
 	selector: 'bulletin-archives',
 	templateUrl: 'app/components/BulletinArchives/bulletin-archives.html',
 	styleUrls: ['dist/app/components/BulletinArchives/bulletin-archives.css'],
-	directives: [NgFor, NgIf, ROUTER_DIRECTIVES, BlurDirective],
 	providers: [BulletinService]
 })
 export class BulletinArchivesComponent {

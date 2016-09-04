@@ -1,23 +1,15 @@
 import {Component} from '@angular/core';
-import {NgIf, NgFor} from '@angular/common';
-import {FaComponent} from 'angular2-fontawesome/components';
 import moment from 'moment';
-
-import {BlurDirective} from '../../directives/blur.directive';
 
 import {AlertService} from '../../services/alert.service';
 import {LunchService} from '../../services/lunch.service';
 import {UserService} from '../../services/user.service';
 
-import {ValuesPipe} from '../../pipes/values.pipe';
-
 @Component({
 	selector: 'lunch',
 	templateUrl: 'app/components/Lunch/lunch.html',
 	styleUrls: ['dist/app/components/Lunch/lunch.css'],
-	directives: [NgIf, NgFor, FaComponent, BlurDirective],
-	pipes: [ValuesPipe],
-	providers: [FaComponent, LunchService]
+	providers: [LunchService]
 })
 export class LunchComponent {
 	constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {

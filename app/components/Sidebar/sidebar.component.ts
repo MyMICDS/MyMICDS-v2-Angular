@@ -5,8 +5,6 @@ import '../../common/rxjs-operators'
 import {contains} from '../../common/utils';
 import {DatePipe} from '@angular/common'
 
-import {DarkBlurDirective} from '../../directives/blur.directive';
-
 import {AlertService} from '../../services/alert.service';
 import {NotificationService, Event, Announcement} from '../../services/notification.service';
 import {UserService} from '../../services/user.service';
@@ -16,7 +14,6 @@ import {UserService} from '../../services/user.service';
     templateUrl: 'app/components/SideBar/sidebar.html',
     styleUrls: ['dist/app/components/SideBar/sidebar.css'],
     providers: [NotificationService],
-    directives: [NgFor, DarkBlurDirective]
 })
 export class SidebarComponent {
     constructor(private alertService: AlertService, private notificationService: NotificationService, private userService: UserService) {}

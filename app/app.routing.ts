@@ -1,4 +1,5 @@
-import {provideRouter, RouterConfig} from '@angular/router';
+import {Routes, RouterModule} from '@angular/router';
+import {ModuleWithProviders} from '@angular/core';
 
 import {HomeComponent} from './components/Home/home.component';
 import {LunchComponent} from './components/Lunch/lunch.component';
@@ -18,7 +19,7 @@ import {ResetPasswordComponent} from './components/ResetPassword/reset-password.
 import {AuthGuard} from './common/auth.guard';
 import {CanDeactivateGuard} from './common/canDeactivate.guard';
 
-const routes: RouterConfig = [
+const routes: Routes = [
 	{
 		path: '',
 		redirectTo: '/home',
@@ -33,8 +34,12 @@ const routes: RouterConfig = [
 		component: LunchComponent
 	},
 	{
-		path: 'planner',
+		path: 'planner/:year/:month',
 		component: PlannerComponent,
+	},
+	{
+		path: 'planner',
+		component: PlannerComponent
 	},
 	{
 		path: 'daily-bulletin',
@@ -88,6 +93,5 @@ const routes: RouterConfig = [
 	}
 ];
 
-export const appRouterProviders = [
-	provideRouter(routes), AuthGuard, CanDeactivateGuard
-];
+export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
+export const authProviders = [AuthGuard, CanDeactivateGuard]

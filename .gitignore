@@ -3,6 +3,6 @@ node_modules
 npm-debug.log
 typings
 debug.log
-
+angular2-color-picker
 config.ts
 _config.scss

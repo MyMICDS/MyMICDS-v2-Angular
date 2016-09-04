@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {BlurDirective} from '../../directives/blur.directive';
-
 import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
 
@@ -10,7 +8,6 @@ import {AuthService} from '../../services/auth.service';
 	selector: 'logout',
 	templateUrl: 'app/components/Logout/logout.html',
     styleUrls: ['dist/app/components/Logout/logout.css'],
-	directives: [BlurDirective]
 })
 export class LogoutComponent {
     constructor(private router: Router, private alertService: AlertService, private authService: AuthService) {
