@@ -22,4 +22,8 @@ export class SocketioService {
             };  
         })
     }
+
+    send(event, data) {
+
+    }
 }

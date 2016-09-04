@@ -16,6 +16,12 @@ export class UserService {
 		let token = sessionStorage.getItem('id_token') || localStorage.getItem('id_token');
 		// If not JWT, then user isn't logged in
 		if(!token) return null;
+		if (token.split('.').length !== 3) {
+			console.log("JWT must have three parts!")
+			localStorage.removeItem('id_token');
+			sessionStorage.removeItem('id_token');
+			return null
+		}
 		// Check if token is expired
 		if(this.jwtHelper.isTokenExpired(token)) return null;
 
