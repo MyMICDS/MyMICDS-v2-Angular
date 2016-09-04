@@ -4,7 +4,7 @@ import { NgModule }      from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, Http } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { routing } from './app.routing'
+import { routing, authProviders } from './app.routing'
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -79,6 +79,7 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
   providers: [
     Title,
     ColorPickerService,
+    authProviders,
     {
         provide: AuthHttp,
         useFactory: (http) => {
