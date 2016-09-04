@@ -20,6 +20,7 @@
 - Add school holidays
 - spin the spinny thing whenever other people are spinning it. 
 - add socket.io features in the side bar?
+- possible name conflict between app's modules and ng-bootstrap's modules
 
 ## Home Page
 - When you change schedules too fast, the schedule flickers to different days

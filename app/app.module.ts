@@ -1,19 +1,18 @@
 import * as config from './common/config';
 
-import { NgModule }      from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule, Http } from '@angular/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { routing, authProviders } from './app.routing'
-import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
-import { DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
-import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import {NgModule}      from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {HttpModule, Http} from '@angular/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+import {routing, authProviders} from './app.routing'
+import {DatepickerModule} from 'ng2-bootstrap/ng2-bootstrap';
+import {ModalModule} from 'ng2-bootstrap/ng2-bootstrap';
 
 import {AuthHttp, AuthConfig, JwtHelper, AUTH_PROVIDERS, provideAuth} from 'angular2-jwt';
 let jwtHelper = new JwtHelper();
 import {Title} from '@angular/platform-browser';
 
-import { AppComponent }  from './app.component';
+import {AppComponent}  from './app.component';
 import {NavbarComponent} from './components/Navbar/navbar.component';
 import {AlertComponent} from './components/Alert/alert.component';
 import {HomeComponent} from './components/Home/home.component';
@@ -54,14 +53,13 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
     FormsModule,
     ReactiveFormsModule,
     routing,
-    Ng2BootstrapModule,
     DatepickerModule,
     ModalModule,
     ColorPickerModule
     ],       // module dependencies
   declarations: [ 
     //components
-    AppComponent,
+    AppComponent,            AlertComponent,  
     NavbarComponent,         ProgressComponent,      ScheduleComponent,       
     WeatherComponent,        HomeComponent,          LunchComponent,
     PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,

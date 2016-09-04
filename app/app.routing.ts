@@ -94,4 +94,4 @@ const routes: Routes = [
 ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);
-export const authProviders = [AuthGuard]
+export const authProviders = [AuthGuard, CanDeactivateGuard]

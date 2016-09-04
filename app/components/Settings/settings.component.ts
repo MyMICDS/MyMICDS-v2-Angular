@@ -17,7 +17,7 @@ import {UserService} from '../../services/user.service';
 import {ClassesService, Class} from '../../services/classes.service';
 import {AliasService} from '../../services/alias.service'
 
-import {ColorPickerService} from 'angular2-color-picker/';
+import {ColorPickerService} from 'angular2-color-picker';
 
 @Component ({
 	selector: 'settings',
