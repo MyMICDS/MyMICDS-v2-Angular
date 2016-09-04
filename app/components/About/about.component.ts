@@ -1,13 +1,9 @@
 import {Component} from '@angular/core';
-import {NgFor} from '@angular/common';
-
-import {BlurDirective} from '../../directives/blur.directive';
 
 @Component({
 	selector: 'about',
 	templateUrl: 'app/components/About/about.html',
 	styleUrls: ['dist/app/components/About/about.css'],
-	directives: [NgFor, BlurDirective]
 })
 export class AboutComponent {
 	developers:any[] = [

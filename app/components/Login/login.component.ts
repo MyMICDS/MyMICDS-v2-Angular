@@ -1,7 +1,5 @@
 import {Component} from '@angular/core';
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-
-import {BlurDirective} from '../../directives/blur.directive';
+import {Router} from '@angular/router';
 
 import {AlertService} from '../../services/alert.service';
 import {AuthService} from '../../services/auth.service';
@@ -10,8 +8,7 @@ import {UserService} from '../../services/user.service';
 @Component({
 	selector: 'login',
 	templateUrl: 'app/components/Login/login.html',
-    styleUrls: ['dist/app/components/Login/login.css'],
-    directives: [ROUTER_DIRECTIVES, BlurDirective]
+    styleUrls: ['dist/app/components/Login/login.css']
 })
 export class LoginComponent {
     constructor(private router: Router, private alertService: AlertService, private authService: AuthService, private userService: UserService) {}
