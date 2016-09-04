@@ -39,7 +39,7 @@
     "@angular/platform-browser-dynamic": "2.0.0-rc.6",
     "@angular/router": "3.0.0-rc.2",
     "@angular/upgrade": "2.0.0-rc.6",
-    "angular2-color-picker": "https://github.com/AsianPsychoBoy/angular2-color-picker.git",
+    "angular2-color-picker": "https://github.com/AsianPsychoBoy/angular2-color-picker.git#angular2-rc.6",
     "angular2-fontawesome": "^0.5.1",
     "angular2-in-memory-web-api": "0.0.18",
     "angular2-jwt": "^0.1.21",
