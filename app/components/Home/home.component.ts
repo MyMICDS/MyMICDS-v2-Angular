@@ -7,7 +7,7 @@ import {PortalService} from '../../services/portal.service';
 	selector: 'home',
 	templateUrl: 'app/components/Home/home.html',
 	styleUrls: ['dist/app/components/Home/home.css'],
-	providers: [PortalService]
+	providers: [PortalService],
 })
 export class HomeComponent {
 	timer:any;

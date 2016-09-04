@@ -45,35 +45,36 @@ import {CompassDirectionPipe} from './pipes/compass-direction.pipe';
 import {RoundPipe} from './pipes/round.pipe';
 import {WeatherIconPipe} from './pipes/weather-icon.pipe';
 import {ValuesPipe} from './pipes/values.pipe';
-import {ColorPickerService} from 'angular2-color-picker';
-import {ColorPickerDirective} from 'angular2-color-picker';
+import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
 
 @NgModule({
   imports: [ 
     BrowserModule, 
-    CommonModule,
     HttpModule, 
     FormsModule,
+    ReactiveFormsModule,
     routing,
     Ng2BootstrapModule,
     DatepickerModule,
-    ModalModule
+    ModalModule,
+    ColorPickerModule
     ],       // module dependencies
   declarations: [ 
     //components
     AppComponent,
-    NavbarComponent,         HomeComponent,          LunchComponent,
+    NavbarComponent,         ProgressComponent,      ScheduleComponent,       
+    WeatherComponent,        HomeComponent,          LunchComponent,
     PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,
     SettingsComponent,       AboutComponent,         HelpComponent,
     LoginComponent,          LogoutComponent,        RegisterComponent,
     ConfirmComponent,        ForgotPasswordComponent, ResetPasswordComponent,
     //directives
     BlurDirective,           FaComponent,            DarkBlurDirective,
-    WhiteBlurDirective,      ColorPickerDirective,
+    WhiteBlurDirective,      
     //pipes
     SafeResourceUrlPipe,     DayRotationPipe,        SchoolPercentagePipe, 
     CompassDirectionPipe,    RoundPipe,              WeatherIconPipe,
-    ValuesPipe,              ColorPickerDirective,   
+    ValuesPipe,              
     ],
   providers: [
     Title,
