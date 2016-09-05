@@ -67,7 +67,7 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
 	declarations: [
 		// Components
 		AppComponent,            AlertComponent,
-		NavbarComponent,                   LunchComponent,
+		NavbarComponent,         LunchComponent,
 		PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,
 		SettingsComponent,       AboutComponent,         HelpComponent,
 		LoginComponent,          LogoutComponent,        RegisterComponent,
