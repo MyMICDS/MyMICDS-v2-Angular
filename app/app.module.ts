@@ -47,81 +47,80 @@ import {ValuesPipe} from './pipes/values.pipe';
 import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
 
 @NgModule({
-  imports: [ 
-    BrowserModule, 
-    HttpModule, 
-    FormsModule,
-    ReactiveFormsModule,
-    routing,
-    DatepickerModule,
-    ModalModule,
-    ColorPickerModule
-    ],       // module dependencies
-  declarations: [ 
-    //components
-    AppComponent,            AlertComponent,  
-    NavbarComponent,         ProgressComponent,      ScheduleComponent,       
-    WeatherComponent,        HomeComponent,          LunchComponent,
-    PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,
-    SettingsComponent,       AboutComponent,         HelpComponent,
-    LoginComponent,          LogoutComponent,        RegisterComponent,
-    ConfirmComponent,        ForgotPasswordComponent, ResetPasswordComponent,
-    //directives
-    BlurDirective,           FaComponent,            DarkBlurDirective,
-    WhiteBlurDirective,      
-    //pipes
-    SafeResourceUrlPipe,     DayRotationPipe,        SchoolPercentagePipe, 
-    CompassDirectionPipe,    RoundPipe,              WeatherIconPipe,
-    ValuesPipe,              
-    ],
-  providers: [
-    Title,
-    ColorPickerService,
-    authProviders,
-    AUTH_PROVIDERS,
-    {
-        provide: AuthHttp,
-        useFactory: (http) => {
-                return new AuthHttp(new AuthConfig({
-                    tokenGetter: () => {
-                        // Look in session storage for id_token, but fallback to local storage
-                        let session = sessionStorage.getItem('id_token');
-                        let local = localStorage.getItem('id_token');
+	imports: [
+		// Module Dependencies
+		BrowserModule,
+		HttpModule,
+		FormsModule,
+		ReactiveFormsModule,
+		routing,
+		DatepickerModule,
+		ModalModule,
+		ColorPickerModule
+	],
+	declarations: [
+		// Components
+		AppComponent,            AlertComponent,
+		NavbarComponent,         ProgressComponent,      ScheduleComponent,
+		WeatherComponent,        HomeComponent,          LunchComponent,
+		PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,
+		SettingsComponent,       AboutComponent,         HelpComponent,
+		LoginComponent,          LogoutComponent,        RegisterComponent,
+		ConfirmComponent,        ForgotPasswordComponent, ResetPasswordComponent,
+		// Directives
+		BlurDirective,           FaComponent,            DarkBlurDirective,
+		WhiteBlurDirective,
+		// Pipes
+		SafeResourceUrlPipe,     DayRotationPipe,        SchoolPercentagePipe,
+		CompassDirectionPipe,    RoundPipe,              WeatherIconPipe,
+		ValuesPipe,
+	],
+	providers: [
+		Title,
+		ColorPickerService,
+		authProviders,
+		AUTH_PROVIDERS,
+		{
+			provide: AuthHttp,
+			useFactory: (http) => {
+				return new AuthHttp(new AuthConfig({
+					tokenGetter: () => {
+						// Look in session storage for id_token, but fallback to local storage
+						let session = sessionStorage.getItem('id_token');
+						let local = localStorage.getItem('id_token');
 
-                        let token = session || local;
+						let token = session || local;
 
-                        // Remove any quotations from the sides
-                        if(typeof token === 'string') {
-                            token = token.split('"').join('');
+						if(typeof token !== 'string') return '';
 
-                            //check validity of jwt token
-                            if (token.split('.').length !== 3) {
-                                console.log("JWT must have three parts!");
-                                localStorage.removeItem('id_token');
-                                sessionStorage.removeItem('id_token');
-                            }
+						// Remove any quotations from the sides
+						token = token.split('"').join('');
 
-                            // Check if token is expired. If it is, delete and send user to login page
-                            if(jwtHelper.isTokenExpired(token)) {
-                                sessionStorage.removeItem('id_token');
-                                localStorage.removeItem('id_token');
+						// Check validity of jwt token
+						if(token.split('.').length !== 3) {
+							console.log("JWT must have three parts!");
+							localStorage.removeItem('id_token');
+							sessionStorage.removeItem('id_token');
+							return '';
+						}
 
-                                this.router.navigate(['/login']);
-                                return null;
-                            }
-                        } else {
-                            return '';
-                        }
+						// Check if token is expired. If it is, delete and send user to login page
+						if(jwtHelper.isTokenExpired(token)) {
+							sessionStorage.removeItem('id_token');
+							localStorage.removeItem('id_token');
 
-                        return token;
-                    },
-                    noJwtError: true
-                }), http);
-            },
-        deps: [Http]
-    }
+							this.router.navigate(['/login']);
+							return '';
+						}
 
-    ],                    // services
-    bootstrap: [ AppComponent ],     // root component
+						return token;
+					},
+					noJwtError: true
+				}), http);
+			},
+			deps: [Http]
+		}
+	],
+	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

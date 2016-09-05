@@ -44,7 +44,7 @@
 		-ms-user-select: none;
 		user-select: none;
 
-		&:active {
+		&.rotate {
 			transform: rotate(360deg);
 		}
 	}

@@ -29,13 +29,13 @@ export class AppComponent {
 	constructor(private viewContainerRef: ViewContainerRef, private alertService: AlertService, private backgroundService: BackgroundService) {
 		// Get custom user background
 		this.backgroundService.get().subscribe(
-		 	data => {
-		 		this.backgrounds = data.variants;
-		 	},
-		 	error => {
-		 		this.alertService.addAlert('danger', 'Get Background Error!', error);
-		 	}
-		 ); 
+			data => {
+				this.backgrounds = data.variants;
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Get Background Error!', error);
+			}
+		);
 	}
 
 	backgrounds:any = {

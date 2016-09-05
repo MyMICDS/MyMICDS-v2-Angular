@@ -2,13 +2,18 @@ import {Component, Input} from '@angular/core';
 import {Chart} from 'chart-js'; // This gives an error for some reason, but trust me, it works.
 import {default as prisma} from 'prisma'; // This gives an error for some reason, but trust me, it works.
 import {hexToRgb} from '../../../../common/utils';
+import {Observable} from 'rxjs/Observable';
+import {SocketioService} from '../../../../services/socket.io.service'
 
 @Component({
 	selector: 'progress-day',
 	templateUrl: 'app/components/Home/components/Progress/progress.html',
 	styleUrls: ['dist/app/components/Home/components/Progress/progress.css'],
+	providers: [SocketioService]
 })
 export class ProgressComponent {
+
+	constructor(private socketioService: SocketioService) {}
 
 	@Input()
 	today:any = null;
@@ -45,6 +50,10 @@ export class ProgressComponent {
 	 */
 
 	timer:any;
+
+	socketioConnection:any;
+	clickTagListenerSub:any;
+	clickTagListener:any;
 	ngOnInit() {
 		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
@@ -89,6 +98,18 @@ export class ProgressComponent {
 			this.calculatePercentages();
 		}, 1000);
 
+		//socket.io service to spin the spinny
+		let tagEl = document.getElementById('progress-day-tag');
+		this.clickTagListener = Observable.merge(Observable.fromEvent(tagEl, 'mousedown'), Observable.fromEvent(tagEl, 'mouseup'));
+		this.clickTagListenerSub = this.clickTagListener.subscribe(
+			e => this.socketioService.emit('progress label click toggle', null);
+		);
+		this.socketioConnection = this.socketioService.listen('progress label spin').subscribe(
+			pressed => {
+				console.log('toggled');
+				pressed ? tagEl.classList.add('rotate') : tagEl.classList.remove('rotate');
+			}
+		)
 	}
 
 	ngOnDestroy() {
@@ -96,6 +117,9 @@ export class ProgressComponent {
 		clearInterval(this.timer);
 		// Destroy Progress Bar Instance
 		this.progressBar.destroy();
+		// Unsubsciribe socket connection
+		this.socketioConnection.unsubscribe();
+		this.clickTagListenerSub.unsubscribe();
 	}
 
 	/*
