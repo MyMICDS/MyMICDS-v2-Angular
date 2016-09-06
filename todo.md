@@ -19,7 +19,7 @@
 - Add MICDS Twitter feed
 - Add school holidays
 - spin the spinny thing whenever other people are spinning it. 
-- add socket.io features in the side bar?
+- add socket.io features in the side bar? Add a student directory in the side bar, so the user can search and checkout what class other people are having. 
 - possible name conflict between app's modules and ng-bootstrap's modules
 - modulerize the app according to different features. 
 
