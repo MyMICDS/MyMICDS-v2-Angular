@@ -28,7 +28,6 @@
 			'chart-js':              'node_modules/chart.js/dist/Chart.min.js',
 			'moment':                'node_modules/moment/moment.js',
 			'ng2-bootstrap':         'node_modules/ng2-bootstrap',
-			'prisma':                'node_modules/prisma/lib/index.js',
 			'angular2-color-picker': 'node_modules/angular2-color-picker',
 			'socket.io-client':      'node_modules/socket.io-client/socket.io.js'
 		},
