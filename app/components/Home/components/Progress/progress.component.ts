@@ -1,6 +1,5 @@
 import {Component, Input} from '@angular/core';
 import {Chart} from 'chart-js'; // This gives an error for some reason, but trust me, it works.
-import {default as prisma} from 'prisma'; // This gives an error for some reason, but trust me, it works.
 import {hexToRgb} from '../../../../common/utils';
 import {Observable} from 'rxjs/Observable';
 import {SocketioService} from '../../../../services/socket.io.service'
@@ -103,7 +102,7 @@ export class ProgressComponent {
 		this.clickTagListener = Observable.merge(Observable.fromEvent(tagEl, 'mousedown'), Observable.fromEvent(tagEl, 'mouseup')).debounceTime(100);
 		this.clickTagListenerSub = this.clickTagListener
 		.subscribe(
-			e => this.socketioService.emit('progress label click toggle', null);
+			e => {this.socketioService.emit('progress label click toggle', null)}
 		);
 		this.socketioConnection = this.socketioService.listen('progress label spin').subscribe(
 			pressed => {
@@ -173,12 +172,7 @@ export class ProgressComponent {
 		// Generate colors for each class
 		for(let i = 0; i < formattedSchedule.length; i++) {
 			if(!formattedSchedule[i].color) {
-				let color = [255, 255, 255];
-				if(formattedSchedule[i].class.name) {
-					color = prisma(formattedSchedule[i].class.color).rgbaArray;
-				} else {
-					color = prisma(formattedSchedule[i].class).rgbaArray;
-				}
+				let color = hexToRgb(formattedSchedule[i].class.color);
 				formattedSchedule[i].color = 'rgba(' + color[0] + ', ' + color[1] + ', ' + color[2] + ', 0.8)';
 			}
 		}
