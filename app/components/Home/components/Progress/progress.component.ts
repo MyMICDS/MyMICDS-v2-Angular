@@ -103,7 +103,7 @@ export class ProgressComponent {
 		this.clickTagListener = Observable.merge(Observable.fromEvent(tagEl, 'mousedown'), Observable.fromEvent(tagEl, 'mouseup')).debounceTime(100);
 		this.clickTagListenerSub = this.clickTagListener
 		.subscribe(
-			e => this.socketioService.emit('progress label click toggle', null)
+			e => {this.socketioService.emit('progress label click toggle', null)}
 		);
 		this.socketioConnection = this.socketioService.listen('progress label spin').subscribe(
 			pressed => {
