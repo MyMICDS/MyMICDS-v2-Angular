@@ -4,7 +4,6 @@ import {Component} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import '../../common/rxjs-operators';
-import {FaComponent} from 'angular2-fontawesome/components';
 import {confirmPassword, confirmGrade} from '../../common/form-validation';
 import {contains, capitalize} from '../../common/utils';
 
@@ -15,7 +14,7 @@ import {CanvasService} from '../../services/canvas.service';
 import {PortalService} from '../../services/portal.service';
 import {UserService} from '../../services/user.service';
 import {ClassesService, Class} from '../../services/classes.service';
-import {AliasService} from '../../services/alias.service'
+import {AliasService} from '../../services/alias.service';
 
 import {ColorPickerService} from 'angular2-color-picker';
 
