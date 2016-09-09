@@ -3,7 +3,7 @@ import * as config from './common/config';
 import {NgModule}      from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser'; //includes common module
 import {HttpModule, Http} from '@angular/http';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms'
+// import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import {routing, authProviders} from './app.routing'
 import {DatepickerModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalModule} from 'ng2-bootstrap/ng2-bootstrap';
@@ -14,6 +14,7 @@ let jwtHelper = new JwtHelper();
 import {Title} from '@angular/platform-browser';
 
 import {HomeModule} from './components/Home/home.module';
+import {SettingsModule} from './components/Settings/settings.module';
 
 import {AppComponent}  from './app.component';
 import {NavbarComponent} from './components/Navbar/navbar.component';
@@ -46,21 +47,22 @@ import {ResetPasswordComponent} from './components/ResetPassword/reset-password.
 // import {RoundPipe} from './pipes/round.pipe';
 // import {WeatherIconPipe} from './pipes/weather-icon.pipe';
 // import {ValuesPipe} from './pipes/values.pipe';
-import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
+//import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
 
 @NgModule({
 	imports: [
 		// Module Dependencies
 		BrowserModule,
 		HttpModule,
-		FormsModule,
-		ReactiveFormsModule,
+		// FormsModule,
+		// ReactiveFormsModule,
 		routing,
 		DatepickerModule,
 		ModalModule,
-		ColorPickerModule,
+		//ColorPickerModule,
 		// Feature Modules
 		HomeModule,
+		SettingsModule,
 		// Shared Modules
 		SharedModule
 	],
@@ -69,7 +71,8 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
 		AppComponent,            AlertComponent,
 		NavbarComponent,         LunchComponent,
 		PlannerComponent,        DailyBulletinComponent, BulletinArchivesComponent,
-		SettingsComponent,       AboutComponent,         HelpComponent,
+		// /SettingsComponent,       
+		AboutComponent,         HelpComponent,
 		LoginComponent,          LogoutComponent,        RegisterComponent,
 		ConfirmComponent,        ForgotPasswordComponent, ResetPasswordComponent,
 		// // Directives
@@ -82,7 +85,7 @@ import {ColorPickerService, ColorPickerModule} from 'angular2-color-picker';
 	],
 	providers: [
 		Title,
-		ColorPickerService,
+		//ColorPickerService,
 		authProviders,
 		AUTH_PROVIDERS,
 		{

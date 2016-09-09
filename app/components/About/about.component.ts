@@ -12,28 +12,28 @@ export class AboutComponent {
 			lastName : 'Gira',
 			gradYear : 2019,
 			title    : 'Creator and Lead Developer',
-			image    : 'dist/app/resources/developers/michaels-ugly-face.jpg'
+			image    : 'dist/app/resources/developers/michaels-ugly-face-new.jpg'
 		},
 		{
 			firstName: 'Nick',
 			lastName : 'Clifford',
 			gradYear : 2020,
 			title    : 'System Administrations',
-			image    : 'dist/app/resources/developers/nicks-ugly-face.jpg'
+			image    : 'dist/app/resources/developers/nicks-ugly-face-new.jpg'
 		},
 		{
 			firstName: 'Jack',
 			lastName : 'Cai',
 			gradYear : 2019,
 			title    : 'Front-End Developer',
-			image    : 'dist/app/resources/developers/jacks-ugly-face.jpg'
+			image    : 'dist/app/resources/developers/jacks-ugly-face-new.jpg'
 		},
 		{
 			firstName: 'Bob',
 			lastName : 'Sforza',
 			gradYear : 2017,
 			title    : 'Developer',
-			image    : 'dist/app/resources/developers/bobs-ugly-face.jpg'
+			image    : 'dist/app/resources/developers/bobs-ugly-face-new.jpg'
 		}
 	];
 }

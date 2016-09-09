@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {BlurDirective, WhiteBlurDirective, DarkBlurDirective} from './directives/blur.directive';
 import {FaComponent} from 'angular2-fontawesome/components';
@@ -13,7 +14,11 @@ import {WeatherIconPipe} from './pipes/weather-icon.pipe';
 import {ValuesPipe} from './pipes/values.pipe';
 
 @NgModule({
-    imports: [CommonModule],
+    imports: [
+		// Common module dependencies
+		CommonModule,
+		FormsModule, ReactiveFormsModule
+	],
     declarations: [
         // Directives
 		BlurDirective,           FaComponent,            DarkBlurDirective,
@@ -21,7 +26,7 @@ import {ValuesPipe} from './pipes/values.pipe';
 		// Pipes
 		SafeResourceUrlPipe,     DayRotationPipe,        SchoolPercentagePipe,
 		CompassDirectionPipe,    RoundPipe,              WeatherIconPipe,
-		ValuesPipe,
+		ValuesPipe
     ],
     exports: [
         // Directives
@@ -31,6 +36,8 @@ import {ValuesPipe} from './pipes/values.pipe';
 		SafeResourceUrlPipe,     DayRotationPipe,        SchoolPercentagePipe,
 		CompassDirectionPipe,    RoundPipe,              WeatherIconPipe,
 		ValuesPipe,
+		//Modules
+		FormsModule, ReactiveFormsModule
     ]
 })
 export class SharedModule {}
