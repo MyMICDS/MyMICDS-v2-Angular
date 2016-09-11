@@ -9,7 +9,7 @@ import {DatepickerModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {ModalModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {SharedModule} from './shared.module';
 
-import {AuthHttp, AuthConfig, JwtHelper, AUTH_PROVIDERS, provideAuth} from 'angular2-jwt';
+import {AuthHttp, AuthConfig, JwtHelper, AUTH_PROVIDERS} from 'angular2-jwt';
 let jwtHelper = new JwtHelper();
 import {Title} from '@angular/platform-browser';
 
