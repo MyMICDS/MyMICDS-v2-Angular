@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Router, NavigationStart} from '@angular/router';
 import {capitalize} from '../../common/utils';
-import {FaComponent} from 'angular2-fontawesome/components';
 
 import {UserService} from '../../services/user.service';
 import {Title} from '@angular/platform-browser';

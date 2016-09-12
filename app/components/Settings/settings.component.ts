@@ -638,6 +638,17 @@ export class SettingsComponent {
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Save Class Error!', error);
+			},
+			() => {
+				// Get Aliases in case aliases are also deleted along with the class. 
+				this.aliasesSubscription = this.aliasService.listAliases().subscribe(
+					aliases => {
+						this.aliases = aliases;
+					},
+					error => {
+						this.alertService.addAlert('danger', 'Get Aliases Error!', error);
+					}
+				);
 			}
 		);
 	}
