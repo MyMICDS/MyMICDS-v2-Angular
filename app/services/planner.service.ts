@@ -78,6 +78,44 @@ export class PlannerService {
 			})
 			.catch(handleError);
     }
+
+	eventCross(id:string) {
+		let body = JSON.stringify({ id });
+		let headers = xhrHeaders();
+        let options = new RequestOptions({ headers });
+
+        return this.authHttp.post(config.backendURL + '/planner/check', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					throw new Error(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
+
+	eventUncross(id:string) {
+		let body = JSON.stringify({ id });
+		let headers = xhrHeaders();
+        let options = new RequestOptions({ headers });
+
+        return this.authHttp.post(config.backendURL + '/planner/uncheck', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if(data.error) {
+					throw new Error(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
 }
 
 interface Date {

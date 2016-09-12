@@ -36,7 +36,7 @@ export class PlannerComponent {
 
 	// Array of total events
 	get events():Event[] {
-		console.log('get all events', this.plannerEvents.length, this.canvasEvents.length)
+		//console.log('get all events', this.plannerEvents.length, this.canvasEvents.length)
 		return this.plannerEvents.concat(this.canvasEvents);
 	}
 
@@ -48,7 +48,8 @@ export class PlannerComponent {
 	classes:Class[] = [];
 
 	// Date to display on calendar. Default to current month.
-	calendarDate = moment();
+	calendarDate:moment.Moment;
+	
 	// Date selected in the calendar
 	selectionDay = null;
 
@@ -89,15 +90,16 @@ export class PlannerComponent {
 
 	ngOnInit() {
 		this.calendarDate = moment();
-		this.formattedMonth = this.formatMonth(this.calendarDate, []);
 
 		//Change the month and year according to the route parameters
-		if(this.route.snapshot.url[0].path !== 'planner') {
+		if(this.route.snapshot.url[0].path === 'planner' && this.route.snapshot.url.length !== 1) {
 			//route has parameters
 			console.log(this.route.snapshot);
 			this.calendarDate.year(this.route.snapshot.params['year']);
 			this.calendarDate.month(this.route.snapshot.params['month']-1);
 		}
+
+		this.formattedMonth = this.formatMonth(this.calendarDate, []);
 
 		if(this.userService.getUsername()) {
 			// User logged in
@@ -120,6 +122,7 @@ export class PlannerComponent {
 						// Recalculate events to add Canvas Events
 						this.comingUp = this.formatWeek(this.events);
 						this.formattedMonth = this.formatMonth(this.calendarDate, this.events);
+						console.log(this.formattedMonth);
 					}
 				},
 				error => {
@@ -570,22 +573,33 @@ export class PlannerComponent {
 	//Crossout Event
 	crossoutEvent(id:string, event:any) {
 		event.stopPropagation();
-		console.log(event);
-		if (event.path[4].childNodes[11]) {
-			let cl = event.path[4].childNodes[11].classList;
-			if (!cl.contains('cross-animated')) {
-				cl.add('cross-animated');
-			} else {
-				cl.remove('cross-animated');
+		for (let i=0;i<this.events.length;i++) {
+			if (this.events[i]._id === id) {
+				console.log(this.events[i]);
+				if (!this.events[i].checked) {
+					this.events[i].checked = true;
+					this.plannerService.eventCross(id).subscribe(
+						() => {
+							console.log("crossed");	
+						},
+						error => {
+							this.alertService.addAlert('danger', 'Error!', 'Your event check will not be saved due to an error. ')
+						}
+					)
+				} else {
+					this.events[i].checked = false;
+					this.plannerService.eventUncross(id).subscribe(
+						() => {
+							console.log("uncrossed");
+						},
+						error => {
+							this.alertService.addAlert('danger', 'Error!', 'Your event check will not be saved due to an error. ')
+						}
+					)
+				}
+				break;
 			}
-		} else if (event.path[2].childNodes[11]) {
-			let cl = event.path[2].childNodes[11].classList;
-			if (!cl.contains('cross-animated')) {
-				cl.add('cross-animated');
-			} else {
-				cl.remove('cross-animated');
-			}
-		};
+		}
 	}
 
 	//custom function that closes the bootstrap modal
@@ -597,7 +611,6 @@ export class PlannerComponent {
 		});
 		event.path[5].dispatchEvent(click);//not propagated
 	}
-
 }
 
 interface Event {
@@ -609,6 +622,7 @@ interface Event {
 	start:any;
 	end:any;
 	link:string;
+	checked:boolean;
 }
 
 interface Class {

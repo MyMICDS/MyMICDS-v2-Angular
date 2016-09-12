@@ -127,6 +127,8 @@
 							}
 
 							.event {
+								position:relative;
+
 								margin-bottom: 0.25rem;
 								padding: 0.25rem;
 
@@ -161,6 +163,23 @@
 
 								.event-desc {
 									font-weight: 300;
+								}
+
+								.svg-cross {
+									position:absolute;top:0; left:0; right:0; bottom:0;
+									height: 100%;
+									width: 100%;
+									fill-opacity: 0;
+									stroke:#FF0000;
+									stroke-width: 50;
+									stroke-dasharray: 3220;
+									stroke-dashoffset: 3220;
+									z-index: -1;
+								}
+
+								.crossed {
+									z-index: 10;
+									animation: draw 0.5s linear forwards;
 								}
 							}
 						}
