@@ -787,4 +787,26 @@ export class SettingsComponent {
 		}
 	}
 
+	setTrianglify() {
+		this.uploadingBackground = true;
+		this.backgroundService.setTrianglify().subscribe(
+			() => {
+				this.uploadingBackground = false;
+				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
+				this.backgroundService.get().subscribe(
+					data => {
+						this.hasDefaultBackground = data.hasDefault;
+					},
+					error => {
+						this.alertService.addAlert('danger', 'Get Background Error!', error);
+					}
+				);
+			},
+			error => {
+				this.uploadingBackground = false;
+				this.alertService.addAlert('danger', 'Upload Background Error!', error);
+			}
+		);
+	}
+
 }

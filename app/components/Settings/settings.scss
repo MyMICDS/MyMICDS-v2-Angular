@@ -5,6 +5,23 @@
 	padding: 2rem 0 0 0;
 	text-align: center;
 
+	.grade-spacer {
+		margin-bottom: 0.75rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.line {
+			height: 1px;
+			width:100%;
+			border-bottom: 1px solid $sophisticated-white;
+		}
+
+		.text {
+			margin: 0 1rem;
+		}
+	}
+
 	.settings-header {
 		display: inline-block;
 		margin-bottom: 1rem;
@@ -61,24 +78,6 @@
 			}
 
 			.grad-year {
-
-				.grade-spacer {
-					margin-bottom: 0.75rem;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-
-					.line {
-						height: 1px;
-						width:100%;
-						border-bottom: 1px solid $sophisticated-white;
-					}
-
-					.text {
-						margin: 0 1rem;
-					}
-				}
-
 				.student span {
 					margin-right: 0.5rem;
 				}

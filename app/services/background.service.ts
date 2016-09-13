@@ -7,6 +7,7 @@ import {xhrHeaders, handleError} from '../common/http-helpers';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import '../common/rxjs-operators';
+import * as Trianglify from 'trianglify';
 
 import {AuthService} from '../services/auth.service';
 
@@ -119,5 +120,36 @@ export class BackgroundService {
                 return;
             })
 			.catch(handleError);
+	}
+
+	setTrianglify() {
+		let bgURI = Trianglify.default({
+			width: window.innerWidth,
+			height: window.innerHeight,
+			cell_size: Math.random()*275+15,
+			variance: Math.random()
+		}).png();
+
+		function dataURItoBlob(dataURI) {
+			// convert base64 data component to raw binary data held in a string
+			var byteString;
+			if (dataURI.split(',')[0].indexOf('base64') >= 0)
+				byteString = atob(dataURI.split(',')[1]);
+
+			// separate out the mime component
+			var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+			// write the bytes of the string to a typed array
+			var ia = new Uint8Array(byteString.length);
+			for (var i = 0; i < byteString.length; i++) {
+				ia[i] = byteString.charCodeAt(i);
+			}
+
+			return new Blob([ia], {type:mimeString});
+		}
+
+		let bgBlob = dataURItoBlob(bgURI);
+		let bgFile:File = new File([bgBlob], 'trianglify', {type:'image/png'});
+		return this.upload(bgFile);
 	}
 }
