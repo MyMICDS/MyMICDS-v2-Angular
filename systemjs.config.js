@@ -29,7 +29,8 @@
 			'moment':                'node_modules/moment/moment.js',
 			'ng2-bootstrap':         'node_modules/ng2-bootstrap',
 			'angular2-color-picker': 'node_modules/angular2-color-picker',
-			'socket.io-client':      'node_modules/socket.io-client/socket.io.js'
+			'socket.io-client':      'node_modules/socket.io-client/socket.io.js',
+			'trianglify':            'node_modules/trianglify/dist/trianglify.min.js'
 		},
 		// packages tells the System loader how to load when no filename and/or no extension
 		packages: {
@@ -48,7 +49,8 @@
 			'angular2-uuid':                     { main: 'index.js', defaultExtension: 'js' },
 			'ng2-bootstrap':                     { defaultExtension: 'js' },
 			'angular2-color-picker':             { main: 'index.js', defaultExtension: 'js' },
-			'socket.io-client':                  { defaultExtension: 'js'}
+			'socket.io-client':                  { defaultExtension: 'js'},
+			'trianglify':                        { defaultExtension: 'js' }
 		}
 	});
 })(this);

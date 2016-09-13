@@ -77,6 +77,7 @@
 				<button class="btn btn-info" [disabled]="!fileSelected || uploadingBackground">{{ uploadingBackground ? 'Uploading...' : 'Upload'}}</button>
 			</form>
 			<button class="btn btn-danger" (click)="deleteBackground()" [disabled]="hasDefaultBackground">Revert to Default Background</button>
+			<button class="btn btn-info" (click)="setTrianglify()" [disabled]="uploadingBackground">Use randomly generated triangle art for background</button>
 		</div>
 
 		<!-- Set URLs -->
