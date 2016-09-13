@@ -25,6 +25,7 @@
 - When you change schedules too fast, the schedule flickers to different days
 - Progress bar is all weird
 - Customize labels when you hover over progress bar
+  - Specifically, the amount of minutes in a class (in progress/already passed)
 
 ## Planner
 - Be able to cross out events in Planner (add backend)
