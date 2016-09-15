@@ -2,7 +2,6 @@
 
 ## **VERY IMPORTANTE!!!!**
 - Add rainbow colors for specifically user pshort
-- update documentation
 
 ## General
 - Add 'Quick Links' to the navbar or possibly make it a Homepage module?
@@ -17,7 +16,7 @@
 - Add feed for sports (maybe own sports page?)
 - Add MICDS Twitter feed
 - Add school holidays
-- add socket.io features in the side bar? Add a student directory in the side bar, so the user can search and checkout what class other people are having. Also view personal info, and feed of notifications and announcements.
+~~- Add socket.io features in the side bar? Add a student directory in the side bar, so the user can search and checkout what class other people are having. Also view personal info, and feed of notifications and announcements.~~
 - Possible name conflict between app's modules and ng-bootstrap's modules
 - Modularize the app according to different features.
 
@@ -28,12 +27,10 @@
   - Specifically, the amount of minutes in a class (in progress/already passed)
 
 ## Planner
-- Be able to cross out events in Planner (add backend)
 - Be able to see the full week in the calendar, even if part of it spans into another month
 - Illustrate the connected events spanning from date to date.
 
 ## Settings Page
-- Disable buttons if they are in the process of saving / submitting
 - Separate Settings sections into their own component.
   - Add Canvas / Portal link submission component to help page too
 - Typeahead for teacher names
