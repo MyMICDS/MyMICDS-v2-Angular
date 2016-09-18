@@ -101,14 +101,14 @@ export class PlannerComponent implements OnInit {
 		this.calendarDate = moment();
 
 		// Change the month and year according to the route parameters
-		if(this.route.snapshot.url[0].path === 'planner' && this.route.snapshot.url.length !== 1) {
+		if (this.route.snapshot.url[0].path === 'planner' && this.route.snapshot.url.length !== 1) {
 			this.calendarDate.year(this.route.snapshot.params['year']);
 			this.calendarDate.month(this.route.snapshot.params['month'] - 1);
 		}
 
 		this.formattedMonth = this.formatMonth(this.calendarDate, []);
 
-		if(this.userService.getUsername()) {
+		if (this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
 			// Get list of classes for when user inserts their own event
@@ -124,7 +124,7 @@ export class PlannerComponent implements OnInit {
 			this.canvasService.getEvents().subscribe(
 				data => {
 					this.canvasLoading = false;
-					if(data.hasURL) {
+					if (data.hasURL) {
 						this.canvasEvents = data.events;
 						// Recalculate events to add Canvas Events
 						this.comingUp = this.formatWeek(this.events);
@@ -177,7 +177,7 @@ export class PlannerComponent implements OnInit {
 				this.formattedMonth = this.formatMonth(date, this.events);
 
 				// If querying current event, also update 'Coming Up' events
-				if(current.isSame(date, 'month')) {
+				if (current.isSame(date, 'month')) {
 					this.comingUp = this.formatWeek(this.events);
 				}
 			},
@@ -188,7 +188,7 @@ export class PlannerComponent implements OnInit {
 		);
 
 		// If not querying current month, also get current month to update 'Coming Up' event
-		if(!current.isSame(date, 'month')) {
+		if (!current.isSame(date, 'month')) {
 			// Get events from back-end
 			this.plannerService.getEvents({
 				year: current.year(),
@@ -209,9 +209,9 @@ export class PlannerComponent implements OnInit {
 	// Returns the object of a specific event. You must call getEvents() first!
 	// Returns null if id isn't valid
 	getEvent(id) {
-		for(let i = 0; i < this.events.length; i++) {
+		for (let i = 0; i < this.events.length; i++) {
 			let event = this.events[i];
-			if(event._id === id) { return event; }
+			if (event._id === id) { return event; }
 		}
 
 		return null;
@@ -224,11 +224,11 @@ export class PlannerComponent implements OnInit {
 		let weeksInMonth = this.weeksInMonth(date);
 
 		// Add week
-		for(let i = 0; i < weeksInMonth; i++) {
+		for (let i = 0; i < weeksInMonth; i++) {
 			formattedMonth[i] = [];
 
 			// Loop through days in week
-			for(let j = 0; j < this.weekdays.length; j++) {
+			for (let j = 0; j < this.weekdays.length; j++) {
 				// Get day of month
 				let dayDate = (i * 7) + j - (beginOffset - 1);
 				// Check if that day is today
@@ -236,7 +236,7 @@ export class PlannerComponent implements OnInit {
 				let today = moment().isSame(dayThisMonth, 'day');
 
 				// Make sure date is within range of month
-				if(dayDate < 1) {
+				if (dayDate < 1) {
 					formattedMonth[i][j] = {
 						date: '',
 						today: false,
@@ -244,7 +244,7 @@ export class PlannerComponent implements OnInit {
 					};
 					continue;
 				}
-				if(dayDate > this.lengthOfMonth(date)) {
+				if (dayDate > this.lengthOfMonth(date)) {
 					formattedMonth[i][j] = {
 						date: '',
 						today: false,
@@ -264,7 +264,7 @@ export class PlannerComponent implements OnInit {
 		}
 
 		// Reselect day so it refreshes the selection
-		if(this.selectionDay !== null) {
+		if (this.selectionDay !== null) {
 			this.selectDay(this.selectionDay.day());
 		}
 
@@ -279,23 +279,23 @@ export class PlannerComponent implements OnInit {
 		let comingDay = moment();
 
 		// Loop through each day within the next week
-		for(let i = 0; i < daysForward; i++) {
+		for (let i = 0; i < daysForward; i++) {
 			comingDay.add(1, 'day');
 			let validEvents = [];
 
 			// Loop through events
-			for(let j = 0; j < events.length; j++) {
+			for (let j = 0; j < events.length; j++) {
 				let event = events[j];
 
 				// Check if event ends on this day
-				if(comingDay.isSame(event.end, 'day')) {
+				if (comingDay.isSame(event.end, 'day')) {
 					// Add to valid events
 					validEvents.push(event);
 				}
 			}
 
 			// If any events, add day to formattedWeek
-			if(validEvents.length > 0) {
+			if (validEvents.length > 0) {
 				let weekdayDate = comingDay.clone();
 				let weekdayDisplay = weekdayDate.calendar(null, {
 					sameDay: '[Today]',
@@ -323,12 +323,12 @@ export class PlannerComponent implements OnInit {
 	eventsForDay(date, events: Event[]) {
 		let dayEvents = [];
 		// Loop through events and see if any are included for this specific day
-		for(let i = 0; i < events.length; i++) {
+		for (let i = 0; i < events.length; i++) {
 			let event = events[i];
 			let inside = this.dayInsideEvent(date, event);
 
 			// If event is included in the day, add to dayEvents array!
-			if(inside.included) {
+			if (inside.included) {
 				dayEvents.push({
 					inside,
 					data: event
@@ -340,24 +340,24 @@ export class PlannerComponent implements OnInit {
 		dayEvents.sort((a, b) => {
 
 			// Events that start first should be put first
-			if(a.data.start < b.data.start) { return -1; }
-			if(a.data.start > b.data.start) { return 1; }
+			if (a.data.start < b.data.start) { return -1; }
+			if (a.data.start > b.data.start) { return 1; }
 
 			// Events have same start. Organize by end.
-			if(a.data.end < b.data.end) { return -1; }
-			if(a.data.end > b.data.end) { return 1; }
+			if (a.data.end < b.data.end) { return -1; }
+			if (a.data.end > b.data.end) { return 1; }
 
 			// Events have same start and end. Organize by name.
-			if(a.data.title < b.data.title) { return -1; }
-			if(a.data.title > b.data.title) { return 1; }
+			if (a.data.title < b.data.title) { return -1; }
+			if (a.data.title > b.data.title) { return 1; }
 
 			// Events have same start, end and name. Organize by description.
-			if(a.data.desc < b.data.desc) { return -1; }
-			if(a.data.desc > b.data.desc) { return 1; }
+			if (a.data.desc < b.data.desc) { return -1; }
+			if (a.data.desc > b.data.desc) { return 1; }
 
 			// Events have same start, end, name, and descripton. Organize by id.
-			if(a.data._id < b.data._id) { return -1; }
-			if(a.data._id > b.data._id) { return 1; }
+			if (a.data._id < b.data._id) { return -1; }
+			if (a.data._id > b.data._id) { return 1; }
 
 			// We cannot have the same id, so at this point they're basically the same.
 			return 0;
@@ -375,11 +375,11 @@ export class PlannerComponent implements OnInit {
 		let continueLeft = false;
 		let continueRight = false;
 
-		if(included) {
-			if(eventStart.isBefore(date, 'day') && date.day() !== 0) {
+		if (included) {
+			if (eventStart.isBefore(date, 'day') && date.day() !== 0) {
 				continueLeft = true;
 			}
-			if(eventEnd.isAfter(date, 'day') && date.day() !== 6) {
+			if (eventEnd.isAfter(date, 'day') && date.day() !== 6) {
 				continueRight = true;
 			}
 		}
@@ -426,7 +426,7 @@ export class PlannerComponent implements OnInit {
 
 		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month() + 1]);
 
-		if(this.userService.getUsername()) {
+		if (this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
 		} else {
@@ -439,7 +439,7 @@ export class PlannerComponent implements OnInit {
 	currentMonth() {
 		this.calendarDate = moment();
 
-		if(this.userService.getUsername()) {
+		if (this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
 		} else {
@@ -454,7 +454,7 @@ export class PlannerComponent implements OnInit {
 
 		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month() + 1]);
 
-		if(this.userService.getUsername()) {
+		if (this.userService.getUsername()) {
 			// User logged in
 			this.getEvents(this.calendarDate);
 		} else {
@@ -469,11 +469,11 @@ export class PlannerComponent implements OnInit {
 	 */
 
 	selectDay(day, event?) {
-		if(event) {
+		if (event) {
 			event.stopPropagation();
 		}
 
-		if(!day) {
+		if (!day) {
 			this.deselectDay();
 			return;
 		}
@@ -529,7 +529,7 @@ export class PlannerComponent implements OnInit {
 		let eventObj = this.getEvent(id);
 
 		let classId = 'other';
-		if(eventObj.class) {
+		if (eventObj.class) {
 			classId = eventObj.class._id || 'other';
 		}
 
@@ -563,7 +563,7 @@ export class PlannerComponent implements OnInit {
 	deleteEvent(id: string, event: any) {
 		// Make sure it doesn't trigger the viewEvent()
 		event.stopPropagation();
-		if(confirm('Are you sure you wanna delete this event from the planner?')) {
+		if (confirm('Are you sure you wanna delete this event from the planner?')) {
 			this.plannerService.deleteEvent(id).subscribe(
 				() => {
 					this.alertService.addAlert('success', 'Success!', 'Deleted event from planner!', 3);
@@ -580,9 +580,9 @@ export class PlannerComponent implements OnInit {
 	// Crossout Event
 	crossoutEvent(id: string, event: any) {
 		event.stopPropagation();
-		for(let i = 0; i < this.events.length; i++) {
+		for (let i = 0; i < this.events.length; i++) {
 			if (this.events[i]._id === id) {
-				if(!this.events[i].checked) {
+				if (!this.events[i].checked) {
 					this.events[i].checked = true;
 					this.plannerService.eventCross(id).subscribe(
 						() => { },

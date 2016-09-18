@@ -1,12 +1,14 @@
-import { Directive, ElementRef } from '@angular/core';
+/* tslint:disable:max-line-length */
+
+import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { BackgroundService } from '../services/background.service';
 
 @Directive({
-	selector: '[mymicds-blur]'
+	selector: '[mymicds-blur]' // tslint:disable-line
 })
-export class BlurDirective {
+export class BlurDirective implements OnInit, OnDestroy {
 
-	subscription:any;
+	subscription: any;
 
 	constructor(
 		private el: ElementRef,
@@ -33,11 +35,11 @@ export class BlurDirective {
 }
 
 @Directive({
-	selector: '[mymicds-blur--dark]'
+	selector: '[mymicds-blur--dark]' // tslint:disable-line
 })
-export class DarkBlurDirective {
+export class DarkBlurDirective implements OnInit, OnDestroy {
 
-	subscription:any;
+	subscription: any;
 
 	constructor(
 		private el: ElementRef,
@@ -64,11 +66,11 @@ export class DarkBlurDirective {
 }
 
 @Directive({
-	selector: '[mymicds-blur--white]'
+	selector: '[mymicds-blur--white]' // tslint:disable-line
 })
-export class WhiteBlurDirective {
+export class WhiteBlurDirective implements OnInit, OnDestroy {
 
-	subscription:any;
+	subscription: any;
 
 	constructor(
 		private el: ElementRef,

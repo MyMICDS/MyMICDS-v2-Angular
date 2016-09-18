@@ -79,7 +79,7 @@ export class LunchComponent implements OnInit {
 				let current = moment();
 				let dates = this.getDatesFromWeek(getDate);
 
-				for(let i = 0; i < dates.length; i++) {
+				for (let i = 0; i < dates.length; i++) {
 
 					let date = dates[i];
 					let lunchIndex = date.format('YYYY[-]MM[-]DD');
@@ -108,7 +108,7 @@ export class LunchComponent implements OnInit {
 
 		let dates = [];
 
-		for(let i = 0; i < 5; i++) {
+		for (let i = 0; i < 5; i++) {
 			dates.push(weekday.clone());
 			weekday.add(1, 'day');
 		}

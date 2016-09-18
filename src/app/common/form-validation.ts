@@ -10,14 +10,14 @@ export function confirmRegister(passwordParams: string[], gradeParams: string[])
 		let gradeResponse = confirmGrade(gradeParams[0], gradeParams[1])(group);
 
 		// If both are null, return success
-		if(!passwordResponse && !gradeResponse)  { return null; }
+		if (!passwordResponse && !gradeResponse)  { return null; }
 
 		// At least one is an object with a key. If not null, append to response object.
 		let response = {};
-		if(passwordResponse) {
+		if (passwordResponse) {
 			response = Object.assign(response, passwordResponse);
 		}
-		if(gradeResponse) {
+		if (gradeResponse) {
 			response = Object.assign(response, gradeResponse);
 		}
 		return response;
@@ -33,7 +33,7 @@ export function confirmPassword(passwordKey: string, confirmPasswordKey: string)
 		let password = group.controls[passwordKey];
 		let confirmPassword = group.controls[confirmPasswordKey];
 
-		if(password.value !== confirmPassword.value) {
+		if (password.value !== confirmPassword.value) {
 			return { mismatchedPasswords: true };
 		}
 	};
@@ -48,7 +48,7 @@ export function confirmGrade(gradYearKey: string, teacherKey: string) {
 		let gradYear = group.controls[gradYearKey];
 		let teacher = group.controls[teacherKey];
 
-		if(!teacher.value && !gradYear.value) {
+		if (!teacher.value && !gradYear.value) {
 			return { invalidGrade: true };
 		}
 	};

@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
 		/** @TODO: Use import { ActivatedRoute } from '@angular/router'; to get custom title if any */
 		// Subscribe to router events to change title
 		this.router.events.subscribe((event: any) => {
-			if(typeof event.urlAfterRedirects === 'string') {
+			if (typeof event.urlAfterRedirects === 'string') {
 				this.titleService.setTitle('MyMICDS - ' + capitalize(event.urlAfterRedirects, 1));
 			}
 		});

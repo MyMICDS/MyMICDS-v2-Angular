@@ -17,7 +17,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 	deleteAlert(id) {
 		this.alerts.forEach((value, index) => {
 			// Delete if id matches
-			if(value.id === id) {
+			if (value.id === id) {
 				this.alerts.splice(index, 1);
 			}
 		});
@@ -44,7 +44,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 				this.alerts.unshift(data);
 
 				// If there's an expiration, dismiss it automatically
-				if(data.expiresIn && 0 < data.expiresIn) {
+				if (data.expiresIn && 0 < data.expiresIn) {
 					setTimeout(() => {
 						this.dismiss(data.id);
 					}, data.expiresIn * 1000);

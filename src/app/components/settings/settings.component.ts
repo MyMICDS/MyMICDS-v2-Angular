@@ -154,11 +154,11 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.portalURL = this.userInfo.portalURL;
 				this.canvasURL = this.userInfo.canvasURL;
 
-				if(this.portalURL) {
+				if (this.portalURL) {
 					this.portalValid = true;
 					this.portalResponse = 'Valid!';
 				}
-				if(this.canvasURL) {
+				if (this.canvasURL) {
 					this.canvasValid = true;
 					this.canvasResponse = 'Valid!';
 				}
@@ -193,7 +193,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		// Get Canvas classes
 		this.getCanvasClassesSubscription = this.canvasService.getClasses().subscribe(
 			data => {
-				if(data.hasURL) {
+				if (data.hasURL) {
 					this.canvasClasses = data.classes;
 				} else {
 					this.canvasClasses = [];
@@ -207,7 +207,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		// Get Canvas classes
 		this.getPortalClassesSubscription = this.portalService.getClasses().subscribe(
 			data => {
-				if(data.hasURL) {
+				if (data.hasURL) {
 					this.portalClasses = data.classes;
 				} else {
 					this.portalClasses = [];
@@ -247,7 +247,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			let canvasInput = document.getElementById('canvas-url');
 
 			// Keep trying until DOM is loaded
-			if(!portalInput || !canvasInput) { return; }
+			if (!portalInput || !canvasInput) { return; }
 			clearInterval(interval);
 
 			// Subscribe to Portal and Canvas URL inputs to test URL
@@ -303,10 +303,10 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		let gradeChanged = false;
 
-		if(userInfoIsTeacher !== infoFormIsTeacher) {
+		if (userInfoIsTeacher !== infoFormIsTeacher) {
 			// Switched from teacher to student or vice versa
 			gradeChanged = true;
-		} else if(userInfoGradYear !== infoFormGradYear) {
+		} else if (userInfoGradYear !== infoFormGradYear) {
 			// Swtiched grades as a student
 			gradeChanged = true;
 		}
@@ -379,7 +379,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			data => {
 				this.portalValid = (data.valid === true);
 				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
-				if(data.valid === true) {
+				if (data.valid === true) {
 					this.alertService.addAlert('success', 'Success!', 'Changed Portal URL!', 3);
 				} else {
 					this.alertService.addAlert('warning', 'Change Portal URL Warning:', data.valid);
@@ -396,7 +396,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			data => {
 				this.canvasValid = (data.valid === true);
 				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
-				if(data.valid === true) {
+				if (data.valid === true) {
 					this.alertService.addAlert('success', 'Success!', 'Changed Canvas URL!', 3);
 				} else {
 					this.alertService.addAlert('warning', 'Change Canvas URL Warning:', data.valid);
@@ -469,27 +469,27 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	// Detect if index of class experienced any changes
 	classChanged(id: string) {
 		// If class id is empty, then it's a new class and therefore cannot be changed
-		if(!id) { return true; }
+		if (!id) { return true; }
 
 		// Find class in class list
 		let currentClass = null;
-		for(let i = 0; i < this.classesList.length; i++) {
-			if(id === this.classesList[i]._id) {
+		for (let i = 0; i < this.classesList.length; i++) {
+			if (id === this.classesList[i]._id) {
 				currentClass = this.classesList[i];
 				break;
 			}
 		}
-		if(!currentClass) { return true; }
+		if (!currentClass) { return true; }
 
 		// Find original class
 		let ogClass = null;
-		for(let i = 0; i < this.ogClasses.length; i++) {
-			if(id === this.ogClasses[i]._id) {
+		for (let i = 0; i < this.ogClasses.length; i++) {
+			if (id === this.ogClasses[i]._id) {
 				ogClass = this.ogClasses[i];
 				break;
 			}
 		}
-		if(!ogClass) { return true; }
+		if (!ogClass) { return true; }
 
 		return currentClass.name !== ogClass.name
 			|| currentClass.color !== ogClass.color
@@ -503,8 +503,8 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	// Detect of any class has changed
 	anyClassChanged() {
 		let anyChanged = false;
-		for(let i = 0; i < this.classesList.length; i++) {
-			if(this.classChanged(this.classesList[i]._id)) {
+		for (let i = 0; i < this.classesList.length; i++) {
+			if (this.classChanged(this.classesList[i]._id)) {
 				anyChanged = true;
 				break;
 			}
@@ -516,15 +516,15 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	anyClassAdded() {
 		let ogIds = [];
 		let anyAdded = false;
-		for(let i = 0; i < this.ogClasses.length; i++) {
+		for (let i = 0; i < this.ogClasses.length; i++) {
 			ogIds.push(this.ogClasses[i]._id);
 		}
 
-		for(let i = 0; i < this.classesList.length; i++) {
+		for (let i = 0; i < this.classesList.length; i++) {
 			let id = this.classesList[i]._id;
 
 			// Check if there's an id that's in the table that isn't in the original
-			if(!contains(ogIds, id)) {
+			if (!contains(ogIds, id)) {
 				anyAdded = true;
 				break;
 			}
@@ -536,15 +536,15 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	anyClassDeleted() {
 		let ids = [];
 		let anyDeleted = false;
-		for(let i = 0; i < this.classesList.length; i++) {
+		for (let i = 0; i < this.classesList.length; i++) {
 			ids.push(this.classesList[i]._id);
 		}
 
-		for(let i = 0; i < this.ogClasses.length; i++) {
+		for (let i = 0; i < this.ogClasses.length; i++) {
 			let ogId = this.ogClasses[i]._id;
 
 			// Check if there's an id that's in the original that isn't in the table
-			if(!contains(ids, ogId)) {
+			if (!contains(ids, ogId)) {
 				anyDeleted = true;
 				break;
 			}
@@ -556,17 +556,17 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	restoreClass(id: string) {
 		// Find original class
 		let ogClass = null;
-		for(let i = 0; i < this.ogClasses.length; i++) {
-			if(id === this.ogClasses[i]._id) {
+		for (let i = 0; i < this.ogClasses.length; i++) {
+			if (id === this.ogClasses[i]._id) {
 				ogClass = JSON.parse(JSON.stringify(this.ogClasses[i]));
 				break;
 			}
 		}
-		if(!ogClass) { return; }
+		if (!ogClass) { return; }
 
 		// Find class in class list
-		for(let i = 0; i < this.classesList.length; i++) {
-			if(id === this.classesList[i]._id) {
+		for (let i = 0; i < this.classesList.length; i++) {
+			if (id === this.classesList[i]._id) {
 				this.classesList[i] = ogClass;
 			}
 		}
@@ -578,7 +578,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		// Delete any old classes
 		let deleteObservables = [];
-		for(let i = 0; i < this.deleteClassIds.length; i++) {
+		for (let i = 0; i < this.deleteClassIds.length; i++) {
 			deleteObservables.push(this.classesService.deleteClass(this.deleteClassIds[i]));
 		}
 
@@ -587,10 +587,10 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		// Add any new classes
 		let saveObservables = [];
-		for(let i = 0; i < this.classesList.length; i++) {
+		for (let i = 0; i < this.classesList.length; i++) {
 			let id = this.classesList[i]._id;
 			// If class changed, push
-			if(this.classChanged(id)) {
+			if (this.classChanged(id)) {
 				saveObservables.push(this.classesService.addClass(this.classesList[i]));
 			}
 		}
@@ -602,13 +602,13 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		// Only append to MEGA OBSERVABLE if it's actually going to do anything
 		let MEGAObservableArray = [];
 
-		if(deleteObservables.length > 0) {
+		if (deleteObservables.length > 0) {
 			MEGAObservableArray[0] = deleteClasses$;
 		} else {
 			MEGAObservableArray[0] = Observable.empty().defaultIfEmpty();
 		}
 
-		if(saveObservables.length > 0) {
+		if (saveObservables.length > 0) {
 			MEGAObservableArray[1] = saveClasses$;
 		} else {
 			MEGAObservableArray[1] = Observable.empty().defaultIfEmpty();
@@ -619,21 +619,21 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		MEGAObservable$.subscribe(
 			(data: any) => {
 				// Deleted class logic
-				if(data[0] && data[0].length > 0) {
+				if (data[0] && data[0].length > 0) {
 					this.alertService.addAlert('success', 'Success!', 'Deleted ' + data[0].length + ' classes.', 3);
 				}
 
 				// Added class logic
 				let ids = data[1];
-				if(ids && ids.length > 0) {
+				if (ids && ids.length > 0) {
 					this.alertService.addAlert('success', 'Success!', 'Saved ' + ids.length + ' classes.', 3);
 
 					// Go through all classes without ids and insert their new ids
 					let idOffset = 0;
-					for(let i = 0; i < this.classesList.length; i++) {
+					for (let i = 0; i < this.classesList.length; i++) {
 
 						let currentClass = this.classesList[i];
-						if(!currentClass._id) {
+						if (!currentClass._id) {
 							// Assign this new class the next id in the array
 							currentClass._id = ids[idOffset++];
 						}
@@ -683,21 +683,21 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.classesList.splice(i, 1);
 
 		// If id is exists, push to array of deleted classes
-		if(id) {
+		if (id) {
 			this.deleteClassIds.push(id);
 		}
 	}
 
 	manageAliases(id: string) {
 		// If id is already selected, dismiss
-		if(this.aliasClass && id === this.aliasClass._id) {
+		if (this.aliasClass && id === this.aliasClass._id) {
 			this.dismissAliases();
 			return;
 		}
 
 		// Find class in class list
-		for(let i = 0; i < this.classesList.length; i++) {
-			if(id === this.classesList[i]._id) {
+		for (let i = 0; i < this.classesList.length; i++) {
+			if (id === this.classesList[i]._id) {
 				this.aliasClass = this.classesList[i];
 				this.showAliases = true;
 				return;
@@ -715,13 +715,13 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	// Returns native class id alias belongs to is in, or null if no class
 	aliasClassObject(type: string, className: string) {
 		// Make sure it's a valid alias type
-		if(!contains(this.aliasTypes, type)) { return; }
+		if (!contains(this.aliasTypes, type)) { return; }
 
 		let aliases = this.aliases[type];
-		for(let i = 0; i < aliases.length; i++) {
+		for (let i = 0; i < aliases.length; i++) {
 			let alias = aliases[i];
 
-			if(className === alias.classRemote) {
+			if (className === alias.classRemote) {
 				return alias;
 			}
 		}
@@ -734,7 +734,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		// Look if class name is in alias
 		let aliasClassObject = this.aliasClassObject(type, className);
 		// If class name is not in alias, default to enabled
-		if(!aliasClassObject) { return false; }
+		if (!aliasClassObject) { return false; }
 		// If class name is in alias, check whether the it is for this class or another
 		return classId === aliasClassObject.classNative;
 	}
@@ -744,7 +744,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		// Look if class name is in alias
 		let aliasClassObject = this.aliasClassObject(type, className);
 		// If class name is not in alias, default to enabled
-		if(!aliasClassObject) { return false; }
+		if (!aliasClassObject) { return false; }
 		// If class name is in alias, check whether the it is for this class or another
 		return classId !== aliasClassObject.classNative;
 	}
@@ -752,9 +752,9 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	// When the user either checks or unchecks the box
 	aliasChange(event, type: string, className: string, classId: string) {
 		// Make sure it's a valid alias type
-		if(!contains(this.aliasTypes, type)) { return; }
+		if (!contains(this.aliasTypes, type)) { return; }
 
-		if(event.target.checked) {
+		if (event.target.checked) {
 			// Add alias
 			this.aliasService.addAlias(type, className, classId).subscribe(
 				id => {
@@ -781,8 +781,8 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.alertService.addAlert('success', 'Success!', 'Deleted alias from class!', 3);
 
 					// Remove alias from aliases array
-					for(let i = 0; i < this.aliases[type].length; i++) {
-						if(this.aliases[type][i]._id === aliasId) {
+					for (let i = 0; i < this.aliases[type].length; i++) {
+						if (this.aliases[type][i]._id === aliasId) {
 							this.aliases[type].splice(i, 1);
 						}
 					}

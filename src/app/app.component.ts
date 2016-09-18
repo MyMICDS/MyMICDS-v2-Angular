@@ -1,13 +1,9 @@
-import {environment} from '../environments/environment';
+import { environment} from '../environments/environment';
 
-import {Component, ViewContainerRef} from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 
-import {AlertService} from './services/alert.service';
-import {AuthService} from './services/auth.service';
-import {BackgroundService} from './services/background.service';
-import {CanvasService} from './services/canvas.service';
-import {PortalService} from './services/portal.service';
-import {UserService} from './services/user.service';
+import { AlertService } from './services/alert.service';
+import { BackgroundService } from './services/background.service';
 
 
 @Component({
@@ -16,6 +12,11 @@ import {UserService} from './services/user.service';
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+	backgrounds: any = {
+		normal: environment.backendURL + '/user-backgrounds/default/normal.jpg',
+		blur: environment.backendURL + '/user-backgrounds/default/blur.jpg'
+	};
 
 	/*
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
@@ -32,10 +33,4 @@ export class AppComponent {
 			}
 		);
 	}
-
-	backgrounds:any = {
-		normal: environment.backendURL + '/user-backgrounds/default/normal.jpg',
-		blur: environment.backendURL + '/user-backgrounds/default/blur.jpg'
-	};
 }
-

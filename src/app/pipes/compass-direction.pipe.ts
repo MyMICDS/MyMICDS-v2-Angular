@@ -39,6 +39,6 @@ export class CompassDirectionPipe implements PipeTransform {
 
 }
 
-function moduloFixed(num:number, modulo:number) {
+function moduloFixed(num: number, modulo: number) {
 	return ((num % modulo) + modulo ) % modulo;
 }

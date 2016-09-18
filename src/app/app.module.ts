@@ -140,21 +140,20 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 
 						let token = session || local;
 
-						if(typeof token !== 'string') return '';
+						if (typeof token !== 'string') { return ''; }
 
 						// Remove any quotations from the sides
 						token = token.split('"').join('');
 
 						// Check validity of jwt token
-						if(token.split('.').length !== 3) {
-							console.log("JWT must have three parts!");
+						if (token.split('.').length !== 3) {
 							localStorage.removeItem('id_token');
 							sessionStorage.removeItem('id_token');
 							return '';
 						}
 
 						// Check if token is expired. If it is, delete and send user to login page
-						if(jwtHelper.isTokenExpired(token)) {
+						if (jwtHelper.isTokenExpired(token)) {
 							sessionStorage.removeItem('id_token');
 							localStorage.removeItem('id_token');
 

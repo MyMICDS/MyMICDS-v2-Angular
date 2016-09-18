@@ -38,7 +38,7 @@ export class ResetPasswordComponent implements OnInit {
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if(this.userService.getUsername()) {
+		if (this.userService.getUsername()) {
 			this.router.navigate(['home']);
 			return;
 		}

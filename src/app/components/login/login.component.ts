@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if(this.userService.getUsername()) {
+		if (this.userService.getUsername()) {
 			this.router.navigate(['home']);
 		}
 	}
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 	login() {
 		this.authService.login(this.loginModel.user, this.loginModel.password, this.loginModel.remember).subscribe(
 			loginRes => {
-				if(loginRes.success) {
+				if (loginRes.success) {
 					this.router.navigateByUrl('/home');
 				} else {
 					this.alertService.addAlert('warning', 'Warning!', 'Invalid username / password.', 3);

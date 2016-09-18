@@ -48,7 +48,7 @@ export class ScheduleComponent implements OnInit {
 
 	previousDay(event) {
 		this.scheduleDate.subtract(1, 'day');
-		if(!contains(this.previousCreated, event.target)) {
+		if (!contains(this.previousCreated, event.target)) {
 			let o = Observable.fromEvent(event.target, 'click');
 			this.click$ = Observable.merge(this.click$, o);
 			this.previousCreated.push(event.target);
@@ -65,7 +65,7 @@ export class ScheduleComponent implements OnInit {
 
 	currentDay(event) {
 		this.scheduleDate = moment();
-		if(!contains(this.currentCreated, event.target)) {
+		if (!contains(this.currentCreated, event.target)) {
 			let o = Observable.fromEvent(event.target, 'click');
 			this.click$ = Observable.merge(this.click$, o);
 			this.currentCreated.push(event.target);
@@ -82,7 +82,7 @@ export class ScheduleComponent implements OnInit {
 
 	nextDay(event) {
 		this.scheduleDate.add(1, 'day');
-		if(!contains(this.nextCreated, event.target)) {
+		if (!contains(this.nextCreated, event.target)) {
 			let o = Observable.fromEvent(event.target, 'click');
 			this.click$ = Observable.merge(this.click$, o);
 			this.nextCreated.push(event.target);
@@ -99,7 +99,7 @@ export class ScheduleComponent implements OnInit {
 
 	getSchedule(date: any) {
 		// First check if date is current date
-		if(this.current.isSame(date, 'day')) {
+		if (this.current.isSame(date, 'day')) {
 			this.viewSchedule = this._currentSchedule;
 			return;
 		}

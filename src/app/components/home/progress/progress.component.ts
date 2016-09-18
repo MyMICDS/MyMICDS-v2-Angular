@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { hexToRgb } from '../../../common/utils';
 import { SocketioService } from '../../../services/socketio.service';
 
-declare let Chart:any 
+declare let Chart: any;
 
 @Component({
 	selector: 'mymicds-progress',
@@ -134,7 +134,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 	calculatePercentages() {
 		// Fallback if schedule is not set or no school
-		if(!this.schedule || this.schedule.classes.length === 0) {
+		if (!this.schedule || this.schedule.classes.length === 0) {
 			// Just set default parameters
 			this.progressBar.data.datasets[0].backgroundColor = this.defaultColors();
 			this.progressBar.data.datasets[0].data = this.defaultData();
@@ -154,11 +154,11 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 		// Insert a 'break' period in between classes that aren't back-to-back
 		let breaks = [];
-		for(let i = 0; i < this.schedule.classes.length - 1; i++) {
+		for (let i = 0; i < this.schedule.classes.length - 1; i++) {
 			let currBlock = this.schedule.classes[i];
 			let nextBlock = this.schedule.classes[i + 1];
 
-			if(currBlock.end !== nextBlock.start) {
+			if (currBlock.end !== nextBlock.start) {
 				breaks.push({
 					class : 'Break',
 					start: currBlock.end,
@@ -176,8 +176,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		});
 
 		// Generate colors for each class
-		for(let i = 0; i < formattedSchedule.length; i++) {
-			if(!formattedSchedule[i].color) {
+		for (let i = 0; i < formattedSchedule.length; i++) {
+			if (!formattedSchedule[i].color) {
 				let color = hexToRgb(formattedSchedule[i].class.color);
 				formattedSchedule[i].color = 'rgba(' + color[0] + ', ' + color[1] + ', ' + color[2] + ', 0.8)';
 			}
@@ -196,11 +196,11 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		this.schoolPercent = +schoolPercent.toFixed(2);
 
 		// Loop through classes and calculate stuff
-		for(let i = 0; i < formattedSchedule.length; i++) {
+		for (let i = 0; i < formattedSchedule.length; i++) {
 			let block = formattedSchedule[i];
 
 			let blockName = block.class;
-			if(typeof block.class === 'object') {
+			if (typeof block.class === 'object') {
 				blockName = block.class.name;
 			}
 
@@ -214,14 +214,14 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			let roundedPercent = +finalPercentage.toFixed(2);
 
 			// Add values to their respective array if data is more than 0
-			if(roundedPercent > 0) {
+			if (roundedPercent > 0) {
 				newColors.push(block.color);
 				newData.push(roundedPercent);
 				newLabels.push(blockName);
 			}
 
 			// Check if class is the current class
-			if(0 < classPercent && classPercent < 100) {
+			if (0 < classPercent && classPercent < 100) {
 				newCurrentClass = blockName;
 				newCurrentClassPercent = +classPercent.toFixed(2);
 			}
@@ -257,9 +257,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 		let answer = (numerator / denominator) * 100;
 
-		if(0 <= answer && answer <= 100) {
+		if (0 <= answer && answer <= 100) {
 			return answer;
-		} else if(answer < 0) {
+		} else if (answer < 0) {
 			return 0;
 		} else {
 			return 100;

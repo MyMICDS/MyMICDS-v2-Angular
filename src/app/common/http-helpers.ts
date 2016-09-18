@@ -13,15 +13,15 @@ export function xhrHeaders() {
 export function handleError(error: any) {
 
 	// Check if error is string
-	if(typeof error === 'string') {
+	if (typeof error === 'string') {
 		return Observable.throw(error);
 	}
 	// Check if server-side error
-	if(typeof error.message === 'string') {
+	if (typeof error.message === 'string') {
 		return Observable.throw(error.message);
 	}
 	// Check if client-side error
-	if(typeof error.statusText === 'string') {
+	if (typeof error.statusText === 'string') {
 		return Observable.throw(error.statusText);
 	}
 

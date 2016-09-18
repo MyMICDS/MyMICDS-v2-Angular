@@ -36,7 +36,7 @@ export class SidebarComponent implements OnInit {
 			);
 
 		// Get events
-		if(typeof this.userService.getUsername() === 'string') {
+		if (typeof this.userService.getUsername() === 'string') {
 			this.notificationService.getEvents().subscribe(
 				events => {
 					this.announcements = events.announcements;

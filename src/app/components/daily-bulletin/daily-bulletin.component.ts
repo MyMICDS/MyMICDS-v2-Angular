@@ -39,7 +39,7 @@ export class DailyBulletinComponent implements OnInit {
 
 				// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
 				let bulletinParam = data[1]['bulletin'];
-				if(typeof bulletinParam !== 'undefined' && contains(this.bulletins, bulletinParam)) {
+				if (typeof bulletinParam !== 'undefined' && contains(this.bulletins, bulletinParam)) {
 					// Bulletin parameter is valid! Use that instead.
 					this.bulletinIndex = this.bulletins.indexOf(bulletinParam);
 				}
@@ -59,7 +59,7 @@ export class DailyBulletinComponent implements OnInit {
 	}
 
 	previousBulletin() {
-		if(this.bulletinIndex < this.bulletins.length - 1) {
+		if (this.bulletinIndex < this.bulletins.length - 1) {
 			this.bulletinIndex++;
 			this.setBulletin(this.bulletinIndex);
 		}
@@ -71,7 +71,7 @@ export class DailyBulletinComponent implements OnInit {
 	}
 
 	nextBulletin() {
-		if(this.bulletinIndex > 0) {
+		if (this.bulletinIndex > 0) {
 			this.bulletinIndex--;
 			this.setBulletin(this.bulletinIndex);
 		}

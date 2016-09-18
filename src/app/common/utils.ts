@@ -32,7 +32,7 @@ export function typeOf(something: any) {
  */
 
 export function contains(haystack, needle) {
-	if(!Array.isArray(haystack)) {
+	if (!Array.isArray(haystack)) {
 		return false;
 	}
 	return haystack.indexOf(needle) > -1;
@@ -43,24 +43,24 @@ export function contains(haystack, needle) {
  */
 
 export function isEqual(a: any, b: any) {
-	if(typeof a !== 'object') { return null; }
-	if(typeof b !== 'object') { return null; }
+	if (typeof a !== 'object') { return null; }
+	if (typeof b !== 'object') { return null; }
 	// Create arrays of property names
 	const aProps = Object.getOwnPropertyNames(a);
 	const bProps = Object.getOwnPropertyNames(b);
 
 	// If number of properties is different,
 	// objects are not equivalent
-	if(aProps.length !== bProps.length) {
+	if (aProps.length !== bProps.length) {
 		return false;
 	}
 
-	for(let i = 0; i < aProps.length; i++) {
+	for (let i = 0; i < aProps.length; i++) {
 		const propName = aProps[i];
 
 		// If values of same property are not equal,
 		// objects are not equivalent
-		if(a[propName] !== b[propName]) {
+		if (a[propName] !== b[propName]) {
 			return false;
 		}
 	}
@@ -79,7 +79,7 @@ export function isEqual(a: any, b: any) {
 /* tslint:disable:no-bitwise */
 export function darkenColor(color: string, amt: number) {
 
-	if(typeof color !== 'string') {
+	if (typeof color !== 'string') {
 		color = '#7F7F7F';
 	}
 
@@ -96,13 +96,13 @@ export function darkenColor(color: string, amt: number) {
 
 	if (r > 255) {
 		r = 255;
-	} else if(r < 0) {
+	} else if (r < 0) {
 		r = 0;
 	}
 
 	let b = ((num >> 8) & 0x00FF) + amt;
 
-	if(b > 255) {
+	if (b > 255) {
 		b = 255;
 	} else if (b < 0) {
 		b = 0;
@@ -110,9 +110,9 @@ export function darkenColor(color: string, amt: number) {
 
 	let g = (num & 0x0000FF) + amt;
 
-	if(g > 255) {
+	if (g > 255) {
 		g = 255;
-	} else if(g < 0) {
+	} else if (g < 0) {
 		g = 0;
 	}
 
