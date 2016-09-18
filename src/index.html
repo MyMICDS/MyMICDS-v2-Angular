@@ -10,6 +10,69 @@
 	</head>
 	<body>
 		<mymicds-app>
+			<style>
+				@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800);
+
+				.loading-container {
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				.loading-container .loading {
+					width: 35rem;
+					padding: 1rem;
+					text-align: center;
+					color: white;
+				}
+
+				.loading-container .loading .img-container {
+					margin-bottom: 0.5rem;
+					animation: rotate 1.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite;
+				}
+
+				.loading-container .loading .img-container img {
+					width: 5rem;
+					border-radius: 5rem;
+					animation: getUncomfortablyBigger 1.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite alternate;
+				}
+
+				@keyframes rotate {
+					from {
+						transform: rotate(0deg);
+					}
+
+					to {
+						transform: rotate(360deg);
+					}
+				}
+
+				@keyframes getUncomfortablyBigger {
+					from {
+						transform: scale(1);
+					}
+
+					to {
+						transform: scale(1.25);
+					}
+				}
+
+				.loading-container .loading h1 {
+					font-size: 3rem;
+					font-weight: 300;
+				}
+
+				[mymicds-blur] {
+					background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(http://localhost:1420/user-backgrounds/default/blur.jpg);
+					background-size: cover;
+					background-attachment: fixed;
+				}
+			</style>
 			<div class="loading-container">
 				<div mymicds-blur class="loading">
 					<div class="img-container">

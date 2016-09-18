@@ -15,7 +15,6 @@
 			"prefix": "mymicds",
 			"mobile": false,
 			"styles": [
-				"styles/loading.scss",
 				"styles/styles.scss",
 				"assets/font-awesome/scss/font-awesome.scss",
 				"assets/weather-icons/css/weather-icons.css",
