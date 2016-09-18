@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { hexToRgb } from '../../../common/utils';
 import { SocketioService } from '../../../services/socketio.service';
 
-declare var Chart: any;
+declare let Chart:any 
 
 @Component({
 	selector: 'mymicds-progress',

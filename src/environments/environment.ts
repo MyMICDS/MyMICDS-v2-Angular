@@ -5,6 +5,6 @@
 
 export const environment = {
 	production: false,
-	backendURL: 'http://localhost:1421',
+	backendURL: 'http://localhost:1420',
 	recruitMessage: false
 };
