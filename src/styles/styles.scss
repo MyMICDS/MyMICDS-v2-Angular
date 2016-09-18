@@ -6,7 +6,20 @@
 // Planner Styles
 @import '../app/components/planner/event-selection';
 
+@import 'settings';
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800);
+
 body {
+    background-image: url($background-url);
     background-attachment: fixed;
     background-size: cover;
+}
+
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+
+html, body {
+	height: 100%;
 }
