@@ -1,0 +1,71 @@
+<div *ngIf="loading" class="loading-container">
+	<div blur class="loading">
+		<h1>Fetching the Lunch Menu...</h1>
+	</div>
+</div>
+<div *ngIf="!loading" class="lunch-container container">
+
+	<!-- School Selection -->
+	<div class="school-selection">
+		<div class="btn-group">
+			<button class="lowerschool btn btn-secondary" [class.active]="school === 'lowerschool'" (click)="school = 'lowerschool'">Lower School</button>
+			<button class="middleschool btn btn-secondary" [class.active]="school === 'middleschool'" (click)="school = 'middleschool'">Middle School</button>
+			<button class="upperschool btn btn-secondary" [class.active]="school === 'upperschool'" (click)="school = 'upperschool'">Upper School</button>
+		</div>
+	</div>
+
+	<!-- Week Navigation -->
+	<div class="week-navigation">
+		<button blur class="previous-week" (click)="previousWeek()">
+			<span>
+				<i class="fa fa-angle-left"></i>
+				Previous Week
+			</span>
+		</button>
+
+		<button blur class="current-week" (click)="currentWeek()">
+			Current Week
+		</button>
+
+		<button blur class="next-week" (click)="nextWeek()">
+			<span>
+				Next Week
+				<i class="fa fa-angle-right"></i>
+			</span>
+		</button>
+	</div>
+
+	<!-- Actual Lunch -->
+	<div class="lunch-week">
+		<!-- Loop through Weekdays -->
+		<div blur *ngFor="let day of lunch" class="lunch-day" [class.today]="day.date.today">
+			<!-- Within each weekday, loop through the schools -->
+			<div *ngFor="let schoolName of schools">
+				<!-- Only show school lunch if it's selected -->
+				<div *ngIf="school === schoolName">
+					<!-- Lunch Date -->
+					<div class="lunch-date">
+						<h3 class="date-weekday">{{day.date.weekday}}</h3>
+						<h5 class="date-date text-muted">{{day.date.date}}</h5>
+					</div>
+					<!-- Lunch Menu -->
+					<div class="lunch-menu">
+						<!-- Displays if no Lunch -->
+						<div *ngIf="!day.lunch[schoolName]" class="no-lunch">
+							<p>No Lunch Today</p>
+						</div>
+						<!-- Loop through menu and display lists -->
+						<div *ngIf="day.lunch.upperschool" class="lunch">
+							<div *ngFor="let data of day.lunch[schoolName].categories | values" class="lunch-category">
+								<h3>{{data.key}}</h3>
+								<ul>
+									<li *ngFor="let item of data.value">{{item}}</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

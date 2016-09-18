@@ -1,0 +1,33 @@
+<div class="container">
+	<div blur class="bulletin-header">
+		<h1>Daily Bulletin</h1>
+		<!-- Bulletin navigation bar -->
+		<div class="bulletin-navigation">
+			<button blur class="previous-bulletin" (click)="previousBulletin()" [disabled]="bulletinIndex === bulletins.length - 1">
+				<span>
+					<i class="fa fa-angle-left"></i>
+					Previous
+				</span>
+			</button>
+
+			<button blur class="current-bulletin" (click)="currentBulletin()">
+				<span>{{ bulletinDate.toDate() | date:'EEEE' }}</span>
+				<span>{{ bulletinDate.toDate() | date:'MMM d, y' }}</span>
+			</button>
+
+			<button blur class="next-bulletin" (click)="nextBulletin()" [disabled]="bulletinIndex === 0">
+				<span>
+					Next
+					<i class="fa fa-angle-right"></i>
+				</span>
+			</button>
+		</div>
+		<button routerLink="/bulletin-archives" class="btn btn-info btn-lg">See Archived Bulletins</button>
+	</div>
+	<!-- Loading -->
+	<p blur *ngIf="loading" class="bulletin-message">Fetching the Daily Bulletins...</p>
+	<!-- No Daily Bulletins -->
+	<p blur *ngIf="!loading && bulletins.length === 0" class="bulletin-message">There are no Daily Bulletins!</p>
+	<!-- Embeded PDF -->
+	<object *ngIf="!loading && bulletins.length > 0" class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object>
+</div>
