@@ -7,18 +7,18 @@
 			<div class="calendar">
 				<!-- Month navigation bar -->
 				<div class="month-navigation">
-					<button blur class="previous-month" (click)="previousMonth()">
+					<button mymicds-blur class="previous-month" (click)="previousMonth()">
 						<span>
 							<i class="fa fa-angle-left"></i>
 							Previous Month
 						</span>
 					</button>
 
-					<button blur class="current-month" (click)="currentMonth()">
+					<button mymicds-blur class="current-month" (click)="currentMonth()">
 						{{ calendarDate.toDate() | date:'MMMM y' }}
 					</button>
 
-					<button blur class="next-month" (click)="nextMonth()">
+					<button mymicds-blur class="next-month" (click)="nextMonth()">
 						<span>
 							Next Month
 							<i class="fa fa-angle-right"></i>
@@ -29,7 +29,7 @@
 					Fetching Planner Events...
 				</div>
 				<!-- Calendar table (we used <div>'s this time!) -->
-				<div blur class="calendar-grid">
+				<div mymicds-blur class="calendar-grid">
 					<div class="calendar-weekdays">
 						<div *ngFor="let weekday of weekdays" class="weekday">
 							{{ weekday }}
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 
-			<div blur class="sidebar">
+			<div mymicds-blur class="sidebar">
 				<div class="sidebar-header" [style.text-align]="selectionDay === null ? 'left' : 'inherit'">
 					<h1>
 						<span *ngIf="selectionDay === null">Coming Up</span>

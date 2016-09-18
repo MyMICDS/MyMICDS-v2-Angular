@@ -1,5 +1,5 @@
 <div *ngIf="loading" class="loading-container">
-	<div blur class="loading">
+	<div mymicds-blur class="loading">
 		<h1>Fetching the Lunch Menu...</h1>
 	</div>
 </div>
@@ -16,18 +16,18 @@
 
 	<!-- Week Navigation -->
 	<div class="week-navigation">
-		<button blur class="previous-week" (click)="previousWeek()">
+		<button mymicds-blur class="previous-week" (click)="previousWeek()">
 			<span>
 				<i class="fa fa-angle-left"></i>
 				Previous Week
 			</span>
 		</button>
 
-		<button blur class="current-week" (click)="currentWeek()">
+		<button mymicds-blur class="current-week" (click)="currentWeek()">
 			Current Week
 		</button>
 
-		<button blur class="next-week" (click)="nextWeek()">
+		<button mymicds-blur class="next-week" (click)="nextWeek()">
 			<span>
 				Next Week
 				<i class="fa fa-angle-right"></i>
@@ -38,7 +38,7 @@
 	<!-- Actual Lunch -->
 	<div class="lunch-week">
 		<!-- Loop through Weekdays -->
-		<div blur *ngFor="let day of lunch" class="lunch-day" [class.today]="day.date.today">
+		<div mymicds-blur *ngFor="let day of lunch" class="lunch-day" [class.today]="day.date.today">
 			<!-- Within each weekday, loop through the schools -->
 			<div *ngFor="let schoolName of schools">
 				<!-- Only show school lunch if it's selected -->

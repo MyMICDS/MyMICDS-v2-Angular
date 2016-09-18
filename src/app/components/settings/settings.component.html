@@ -1,15 +1,15 @@
 <div class="container">
-	<div blur *ngIf="userData === null || infoForm === null" class="settings-header">
+	<div mymicds-blur *ngIf="userData === null || infoForm === null" class="settings-header">
 		<h1>Fetching user settings...</h1>
 	</div>
-	<div blur *ngIf="userData !== null && infoForm !== null" class="settings-header">
+	<div mymicds-blur *ngIf="userData !== null && infoForm !== null" class="settings-header">
 		<h1>Settings</h1>
 		<h3>{{userInfo.user}}</h3>
 	</div>
 	<div *ngIf="userData !== null && infoForm !== null" class="settings-body">
 
 		<!-- Change Basic Information -->
-		<div blur class="basic-info settings-section half">
+		<div mymicds-blur class="basic-info settings-section half">
 			<h3>Basic Info</h3>
 			<form [formGroup]="infoForm" (ngSubmit)="changeInfo()" novalidate>
 				<fieldset class="form-group">
@@ -44,7 +44,7 @@
 		</div>
 
 		<!-- Change Password -->
-		<div blur class="settings-section half">
+		<div mymicds-blur class="settings-section half">
 			<h3>Change Password</h3>
 			<form [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
 				<div class="form-group">
@@ -66,7 +66,7 @@
 		</div>
 
 		<!-- Change Background -->
-		<div blur class="change-background settings-section half">
+		<div mymicds-blur class="change-background settings-section half">
 			<h3>Change Background</h3>
 			<form class="upload-background-form" (submit)="uploadBackground($event)">
 				<div class="form-group">
@@ -86,7 +86,7 @@
 		</div>
 
 		<!-- Set URLs -->
-		<div blur class="settings-section half">
+		<div mymicds-blur class="settings-section half">
 			<h3>URL Settings</h3>
 			<form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
 				<label for="portal-url">Portal URL</label>
@@ -121,7 +121,7 @@
 		</div>
 
 		<!-- Set Classes -->
-		<div blur class="set-classes settings-section">
+		<div mymicds-blur class="set-classes settings-section">
 			<h3>Set Classes</h3>
 			<button class="add-class btn btn-success" (click)="addClass()" [disabled]="savingClasses">Add Class</button>
 			<table>
