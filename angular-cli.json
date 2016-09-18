@@ -23,7 +23,6 @@
 			],
 			"scripts": [
 				"../node_modules/chart.js/dist/Chart.min.js",
-				"../node_modules/socket.io-client/socket.io.js",
 				"../node_modules/trianglify/dist/trianglify.min.js"
 			],
 			"environments": {
