@@ -10,7 +10,7 @@ import '../common/rxjs-operators';
 
 import { AuthService } from '../services/auth.service';
 
-declare var Trianglify: any;
+declare let Trianglify: any;
 
 @Injectable()
 export class BackgroundService {
