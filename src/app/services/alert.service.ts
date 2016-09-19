@@ -18,7 +18,7 @@ export class AlertService {
 
 	addAlert(type: string, title: string, content: string, expiresIn: number = -1) {
 		// Default alert type to 'info'
-		if(!contains(this.alertTypes, type)) {
+		if (!contains(this.alertTypes, type)) {
 			type = 'info';
 		}
 

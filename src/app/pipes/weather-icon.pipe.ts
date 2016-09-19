@@ -24,7 +24,7 @@ export class WeatherIconPipe implements PipeTransform {
 			'tornado'            : 'wi-tornado',
 			// Default icon to fall back to
 			'default'            : 'wi-train'
-		}
+		};
 
 		return icons[value] || icons['default'];
 	}

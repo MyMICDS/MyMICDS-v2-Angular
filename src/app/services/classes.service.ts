@@ -1,14 +1,14 @@
 import { environment } from '../../environments/environment';
 
-import {Injectable} from '@angular/core';
-import {RequestOptions} from '@angular/http';
-import {AuthHttp} from 'angular2-jwt';
-import {xhrHeaders, handleError} from '../common/http-helpers';
+import { Injectable } from '@angular/core';
+import { RequestOptions } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
+import { xhrHeaders, handleError } from '../common/http-helpers';
 import '../common/rxjs-operators';
 
 @Injectable()
 export class ClassesService {
-	constructor(private authHttp: AuthHttp) {}
+	constructor(private authHttp: AuthHttp) { }
 
 	getClasses() {
 		let body = JSON.stringify({});
@@ -20,12 +20,12 @@ export class ClassesService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
 				// Turn all colors to lowercase
-				for(let i = 0; i < data.classes.length; i++) {
+				for (let i = 0; i < data.classes.length; i++) {
 					data.classes[i].color = data.classes[i].color.toLowerCase();
 				}
 
@@ -53,7 +53,7 @@ export class ClassesService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -72,7 +72,7 @@ export class ClassesService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 

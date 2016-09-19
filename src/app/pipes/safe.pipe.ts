@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 /*
  * Bypasses Angular 2's sanitization to display things like URLs for iframes.
@@ -10,8 +10,8 @@ import {DomSanitizer} from '@angular/platform-browser';
 @Pipe({
 	name: 'safeHtml'
 })
-export class SafeHtmlPipe {
-	constructor(private sanitizer:DomSanitizer) {}
+export class SafeHtmlPipe implements PipeTransform {
+	constructor(private sanitizer: DomSanitizer) { }
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustHtml(value);
@@ -21,8 +21,8 @@ export class SafeHtmlPipe {
 @Pipe({
 	name: 'safeScript'
 })
-export class SafeScriptPipe {
-	constructor(private sanitizer:DomSanitizer) {}
+export class SafeScriptPipe implements PipeTransform {
+	constructor(private sanitizer: DomSanitizer) { }
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustScript(value);
@@ -32,8 +32,8 @@ export class SafeScriptPipe {
 @Pipe({
 	name: 'safeStyle'
 })
-export class SafeStylePipe {
-	constructor(private sanitizer:DomSanitizer) {}
+export class SafeStylePipe implements PipeTransform {
+	constructor(private sanitizer: DomSanitizer) { }
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustStyle(value);
@@ -43,8 +43,8 @@ export class SafeStylePipe {
 @Pipe({
 	name: 'safeUrl'
 })
-export class SafeUrlPipe {
-	constructor(private sanitizer:DomSanitizer) {}
+export class SafeUrlPipe implements PipeTransform {
+	constructor(private sanitizer: DomSanitizer) { }
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustUrl(value);
@@ -54,8 +54,8 @@ export class SafeUrlPipe {
 @Pipe({
 	name: 'safeResourceUrl'
 })
-export class SafeResourceUrlPipe {
-	constructor(private sanitizer:DomSanitizer) {}
+export class SafeResourceUrlPipe implements PipeTransform {
+	constructor(private sanitizer: DomSanitizer) { }
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustResourceUrl(value);

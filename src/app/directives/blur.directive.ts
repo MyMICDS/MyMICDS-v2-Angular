@@ -16,7 +16,8 @@ export class BlurDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit() {
-		this.el.nativeElement.style.background = 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("' + this.backgroundService.variants.blur + '")';
+		this.el.nativeElement.style.background = 'linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("'
+			+ this.backgroundService.variants.blur + '")';
 		this.el.nativeElement.style.backgroundSize = 'cover';
 		this.el.nativeElement.style.backgroundAttachment = 'fixed';
 		this.subscription = this.backgroundService.backgroundChange$.subscribe(
@@ -48,7 +49,8 @@ export class DarkBlurDirective implements OnInit, OnDestroy {
 
 
 	ngOnInit() {
-		this.el.nativeElement.style.background = 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("' + this.backgroundService.variants.blur + '")';
+		this.el.nativeElement.style.background = 'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("'
+			+ this.backgroundService.variants.blur + '")';
 		this.el.nativeElement.style.backgroundSize = 'cover';
 		this.el.nativeElement.style.backgroundAttachment = 'fixed';
 		this.subscription = this.backgroundService.backgroundChange$.subscribe(
@@ -78,7 +80,8 @@ export class WhiteBlurDirective implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit() {
-		this.el.nativeElement.style.background = 'linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("' + this.backgroundService.variants.blur + '")';
+		this.el.nativeElement.style.background = 'linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("'
+			+ this.backgroundService.variants.blur + '")';
 		this.el.nativeElement.style.backgroundSize = 'cover';
 		this.el.nativeElement.style.backgroundAttachment = 'fixed';
 		this.subscription = this.backgroundService.backgroundChange$.subscribe(

@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-var io = require('socket.io-client');
+const io = require('socket.io-client');
 
 @Injectable()
 export class SocketioService {
@@ -25,7 +25,7 @@ export class SocketioService {
 
 	// Emit a socket.io event
 	emit(event: string, data: any) {
-		if(this.socket) {
+		if (this.socket) {
 			this.socket.emit(event, data);
 		}
 	}

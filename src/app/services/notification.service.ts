@@ -26,7 +26,7 @@ export class NotificationService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 

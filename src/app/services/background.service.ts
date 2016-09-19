@@ -8,7 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import '../common/rxjs-operators';
 
-import {AuthService} from '../services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 declare var Trianglify: any;
 
@@ -20,11 +20,11 @@ export class BackgroundService {
 
 	variants = {
 		normal: environment.backendURL + '/user-backgrounds/default/normal.jpg',
-		blur: environment.backendURL +  '/user-backgrounds/default/blur.jpg'
+		blur: environment.backendURL + '/user-backgrounds/default/blur.jpg'
 	};
 	hasDefault = true;
 
-	constructor(private authHttp: AuthHttp, private authService: AuthService) {}
+	constructor(private authHttp: AuthHttp, private authService: AuthService) { }
 
 	get() {
 		let body = JSON.stringify({});
@@ -36,7 +36,7 @@ export class BackgroundService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -67,12 +67,12 @@ export class BackgroundService {
 			formData.append('background', file, file.name);
 
 			xhr.onreadystatechange = () => {
-				if(xhr.readyState === 4) {
-					if(xhr.status === 200) {
+				if (xhr.readyState === 4) {
+					if (xhr.status === 200) {
 						let data = JSON.parse(xhr.response);
 
 						// Check for any server-side error
-						if(data.error) {
+						if (data.error) {
 							observer.error(data.error);
 							observer.complete();
 							return;
@@ -115,7 +115,7 @@ export class BackgroundService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -135,7 +135,7 @@ export class BackgroundService {
 		function dataURItoBlob(dataURI) {
 			// convert base64 data component to raw binary data held in a string
 			let byteString;
-			if(dataURI.split(',')[0].indexOf('base64') >= 0) {
+			if (dataURI.split(',')[0].indexOf('base64') >= 0) {
 				byteString = atob(dataURI.split(',')[1]);
 			}
 
@@ -144,15 +144,15 @@ export class BackgroundService {
 
 			// write the bytes of the string to a typed array
 			let ia = new Uint8Array(byteString.length);
-			for(let i = 0; i < byteString.length; i++) {
+			for (let i = 0; i < byteString.length; i++) {
 				ia[i] = byteString.charCodeAt(i);
 			}
 
-			return new Blob([ia], {type: mimeString});
+			return new Blob([ia], { type: mimeString });
 		}
 
 		let bgBlob = dataURItoBlob(bgURI);
-		let bgFile: File = new File([bgBlob], 'trianglify', {type: 'image/png'});
+		let bgFile: File = new File([bgBlob], 'trianglify', { type: 'image/png' });
 		return this.upload(bgFile);
 	}
 }

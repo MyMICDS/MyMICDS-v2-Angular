@@ -1,14 +1,14 @@
 import { environment } from '../../environments/environment';
 
-import {Injectable} from '@angular/core';
-import {RequestOptions} from '@angular/http';
-import {AuthHttp} from 'angular2-jwt';
-import {xhrHeaders, handleError} from '../common/http-helpers';
+import { Injectable } from '@angular/core';
+import { RequestOptions } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
+import { xhrHeaders, handleError } from '../common/http-helpers';
 import '../common/rxjs-operators';
 
 @Injectable()
 export class PlannerService {
-	constructor(private authHttp: AuthHttp) {}
+	constructor(private authHttp: AuthHttp) { }
 
 	getEvents(date: Date) {
 		let body = JSON.stringify(date);
@@ -20,17 +20,17 @@ export class PlannerService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
 				// Convert possible event dates to date objects
-				if(data.events) {
-					for(let i = 0; i < data.events.length; i++) {
-						if(data.events[i].start) {
+				if (data.events) {
+					for (let i = 0; i < data.events.length; i++) {
+						if (data.events[i].start) {
 							data.events[i].start = new Date(data.events[i].start);
 						}
-						if(data.events[i].end) {
+						if (data.events[i].end) {
 							data.events[i].end = new Date(data.events[i].end);
 						}
 					}
@@ -51,7 +51,7 @@ export class PlannerService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -70,7 +70,7 @@ export class PlannerService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -89,7 +89,7 @@ export class PlannerService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -108,7 +108,7 @@ export class PlannerService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 

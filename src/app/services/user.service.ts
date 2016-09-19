@@ -18,14 +18,14 @@ export class UserService {
 		// Get JWT
 		let token = sessionStorage.getItem('id_token') || localStorage.getItem('id_token');
 		// If not JWT, then user isn't logged in
-		if(!token) { return null; }
+		if (!token) { return null; }
 		if (token.split('.').length !== 3) {
 			localStorage.removeItem('id_token');
 			sessionStorage.removeItem('id_token');
 			return null;
 		}
 		// Check if token is expired
-		if(this.jwtHelper.isTokenExpired(token))  { return null; }
+		if (this.jwtHelper.isTokenExpired(token))  { return null; }
 
 		// Decode token so we can get username
 		let payload = this.jwtHelper.decodeToken(token);
@@ -35,7 +35,7 @@ export class UserService {
 	// Gets username of current session. Use this to check if a user is logged in and JWT is valid. Returns null if no username.
 	getUsername(): string {
 		let payload = this.getJWT();
-		if(!payload) { return null; }
+		if (!payload) { return null; }
 		return payload.user;
 	}
 
@@ -49,7 +49,7 @@ export class UserService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -81,7 +81,7 @@ export class UserService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 

@@ -6,12 +6,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ValuesPipe implements PipeTransform {
 
 	transform(value: any, args?: any): Object[] {
-		if(typeof value !== 'object') {
+		if (typeof value !== 'object') {
 			return [];
 		}
 
-    	let keys = Object.keys(value);
-        let data = [];
+		let keys = Object.keys(value);
+		let data = [];
 
 		keys.forEach((key: any) => {
 			let values = value[key];

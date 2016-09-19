@@ -24,13 +24,13 @@ export class AuthService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
 				// If login is successful, save the JWT
-				if(data.success && data.jwt) {
-					if(!remember) {
+				if (data.success && data.jwt) {
+					if (!remember) {
 						// Store in session storage. Do not remember outside of the session!
 						sessionStorage.setItem('id_token', data.jwt);
 					} else {
@@ -61,7 +61,7 @@ export class AuthService {
 				localStorage.removeItem('id_token');
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -87,7 +87,7 @@ export class AuthService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 				return;
@@ -105,7 +105,7 @@ export class AuthService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 				return;
@@ -123,7 +123,7 @@ export class AuthService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -142,7 +142,7 @@ export class AuthService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -161,7 +161,7 @@ export class AuthService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 

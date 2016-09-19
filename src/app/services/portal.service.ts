@@ -8,7 +8,7 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class PortalService {
-	constructor(private authHttp: AuthHttp) {}
+	constructor(private authHttp: AuthHttp) { }
 
 	getSchedule(date: Date) {
 		let body = JSON.stringify(date);
@@ -20,17 +20,17 @@ export class PortalService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
 				// Convert possible block dates to date objects
-				if(data.schedule.classes) {
-					for(let i = 0; i < data.schedule.classes.length; i++) {
-						if(data.schedule.classes[i].start) {
+				if (data.schedule.classes) {
+					for (let i = 0; i < data.schedule.classes.length; i++) {
+						if (data.schedule.classes[i].start) {
 							data.schedule.classes[i].start = new Date(data.schedule.classes[i].start);
 						}
-						if(data.schedule.classes[i].end) {
+						if (data.schedule.classes[i].end) {
 							data.schedule.classes[i].end = new Date(data.schedule.classes[i].end);
 						}
 					}
@@ -51,7 +51,7 @@ export class PortalService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
@@ -73,13 +73,13 @@ export class PortalService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
 				return {
 					valid: data.valid,
-					url  : data.url
+					url: data.url
 				};
 			})
 			.catch(handleError);
@@ -95,13 +95,13 @@ export class PortalService {
 				let data = res.json();
 
 				// Check if server-side error
-				if(data.error) {
+				if (data.error) {
 					throw new Error(data.error);
 				}
 
 				return {
 					valid: data.valid,
-					url  : data.url
+					url: data.url
 				};
 			})
 			.catch(handleError);
