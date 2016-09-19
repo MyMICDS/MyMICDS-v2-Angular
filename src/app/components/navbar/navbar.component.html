@@ -1,0 +1,32 @@
+<nav class="navbar navbar-full navbar-dark bg-inverse">
+	<img class="navbar-brand" src="/assets/logo/logo.svg">
+	<a class="navbar-brand" [routerLink]="['/home']">MyMICDS.net</a>
+	<div class="nav navbar-nav">
+		<a class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">
+			<i class="fa fa-home"></i> Home
+		</a>
+		<a class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']">
+			<i class="fa fa-cutlery"></i> Lunch
+		</a>
+		<a class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']">
+			<i class="fa fa-calendar"></i> Planner
+		</a>
+		<a class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']">
+			<i class="fa fa-bullhorn"></i> Daily Bulletin
+		</a>
+		<a *ngIf="userService.getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']">
+			<i class="fa fa-gear"></i> Settings
+		</a>
+		<a class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']">
+			<i class="fa fa-info"></i> About
+		</a>
+	</div>
+	<div *ngIf="!userService.getUsername()" class="navbar-right">
+		<button class="btn btn-success" [routerLink]="['/login']">Login</button>
+		<button class="btn btn-primary" [routerLink]="['/register']">Register</button>
+	</div>
+	<div *ngIf="userService.getUsername()" class="navbar-right">
+		<p class="logged-in-user text-muted">Logged in as {{userService.getUsername()}}</p>
+		<button class="btn btn-danger" [routerLink]="['/logout']">Logout</button>
+	</div>
+</nav>

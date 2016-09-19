@@ -29,6 +29,8 @@
 ## Planner
 - Be able to see the full week in the calendar, even if part of it spans into another month
 - Illustrate the connected events spanning from date to date.
+- add simple animations
+- be able to scroll to a certain event when it is clicked in side the day grid.
 
 ## Settings Page
 - Separate Settings sections into their own component.

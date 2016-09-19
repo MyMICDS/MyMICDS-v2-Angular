@@ -1,0 +1,35 @@
+@import '../../../styles/settings';
+
+.container {
+	margin-bottom: 6rem;
+	padding: 2rem 0 0 0;
+	text-align: center;
+
+	.bulletin-header {
+		display: inline-block;
+		margin-bottom: 1rem;
+		padding: 1rem 6rem;
+		color: $sophisticated-white;
+
+		h1 {
+			font-weight: 600;
+		}
+
+		h3 {
+			font-weight: 300;
+		}
+	}
+
+	.table {
+		color: $sophisticated-white;
+
+		tbody tr td {
+			text-align: left;
+			vertical-align: middle;
+
+			&.bulletin-name button {
+				width: 100%;
+			}
+		}
+	}
+}
