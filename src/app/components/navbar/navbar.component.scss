@@ -1,11 +1,26 @@
+
+/* --------------------------
+  Main Styles
+--------------------------- */
+
 .navbar {
 	display: flex;
-	align-items: center;
 	z-index: 100;
+	justify-content: space-around;
 
+	.nav-link:hover {
+		border-bottom: 1px solid #29ABE2;
+	}
+	.mymicds-logo {
+		text-align: center;
+	}
 	img.navbar-brand {
-		height: 2rem;
-		width: 2rem;
+		width: 40px;
+		vertical-align: top
+	}
+	.navbar-brand {
+		float: initial;
+		font-size: 2em;
 	}
 
 	.navbar-right {
@@ -18,8 +33,42 @@
 		}
 
 		.logged-in-user {
-			display: inline;
 			margin: 0 1rem 0 0;
 		}
 	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+@media screen and (min-width: 544px) {
+	.navbar {
+		display: flex;
+		align-items: center;
+		z-index: 100;
+
+		img.navbar-brand {
+			height: 2rem;
+			width: 2rem;
+		}
+
+		.navbar-right {
+			margin-left: auto;
+			display: flex;
+			align-items: center;
+
+			*:first-child {
+				margin-right: 0.25rem;
+			}
+
+			.logged-in-user {
+				display: inline;
+				margin: 0 1rem 0 0;
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 768px) {
+
 }
