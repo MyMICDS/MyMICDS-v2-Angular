@@ -63,7 +63,7 @@ export class PlannerComponent implements OnInit {
 
 
 	// List of events to show up in selection
-	selectionEvents: Event[] = [];
+	selectionEvents: any[] = [];
 
 	// Create Events form
 	createEventModel = {
@@ -613,6 +613,17 @@ export class PlannerComponent implements OnInit {
 		});
 		// Not propagated
 		event.path[5].dispatchEvent(click);
+	}
+
+	// Click event in the calendar grid
+	selectDayEvent(id: string) {
+		let selectionEvents = document.getElementsByClassName('selection-event');
+		for (let i=0;i<this.selectionEvents.length;i++) {
+			if (this.selectionEvents[i].data._id === id) {
+				selectionEvents.item(i).scrollIntoView();
+				break
+			};
+		};
 	}
 
 }
