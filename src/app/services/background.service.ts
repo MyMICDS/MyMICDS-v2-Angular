@@ -126,8 +126,8 @@ export class BackgroundService {
 
 	setTrianglify() {
 		let bgURI = Trianglify({
-			width: window.innerWidth,
-			height: window.innerHeight,
+			width: 1920,
+			height: 1080,
 			cell_size: Math.random() * 275 + 15,
 			variance: Math.random()
 		}).png();
