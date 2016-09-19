@@ -1,0 +1,127 @@
+@import '../../../styles/settings';
+
+.container {
+	margin-bottom: 6rem;
+	padding: 2rem 0 0 0;
+	text-align: center;
+
+	.about-header {
+		display: inline-block;
+		margin-bottom: 1rem;
+		padding: 1rem 6rem;
+		color: $sophisticated-white;
+
+		h1 {
+			font-weight: 600;
+		}
+
+		h3 {
+			font-weight: 300;
+		}
+
+		.github-logo {
+			width: 2rem;
+
+			.cls-1, .cls-2 {
+				transition-duration: 0.25s;
+				transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+				fill:#fff;
+			}
+
+			.cls-1 {
+				fill-rule:evenodd;
+			}
+
+			&:hover {
+				.cls-1, .cls-2 {
+					fill: #4078c0;
+				}
+			}
+		}
+	}
+
+	.about-body {
+
+		.disclaimer {
+			padding: 1rem;
+			margin-bottom: 1rem;
+			color: $sophisticated-white;
+			text-align: left;
+
+			p {
+				margin: 0;
+				font-size: 1.25rem;
+			}
+		}
+
+		.email {
+			padding: 1rem;
+			margin-bottom: 1rem;
+			color: $sophisticated-white;
+
+			p {
+				margin: 0;
+			}
+		}
+
+		.dev-team {
+			padding: 1rem;
+			margin-bottom: 1rem;
+
+			h3 {
+				margin-left: 1rem;
+				margin-bottom: 1rem;
+				text-align: left;
+				color: $sophisticated-white;
+				font-size: 3rem;
+				font-weight: 300;
+			}
+
+			.developers {
+				padding: 0;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-around;
+
+				.developer {
+					width: 23%;
+
+					.card-block:first-child {
+						text-align: left;
+					}
+
+					img {
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		.join-us {
+			padding: 1rem;
+			color: $sophisticated-white;
+
+			h3 {
+				text-align: left;
+				font-size: 2.25rem;
+				font-weight: 300;
+			}
+
+			.no.seriously.please.join {
+				margin-bottom: 2.5rem;
+				text-align: left;
+				font-size: 1.25rem;
+				font-weight: 400;
+			}
+
+			a {
+				margin-bottom: 0.5rem;
+			}
+
+			.contact-email {
+				font-weight: 300;
+				letter-spacing: 0.03rem;
+			}
+		}
+	}
+}

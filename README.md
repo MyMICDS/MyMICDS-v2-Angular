@@ -5,7 +5,7 @@ Angular Front end for MyMICDS.net
 Type in the following to install dependencies and run for development:
 ```
 $ npm install -D
-$ npm start
+$ ng serve
 ```
 
 ## More Info

@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+
+// This is a bunch of BS
+@import '../../node_modules/bootstrap/scss/bootstrap-flex';
+
+// Planner Styles
+@import '../app/components/planner/event-selection';
+
+// Settings
+@import 'settings';
+
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+
+html, body {
+	height: 100%;
+}
+
+body {
+	background-image: url($background-url);
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+[mymicds-blur] {
+	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url($background-url--blur);
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+[mymicds-blur--dark] {
+	background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url($background-url--blur);
+	background-size: cover;
+	background-attachment: fixed;
+}
+
+[mymicds-blur--white] {
+	background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url($background-url--blur);
+	background-size: cover;
+	background-attachment: fixed;
+}

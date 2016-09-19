@@ -1,0 +1,74 @@
+<div *ngIf="submitted" class="register-container">
+	<!-- Loading Screen -->
+	<div mymicds-blur *ngIf="submitted && registerResponse === null" class="register-response">
+		<h1>Sending Email...</h1>
+	</div>
+	<!-- Success Response -->
+	<div mymicds-blur *ngIf="submitted && registerResponse === true" class="register-response">
+		<h1>Confirmation Email Sent!</h1>
+		<p>Please wait a few minutes for the email to come through. If it isn't in your inbox, check your spam.</p>
+		<i class="fa fa-check fa-5x"></i>
+		<a class="gmail btn btn-info btn-lg" href="https://mail.google.com">Take me to Gmail</a>
+	</div>
+	<!-- Failure Response -->
+	<div mymicds-blur *ngIf="submitted && typeOf(registerResponse) === 'string'" class="register-response">
+		<h1>{{registerResponse}}</h1>
+		<i class="fa fa-times fa-5x"></i>
+		<p><a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error keeps happening.</p>
+	</div>
+</div>
+
+<div mymicds-blur *ngIf="!submitted" class="register-form">
+	<div class="register-header">
+		<h1>Register</h1>
+		<img src="dist/app/resources/logo/logo.svg">
+	</div>
+	<form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+		<fieldset class="form-group" [class.has-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)">
+			<legend>Username</legend>
+			<div class="input-group">
+				<input class="form-control" [class.form-control-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)" formControlName="user" placeholder="Username">
+				<div class="input-group-addon">@micds.org</div>
+			</div>
+			<p class="form-control-feedback">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
+		</fieldset>
+		<fieldset class="form-group">
+			<legend>Password</legend>
+			<input type="password" class="form-control" formControlName="password" placeholder="Password">
+			<input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+			<div *ngIf="registerForm.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
+			<p class="form-text">MyMICDS.net is not affiliated with Mary Institute Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
+		</fieldset>
+		<fieldset class="form-group" [class.has-danger]="(registerForm.controls.firstName.dirty && !registerForm.controls.firstName.valid) || (registerForm.controls.lastName.dirty && !registerForm.controls.lastName.valid)">
+			<legend>Name</legend>
+			<div class="full-name form-inline">
+				<input class="form-control" [class.form-control-danger]="registerForm.controls.firstName.dirty && !registerForm.controls.firstName.valid" formControlName="firstName" placeholder="First Name">
+				<input class="form-control" [class.form-control-danger]="registerForm.controls.lastName.dirty && !registerForm.controls.lastName.valid" formControlName="lastName" placeholder="Last Name">
+			</div>
+			<p *ngIf="(registerForm.controls.firstName.dirty && !registerForm.controls.firstName.valid) || (registerForm.controls.lastName.dirty && !registerForm.controls.lastName.valid)" class="form-control-feedback">
+				First name and last name are required.
+			</p>
+		</fieldset>
+		<fieldset class="grad-year form-group">
+			<legend>Grade</legend>
+			<div class="teacher checkbox">
+				<label>
+					<input type="checkbox" formControlName="teacher">
+					I am a Teacher
+				</label>
+			</div>
+			<div *ngIf="!registerForm?.controls?.teacher.value" class="grade-spacer">
+				<span class="line"></span>
+				<span class="text">or</span>
+				<span class="line"></span>
+			</div>
+			<div *ngIf="!registerForm?.controls?.teacher.value" class="student">
+				<span>Choose your graduation year</span>
+				<select class="custom-select" formControlName="gradYear">
+					<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
+				</select>
+			</div>
+		</fieldset>
+		<button class="btn btn-primary btn-lg btn-block" [disabled]="!registerForm.valid">Register</button>
+	</form>
+</div>
