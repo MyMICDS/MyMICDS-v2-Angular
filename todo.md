@@ -19,6 +19,7 @@
 ~~- Add socket.io features in the side bar? Add a student directory in the side bar, so the user can search and checkout what class other people are having. Also view personal info, and feed of notifications and announcements.~~
 - Possible name conflict between app's modules and ng-bootstrap's modules
 - Modularize the app according to different features.
+- change to current background after log in and change to default background after log out. 
 
 ## Home Page
 - When you change schedules too fast, the schedule flickers to different days
