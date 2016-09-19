@@ -8,22 +8,22 @@
 		Weather at MICDS
 	</h1>
 	<div class="temperature">
-		<div class="temp-actual">
+		<div class="temp-actual" (click)="toggleTempFormat()">
 			<div class="current-temp">
 				{{weather.currently.temperature}}
-				<span class="degrees">&deg;F</span>
+				<span class="degrees">{{celcius ? '&deg;C' : '&deg;F'}}</span>
 			</div>
 			<div class="temp-range">
 				<div class="temp-high">
 					<span class="temp-range-label">High</span>
-					{{weather.daily.data[0].temperatureMax}}&deg;F
+					{{weather.daily.data[0].temperatureMax}}{{celcius ? '&deg;C' : '&deg;F'}}
 				</div>
 
 				<span class="temp-spacer"></span>
 
 				<div class="temp-low">
 					<span class="temp-range-label">Low</span>
-					{{weather.daily.data[0].temperatureMin}}&deg;F
+					{{weather.daily.data[0].temperatureMin}}{{celcius ? '&deg;C' : '&deg;F'}}
 				</div>
 			</div>
 		</div>
