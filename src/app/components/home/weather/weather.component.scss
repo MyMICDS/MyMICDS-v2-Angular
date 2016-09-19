@@ -14,7 +14,7 @@
 		float: right;
 
 		.temp-actual {
-
+			cursor: pointer;
 			.current-temp {
 				display: flex;
 				align-items: flex-start;
@@ -49,8 +49,15 @@
 					background: rgba($sophisticated-white, 0.5);
 				}
 			}
+
+			transition: all 0.3s ease;
 		}
 
+		.temp-actual:hover {
+			transform: scale(1.1);
+			transition: all 0.3s ease;
+		}
+		
 		.temp-feels-like {
 			text-align: center;
 			letter-spacing: 0.02rem;
