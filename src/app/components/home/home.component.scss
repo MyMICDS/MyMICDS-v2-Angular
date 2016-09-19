@@ -4,6 +4,10 @@
 	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
 
+	.announcement.dismissed {
+		animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+	}
+
 	.modules {
 		display: flex;
 		flex-wrap: wrap;
@@ -19,5 +23,14 @@
 				width: calc(50% - #{$blur-margin / 2});
 			}
 		}
+	}
+}
+
+@keyframes deleteAlert {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
 	}
 }

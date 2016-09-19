@@ -10,6 +10,11 @@ import {PortalService} from '../../services/portal.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
+	// Possibly show announcement (leave announcement as empty string if no announcement!)
+	announcement: string = 'Hey Everyone! We\'ve done some optimizations for a faster site loading time! Also, check out the Settings Page to try out a Trianglify background!';
+	dismissAnnouncement = false;
+	showAnnouncement = true;
+
 	timer: any;
 	current: any = new Date();
 	scheduleDate: any = new Date();
@@ -41,6 +46,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		// Stop timer
 		clearInterval(this.timer);
+	}
+
+	dismissAlert() {
+		// How long CSS delete animation is in milliseconds
+		let animationTime = 200;
+		this.dismissAnnouncement = true;
+
+		// Wait until animation is done before actually removing from array
+		setTimeout(() => {
+			this.showAnnouncement = false;
+		}, animationTime - 5);
 	}
 
 }
