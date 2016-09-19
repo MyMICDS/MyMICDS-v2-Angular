@@ -8,7 +8,7 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class AuthService {
-	constructor(private http: Http, private authHttp: AuthHttp) {}
+	constructor(private http: Http, private authHttp: AuthHttp) { }
 
 	login(user: string, password: string, remember: any) {
 		let body = JSON.stringify({

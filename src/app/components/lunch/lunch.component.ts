@@ -83,7 +83,7 @@ export class LunchComponent implements OnInit {
 
 					let date = dates[i];
 					let lunchIndex = date.format('YYYY[-]MM[-]DD');
-					let dayLunch = lunch[lunchIndex] || {};
+					let dayLunch = lunch[lunchIndex] || { };
 
 					this.lunch.push({
 						date: {

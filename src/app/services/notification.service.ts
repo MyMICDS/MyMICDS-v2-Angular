@@ -13,7 +13,7 @@ export class NotificationService {
 	addTempEvent$ = new EventEmitter();
 	addPlannerEvent$ = new EventEmitter();
 
-	constructor(private http: AuthHttp) {}
+	constructor(private http: AuthHttp) { }
 
 	// Query announcements and events from the back-end
 	getEvents(): Observable<{notifications: Event[], announcements: Announcement[]}> {

@@ -110,7 +110,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	];
 
 	aliasesSubscription: any;
-	aliases = {};
+	aliases = { };
 
 	showAliases = false;
 	aliasClass: any = null;

@@ -8,7 +8,7 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class AliasService {
-	constructor(private authHttp: AuthHttp) {}
+	constructor(private authHttp: AuthHttp) { }
 
 	addAlias(type: string, classString: string, classId: string) {
 		let body = JSON.stringify({ type, classString, classId });

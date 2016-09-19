@@ -10,7 +10,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 
 	subscription: any;
 	alerts: Alert[] = [];
-	alertsDismissed = {};
+	alertsDismissed = { };
 
 	constructor(private alertService: AlertService) { }
 

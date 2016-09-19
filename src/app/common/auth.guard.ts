@@ -6,7 +6,7 @@ let jwtHelper = new JwtHelper();
 @Injectable()
 export class AuthGuard {
 
-	constructor(private router: Router) {}
+	constructor(private router: Router) { }
 
 	canActivate() {
 		// Look in session storage for id_token, but fallback to local storage

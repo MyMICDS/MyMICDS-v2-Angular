@@ -11,7 +11,7 @@ export class UserService {
 
 	private jwtHelper = new JwtHelper();
 
-	constructor(private http: Http, private authHttp: AuthHttp) {}
+	constructor(private http: Http, private authHttp: AuthHttp) { }
 
 	// Retrieves the contents of the JWT stored in the browser. Returns null if JWT has expired or is invalid or not there.
 	getJWT(): any {

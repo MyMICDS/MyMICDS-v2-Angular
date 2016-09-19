@@ -13,7 +13,7 @@ export function confirmRegister(passwordParams: string[], gradeParams: string[])
 		if (!passwordResponse && !gradeResponse)  { return null; }
 
 		// At least one is an object with a key. If not null, append to response object.
-		let response = {};
+		let response = { };
 		if (passwordResponse) {
 			response = Object.assign(response, passwordResponse);
 		}

@@ -7,7 +7,7 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class LunchService {
-	constructor(private http: Http) {}
+	constructor(private http: Http) { }
 
 	getLunch(date?: Date) {
 		let body = JSON.stringify(date);

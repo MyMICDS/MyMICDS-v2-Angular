@@ -8,7 +8,7 @@ import '../common/rxjs-operators';
 
 @Injectable()
 export class CanvasService {
-	constructor(private authHttp: AuthHttp) {}
+	constructor(private authHttp: AuthHttp) { }
 
 	getEvents() {
 		let body = JSON.stringify({});
