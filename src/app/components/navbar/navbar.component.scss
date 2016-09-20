@@ -6,7 +6,23 @@
 .navbar {
 	display: flex;
 	z-index: 100;
-	justify-content: space-around;
+	flex-direction: column;
+	align-items: center;
+
+	.navbar-nav {
+		display:flex;
+		flex-direction: column;
+		text-align: center;
+		a {
+			overflow: hidden;
+			transition: all ease-out 0.5s;
+			height: 2.5em;
+		}
+		.collapse {
+			padding: 0px;
+			height: 0px;
+		}
+	}
 
 	.nav-link:hover {
 		border-bottom: 1px solid #29ABE2;
@@ -26,9 +42,9 @@
 
 	.navbar-right {
 		margin-left: auto;
+		margin-top: 0.125em;
 		display: flex;
 		align-items: center;
-
 		*:first-child {
 			margin-right: 0.25rem;
 		}
@@ -44,9 +60,23 @@
 --------------------------- */
 @media screen and (min-width: 544px) {
 	.navbar {
-		display: flex;
-		align-items: center;
-		z-index: 100;
+		flex-direction: row;
+
+		.navbar-nav {
+			flex-direction: row;
+			text-align: initial;
+			.collapse {
+				padding-top: .425rem;
+    			padding-bottom: .425rem;
+				height: 2.5em;
+			}
+			.fa-caret-down {
+				display: none;
+			}
+			a {
+				overflow: initial;
+			}
+		}
 		.navbar-brand {
 			font-size: 1.25em;
 		}
@@ -56,22 +86,18 @@
 		}
 
 		.navbar-right {
-			margin-left: auto;
-			display: flex;
-			align-items: center;
-
-			*:first-child {
-				margin-right: 0.25rem;
-			}
-
 			.logged-in-user {
 				display: inline;
-				margin: 0 1rem 0 0;
+				margin: 0 1rem 0 1rem;
 			}
 		}
 	}
 }
 
 @media screen and (min-width: 768px) {
+	.logged-in-user {
+		margin: 0 1rem 0 0;
+	}
 
+	
 }
