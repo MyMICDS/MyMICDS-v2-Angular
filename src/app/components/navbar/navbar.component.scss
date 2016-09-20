@@ -10,6 +10,7 @@
 
 	.nav-link:hover {
 		border-bottom: 1px solid #29ABE2;
+		margin-bottom: -1px;
 	}
 	.mymicds-logo {
 		text-align: center;
@@ -46,7 +47,9 @@
 		display: flex;
 		align-items: center;
 		z-index: 100;
-
+		.navbar-brand {
+			font-size: 1.25em;
+		}
 		img.navbar-brand {
 			height: 2rem;
 			width: 2rem;
