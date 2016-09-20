@@ -6,7 +6,8 @@
 .navbar {
 	display: flex;
 	z-index: 100;
-	flex-direction: column;
+	flex-direction: wrap;
+	flex-wrap: wrap;
 	align-items: center;
 
 	.navbar-nav {
@@ -15,7 +16,7 @@
 		text-align: center;
 		a {
 			overflow: hidden;
-			transition: all ease-out 0.5s;
+			transition: all cubic-bezier(0.23, 1, 0.32, 1) 0.6s;
 			height: 2.5em;
 		}
 		.collapse {
