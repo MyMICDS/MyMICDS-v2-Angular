@@ -77,4 +77,5 @@ export class DailyBulletinComponent implements OnInit {
 		}
 	}
 
+	seeArchive: boolean = false;
 }
