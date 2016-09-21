@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { hexToRgb } from '../../../common/utils';
+import moment from 'moment';
 import { SocketioService } from '../../../services/socketio.service';
 
 declare let Chart: any;
@@ -266,4 +267,34 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	/*
+	 * Calculates tooltips for classes with duration of class.
+	 */
+
+	calculateTooltips(classLength) {
+
+		let duration = moment.duration(classLength);
+		let tooltip = '';
+		let hasHours = false;
+
+		if (duration.hours() > 0) {
+			hasHours = true;
+
+			tooltip += duration.hours() + ' hr';
+		}
+
+		if (duration.minutes() > 0) {
+			if (hasHours) {
+				// Add a space so the minutes are even with the hours
+				// 'X hr X min' vs 'X hrXmin'
+				tooltip += ' ';
+			}
+
+			tooltip += duration.minutes() + ' min';
+		}
+
+		return tooltip;
+
+		// TODO: Configure chart with these tooltips	
+	}
 }
