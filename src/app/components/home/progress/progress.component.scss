@@ -1,27 +1,31 @@
+/* --------------------------
+  Main Styles
+--------------------------- */
 .today {
+	display: flex;
+	justify-content: space-between;
 	.date {
-		display: inline-block;
-
 		.date-full {
 			font-weight: 400;
+			font-size: 1.5rem;
 		}
 
 		.date-numbered {
 			font-weight: 300;
+			font-size: 0.75rem;
 		}
 	}
 
 	.day {
-		display: inline-block;
-		float: right;
 		text-align: right;
-
 		.time {
 			font-weight: 400;
+			font-size: 1.5rem; 
 		}
 
 		.day-rotation {
 			font-weight: 300;
+			font-size: 0.75rem;
 		}
 	}
 }
@@ -33,6 +37,7 @@
 	flex-direction: column;
 
 	.progress-day {
+		display: none;
 		margin: 1rem auto;
 		cursor: pointer;
 		transition-duration: 0.5s;
@@ -52,10 +57,14 @@
 	.progress-circular {
 		position: relative;
 		display: flex;
-
+		overflow: visible;
 		.progress-chart {
 			position: relative;
 			z-index: 5;
+			margin-left: -50%;
+			margin-top: -20%;
+			width: 200% !important;
+			height: 200% !important;
 		}
 
 		.progress-percentage {
@@ -77,15 +86,70 @@
 			}
 
 			.class-percent {
-				font-size: 8rem;
-				font-weight: 600;
+				font-size: 6rem;
+				font-weight: 500;
 				line-height: 0.75;
 			}
 
 			.school-done {
-				font-size: 4rem;
-				font-weight: 600;
+				font-size: 2rem;
+				font-weight: 500;
 				line-height: 0.75;
+				text-align: center;
+			}
+		}
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+@media screen and (min-width: 544px) {
+	.today {
+		.date {
+			.date-full {
+				font-size: 2em;
+			}
+
+			.date-numbered {
+				font-size: 1.75em;
+			}
+		}
+
+		.day {
+			.time {
+				font-size: 2em; 
+			}
+
+			.day-rotation {
+				font-size: 1.75em;
+			}
+		}
+	}
+	.progress {
+		.progress-day {
+			display: block;
+		}
+		.progress-circular {
+			.progress-chart {
+				width: 100%;
+				height: 100%;
+			}
+			.progress-percentage {
+				.class-label {
+					font-size: 1.5rem;
+					font-weight: 300;
+				}
+
+				.class-percent {
+					font-size: 8rem;
+					font-weight: 600;
+				}
+
+				.school-done {
+					font-size: 4rem;
+					font-weight: 600;
+				}
 			}
 		}
 	}

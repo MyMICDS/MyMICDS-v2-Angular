@@ -4,13 +4,6 @@
   Main Styles
 --------------------------- */
 
-
-
-/* --------------------------
-  Media Queries
---------------------------- */
-
-
 .container {
 	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
@@ -29,10 +22,7 @@
 			margin-bottom: $blur-margin;
 			padding: 1rem;
 			color: $sophisticated-white;
-
-			&.half {
-				width: calc(50% - #{$blur-margin / 2});
-			}
+			overflow: hidden;
 		}
 	}
 }
@@ -45,3 +35,20 @@
 		opacity: 0;
 	}
 }
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+
+@media screen and (min-width: 544px) {
+	.container {
+		.modules {
+			.module {
+				 &.half {
+					width: calc(50% - #{$blur-margin / 2});
+				}
+			}
+		}
+	}
+}
+
