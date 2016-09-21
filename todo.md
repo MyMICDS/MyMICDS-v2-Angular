@@ -10,9 +10,9 @@
 - 404 Page
 - Optimize for mobile
 - Optimization
-  - Webpack?
+  - ~~Webpack?~~
   - HTTP 2?
-  - Server-side rendering
+  - ~~Server-side rendering~~
 - Add feed for sports (maybe own sports page?)
 - Add MICDS Twitter feed
 - Add school holidays
