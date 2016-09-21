@@ -41,6 +41,7 @@ export class AuthService {
 
 				return {
 					success: data.success,
+					message: data.message,
 					jwt: data.jwt
 				};
 			})

@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
 				if (loginRes.success) {
 					this.router.navigateByUrl('/home');
 				} else {
-					this.alertService.addAlert('warning', 'Warning!', 'Invalid username / password.', 3);
+					this.alertService.addAlert('warning', 'Warning!', loginRes.message, 3);
 				}
 			},
 			error => {
