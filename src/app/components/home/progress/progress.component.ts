@@ -52,7 +52,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	defaultLabels(): string[] {
 		return ['No School'];
 	}
-
+	defaultDurations(): string[] {
+		return ['All Day'];
+	}
 
 	ngOnInit() {
 		// Get Progress Bar <canvas>
@@ -63,6 +65,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			type: 'doughnut',
 			data: {
 				labels: this.defaultLabels(),
+				durations: this.defaultDurations(),
 				datasets: [{
 					data: this.defaultData(),
 					backgroundColor: this.defaultColors(),
@@ -78,14 +81,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 				},
 				tooltips: {
 					callbacks: {
-						// title: function(tooltipItems, data) {
-						// 	console.log(tooltipItems, data);
-						// 	return 'hello'
-						// },
-						// label: function(tooltipItem, data) {
-						// 	let classLabel = data.datasets[tooltipItem.datasetIndex].label;
-						// 	return classLabel;
-						// }
+						label: function(tooltipItem, data) {
+							return data.labels[tooltipItem.index] + ': ' + data.durations[tooltipItem.index];
+						}
 					}
 				},
 				cutoutPercentage: 95
@@ -140,15 +138,20 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			this.progressBar.data.datasets[0].backgroundColor = this.defaultColors();
 			this.progressBar.data.datasets[0].data = this.defaultData();
 			this.progressBar.data.labels = this.defaultLabels();
+			this.progressBar.data.durations = this.defaultDurations();
 
 			this.progressBar.update();
 			return;
 		}
 
+		// Define nowTime just to make things clearer
+		let nowTime = new Date().getTime();
+
 		// Create a new array and later assign to progress bar
 		let newColors: string[] = [];
 		let newData: number[] = [];
 		let newLabels: string[] = [];
+		let newDurations: string[] = [];
 
 		let newCurrentClass = null;
 		let newCurrentClassPercent = null;
@@ -214,11 +217,21 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 			let roundedPercent = +finalPercentage.toFixed(2);
 
+			let inClass = nowTime >= block.start.getTime() && nowTime < block.end.getTime();
+
+			let classLeft: number = classLength;
+			if (inClass) {
+				classLeft = nowTime - block.start.getTime();
+			}
+
+			let classDuration = this.calculateDurations(classLeft);
+
 			// Add values to their respective array if data is more than 0
 			if (roundedPercent > 0) {
 				newColors.push(block.color);
 				newData.push(roundedPercent);
 				newLabels.push(blockName);
+				newDurations.push(classDuration);
 			}
 
 			// Check if class is the current class
@@ -228,10 +241,13 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			}
 		}
 
+		let schoolLeftDuration = lastBlock.end.getTime() - new Date().getTime();
+
 		// Add a filler block for when school isn't complete yet
 		newColors.push('rgba(0, 0, 0, 0.1)');
 		newData.push(100 - +schoolPercent.toFixed(2));
 		newLabels.push('School Left');
+		newDurations.push(this.calculateDurations(schoolLeftDuration));
 
 		// Set current class labels in the middle of the progress bar
 		this.currentClass = newCurrentClass;
@@ -241,6 +257,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		this.progressBar.data.datasets[0].backgroundColor = newColors;
 		this.progressBar.data.datasets[0].data = newData;
 		this.progressBar.data.labels = newLabels;
+		this.progressBar.data.durations = newDurations;
 
 		this.progressBar.update();
 
@@ -268,10 +285,10 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	}
 
 	/*
-	 * Calculates tooltips for classes with duration of class.
+	 * Calculates human-readable duration of class using the total length.
 	 */
 
-	calculateTooltips(classLength) {
+	calculateDurations(classLength): string {
 
 		let duration = moment.duration(classLength);
 		let tooltip = '';
@@ -295,6 +312,5 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 		return tooltip;
 
-		// TODO: Configure chart with these tooltips	
 	}
 }
