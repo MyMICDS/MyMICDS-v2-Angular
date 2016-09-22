@@ -20,6 +20,7 @@
 			overflow: hidden;
 			transition: all cubic-bezier(0.23, 1, 0.32, 1) 0.6s;
 			height: 2.5em;
+			margin-right: 0.5em;
 		}
 		.collapse {
 			padding: 0px;
@@ -43,16 +44,25 @@
 	}
 
 	.navbar-right {
-		width: 50%;
+		width: calc(50% - 0.5em);
 		margin-top: 0.125em;
+		margin-left: 0.5em;
 		display: flex;
 		align-items: center;
+		justify-content: flex-end;
 		*:first-child {
 			margin-right: 0.25rem;
 		}
 
 		.logged-in-user {
 			margin: 0 1rem 0 0;
+			.hide {
+				display: none
+			}
+		}
+
+		button {
+			font-size: small;
 		}
 	}
 }
@@ -107,6 +117,16 @@
 		}
 		.navbar-nav {
 			padding-bottom: 0px;
+		}
+		.navbar-right {
+			button {
+				font-size: normal;
+			}
+			.logged-in-user {
+				.hide {
+					display: inline-block;
+				}
+			}
 		}
 	}
 }

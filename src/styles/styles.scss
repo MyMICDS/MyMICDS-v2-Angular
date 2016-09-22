@@ -21,11 +21,6 @@ body {
 	background-image: url($background-url);
 	background-attachment: fixed;
 	background-size: cover;
-	.announcement {
-		z-index: 1000;
-		position: absolute;
-		top: 7em;
-	}
 }
 
 [mymicds-blur] {

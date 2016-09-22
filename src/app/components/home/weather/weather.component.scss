@@ -1,5 +1,9 @@
 @import '../../../../styles/settings';
 
+/* --------------------------
+  Main Styles
+--------------------------- */
+
 .weather {
 	position: relative;
 	height: 100%;
@@ -49,13 +53,6 @@
 					background: rgba($sophisticated-white, 0.5);
 				}
 			}
-
-			transition: all 0.3s ease;
-		}
-
-		.temp-actual:hover {
-			transform: scale(1.1);
-			transition: all 0.3s ease;
 		}
 		
 		.temp-feels-like {
@@ -113,12 +110,8 @@
 	}
 
 	.forecast-io {
-		display: inline-block;
-		position: absolute;
-		bottom: 0;
-		right: 0;
-		margin: 0;
-
+		display: block;
+		float:right;
 		a {
 			color: darken($sophisticated-white, 10%);
 			font-size: 1.5rem;
@@ -130,6 +123,21 @@
 			&:hover {
 				text-shadow:2px 2px 2px #333;
 			}
+		}
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+@media screen and (min-width:544px) {
+	.weather {
+		.temp-actual {
+			transition: all 0.3s ease;
+		}
+		.temp-actual:hover {
+			transform: scale(1.1);
+			transition: all 0.3s ease;
 		}
 	}
 }
