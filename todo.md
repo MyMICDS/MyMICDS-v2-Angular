@@ -17,11 +17,6 @@
 - Modularize the app according to different features.
 - change to current background after log in and change to default background after log out.
 
-## Home Page
-- When you change schedules too fast, the schedule flickers to different days
-- Customize labels when you hover over progress bar
-  - Specifically, the amount of minutes in a class (in progress/already passed)
-
 ## Planner
 - Be able to see the full week in the calendar, even if part of it spans into another month
 
