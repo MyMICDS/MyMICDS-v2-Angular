@@ -1,5 +1,9 @@
 @import '../../../styles/settings';
 
+/* --------------------------
+  Main Styles
+--------------------------- */
+
 .loading-container {
 	position: absolute;
 	top: 0;
@@ -30,6 +34,9 @@
 	.school-selection {
 		margin-bottom: 1rem;
 		text-align: center;
+		.btn {
+			font-size: x-small;
+		}
 	}
 
 	.week-navigation {
@@ -43,7 +50,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			padding: 1rem;
+			padding: 1rem 0 1rem;
 
 			border: none;
 			color: $sophisticated-white;
@@ -58,7 +65,7 @@
 
 		.previous-week,
 		.next-week {
-			font-size: 2rem;
+			font-size: 1rem;
 			font-weight: 300;
 
 			fa {
@@ -67,7 +74,8 @@
 		}
 
 		.current-week {
-			font-size: 2.5rem;
+			display: none;
+			font-size: 1rem;
 			font-weight: 600;
 			border-left: 1px solid rgba($sophisticated-white, 0.5);
 			border-right: 1px solid rgba($sophisticated-white, 0.5);
@@ -77,9 +85,13 @@
 	.lunch-week {
 		display: flex;
 		justify-content: space-between;
+		width: auto;
+		height: auto;
+		overflow-x: scroll;
 
 		.lunch-day {
-			width: calc(20% - 0.5rem);
+			//width: calc(20% - 0.5rem);
+			flex: 0 0 100%;
 			padding: 0.5rem;
 			color: $sophisticated-white;
 
@@ -141,6 +153,51 @@
 						}
 					}
 				}
+			}
+		}
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+
+@media screen and (min-width:544px) {
+	.lunch-container {
+		.school-selection {
+			.btn {
+				font-size: inherit;
+			}
+		}
+		.week-navigation {
+			.previous-week,
+			.current-week,
+			.next-week {
+				padding: 1rem;
+			}
+
+			.previous-week,
+			.next-week {
+				font-size: 2rem;
+				font-weight: 300;
+				fa {
+					margin: 0 0.5rem;
+				}
+			}
+
+			.current-week {
+				display: inherit;
+				font-size: 2.5rem;
+				font-weight: 600;
+			}
+		}
+		.lunch-week {
+			overflow-x: auto;
+			width: 100%;
+			height: auto;
+			.lunch-day {
+				width: calc(20% - 0.5rem);
+				flex: initial;
 			}
 		}
 	}
