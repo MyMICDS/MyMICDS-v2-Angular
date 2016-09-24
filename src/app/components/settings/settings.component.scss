@@ -1,5 +1,8 @@
 @import '../../../styles/settings';
 
+/* --------------------------
+  Main Styles
+--------------------------- */
 .container {
 	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
@@ -50,10 +53,6 @@
 			text-align: left;
 			color: $sophisticated-white;
 
-			&.half {
-				width: calc(50% - #{$blur-margin / 2});
-			}
-
 			h3 {
 				font-size: 2.5rem;
 				font-weight: 300;
@@ -91,10 +90,12 @@
 
 			.trianglify {
 				margin-bottom: 1rem;
+				white-space: normal;
 			}
 		}
 
 		.set-classes {
+			overflow-x: scroll;
 			h3 {
 				display: inline-block;
 			}
@@ -128,11 +129,13 @@
 								input {
 									width: 8rem;
 								}
+								white-space: normal;
 							}
 
 							&.class-manage {
 								width: 100%;
 								text-align: right;
+								white-space: normal;
 							}
 						}
 					}
@@ -163,6 +166,44 @@
 
 			.save-classes {
 				float: right;
+			}
+		}
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+@media screen and (min-width:544px) {
+	.container {
+		.settings-body {
+			.settings-section {
+				&.half {
+					width: calc(50% - #{$blur-margin / 2});
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width:992px) {
+	.container {
+		.settings-body {
+			.set-classes {
+				table {
+					tbody {
+						tr {
+							td {
+								&.class-teacher {
+									white-space: nowrap;
+								}
+								&.class-manage {
+									white-space: nowrap;
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
