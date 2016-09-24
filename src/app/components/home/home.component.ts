@@ -11,7 +11,7 @@ import {PortalService} from '../../services/portal.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string if no announcement!)
-	announcement: string = 'Hey Everyone! We\'ve done some optimizations for a faster site loading time! Also, check out the Settings Page to try out a Trianglify background!';
+	announcement: string = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
