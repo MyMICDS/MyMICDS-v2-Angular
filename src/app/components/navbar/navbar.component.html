@@ -4,29 +4,29 @@
 		<a class="navbar-brand" [routerLink]="['/home']">MyMICDS.net</a>
 	</div>
 	<div class="nav navbar-nav">
-		<a [class.collapse]="isCollapsed && url !== 'home'" class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">
+		<a [class.collapse]="isCollapsed && url !== 'home'" class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
 			<i class="fa fa-home"></i> Home
-			<i *ngIf="url === 'home'" class="fa fa-caret-down" (click)="isCollapsed = !isCollapsed"></i>
+			<i *ngIf="url === 'home'" class="fa fa-caret-down"></i>
 		</a>
-		<a [class.collapse]="isCollapsed && url !== 'lunch'" class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']">
+		<a [class.collapse]="isCollapsed && url !== 'lunch'" class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
 			<i class="fa fa-cutlery"></i> Lunch
-			<i *ngIf="url === 'lunch'" class="fa fa-caret-down" (click)="isCollapsed = !isCollapsed"></i>
+			<i *ngIf="url === 'lunch'" class="fa fa-caret-down"></i>
 		</a>
-		<a [class.collapse]="isCollapsed && url !== 'planner'" class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']">
+		<a [class.collapse]="isCollapsed && url !== 'planner'" class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
 			<i class="fa fa-calendar"></i> Planner
-			<i *ngIf="url === 'planner'" class="fa fa-caret-down" (click)="isCollapsed = !isCollapsed"></i>
+			<i *ngIf="url === 'planner'" class="fa fa-caret-down"></i>
 		</a>
-		<a [class.collapse]="isCollapsed && url !== 'daily-bulletin'" class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']">
+		<a [class.collapse]="isCollapsed && url !== 'daily-bulletin'" class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
 			<i class="fa fa-bullhorn"></i> Bulletin
-			<i *ngIf="url === 'daily-bulletin'" class="fa fa-caret-down" (click)="isCollapsed = !isCollapsed"></i>
+			<i *ngIf="url === 'daily-bulletin'" class="fa fa-caret-down"></i>
 		</a>
-		<a [class.collapse]="isCollapsed && url !== 'settings'" *ngIf="userService.getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']">
+		<a [class.collapse]="isCollapsed && url !== 'settings'" *ngIf="userService.getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
 			<i class="fa fa-gear"></i> Settings
-			<i *ngIf="url === 'settings'" class="fa fa-caret-down" (click)="isCollapsed = !isCollapsed"></i>
+			<i *ngIf="url === 'settings'" class="fa fa-caret-down"></i>
 		</a>
-		<a [class.collapse]="isCollapsed && url !== 'about'" class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']">
+		<a [class.collapse]="isCollapsed && url !== 'about'" class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
 			<i class="fa fa-info"></i> About
-			<i *ngIf="url === 'about'" class="fa fa-caret-down" (click)="isCollapsed = !isCollapsed"></i>
+			<i *ngIf="url === 'about'" class="fa fa-caret-down"></i>
 		</a>
 	</div>
 	<div *ngIf="!userService.getUsername()" class="navbar-right">
