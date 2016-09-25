@@ -6,6 +6,7 @@ import { Router, Event, NavigationEnd } from '@angular/router';
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
 
+declare let ga: any;
 
 @Component({
 	selector: 'mymicds-app',
@@ -38,10 +39,7 @@ export class AppComponent {
 		this.router.events.subscribe(
 			(event: Event) => {
 				if (event instanceof NavigationEnd) {
-					(<any>window).dataLayer.push({
-						event: 'pageView',
-						action: event.urlAfterRedirects
-					});
+					ga('send', 'pageview', event.urlAfterRedirects);
 				}
 			}
 		);
