@@ -1,5 +1,8 @@
 @import '../../../styles/settings';
 
+/* --------------------------
+  Main Styles
+--------------------------- */
 .container {
 	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
@@ -8,7 +11,7 @@
 	.about-header {
 		display: inline-block;
 		margin-bottom: 1rem;
-		padding: 1rem 6rem;
+		padding: 1rem 4rem;
 		color: $sophisticated-white;
 
 		h1 {
@@ -84,8 +87,8 @@
 				justify-content: space-around;
 
 				.developer {
-					width: 23%;
-
+					// width: 23%;
+					flex: 0 0 50%;
 					.card-block:first-child {
 						text-align: left;
 					}
@@ -122,6 +125,17 @@
 				font-weight: 300;
 				letter-spacing: 0.03rem;
 			}
+		}
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+@media screen and (min-width:544px) {
+	.container {
+		.about-header {
+			padding: 1rem 6rem
 		}
 	}
 }

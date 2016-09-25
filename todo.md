@@ -28,3 +28,6 @@
 
 ## Registration
 - Fix URL title in confirmation page
+
+## About
+- have a graph of register data, amount of users and active people

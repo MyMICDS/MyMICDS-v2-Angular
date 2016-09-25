@@ -8,7 +8,7 @@
 	.bulletin-header {
 		display: inline-block;
 		margin-bottom: 1rem;
-		padding: 1rem 6rem;
+		padding: 1rem 0;
 		color: $sophisticated-white;
 
 		h1 {
@@ -29,6 +29,31 @@
 
 			&.bulletin-name button {
 				width: 100%;
+			}
+			&.bulletin-link {
+				a {
+					font-size: small;
+				}
+			}
+		}
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+@media screen and (min-width:544px) {
+	.container {
+		.bulletin-header {
+			padding: 1rem 6rem;
+		}
+		.table {
+			tbody tr td {
+				&.bulletin-link {
+					a {
+						font-size: medium;
+					}
+				}
 			}
 		}
 	}

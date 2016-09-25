@@ -3,7 +3,7 @@
 		<h1>Daily Bulletin</h1>
 		<!-- Bulletin navigation bar -->
 		<div class="bulletin-navigation">
-			<button mymicds-blur class="previous-bulletin" (click)="previousBulletin()" [disabled]="bulletinIndex === bulletins.length - 1">
+			<button mymicds-blur class="previous-bulletin" routerLink="/daily-bulletin" (click)="previousBulletin()" [disabled]="bulletinIndex === bulletins.length - 1">
 				<span>
 					<i class="fa fa-angle-left"></i>
 					Previous
@@ -15,19 +15,22 @@
 				<span>{{ bulletinDate.toDate() | date:'MMM d, y' }}</span>
 			</button>
 
-			<button mymicds-blur class="next-bulletin" (click)="nextBulletin()" [disabled]="bulletinIndex === 0">
+			<button mymicds-blur class="next-bulletin" routerLink="/daily-bulletin" (click)="nextBulletin()" [disabled]="bulletinIndex === 0">
 				<span>
 					Next
 					<i class="fa fa-angle-right"></i>
 				</span>
 			</button>
 		</div>
-		<button routerLink="/bulletin-archives" class="btn btn-info btn-lg">See Archived Bulletins</button>
+		<button *ngIf="!seeArchive" routerLink="/daily-bulletin/archives" class="btn btn-info btn-lg" (click)="seeArchive = !seeArchive">See Archived Bulletins</button>
+		<button *ngIf="seeArchive" routerLink="/daily-bulletin" class="btn btn-info btn-lg" (click)="seeArchive = !seeArchive">Close Archived Bulletins</button>
 	</div>
 	<!-- Loading -->
 	<p mymicds-blur *ngIf="loading" class="bulletin-message">Fetching the Daily Bulletins...</p>
 	<!-- No Daily Bulletins -->
-	<p mymicds-blur *ngIf="!loading && bulletins.length === 0" class="bulletin-message">There are no Daily Bulletins!</p>
+	<p mymicds-blur *ngIf="!loading && bulletins.length === 0 && !seeArchive" class="bulletin-message">There are no Daily Bulletins!</p>
 	<!-- Embeded PDF -->
-	<object *ngIf="!loading && bulletins.length > 0" class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object>
+	<object *ngIf="!loading && bulletins.length > 0 && !seeArchive" class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object>
+	<!--Bulletin Archive outlet-->
+	<router-outlet></router-outlet>
 </div>
