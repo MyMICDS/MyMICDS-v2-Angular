@@ -378,6 +378,7 @@
 		.event-date {
 			display: flex;
 			justify-content: space-between;
+			flex-wrap: wrap;
 
 			datepicker {
 				display: inline-block;
