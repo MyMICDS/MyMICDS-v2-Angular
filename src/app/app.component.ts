@@ -1,6 +1,7 @@
-import { environment} from '../environments/environment';
+import { environment } from '../environments/environment';
 
 import { Component, ViewContainerRef } from '@angular/core';
+import { Router, Event, NavigationEnd } from '@angular/router';
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
@@ -22,7 +23,7 @@ export class AppComponent {
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
 	 * You need this small hack in order to catch application root view container ref.
 	 */
-	constructor(private viewContainerRef: ViewContainerRef, private alertService: AlertService, private backgroundService: BackgroundService) {
+	constructor(private router: Router, private viewContainerRef: ViewContainerRef, private alertService: AlertService, private backgroundService: BackgroundService) {
 		// Get custom user background
 		this.backgroundService.get().subscribe(
 			data => {
@@ -30,6 +31,18 @@ export class AppComponent {
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Background Error!', error);
+			}
+		);
+
+		// Google Analytics track page views
+		this.router.events.subscribe(
+			(event: Event) => {
+				if (event instanceof NavigationEnd) {
+					(<any>window).dataLayer.push({
+						event: 'pageView',
+						action: event.urlAfterRedirects
+					});
+				}
 			}
 		);
 	}
