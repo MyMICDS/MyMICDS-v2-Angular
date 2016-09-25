@@ -11,11 +11,13 @@
 	align-items: center;
 
 	.navbar-nav {
-		width: 50%;
+		order: 3;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		text-align: center;
-		padding-bottom: 1px;
+		padding: 0 3em;
+		//padding-bottom: 1px;
 		a {
 			overflow: hidden;
 			transition: all cubic-bezier(0.23, 1, 0.32, 1) 0.6s;
@@ -28,25 +30,31 @@
 		}
 	}
 
+	.nav-link {
+		border-bottom: 1px solid #373a3c;
+	}
+
 	.nav-link:hover {
 		border-bottom: 1px solid #29ABE2;
 	}
 	.mymicds-logo {
 		text-align: center;
+		order: 1;
 	}
 	img.navbar-brand {
-		width: 40px;
+		width: 30px;
 		vertical-align: top
 	}
 	.navbar-brand {
 		float: initial;
-		font-size: 2em;
+		font-size: 1.5em;
 	}
 
 	.navbar-right {
-		width: calc(50% - 0.5em);
+		//width: calc(50% - 0.5em);
+		margin-left: auto;
+		order: 2;
 		margin-top: 0.125em;
-		margin-left: 0.5em;
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
@@ -75,9 +83,11 @@
 		flex-direction: row;
 		flex-wrap: nowrap;
 		.navbar-nav {
+			order: 2;
 			flex-direction: row;
 			width: inherit;
 			height: 100%;
+			padding: 0 0;
 			.collapse {
 				padding-top: .425rem;
     			padding-bottom: .425rem;
@@ -100,7 +110,9 @@
 		}
 
 		.navbar-right {
-			margin-left: auto;
+			margin-left: 1rem;
+			flex-direction: column;
+			order: 3;
 			width: inherit;
 			.logged-in-user {
 				display: inline;
@@ -119,6 +131,8 @@
 			padding-bottom: 0px;
 		}
 		.navbar-right {
+			margin-left: auto;
+			flex-direction: row;
 			button {
 				font-size: normal;
 			}

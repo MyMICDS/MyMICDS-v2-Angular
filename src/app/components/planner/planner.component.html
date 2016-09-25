@@ -72,7 +72,7 @@
 				</div>
 			</div>
 
-			<div mymicds-blur class="sidebar">
+			<div mymicds-blur--dark class="sidebar" [class.sidebar-collapsed]="sidebarCollapsed">
 				<div class="sidebar-header" [style.text-align]="selectionDay === null ? 'left' : 'inherit'">
 					<h1>
 						<span *ngIf="selectionDay === null">Coming Up</span>
