@@ -193,7 +193,11 @@
 								}
 
 								.svg-cross {
-									position:absolute;top:0; left:0; right:0; bottom:0;
+									position:absolute;
+									top:0; 
+									left:0; 
+									right:0; 
+									bottom:0;
 									height: 100%;
 									width: 100%;
 									fill-opacity: 0;
@@ -225,6 +229,7 @@
 				width: 80%;
 				padding: 0.5rem;
 				position: relative;
+				z-index: 11;
 
 				.sidebar-header {
 					margin: 0 auto;
@@ -242,7 +247,12 @@
 
 				.coming-up,
 				.day-selection {
-					position:absolute; top:5em; left:0.5em; right:0.5em; bottom:0.5em; overflow:auto;
+					position:absolute; 
+					top:6em; 
+					left:0.5em; 
+					right:0.5em; 
+					bottom:0.5em; 
+					overflow:auto;
 					padding-right: 0.5em;
 					.event {
 						margin-bottom: 0.25rem;
@@ -276,12 +286,6 @@
 							border-bottom: 2px solid;
 							position: relative;
 
-							&:hover {
-								.event-manage {
-									opacity: 1;
-								}
-							}
-
 							&.text-dark {
 								color: #333;
 							}
@@ -289,7 +293,6 @@
 							.event-manage {
 								margin-left: 0.25rem;
 								float: right;
-								opacity: 0;
 								z-index: 11;
 							}
 
@@ -308,7 +311,11 @@
 							}
 
 							.svg-cross {
-								position:absolute;top:0; left:0; right:0; bottom:0;
+								position:absolute;
+								top:0; 
+								left:0; 
+								right:0; 
+								bottom:0;
 								height: 100%;
 								width: 100%;
 								fill-opacity: 0;
@@ -541,7 +548,11 @@
 									}
 
 									.svg-cross {
-										position:absolute;top:0; left:0; right:0; bottom:0;
+										position:absolute;
+										top:0; 
+										left:0; 
+										right:0; 
+										bottom:0;
 										height: 100%;
 										width: 100%;
 										fill-opacity: 0;
@@ -583,7 +594,12 @@
 
 					.coming-up,
 					.day-selection {
-						position:absolute; top:5em; left:0.5em; right:0.5em; bottom:0.5em; overflow:auto;
+						position:absolute; 
+						top:5em; 
+						left:0.5em; 
+						right:0.5em; 
+						bottom:0.5em; 
+						overflow:auto;
 						padding-right: 0.5em;
 						.event {
 							margin-bottom: 0.25rem;
@@ -649,7 +665,11 @@
 								}
 
 								.svg-cross {
-									position:absolute;top:0; left:0; right:0; bottom:0;
+									position:absolute; 
+									top:0; 
+									left:0; 
+									right:0; 
+									bottom:0;
 									height: 100%;
 									width: 100%;
 									fill-opacity: 0;
@@ -802,6 +822,26 @@
 					}
 					transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 					margin-left: inherit;
+					.coming-up, .day-selection {
+						position:absolute; 
+						top:5em; 
+						left:0.5em; 
+						right:0.5em; 
+						bottom:0.5em; 
+						overflow:auto;
+						.event {
+							.event-content {
+								&:hover {
+									.event-manage {
+										opacity: 1;
+									}
+								}
+								.event-manage {
+									opacity: 0;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
