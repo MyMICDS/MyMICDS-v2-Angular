@@ -16,6 +16,7 @@
 - Possible name conflict between app's modules and ng-bootstrap's modules
 - Modularize the app according to different features.
 - change to current background after log in and change to default background after log out.
+- **cache long api requests. **
 
 ## Planner
 - Be able to see the full week in the calendar, even if part of it spans into another month
