@@ -45,10 +45,10 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'daily-bulletin',
-		component: DailyBulletinComponent,
 		children: [
 			{
 				path: '',
+				component: DailyBulletinComponent
 			},
 			{
 				path: 'archives',
