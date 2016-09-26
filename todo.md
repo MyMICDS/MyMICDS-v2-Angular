@@ -16,9 +16,6 @@
 - change to current background after log in and change to default background after log out.
 - **cache long api requests.**
 
-## Bulletin Archives
-- Bulletin date is one day off
-
 ## Planner
 - Be able to see the full week in the calendar, even if part of it spans into another month
 
