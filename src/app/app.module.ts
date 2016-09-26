@@ -44,6 +44,7 @@ import { LunchService } from './services/lunch.service';
 import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
 import { SocketioService } from './services/socketio.service';
+import { SportsComponent } from './components/sports/sports.component';
 import { UserService } from './services/user.service';
 import { WeatherService } from './services/weather.service';
 
@@ -54,7 +55,6 @@ import { SafeHtmlPipe, SafeScriptPipe, SafeStylePipe, SafeUrlPipe, SafeResourceU
 import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
-import { SportsComponent } from './components/sports/sports.component';
 
 @NgModule({
 	declarations: [
@@ -80,6 +80,7 @@ import { SportsComponent } from './components/sports/sports.component';
 		ResetPasswordComponent,
 		SettingsComponent,
 		SidebarComponent,
+		SportsComponent,
 
 		// Directives
 		BlurDirective,
@@ -97,7 +98,7 @@ import { SportsComponent } from './components/sports/sports.component';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe, SportsComponent
+		WeatherIconPipe
 	],
 	imports: [
 		BrowserModule,
