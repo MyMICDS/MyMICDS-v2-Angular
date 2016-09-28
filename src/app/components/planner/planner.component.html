@@ -93,7 +93,7 @@
 							<div *ngFor="let event of day.events" class="event" (click)="viewEvent(event._id); viewEventModal.show()">
 								<!-- Class info for each event -->
 								<div class="event-class">
-									<h4 class="event-class-name">{{ event.class?.name || event.class || 'Other' }}</h4>
+									<h4 class="event-class-name">{{ event.class?.name }}</h4>
 									<h5 class="event-class-teacher">{{ event.class?.teacher?.firstName || '' }} {{ event.class?.teacher?.lastName || '' }}</h5>
 								</div>
 								<!-- Actual box with event -->
@@ -165,7 +165,7 @@
 						<div *ngFor="let event of selectionEvents" class="event selection-event" (click)="viewEvent(event.data._id); viewEventModal.show()">
 							<!-- Class info for each event -->
 							<div class="event-class">
-								<h4 class="event-class-name">{{ event.data.class?.name || event.data.class || 'Other' }}</h4>
+								<h4 class="event-class-name">{{ event.data.class?.name }}</h4>
 								<h5 class="event-class-teacher">{{ event.data.class?.teacher?.firstName || '' }} {{ event.data.class?.teacher?.lastName || '' }}</h5>
 							</div>
 							<!-- Actual box with event -->
