@@ -29,6 +29,8 @@ import { PlannerComponent } from './components/planner/planner.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { SportsComponent } from './components/sports/sports.component';
+import { StatsComponent } from './components/stats/stats.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
@@ -44,7 +46,8 @@ import { LunchService } from './services/lunch.service';
 import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
 import { SocketioService } from './services/socketio.service';
-import { SportsComponent } from './components/sports/sports.component';
+import { SportsService } from './services/sports.service';
+import { StatsService } from './services/stats.service';
 import { UserService } from './services/user.service';
 import { WeatherService } from './services/weather.service';
 
@@ -81,6 +84,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SettingsComponent,
 		SidebarComponent,
 		SportsComponent,
+		StatsComponent,
 
 		// Directives
 		BlurDirective,
@@ -126,6 +130,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		PlannerService,
 		PortalService,
 		SocketioService,
+		SportsService,
+		StatsService,
 		UserService,
 		WeatherService,
 
