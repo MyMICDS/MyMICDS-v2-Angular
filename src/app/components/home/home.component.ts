@@ -11,7 +11,7 @@ import {PortalService} from '../../services/portal.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string if no announcement!)
-	announcement: string = 'Hey you! Yeah you! We need your help generating ideas for the WWT Hackathon. <a class="alert-link" href="https://goo.gl/forms/pLHZw53kXGp4Tw993" target="_blank">Fill out this quick form and tell us about any problems you see in the community!</a>';
+	announcement: string = 'Hope you enjoyed your long weekend! We\'re using all this downtime to work on the MyMICDS Mobile app! <a class="alert-link" href="https://goo.gl/forms/TWl7WAgDiHSvf0d12" target="_blank">Could you answer a few questions we have relating the app?</a>';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
