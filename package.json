@@ -44,6 +44,7 @@
     "moment": "^2.15.0",
     "ng2-bootstrap": "^1.1.5",
     "rxjs": "5.0.0-beta.12",
+    "smoothscroll-polyfill": "^0.3.3",
     "socket.io-client": "^1.4.8",
     "trianglify": "^1.0.1",
     "ts-helpers": "^1.1.1",

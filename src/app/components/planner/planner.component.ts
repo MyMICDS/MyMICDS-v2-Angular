@@ -624,7 +624,7 @@ export class PlannerComponent implements OnInit {
 		let selectionEvents = document.getElementsByClassName('selection-event');
 		for (let i=0;i<this.selectionEvents.length;i++) {
 			if (this.selectionEvents[i].data._id === id) {
-				selectionEvents.item(i).scrollIntoView();
+				selectionEvents.item(i).scrollIntoView({behavior: "smooth"});
 				// shine the element
 				break
 			};
