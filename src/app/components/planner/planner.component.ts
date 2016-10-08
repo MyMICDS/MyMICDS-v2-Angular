@@ -622,11 +622,11 @@ export class PlannerComponent implements OnInit {
 	// Click event in the calendar grid
 	selectDayEvent(id: string) {
 		let selectionEvents = document.getElementsByClassName('selection-event');
-		for (let i=0;i<this.selectionEvents.length;i++) {
+		for (let i = 0; i < this.selectionEvents.length; i++) {
 			if (this.selectionEvents[i].data._id === id) {
-				selectionEvents.item(i).scrollIntoView({behavior: "smooth"});
+				selectionEvents.item(i).scrollIntoView({behavior: 'smooth'});
 				// shine the element
-				break
+				break;
 			};
 		};
 	}

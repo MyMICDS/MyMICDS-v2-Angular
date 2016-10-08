@@ -2,7 +2,7 @@ import { environment } from '../../environments/environment';
 
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import { AuthHttp, JwtHelper } from 'angular2-jwt';
+import { AuthHttp } from 'angular2-jwt';
 import { xhrHeaders, handleError } from '../common/http-helpers';
 import '../common/rxjs-operators';
 

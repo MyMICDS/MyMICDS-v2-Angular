@@ -76,6 +76,4 @@ export class DailyBulletinComponent implements OnInit {
 			this.setBulletin(this.bulletinIndex);
 		}
 	}
-
-	seeArchive: boolean = false;
 }

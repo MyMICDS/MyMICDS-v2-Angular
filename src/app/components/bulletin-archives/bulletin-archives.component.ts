@@ -24,7 +24,7 @@ export class BulletinArchivesComponent implements OnInit {
 				this.baseURL = data.baseURL;
 
 				// Loop through all the bulletins to get the display date
-				for(var i = 0; i < this.bulletins.length; i++) {
+				for (let i = 0; i < this.bulletins.length; i++) {
 					let date = moment(this.bulletins[i]);
 					this.bulletinDateDisplays[i] = date.format('dddd, MMMM Do, YYYY');
 				}

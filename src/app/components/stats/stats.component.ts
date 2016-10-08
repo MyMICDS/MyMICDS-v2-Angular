@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { StatsService } from '../../services/stats.service';
 
-declare let Chart: any; 
+declare let Chart: any;
 
 @Component({
 	selector: 'mymicds-stats',
@@ -11,8 +11,8 @@ declare let Chart: any;
 })
 export class StatsComponent implements OnInit {
 
-	categories: any[] = [
-	];
+	private ctx;
+	private chart;
 
 	constructor(private statsService: StatsService) { }
 
@@ -26,26 +26,26 @@ export class StatsComponent implements OnInit {
 
 		this.ctx = document.getElementById('registerCountChart');
 		this.chart = new Chart(this.ctx, {
-			type: 'line', 
+			type: 'line',
 			data: {
-				labels: ["January", "February", "March", "April", "May", "June", "July"],
+				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 				datasets: [
 					{
-						label: "My First dataset",
+						label: 'My First dataset',
 						fill: false,
 						lineTension: 0.1,
-						backgroundColor: "rgba(75,192,192,0.4)",
-						borderColor: "rgba(75,192,192,1)",
+						backgroundColor: 'rgba(75,192,192,0.4)',
+						borderColor: 'rgba(75,192,192,1)',
 						borderCapStyle: 'butt',
 						borderDash: [],
 						borderDashOffset: 0.0,
 						borderJoinStyle: 'miter',
-						pointBorderColor: "rgba(75,192,192,1)",
-						pointBackgroundColor: "#fff",
+						pointBorderColor: 'rgba(75,192,192,1)',
+						pointBackgroundColor: '#fff',
 						pointBorderWidth: 1,
 						pointHoverRadius: 5,
-						pointHoverBackgroundColor: "rgba(75,192,192,1)",
-						pointHoverBorderColor: "rgba(220,220,220,1)",
+						pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+						pointHoverBorderColor: 'rgba(220,220,220,1)',
 						pointHoverBorderWidth: 2,
 						pointRadius: 1,
 						pointHitRadius: 10,
@@ -54,9 +54,7 @@ export class StatsComponent implements OnInit {
 					}
 				]
 			}
-		})
+		});
 	}
 
-	private ctx
-	private chart
 }
