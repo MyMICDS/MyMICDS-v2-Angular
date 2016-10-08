@@ -1,5 +1,22 @@
-<div class="container">
-	<div mymicds-blur>
+<!-- Loading -->
+<div *ngIf="!stats" class="loading-container">
+	<div mymicds-blur class="loading">
+		<h1>Collecting Statistics...</h1>
+	</div>
+</div>
+<!-- Statistics -->
+<div *ngIf="stats" class="container">
+	<div mymicds-blur class="visited-today">
+		<h3>Visited Today</h3>
+		<div class="visited-stats">
+			<div>
+				<div class="label">Total</div>
+				<div class="stat"></div>
+			</div>
+		</div>
+	</div>
+	<div mymicds-blur class="registered">
+		<h3>Accounts Registered Over Time</h3>
 		<canvas id="registerCountChart"></canvas>
 	</div>
 </div>
