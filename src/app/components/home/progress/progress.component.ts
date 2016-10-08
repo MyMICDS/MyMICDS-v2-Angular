@@ -224,7 +224,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 				classLeft = nowTime - block.start.getTime();
 			}
 
-			let classDuration = this.calculateDurations(classLeft);
+			let classDuration = this.getDuration(classLeft);
 
 			// Add values to their respective array if data is more than 0
 			if (roundedPercent > 0) {
@@ -247,7 +247,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		newColors.push('rgba(0, 0, 0, 0.1)');
 		newData.push(100 - +schoolPercent.toFixed(2));
 		newLabels.push('School Left');
-		newDurations.push(this.calculateDurations(schoolLeftDuration));
+		newDurations.push(this.getDuration(schoolLeftDuration));
 
 		// Set current class labels in the middle of the progress bar
 		this.currentClass = newCurrentClass;
@@ -288,26 +288,32 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	 * Calculates human-readable duration of class using the total length.
 	 */
 
-	calculateDurations(classLength): string {
+	getDuration(classLength): string {
 
 		let duration = moment.duration(classLength);
-		let tooltip = '';
+		let tooltip  = '';
 		let hasHours = false;
 
-		if (duration.hours() > 0) {
-			hasHours = true;
+		// If duration lasts longer than a minute
+		if (duration.asSeconds() >= 60) {
+			if (duration.hours() > 0) {
+				hasHours = true;
 
-			tooltip += duration.hours() + ' hr';
-		}
-
-		if (duration.minutes() > 0) {
-			if (hasHours) {
-				// Add a space so the minutes are even with the hours
-				// 'X hr X min' vs 'X hrXmin'
-				tooltip += ' ';
+				tooltip += duration.hours() + ' hr';
 			}
 
-			tooltip += duration.minutes() + ' min';
+			if (duration.minutes() > 0) {
+				if (hasHours) {
+					// Add a space so the minutes are even with the hours
+					// 'X hr X min' vs 'X hrXmin'
+					tooltip += ' ';
+				}
+
+				tooltip += duration.minutes() + ' min';
+			}
+		} else {
+			// Do not add the seconds field unless the duration is shorter than a minute
+			tooltip += duration.seconds() + ' sec';
 		}
 
 		return tooltip;

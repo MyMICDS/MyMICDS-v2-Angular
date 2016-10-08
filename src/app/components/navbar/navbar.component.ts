@@ -19,9 +19,15 @@ export class NavbarComponent implements OnInit {
 		// Subscribe to router events to change title
 		this.router.events.subscribe((event: any) => {
 			if (typeof event.urlAfterRedirects === 'string') {
+				this.url = event.urlAfterRedirects.split('/')[1];
+				if (this.router.navigated && this.router.url.split('/')[1] !== this.url) {
+					 this.isCollapsed = true
+				};
 				this.titleService.setTitle('MyMICDS - ' + capitalize(event.urlAfterRedirects, 1));
 			}
 		});
 	}
 
+	public isCollapsed: boolean = true;
+	private url: string;
 }

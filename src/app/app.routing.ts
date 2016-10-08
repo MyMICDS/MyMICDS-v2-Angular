@@ -17,6 +17,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { StatsComponent } from './components/stats/stats.component';
 
 const appRoutes: Routes = [
 	{
@@ -45,15 +46,20 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'daily-bulletin',
-		component: DailyBulletinComponent
+		children: [
+			{
+				path: '',
+				component: DailyBulletinComponent
+			},
+			{
+				path: 'archives',
+				component: BulletinArchivesComponent
+			},
+		]
 	},
 	{
 		path: 'daily-bulletin/:bulletin',
 		component: DailyBulletinComponent
-	},
-	{
-		path: 'bulletin-archives',
-		component: BulletinArchivesComponent
 	},
 	{
 		path: 'settings',
@@ -63,7 +69,16 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'about',
-		component: AboutComponent
+		children: [
+			{
+				path: '',
+				component: AboutComponent
+			},
+			{
+				path: 'stats',
+				component: StatsComponent
+			}
+		]
 	},
 	{
 		path: 'help',

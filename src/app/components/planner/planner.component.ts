@@ -34,6 +34,9 @@ export class PlannerComponent implements OnInit {
 	plannerLoading = true;
 	canvasLoading = true;
 
+	// Controller for sidebar's collapsed class
+	sidebarCollapsed: boolean = true;
+
 	// Array of total events
 	get events(): Event[] {
 		return this.plannerEvents.concat(this.canvasEvents);
@@ -469,6 +472,7 @@ export class PlannerComponent implements OnInit {
 	 */
 
 	selectDay(day, event?) {
+		this.sidebarCollapsed = !this.sidebarCollapsed;
 		if (event) {
 			event.stopPropagation();
 		}
@@ -620,7 +624,8 @@ export class PlannerComponent implements OnInit {
 		let selectionEvents = document.getElementsByClassName('selection-event');
 		for (let i=0;i<this.selectionEvents.length;i++) {
 			if (this.selectionEvents[i].data._id === id) {
-				selectionEvents.item(i).scrollIntoView();
+				selectionEvents.item(i).scrollIntoView({behavior: "smooth"});
+				// shine the element
 				break
 			};
 		};
