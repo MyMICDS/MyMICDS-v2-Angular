@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { StatsService } from '../../services/stats.service';
+import { contains } from '../../common/utils'
 
 declare let Chart: any; 
 
@@ -21,42 +22,57 @@ export class StatsComponent implements OnInit {
 		this.statsService.getStats().subscribe(
 			data => {
 				console.log(data);
+				for (let gradYear in data.registered.gradYears) {
+					this.registerCountGradYears.push('grade ' + (13 - parseInt(gradYear) + 2016).toString());
+					for (let date in data.registered.gradYears[gradYear]) {
+						this.registerCountDayCounts.push(data.registered.gradYears[gradYear][date]);
+						let registerCountDate = new Date(date).valueOf();
+						this.bubbleData.push({
+							x: gradYear,
+							y: registerCountDate,
+							r: data.registered.gradYears[gradYear][date]
+						})
+					}
+					this.bubbleDataSets.push({
+						label: 'grade ' + (13 - parseInt(gradYear) + 2016).toString(),
+						data: this.bubbleData,
+						backgroundColor:"#FF6384",
+						hoverBackgroundColor: "#FF6384"
+					})
+				}
+				console.log(this.bubbleDataSets);
+			}, 
+			e => {console.log(e)},
+			() => {
+				this.ctx = document.getElementById('registerCountChart');
+				this.chart = new Chart(this.ctx, {
+					type: 'bubble', 
+					data: {
+						labels: this.registerCountGradYears,
+						datasets: this.bubbleDataSets
+					},
+					// options: {
+					// 	scales: {
+					// 		yAxes: [{
+					// 			type: 'time',
+					// 			time: {
+					// 				displayFormats: {
+					// 					quarter: 'MMM YYYY'
+					// 				}
+								
+					// 			}
+					// 		}]
+					// 	}
+					// }
+				})
 			}
 		);
-
-		this.ctx = document.getElementById('registerCountChart');
-		this.chart = new Chart(this.ctx, {
-			type: 'line', 
-			data: {
-				labels: ["January", "February", "March", "April", "May", "June", "July"],
-				datasets: [
-					{
-						label: "My First dataset",
-						fill: false,
-						lineTension: 0.1,
-						backgroundColor: "rgba(75,192,192,0.4)",
-						borderColor: "rgba(75,192,192,1)",
-						borderCapStyle: 'butt',
-						borderDash: [],
-						borderDashOffset: 0.0,
-						borderJoinStyle: 'miter',
-						pointBorderColor: "rgba(75,192,192,1)",
-						pointBackgroundColor: "#fff",
-						pointBorderWidth: 1,
-						pointHoverRadius: 5,
-						pointHoverBackgroundColor: "rgba(75,192,192,1)",
-						pointHoverBorderColor: "rgba(220,220,220,1)",
-						pointHoverBorderWidth: 2,
-						pointRadius: 1,
-						pointHitRadius: 10,
-						data: [65, 59, 80, 81, 56, 55, 40],
-						spanGaps: false,
-					}
-				]
-			}
-		})
 	}
 
 	private ctx
 	private chart
+	bubbleDataSets: Array<Object> = [];
+	registerCountDayCounts: Array<Number> = [];
+	registerCountGradYears: Array<String> = [];
+	bubbleData: Array<any> = []
 }
