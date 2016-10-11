@@ -89,6 +89,25 @@ export class UserService {
 			})
 			.catch(handleError);
 	}
+
+	gradeToGradYear(gradYear: number) {
+		let body = JSON.stringify({year: gradYear});
+		let headers = xhrHeaders();
+		let options = new RequestOptions({ headers });
+
+		return this.authHttp.post(environment.backendURL + '/user/grad-year-to-grade', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if (data.error) {
+					throw new Error(data.error);
+				}
+
+				return data.grade;
+			})
+			.catch(handleError);
+	}
 }
 
 interface UserInfo {
