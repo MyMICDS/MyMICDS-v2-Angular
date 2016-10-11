@@ -63,16 +63,11 @@
 
 			.full-name {
 				display: flex;
+				flex-direction: column;
 				justify-content: space-between;
 
-				input:first-child {
+				input {
 					width: 100%;
-					margin-right: 0.5rem;
-				}
-
-				input:last-child {
-					width: 100%;
-					margin-left: 0.5rem;
 				}
 			}
 
@@ -174,7 +169,7 @@
 /* --------------------------
   Media Queries
 --------------------------- */
-@media screen and (min-width:544px) {
+@media screen and (min-width: 544px) {
 	.container {
 		.settings-body {
 			.settings-section {
@@ -186,7 +181,7 @@
 	}
 }
 
-@media screen and (min-width:992px) {
+@media screen and (min-width: 992px) {
 	.container {
 		.settings-body {
 			.set-classes {
@@ -205,6 +200,20 @@
 					}
 				}
 			}
+		}
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.container .settings-body .basic-info form .full-name {
+		flex-direction: row;
+
+		input:first-child {
+			margin-right: 0.5rem;
+		}
+
+		input:last-child {
+			margin-left: 0.5rem;
 		}
 	}
 }
