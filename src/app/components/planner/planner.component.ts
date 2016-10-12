@@ -631,6 +631,10 @@ export class PlannerComponent implements OnInit {
 		};
 	}
 
+	//close the side bar from a button
+	sidebarClose() {
+		this.sidebarCollapsed = true;
+	}
 }
 
 interface Event {

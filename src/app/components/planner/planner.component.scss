@@ -194,9 +194,9 @@
 
 								.svg-cross {
 									position:absolute;
-									top:0; 
-									left:0; 
-									right:0; 
+									top:0;
+									left:0;
+									right:0;
 									bottom:0;
 									height: 100%;
 									width: 100%;
@@ -224,13 +224,18 @@
 					margin-right: -100%;
 					transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 				}
-				transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);				
+				transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 				margin-left: -100%;
 				width: 80%;
 				padding: 0.5rem;
 				position: relative;
 				z-index: 11;
-
+				.sidebar-close {
+					position: absolute;
+					right: 1em;
+					top: 1em;
+					cursor: pointer;
+				}
 				.sidebar-header {
 					margin: 0 auto;
 
@@ -247,11 +252,11 @@
 
 				.coming-up,
 				.day-selection {
-					position:absolute; 
-					top:6em; 
-					left:0.5em; 
-					right:0.5em; 
-					bottom:0.5em; 
+					position:absolute;
+					top:6em;
+					left:0.5em;
+					right:0.5em;
+					bottom:0.5em;
 					overflow:auto;
 					padding-right: 0.5em;
 					.event {
@@ -312,9 +317,9 @@
 
 							.svg-cross {
 								position:absolute;
-								top:0; 
-								left:0; 
-								right:0; 
+								top:0;
+								left:0;
+								right:0;
 								bottom:0;
 								height: 100%;
 								width: 100%;
@@ -549,9 +554,9 @@
 
 									.svg-cross {
 										position:absolute;
-										top:0; 
-										left:0; 
-										right:0; 
+										top:0;
+										left:0;
+										right:0;
 										bottom:0;
 										height: 100%;
 										width: 100%;
@@ -594,11 +599,11 @@
 
 					.coming-up,
 					.day-selection {
-						position:absolute; 
-						top:5em; 
-						left:0.5em; 
-						right:0.5em; 
-						bottom:0.5em; 
+						position:absolute;
+						top:5em;
+						left:0.5em;
+						right:0.5em;
+						bottom:0.5em;
 						overflow:auto;
 						padding-right: 0.5em;
 						.event {
@@ -665,10 +670,10 @@
 								}
 
 								.svg-cross {
-									position:absolute; 
-									top:0; 
-									left:0; 
-									right:0; 
+									position:absolute;
+									top:0;
+									left:0;
+									right:0;
 									bottom:0;
 									height: 100%;
 									width: 100%;
@@ -815,6 +820,9 @@
 				}
 				.sidebar {
 					width: calc(30% - 0.25rem);
+					.sidebar-close {
+						display: none;
+					}
 					&.sidebar-collapsed {
 						margin-left: inherit;
 						margin-right: inherit;
@@ -823,11 +831,11 @@
 					transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 					margin-left: inherit;
 					.coming-up, .day-selection {
-						position:absolute; 
-						top:5em; 
-						left:0.5em; 
-						right:0.5em; 
-						bottom:0.5em; 
+						position:absolute;
+						top:5em;
+						left:0.5em;
+						right:0.5em;
+						bottom:0.5em;
 						overflow:auto;
 						.event {
 							.event-content {
