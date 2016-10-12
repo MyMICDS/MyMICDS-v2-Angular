@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  Input,
+  trigger,
+  state,
+  style,
+  transition,
+  animate
+} from '@angular/core';
 
 import { StatsService } from '../../services/stats.service';
 import { UserService } from '../../services/user.service';
@@ -10,7 +18,18 @@ declare let Chart: any;
 @Component({
 	selector: 'mymicds-stats',
 	templateUrl: './stats.component.html',
-	styleUrls: ['./stats.component.scss']
+	styleUrls: ['./stats.component.scss'],
+	animations: [
+		trigger('moduleReady', [
+			state('unready', style({
+				transform: 'scale(0)'
+			})),
+			state('ready', style({
+				transform: 'scale(1)'
+			})),
+			transition('unready => ready', animate('400ms cubic-bezier(0.175, 0.885, 0.32, 1.275)'))
+		])
+	]
 })
 export class StatsComponent implements OnInit {
 
@@ -24,6 +43,7 @@ export class StatsComponent implements OnInit {
 		this.statsService.getStats().subscribe(
 			data => {
 				console.log(data);
+				this.registeredData = data;
 				for (let gradYear in data.registered.gradYears) {
 					let accountSum = 0;
 					this.lineData = [];
@@ -71,7 +91,6 @@ export class StatsComponent implements OnInit {
 									displayFormats: {
 										quarter: 'MMM YYYY'
 									}
-
 								}
 							}]
 						}
@@ -85,22 +104,29 @@ export class StatsComponent implements OnInit {
 	chart;
 	lineDataSets: Array<Object> = [];
 	lineData: Array<Object> = [];
+	registeredData: any;
 
 	gradYearToGradeString(gradYear: number): string {
 		let gradeNumber: number;
-		this.userService.gradeToGradYear(gradYear).subscribe(
-			grade => {
-				gradeNumber = grade;
-			},
-			e => {
-				console.log('error getting grade: ', e);
+		// this.userService.gradYearToGrade(gradYear).subscribe(
+		// 	grade => {
+		// 		gradeNumber = grade;
+		// 		if (gradeNumber <= 12) {
+		// 			return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
+		// 		} else {
+		// 			return 'Graduated' + ' (' + gradYear + ')';
+		// 		}
+		// 	},
+		// 	e => {
+				// console.log('error getting grade: ', e);
+				let currentYear = new Date().getFullYear();
 				gradeNumber = 13 - gradYear + currentYear;
-			}
-		)
-		let currentYear = new Date().getFullYear();
-		if (gradeNumber <= 12) {
-			return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
-		}
-		return 'Graduated' + ' (' + gradYear + ')';
+				if (gradeNumber <= 12) {
+					return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
+				} else {
+					return 'Graduated' + ' (' + gradYear + ')';
+				}
+		// 	}
+		// )
 	}
 }

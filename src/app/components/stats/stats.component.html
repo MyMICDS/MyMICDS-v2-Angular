@@ -2,7 +2,15 @@
 	<div mymicds-blur class="stat-title">
 		<h1>Statistics</h1>
 	</div>
-	<div mymicds-blur>
-		<canvas id="registerCountChart"></canvas>
+	<div class="modules">
+		<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
+			<h2 class="register-total"><span class="data-big">{{registeredData?.registered.total}}</span><br> has signed up</h2>
+		</div>
+		<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
+			<h2 class="register-today"><span class="data-big">{{registeredData?.registered.today}}</span><br> signed up today</h2>
+		</div>
+		<div mymicds-blur class="module">
+			<canvas id="registerCountChart"></canvas>
+		</div>
 	</div>
 </div>

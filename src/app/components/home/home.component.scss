@@ -44,11 +44,10 @@
 	.container {
 		.modules {
 			.module {
-				 &.half {
+				&.half {
 					width: calc(50% - #{$blur-margin / 2});
 				}
 			}
 		}
 	}
 }
-

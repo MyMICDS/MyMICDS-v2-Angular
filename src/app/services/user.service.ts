@@ -90,7 +90,7 @@ export class UserService {
 			.catch(handleError);
 	}
 
-	gradeToGradYear(gradYear: number) {
+	gradYearToGrade(gradYear: number) {
 		let body = JSON.stringify({year: gradYear});
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
