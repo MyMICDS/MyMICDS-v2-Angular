@@ -1,11 +1,11 @@
 <!-- Loading -->
-<div *ngIf="!stats" class="loading-container">
+<div *ngIf="!registeredData" class="loading-container">
 	<div mymicds-blur class="loading">
 		<h1>Collecting Statistics...</h1>
 	</div>
 </div>
 <!-- Stats -->
-<div class="container">
+<div *ngIf="registeredData" class="container">
 	<div mymicds-blur class="stat-title">
 		<h1>Statistics</h1>
 	</div>
