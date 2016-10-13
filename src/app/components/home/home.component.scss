@@ -1,0 +1,53 @@
+@import '../../../styles/settings';
+
+/* --------------------------
+  Main Styles
+--------------------------- */
+
+.container {
+	margin-bottom: 6rem;
+	padding: 2rem 0 0 0;
+
+	.announcement.dismissed {
+		animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+	}
+
+	.modules {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		.module {
+			width: 100%;
+			margin-bottom: $blur-margin;
+			padding: 1rem;
+			color: $sophisticated-white;
+			overflow: hidden;
+		}
+	}
+}
+
+@keyframes deleteAlert {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+
+@media screen and (min-width: 544px) {
+	.container {
+		.modules {
+			.module {
+				&.half {
+					width: calc(50% - #{$blur-margin / 2});
+				}
+			}
+		}
+	}
+}
