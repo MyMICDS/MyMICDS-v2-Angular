@@ -48,16 +48,16 @@ export class StatsComponent implements OnInit {
 
 	lineCtx;
 	lineChart;
-	barCtx;
-	barChart;
+	pieCtx;
+	pieChart;
 	gradeNames: Array<string> = [];
 	lineDataSets: Array<Object> = [];
 	lineData: Array<Object> = [];
 	registeredData: any;
 	gradeRange: Array<number>;
-	barData: Array<number> = [];
-	barDataSets: Array<Object> = [];
-	barBgColors: Array<string> = [];
+	pieData: Array<number> = [];
+	pieDataSets: Array<Object> = [];
+	pieBgColors: Array<string> = [];
 	viewingVisits: boolean = false;
 
 	constructor(
@@ -105,18 +105,18 @@ export class StatsComponent implements OnInit {
 							pointHitRadius: 10,
 						});
 					}
-					// Process data for bar chart
+					// Process data for pie chart
 					for (let gradYear in data.visitedToday.gradYears) {
-						this.barData.push(data.visitedToday.gradYears[gradYear]);
+						this.pieData.push(data.visitedToday.gradYears[gradYear]);
 						let gradeString = this.gradYearToGradeString(parseInt(gradYear));
 						this.gradeNames.push(gradeString);
-						this.barBgColors.push(prisma(gradeString).hex);
+						this.pieBgColors.push(prisma(gradeString).hex);
 					}
-					console.log(this.barData, this.gradeNames, this.barBgColors)
-					this.barDataSets.push({
-						label: 'Visited Today',
-						backgroundColor: this.barBgColors,
-						data: this.barData
+					console.log(this.pieData, this.gradeNames, this.pieBgColors)
+					this.pieDataSets.push({
+						backgroundColor: this.pieBgColors,
+						data: this.pieData,
+						borderWidth: 0
 					})
 				},
 				e => {
@@ -142,12 +142,12 @@ export class StatsComponent implements OnInit {
 							}
 						}
 					})
-					this.barCtx = document.getElementById('visitedTodayChart');
-					this.barChart = new Chart(this.barCtx, {
-						type: 'bar',
+					this.pieCtx = document.getElementById('visitedTodayChart');
+					this.pieChart = new Chart(this.pieCtx, {
+						type: 'pie',
 						data: {
 							labels: this.gradeNames,
-							datasets: this.barDataSets
+							datasets: this.pieDataSets
 						}
 					})
 				}
