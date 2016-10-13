@@ -79,6 +79,7 @@
 						<span *ngIf="selectionDay !== null">{{ selectionDay.toDate() | date:'MMMM d, y' }}</span>
 					</h1>
 				</div>
+				<div class="sidebar-close" (click)="sidebarClose()"><i class="fa fa-times"></i></div>
 				<!-- View events coming up if no day is selected -->
 				<div *ngIf="selectionDay === null" class="coming-up">
 					<!-- Loop through each day that contains events coming up -->

@@ -1,14 +1,80 @@
 @import '../../../styles/settings';
 
+/* --------------------------
+  Main Styles
+--------------------------- */
+
+@keyframes expand {
+	0% { transform: scale(0); }
+	100% { transform: scale(1); }
+}
+
 .container {
-	margin-bottom: 6rem;
-	padding: 2rem 0 0 0;
+	.stat-title {
+		margin-top: 1em;
+		padding: 0.75em;
+		margin: $blur-margin 30%;
 
-	.visited-today {
-		color: $sophisticated-white;
+		h1 {
+			color: white;
+			text-align: center;
+		}
 	}
 
-	.registered {
-		color: $sophisticated-white;
+	.modules {
+		display: flex;
+		flex-wrap: wrap;
+		position: relative;
+
+		.module {
+			overflow: hidden;
+			width: 100%;
+			margin: $blur-margin;
+
+			&.half {
+				width: calc(50% - #{$blur-margin * 2});
+			}
+
+			&.graphs {
+				height: 550px;
+			}
+
+			.register-total, .register-today {
+				text-align: center;
+				color: white;
+				padding: 1em;
+				.data-big {
+					font-size: 3em;
+					font-weight: 500;
+				}
+			}
+		}
+
+		.switch-button {
+			z-index: 100;
+			width: 60px;
+			height: 60px;
+			position: absolute;
+			left: calc(50% - 30px);
+			top: 5em;
+			cursor: pointer;
+			transition: all 0.1s ease-out;
+
+			img {
+				border-radius: 50%;
+			}
+
+			&:hover {
+				transform: scale(1.2) !important;
+			}
+		}
 	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+
+@media screen and (min-width: 544px) {
+
 }

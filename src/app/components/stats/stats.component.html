@@ -1,22 +1,29 @@
 <!-- Loading -->
-<div *ngIf="!stats" class="loading-container">
+<div *ngIf="!registeredData" class="loading-container">
 	<div mymicds-blur class="loading">
 		<h1>Collecting Statistics...</h1>
 	</div>
 </div>
-<!-- Statistics -->
-<div *ngIf="stats" class="container">
-	<div mymicds-blur class="visited-today">
-		<h3>Visited Today</h3>
-		<div class="visited-stats">
-			<div>
-				<div class="label">Total</div>
-				<div class="stat"></div>
+<!-- Stats -->
+<div *ngIf="registeredData" class="container">
+	<div mymicds-blur class="stat-title">
+		<h1>Statistics</h1>
+	</div>
+	<div class="modules">
+		<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
+			<h2 class="register-total"><span class="data-big">{{registeredData?.registered.total}}</span><br> have signed up</h2>
+		</div>
+		<div class="switch-button" [@moduleReady]="registeredData ? 'ready' : 'unready'" (click)="viewingVisits = !viewingVisits"><img src="../../../assets/logo/logo.svg"></div>
+		<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
+			<h2 class="register-today"><span class="data-big">{{registeredData?.registered.today}}</span><br> signed up today</h2>
+		</div>
+		<div mymicds-blur class="module graphs">
+			<div class="chart" [@switchViews]="viewingVisits ? 'visits' : 'register'">
+				<canvas id="registerCountChart"></canvas>
+			</div>
+			<div class="visits-chart">
+				<canvas id="visitedTodayChart"></canvas>
 			</div>
 		</div>
-	</div>
-	<div mymicds-blur class="registered">
-		<h3>Accounts Registered Over Time</h3>
-		<canvas id="registerCountChart"></canvas>
 	</div>
 </div>

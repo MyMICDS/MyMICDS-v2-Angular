@@ -23,12 +23,13 @@
 npm-debug.log
 testem.log
 /typings
+yarn.lock
 
 # e2e
 /e2e/*.js
 /e2e/*.map
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
 
