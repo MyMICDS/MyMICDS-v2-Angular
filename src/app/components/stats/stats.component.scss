@@ -22,12 +22,17 @@
     .modules {
       display: flex;
       flex-wrap: wrap;
+      position: relative;
       .module {
+        overflow: hidden;
         width: 100%;
         margin: $blur-margin;
   			&.half {
   				width: calc(50% - #{$blur-margin * 2});
   			}
+        &.graphs {
+          height: 55-px;
+        }
         .register-total, .register-today {
           text-align: center;
           color: white;
@@ -38,6 +43,22 @@
           }
         }
   		}
+      .switch-button {
+        z-index: 100;
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        left: calc(50% - 30px);
+        top: 5em;
+        cursor: pointer;
+        img {
+          border-radius: 50%;
+        }
+        transition: all 0.1s ease-out;
+        &:hover {
+          transform: scale(1.2) !important;
+        }
+      }
     }
 }
 
