@@ -11,7 +11,7 @@
 	</div>
 	<div class="modules">
 		<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
-			<h2 class="register-total"><span class="data-big">{{registeredData?.registered.total}}</span><br> has signed up</h2>
+			<h2 class="register-total"><span class="data-big">{{registeredData?.registered.total}}</span><br> have signed up</h2>
 		</div>
 		<div class="switch-button" [@moduleReady]="registeredData ? 'ready' : 'unready'" (click)="viewingVisits = !viewingVisits"><img src="../../../assets/logo/logo.svg"></div>
 		<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
