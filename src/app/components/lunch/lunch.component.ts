@@ -99,12 +99,12 @@ export class LunchComponent implements OnInit {
 				this.alertService.addAlert('danger', 'Get Lunch Error!', error);
 			},
 			() => {
-				for (let i=0;i<this.lunch.length;i++) {
+				for (let i = 0; i < this.lunch.length; i++) {
 					if (this.lunch[i].date.today) {
 						let todayEl;
 						setTimeout(() => {
-							todayEl = document.getElementsByClassName("lunch-day").item(i);
-							todayEl.scrollIntoView({behavior: "smooth"});
+							todayEl = document.getElementsByClassName('lunch-day').item(i);
+							todayEl.scrollIntoView({behavior: 'smooth'});
 						}, 0);
 					}
 				}

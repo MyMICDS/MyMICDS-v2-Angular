@@ -93,7 +93,6 @@
 				justify-content: space-around;
 
 				.developer {
-					// width: 23%;
 					flex: 0 0 50%;
 					.card-block:first-child {
 						text-align: left;
@@ -138,10 +137,16 @@
 /* --------------------------
   Media Queries
 --------------------------- */
-@media screen and (min-width:544px) {
+@media screen and (min-width: 544px) {
 	.container {
 		.about-header {
 			padding: 1rem 6rem
 		}
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.container .about-body .dev-team .developers .developer {
+		flex-basis: 23%;
 	}
 }

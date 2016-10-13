@@ -23,7 +23,6 @@
 			</button>
 		</div>
 		<button *ngIf="!seeArchive" routerLink="/daily-bulletin/archives" class="btn btn-info btn-lg" (click)="seeArchive = !seeArchive">See Archived Bulletins</button>
-		<button *ngIf="seeArchive" routerLink="/daily-bulletin" class="btn btn-info btn-lg" (click)="seeArchive = !seeArchive">Close Archived Bulletins</button>
 	</div>
 	<!-- Loading -->
 	<p mymicds-blur *ngIf="loading" class="bulletin-message">Fetching the Daily Bulletins...</p>
@@ -31,6 +30,4 @@
 	<p mymicds-blur *ngIf="!loading && bulletins.length === 0 && !seeArchive" class="bulletin-message">There are no Daily Bulletins!</p>
 	<!-- Embeded PDF -->
 	<object *ngIf="!loading && bulletins.length > 0 && !seeArchive" class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object>
-	<!--Bulletin Archive outlet-->
-	<router-outlet></router-outlet>
 </div>

@@ -16,10 +16,17 @@ export function handleError(error: any) {
 	if (typeof error === 'string') {
 		return Observable.throw(error);
 	}
-	// Check if server-side error
+
+	// Check if error object
 	if (typeof error.message === 'string') {
 		return Observable.throw(error.message);
 	}
+
+	// Check if server-side error
+	if (typeof error.error === 'string') {
+		return Observable.throw(error.message);
+	}
+
 	// Check if client-side error
 	if (typeof error.statusText === 'string') {
 		return Observable.throw(error.statusText);
