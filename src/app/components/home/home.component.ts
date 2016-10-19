@@ -11,7 +11,7 @@ import {PortalService} from '../../services/portal.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string if no announcement!)
-	announcement: string = '';
+	announcement: string = 'Woohoo! Pop the champagne! <a class="alert-link" href="https://mymicds.net/about/stats" target="_blank">We just surpassed 400 users!</a> Thanks for sharing MyMICDS with your friends, and thanks to everyone who gave feedback.';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
