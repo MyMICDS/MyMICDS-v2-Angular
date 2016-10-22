@@ -18,7 +18,6 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { StatsComponent } from './components/stats/stats.component';
-import { RoboticsComponent } from './components/robotics/robotics.component';
 
 const appRoutes: Routes = [
 	{
@@ -108,10 +107,6 @@ const appRoutes: Routes = [
 	{
 		path: 'reset-password/:user/:hash',
 		component: ResetPasswordComponent
-	},
-	{
-		path: 'robotics',
-		component: RoboticsComponent
 	}
 ];
 
