@@ -45,6 +45,7 @@ import { ClassesService } from './services/classes.service';
 import { LunchService } from './services/lunch.service';
 import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
+import { ScheduleService } from './services/schedule.service';
 import { SocketioService } from './services/socketio.service';
 import { SportsService } from './services/sports.service';
 import { StatsService } from './services/stats.service';
@@ -129,6 +130,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		LunchService,
 		PlannerService,
 		PortalService,
+		ScheduleService,
 		SocketioService,
 		SportsService,
 		StatsService,

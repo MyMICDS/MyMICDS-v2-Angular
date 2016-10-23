@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import {AlertService} from '../../services/alert.service';
-import {PortalService} from '../../services/portal.service';
+import { AlertService } from '../../services/alert.service';
+import { ScheduleService } from '../../services/schedule.service';
 
 @Component({
 	selector: 'mymicds-home',
@@ -20,11 +20,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 	scheduleDate: any = new Date();
 	schedule: any;
 
-	constructor(private alertService: AlertService, private portalService: PortalService) { }
+	constructor(private alertService: AlertService, private scheduleService: ScheduleService) { }
 
 	ngOnInit() {
 		// Get schedule from date object and assign to schedule variable
-		this.portalService.getSchedule({
+		this.scheduleService.get({
 			year : this.scheduleDate.getFullYear(),
 			month: this.scheduleDate.getMonth() + 1,
 			day  : this.scheduleDate.getDate()

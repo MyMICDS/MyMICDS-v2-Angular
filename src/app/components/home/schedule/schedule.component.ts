@@ -3,7 +3,7 @@ import moment from 'moment';
 import { contains } from '../../../common/utils';
 
 import { AlertService } from '../../../services/alert.service';
-import { PortalService } from '../../../services/portal.service';
+import { ScheduleService } from '../../../services/schedule.service';
 
 import { Observable } from 'rxjs/Observable';
 import '../../../common/rxjs-operators';
@@ -39,7 +39,7 @@ export class ScheduleComponent implements OnInit {
 	currentCreated = [];
 	nextCreated = [];
 
-	constructor(private alertService: AlertService, private portalService: PortalService) { }
+	constructor(private alertService: AlertService, private scheduleService: ScheduleService) { }
 
 	ngOnInit() {
 		this.getSchedule(this.scheduleDate);
@@ -106,7 +106,7 @@ export class ScheduleComponent implements OnInit {
 
 		this.viewSchedule = null;
 
-		this.portalService.getSchedule({
+		this.scheduleService.get({
 			year : this.scheduleDate.year(),
 			month: this.scheduleDate.month() + 1,
 			day  : this.scheduleDate.date()
