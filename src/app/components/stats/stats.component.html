@@ -15,7 +15,8 @@
 		</div>
 		<div class="switch-button" [@moduleReady]="registeredData ? 'ready' : 'unready'" (click)="viewingVisits = !viewingVisits"><img src="../../../assets/logo/logo.svg"></div>
 		<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
-			<h2 class="register-today"><span class="data-big">{{registeredData?.registered.today}}</span><br> signed up today</h2>
+			<h2 *ngIf="!viewingVisits" class="register-today"><span class="data-big">{{registeredData?.registered.today}}</span><br> signed up today</h2>
+			<h2 *ngIf="viewingVisits" class="visited-today"><span class="data-big">{{registeredData?.visitedToday.total}}</span><br> visited today</h2>
 		</div>
 		<div mymicds-blur class="module graphs">
 			<div class="chart" [@switchViews]="viewingVisits ? 'visits' : 'register'">
