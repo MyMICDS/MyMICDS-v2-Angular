@@ -32,9 +32,10 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	timer: any;
 
 	// Socket.io
+	progressDayCtx: any;
 	socketioConnection: any;
-	clickTagListenerSub: any;
-	clickTagListener: any;
+	progressDayClick: any;
+	progressDayUnclick: any;
 
 	constructor(private socketioService: SocketioService) { }
 
@@ -97,24 +98,29 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		}, 1000);
 
 		// Socket.io service to spin the spinny
-		let tagEl = document.getElementById('progress-day-tag');
-		this.clickTagListener = Observable.merge(
-			Observable.fromEvent(tagEl, 'mousedown'),
-			Observable.fromEvent(tagEl, 'mouseup')
-		).debounceTime(100);
-		this.clickTagListenerSub = this.clickTagListener
-		.subscribe(
-			e => {
-				this.socketioService.emit('progress label click toggle', null);
-			}
-		);
+		this.progressDayCtx = document.getElementsByClassName('progress-day')[0];
 
 		this.socketioConnection = this.socketioService.listen('progress label spin').subscribe(
 			pressed => {
-				console.log('toggled');
-				pressed ? tagEl.classList.add('rotate') : tagEl.classList.remove('rotate');
+				pressed ? this.progressDayCtx.classList.add('rotate') : this.progressDayCtx.classList.remove('rotate');
 			}
 		);
+
+		this.progressDayClick = Observable.fromEvent(this.progressDayCtx, 'mousedown')
+			.debounceTime(100)
+			.subscribe(
+				e => {
+					this.socketioService.emit('progress label click', true);
+				}
+			);
+
+		this.progressDayUnclick = Observable.fromEvent(this.progressDayCtx, 'mouseup')
+			.debounceTime(100)
+			.subscribe(
+				e => {
+					this.socketioService.emit('progress label click', false);
+				}
+			);
 	}
 
 	ngOnDestroy() {
@@ -124,7 +130,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		this.progressBar.destroy();
 		// Unsubsciribe socket connection
 		this.socketioConnection.unsubscribe();
-		this.clickTagListenerSub.unsubscribe();
+		this.progressDayClick.unsubscribe();
+		this.progressDayUnclick.unsubscribe();
 	}
 
 	/*
