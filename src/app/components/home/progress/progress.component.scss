@@ -20,7 +20,7 @@
 		text-align: right;
 		.time {
 			font-weight: 400;
-			font-size: 1.5rem; 
+			font-size: 1.5rem;
 		}
 
 		.day-rotation {
@@ -49,6 +49,7 @@
 		-ms-user-select: none;
 		user-select: none;
 
+		&:active,
 		&.rotate {
 			transform: rotate(360deg);
 		}
@@ -58,6 +59,7 @@
 		position: relative;
 		display: flex;
 		overflow: visible;
+
 		.progress-chart {
 			position: relative;
 			z-index: 5;
@@ -119,7 +121,7 @@
 
 		.day {
 			.time {
-				font-size: 2em; 
+				font-size: 2em;
 			}
 
 			.day-rotation {
