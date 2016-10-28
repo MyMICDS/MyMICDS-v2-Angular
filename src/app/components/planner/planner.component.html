@@ -38,7 +38,7 @@
 					<div *ngFor="let week of formattedMonth" class="calendar-week">
 						<div *ngFor="let day of week" class="calendar-weekday" (click)="selectDay(day?.date, $event)">
 							<div class="calendar-weekday-date" [class.today]="day?.today">
-								{{ day?.date }}
+								{{ day?.date.date() }}
 							</div>
 							<div *ngFor="let event of day?.events" class="event" (click)="selectDayEvent(event?.data?._id)"
 								[class.text-dark] = "event?.data.class?.textDark"

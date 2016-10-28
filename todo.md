@@ -6,7 +6,6 @@
 ## General
 - Update data if changed in another tab (socket.io?)
 - 404 Page
-- Optimize for mobile
 - Add feed for sports (maybe own sports page?)
 - Add MICDS Twitter feed
 - Add school holidays
@@ -27,6 +26,3 @@
 
 ## Registration
 - Fix URL title in confirmation page
-
-## About
-- have a graph of register data, amount of users and active people
