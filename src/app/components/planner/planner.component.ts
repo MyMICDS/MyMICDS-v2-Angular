@@ -132,7 +132,6 @@ export class PlannerComponent implements OnInit {
 						// Recalculate events to add Canvas Events
 						this.comingUp = this.formatWeek(this.events);
 						this.formattedMonth = this.formatMonth(this.calendarDate, this.events);
-						console.log(this.formattedMonth);
 					}
 				},
 				error => {
@@ -223,46 +222,27 @@ export class PlannerComponent implements OnInit {
 	// Returns an array of events organized for the calendar
 	formatMonth(date, events: Event[]) {
 		let formattedMonth = [];
-		let beginOffset = this.beginOfMonth(date);
-		let weeksInMonth = this.weeksInMonth(date);
+		let today = moment();
+		let iterationDate = this.beginOfPlanner(date);
+		let weeksInPlanner = this.weeksInPlanner(date);
 
 		// Add week
-		for (let i = 0; i < weeksInMonth; i++) {
+		for (let i = 0; i < weeksInPlanner; i++) {
 			formattedMonth[i] = [];
 
 			// Loop through days in week
 			for (let j = 0; j < this.weekdays.length; j++) {
-				// Get day of month
-				let dayDate = (i * 7) + j - (beginOffset - 1);
-				// Check if that day is today
-				let dayThisMonth = date.clone().date(dayDate);
-				let today = moment().isSame(dayThisMonth, 'day');
 
-				// Make sure date is within range of month
-				if (dayDate < 1) {
-					formattedMonth[i][j] = {
-						date: '',
-						today: false,
-						events: []
-					};
-					continue;
-				}
-				if (dayDate > this.lengthOfMonth(date)) {
-					formattedMonth[i][j] = {
-						date: '',
-						today: false,
-						events: []
-					};
-					continue;
-				}
-
-				let dayEvents = this.eventsForDay(dayThisMonth, events);
+				// Get events for this iteration date
+				let dayEvents = this.eventsForDay(iterationDate, events);
 
 				formattedMonth[i][j] = {
-					date: dayDate,
-					today,
+					date: iterationDate.clone(),
+					today: today.isSame(iterationDate, 'day'),
 					events: dayEvents
 				};
+
+				iterationDate.add(1, 'day');
 			}
 		}
 
@@ -394,30 +374,21 @@ export class PlannerComponent implements OnInit {
 		};
 	}
 
-	// Returns the weekday of the start a given month (0-6)
-	beginOfMonth(date) {
-		let firstDay = date.clone().startOf('month');
-		return firstDay.day();
+	// Returns the moment date object for beginning of planner
+	beginOfPlanner(date): any {
+		return date.clone().startOf('month').day(0);
 	}
 
-	// Returns the weekday of the end of a given month (0-6)
-	endOfMonth(date) {
-		let lastDay = date.clone().endOf('month');
-		return lastDay.day();
-	}
-
-	// Returns the length of any given month
-	lengthOfMonth(date) {
-		let lastDay = date.clone().endOf('month');
-		return lastDay.date();
+	// Returns the moment date object for beginning of planner
+	endOfPlanner(date): any {
+		return date.clone().endOf('month').day(6);
 	}
 
 	// Returns the number of weeks included in a month
-	weeksInMonth(date) {
-		let beginOffset = this.beginOfMonth(date);
-		let monthLength = this.lengthOfMonth(date);
-		// We use Math.ceil in case a few days overflow into the next week
-		return Math.ceil((monthLength + beginOffset) / 7);
+	weeksInPlanner(date) {
+		let beginDate = this.beginOfPlanner(date);
+		let endDate = this.endOfPlanner(date);
+		return endDate.diff(beginDate, 'weeks') + 1;
 	}
 
 	/*
@@ -471,18 +442,18 @@ export class PlannerComponent implements OnInit {
 	 * Select Day
 	 */
 
-	selectDay(day, event?) {
+	selectDay(date: any, event?) {
 		this.sidebarCollapsed = !this.sidebarCollapsed;
 		if (event) {
 			event.stopPropagation();
 		}
 
-		if (!day) {
+		if (!date) {
 			this.deselectDay();
 			return;
 		}
 
-		this.selectionDay = this.calendarDate.clone().date(day);
+		this.selectionDay = date;
 		this.selectionEvents = this.eventsForDay(this.selectionDay, this.events);
 	}
 
