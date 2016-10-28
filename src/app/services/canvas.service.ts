@@ -10,6 +10,7 @@ import '../common/rxjs-operators';
 @Injectable()
 export class CanvasService {
 
+	private _hasURL: boolean;
 	private _events: any[];
 
 	constructor(private authHttp: AuthHttp) { }
@@ -18,7 +19,10 @@ export class CanvasService {
 
 		if(this._events) {
 			return Observable.create(observer => {
-				observer.next(this._events);
+				observer.next({
+					hasURL: this._hasURL,
+					events: this._events
+				});
 				observer.complete();
 			});
 		}
@@ -36,9 +40,12 @@ export class CanvasService {
 					throw new Error(data.error);
 				}
 
+				this._hasURL = data.hasURL;
+				this._events = data.events;
+
 				return {
-					hasURL: data.hasURL,
-					events: data.events
+					hasURL: this._hasURL,
+					events: this._events
 				};
 			})
 			.catch(handleError);
