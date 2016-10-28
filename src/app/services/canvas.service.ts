@@ -4,13 +4,25 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { xhrHeaders, handleError } from '../common/http-helpers';
+import { Observable } from 'rxjs/Observable';
 import '../common/rxjs-operators';
 
 @Injectable()
 export class CanvasService {
+
+	private _events: any[];
+
 	constructor(private authHttp: AuthHttp) { }
 
 	getEvents() {
+
+		if(this._events) {
+			return Observable.create(observer => {
+				observer.next(this._events);
+				observer.complete();
+			});
+		}
+
 		let body = JSON.stringify({});
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
