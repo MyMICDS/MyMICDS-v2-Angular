@@ -252,8 +252,12 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 			// Subscribe to Portal and Canvas URL inputs to test URL
 			this.portalURLSubscription = Observable.fromEvent(portalInput, 'keyup')
-				.switchMap(() => this.portalService.testURL(this.portalURL))
 				.debounceTime(250)
+				.switchMap(() => {
+					this.portalValid = false;
+					this.portalResponse = 'Validating...';
+					return this.portalService.testURL(this.portalURL)
+				})
 				.subscribe(
 					data => {
 						this.portalValid = (data.valid === true);
@@ -265,8 +269,12 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 				);
 
 			this.canvasURLSubscription = Observable.fromEvent(canvasInput, 'keyup')
-				.switchMap(() => this.canvasService.testURL(this.canvasURL))
 				.debounceTime(250)
+				.switchMap(() => {
+					this.canvasValid = false;
+					this.canvasResponse = 'Validating...';
+					return this.canvasService.testURL(this.portalURL)
+				})
 				.subscribe(
 					data => {
 						this.canvasValid = (data.valid === true);
