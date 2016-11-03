@@ -133,7 +133,7 @@ export class StatsComponent implements OnInit {
 						this.lineData.push({x: registerCountDate, y:accountSum});
 					}
 
-					let gradeString = this.gradYearToGradeString(parseInt(gradYear));
+					let gradeString = this.gradYearToGradeString(gradYear);
 
 					// Push data to line chart
 					this.lineDataSets.push({
@@ -152,7 +152,7 @@ export class StatsComponent implements OnInit {
 				// Process data for pie chart
 				for (let gradYear in data.visitedToday.gradYears) {
 					this.pieData.push(data.visitedToday.gradYears[gradYear]);
-					let gradeString = this.gradYearToGradeString(parseInt(gradYear));
+					let gradeString = this.gradYearToGradeString(gradYear);
 					this.gradeNames.push(gradeString);
 					this.pieBgColors.push(prisma(gradeString).hex);
 				}
@@ -204,12 +204,12 @@ export class StatsComponent implements OnInit {
 		);
 	}
 
-	gradYearToGradeString(gradYear: number): string {
+	gradYearToGradeString(gradYear: any): string {
 		let gradeNumber: number;
 		for (let i = 0; i < this.gradeRange.length; i++) {
-			if (gradYear == null) {
+			if (gradYear === 'teacher') {
 				return 'Teacher'
-			} else if (this.gradeRange[i] === gradYear) {
+			} else if (this.gradeRange[i] === parseInt(gradYear)) {
 				gradeNumber = 12 - i;
 				return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
 			}
