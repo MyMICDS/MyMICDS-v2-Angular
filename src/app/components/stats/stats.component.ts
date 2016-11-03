@@ -207,7 +207,9 @@ export class StatsComponent implements OnInit {
 	gradYearToGradeString(gradYear: number): string {
 		let gradeNumber: number;
 		for (let i = 0; i < this.gradeRange.length; i++) {
-			if (this.gradeRange[i] === gradYear) {
+			if (gradYear == null) {
+				return 'Teacher'
+			} else if (this.gradeRange[i] === gradYear) {
 				gradeNumber = 12 - i;
 				return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
 			}
