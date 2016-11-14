@@ -246,7 +246,7 @@
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Class</legend>
-						<select class="custom-select" name="classId" [(ngModel)]="createEventModel.classId">
+						<select class="form-control" name="classId" [(ngModel)]="createEventModel.classId">
 							<option *ngFor="let class of classes" [value]="class._id">{{class.name}}</option>
 							<option value="other" selected>Other</option>
 						</select>
@@ -320,7 +320,7 @@
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Class</legend>
-						<select class="custom-select" name="classId" [(ngModel)]="editEventModel.classId">
+						<select class="form-control" name="classId" [(ngModel)]="editEventModel.classId">
 							<option *ngFor="let class of classes" [value]="class._id">{{class.name}}</option>
 							<option value="other" selected>Other</option>
 						</select>

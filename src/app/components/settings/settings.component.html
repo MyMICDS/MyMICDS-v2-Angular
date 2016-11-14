@@ -34,7 +34,7 @@
 					</div>
 					<div *ngIf="!infoForm.controls.teacher.value" class="student">
 						<span>Choose your graduation year</span>
-						<select class="custom-select" formControlName="gradYear">
+						<select class="form-control" formControlName="gradYear">
 							<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
 						</select>
 					</div>
@@ -143,17 +143,17 @@
 							<input class="form-control" [(colorPicker)]="class.color" [style.background]="class.color" name="color" [value]="class.color | uppercase" [(ngModel)]="class.color">
 						</td>
 						<td>
-							<select class="custom-select" name="block" [value]="class.block" [(ngModel)]="class.block">
+							<select class="form-control" name="block" [value]="class.block" [(ngModel)]="class.block">
 								<option *ngFor="let block of classBlocks" [value]="block">{{ capitalize(block) }}</option>
 							</select>
 						</td>
 						<td>
-							<select class="custom-select" name="type" [value]="class.type" [(ngModel)]="class.type">
+							<select class="form-control" name="type" [value]="class.type" [(ngModel)]="class.type">
 								<option *ngFor="let type of classTypes" [value]="type">{{ capitalize(type) }}</option>
 							</select>
 						</td>
 						<td class="class-teacher form-inline">
-							<select class="custom-select" [value]="class.teacherPrefix" [(ngModel)]="class.teacher.prefix">
+							<select class="form-control" [value]="class.teacherPrefix" [(ngModel)]="class.teacher.prefix">
 								<option *ngFor="let prefix of teacherPrefixes" name="teacherPrefix" [value]="prefix">{{ prefix }}</option>
 							</select>
 							<input class="form-control" placeholder="First Name" name="teacherFirstName" [value]="class.teacher.firstName" [(ngModel)]="class.teacher.firstName">
