@@ -1,11 +1,12 @@
 @import '../../../styles/settings';
 
 .sidebar {
-	width: 20rem;
+    background-color: black;
+	width: 30rem;
 	height: 100%;
     position: fixed;
     top: 0;
-    left: -20rem;
+    left: -30rem;
 
     color: #eceeef;
     z-index: 1000;
@@ -16,6 +17,41 @@
 		left: 0;
 		box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.75);
 	}
+
+    .sidebar-nav {
+        height: 1.5em;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        font-size: 3em;
+        .sidebar-tab {
+            color: grey;
+            margin: 0.2em 0.2em 0;
+            flex-basis: calc(100% / 2);
+            text-align: center;
+            line-height: 1.2em;
+            cursor: pointer;
+        }
+        .sidebar-tab:nth-child(1) {
+            background-color: $sidebar-yellow;
+        }
+        .sidebar-tab:nth-child(2) {
+            background-color: $sidebar-blue;
+        }
+    }
+
+    .sidebar-content {
+        width: 30em;
+        div {
+            position: fixed;
+        }
+        div:nth-child(1) {
+            background-color: $sidebar-yellow;
+        }
+        div:nth-child(2) {
+            background-color: $sidebar-blue;
+        }
+    }
 }
 
 .sidebar-toggle {
