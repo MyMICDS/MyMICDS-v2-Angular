@@ -21,7 +21,7 @@
 <div mymicds-blur *ngIf="!submitted" class="register-form">
 	<div class="register-header">
 		<h1>Register</h1>
-		<img src="dist/app/resources/logo/logo.svg">
+		<img src="/assets/logo/logo.svg">
 	</div>
 	<form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
 		<fieldset class="form-group" [class.has-warning]="registerForm.controls.user.dirty && !isAlphabetic(registerForm.controls.user.value)">

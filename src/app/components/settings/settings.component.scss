@@ -108,6 +108,10 @@
 						td {
 							white-space: nowrap;
 
+							select.form-control {
+								width: inherit;
+							}
+
 							&.class-name {
 								input {
 									width: 8rem;
