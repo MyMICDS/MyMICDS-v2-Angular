@@ -6,6 +6,7 @@ import { contains } from '../../common/utils';
 import { AlertService } from '../../services/alert.service';
 import { NotificationService, Event, Announcement } from '../../services/notification.service';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 import { trigger, state, style, transition, animate } from '@angular/core';
 
@@ -19,7 +20,7 @@ import { trigger, state, style, transition, animate } from '@angular/core';
 				left: '0'
 			})),
 			state('inactive', style({
-				left: '-480px'
+				left: '-600px'
 			})),
 			transition('inactive => active', animate('200ms ease-in')),
 			transition('active => inactive', animate('200ms ease-out'))
@@ -37,7 +38,9 @@ export class SidebarComponent implements OnInit {
 
 	constructor(
 		private alertService: AlertService,
-		private userService: UserService
+		private notificationService: NotificationService,
+		private userService: UserService,
+		private authService: AuthService
 	) { }
 
 	ngOnInit() {
@@ -56,17 +59,29 @@ export class SidebarComponent implements OnInit {
 			});
 
 		// Get events
-		// if (typeof this.userService.getUsername() === 'string') {
-		// 	this.notificationService.getEvents().subscribe(
-		// 		events => {
-		// 			this.announcements = events.announcements;
-		// 			this.notifications = events.notifications;
-		// 		},
-		// 		error => {
-		// 			this.alertService.addAlert('danger', 'Get Notifications Error!', error);
-		// 		}
-		// 	);
-		// }
+		if (typeof this.userService.getUsername() === 'string') {
+			this.notificationService.getEvents().subscribe(
+				events => {
+					this.announcements = events.announcements;
+					this.notifications = events.notifications;
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Notifications Error!', error);
+				}
+			);
+		}
+
+		this.authService.loginEmitter.subscribe(() => {
+			this.notificationService.getEvents().subscribe(
+				events => {
+					this.announcements = events.announcements;
+					this.notifications = events.notifications;
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Notifications Error!', error);
+				}
+			);
+		});
 	}
 
 	openSidebar() {

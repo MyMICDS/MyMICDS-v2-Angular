@@ -8,7 +8,7 @@
     top: 0;
     left: -30rem;
 
-    color: #eceeef;
+    color: dimgray;
     z-index: 1000;
     transition: 0.5s cubic-bezier(0.785, 0.135, 0.15, 0.86);
     overflow: hidden;
@@ -41,9 +41,9 @@
     }
 
     .sidebar-content {
-        width: 30em;
         div {
-            position: fixed;
+            position: absolute;
+            width: 30em;
         }
         div:nth-child(1) {
             background-color: $sidebar-yellow;

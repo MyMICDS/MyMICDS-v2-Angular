@@ -1,6 +1,6 @@
 import { environment } from '../../environments/environment';
 
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { xhrHeaders, handleError } from '../common/http-helpers';
@@ -9,6 +9,8 @@ import '../common/rxjs-operators';
 @Injectable()
 export class AuthService {
 	constructor(private http: Http, private authHttp: AuthHttp) { }
+
+	loginEmitter = new EventEmitter();
 
 	login(user: string, password: string, remember: any) {
 		let body = JSON.stringify({
@@ -30,6 +32,7 @@ export class AuthService {
 
 				// If login is successful, save the JWT
 				if (data.success && data.jwt) {
+					this.loginEmitter.emit(true);
 					if (!remember) {
 						// Store in session storage. Do not remember outside of the session!
 						sessionStorage.setItem('id_token', data.jwt);

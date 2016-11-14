@@ -51,6 +51,7 @@ import { SportsService } from './services/sports.service';
 import { StatsService } from './services/stats.service';
 import { UserService } from './services/user.service';
 import { WeatherService } from './services/weather.service';
+import { NotificationService } from './services/notification.service';
 
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
@@ -136,6 +137,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		StatsService,
 		UserService,
 		WeatherService,
+		NotificationService,
 
 		// JWT
 		AUTH_PROVIDERS,
