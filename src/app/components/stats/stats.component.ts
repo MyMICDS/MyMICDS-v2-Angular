@@ -13,23 +13,24 @@ import { StatsService } from '../../services/stats.service';
 import { UserService } from '../../services/user.service';
 
 // import prisma from 'prisma';
-function prisma(str) {
-	var hash = 0;
-	for (var i = 0; i < str.length; i++) {
-		hash = str.charCodeAt(i) + ((hash << 5) - hash);
-	}
-	var colour = '#';
-	for (var i = 0; i < 3; i++) {
-		var value = (hash >> (i * 12)) & 0xFF;
-		colour += ('00' + value.toString(16)).substr(-2);
-	}
-	return {
-		hex: colour
-	};
-}
+// function prisma(str) {
+// 	var hash = 0;
+// 	for (var i = 0; i < str.length; i++) {
+// 		hash = str.charCodeAt(i) + ((hash << 5) - hash);
+// 	}
+// 	var colour = '#';
+// 	for (var i = 0; i < 3; i++) {
+// 		var value = (hash >> (i * 12)) & 0xFF;
+// 		colour += ('00' + value.toString(16)).substr(-2);
+// 	}
+// 	return {
+// 		hex: colour
+// 	};
+// }
 
 import moment from 'moment';
 
+declare let prisma: any;
 declare let Chart: any;
 
 @Component({

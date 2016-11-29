@@ -23,7 +23,8 @@
 			"scripts": [
 				"../node_modules/moment/min/moment.min.js",
 				"../node_modules/chart.js/dist/Chart.min.js",
-				"../node_modules/trianglify/dist/trianglify.min.js"
+				"../node_modules/trianglify/dist/trianglify.min.js",
+				"../node_modules/prisma/dist/prisma.min.js"
 			],
 			"environments": {
 				"source": "environments/environment.ts",
