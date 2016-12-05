@@ -86,6 +86,8 @@
 		display: inline-flex;
 		justify-content: center;
 		width: 100%;
+		
+		cursor: pointer;
 
 		.wi {
 			font-size: 8rem;
@@ -132,12 +134,12 @@
 --------------------------- */
 @media screen and (min-width:544px) {
 	.weather {
-		.temp-actual {
+		.temp-actual, .wind {
 			transition: all 0.3s ease;
-		}
-		.temp-actual:hover {
-			transform: scale(1.1);
-			transition: all 0.3s ease;
+
+			&:hover {
+				transform: scale(1.1);
+			}
 		}
 	}
 }

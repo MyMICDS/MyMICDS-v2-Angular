@@ -15,6 +15,7 @@ import { BulletinArchivesComponent } from './components/bulletin-archives/bullet
 import { HomeComponent } from './components/home/home.component';
 import { ProgressComponent } from './components/home/progress/progress.component';
 import { ScheduleComponent } from './components/home/schedule/schedule.component';
+import { SnowdayComponent } from './components/home/snowday/snowday.component';
 import { WeatherComponent } from './components/home/weather/weather.component';
 
 import { ConfirmComponent } from './components/confirm/confirm.component';
@@ -46,11 +47,13 @@ import { LunchService } from './services/lunch.service';
 import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
 import { ScheduleService } from './services/schedule.service';
+import { SnowdayService } from './services/snowday.service';
 import { SocketioService } from './services/socketio.service';
 import { SportsService } from './services/sports.service';
 import { StatsService } from './services/stats.service';
 import { UserService } from './services/user.service';
 import { WeatherService } from './services/weather.service';
+import { NotificationService } from './services/notification.service';
 
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
@@ -69,6 +72,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		AlertComponent,
 		ProgressComponent,
 		ScheduleComponent,
+		SnowdayComponent,
 		WeatherComponent,
 		BulletinArchivesComponent,
 		ConfirmComponent,
@@ -131,11 +135,13 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		PlannerService,
 		PortalService,
 		ScheduleService,
+		SnowdayService,
 		SocketioService,
 		SportsService,
 		StatsService,
 		UserService,
 		WeatherService,
+		NotificationService,
 
 		// JWT
 		AUTH_PROVIDERS,

@@ -29,7 +29,7 @@ export class NotificationService {
 				if (data.error) {
 					throw new Error(data.error);
 				}
-
+				console.log(data);
 				return data.events;
 			})
 			.catch(handleError);

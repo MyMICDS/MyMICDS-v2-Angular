@@ -149,13 +149,21 @@
 				</div>
 				<!-- Show day events if a day is selected -->
 				<div *ngIf="selectionDay !== null" class="day-selection">
-					<!-- Create Event button at the top -->
-					<button class="selection-create-event btn btn-info" (click)="createEventModal.show()">
-						<span>
-							<i class="fa fa-plus"></i>
-							Create Event
-						</span>
-					</button>
+					<!-- Create Event and Coming Up button at the top -->
+					<div class="selection-event-options btn-group">
+						<button class="btn btn-info" (click)="createEventModal.show()">
+							<span>
+								<i class="fa fa-plus"></i>
+								Create Event
+							</span>
+						</button>
+						<button class="btn btn-warning" (click)="deselectDay()">
+							<span>
+								<i class="fa fa-undo"></i>
+								Coming Up
+							</span>
+						</button>
+					</div>
 					<!-- Message if there are no events -->
 					<div *ngIf="selectionEvents.length === 0" class="no-events">
 						There are no events for this day.
@@ -192,7 +200,7 @@
 									<!-- Cross Out -->
 									<button class="btn btn-success btn-sm" (click)="crossoutEvent(event.data._id, $event)">
 										<i class="fa fa-strikethrough"></i>
-									</button>
+									</button> 
 								</div>
 								<!-- Event Title -->
 								<div class="event-title">{{ event.data.title }}</div>

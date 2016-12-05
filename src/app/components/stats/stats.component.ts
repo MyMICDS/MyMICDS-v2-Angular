@@ -13,23 +13,24 @@ import { StatsService } from '../../services/stats.service';
 import { UserService } from '../../services/user.service';
 
 // import prisma from 'prisma';
-function prisma(str) {
-	var hash = 0;
-	for (var i = 0; i < str.length; i++) {
-		hash = str.charCodeAt(i) + ((hash << 5) - hash);
-	}
-	var colour = '#';
-	for (var i = 0; i < 3; i++) {
-		var value = (hash >> (i * 8)) & 0xFF;
-		colour += ('00' + value.toString(16)).substr(-2);
-	}
-	return {
-		hex: colour
-	};
-}
+// function prisma(str) {
+// 	var hash = 0;
+// 	for (var i = 0; i < str.length; i++) {
+// 		hash = str.charCodeAt(i) + ((hash << 5) - hash);
+// 	}
+// 	var colour = '#';
+// 	for (var i = 0; i < 3; i++) {
+// 		var value = (hash >> (i * 12)) & 0xFF;
+// 		colour += ('00' + value.toString(16)).substr(-2);
+// 	}
+// 	return {
+// 		hex: colour
+// 	};
+// }
 
 import moment from 'moment';
 
+declare let prisma: any;
 declare let Chart: any;
 
 @Component({
@@ -133,7 +134,7 @@ export class StatsComponent implements OnInit {
 						this.lineData.push({x: registerCountDate, y:accountSum});
 					}
 
-					let gradeString = this.gradYearToGradeString(parseInt(gradYear));
+					let gradeString = this.gradYearToGradeString(gradYear);
 
 					// Push data to line chart
 					this.lineDataSets.push({
@@ -152,7 +153,7 @@ export class StatsComponent implements OnInit {
 				// Process data for pie chart
 				for (let gradYear in data.visitedToday.gradYears) {
 					this.pieData.push(data.visitedToday.gradYears[gradYear]);
-					let gradeString = this.gradYearToGradeString(parseInt(gradYear));
+					let gradeString = this.gradYearToGradeString(gradYear);
 					this.gradeNames.push(gradeString);
 					this.pieBgColors.push(prisma(gradeString).hex);
 				}
@@ -204,10 +205,12 @@ export class StatsComponent implements OnInit {
 		);
 	}
 
-	gradYearToGradeString(gradYear: number): string {
+	gradYearToGradeString(gradYear: any): string {
 		let gradeNumber: number;
 		for (let i = 0; i < this.gradeRange.length; i++) {
-			if (this.gradeRange[i] === gradYear) {
+			if (gradYear === 'teacher') {
+				return 'Teacher'
+			} else if (this.gradeRange[i] === parseInt(gradYear)) {
 				gradeNumber = 12 - i;
 				return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
 			}

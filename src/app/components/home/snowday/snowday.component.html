@@ -1,0 +1,25 @@
+<div *ngIf="!snowdayData" class="snowday-loading">
+	<p>Calculating percentage of Snowday...</p>
+</div>
+<div *ngIf="snowdayData === {}" class="snowday-noday">
+	<p>There are no days to calculate at the moment!</p>
+</div>
+<div *ngIf="snowdayData" class="snowday">
+	<div class="snowday-days">
+		<div *ngFor="let day of snowdayData | values" class="snowday-day">
+			<div class="snowday-date">
+				{{ day.key | date:'EEEE, MMMM d' }}
+			</div>
+			<div class="snowday-percent">
+				{{ day.value.chance | round }}%
+			</div>
+			<div class="snowday-label">
+				Chance of Snowday
+			</div>
+			<div class="snowday-message">
+				{{ day.value.message }}
+			</div>
+		</div>
+	</div>
+	<p class="snowdaycalculator-com">Powered by <a href="https://snowdaycalculator.com" target="_blank">SnowdayCalculator.com</a></p>
+</div>
