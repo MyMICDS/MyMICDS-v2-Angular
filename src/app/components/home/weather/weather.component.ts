@@ -18,10 +18,10 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.subscription = this.weatherService.getWeather().subscribe(
-			(data) => {
+			data => {
 				this.weather = data;
 			},
-			(error) => {
+			error => {
 				this.alertService.addAlert('danger', 'Get Weather Error!', error);
 			}
 		);

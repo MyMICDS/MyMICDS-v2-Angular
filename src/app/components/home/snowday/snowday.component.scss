@@ -1,0 +1,66 @@
+@import '../../../../styles/settings';
+
+/* --------------------------
+  Main Styles
+--------------------------- */
+
+.snowday {
+
+	.snowday-days {
+		width: 100%;
+		display: flex;
+
+		.snowday-day {
+			width: 100%;
+			padding: 0.25rem;
+
+			text-align: center;
+			border-right: 1px solid rgba($sophisticated-white, 0.5);
+
+			.snowday-date {
+				margin-bottom: 0.75rem;
+			}
+
+			.snowday-percent {
+				font-size: 3.5rem;
+				font-weight: 600;
+				line-height: 0.7;
+			}
+
+			.snowday-label {
+				margin-bottom: 0.5rem;
+			}
+
+			.snowday-message {
+
+			}
+
+			&:last-child {
+				border-right: none;
+			}
+		}
+	}
+
+	.snowdaycalculator-com {
+		display: block;
+		float:right;
+		a {
+			color: darken($sophisticated-white, 10%);
+			font-size: 1.5rem;
+			font-weight: 500;
+			text-decoration: none;
+
+			transition-duration: 0.25s;
+
+			&:hover {
+				text-shadow:2px 2px 2px #333;
+			}
+		}
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+@media screen and (min-width:544px) {
+}
