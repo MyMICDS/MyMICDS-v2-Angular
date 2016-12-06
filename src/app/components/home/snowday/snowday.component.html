@@ -10,8 +10,11 @@
 			<div class="snowday-date">
 				{{ day.key | date:'EEEE, MMMM d' }}
 			</div>
-			<div class="snowday-percent">
+			<div class="snowday-percent" *ngIf="day.value.chance > 0">
 				{{ day.value.chance | round }}%
+			</div>
+			<div class="snowday-percent" *ngIf="day.value.chance <= 0">
+				0%
 			</div>
 			<div class="snowday-label">
 				Chance of Snowday
