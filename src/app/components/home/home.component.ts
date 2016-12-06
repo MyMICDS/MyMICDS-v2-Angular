@@ -11,7 +11,7 @@ import { ScheduleService } from '../../services/schedule.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
-	announcement: string = '';
+	announcement: string = 'Aww yeah! <strong>Hour of Code is tomorrow, December 5th from 3:30 to 4:45 in STEM 258!</strong> Join us for activities and food! No experience is required!';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
