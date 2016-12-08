@@ -1,0 +1,43 @@
+@import '../../../styles/settings';
+
+.scores-display {
+    overflow-y: scroll;
+    height: 90vh;
+    margin-top: 1rem;
+    .loadingScores {
+        margin-top: 30vh;
+    }
+    .score {
+        padding-top: 0.5rem;
+        .separator {
+            background-image: linear-gradient(90deg, rgba(0, 0, 0, 0), white, rgba(0, 0, 0, 0));
+            height: 0.2rem;
+            margin-top: 0.5rem;
+        }
+        .score-name, .score-date, .score-detail {
+            text-align: center;
+        }
+        .score-name {
+            color: $micds-grey;
+            font-size: 3rem;
+            font-weight: 600;
+        }
+        .score-detail {
+            display: flex;
+            flex-wrap: nowrap;
+            font-size: 3rem;
+            font-weight: 800;
+            justify-content: space-around;
+            color: $micds-red;
+            .us_score, .opp_score {
+                display: flex;
+                align-items: center;
+            }
+            .score-image {
+                height: 3rem;
+                width: 3rem;
+                margin: 0.5rem;
+            }
+        }
+    }
+}

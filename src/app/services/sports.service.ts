@@ -16,7 +16,7 @@ export class SportsService {
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
 
-		return this.authHttp.post(environment.backendURL + '/user/get-info', body, options)
+		return this.authHttp.post(environment.backendURL + '/sports/scores', body, options)
 			.map( res => {
 				let data = res.json();
 
@@ -25,7 +25,7 @@ export class SportsService {
 					throw new Error(data.error);
 				}
 
-				return data.user;
+				return data.scores;
 			})
 			.catch(handleError);
 	}
