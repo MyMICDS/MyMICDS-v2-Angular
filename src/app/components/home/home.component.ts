@@ -11,7 +11,7 @@ import { ScheduleService } from '../../services/schedule.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
-	announcement: string = 'The school lunch site is apparently down, which means the <strong>MyMICDS Lunch page is also down.</strong> If you are in the Upper School, you can view the lunch menu <a class="alert-link" routerLink="daily-bulletin">on the Daily Bulletin.</a>';
+	announcement: string = 'The school lunch site is apparently down, which means the <strong>MyMICDS Lunch page is also down.</strong> If you are in the Upper School, you can view the lunch menu <a class="alert-link" href="/daily-bulletin">on the Daily Bulletin.</a>';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
