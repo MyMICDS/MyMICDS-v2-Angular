@@ -130,9 +130,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// Destroy Progress Bar Instance
 		this.progressBar.destroy();
 		// Unsubsciribe socket connection
-		this.socketioConnection.unsubscribe();
-		this.progressDayClick.unsubscribe();
-		this.progressDayUnclick.unsubscribe();
+		// this.socketioConnection.unsubscribe();
+		// this.progressDayClick.unsubscribe();
+		// this.progressDayUnclick.unsubscribe();
 	}
 
 	/*
