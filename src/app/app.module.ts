@@ -48,7 +48,7 @@ import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
 import { ScheduleService } from './services/schedule.service';
 import { SnowdayService } from './services/snowday.service';
-import { SocketioService } from './services/socketio.service';
+// import { SocketioService } from './services/socketio.service';
 import { SportsService } from './services/sports.service';
 import { StatsService } from './services/stats.service';
 import { UserService } from './services/user.service';
@@ -136,7 +136,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		PortalService,
 		ScheduleService,
 		SnowdayService,
-		SocketioService,
+		// SocketioService,
 		SportsService,
 		StatsService,
 		UserService,
