@@ -54,6 +54,7 @@ import { StatsService } from './services/stats.service';
 import { UserService } from './services/user.service';
 import { WeatherService } from './services/weather.service';
 import { NotificationService } from './services/notification.service';
+import { SuggestionsService } from './services/suggestions.service';
 
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
@@ -62,6 +63,7 @@ import { SafeHtmlPipe, SafeScriptPipe, SafeStylePipe, SafeUrlPipe, SafeResourceU
 import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
+import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 
 @NgModule({
 	declarations: [
@@ -107,7 +109,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe
+		WeatherIconPipe,
+		SuggestionsComponent
 	],
 	imports: [
 		BrowserModule,
@@ -115,7 +118,6 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ReactiveFormsModule,
 		HttpModule,
 		routing,
-		ColorPickerModule,
 		DatepickerModule,
 		ModalModule
 	],
@@ -142,49 +144,51 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		UserService,
 		WeatherService,
 		NotificationService,
+		SuggestionsService,
 
 		// JWT
-		AUTH_PROVIDERS,
 		{
 			provide: AuthHttp,
-			useFactory: (http) => {
-				return new AuthHttp(new AuthConfig({
-					tokenGetter: () => {
-						// Look in session storage for id_token, but fallback to local storage
-						let session = sessionStorage.getItem('id_token');
-						let local = localStorage.getItem('id_token');
-
-						let token = session || local;
-
-						if (typeof token !== 'string') { return ''; }
-
-						// Remove any quotations from the sides
-						token = token.split('"').join('');
-
-						// Check validity of jwt token
-						if (token.split('.').length !== 3) {
-							localStorage.removeItem('id_token');
-							sessionStorage.removeItem('id_token');
-							return '';
-						}
-
-						// Check if token is expired. If it is, delete and send user to login page
-						if (jwtHelper.isTokenExpired(token)) {
-							sessionStorage.removeItem('id_token');
-							localStorage.removeItem('id_token');
-
-							this.router.navigate(['/login']);
-							return '';
-						}
-
-						return token;
-					},
-					noJwtError: true
-				}), http);
-			},
+			useFactory: authHttpServiceFactory,
 			deps: [Http]
 		}
 	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function authHttpServiceFactory(http) {
+	return new AuthHttp(new AuthConfig({
+		tokenGetter: () => {
+			// Look in session storage for id_token, but fallback to local storage
+			let session = sessionStorage.getItem('id_token');
+			let local = localStorage.getItem('id_token');
+
+			let token = session || local;
+
+			if (typeof token !== 'string') { return ''; }
+
+			// Remove any quotations from the sides
+			token = token.split('"').join('');
+
+			// Check validity of jwt token
+			if (token.split('.').length !== 3) {
+				localStorage.removeItem('id_token');
+				sessionStorage.removeItem('id_token');
+				return '';
+			}
+
+			// Check if token is expired. If it is, delete and send user to login page
+			if (jwtHelper.isTokenExpired(token)) {
+				sessionStorage.removeItem('id_token');
+				localStorage.removeItem('id_token');
+
+				this.router.navigate(['/login']);
+				return '';
+			}
+
+			return token;
+		},
+		noJwtError: true
+	}), http);
+}

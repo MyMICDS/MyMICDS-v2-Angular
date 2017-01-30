@@ -1,0 +1,19 @@
+<div class="container">
+  <div mymicds-blur>
+    <form class="suggestions-form" (ngSubmit)="submitSuggestions()" [formGroup]="suggestionsForm">
+      <legend>Suggestions</legend>
+      <div class="form-group">
+        <label for="type-input">Type</label>
+        <select formControlName="type" class="form-control" id="type-input">
+          <option value="suggestion">suggestion</option>
+          <option value="bug">bug</option>
+          <option value="other">other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <textarea formControlName="submission" class="form-control" row="4" placeholder="Please describe your problem here."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>
