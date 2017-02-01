@@ -119,8 +119,8 @@ import { SuggestionsComponent } from './components/suggestions/suggestions.compo
 		HttpModule,
 		routing,
 		ColorPickerModule,
-		DatepickerModule,
-		ModalModule
+		DatepickerModule.forRoot(),
+		ModalModule.forRoot()
 	],
 	providers: [
 		appRoutingProviders,
