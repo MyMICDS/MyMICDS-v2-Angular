@@ -12,7 +12,6 @@ import { UserService } from '../../services/user.service';
 })
 export class NavbarComponent implements OnInit {
 
-	public isCollapsed = true;
 	private url: string;
 
 	constructor(private router: Router, private titleService: Title, private userService: UserService) { }
@@ -23,9 +22,6 @@ export class NavbarComponent implements OnInit {
 		this.router.events.subscribe((event: any) => {
 			if (typeof event.urlAfterRedirects === 'string') {
 				this.url = event.urlAfterRedirects.split('/')[1];
-				if (this.router.navigated && this.router.url.split('/')[1] !== this.url) {
-					this.isCollapsed = true;
-				};
 				this.titleService.setTitle('MyMICDS - ' + capitalize(event.urlAfterRedirects, 1));
 			}
 		});

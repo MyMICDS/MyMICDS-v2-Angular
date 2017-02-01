@@ -1,40 +1,45 @@
-<nav class="navbar navbar-full navbar-dark bg-inverse">
-	<div class="mymicds-logo">
-		<img class="navbar-brand" src="/assets/logo/logo.svg">
-		<a class="navbar-brand" [routerLink]="['/home']">MyMICDS.net</a>
-	</div>
-	<div class="nav navbar-nav">
-		<a [class.collapse]="isCollapsed && url !== 'home'" class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-home"></i> Home
-			<i *ngIf="url === 'home'" class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed && url !== 'lunch'" class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-cutlery"></i> Lunch
-			<i *ngIf="url === 'lunch'" class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed && url !== 'planner'" class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-calendar"></i> Planner
-			<i *ngIf="url === 'planner'" class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed && url !== 'daily-bulletin'" class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-bullhorn"></i> Bulletin
-			<i *ngIf="url === 'daily-bulletin'" class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed && url !== 'settings'" *ngIf="userService.getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-gear"></i> Settings
-			<i *ngIf="url === 'settings'" class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed && url !== 'about'" class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-info"></i> About
-			<i *ngIf="url === 'about'" class="fa fa-caret-down"></i>
-		</a>
-	</div>
-	<div *ngIf="!userService.getUsername()" class="navbar-right">
-		<button class="btn btn-success" [routerLink]="['/login']">Login</button>
-		<button class="btn btn-primary" [routerLink]="['/register']">Register</button>
-	</div>
-	<div *ngIf="userService.getUsername()" class="navbar-right">
-		<p class="logged-in-user text-muted"><span class="hide">Logged in as </span>{{userService.getUsername()}}</p>
-		<button class="btn btn-danger" [routerLink]="['/logout']">Logout</button>
+<nav class="navbar navbar-toggleable-sm navbar-inverse bg-inverse mr-auto mt-2 mt-md-0">
+	
+	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#mymicds-navbar">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<a class="navbar-brand" [routerLink]="['/home']">
+		<img class="mymicds-logo" src="/assets/logo/logo.svg">
+		MyMICDS.net
+	</a>
+
+	<div class="collapse navbar-collapse" id="mymicds-navbar">
+	
+		<div class="navbar-nav mr-auto my-2 my-lg-0">
+			<a class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']">
+				<i class="fa fa-home"></i> Home
+			</a>
+			<a class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']">
+				<i class="fa fa-cutlery"></i> Lunch
+			</a>
+			<a class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']">
+				<i class="fa fa-calendar"></i> Planner
+			</a>
+			<a class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']">
+				<i class="fa fa-bullhorn"></i> Bulletin
+			</a>
+			<a *ngIf="userService.getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']">
+				<i class="fa fa-gear"></i> Settings
+			</a>
+			<a class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']">
+				<i class="fa fa-info"></i> About
+			</a>
+		</div>
+
+		<div *ngIf="!userService.getUsername()" class="my-2 my-lg-0">
+			<button class="btn btn-success d-inline mr-3" [routerLink]="['/login']">Login</button>
+			<button class="btn btn-primary d-inline" [routerLink]="['/register']">Register</button>
+		</div>
+		<div *ngIf="userService.getUsername()" class="my-2 my-lg-0">
+			<p class="logged-in-user text-muted d-inline mr-3"><span class="hide">Logged in as </span>{{userService.getUsername()}}</p>
+			<button class="btn btn-danger d-inline" [routerLink]="['/logout']">Logout</button>
+		</div>
+
 	</div>
 </nav>
