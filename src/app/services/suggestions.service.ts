@@ -18,8 +18,7 @@ export class SuggestionsService {
 		let options = new RequestOptions({ headers });
 		return this.authHttp.post(environment.backendURL + '/suggestion/send', body, options)
 			.map(res => {
-				let data = res.json();
-				console.log(data);
+				let data = res.json() || {};
 				if (data.error) {
 					throw new Error(data.error);
 				}
