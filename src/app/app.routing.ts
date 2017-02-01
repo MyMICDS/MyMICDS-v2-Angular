@@ -116,7 +116,8 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'suggestions',
-		component: SuggestionsComponent
+		component: SuggestionsComponent,
+		canActivate: [AuthGuard]
 	}
 ];
 

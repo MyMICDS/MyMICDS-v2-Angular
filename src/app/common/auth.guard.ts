@@ -1,12 +1,14 @@
 import { Injectable } from'@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelper } from 'angular2-jwt';
+import { AlertService } from '../services/alert.service';
+
 let jwtHelper = new JwtHelper();
 
 @Injectable()
 export class AuthGuard {
 
-	constructor(private router: Router) { }
+	constructor(private router: Router, private alertService: AlertService) { }
 
 	canActivate() {
 		// Look in session storage for id_token, but fallback to local storage
@@ -25,6 +27,7 @@ export class AuthGuard {
 		localStorage.removeItem('id_token');
 
 		this.router.navigate(['/login']);
+		this.alertService.addAlert('danger', 'You are not logged in!', 'You don\'t have access to this page!')
 		return false;
 	}
 }
