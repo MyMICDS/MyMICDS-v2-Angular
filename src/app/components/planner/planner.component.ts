@@ -579,17 +579,6 @@ export class PlannerComponent implements OnInit {
 		}
 	}
 
-	// Custom function that closes the bootstrap modal
-	closeModal(event) {
-		let click = new MouseEvent('click', {
-			'view': window,
-			'bubbles': true,
-			'cancelable': true
-		});
-		// Not propagated
-		event.path[5].dispatchEvent(click);
-	}
-
 	// Click event in the calendar grid
 	selectDayEvent(id: string) {
 		let selectionEvents = document.getElementsByClassName('selection-event');
@@ -602,7 +591,7 @@ export class PlannerComponent implements OnInit {
 		};
 	}
 
-	//close the side bar from a button
+	// Close the side bar from a button
 	sidebarClose() {
 		this.sidebarCollapsed = true;
 	}

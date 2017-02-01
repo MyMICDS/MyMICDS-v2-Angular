@@ -30,6 +30,11 @@ export class AlertService {
 			content
 		};
 
+		// If error, append custom message
+		if (type === 'danger') {
+			alert.content += ' Try refreshing the page to fix any problems.';
+		}
+
 		this.alertEmitSource.next(alert);
 	}
 

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { hexToRgb } from '../../../common/utils';
 import moment from 'moment';
-import { SocketioService } from '../../../services/socketio.service';
+// import { SocketioService } from '../../../services/socketio.service';
 
 declare let Chart: any;
 
@@ -37,7 +37,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	progressDayClick: any;
 	progressDayUnclick: any;
 
-	constructor(private socketioService: SocketioService) { }
+	// constructor(private socketioService: SocketioService) { }
+	constructor() { }
 
 	/*
 	 * Configure progress bar
@@ -98,29 +99,29 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		}, 1000);
 
 		// Socket.io service to spin the spinny
-		this.progressDayCtx = document.getElementsByClassName('progress-day')[0];
+		// this.progressDayCtx = document.getElementsByClassName('progress-day')[0];
 
-		this.socketioConnection = this.socketioService.listen('progress label spin').subscribe(
-			pressed => {
-				pressed ? this.progressDayCtx.classList.add('rotate') : this.progressDayCtx.classList.remove('rotate');
-			}
-		);
+		// this.socketioConnection = this.socketioService.listen('progress label spin').subscribe(
+		// 	pressed => {
+		// 		pressed ? this.progressDayCtx.classList.add('rotate') : this.progressDayCtx.classList.remove('rotate');
+		// 	}
+		// );
 
-		this.progressDayClick = Observable.fromEvent(this.progressDayCtx, 'mousedown')
-			.debounceTime(100)
-			.subscribe(
-				e => {
-					this.socketioService.emit('progress label click', true);
-				}
-			);
+		// this.progressDayClick = Observable.fromEvent(this.progressDayCtx, 'mousedown')
+		// 	.debounceTime(100)
+		// 	.subscribe(
+		// 		e => {
+		// 			this.socketioService.emit('progress label click', true);
+		// 		}
+		// 	);
 
-		this.progressDayUnclick = Observable.fromEvent(this.progressDayCtx, 'mouseup')
-			.debounceTime(100)
-			.subscribe(
-				e => {
-					this.socketioService.emit('progress label click', false);
-				}
-			);
+		// this.progressDayUnclick = Observable.fromEvent(this.progressDayCtx, 'mouseup')
+		// 	.debounceTime(100)
+		// 	.subscribe(
+		// 		e => {
+		// 			this.socketioService.emit('progress label click', false);
+		// 		}
+		// 	);
 	}
 
 	ngOnDestroy() {
@@ -129,9 +130,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// Destroy Progress Bar Instance
 		this.progressBar.destroy();
 		// Unsubsciribe socket connection
-		this.socketioConnection.unsubscribe();
-		this.progressDayClick.unsubscribe();
-		this.progressDayUnclick.unsubscribe();
+		// this.socketioConnection.unsubscribe();
+		// this.progressDayClick.unsubscribe();
+		// this.progressDayUnclick.unsubscribe();
 	}
 
 	/*
