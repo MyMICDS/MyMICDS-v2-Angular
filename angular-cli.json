@@ -16,6 +16,7 @@
 			"mobile": false,
 			"styles": [
 				"styles/styles.scss",
+				"../node_modules/bootstrap/scss/bootstrap.scss",
 				"assets/font-awesome/scss/font-awesome.scss",
 				"assets/weather-icons/css/weather-icons.css",
 				"assets/weather-icons/css/weather-icons-wind.css"
