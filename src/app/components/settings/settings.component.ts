@@ -273,7 +273,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 				.switchMap(() => {
 					this.canvasValid = false;
 					this.canvasResponse = 'Validating...';
-					return this.canvasService.testURL(this.portalURL)
+					return this.canvasService.testURL(this.canvasURL)
 				})
 				.subscribe(
 					data => {
