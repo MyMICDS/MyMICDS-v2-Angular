@@ -30,19 +30,20 @@
 	}
 }
 
-.progress {
+.progress-container {
 	background-color: transparent;
 	height: 100%;
-	width: 50%;
+	width: 100%;
 	display: flex;
 	flex-direction: column;
 	margin: 0 auto;
 
 	.progress-day {
-		display: none;
 		margin: 1rem auto;
 		cursor: pointer;
 		transition-duration: 0.5s;
+
+		font-size: 100%;
 
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;
@@ -78,8 +79,6 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-
-			padding: 0 15em;
 
 			.class-label {
 				font-size: 1.3rem;
@@ -131,33 +130,28 @@
 			}
 		}
 	}
-	.progress {
+
+	.progress-container {
+		width: 50%;
+
 		.progress-day {
-			display: block;
+			font-size: 75%;
 		}
-		.progress-circular {
-			.progress-chart {
-				width: 100% !important;
-				height: 100% !important;
-				margin: auto;
+
+		.progress-circular .progress-percentage {
+			.class-label {
+				font-size: 1.5rem;
+				font-weight: 300;
 			}
-			.progress-percentage {
-				padding: 0;
 
-				.class-label {
-					font-size: 1.5rem;
-					font-weight: 300;
-				}
+			.class-percent {
+				font-size: 8rem;
+				font-weight: 600;
+			}
 
-				.class-percent {
-					font-size: 8rem;
-					font-weight: 600;
-				}
-
-				.school-done {
-					font-size: 4rem;
-					font-weight: 600;
-				}
+			.school-done {
+				font-size: 4rem;
+				font-weight: 600;
 			}
 		}
 	}
