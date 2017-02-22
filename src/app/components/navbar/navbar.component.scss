@@ -25,18 +25,24 @@
 			margin-right: 0.5em;
 		}
 		.collapse {
-			padding: 0px;
+			padding-top: 0px;
+			padding-bottom: 0px;
 			height: 0px;
 		}
 	}
 
 	.nav-link {
-		border-bottom: 1px solid #373a3c;
+		border-bottom: 1px solid #292b2c;
 	}
 
 	.nav-link:hover {
 		border-bottom: 1px solid #29ABE2;
 	}
+
+	.active {
+		border-bottom: 1px solid #29ABE2;
+	}
+
 	.mymicds-logo {
 		text-align: center;
 		order: 1;

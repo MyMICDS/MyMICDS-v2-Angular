@@ -7,7 +7,7 @@
 		{
 			"root": "src",
 			"outDir": "dist",
-			"assets": "assets",
+			"assets": ["assets"],
 			"index": "index.html",
 			"main": "main.ts",
 			"test": "test.ts",
@@ -16,6 +16,7 @@
 			"mobile": false,
 			"styles": [
 				"styles/styles.scss",
+				"../node_modules/bootstrap/scss/bootstrap.scss",
 				"assets/font-awesome/scss/font-awesome.scss",
 				"assets/weather-icons/css/weather-icons.css",
 				"assets/weather-icons/css/weather-icons-wind.css"
@@ -26,8 +27,8 @@
 				"../node_modules/trianglify/dist/trianglify.min.js",
 				"../node_modules/prisma/dist/prisma.min.js"
 			],
+			"environmentSource": "environments/environments.ts",
 			"environments": {
-				"source": "environments/environment.ts",
 				"dev": "environments/environment.ts",
 				"prod": "environments/environment.prod.ts"
 			}
@@ -40,6 +41,16 @@
 			"config": "./protractor.conf.js"
 		}
 	},
+	"lint": [
+		{
+			"files": "src/**/*.ts",
+			"project": "src/tsconfig.json"
+		},
+		{
+			"files": "e2e/**/*.ts",
+			"project": "e2e/tsconfig.json"
+		}
+	],
 	"test": {
 		"karma": {
 			"config": "./karma.conf.js"

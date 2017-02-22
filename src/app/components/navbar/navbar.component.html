@@ -1,9 +1,9 @@
-<nav class="navbar navbar-full navbar-dark bg-inverse">
-	<div class="mymicds-logo">
-		<img class="navbar-brand" src="/assets/logo/logo.svg">
-		<a class="navbar-brand" [routerLink]="['/home']">MyMICDS.net</a>
-	</div>
-	<div class="nav navbar-nav">
+<nav class="navbar navbar-full navbar-inverse bg-inverse navbar-toggleable-md">
+	<a class="navbar-brand" [routerLink]="['/home']">
+		<img src="/assets/logo/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+		MyMICDS.net
+	</a>
+	<div class="navbar-nav mr-auto">
 		<a [class.collapse]="isCollapsed && url !== 'home'" class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
 			<i class="fa fa-home"></i> Home
 			<i *ngIf="url === 'home'" class="fa fa-caret-down"></i>

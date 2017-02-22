@@ -19,6 +19,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { StatsComponent } from './components/stats/stats.component';
 import { SportsComponent } from './components/sports/sports.component';
+import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 
 const appRoutes: Routes = [
 	{
@@ -112,6 +113,11 @@ const appRoutes: Routes = [
 	{
 		path: 'sports',
 		component: SportsComponent
+	},
+	{
+		path: 'suggestions',
+		component: SuggestionsComponent,
+		canActivate: [AuthGuard]
 	}
 ];
 
