@@ -8,6 +8,7 @@ import { AlertService } from '../../services/alert.service';
 import { CanvasService } from '../../services/canvas.service';
 import { ClassesService } from '../../services/classes.service';
 import { PlannerService } from '../../services/planner.service';
+import { PortalService } from '../../services/portal.service';
 import { UserService } from '../../services/user.service';
 
 
@@ -35,7 +36,10 @@ export class PlannerComponent implements OnInit {
 	canvasLoading = true;
 
 	// Controller for sidebar's collapsed class
-	sidebarCollapsed: boolean = true;
+	sidebarCollapsed = true;
+
+	// Keep track of day rotations
+	days: any = {};
 
 	// Array of total events
 	get events(): Event[] {
@@ -95,6 +99,7 @@ export class PlannerComponent implements OnInit {
 		private canvasService: CanvasService,
 		private classesService: ClassesService,
 		private plannerService: PlannerService,
+		private portalService: PortalService,
 		private userService: UserService,
 		private router: Router,
 		private route: ActivatedRoute
@@ -110,6 +115,17 @@ export class PlannerComponent implements OnInit {
 		}
 
 		this.formattedMonth = this.formatMonth(this.calendarDate, []);
+
+		// Get day rotation
+		this.portalService.dayRotation()
+			.subscribe(
+				days => {
+					this.days = days;
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Day Rotation Error!', error);
+				}
+			);
 
 		if (this.userService.getUsername()) {
 			// User logged in
