@@ -5,7 +5,7 @@ import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'angular2-color-picker';
 import { DatepickerModule, ModalModule } from 'ng2-bootstrap';
-import {AuthHttp, AuthConfig, JwtHelper, AUTH_PROVIDERS} from 'angular2-jwt';
+import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 let jwtHelper = new JwtHelper();
 
 import { AppComponent } from './app.component';
@@ -126,7 +126,6 @@ import { SuggestionsComponent } from './components/suggestions/suggestions.compo
 		appRoutingProviders,
 		ColorPickerService,
 		Title,
-
 		AlertService,
 		AliasService,
 		AuthService,
