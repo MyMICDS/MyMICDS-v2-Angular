@@ -426,62 +426,21 @@
 		padding: 2rem 0 6rem 0;
 
 		.planner-container {
-			color: $sophisticated-white;
 			margin-left: 4em;
 			margin-right: 4em;
 
 			.calendar-container {
-				display: flex;
-				justify-content: space-between;
-
 				.calendar {
-					width: 100%;
-
 					.month-navigation {
-						margin-bottom: 0.5rem;
-						display: flex;
-
 						.previous-month,
 						.current-month,
 						.next-month {
-							width: 100%;
-							display: flex;
-							justify-content: center;
-							align-items: center;
 							padding: 1rem;
 							font-size: 1.5rem;
-
-							border: none;
-							color: $sophisticated-white;
-
-							&:hover {
-								color: darken($sophisticated-white, 20%);
-							}
-							&:active {
-								color: darken($sophisticated-white, 40%);
-							}
-						}
-
-						.previous-month,
-						.next-month {
-							font-weight: 300;
-
-							fa {
-								margin: 0 0.5rem;
-							}
-						}
-
-						.current-month {
-							font-weight: 600;
-							border-left: 1px solid rgba($sophisticated-white, 0.5);
-							border-right: 1px solid rgba($sophisticated-white, 0.5);
 						}
 					}
 
 					.calendar-grid {
-						display: flex;
-						flex-direction: column;
-						padding: 0.5rem;
 
 						.calendar-weekdays {
 							.weekday {
@@ -493,15 +452,10 @@
 						}
 
 						.calendar-week {
-							display: flex;
 
 							.calendar-weekday {
-								width: calc(100% / 7);
 								min-height: 8rem;
 								display: inline-block;
-								padding: 0.25rem;
-
-								border: 1px solid rgba($sophisticated-white, 0.5);
 
 								.calendar-weekday-date {
 									display: flex;
@@ -515,74 +469,13 @@
 
 									border-radius: 2.5rem;
 									font-weight: 300;
-
-									&.today {
-										background: #ef4036;
-										border-right: 1px solid darken(#ef4036, 20%);
-										border-bottom: 1px solid darken(#ef4036, 20%);
-									}
 								}
 
 								.event {
 									height: inherit;
-									position:relative;
-
-									margin-bottom: 0.25rem;
-									padding: 0.25rem;
-
-									border-radius: 0.25rem;
-									border-right: 2px solid;
-									border-bottom: 2px solid;
-
-									&.text-dark {
-										color: #333;
-									}
-
-									&.continue-left {
-										border-top-left-radius: 0;
-										border-bottom-left-radius: 0;
-									}
-
-									&.continue-right {
-										border-top-right-radius: 0;
-										border-bottom-right-radius: 0;
-									}
-
-									.event-title,
-									.event-desc {
-										overflow: hidden;
-										white-space: nowrap;
-										text-overflow: ellipsis;
-									}
 
 									.event-title {
-										font-weight: 600;
 										display: block;
-									}
-
-									.event-desc {
-										font-weight: 300;
-									}
-
-									.svg-cross {
-										position: absolute;
-										top: 0;
-										left: 0;
-										right: 0;
-										bottom: 0;
-										height: 100%;
-										width: 100%;
-										fill-opacity: 0;
-										stroke:#FF0000;
-										stroke-width: 50;
-										stroke-dasharray: 3220;
-										stroke-dashoffset: 3220;
-										z-index: -1;
-									}
-
-									.crossed {
-										z-index: 10;
-										animation: draw 0.5s linear forwards;
 									}
 								}
 							}
@@ -597,44 +490,9 @@
 
 					.coming-up,
 					.day-selection {
-						position:absolute;
-						top: 6em;
-						left: 0.5em;
-						right: 0.5em;
-						bottom: 0.5em;
-						overflow: auto;
-						padding-right: 0.5em;
 						.event {
-							margin-bottom: 0.25rem;
-							padding: 0.25rem;
-
-							.event-class {
-								margin-bottom: 0.25rem;
-								display: flex;
-								justify-content: space-between;
-								align-items: flex-end;
-
-								.event-class-name,
-								.event-class-teacher {
-									display: inline-block;
-									margin: 0;
-								}
-
-								.event-class-name {
-									font-size: 1.25rem;
-								}
-
-								.event-class-teacher {
-									font-size: 1rem;
-								}
-							}
 
 							.event-content {
-								padding: 0.25rem;
-								border-radius: 0.25rem;
-								border-right: 2px solid;
-								border-bottom: 2px solid;
-								position: relative;
 
 								&:hover {
 									.event-manage {
@@ -642,118 +500,13 @@
 									}
 								}
 
-								&.text-dark {
-									color: #333;
-								}
-
 								.event-manage {
-									margin-left: 0.25rem;
-									float: right;
 									opacity: 0;
-									z-index: 11;
-								}
-
-								.event-title,
-								.event-desc {
-									overflow-wrap: break-word;
-								}
-
-								.event-title {
-									font-size: 1.25rem;
-									font-weight: 600;
-								}
-
-								.event-desc {
-									font-weight: 300;
-								}
-
-								.svg-cross {
-									position:absolute;
-									top:0;
-									left:0;
-									right:0;
-									bottom:0;
-									height: 100%;
-									width: 100%;
-									fill-opacity: 0;
-									stroke:#FF0000;
-									stroke-width: 50;
-									stroke-dasharray: 3220;
-									stroke-dashoffset: 3220;
-									z-index: -1;
-								}
-								.cross-animated {
-									z-index: 10;
-									animation: draw 0.5s linear forwards;
-								}
-								.uncross-animated {
-									z-index: 10;
-									animation: draw 0.5s linear backwards reverse;
-								}
-								@keyframes draw {
-									to {
-										stroke-dashoffset: 0;
-									}
 								}
 							}
 						}
 					}
-
-					.coming-up {
-
-						.coming-up-day {
-
-							.coming-up-due {
-								margin-bottom: 0.5rem;
-								padding-top: 1rem;
-								border-bottom: 1px solid rgba($sophisticated-white, 0.5);
-
-								.due,
-								.date {
-									display: inline-block;
-									margin: 0;
-									font-size: 1.25rem;
-									font-weight: 600;
-								}
-
-								.date {
-									float: right;
-									font-weight: 300;
-								}
-							}
-						}
-					}
-
-					.day-selection {
-
-						.selection-event-options {
-							display: block;
-							margin: 1rem auto 0.5rem;
-						}
-					}
 				}
-			}
-		}
-	}
-
-	.create-event-modal,
-	.edit-event-modal {
-		.modal-body {
-			.event-date {
-				display: flex;
-				justify-content: space-between;
-
-				datepicker {
-					display: inline-block;
-				}
-			}
-		}
-	}
-
-	.view-event-modal {
-		.modal-header {
-			.event-modal-subtitle {
-				margin-bottom: 0;
 			}
 		}
 	}
