@@ -248,14 +248,14 @@
 </div>
 
 <!-- Modal for creating events -->
-<div bsModal #createEventModal="bs-modal" class="create-event-modal modal fade" tabindex="-1">
-	<div class="modal-dialog">
+<div bsModal #createEventModal="bs-modal" class="create-event-modal modal" tabindex="-1">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="createEventModal.hide()">
+				<h4 class="modal-title pull-left">Create a Planner Event</h4>
+				<button type="button" class="close pull-right" (click)="createEventModal.hide()" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">Create a Planner Event</h4>
 			</div>
 			<div class="modal-body">
 				<form #createEventForm="ngForm" novalidate>
@@ -296,17 +296,20 @@
 </div>
 
 <!-- Modal for viewing events -->
-<div bsModal #viewEventModal="bs-modal" class="view-event-modal modal fade" tabindex="-1">
-	<div class="modal-dialog">
+<div bsModal #viewEventModal="bs-modal" class="modal" tabindex="-1">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="viewEventModal.hide()">
+				<h4 class="modal-title pull-left">{{ viewEventObject?.title }}</h4>
+				<button type="button" class="close pull-right" (click)="viewEventModal.hide()" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">{{ viewEventObject?.title }}</h4>
-				<p class="event-modal-subtitle text-muted">{{ viewEventObject?.start | date }} - {{ viewEventObject?.end | date }}</p>
 			</div>
-			<div class="modal-body" [innerHTML]="viewEventObject?.desc"></div>
+			<div class="modal-body">
+				<p class="text-muted">{{ viewEventObject?.start | date }} - {{ viewEventObject?.end | date }}</p>
+				<hr>
+				<div [innerHTML]="viewEventObject?.desc"></div>
+			</div>
 			<div class="modal-footer" *ngIf="!viewEventObject?.canvas || viewEventObject?.link">
 				<!-- Maybe someday... -->
 				<!-- <button class="btn btn-success">Cross out as Completed</button> -->
@@ -322,14 +325,14 @@
 </div>
 
 <!-- Modal for editing events -->
-<div bsModal #editEventModal="bs-modal" class="edit-event-modal modal fade" tabindex="-1">
-	<div class="modal-dialog">
+<div bsModal #editEventModal="bs-modal" class="edit-event-modal modal" tabindex="-1">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="editEventModal.hide()">
+				<h4 class="modal-title pull-left">Edit a Planner Event</h4>
+				<button type="button" class="close pull-right" (click)="editEventModal.hide()" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">Edit a Planner Event</h4>
 			</div>
 			<div class="modal-body">
 				<form #editEventForm="ngForm" novalidate>

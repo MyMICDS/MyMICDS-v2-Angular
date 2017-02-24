@@ -411,15 +411,6 @@
 	}
 }
 
-.view-event-modal {
-	.modal-header {
-		.event-modal-subtitle {
-			margin-bottom: 0;
-		}
-	}
-}
-
-
 @media screen and (min-width:544px) {
 	.planner-interface {
 		// Add padding instead of margin so clicking the bottom will also deselect the day
