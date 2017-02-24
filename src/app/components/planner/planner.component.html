@@ -97,9 +97,9 @@
 						<div class="coming-up-due">
 							<h3 class="due">
 								Due {{ day.date.display }}
-								<ng-container *ngIf="days[day.date.object.year()] && days[day.date.object.year()][day.date.object.month() + 1] && days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()]">
-									- Day {{ days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()] }}
-								</ng-container>
+								<small *ngIf="days[day.date.object.year()] && days[day.date.object.year()][day.date.object.month() + 1] && days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()]">
+									Day {{ days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()] }}
+								</small>
 							</h3>
 							<h3 class="date">{{ day.date.object.toDate() | date:'dd.MM.yy' }}</h3>
 						</div>
