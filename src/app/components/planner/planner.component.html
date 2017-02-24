@@ -84,6 +84,9 @@
 						<span *ngIf="selectionDay === null">Coming Up</span>
 						<span *ngIf="selectionDay !== null">{{ selectionDay.toDate() | date:'MMMM d, y' }}</span>
 					</h1>
+					<h3 *ngIf="selectionDay !== null && days[selectionDay.year()] && days[selectionDay.year()][selectionDay.month() + 1] && days[selectionDay.year()][selectionDay.month() + 1][selectionDay.date()]">
+						Day {{ days[selectionDay.year()][selectionDay.month() + 1][selectionDay.date()] }}
+					</h3>
 				</div>
 				<div class="sidebar-close" (click)="sidebarClose()"><i class="fa fa-times"></i></div>
 				<!-- View events coming up if no day is selected -->
@@ -92,7 +95,12 @@
 					<div *ngFor="let day of comingUp" class="coming-up-day">
 						<!-- Display date -->
 						<div class="coming-up-due">
-							<h3 class="due">Due {{ day.date.display }}</h3>
+							<h3 class="due">
+								Due {{ day.date.display }}
+								<ng-container *ngIf="days[day.date.object.year()] && days[day.date.object.year()][day.date.object.month() + 1] && days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()]">
+									- Day {{ days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()] }}
+								</ng-container>
+							</h3>
 							<h3 class="date">{{ day.date.object.toDate() | date:'dd.MM.yy' }}</h3>
 						</div>
 						<div class="coming-up-events">

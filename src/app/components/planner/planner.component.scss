@@ -149,13 +149,12 @@
 								}
 
 								.calendar-weekday-day-rotation {
+									display: none;
 									margin-left: auto;
 									padding: 0 0.25rem;
 
 									color: darken($sophisticated-white, 40%);
-
-									// border: 1px solid $sophisticated-white;
-									// border-radius: 0.5rem;
+									font-size: 0.75rem;
 								}
 							}
 
@@ -239,14 +238,16 @@
 				padding: 0.5rem;
 				position: relative;
 				z-index: 11;
+
 				.sidebar-close {
 					position: absolute;
 					right: 1em;
 					top: 1em;
 					cursor: pointer;
 				}
+
 				.sidebar-header {
-					margin: 0 auto;
+					padding: 0 1rem 1rem;
 
 					text-align: center;
 
@@ -268,6 +269,7 @@
 					bottom:0.5em;
 					overflow:auto;
 					padding-right: 0.5em;
+
 					.event {
 						margin-bottom: 0.25rem;
 						padding: 0.25rem;
@@ -563,11 +565,11 @@
 									}
 
 									.svg-cross {
-										position:absolute;
-										top:0;
-										left:0;
-										right:0;
-										bottom:0;
+										position: absolute;
+										top: 0;
+										left: 0;
+										right: 0;
+										bottom: 0;
 										height: 100%;
 										width: 100%;
 										fill-opacity: 0;
@@ -593,28 +595,14 @@
 					padding: 0.5rem;
 					position: relative;
 
-					.sidebar-header {
-						margin: 0 auto;
-
-						text-align: center;
-
-						&.coming-up {
-							text-align: left;
-						}
-
-						h1 {
-							font-weight: 300;
-						}
-					}
-
 					.coming-up,
 					.day-selection {
 						position:absolute;
-						top:5em;
-						left:0.5em;
-						right:0.5em;
-						bottom:0.5em;
-						overflow:auto;
+						top: 6em;
+						left: 0.5em;
+						right: 0.5em;
+						bottom: 0.5em;
+						overflow: auto;
 						padding-right: 0.5em;
 						.event {
 							margin-bottom: 0.25rem;
@@ -804,6 +792,11 @@
 						}
 						.calendar-week {
 							.calendar-weekday {
+
+								.calendar-weekday-header .calendar-weekday-day-rotation {
+									display: block;
+								}
+
 								.event {
 									position:relative;
 									height: inherit;

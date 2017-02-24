@@ -459,6 +459,12 @@ export class PlannerComponent implements OnInit {
 	 */
 
 	selectDay(date: any, event?) {
+
+		// Make sure it's a valid moment.js object
+		if (!moment.isMoment(date)) {
+			return;
+		}
+
 		this.sidebarCollapsed = !this.sidebarCollapsed;
 		if (event) {
 			event.stopPropagation();
