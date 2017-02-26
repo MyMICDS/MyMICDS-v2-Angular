@@ -37,3 +37,22 @@ body {
 	background-size: cover;
 	background-attachment: fixed;
 }
+
+// Fix for Bootstrap modals
+.modal-backdrop.in {
+	opacity: 0.5 !important;
+}
+
+.modal-open .modal {
+	&.in {
+		opacity: 1;
+	}
+
+	.modal-dialog {
+		transform: none !important;
+
+		.modal-content .modal-header .close {
+			align-self: flex-start;
+		}
+	}
+}

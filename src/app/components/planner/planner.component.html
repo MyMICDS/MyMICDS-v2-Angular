@@ -248,7 +248,7 @@
 </div>
 
 <!-- Modal for creating events -->
-<div bsModal #createEventModal="bs-modal" class="create-event-modal modal" tabindex="-1">
+<div bsModal #createEventModal="bs-modal" class="create-event-modal modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -296,7 +296,7 @@
 </div>
 
 <!-- Modal for viewing events -->
-<div bsModal #viewEventModal="bs-modal" class="modal" tabindex="-1">
+<div bsModal #viewEventModal="bs-modal" class="modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -307,8 +307,10 @@
 			</div>
 			<div class="modal-body">
 				<p class="text-muted">{{ viewEventObject?.start | date }} - {{ viewEventObject?.end | date }}</p>
-				<hr>
-				<div [innerHTML]="viewEventObject?.desc"></div>
+				<ng-container *ngIf="viewEventObject?.desc?.length > 0">
+					<hr>
+					<div [innerHTML]="viewEventObject?.desc"></div>
+				</ng-container>
 			</div>
 			<div class="modal-footer" *ngIf="!viewEventObject?.canvas || viewEventObject?.link">
 				<!-- Maybe someday... -->
@@ -325,7 +327,7 @@
 </div>
 
 <!-- Modal for editing events -->
-<div bsModal #editEventModal="bs-modal" class="edit-event-modal modal" tabindex="-1">
+<div bsModal #editEventModal="bs-modal" class="edit-event-modal modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">

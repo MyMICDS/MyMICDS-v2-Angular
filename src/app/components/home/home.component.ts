@@ -11,7 +11,7 @@ import { ScheduleService } from '../../services/schedule.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
-	announcement: string = '';
+	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
