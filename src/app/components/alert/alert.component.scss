@@ -1,38 +1,34 @@
-.alert-container {
+.container {
 	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
+	top: 4rem;
+	left: 0.5rem;
+	right: 0.5rem;
 	z-index: 100;
 
-	.container {
-		padding: 4rem 0 0 0;
+	.alert {
+		margin-bottom: 1rem;
+		animation: addAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 
-		.alert {
-			margin-bottom: 1rem;
-			animation: addAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
-
-			&.dismissed {
-				animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
-			}
-
-			@keyframes addAlert {
-				from {
-					opacity: 0;
-				}
-				to {
-					opacity: 1;
-				}
-			}
-
-			@keyframes deleteAlert {
-				from {
-					opacity: 1;
-				}
-				to {
-					opacity: 0;
-				}
-			}
+		&.dismissed {
+			animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 		}
+	}
+}
+
+@keyframes addAlert {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes deleteAlert {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
 	}
 }
