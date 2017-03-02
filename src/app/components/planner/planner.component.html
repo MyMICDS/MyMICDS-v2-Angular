@@ -41,9 +41,9 @@
 								<div class="calendar-weekday-date" [class.today]="day?.today">
 									{{ day?.date.date() }}
 								</div>
-								<div *ngIf="days[calendarDate.year()] && days[calendarDate.year()][calendarDate.month() + 1] && days[calendarDate.year()][calendarDate.month() + 1][day?.date.date()]"
+								<div *ngIf="days[day?.date.year()] && days[day?.date.year()][day?.date.month() + 1] && days[day?.date.year()][day?.date.month() + 1][day?.date.date()]"
 									class="calendar-weekday-day-rotation">
-									Day {{ days[calendarDate.year()][calendarDate.month() + 1][day?.date.date()] }}
+									Day {{ days[day?.date.year()][day?.date.month() + 1][day?.date.date()] }}
 								</div>
 							</div>
 							<div *ngFor="let event of day?.events" class="event" (click)="selectDayEvent(event?.data?._id)"
