@@ -2,23 +2,27 @@
  * We need a seperate stylesheet for the planner page because they are dynamically added.
  */
 
-planner .planner-interface .planner-container .calendar-container .sidebar {
-	.coming-up .coming-up-day .coming-up-events .event .event-content .event-desc,
-	.day-selection .selection-events .event .event-content .event-desc {
-		// Place styles in here for description stylings dynamically added.
-		img {
-			width: 100%;
-		}
+mymicds-planner {
+	.planner-interface .planner-container .calendar-container .sidebar {
+		.coming-up .coming-up-day .coming-up-events .event .event-content .event-desc,
+		.day-selection .selection-events .event .event-content .event-desc {
+			// Place styles in here for description stylings dynamically added.
+			img {
+				width: 100%;
+				height: 100%;
+			}
 
-		ul {
-			padding-left: 1rem;
+			ul {
+				padding-left: 1rem;
+			}
 		}
 	}
-}
 
-planner .view-event-modal .modal-dialog .modal-content .modal-body {
-	// Place styles in here for 'View Event' modal.
-	img {
-		width: 100%;
+	.view-event-modal .modal-dialog .modal-content .modal-body {
+		// Place styles in here for 'View Event' modal.
+		img {
+			width: 100%;
+			height: 100%;
+		}
 	}
 }
