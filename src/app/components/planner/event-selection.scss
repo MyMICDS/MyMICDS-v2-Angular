@@ -15,6 +15,14 @@ mymicds-planner {
 			ul {
 				padding-left: 1rem;
 			}
+
+			// Don't make File Preview
+			.scribd_file_preview_link,
+			.instructure_file_link_holder {
+				img {
+					width: inherit;
+				}
+			}
 		}
 	}
 
@@ -23,6 +31,14 @@ mymicds-planner {
 		img {
 			width: 100%;
 			height: 100%;
+		}
+
+		// Don't make File Preview
+		.scribd_file_preview_link,
+		.instructure_file_link_holder {
+			img {
+				width: inherit;
+			}
 		}
 	}
 }
