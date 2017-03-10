@@ -35,6 +35,13 @@ export class AboutComponent {
 			gradYear : 2017,
 			title    : 'Developer',
 			image    : 'assets/developers/bobs-ugly-face-new.jpg'
+		},
+		{
+			firstName: 'Alex',
+			lastName : 'Migala',
+			gradYear : 2020,
+			title    : 'Junior Developer',
+			image    : 'assets/developers/alexs-ugly-face.jpg'
 		}
 	];
 
