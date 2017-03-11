@@ -2,6 +2,13 @@
 Angular Front end for MyMICDS.net
 
 ## Running
+
+### Pre-Run
+Generate a copy of _config.example.scss and within the same folder, create a _config.scss of the same contents
+```
+/scr/styles/_confi.example.scss --->>>  /src/styles/_config.scss
+```
+### Run
 Type in the following to install dependencies and run for development:
 ```
 $ npm install -D
