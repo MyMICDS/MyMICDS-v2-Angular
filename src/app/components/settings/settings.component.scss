@@ -27,9 +27,11 @@
 
 	.settings-header {
 		display: inline-block;
-		margin-bottom: 1rem;
+		margin-bottom: 5px;
 		padding: 1rem 6rem;
+		width: 100%;
 		color: $sophisticated-white;
+		border-radius: 5px;
 
 		h1 {
 			font-weight: 600;
@@ -52,6 +54,7 @@
 			padding: 1rem;
 			text-align: left;
 			color: $sophisticated-white;
+			border-radius: 5px;
 
 			h3 {
 				font-size: 2.5rem;
@@ -76,6 +79,13 @@
 					margin-right: 0.5rem;
 				}
 			}
+		}
+
+		button:hover {
+			cursor: pointer;
+		}
+		button:disabled {
+			cursor: not-allowed;
 		}
 
 		.change-background {
@@ -211,13 +221,11 @@
 @media screen and (min-width: 1200px) {
 	.container .settings-body .basic-info form .full-name {
 		flex-direction: row;
-
-		input:first-child {
-			margin-right: 0.5rem;
+		input {
+			width: 49.5%;
 		}
-
-		input:last-child {
-			margin-left: 0.5rem;
-		}
+	}
+	.class-teacher {
+		display: -webkit-box;
 	}
 }

@@ -60,7 +60,7 @@
 					<input id="confirm-password" type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
 					<div *ngIf="passwordForm.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
 				</div>
-				<p class="form-text text-muted">MyMICDS.net is not affiliated with Mary Institute Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
+				<p class="form-text text-muted">MyMICDS.net is not affiliated with Mary Institute and Saint Louis Country Day School. We recommend you use a different password than your normal, school password. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
 				<button class="btn btn-info" [disabled]="!passwordForm.valid">Change Password</button>
 			</form>
 		</div>
