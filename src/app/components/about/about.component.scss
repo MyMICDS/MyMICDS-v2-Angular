@@ -3,15 +3,21 @@
 /* --------------------------
   Main Styles
 --------------------------- */
+div {
+	border-radius: 5px;
+}
+
 .container {
-	margin-bottom: 6rem;
-	padding: 2rem 0 0 0;
+	margin-bottom: 5px;
+	padding: 5px 0 0 0;
 	text-align: center;
 
 	.about-header {
 		display: inline-block;
-		margin-bottom: 1rem;
+		margin-bottom: 5px;
+		margin-top: 20px;
 		padding: 1rem 4rem;
+		width: 100%;
 		color: $sophisticated-white;
 
 		h1 {
@@ -53,7 +59,7 @@
 
 		.disclaimer {
 			padding: 1rem;
-			margin-bottom: 1rem;
+			margin-bottom: 5px;
 			color: $sophisticated-white;
 			text-align: left;
 
@@ -65,7 +71,7 @@
 
 		.email {
 			padding: 1rem;
-			margin-bottom: 1rem;
+			margin-bottom: 5px;
 			color: $sophisticated-white;
 
 			p {
@@ -75,7 +81,7 @@
 
 		.dev-team {
 			padding: 1rem;
-			margin-bottom: 1rem;
+			margin-bottom: 5px;
 
 			h3 {
 				margin-left: 1rem;
@@ -159,4 +165,90 @@
 		flex-basis: 18%;
 
 	}
+}
+
+// -----------------------------------
+//  stats
+// -----------------------------------
+.stat-container {
+		width: calc(100% + 5px);
+}
+
+@keyframes expand {
+	0% { transform: scale(0); }
+	100% { transform: scale(1); }
+}
+
+.subtitle {
+	margin-bottom: 5px;
+	padding: 0.75em;
+	width: 100%;
+	h2 {
+		color: white;
+		text-align: center;
+	}
+	margin-top: 20px;
+}
+
+.container {
+	.stat-title {
+		margin-bottom: 0;
+	}
+
+	.modules {
+		display: flex;
+		flex-wrap: wrap;
+		position: relative;
+
+		.module {
+			overflow: hidden;
+			width: 100%;
+			margin: $blur-margin $blur-margin 0 0;
+
+			&.half {
+				width: calc(50% - #{$blur-margin});
+			}
+
+			&.graphs {
+				height: 550px;
+			}
+
+			.register-total, .register-today, .visited-today {
+				text-align: center;
+				color: white;
+				padding: 1em;
+				.data-big {
+					font-size: 3em;
+					font-weight: 500;
+				}
+			}
+		}
+
+		.switch-button {
+			z-index: 100;
+			width: 60px;
+			height: 60px;
+			position: absolute;
+			left: calc(50% - 30px);
+			top: 5em;
+			cursor: pointer;
+			transition: all 0.1s ease-out;
+
+			img {
+				border-radius: 50%;
+			}
+
+			&:hover {
+				transform: scale(1.2) !important;
+			}
+		}
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+
+@media screen and (min-width: 544px) {
+
 }
