@@ -37,7 +37,7 @@
 			<input type="password" class="form-control" formControlName="password" placeholder="Password">
 			<input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
 			<div *ngIf="registerForm.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
-			<p class="form-text">MyMICDS.net is not affiliated with Mary Institute Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
+			<p class="form-text">MyMICDS.net is not affiliated with Mary Institute and Saint Louis Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
 		</fieldset>
 		<fieldset class="form-group" [class.has-danger]="(registerForm.controls.firstName.dirty && !registerForm.controls.firstName.valid) || (registerForm.controls.lastName.dirty && !registerForm.controls.lastName.valid)">
 			<legend>Name</legend>
