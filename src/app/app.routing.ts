@@ -17,7 +17,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { StatsComponent } from './components/stats/stats.component';
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 
@@ -71,16 +70,7 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'about',
-		children: [
-			{
-				path: '',
-				component: AboutComponent
-			},
-			{
-				path: 'stats',
-				component: StatsComponent
-			}
-		]
+		component: AboutComponent
 	},
 	{
 		path: 'help',
