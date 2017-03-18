@@ -1,0 +1,12 @@
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding-top: 25px;
+	flex-direction: column;
+}
+
+.author {
+	display:flex;
+	justify-content: flex-start;
+}
