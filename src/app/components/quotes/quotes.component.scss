@@ -1,12 +1,15 @@
 .container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding-top: 25px;
+	
 	flex-direction: column;
+	padding: 8em 15em;
 }
 
 .author {
 	display:flex;
 	justify-content: flex-start;
+}
+
+h2, em {
+	color: white;
+	font-family: 'Open Sans', sans-serif;
 }
