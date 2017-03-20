@@ -3,21 +3,21 @@ import { QuoteService } from '../../services/quote.service';
 
 
 @Component({
-  selector: 'mymicds-quotes',
-  templateUrl: './quotes.component.html',
-  styleUrls: ['./quotes.component.scss']
+	selector: 'mymicds-quotes',
+	templateUrl: './quotes.component.html',
+	styleUrls: ['./quotes.component.scss']
 })
 export class QuotesComponent implements OnInit {
-	
-	quote : string = "Getting quote...";
-	author : string = "Getting author...";
-	
-	constructor(private quoteService:QuoteService) { };
-	
+
+	quote = 'Getting quote...';
+	author = 'Getting author...';
+
+	constructor(private quoteService: QuoteService) { };
+
 	ngOnInit() {
 		this.quoteService.getQuote().subscribe((result) => {
 			this.quote = '"' + result.quote + '"';
-			this.author = "- " + result.author;
+			this.author = '- ' + result.author;
 		});
 	}
 }

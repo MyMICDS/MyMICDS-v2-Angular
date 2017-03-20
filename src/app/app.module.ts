@@ -30,8 +30,9 @@ import { PlannerComponent } from './components/planner/planner.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { SportsComponent } from './components/sports/sports.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SportsComponent } from './components/sports/sports.component';
+import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
@@ -64,7 +65,6 @@ import { SafeHtmlPipe, SafeScriptPipe, SafeStylePipe, SafeUrlPipe, SafeResourceU
 import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
-import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 
 @NgModule({
 	declarations: [
@@ -92,6 +92,8 @@ import { SuggestionsComponent } from './components/suggestions/suggestions.compo
 		SettingsComponent,
 		SidebarComponent,
 		SportsComponent,
+		SuggestionsComponent,
+		QuotesComponent,
 
 		// Directives
 		BlurDirective,
@@ -109,9 +111,7 @@ import { SuggestionsComponent } from './components/suggestions/suggestions.compo
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe,
-		SuggestionsComponent,
-		QuotesComponent
+		WeatherIconPipe
 	],
 	imports: [
 		BrowserModule,

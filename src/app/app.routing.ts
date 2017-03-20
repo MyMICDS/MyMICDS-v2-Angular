@@ -60,10 +60,6 @@ const appRoutes: Routes = [
 		]
 	},
 	{
-		path: 'quote',
-		component: QuotesComponent
-	},
-	{
 		path: 'daily-bulletin/:bulletin',
 		component: DailyBulletinComponent
 	},
@@ -113,6 +109,10 @@ const appRoutes: Routes = [
 		path: 'suggestions',
 		component: SuggestionsComponent,
 		canActivate: [AuthGuard]
+	},
+	{
+		path: 'quote',
+		component: QuotesComponent
 	}
 ];
 
