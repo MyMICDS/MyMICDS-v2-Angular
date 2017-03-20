@@ -41,6 +41,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.timer = setInterval(() => {
 			this.current = new Date();
 		}, 100);
+		
+		// Alert of new suggetions page
+		this.alertService.addAlert(null, "New Page!", "New quote page at mymicds.net/quote");
 	}
 
 	ngOnDestroy() {
