@@ -29,6 +29,6 @@ export class SuggestionsService {
 }
 
 export interface SuggestionOpt {
-	type: 'suggestion' | 'bug' | 'other';
+	type: 'suggestion' | 'bug' | 'quote' | 'other';
 	submission: string;
 }
