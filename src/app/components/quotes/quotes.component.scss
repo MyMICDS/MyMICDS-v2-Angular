@@ -1,0 +1,10 @@
+@import '../../../styles/settings';
+
+.container {
+	flex-direction: column;
+	padding: 8em 15em;
+}
+
+h2, em {
+	color: $sophisticated-white;
+}
