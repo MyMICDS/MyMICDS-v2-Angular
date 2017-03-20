@@ -23,7 +23,7 @@ export class QuoteService {
 					throw new Error(data.error);
 				}
 
-				return data;
+				return data.quote;
 			})
 			.catch(handleError);
 	}
