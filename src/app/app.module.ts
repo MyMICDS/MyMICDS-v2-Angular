@@ -32,6 +32,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { SettingsComponent } from './components/settings/settings.component';
 import { SportsComponent } from './components/sports/sports.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { QuotesComponent } from './components/quotes/quotes.component';
 
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
 
@@ -54,6 +55,7 @@ import { UserService } from './services/user.service';
 import { WeatherService } from './services/weather.service';
 import { NotificationService } from './services/notification.service';
 import { SuggestionsService } from './services/suggestions.service';
+import { QuoteService } from './services/quote.service';
 
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
@@ -108,7 +110,8 @@ import { SuggestionsComponent } from './components/suggestions/suggestions.compo
 		SchoolPercentagePipe,
 		ValuesPipe,
 		WeatherIconPipe,
-		SuggestionsComponent
+		SuggestionsComponent,
+		QuotesComponent
 	],
 	imports: [
 		BrowserModule,
@@ -143,6 +146,7 @@ import { SuggestionsComponent } from './components/suggestions/suggestions.compo
 		WeatherService,
 		NotificationService,
 		SuggestionsService,
+		QuoteService,
 
 		// JWT
 		{
