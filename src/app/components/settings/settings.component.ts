@@ -256,7 +256,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 				.switchMap(() => {
 					this.portalValid = false;
 					this.portalResponse = 'Validating...';
-					return this.portalService.testURL(this.portalURL)
+					return this.portalService.testURL(this.portalURL);
 				})
 				.subscribe(
 					data => {
@@ -273,7 +273,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 				.switchMap(() => {
 					this.canvasValid = false;
 					this.canvasResponse = 'Validating...';
-					return this.canvasService.testURL(this.canvasURL)
+					return this.canvasService.testURL(this.canvasURL);
 				})
 				.subscribe(
 					data => {
