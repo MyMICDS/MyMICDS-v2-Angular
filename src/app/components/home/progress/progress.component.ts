@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { hexToRgb } from '../../../common/utils';
+import { hexToRgb, rainbowGradient } from '../../../common/utils';
 import moment from 'moment';
 // import { SocketioService } from '../../../services/socketio.service';
 
@@ -45,8 +44,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	 */
 
 	// Returns default data for progress bar
-	defaultColors(): string[] {
-		return ['rgba(0, 0, 0, 0.1)'];
+	defaultColors(): any[] {
+		return [rainbowGradient(this.ctx.offsetWidth, this.ctx.offsetHeight)];
 	}
 	defaultData(): number[] {
 		return [100];

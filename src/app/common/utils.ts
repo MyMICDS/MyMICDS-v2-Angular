@@ -139,3 +139,44 @@ export function hexToRgb(hex: string) {
 		parseInt(result[3], 16)
 	] : null;
 }
+
+/*
+ * Constants for rainbow color
+ */
+
+// Rainbow colors
+export const rainbowGradientColors = [
+	'#ff2400',
+	'#e81d1d',
+	'#e8b71d',
+	'#e3e81d',
+	'#1de840',
+	'#1ddde8',
+	'#2b1de8',
+	'#dd00f3',
+	'#dd00f3'
+];
+
+// Gradient slant in degrees
+export const rainbowGradientSlant = 124;
+
+// What hex color should be displayed as a rainbow
+export const rainbowSafeWord = '#C01025';
+
+/*
+ * Returns a CanvasGradient object that is rainbow, Parker
+ */
+
+export function rainbowGradient(width: number, height: number) {
+	const gradient = document.createElement('canvas')
+		.getContext('2d')
+		.createLinearGradient(0, 0, width, height);
+
+	for (let i = 0; i < rainbowGradientColors.length; i++) {
+		const gradientPoint = i / rainbowGradientColors.length;
+		console.log('gradient point', i, rainbowGradientColors.length, gradientPoint);
+		gradient.addColorStop(gradientPoint, rainbowGradientColors[i]);
+	}
+
+	return gradient;
+}

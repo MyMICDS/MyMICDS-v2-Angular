@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import moment from 'moment';
-import { contains, darkenColor} from '../../common/utils';
+import { contains, darkenColor } from '../../common/utils';
 
 import { AlertService } from '../../services/alert.service';
 import { CanvasService } from '../../services/canvas.service';
