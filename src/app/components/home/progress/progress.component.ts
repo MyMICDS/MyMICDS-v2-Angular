@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { hexToRgb, rainbowGradient } from '../../../common/utils';
+import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import moment from 'moment';
 // import { SocketioService } from '../../../services/socketio.service';
 
@@ -30,6 +30,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	// Start / destroy interval that calculates percentages
 	timer: any;
 
+	// CanvasGradient object to use for rainbow color
+	rainbow: CanvasGradient;
+
 	// Socket.io
 	progressDayCtx: any;
 	socketioConnection: any;
@@ -44,8 +47,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	 */
 
 	// Returns default data for progress bar
-	defaultColors(): any[] {
-		return [rainbowGradient(this.ctx.offsetWidth, this.ctx.offsetHeight)];
+	defaultColors(): string[] {
+		return ['rgba(0, 0, 0, 0.1)'];
 	}
 	defaultData(): number[] {
 		return [100];
@@ -60,6 +63,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
+
+		// Rainbow color top priority
+		this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
 
 		// Initialize Progress Bar
 		this.progressBar = new Chart(this.ctx, {
@@ -94,6 +100,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// Start timer
 		this.calculatePercentages();
 		this.timer = setInterval(() => {
+			// Calculate rainbow gradient again in case module dimensions changed
+			this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
 			this.calculatePercentages();
 		}, 1000);
 
@@ -152,10 +160,10 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		}
 
 		// Define nowTime just to make things clearer
-		let nowTime = new Date().getTime();
+		let nowTime = this.today.getTime();
 
 		// Create a new array and later assign to progress bar
-		let newColors: string[] = [];
+		let newColors: any[] = [];
 		let newData: number[] = [];
 		let newLabels: string[] = [];
 		let newDurations: string[] = [];
@@ -189,6 +197,13 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// Generate colors for each class
 		for (let i = 0; i < formattedSchedule.length; i++) {
 			if (!formattedSchedule[i].color) {
+
+				// Check if rainbow color
+				if (formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord) {
+					formattedSchedule[i].color = this.rainbow;
+					continue;
+				}
+
 				let color = hexToRgb(formattedSchedule[i].class.color);
 				formattedSchedule[i].color = 'rgba(' + color[0] + ', ' + color[1] + ', ' + color[2] + ', 0.8)';
 			}
@@ -224,10 +239,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 			let roundedPercent = +finalPercentage.toFixed(2);
 
-			let inClass = nowTime >= block.start.getTime() && nowTime < block.end.getTime();
-
 			let classLeft: number = classLength;
-			if (inClass) {
+			if (block.start.getTime() <= nowTime && nowTime < block.end.getTime()) {
 				classLeft = nowTime - block.start.getTime();
 			}
 
@@ -248,7 +261,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		let schoolLeftDuration = lastBlock.end.getTime() - new Date().getTime();
+		let schoolLeftDuration = lastBlock.end.getTime() - this.today.getTime();
 
 		// Add a filler block for when school isn't complete yet
 		newColors.push('rgba(0, 0, 0, 0.1)');
@@ -277,7 +290,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 	getPercent(start, end): number {
 
-		const numerator = new Date().getTime() - start.getTime();
+		const numerator = this.today.getTime() - start.getTime();
 		const denominator = end.getTime() - start.getTime();
 
 		let answer = (numerator / denominator) * 100;

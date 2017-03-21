@@ -145,7 +145,7 @@ export function hexToRgb(hex: string) {
  */
 
 // Rainbow colors
-export const rainbowGradientColors = [
+export const rainbowGradientColors: string[] = [
 	'#ff2400',
 	'#e81d1d',
 	'#e8b71d',
@@ -153,7 +153,6 @@ export const rainbowGradientColors = [
 	'#1de840',
 	'#1ddde8',
 	'#2b1de8',
-	'#dd00f3',
 	'#dd00f3'
 ];
 
@@ -167,16 +166,23 @@ export const rainbowSafeWord = '#C01025';
  * Returns a CanvasGradient object that is rainbow, Parker
  */
 
-export function rainbowGradient(width: number, height: number) {
+export function rainbowCanvasGradient(width: number, height: number): CanvasGradient {
 	const gradient = document.createElement('canvas')
 		.getContext('2d')
 		.createLinearGradient(0, 0, width, height);
 
 	for (let i = 0; i < rainbowGradientColors.length; i++) {
-		const gradientPoint = i / rainbowGradientColors.length;
-		console.log('gradient point', i, rainbowGradientColors.length, gradientPoint);
+		const gradientPoint = i / (rainbowGradientColors.length - 1);
 		gradient.addColorStop(gradientPoint, rainbowGradientColors[i]);
 	}
 
 	return gradient;
+}
+
+/**
+ * Returns the rainbow as a CSS gradient
+ */
+
+export function rainbowCSSGradient() {
+	return `linear-gradient(${rainbowGradientSlant}deg, ${rainbowGradientColors.join(', ')})`;
 }

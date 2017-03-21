@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import moment from 'moment';
-import { contains, darkenColor } from '../../common/utils';
+import { contains, darkenColor, rainbowSafeWord, rainbowCSSGradient } from '../../common/utils';
 
 import { AlertService } from '../../services/alert.service';
 import { CanvasService } from '../../services/canvas.service';
@@ -43,7 +43,15 @@ export class PlannerComponent implements OnInit {
 
 	// Array of total events
 	get events(): Event[] {
-		return this.plannerEvents.concat(this.canvasEvents);
+		return this.plannerEvents.concat(this.canvasEvents)
+			.map(event => {
+				// Check if it should be rainbow color
+				if (event.class && event.class.color && event.class.color.toUpperCase() === rainbowSafeWord) {
+					event.class.color = rainbowCSSGradient();
+					event.class.textDark = true;
+				}
+				return event;
+			});
 	}
 
 	// Array of Planner events
@@ -639,4 +647,5 @@ interface Class {
 	type: string;
 	block: string;
 	color: string;
+	textDark: boolean;
 }
