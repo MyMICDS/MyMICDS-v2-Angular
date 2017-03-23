@@ -3,19 +3,15 @@
 /* --------------------------
   Main Styles
 --------------------------- */
-div {
-	border-radius: 5px;
-}
 
 .container {
-	margin-bottom: 5px;
-	padding: 5px 0 0 0;
+	margin-bottom: 6rem;
+	padding: 2rem 0 0 0;
 	text-align: center;
 
 	.about-header {
 		display: inline-block;
 		margin-bottom: 5px;
-		margin-top: 20px;
 		padding: 1rem 4rem;
 		width: 100%;
 		color: $sophisticated-white;
@@ -34,11 +30,11 @@ div {
 			.cls-1, .cls-2 {
 				transition-duration: 0.25s;
 				transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-				fill:#fff;
+				fill: #fff;
 			}
 
 			.cls-1 {
-				fill-rule:evenodd;
+				fill-rule: evenodd;
 			}
 
 			&:hover {
@@ -57,31 +53,25 @@ div {
 
 	.about-body {
 
-		.disclaimer {
-			padding: 1rem;
-			margin-bottom: 5px;
-			color: $sophisticated-white;
-			text-align: left;
+		.subtitle {
+			width: 100%;
+			margin-top: 2rem;
+			margin-bottom: 1rem;
+			padding: 0.75rem;
 
-			p {
-				margin: 0;
-				font-size: 1.25rem;
+			h2 {
+				color: white;
+				text-align: center;
 			}
 		}
 
-		.email {
-			padding: 1rem;
-			margin-bottom: 5px;
-			color: $sophisticated-white;
-
-			p {
-				margin: 0;
-			}
+		> div {
+			border-radius: 5px;
+			margin-bottom: 0.5rem;
 		}
 
 		.dev-team {
 			padding: 1rem;
-			margin-bottom: 5px;
 
 			h3 {
 				margin-left: 1rem;
@@ -139,6 +129,65 @@ div {
 				letter-spacing: 0.03rem;
 			}
 		}
+
+		.stats {
+			display: flex;
+			justify-content: space-around;
+
+			.stat {
+				width: 100%;
+				padding: 1rem;
+				text-align: center;
+				color: white;
+
+				&:nth-of-type(2) {
+					border-left: 1px solid rgba($sophisticated-white, 0.5);
+					border-right: 1px solid rgba($sophisticated-white, 0.5);
+				}
+
+				.stat-big {
+					font-size: 5rem;
+					font-weight: 500;
+					line-height: 0.7;
+				}
+
+				.stat-label {
+					font-size: 1.25rem;
+					font-weight: 300;
+					letter-spacing: 0.03rem;
+				}
+			}
+		}
+
+		.registered-graph-container,
+		.visited-graph-container {
+			padding: 2rem;
+			color: $sophisticated-white;
+		}
+
+		.visited-graph-container {
+			padding: 2rem 25%;
+		}
+
+		.disclaimer {
+			padding: 1rem;
+			color: $sophisticated-white;
+			text-align: left;
+
+			p {
+				margin: 0;
+				font-size: 1.25rem;
+			}
+		}
+
+		.email {
+			padding: 1rem;
+			color: $sophisticated-white;
+
+			p {
+				margin: 0;
+			}
+		}
 	}
 }
 
@@ -162,93 +211,6 @@ div {
 
 @media screen and (min-width: 1200px) {
 	.container .about-body .dev-team .developers .developer {
-		flex-basis: 18%;
-
+		flex-basis: 16%;
 	}
-}
-
-// -----------------------------------
-//  stats
-// -----------------------------------
-.stat-container {
-		width: calc(100% + 5px);
-}
-
-@keyframes expand {
-	0% { transform: scale(0); }
-	100% { transform: scale(1); }
-}
-
-.subtitle {
-	margin-bottom: 5px;
-	padding: 0.75em;
-	width: 100%;
-	h2 {
-		color: white;
-		text-align: center;
-	}
-	margin-top: 20px;
-}
-
-.container {
-	.stat-title {
-		margin-bottom: 0;
-	}
-
-	.modules {
-		display: flex;
-		flex-wrap: wrap;
-		position: relative;
-
-		.module {
-			overflow: hidden;
-			width: 100%;
-			margin: $blur-margin $blur-margin 0 0;
-
-			&.half {
-				width: calc(50% - #{$blur-margin});
-			}
-
-			&.graphs {
-				height: 550px;
-			}
-
-			.register-total, .register-today, .visited-today {
-				text-align: center;
-				color: white;
-				padding: 1em;
-				.data-big {
-					font-size: 3em;
-					font-weight: 500;
-				}
-			}
-		}
-
-		.switch-button {
-			z-index: 100;
-			width: 60px;
-			height: 60px;
-			position: absolute;
-			left: calc(50% - 30px);
-			top: 5em;
-			cursor: pointer;
-			transition: all 0.1s ease-out;
-
-			img {
-				border-radius: 50%;
-			}
-
-			&:hover {
-				transform: scale(1.2) !important;
-			}
-		}
-	}
-}
-
-/* --------------------------
-  Media Queries
---------------------------- */
-
-@media screen and (min-width: 544px) {
-
 }

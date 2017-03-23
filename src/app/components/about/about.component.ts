@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
 import {
-	Input,
+	Component,
+	OnInit,
 	trigger,
 	state,
 	style,
 	transition,
 	animate
 } from '@angular/core';
+import moment from 'moment';
 
 import { AlertService } from '../../services/alert.service';
 import { StatsService } from '../../services/stats.service';
@@ -28,10 +29,8 @@ import { UserService } from '../../services/user.service';
 // 	};
 // }
 
-import moment from 'moment';
-
-declare let prisma: any;
-declare let Chart: any;
+declare const prisma: any;
+declare const Chart: any;
 
 @Component({
 	selector: 'mymicds-about',
@@ -59,7 +58,7 @@ declare let Chart: any;
 	]
 })
 
-export class AboutComponent {
+export class AboutComponent implements OnInit {
 
 	developers: any[] = [
 		{
@@ -80,7 +79,7 @@ export class AboutComponent {
 			firstName: 'Jack',
 			lastName : 'Cai',
 			gradYear : 2019,
-			title    : 'Front-End Developer',
+			title    : 'Full Stack Developer',
 			image    : 'assets/developers/jacks-ugly-face-new.jpg'
 		},
 		{
@@ -96,16 +95,62 @@ export class AboutComponent {
 			gradYear : 2020,
 			title    : 'Junior Developer',
 			image    : 'assets/developers/alexs-ugly-face.jpg'
+		},
+		{
+			firstName: 'Sidd',
+			lastName : 'Mehta',
+			gradYear : 2017,
+			title    : 'Back-End Developer',
+			image    : 'assets/developers/sidds-ugly-face.jpg'
 		}
 	];
+
+	stats: any = null;
+
+	// Converting graduation years to actual grades
+	gradeRange: number[];
+	gradeNames: string[] = [];
+
+	// Line Chart for registered users over time
+	lineCtx;
+	lineChart;
+	lineDataSets: Object[] = [];
+	lineData: Object[] = [];
+
+	// Pie Chart for percentage of users visited today
+	pieCtx;
+	pieChart;
+	pieData: number[] = [];
+	pieDataSets: Object[] = [];
+	pieBgColors: string[] = [];
+
+	viewingVisits = false;
+
+	constructor(
+		private alertService: AlertService,
+		private statsService: StatsService,
+		private userService: UserService
+	) { }
+
+	ngOnInit() {
+		this.userService.gradeRange().subscribe(
+			range => {
+				this.gradeRange = range;
+				this.getStats();
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Get Grades Error!', error);
+			}
+		);
+	}
 
 	getStats() {
 		this.statsService.getStats().subscribe(
 			data => {
-				this.registeredData = data;
+				this.stats = data;
 
 				// Loop through grades to insert into line chart
-				for (let gradYear in data.registered.gradYears) {
+				for (let gradYear of Object.keys(data.registered.gradYears)) {
 					// Keep track of total users at each point in time
 					let accountSum = 0;
 					this.lineData = [];
@@ -130,7 +175,7 @@ export class AboutComponent {
 						let accountNumber = data.registered.gradYears[gradYear][sortedDates[i]];
 						accountSum += accountNumber;
 						let registerCountDate = moment(sortedDates[i]);
-						this.lineData.push({x: registerCountDate, y:accountSum});
+						this.lineData.push({x: registerCountDate, y: accountSum});
 					}
 
 					let gradeString = this.gradYearToGradeString(gradYear);
@@ -142,7 +187,7 @@ export class AboutComponent {
 						fill: false,
 						backgroundColor: prisma(gradeString).hex,
 						borderColor: prisma(gradeString).hex,
-						pointHoverBackgroundColor:'#fff',
+						pointHoverBackgroundColor: '#fff',
 						pointHoverRadius: 5,
 						pointHoverBorderWidth: 2,
 						pointHitRadius: 10,
@@ -150,7 +195,7 @@ export class AboutComponent {
 				}
 
 				// Process data for pie chart
-				for (let gradYear in data.visitedToday.gradYears) {
+				for (let gradYear of Object.keys(data.visitedToday.gradYears)) {
 					this.pieData.push(data.visitedToday.gradYears[gradYear]);
 					let gradeString = this.gradYearToGradeString(gradYear);
 					this.gradeNames.push(gradeString);
@@ -204,52 +249,12 @@ export class AboutComponent {
 		);
 	}
 
-	stats: any = null;
-	registeredData: any;
-
-	// Converting graduation years to actual grades
-	gradeRange: number[];
-	gradeNames: string[] = [];
-
-	// Line Chart for registered users over time
-	lineCtx;
-	lineChart;
-	lineDataSets: Object[] = [];
-	lineData: Object[] = [];
-
-	// Pie Chart for percentage of users visited today
-	pieCtx;
-	pieChart;
-	pieData: number[] = [];
-	pieDataSets: Object[] = [];
-	pieBgColors: string[] = [];
-
-	viewingVisits = false;
-
-	constructor(
-		private alertService: AlertService,
-		private statsService: StatsService,
-		private userService: UserService
-	) { }
-
-	ngOnInit() {
-		this.userService.gradeRange().subscribe(
-			range => {
-				this.gradeRange = range;
-				this.getStats();
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Grades Error!', error);
-			}
-		);
-	}
-
 	gradYearToGradeString(gradYear: any): string {
 		let gradeNumber: number;
 		for (let i = 0; i < this.gradeRange.length; i++) {
 			if (gradYear === 'teacher') {
-				return 'Teacher'
-			} else if (this.gradeRange[i] === parseInt(gradYear)) {
+				return 'Teacher';
+			} else if (this.gradeRange[i] === Number(gradYear)) {
 				gradeNumber = 12 - i;
 				return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
 			}

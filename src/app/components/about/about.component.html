@@ -24,6 +24,7 @@
 		<div mymicds-blur class="subtitle">
 			<h2>The Development Team</h2>
 		</div>
+
 		<div mymicds-blur id="dev-team" class="dev-team">
 			<div class="developers">
 				<div *ngFor="let dev of developers" class="developer card">
@@ -38,38 +39,45 @@
 				</div>
 			</div>
 		</div>
+
 		<div mymicds-blur id="join-us" class="join-us">
 			<h3>You know what you should do? <strong>Join the development team.</strong></h3>
 			<p class="no seriously please join">If you are already a coding master, or if you're just curious about coding, we'll be happy to have you! We can provide special resources to help you code, and eventually let you practice your skills on a website that people actually use! If you are even just considering it, we highly encourage you to email support@mymicds.net. <strong>There is no commitment whatsoever if you email us, and no time commitment if you choose to join the development team.</strong> If you don't want to program, and have other skills you think you can offer to the website, then also feel free to contact us.</p>
 			<p><a href="https://goo.gl/forms/wirh6A3Jnr" target="_blank">Fill out this form!</a> or email <strong>support@mymicds.net</strong></p>
 		</div>
-		<div *ngIf="registeredData" class="container">
-			<div mymicds-blur class="subtitle stat-title">
-				<h2>Statistics</h2>
-			</div>
-			<div class="stat-container modules">
-				<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
-					<h2 class="register-total"><span class="data-big">{{registeredData?.registered.total}}</span><br> have signed up</h2>
-				</div>
-				<div class="switch-button" [@moduleReady]="registeredData ? 'ready' : 'unready'" (click)="viewingVisits = !viewingVisits"><img src="../../../assets/logo/logo.svg"></div>
-				<div mymicds-blur class="module half" [@moduleReady]="registeredData ? 'ready' : 'unready'">
-					<h2 *ngIf="!viewingVisits" class="register-today"><span class="data-big">{{registeredData?.registered.today}}</span><br> signed up today</h2>
-					<h2 *ngIf="viewingVisits" class="visited-today"><span class="data-big">{{registeredData?.visitedToday.total}}</span><br> visited today</h2>
-				</div>
-				<div mymicds-blur class="module graphs">
-					<div class="chart" [@switchViews]="viewingVisits ? 'visits' : 'register'">
-						<canvas id="registerCountChart"></canvas>
-					</div>
-					<div class="visits-chart">
-						<canvas id="visitedTodayChart"></canvas>
-					</div>
-				</div>
-			</div>
+
+		<div mymicds-blur id="stats" class="subtitle">
+			<h2>{{ stats ? 'Statistics' : 'Collecting Statistics...' }}</h2>
 		</div>
-		<div mymicds-blur class="subtitle">
+		<ng-container *ngIf="stats">
+			<div mymicds-blur class="stats">
+				<div class="stat">
+					<div class="stat-big">{{ stats.registered.total }}</div>
+					<div class="stat-label">have registered</div>
+				</div>
+				<div class="stat">
+					<div class="stat-big">{{ stats.registered.today }}</div>
+					<div class="stat-label">registered today</div>
+				</div>
+				<div class="stat">
+					<div class="stat-big">{{ stats.visitedToday.total }}</div>
+					<div class="stat-label">visited today</div>
+				</div>
+			</div>
+			<div mymicds-blur class="registered-graph-container">
+				<h3>Users Registered</h3>
+				<canvas id="registerCountChart"></canvas>
+			</div>
+			<div mymicds-blur class="visited-graph-container">
+				<h3>Users Visited Today</h3>
+				<canvas id="visitedTodayChart"></canvas>
+			</div>
+		</ng-container>
+
+		<div mymicds-blur id="disclaimer" class="subtitle">
 			<h2>Disclaimer</h2>
 		</div>
-		<div mymicds-blur id="disclaimer" class="disclaimer">
+		<div mymicds-blur class="disclaimer">
 			<p><strong>MyMICDS.net is not affiliated with Mary Institute and Saint Louis Country Day School.</strong> We hash all of our passwords, but as an extra security measure, <strong>we recommend your password be different from your school password.</strong> In order to stay transparent as possible, <a href="https://github.com/michaelgira23/MyMICDS-v2" target="_blank">the MyMICDS source code is publicly available via GitHub.</a></p>
 		</div>
 		<div mymicds-blur id="email" class="email">
