@@ -1,12 +1,4 @@
-import {
-	Component,
-	OnInit,
-	trigger,
-	state,
-	style,
-	transition,
-	animate
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import moment from 'moment';
 
 import { AlertService } from '../../services/alert.service';
@@ -35,27 +27,7 @@ declare const Chart: any;
 @Component({
 	selector: 'mymicds-about',
 	templateUrl: './about.component.html',
-	styleUrls: ['./about.component.scss'],
-	animations: [
-		trigger('moduleReady', [
-			state('unready', style({
-				transform: 'scale(0)'
-			})),
-			state('ready', style({
-				transform: 'scale(1)'
-			})),
-			transition('unready => ready', animate('400ms cubic-bezier(0.175, 0.885, 0.32, 1.275)'))
-		]),
-	trigger('switchViews', [
-		state('visits', style({
-			'margin-top': '-50%'
-		})),
-		state('register', style({
-			'margin-top': 'inherit'
-		})),
-		transition('register <=> visits', animate('600ms cubic-bezier(0.175, 0.885, 0.32, 1.275)')),
-	])
-	]
+	styleUrls: ['./about.component.scss']
 })
 
 export class AboutComponent implements OnInit {
