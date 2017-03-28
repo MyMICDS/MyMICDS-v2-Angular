@@ -1,3 +1,5 @@
+<input [(ngModel)]="moduleType">
+
 <div class="container">
 	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
@@ -7,9 +9,10 @@
 		<span [innerHTML]="announcement"></span>
 	</div>
 	<div class="modules">
-		<mymicds-progress mymicds-blur [schedule]="schedule" [today]="current" class="module"></mymicds-progress>
+		<!-- <mymicds-progress mymicds-blur [schedule]="schedule" [today]="current" class="module"></mymicds-progress>
 		<mymicds-schedule mymicds-blur [currentSchedule]="schedule" class="module half"></mymicds-schedule>
 		<mymicds-weather mymicds-blur class="module half"></mymicds-weather>
-		<mymicds-snowday mymicds-blur class="module half"></mymicds-snowday>
+		<mymicds-snowday mymicds-blur class="module half"></mymicds-snowday> -->
+		<mymicds-module-container mymicds-blur class="module" [moduleData]="{ type: moduleType, inputs: { schedule: schedule, today: current } }"></mymicds-module-container>
 	</div>
 </div>

@@ -20,6 +20,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 	scheduleDate: any = new Date();
 	schedule: any;
 
+	// Debug-- should not be committed
+	moduleType = 'progress';
+
 	constructor(private alertService: AlertService, private scheduleService: ScheduleService) { }
 
 	ngOnInit() {

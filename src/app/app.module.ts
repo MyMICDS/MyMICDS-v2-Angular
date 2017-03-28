@@ -13,10 +13,13 @@ import { AboutComponent } from './components/about/about.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
-import { ProgressComponent } from './components/home/progress/progress.component';
-import { ScheduleComponent } from './components/home/schedule/schedule.component';
-import { SnowdayComponent } from './components/home/snowday/snowday.component';
-import { WeatherComponent } from './components/home/weather/weather.component';
+
+import { ModuleContainerComponent } from './components/module-container/module-container.component';
+
+import { ProgressComponent } from './components/modules/progress/progress.component';
+import { ScheduleComponent } from './components/modules/schedule/schedule.component';
+import { SnowdayComponent } from './components/modules/snowday/snowday.component';
+import { WeatherComponent } from './components/modules/weather/weather.component';
 
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
@@ -45,6 +48,7 @@ import { BulletinService } from './services/bulletin.service';
 import { CanvasService } from './services/canvas.service';
 import { ClassesService } from './services/classes.service';
 import { LunchService } from './services/lunch.service';
+import { ModulesService } from './services/modules.service';
 import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
 import { ScheduleService } from './services/schedule.service';
@@ -73,6 +77,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		HomeComponent,
 		AboutComponent,
 		AlertComponent,
+		ModuleContainerComponent,
 		ProgressComponent,
 		ScheduleComponent,
 		SnowdayComponent,
@@ -135,6 +140,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		CanvasService,
 		ClassesService,
 		LunchService,
+		ModulesService,
 		PlannerService,
 		PortalService,
 		ScheduleService,
