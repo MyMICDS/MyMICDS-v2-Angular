@@ -12,7 +12,7 @@ export class ModulesService {
 
 	constructor(private authHttp: AuthHttp) { }
 
-	getModules(): Observable<Module[]> {
+	get(): Observable<Module[]> {
 		let body = JSON.stringify({});
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });

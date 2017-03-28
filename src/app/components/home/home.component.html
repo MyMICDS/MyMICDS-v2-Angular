@@ -1,4 +1,6 @@
-<input [(ngModel)]="moduleType">
+<button class="btn btn-info" [routerLink]="editMode ? '/home' : '/home/edit'">{{ editMode ? 'Done' : 'Edit' }}</button>
+
+{{ moduleLayout | json }}
 
 <div class="container">
 	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
@@ -13,6 +15,12 @@
 		<mymicds-schedule mymicds-blur [currentSchedule]="schedule" class="module half"></mymicds-schedule>
 		<mymicds-weather mymicds-blur class="module half"></mymicds-weather>
 		<mymicds-snowday mymicds-blur class="module half"></mymicds-snowday> -->
-		<mymicds-module-container mymicds-blur class="module" [moduleData]="{ type: moduleType, inputs: { schedule: schedule, today: current } }"></mymicds-module-container>
+		<!-- <mymicds-module-container mymicds-blur class="module" [moduleData]="{ type: 'progress', inputs: { schedule: schedule, today: current } }"></mymicds-module-container> -->
+		<mymicds-module-container *ngFor="let module of moduleLayout"
+			[moduleData]="{ type: module.type, inputs: {} }"
+			[style.grid-column-start]="module.column"
+			[style.grid-column-end]="'span ' + module.width"
+			[style.grid-row-start]="module.row"
+			[style.grid-row-end]="'span ' + module.height"></mymicds-module-container>
 	</div>
 </div>

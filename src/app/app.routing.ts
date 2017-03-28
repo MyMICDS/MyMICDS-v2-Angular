@@ -29,10 +29,17 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'home',
-		component: HomeComponent,
-		data: {
-			title: 'MyMICDS - Home'
-		}
+		children: [
+			{
+				path: '',
+				component: HomeComponent
+			},
+			{
+				path: 'edit',
+				component: HomeComponent,
+				data: { edit: true }
+			}
+		]
 	},
 	{
 		path: 'lunch',

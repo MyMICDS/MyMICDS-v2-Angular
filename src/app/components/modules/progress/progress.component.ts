@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import moment from 'moment';
+
+import { ScheduleService } from '../../../services/schedule.service';
 // import { SocketioService } from '../../../services/socketio.service';
 
 declare let Chart: any;
@@ -12,10 +14,8 @@ declare let Chart: any;
 })
 export class ProgressComponent implements OnInit, OnDestroy {
 
-	@Input()
-	today: any = null;
-
-	@Input()
+	today: any = new Date();
+	scheduleSubscription: any;
 	schedule: any = null;
 
 	// Circular Progress References
@@ -40,7 +40,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	progressDayUnclick: any;
 
 	// constructor(private socketioService: SocketioService) { }
-	constructor() { }
+	constructor(private scheduleService: ScheduleService) { }
 
 	/*
 	 * Configure progress bar
@@ -100,10 +100,20 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// Start timer
 		this.calculatePercentages();
 		this.timer = setInterval(() => {
+			this.today = new Date();
 			// Calculate rainbow gradient again in case module dimensions changed
 			this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
 			this.calculatePercentages();
 		}, 1000);
+
+		// Get today's schedule
+		this.scheduleSubscription = this.scheduleService
+			.get({
+				year: this.today.getFullYear(),
+				month: this.today.getMonth() + 1,
+				day: this.today.getDate()
+			})
+			.subscribe(schedule => this.schedule = schedule);
 
 		// Socket.io service to spin the spinny
 		// this.progressDayCtx = document.getElementsByClassName('progress-day')[0];

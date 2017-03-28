@@ -13,17 +13,14 @@
 	}
 
 	.modules {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: repeat(4, 25%);
+		grid-align-content: stretch;
+		grid-gap: 5px;
 
-		.module {
-			width: 100%;
-			margin-bottom: $blur-margin;
-			padding: 1rem;
-			color: $sophisticated-white;
-			overflow: hidden;
-		}
+		// Something about the grid makes it so the columns - no matter what size or amount - will always overflow by 1rem.
+		// Could be caused by the module-container padding.
+		padding-right: 1rem;
 	}
 }
 
@@ -45,7 +42,7 @@
 		.modules {
 			.module {
 				&.half {
-					width: calc(50% - #{$blur-margin / 2});
+					// width: calc(50% - #{$blur-margin / 2});
 				}
 			}
 		}

@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { AlertService } from '../../services/alert.service';
+import { ModulesService, Module } from '../../services/modules.service';
 import { ScheduleService } from '../../services/schedule.service';
 
 @Component({
@@ -15,40 +17,34 @@ export class HomeComponent implements OnInit, OnDestroy {
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
-	timer: any;
-	current: any = new Date();
-	scheduleDate: any = new Date();
-	schedule: any;
+	moduleLayoutSubscription: any;
+	moduleLayout: Module[];
 
-	// Debug-- should not be committed
-	moduleType = 'progress';
+	routeDataSubscription: any;
+	editMode = false;
 
-	constructor(private alertService: AlertService, private scheduleService: ScheduleService) { }
+	constructor(
+		private route: ActivatedRoute,
+		private alertService: AlertService,
+		private modulesService: ModulesService,
+		private scheduleService: ScheduleService
+	) { }
 
 	ngOnInit() {
-		// Get schedule from date object and assign to schedule variable
-		this.scheduleService.get({
-			year : this.scheduleDate.getFullYear(),
-			month: this.scheduleDate.getMonth() + 1,
-			day  : this.scheduleDate.getDate()
-		}).subscribe(
-			schedule => {
-				this.schedule = schedule;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Schedule Error!', error);
-			}
+
+		// Find out whether or not we're in edit mode
+		this.routeDataSubscription = this.route.data.subscribe(
+			data => this.editMode = !!data.edit
 		);
 
-		// Start timer
-		this.timer = setInterval(() => {
-			this.current = new Date();
-		}, 100);
+		// Get modules layout
+		this.moduleLayoutSubscription = this.modulesService.get()
+			.subscribe(modules => this.moduleLayout = modules);
 	}
 
 	ngOnDestroy() {
-		// Stop timer
-		clearInterval(this.timer);
+		this.moduleLayoutSubscription.unsubscribe();
+		this.routeDataSubscription.unsubscribe();
 	}
 
 	dismissAlert() {
