@@ -21,6 +21,25 @@
 		// Something about the grid makes it so the columns - no matter what size or amount - will always overflow by 1rem.
 		// Could be caused by the module-container padding.
 		padding-right: 1rem;
+
+		.unit-cell {
+			// z-index: -1;
+			pointer-events: none;
+
+			&.active {
+				background: rgba($sophisticated-white, 0.8);
+			}
+
+			&.dropped {
+				background: rgba(red, 0.8);
+			}
+		}
+
+		&.edit {
+			.unit-cell {
+				border: 1px dashed rgba($sophisticated-white, 0.5);
+			}
+		}
 	}
 }
 

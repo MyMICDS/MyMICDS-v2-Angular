@@ -1,7 +1,5 @@
 <button class="btn btn-info" [routerLink]="editMode ? '/home' : '/home/edit'">{{ editMode ? 'Done' : 'Edit' }}</button>
 
-{{ moduleLayout | json }}
-
 <div class="container">
 	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
@@ -10,7 +8,7 @@
 		<strong>Announcement</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
-	<div class="modules">
+	<div class="modules" [class.edit]="editMode">
 		<!-- <mymicds-progress mymicds-blur [schedule]="schedule" [today]="current" class="module"></mymicds-progress>
 		<mymicds-schedule mymicds-blur [currentSchedule]="schedule" class="module half"></mymicds-schedule>
 		<mymicds-weather mymicds-blur class="module half"></mymicds-weather>
@@ -22,5 +20,16 @@
 			[style.grid-column-end]="'span ' + module.width"
 			[style.grid-row-start]="module.row"
 			[style.grid-row-end]="'span ' + module.height"></mymicds-module-container>
+
+		<ng-container *ngIf="editMode">
+			<ng-container *ngFor="let columns of gridArray; let row = index">
+				<div *ngFor="let column of columns"
+					class="unit-cell"
+					[attr.data-column]="column + 1"
+					[attr.data-row]="row + 1"
+					[style.grid-column-start]="column + 1"
+					[style.grid-row-start]="row + 1"></div>
+			</ng-container>
+		</ng-container>
 	</div>
 </div>
