@@ -86,8 +86,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 			.on('dragmove', event => {
 				const x = (parseFloat(event.target.getAttribute('data-x')) || 0) + event.dx;
 				const y = (parseFloat(event.target.getAttribute('data-y')) || 0) + event.dy;
-				event.target.style.transform = `translate(${x}px, ${y}px)`;
 
+				event.target.style.transform = `translate(${x}px, ${y}px)`;
 				event.target.setAttribute('data-x', x);
 				event.target.setAttribute('data-y', y);
 
@@ -98,46 +98,45 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.setAttribute('data-x', 0);
 				event.target.setAttribute('data-y', 0);
 			});
+			// .resizable({})
+			// .on('resizemove', event => {
+			// 	let x = (parseFloat(event.target.getAttribute('data-x')) || 0);
+			// 	let y = (parseFloat(event.target.getAttribute('data-y')) || 0);
+			//
+			// 	console.log(event.target.style.width, event.target.style.height);
+			//
+			// 	event.target.style.width = `${event.rect.width}px`;
+			// 	event.target.style.height = `${event.rect.height}px`;
+			//
+			// 	x += event.deltaRect.left;
+			// 	y += event.deltaRect.top;
+			//
+			// 	event.target.style.transform = `translate(${x}px, ${y}px)`;
+			// 	event.target.setAttribute('data-x', x);
+			// 	event.target.setAttribute('data-y', y);
+			//
+			// 	console.log('resize', event.deltaRect);
+			// });
 
 		// Dropzones for each unit cell
 		this.interactDropzones = interact('.modules.edit .unit-cell')
 			.dropzone({
-				accept: 'mymicds-module-container',
-				// overlap: 0.1
+				accept: 'mymicds-module-container'
 			})
 			.on('dropactivate', event => {
-				const column = event.target.getAttribute('data-column');
-				const row = event.target.getAttribute('data-row');
-				console.log(`active drop at column ${column} and row ${row}`);
-				// console.log('drop activate');
-
 				this.dragStart = null;
 			})
-
-			// .on('dropdeactivate', event => {
-			// 	const column = event.target.getAttribute('data-column');
-			// 	const row = event.target.getAttribute('data-row');
-			// 	console.log(`deactive drop at column ${column} and row ${row}`);
-			// 	// console.log('drop deactivate');
-			// })
 			.on('dragenter', event => {
 				const dropRect = (<any>interact).getElementRect(event.target);
 				const dropCenter = {
-					// x: dropRect.left + (dropRect.width / 2),
-					// y: dropRect.top + (dropRect.height / 2)
 					x: dropRect.left,
 					y: dropRect.top
 				};
 
 				event.draggable.snap.targets = [dropCenter];
-				event.draggable.snap({
-					// targets: [dropCenter]
-					// anchors: [dropCenter]
-				});
 
 				const column = event.target.getAttribute('data-column');
 				const row = event.target.getAttribute('data-row');
-				console.log(`enter drop at column ${column} and row ${row}`);
 
 				event.target.classList.add('active');
 
@@ -146,21 +145,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 				}
 			})
 			.on('dragleave', event => {
-				// console.log('drop top stop');
-
 				event.draggable.snap(false);
-
-				const column = event.target.getAttribute('data-column');
-				const row = event.target.getAttribute('data-row');
-				console.log(`raindrop droptop drop stop at column ${column} and row ${row}`);
-
 				event.target.classList.remove('active');
 			})
 			.on('drop', event => {
-				const column = event.target.getAttribute('data-column');
-				const row = event.target.getAttribute('data-row');
-
-				// console.log(`Drop at column ${column} and row ${row}`);
 
 				event.target.classList.remove('active');
 				event.target.classList.add('dropped');
@@ -169,23 +157,27 @@ export class HomeComponent implements OnInit, OnDestroy {
 					event.target.classList.remove('dropped');
 				}, 1000);
 
+				const column = event.target.getAttribute('data-column');
+				const row = event.target.getAttribute('data-row');
+
 				// How many columns module should move to the left
 				const moveColumns = column - this.dragStart.column;
 				// How many rows module should move down
 				const moveRows = row - this.dragStart.row;
 
-				console.log(`Drag started at column ${this.dragStart.column} and row ${this.dragStart.row} and ended at column ${column} and row ${row} which means module should move ${moveColumns} columns left and ${moveRows} rows down.`);
-
 				// Get module's original column and row
 				console.log(this.dragModuleIndex);
 				const draggedModule = this.moduleLayout[this.dragModuleIndex];
-				const originalColumn = draggedModule.column;
-				const originalRow = draggedModule.row;
 
 				// Move module
 				draggedModule.column += moveColumns;
 				draggedModule.row += moveRows;
 
+				const moduleContainer = event.relatedTarget;
+
+				moduleContainer.style.transform = 'none';
+				moduleContainer.style['grid-column-start'] = draggedModule.column;
+				moduleContainer.style['grid-row-start'] = draggedModule.row;
 			});
 	}
 
@@ -205,6 +197,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 		setTimeout(() => {
 			this.showAnnouncement = false;
 		}, animationTime - 5);
+	}
+
+	// Will make sure modules don't overlap or go outside of their boundaries
+	cleanModuleLayout() {
+		// for (module of this.moduleLayout) {
+		//
+		// }
+
+		/*
+		 * @TODO
+		 */
 	}
 
 }
