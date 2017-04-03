@@ -13,7 +13,7 @@ import { UserService } from '../../services/user.service';
 export class ConfirmComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	private typeOf = typeOf; // tslint:disable-line
+	typeOf = typeOf;
 	confirmResponse: any;
 
 	constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private userService: UserService) { }
@@ -26,7 +26,7 @@ export class ConfirmComponent implements OnInit {
 		}
 
 		this.route.params.subscribe(
-			(params: any) => {
+			params => {
 				const user = params.user;
 				const hash = params.hash;
 
@@ -39,7 +39,7 @@ export class ConfirmComponent implements OnInit {
 					}
 				);
 			},
-			(error) => {
+			error => {
 				this.confirmResponse = '';
 			}
 		);

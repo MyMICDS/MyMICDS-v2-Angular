@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
-import { ColorPickerModule, ColorPickerService } from 'angular2-color-picker';
+import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule } from 'ng2-bootstrap';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 let jwtHelper = new JwtHelper();
@@ -30,7 +30,6 @@ import { PlannerComponent } from './components/planner/planner.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
@@ -90,7 +89,6 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		RegisterComponent,
 		ResetPasswordComponent,
 		SettingsComponent,
-		SidebarComponent,
 		SportsComponent,
 		SuggestionsComponent,
 		QuotesComponent,

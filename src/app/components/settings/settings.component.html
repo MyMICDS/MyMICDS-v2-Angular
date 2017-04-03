@@ -1,12 +1,12 @@
 <div class="container">
-	<div mymicds-blur *ngIf="userData === null || infoForm === null" class="settings-header">
+	<div mymicds-blur *ngIf="userInfo === null || infoForm === null" class="settings-header">
 		<h1>Fetching user settings...</h1>
 	</div>
-	<div mymicds-blur *ngIf="userData !== null && infoForm !== null" class="settings-header">
+	<div mymicds-blur *ngIf="userInfo !== null && infoForm !== null" class="settings-header">
 		<h1>Settings</h1>
 		<h3>{{userInfo.user}}</h3>
 	</div>
-	<div *ngIf="userData !== null && infoForm !== null" class="settings-body">
+	<div *ngIf="userInfo !== null && infoForm !== null" class="settings-body">
 
 		<!-- Change Basic Information -->
 		<div mymicds-blur class="basic-info settings-section half">
