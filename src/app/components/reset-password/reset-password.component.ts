@@ -15,7 +15,7 @@ import { UserService } from '../../services/user.service';
 export class ResetPasswordComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	private typeOf = typeOf; // tslint:disable-line
+	typeOf = typeOf;
 
 	submitted = false;
 	resetResponse: any = null;

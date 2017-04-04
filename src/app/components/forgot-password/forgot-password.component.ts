@@ -13,8 +13,8 @@ import {UserService} from '../../services/user.service';
 export class ForgotPasswordComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	private isAlphabetic = isAlphabetic; // tslint:disable-line
-	private typeOf = typeOf; // tslint:disable-line
+	isAlphabetic = isAlphabetic;
+	typeOf = typeOf;
 
 	submitted = false;
 	forgotResponse: any = null;

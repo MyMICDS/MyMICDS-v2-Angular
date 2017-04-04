@@ -18,10 +18,10 @@ export class DailyBulletinComponent implements OnInit {
 	loading = true;
 
 	bulletins: string[] = [];
-	bulletinBaseURL: string = '';
-	bulletinURL: string = '';
+	bulletinBaseURL = '';
+	bulletinURL = '';
 	bulletinDate: any = moment();
-	bulletinIndex: number = 0;
+	bulletinIndex = 0;
 
 	constructor(private route: ActivatedRoute, private alertService: AlertService, private bulletinService: BulletinService) { }
 

@@ -20,7 +20,7 @@
 			<i class="fa fa-bullhorn"></i> Bulletin
 			<i *ngIf="url === 'daily-bulletin'" class="fa fa-caret-down"></i>
 		</a>
-		<a [class.collapse]="isCollapsed && url !== 'settings'" *ngIf="userService.getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
+		<a [class.collapse]="isCollapsed && url !== 'settings'" *ngIf="getUsername()" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
 			<i class="fa fa-gear"></i> Settings
 			<i *ngIf="url === 'settings'" class="fa fa-caret-down"></i>
 		</a>
@@ -29,12 +29,12 @@
 			<i *ngIf="url === 'about'" class="fa fa-caret-down"></i>
 		</a>
 	</div>
-	<div *ngIf="!userService.getUsername()" class="navbar-right">
+	<div *ngIf="!getUsername()" class="navbar-right">
 		<button class="btn btn-success" [routerLink]="['/login']">Login</button>
 		<button class="btn btn-primary" [routerLink]="['/register']">Register</button>
 	</div>
-	<div *ngIf="userService.getUsername()" class="navbar-right">
-		<p class="logged-in-user text-muted"><span class="hide">Logged in as </span>{{userService.getUsername()}}</p>
+	<div *ngIf="getUsername()" class="navbar-right">
+		<p class="logged-in-user text-muted"><span class="hide">Logged in as </span>{{ getUsername() }}</p>
 		<button class="btn btn-danger" [routerLink]="['/logout']">Logout</button>
 	</div>
 </nav>

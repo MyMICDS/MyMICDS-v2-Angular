@@ -12,8 +12,8 @@ import { UserService } from '../../services/user.service';
 })
 export class NavbarComponent implements OnInit {
 
-	public isCollapsed = true;
-	private url: string;
+	isCollapsed = true;
+	url: string;
 
 	constructor(private router: Router, private titleService: Title, private userService: UserService) { }
 
@@ -29,6 +29,10 @@ export class NavbarComponent implements OnInit {
 				this.titleService.setTitle('MyMICDS - ' + capitalize(event.urlAfterRedirects, 1));
 			}
 		});
+	}
+
+	getUsername() {
+		return this.userService.getUsername();
 	}
 
 }
