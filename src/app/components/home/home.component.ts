@@ -11,7 +11,7 @@ import { ScheduleService } from '../../services/schedule.service';
 export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
-	announcement = '';
+	announcement = 'Pop the champagne! Today is the 2nd year anniversary of MyMICDS.net! Thanks to everyone who\'s been with us along the way, and let\'s hope for many more years to come. We\'re working on many new features for next year, and if you want to be a part of the development action, <strong>please</strong> don\'t hesitate to email support@mymicds.net (more info in the about page). Also, <strong>please email support@mymicds.net for any bugs you find or unexpected behavior, as well as any ideas for features to add.</strong> We can\'t fix problems if we don\'t know what they are. Thanks for using the site!';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
