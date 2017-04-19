@@ -38,6 +38,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 	dragModuleIndex: number;
 	snapPoint: { x: number, y: number } = { x: 0, y: 0 };
 
+	resizeStart: { width: number, height: number };
+
 	constructor(
 		private route: ActivatedRoute,
 		private alertService: AlertService,
@@ -97,26 +99,29 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.style.transform = 'none';
 				event.target.setAttribute('data-x', 0);
 				event.target.setAttribute('data-y', 0);
+			})
+			.resizable({})
+			.on('resizestart', event => {
+				const dimensions = event.target.getBoundingClientRect();
+				this.resizeStart = {
+					width: dimensions.width,
+					height: dimensions.height
+				};
+			})
+			.on('resizemove', event => {
+				const displacementX = event.pageX - event.x0;
+				const displacementY = event.pageY - event.y0;
+
+				const newWidth = this.resizeStart.width + displacementX;
+				const newHeight = this.resizeStart.height + displacementY;
+
+				event.target.style.width = `${newWidth}px`;
+				event.target.style.height = `${newHeight}px`;
+			})
+			.on('resizeend', event => {
+				event.target.style.width = '';
+				event.target.style.height = '';
 			});
-			// .resizable({})
-			// .on('resizemove', event => {
-			// 	let x = (parseFloat(event.target.getAttribute('data-x')) || 0);
-			// 	let y = (parseFloat(event.target.getAttribute('data-y')) || 0);
-			//
-			// 	console.log(event.target.style.width, event.target.style.height);
-			//
-			// 	event.target.style.width = `${event.rect.width}px`;
-			// 	event.target.style.height = `${event.rect.height}px`;
-			//
-			// 	x += event.deltaRect.left;
-			// 	y += event.deltaRect.top;
-			//
-			// 	event.target.style.transform = `translate(${x}px, ${y}px)`;
-			// 	event.target.setAttribute('data-x', x);
-			// 	event.target.setAttribute('data-y', y);
-			//
-			// 	console.log('resize', event.deltaRect);
-			// });
 
 		// Dropzones for each unit cell
 		this.interactDropzones = interact('.modules.edit .unit-cell')
