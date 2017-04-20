@@ -100,7 +100,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.setAttribute('data-x', 0);
 				event.target.setAttribute('data-y', 0);
 			})
-			.resizable({})
+			.resizable({
+				edges: {
+					top: true,
+					right: true,
+					bottom: true,
+					left: true
+				}
+			})
 			.on('resizestart', event => {
 				const dimensions = event.target.getBoundingClientRect();
 				this.resizeStart = {
@@ -109,18 +116,38 @@ export class HomeComponent implements OnInit, OnDestroy {
 				};
 			})
 			.on('resizemove', event => {
-				const displacementX = event.pageX - event.x0;
-				const displacementY = event.pageY - event.y0;
+				let displacementX = event.pageX - event.x0;
+				let displacementY = event.pageY - event.y0;
+
+				let x = (parseFloat(event.target.getAttribute('data-x')) || 0);
+				let y = (parseFloat(event.target.getAttribute('data-y')) || 0);
+
+				if (event.edges.left) {
+					displacementX *= -1;
+					x = -displacementX;
+				}
+
+				if (event.edges.top) {
+					displacementY *= -1;
+					y = -displacementY;
+				}
 
 				const newWidth = this.resizeStart.width + displacementX;
 				const newHeight = this.resizeStart.height + displacementY;
 
 				event.target.style.width = `${newWidth}px`;
 				event.target.style.height = `${newHeight}px`;
+
+				event.target.style.transform = `translate(${x}px, ${y}px)`;
+
+				// this.dragModuleIndex = event.target.getAttribute('data-index');
+
+				console.log(event);
 			})
 			.on('resizeend', event => {
 				event.target.style.width = '';
 				event.target.style.height = '';
+				event.target.style.transform = 'none';
 			});
 
 		// Dropzones for each unit cell
