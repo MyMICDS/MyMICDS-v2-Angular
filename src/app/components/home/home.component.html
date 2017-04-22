@@ -26,6 +26,7 @@
 			<ng-container *ngFor="let columns of gridArray; let row = index">
 				<div *ngFor="let column of columns"
 					class="unit-cell"
+					#unitCell
 					[attr.data-column]="column + 1"
 					[attr.data-row]="row + 1"
 					[style.grid-column-start]="column + 1"

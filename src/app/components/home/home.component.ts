@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as interact from 'interactjs';
 
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Used for iterating through unit cells
 	gridArray: number[][] = [];
 
-	interactModules: any;
+	interactModules: Interact.Interactable;
 	interactDropzones: any;
 
 	dragStart: { column: number, row: number };
@@ -39,6 +39,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 	snapPoint: { x: number, y: number } = { x: 0, y: 0 };
 
 	resizeStart: { width: number, height: number };
+
+	@ViewChildren('unitCell') unitCells: QueryList<ElementRef>;
+	snapGrid: number[][];
 
 	constructor(
 		private route: ActivatedRoute,
@@ -106,6 +109,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 					right: true,
 					bottom: true,
 					left: true
+				},
+				snap: {
+					enabled: true
 				}
 			})
 			.on('resizestart', event => {
@@ -114,6 +120,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 					width: dimensions.width,
 					height: dimensions.height
 				};
+				this.calcRects();
+				this.interactModules.resizable({snap: {
+					targets: this.snapGrid[0].map(line => {
+						return {x: line, range: 50};
+					}).concat(<any> this.snapGrid[1].map(line => {
+						return {y: line, range: 50};
+					}))
+				}});
 			})
 			.on('resizemove', event => {
 				let displacementX = event.pageX - event.x0;
@@ -141,8 +155,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.style.transform = `translate(${x}px, ${y}px)`;
 
 				// this.dragModuleIndex = event.target.getAttribute('data-index');
-
-				console.log(event);
 			})
 			.on('resizeend', event => {
 				event.target.style.width = '';
@@ -229,6 +241,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 		setTimeout(() => {
 			this.showAnnouncement = false;
 		}, animationTime - 5);
+	}
+
+	// calculate, for every unit cell, their absolute position on the document, for their height is subject to change.
+	calcRects() {
+		let tempObj = {col: {}, row: {}};
+		this.unitCells.forEach(cellEl => {
+			let rect = interact(cellEl.nativeElement).getRect();
+			tempObj.col[rect.left] = true;
+			tempObj.col[rect.right] = true;
+			tempObj.row[rect.top] = true;
+			tempObj.row[rect.bottom] = true;
+		});
+		this.snapGrid = [Object.keys(tempObj.col).map(parseFloat), Object.keys(tempObj.row).map(parseFloat)];
 	}
 
 	// Will make sure modules don't overlap or go outside of their boundaries
