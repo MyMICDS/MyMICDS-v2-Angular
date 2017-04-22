@@ -157,6 +157,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 				// this.dragModuleIndex = event.target.getAttribute('data-index');
 			})
 			.on('resizeend', event => {
+				let row = this.snapGrid[0].findIndex((val, index, arr) => {
+					return val < event.snap.realX && event.snap.realX < arr[index + 1];
+				}) + 1;
+				let col = this.snapGrid[1].findIndex((val, index, arr) => {
+					return val < event.snap.realY && event.snap.realY < arr[index + 1];
+				}) + 1;
+				console.log(row, col);
 				event.target.style.width = '';
 				event.target.style.height = '';
 				event.target.style.transform = 'none';
@@ -254,6 +261,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 			tempObj.row[rect.bottom] = true;
 		});
 		this.snapGrid = [Object.keys(tempObj.col).map(parseFloat), Object.keys(tempObj.row).map(parseFloat)];
+		// If there are subtle differeces of postion created by the grid margins, take the mid value between the two
+		this.snapGrid.forEach(axis => {
+			axis.forEach((val, index, arr) => {
+				if (index < arr.length - 1) {
+					let nextVal = arr[index + 1];
+					if (Math.abs(nextVal - val) < 10) {
+						arr.splice(index, 1);
+						arr.fill((val + nextVal) / 2, index, index + 1);
+					}
+				}
+			});
+		});
 	}
 
 	// Will make sure modules don't overlap or go outside of their boundaries
