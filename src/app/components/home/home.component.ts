@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as interact from 'interactjs';
+import { contains } from '../../common/utils';
 
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
@@ -27,21 +28,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 	rows = 0;
 	columns = 4;
 
+	@ViewChildren('unitCell') unitCells: QueryList<ElementRef>;
+
 	// Array length of rows each with an array of column indexes
 	// Used for iterating through unit cells
 	gridArray: number[][] = [];
 
 	interactModules: Interact.Interactable;
-	interactDropzones: any;
+	interactDropzones: Interact.Interactable;
+
+	modifyingModuleIndex: number;
 
 	dragStart: { column: number, row: number };
-	dragModuleIndex: number;
 	snapPoint: { x: number, y: number } = { x: 0, y: 0 };
 
 	resizeStart: { width: number, height: number };
-
-	@ViewChildren('unitCell') unitCells: QueryList<ElementRef>;
-	snapGrid: number[][];
+	// Breakpoints for resizing
+	snapGrid: { x: number[], y: number[] };
 
 	constructor(
 		private route: ActivatedRoute,
@@ -76,7 +79,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 		// Make module containers draggable
 		this.interactModules = interact('.modules.edit mymicds-module-container')
 			.draggable({
-				inertia: false,
 				autoScroll: true,
 				snap: {
 					targets: [],
@@ -88,6 +90,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 					endOnly: true
 				}
 			})
+			.on('dragstart', event => {
+				this.modifyingModuleIndex = event.target.getAttribute('data-index');
+			})
 			.on('dragmove', event => {
 				const x = (parseFloat(event.target.getAttribute('data-x')) || 0) + event.dx;
 				const y = (parseFloat(event.target.getAttribute('data-y')) || 0) + event.dy;
@@ -95,8 +100,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.style.transform = `translate(${x}px, ${y}px)`;
 				event.target.setAttribute('data-x', x);
 				event.target.setAttribute('data-y', y);
-
-				this.dragModuleIndex = event.target.getAttribute('data-index');
 			})
 			.on('dragend', event => {
 				event.target.style.transform = 'none';
@@ -104,6 +107,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.setAttribute('data-y', 0);
 			})
 			.resizable({
+				autoScroll: true,
 				edges: {
 					top: true,
 					right: true,
@@ -120,14 +124,29 @@ export class HomeComponent implements OnInit, OnDestroy {
 					width: dimensions.width,
 					height: dimensions.height
 				};
+
+				this.modifyingModuleIndex = event.target.getAttribute('data-index');
+
+				// Find rows that module occupies
+				const occupyingRowStart = this.moduleLayout[this.modifyingModuleIndex].row;
+				const occupyingRowEnd = occupyingRowStart + this.moduleLayout[this.modifyingModuleIndex].height - 1;
+				// If currently resizing module occupies the unit cell's row, lock its height so we can drag module to other rows
+				this.unitCells.forEach(cell => {
+					const cellRow = cell.nativeElement.getAttribute('data-row');
+					if (occupyingRowStart <= cellRow && cellRow <= occupyingRowEnd) {
+						cell.nativeElement.style.height = `${cell.nativeElement.getBoundingClientRect().height}px`;
+					}
+				});
+
 				this.calcRects();
-				this.interactModules.resizable({snap: {
-					targets: this.snapGrid[0].map(line => {
-						return {x: line, range: 50};
-					}).concat(<any> this.snapGrid[1].map(line => {
-						return {y: line, range: 50};
-					}))
-				}});
+				const breakpoints = this.snapGrid.x.map(line => {
+					return { x: line, range: 50 };
+				}).concat(<any> this.snapGrid.y.map(line => {
+					return { y: line, range: 50 };
+				}));
+
+				// Set breakpoints
+				this.interactModules.resizable({ snap: { targets: breakpoints } });
 			})
 			.on('resizemove', event => {
 				let displacementX = event.pageX - event.x0;
@@ -146,24 +165,35 @@ export class HomeComponent implements OnInit, OnDestroy {
 					y = -displacementY;
 				}
 
-				const newWidth = this.resizeStart.width + displacementX;
-				const newHeight = this.resizeStart.height + displacementY;
+				let newWidth = this.resizeStart.width;
+				let newHeight = this.resizeStart.height;
+
+				// Only displace if we're actually dragging that side
+				if (event.edges.left || event.edges.right) {
+					newWidth += displacementX;
+				}
+
+				if (event.edges.top || event.edges.bottom) {
+					newHeight += displacementY;
+				}
 
 				event.target.style.width = `${newWidth}px`;
 				event.target.style.height = `${newHeight}px`;
 
 				event.target.style.transform = `translate(${x}px, ${y}px)`;
 
-				// this.dragModuleIndex = event.target.getAttribute('data-index');
+				this.modifyingModuleIndex = event.target.getAttribute('data-index');
 			})
 			.on('resizeend', event => {
-				let row = this.snapGrid[0].findIndex((val, index, arr) => {
+				let row = this.snapGrid.x.findIndex((val, index, arr) => {
 					return val < event.snap.realX && event.snap.realX < arr[index + 1];
 				}) + 1;
-				let col = this.snapGrid[1].findIndex((val, index, arr) => {
+				let col = this.snapGrid.y.findIndex((val, index, arr) => {
 					return val < event.snap.realY && event.snap.realY < arr[index + 1];
 				}) + 1;
+
 				console.log(row, col);
+
 				event.target.style.width = '';
 				event.target.style.height = '';
 				event.target.style.transform = 'none';
@@ -217,8 +247,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				const moveRows = row - this.dragStart.row;
 
 				// Get module's original column and row
-				console.log(this.dragModuleIndex);
-				const draggedModule = this.moduleLayout[this.dragModuleIndex];
+				const draggedModule = this.moduleLayout[this.modifyingModuleIndex];
 
 				// Move module
 				draggedModule.column += moveColumns;
@@ -252,26 +281,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// calculate, for every unit cell, their absolute position on the document, for their height is subject to change.
 	calcRects() {
-		let tempObj = {col: {}, row: {}};
+		this.snapGrid = { x: [], y: [] };
 		this.unitCells.forEach(cellEl => {
 			let rect = interact(cellEl.nativeElement).getRect();
-			tempObj.col[rect.left] = true;
-			tempObj.col[rect.right] = true;
-			tempObj.row[rect.top] = true;
-			tempObj.row[rect.bottom] = true;
-		});
-		this.snapGrid = [Object.keys(tempObj.col).map(parseFloat), Object.keys(tempObj.row).map(parseFloat)];
-		// If there are subtle differeces of postion created by the grid margins, take the mid value between the two
-		this.snapGrid.forEach(axis => {
-			axis.forEach((val, index, arr) => {
-				if (index < arr.length - 1) {
-					let nextVal = arr[index + 1];
-					if (Math.abs(nextVal - val) < 10) {
-						arr.splice(index, 1);
-						arr.fill((val + nextVal) / 2, index, index + 1);
-					}
-				}
-			});
+
+			if (!contains(this.snapGrid.x, rect.right)) {
+				this.snapGrid.x.push(rect.right);
+			}
+
+			if (!contains(this.snapGrid.y, rect.bottom)) {
+				this.snapGrid.y.push(rect.bottom);
+			}
 		});
 	}
 
