@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
+import { MyMICDSModule } from '../modules-main';
+
 import { AlertService } from '../../../services/alert.service';
 import { WeatherService } from '../../../services/weather.service';
 
@@ -8,6 +10,7 @@ import { WeatherService } from '../../../services/weather.service';
 	templateUrl: './weather.component.html',
 	styleUrls: ['./weather.component.scss']
 })
+@MyMICDSModule('weather')
 export class WeatherComponent implements OnInit, OnDestroy {
 
 	weather: any = null;

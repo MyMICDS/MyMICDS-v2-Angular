@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
-import modules from '../modules/modules-list';
+import { modules } from '../modules/modules-main';
 
 @Component({
 	selector: 'mymicds-module-container',

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import moment from 'moment';
 import { contains } from '../../../common/utils';
 
+import { MyMICDSModule } from '../modules-main';
+
 import { AlertService } from '../../../services/alert.service';
 import { ScheduleService } from '../../../services/schedule.service';
 
@@ -14,6 +16,7 @@ import '../../../common/rxjs-operators';
 	templateUrl: './schedule.component.html',
 	styleUrls: ['./schedule.component.scss']
 })
+@MyMICDSModule('schedule')
 export class ScheduleComponent implements OnInit {
 
 	viewSchedule: any = null;

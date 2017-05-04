@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import moment from 'moment';
 
+import { MyMICDSModule } from '../modules-main';
+
 import { ScheduleService } from '../../../services/schedule.service';
 // import { SocketioService } from '../../../services/socketio.service';
 
@@ -12,6 +14,7 @@ declare let Chart: any;
 	templateUrl: './progress.component.html',
 	styleUrls: ['./progress.component.scss']
 })
+@MyMICDSModule('progress')
 export class ProgressComponent implements OnInit, OnDestroy {
 
 	today: any = new Date();
