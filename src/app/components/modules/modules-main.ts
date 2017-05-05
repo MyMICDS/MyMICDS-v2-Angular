@@ -1,10 +1,10 @@
 import { ModuleType } from '../../services/modules.service';
 
-export const modules: Array<{ [name: string]: Function }> = [];
+export const modules: any = {};
 
 // Module decorator
 export function MyMICDSModule(name: ModuleType /* config: ModuleConfig */) {
 	return target => {
-		modules.push({ [name]: target });
+		modules[name] = target;
 	};
 }

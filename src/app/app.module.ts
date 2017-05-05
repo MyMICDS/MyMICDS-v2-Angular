@@ -8,6 +8,8 @@ import { DatepickerModule, ModalModule } from 'ng2-bootstrap';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 let jwtHelper = new JwtHelper();
 
+import { modules } from './components/modules/modules-main';
+
 import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
 import { AlertComponent } from './components/alert/alert.component';
@@ -159,7 +161,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 			deps: [Http]
 		}
 	],
-	bootstrap: [AppComponent]
+	bootstrap: [AppComponent],
+	entryComponents: Object.keys(modules).map(key => modules[key])
 })
 export class AppModule { }
 

@@ -3,7 +3,6 @@ import { modules } from '../modules/modules-main';
 
 @Component({
 	selector: 'mymicds-module-container',
-	entryComponents: Object.keys(modules).map(key => modules[key]),
 	templateUrl: './module-container.component.html',
 	styleUrls: ['./module-container.component.scss']
 })
