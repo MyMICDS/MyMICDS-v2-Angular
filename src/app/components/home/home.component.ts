@@ -358,6 +358,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.interactDropzones.unset();
 	}
 
+	deleteModule(i: number) {
+		this.moduleLayout.splice(i, 1);
+	}
+
 	dismissAlert() {
 		// How long CSS delete animation is in milliseconds
 		let animationTime = 200;

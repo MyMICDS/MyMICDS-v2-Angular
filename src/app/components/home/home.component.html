@@ -20,7 +20,9 @@
 			[style.grid-column-start]="module.column"
 			[style.grid-column-end]="'span ' + module.width"
 			[style.grid-row-start]="module.row"
-			[style.grid-row-end]="'span ' + module.height"></mymicds-module-container>
+			[style.grid-row-end]="'span ' + module.height">
+				<button class="delete-module btn btn-danger" *ngIf="editMode" (click)="deleteModule(i)"><i class="fa fa-times"></i></button>
+		</mymicds-module-container>
 
 		<ng-container *ngIf="editMode">
 			<ng-container *ngFor="let columns of gridArray; let row = index">
