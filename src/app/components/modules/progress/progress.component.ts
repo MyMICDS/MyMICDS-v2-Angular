@@ -14,7 +14,12 @@ declare let Chart: any;
 	templateUrl: './progress.component.html',
 	styleUrls: ['./progress.component.scss']
 })
-@MyMICDSModule('progress')
+@MyMICDSModule({
+	name: 'progress',
+	icon: 'fa-tasks',
+	initHeight: 2,
+	initWidth: 4
+})
 export class ProgressComponent implements OnInit, OnDestroy {
 
 	today: any = new Date();

@@ -34,4 +34,9 @@
 			</ng-container>
 		</ng-container>
 	</div>
+	<div class="modules-menu" *ngIf="editMode" mymicds-blur--dark>
+		<ng-container *ngFor="let module of moduleList">
+			<i class="fa module-icon" [ngClass]="module.icon" [attr.data-type]="module.name"></i>
+		</ng-container>
+	</div>
 </div>

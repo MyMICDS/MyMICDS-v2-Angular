@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ElementRef } fro
 import { ActivatedRoute } from '@angular/router';
 import * as interact from 'interactjs';
 import { contains } from '../../common/utils';
+import { modules } from '../modules/modules-main';
 
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	moduleLayoutSubscription: any;
 	moduleLayout: Module[];
+	moduleList = Object.keys(modules).map(key => Object.assign({name: key}, modules[key]));
 
 	routeDataSubscription: any;
 	editMode = false;
@@ -36,6 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	interactModules: Interact.Interactable;
 	interactDropzones: Interact.Interactable;
+	menuItems: Interact.Interactable;
 
 	modifyingModuleIndex: number;
 
@@ -92,6 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 			})
 			.on('dragstart', event => {
 				this.modifyingModuleIndex = event.target.getAttribute('data-index');
+				event.target.classList.add('dragging');
 			})
 			.on('dragmove', event => {
 				const x = (parseFloat(event.target.getAttribute('data-x')) || 0) + event.dx;
@@ -105,6 +109,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.style.transform = 'none';
 				event.target.setAttribute('data-x', 0);
 				event.target.setAttribute('data-y', 0);
+				event.target.classList.remove('dragging');
 			})
 			.resizable({
 				autoScroll: true,
@@ -199,10 +204,43 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.style.transform = 'none';
 			});
 
+		// make the menu items draggable
+		this.menuItems = interact('.module-icon')
+			.draggable({
+				autoScroll: true,
+				snap: {
+					targets: [],
+					range: Infinity,
+					relativePoints: [{
+						x: 0,
+						y: 0
+					}],
+					endOnly: true
+				}
+			})
+			.on('dragstart', event => {
+				this.modifyingModuleIndex = event.target.getAttribute('data-index');
+				event.target.classList.add('dragging');
+			})
+			.on('dragmove', event => {
+				const x = (parseFloat(event.target.getAttribute('data-x')) || 0) + event.dx;
+				const y = (parseFloat(event.target.getAttribute('data-y')) || 0) + event.dy;
+
+				event.target.style.transform = `translate(${x}px, ${y}px)`;
+				event.target.setAttribute('data-x', x);
+				event.target.setAttribute('data-y', y);
+			})
+			.on('dragend', event => {
+				event.target.style.transform = 'none';
+				event.target.setAttribute('data-x', 0);
+				event.target.setAttribute('data-y', 0);
+				event.target.classList.remove('dragging');
+			});
+
 		// Dropzones for each unit cell
 		this.interactDropzones = interact('.modules.edit .unit-cell')
 			.dropzone({
-				accept: 'mymicds-module-container'
+				accept: 'mymicds-module-container, .module-icon'
 			})
 			.on('dropactivate', event => {
 				this.dragStart = null;
@@ -231,6 +269,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 			})
 			.on('drop', event => {
 
+				const column = event.target.getAttribute('data-column');
+				const row = event.target.getAttribute('data-row');
+
 				event.target.classList.remove('active');
 				event.target.classList.add('dropped');
 
@@ -238,26 +279,40 @@ export class HomeComponent implements OnInit, OnDestroy {
 					event.target.classList.remove('dropped');
 				}, 1000);
 
-				const column = event.target.getAttribute('data-column');
-				const row = event.target.getAttribute('data-row');
+				// if creating new module
+				if (event.relatedTarget.classList.contains('module-icon')) {
+					let type = event.relatedTarget.getAttribute('data-type');
+					let theModule = modules[type]
 
-				// How many columns module should move to the left
-				const moveColumns = column - this.dragStart.column;
-				// How many rows module should move down
-				const moveRows = row - this.dragStart.row;
+					this.moduleLayout.push({
+						type: type,
+						row: row,
+						column: column,
+						width: theModule.initWidth,
+						height: theModule.initHeight,
+						data: {}
+					});
+				} else {
 
-				// Get module's original column and row
-				const draggedModule = this.moduleLayout[this.modifyingModuleIndex];
+					// How many columns module should move to the left
+					const moveColumns = column - this.dragStart.column;
+					// How many rows module should move down
+					const moveRows = row - this.dragStart.row;
 
-				// Move module
-				draggedModule.column += moveColumns;
-				draggedModule.row += moveRows;
+					// Get module's original column and row
+					const draggedModule = this.moduleLayout[this.modifyingModuleIndex];
 
-				const moduleContainer = event.relatedTarget;
+					// Move module
+					draggedModule.column += moveColumns;
+					draggedModule.row += moveRows;
 
-				moduleContainer.style.transform = 'none';
-				moduleContainer.style['grid-column-start'] = draggedModule.column;
-				moduleContainer.style['grid-row-start'] = draggedModule.row;
+					const moduleContainer = event.relatedTarget;
+
+					moduleContainer.style.transform = 'none';
+					moduleContainer.style['grid-column-start'] = draggedModule.column;
+					moduleContainer.style['grid-row-start'] = draggedModule.row;
+				}
+
 			});
 	}
 

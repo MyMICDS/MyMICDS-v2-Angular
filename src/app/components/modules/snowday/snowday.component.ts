@@ -10,7 +10,12 @@ import { SnowdayService } from '../../../services/snowday.service';
 	templateUrl: './snowday.component.html',
 	styleUrls: ['./snowday.component.scss']
 })
-@MyMICDSModule('snowday')
+@MyMICDSModule({
+	name: 'snowday',
+	icon: 'fa-snowflake-o',
+	initHeight: 2,
+	initWidth: 1
+})
 export class SnowdayComponent implements OnInit, OnDestroy {
 
 	snowdayData: any = null;

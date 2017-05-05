@@ -16,7 +16,12 @@ import '../../../common/rxjs-operators';
 	templateUrl: './schedule.component.html',
 	styleUrls: ['./schedule.component.scss']
 })
-@MyMICDSModule('schedule')
+@MyMICDSModule({
+	name: 'schedule',
+	icon: 'fa-calendar',
+	initHeight: 2,
+	initWidth: 1
+})
 export class ScheduleComponent implements OnInit {
 
 	viewSchedule: any = null;

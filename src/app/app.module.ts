@@ -162,7 +162,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		}
 	],
 	bootstrap: [AppComponent],
-	entryComponents: Object.keys(modules).map(key => modules[key])
+	entryComponents: Object.keys(modules).map(key => modules[key].component)
 })
 export class AppModule { }
 

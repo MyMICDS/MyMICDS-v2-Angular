@@ -21,7 +21,7 @@ export class ModuleContainerComponent implements OnInit {
 
 		if (data.type !== this.currentModuleType) {
 			// We create a factory out of the component we want to create
-			const factory = this.resolver.resolveComponentFactory(modules[data.type]);
+			const factory = this.resolver.resolveComponentFactory(modules[data.type].component);
 			this.dynamicModuleContainer.clear();
 			this.currentModuleRef = this.dynamicModuleContainer.createComponent(factory);
 		}

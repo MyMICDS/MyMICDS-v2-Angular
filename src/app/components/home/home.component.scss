@@ -41,6 +41,34 @@
 			}
 		}
 	}
+
+	.modules-menu {
+		position: fixed;
+		bottom: 0;
+		left: 50%;
+		height: 15%;
+		width: 40rem;
+		transform: translate(-50%);
+		display: flex;
+		justify-content: space-around;
+		align-items: stretch;
+		.module-icon {
+			font-size: 3rem;
+			color: white;
+			width: auto;
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+			&:hover {
+				background-color: rgba(255, 255, 255, 0.25);
+			}
+			&.dragging {
+				background-color: rgba(255, 255, 255, 0.25);
+			}
+		}
+	}
 }
 
 @keyframes deleteAlert {
