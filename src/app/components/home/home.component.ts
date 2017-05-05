@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	dragStart: { column: number, row: number };
 	snapPoint: { x: number, y: number } = { x: 0, y: 0 };
 
-	resizeStart: { width: number, height: number };
+	resizeStart: { width: number, height: number, edges: { top: boolean, right: boolean, bottom: boolean, left: boolean } };
 	// Breakpoints for resizing
 	snapGrid: { x: number[], y: number[] };
 
@@ -127,7 +127,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 				const dimensions = event.target.getBoundingClientRect();
 				this.resizeStart = {
 					width: dimensions.width,
-					height: dimensions.height
+					height: dimensions.height,
+					edges: null
 				};
 
 				this.modifyingModuleIndex = event.target.getAttribute('data-index');
@@ -161,13 +162,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 				let y = (parseFloat(event.target.getAttribute('data-y')) || 0);
 
 				if (event.edges.left) {
+					x = displacementX;
 					displacementX *= -1;
-					x = -displacementX;
 				}
 
 				if (event.edges.top) {
+					y = displacementY;
 					displacementY *= -1;
-					y = -displacementY;
 				}
 
 				let newWidth = this.resizeStart.width;
@@ -188,16 +189,51 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.style.transform = `translate(${x}px, ${y}px)`;
 
 				this.modifyingModuleIndex = event.target.getAttribute('data-index');
+				this.resizeStart.edges = event.edges;
 			})
 			.on('resizeend', event => {
-				let row = this.snapGrid.x.findIndex((val, index, arr) => {
+				const column = this.snapGrid.x.findIndex((val, index, arr) => {
 					return val < event.snap.realX && event.snap.realX < arr[index + 1];
-				}) + 1;
-				let col = this.snapGrid.y.findIndex((val, index, arr) => {
+				}) + 2;
+				const row = this.snapGrid.y.findIndex((val, index, arr) => {
 					return val < event.snap.realY && event.snap.realY < arr[index + 1];
-				}) + 1;
+				}) + 2;
 
-				console.log(row, col);
+				const moduleLayout = this.moduleLayout[this.modifyingModuleIndex];
+
+				const moduleTopRow = moduleLayout.row;
+				const moduleLeftColumn = moduleLayout.column;
+				const moduleBottomRow = moduleLayout.row + moduleLayout.height - 1;
+				const moduleRightColumn = moduleLayout.column + moduleLayout.width - 1;
+
+				let deltaX = 0;
+				let deltaY = 0;
+
+				if (this.resizeStart.edges.top) {
+					deltaY = row - moduleTopRow;
+					this.moduleLayout[this.modifyingModuleIndex].row += deltaY;
+					this.moduleLayout[this.modifyingModuleIndex].height -= deltaY;
+				} else if (this.resizeStart.edges.bottom) {
+					deltaY = row - moduleBottomRow;
+					this.moduleLayout[this.modifyingModuleIndex].row -= deltaY;
+					this.moduleLayout[this.modifyingModuleIndex].height += deltaY;
+				}
+
+				if (this.resizeStart.edges.left) {
+					deltaX = column - moduleLeftColumn;
+					this.moduleLayout[this.modifyingModuleIndex].column += deltaX;
+					this.moduleLayout[this.modifyingModuleIndex].width -= deltaX;
+				} else if (this.resizeStart.edges.right) {
+					deltaX = column - moduleRightColumn;
+					this.moduleLayout[this.modifyingModuleIndex].column += deltaX;
+					this.moduleLayout[this.modifyingModuleIndex].width += deltaX;
+				}
+
+				console.log(`Just resized!
+					Initially: (Row: ${moduleLayout.row}, Col: ${moduleLayout.column},
+					EndRow: ${moduleBottomRow}, EndCol: ${moduleRightColumn})
+					Finally: (Row: ${row}, Col: ${column})
+					Delta: (x: ${deltaX}, y: ${deltaY})`);
 
 				event.target.style.width = '';
 				event.target.style.height = '';
@@ -268,7 +304,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.classList.remove('active');
 			})
 			.on('drop', event => {
-
 				const column = event.target.getAttribute('data-column');
 				const row = event.target.getAttribute('data-row');
 
@@ -282,7 +317,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				// if creating new module
 				if (event.relatedTarget.classList.contains('module-icon')) {
 					let type = event.relatedTarget.getAttribute('data-type');
-					let theModule = modules[type]
+					let theModule = modules[type];
 
 					this.moduleLayout.push({
 						type: type,
