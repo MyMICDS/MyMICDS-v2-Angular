@@ -44,11 +44,39 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		let days = 0;
 
 		while (pointer.isSameOrBefore(countdown)) {
+
+			// Check if current pointer exists in day rotation
 			if (this.dayRotation[pointer.year()]
 				&& this.dayRotation[pointer.year()][pointer.month() + 1]
 				&& this.dayRotation[pointer.year()][pointer.month() + 1][pointer.date()]) {
 
-				days++;
+				// Check if pointer is current day
+				if (pointer.isSame(moment(), 'day')) {
+
+					let beginOfSchool;
+					if (moment().day() === 3) {
+						beginOfSchool = moment().hour(9).minute(0);
+					} else {
+						beginOfSchool = moment().hour(8).minute(0);
+					}
+
+					const endOfSchool = moment().hour(15).minute(15);
+
+					// Add day like usual if it's before school
+					if (moment().isBefore(beginOfSchool, 'minute')) {
+						days++;
+					}
+
+					// Add half day if it's during school
+					if (moment().isBetween(beginOfSchool, endOfSchool, 'minute')) {
+						days += 0.5;
+					}
+
+					// Don't count today if it's past 3:15
+				} else {
+					// By default just add one day to count
+					days++;
+				}
 			}
 			pointer.add(1, 'day');
 		}
