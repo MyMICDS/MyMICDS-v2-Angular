@@ -211,22 +211,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 				if (this.resizeStart.edges.top) {
 					deltaY = row - moduleTopRow;
-					this.moduleLayout[this.modifyingModuleIndex].row += deltaY;
-					this.moduleLayout[this.modifyingModuleIndex].height -= deltaY;
+					moduleLayout.row += deltaY;
+					moduleLayout.height -= deltaY;
 				} else if (this.resizeStart.edges.bottom) {
 					deltaY = row - moduleBottomRow;
-					this.moduleLayout[this.modifyingModuleIndex].row -= deltaY;
-					this.moduleLayout[this.modifyingModuleIndex].height += deltaY;
+					moduleLayout.row -= deltaY;
+					moduleLayout.height += deltaY;
 				}
 
 				if (this.resizeStart.edges.left) {
 					deltaX = column - moduleLeftColumn;
-					this.moduleLayout[this.modifyingModuleIndex].column += deltaX;
-					this.moduleLayout[this.modifyingModuleIndex].width -= deltaX;
+					moduleLayout.column += deltaX;
+					moduleLayout.width -= deltaX;
 				} else if (this.resizeStart.edges.right) {
 					deltaX = column - moduleRightColumn;
-					this.moduleLayout[this.modifyingModuleIndex].column += deltaX;
-					this.moduleLayout[this.modifyingModuleIndex].width += deltaX;
+					moduleLayout.column += deltaX;
+					moduleLayout.width += deltaX;
 				}
 
 				console.log(`Just resized!
