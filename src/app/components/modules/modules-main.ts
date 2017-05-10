@@ -14,6 +14,11 @@ export function MyMICDSModule(config: ModuleConfig) {
 	};
 }
 
+// This has to be its own function because for some reason, Angular doesn't allow lambdas in NgModule decorators
+export function getModuleComponent(key: string) {
+	return modules[key].component;
+}
+
 interface ModuleConfig {
 	name: ModuleType;
 	icon: string;

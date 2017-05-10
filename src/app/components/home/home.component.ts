@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 			.subscribe(modules => {
 				this.moduleLayout = modules;
 				// Calculate max row modules reach
-				this.rows = Math.max.apply(null, modules.map(m => m.row + m.height - 1));
+				this.rows = Math.max(...modules.map(m => m.row + m.height - 1));
 				// Create an arrow of n columns with each element's index
 				const row = Array(this.columns).fill(0).map((x, i) => i);
 				// Set gridArray to n columns of this row array
@@ -215,7 +215,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					moduleLayout.height -= deltaY;
 				} else if (this.resizeStart.edges.bottom) {
 					deltaY = row - moduleBottomRow;
-					moduleLayout.row -= deltaY;
+					// moduleLayout.row -= deltaY;
 					moduleLayout.height += deltaY;
 				}
 
@@ -225,7 +225,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					moduleLayout.width -= deltaX;
 				} else if (this.resizeStart.edges.right) {
 					deltaX = column - moduleRightColumn;
-					moduleLayout.column += deltaX;
+					// moduleLayout.column += deltaX;
 					moduleLayout.width += deltaX;
 				}
 

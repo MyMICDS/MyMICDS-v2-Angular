@@ -13,8 +13,8 @@ import { SnowdayService } from '../../../services/snowday.service';
 @MyMICDSModule({
 	name: 'snowday',
 	icon: 'fa-snowflake-o',
-	initHeight: 2,
-	initWidth: 1
+	initHeight: 1,
+	initWidth: 2
 })
 export class SnowdayComponent implements OnInit, OnDestroy {
 
