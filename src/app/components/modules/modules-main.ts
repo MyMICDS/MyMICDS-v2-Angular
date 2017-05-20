@@ -1,6 +1,6 @@
 import { ModuleType } from '../../services/modules.service';
 
-export const modules: {[name: string]: {component: any, icon: string, initHeight: number, initWidth: number}} = {};
+export const modules: {[name: string]: ModuleList} = {};
 
 // Module decorator
 export function MyMICDSModule(config: ModuleConfig) {
@@ -19,9 +19,16 @@ export function getModuleComponent(key: string) {
 	return modules[key].component;
 }
 
-interface ModuleConfig {
-	name: ModuleType;
+interface ModuleConfigBase {
 	icon: string;
 	initHeight: number;
 	initWidth: number;
+}
+
+interface ModuleConfig extends ModuleConfigBase {
+	name: ModuleType;
+}
+
+interface ModuleList extends ModuleConfigBase {
+	component: any;
 }
