@@ -8,7 +8,7 @@
 		<strong>Announcement</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
-	<div class="modules" [class.edit]="editMode">
+	<div #modulesContainer class="modules" [class.edit]="editMode" [style.grid-auto-rows]="cellHeight + 'px'">
 		<!-- <mymicds-progress mymicds-blur [schedule]="schedule" [today]="current" class="module"></mymicds-progress>
 		<mymicds-schedule mymicds-blur [currentSchedule]="schedule" class="module half"></mymicds-schedule>
 		<mymicds-weather mymicds-blur class="module half"></mymicds-weather>

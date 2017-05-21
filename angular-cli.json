@@ -22,6 +22,8 @@
 				"assets/weather-icons/css/weather-icons-wind.css"
 			],
 			"scripts": [
+				"../node_modules/css-element-queries/src/ResizeSensor.js",
+				"../node_modules/css-element-queries/src/ElementQueries.js",
 				"../node_modules/moment/min/moment.min.js",
 				"../node_modules/chart.js/dist/Chart.min.js",
 				"../node_modules/trianglify/dist/trianglify.min.js",

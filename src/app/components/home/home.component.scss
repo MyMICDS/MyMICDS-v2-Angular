@@ -14,7 +14,7 @@
 
 	.modules {
 		display: grid;
-		grid-template-columns: repeat(4, 25%);
+		grid-template-columns: repeat(4, 1fr);
 		grid-align-content: stretch;
 		grid-gap: 5px;
 
@@ -23,7 +23,6 @@
 		padding-right: 1rem;
 
 		.unit-cell {
-			min-height: 10rem;
 			// z-index: -1;
 			pointer-events: none;
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as interact from 'interactjs';
 import { contains } from '../../common/utils';
@@ -8,12 +8,14 @@ import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
 import { ScheduleService } from '../../services/schedule.service';
 
+declare const ResizeSensor: any;
+
 @Component({
 	selector: 'mymicds-home',
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	announcement = '';
@@ -30,7 +32,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 	rows = 0;
 	columns = 4;
 
+	@ViewChildren('modulesContainer') modulesContainer: QueryList<ElementRef>;
 	@ViewChildren('unitCell') unitCells: QueryList<ElementRef>;
+
+	moduleContainerResizeSensor: any;
+	// How height each grid cell should be to be square
+	cellHeight: number;
 
 	// Array length of rows each with an array of column indexes
 	// Used for iterating through unit cells
@@ -351,6 +358,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	ngAfterViewInit() {
+		// Make grid □
+		const container = this.modulesContainer.first;
+		console.log(container);
+		this.squareCells(container);
+		this.moduleContainerResizeSensor = new ResizeSensor(container.nativeElement, () => {
+			this.squareCells(container);
+		});
+	}
+
 	ngOnDestroy() {
 		this.moduleLayoutSubscription.unsubscribe();
 		this.routeDataSubscription.unsubscribe();
@@ -373,7 +390,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		}, animationTime - 5);
 	}
 
-	// calculate, for every unit cell, their absolute position on the document, for their height is subject to change.
+	// Calculate, for every unit cell, their absolute position on the document, for their height is subject to change.
 	calcRects() {
 		this.snapGrid = { x: [], y: [] };
 		this.unitCells.forEach(cellEl => {
@@ -398,6 +415,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 		/*
 		 * @TODO
 		 */
+	}
+
+	// Takes an element ref of the container and squares all the cells
+	squareCells(container: ElementRef) {
+		const containerDimensions = container.nativeElement.getBoundingClientRect();
+		this.cellHeight = containerDimensions.width / this.columns;
 	}
 
 }
