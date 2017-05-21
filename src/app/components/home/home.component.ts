@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	interactModules: Interact.Interactable;
 	interactDropzones: Interact.Interactable;
-	menuItems: Interact.Interactable;
+	interactMenuItems: Interact.Interactable;
 
 	modifyingModuleIndex: number;
 
@@ -240,39 +240,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				event.target.style.transform = 'none';
 			});
 
-		// make the menu items draggable
-		this.menuItems = interact('.module-icon')
-			.draggable({
-				autoScroll: true,
-				snap: {
-					targets: [],
-					range: Infinity,
-					relativePoints: [{
-						x: 0,
-						y: 0
-					}],
-					endOnly: true
-				}
-			})
-			.on('dragstart', event => {
-				this.modifyingModuleIndex = event.target.getAttribute('data-index');
-				event.target.classList.add('dragging');
-			})
-			.on('dragmove', event => {
-				const x = (parseFloat(event.target.getAttribute('data-x')) || 0) + event.dx;
-				const y = (parseFloat(event.target.getAttribute('data-y')) || 0) + event.dy;
-
-				event.target.style.transform = `translate(${x}px, ${y}px)`;
-				event.target.setAttribute('data-x', x);
-				event.target.setAttribute('data-y', y);
-			})
-			.on('dragend', event => {
-				event.target.style.transform = 'none';
-				event.target.setAttribute('data-x', 0);
-				event.target.setAttribute('data-y', 0);
-				event.target.classList.remove('dragging');
-			});
-
 		// Dropzones for each unit cell
 		this.interactDropzones = interact('.modules.edit .unit-cell')
 			.dropzone({
@@ -348,6 +315,39 @@ export class HomeComponent implements OnInit, OnDestroy {
 					moduleContainer.style['grid-row-start'] = draggedModule.row;
 				}
 
+			});
+
+		// Make the menu items draggable
+		this.interactMenuItems = interact('.module-icon')
+			.draggable({
+				autoScroll: true,
+				snap: {
+					targets: [],
+					range: Infinity,
+					relativePoints: [{
+						x: 0,
+						y: 0
+					}],
+					endOnly: true
+				}
+			})
+			.on('dragstart', event => {
+				this.modifyingModuleIndex = event.target.getAttribute('data-index');
+				event.target.classList.add('dragging');
+			})
+			.on('dragmove', event => {
+				const x = (parseFloat(event.target.getAttribute('data-x')) || 0) + event.dx;
+				const y = (parseFloat(event.target.getAttribute('data-y')) || 0) + event.dy;
+
+				event.target.style.transform = `translate(${x}px, ${y}px)`;
+				event.target.setAttribute('data-x', x);
+				event.target.setAttribute('data-y', y);
+			})
+			.on('dragend', event => {
+				event.target.style.transform = 'none';
+				event.target.setAttribute('data-x', 0);
+				event.target.setAttribute('data-y', 0);
+				event.target.classList.remove('dragging');
 			});
 	}
 

@@ -67,9 +67,12 @@
 		height: 15%;
 		width: 40rem;
 		transform: translate(-50%);
+		z-index: 10;
+
 		display: flex;
 		justify-content: space-around;
 		align-items: stretch;
+
 		.module-icon {
 			font-size: 3rem;
 			color: white;
@@ -79,9 +82,11 @@
 			align-items: center;
 			justify-content: center;
 			transition: background-color 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+
 			&:hover {
 				background-color: rgba(255, 255, 255, 0.25);
 			}
+
 			&.dragging {
 				background-color: rgba(255, 255, 255, 0.25);
 			}
