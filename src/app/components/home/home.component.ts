@@ -360,11 +360,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngAfterViewInit() {
 		// Make grid □
-		const container = this.modulesContainer.first;
-		console.log(container);
-		this.squareCells(container);
-		this.moduleContainerResizeSensor = new ResizeSensor(container.nativeElement, () => {
-			this.squareCells(container);
+		const container = this.modulesContainer.first.nativeElement;
+		this.moduleContainerResizeSensor = new ResizeSensor(container, () => {
+			const containerDimensions = container.getBoundingClientRect();
+			this.cellHeight = containerDimensions.width / this.columns;
 		});
 	}
 
@@ -415,12 +414,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 		/*
 		 * @TODO
 		 */
-	}
-
-	// Takes an element ref of the container and squares all the cells
-	squareCells(container: ElementRef) {
-		const containerDimensions = container.nativeElement.getBoundingClientRect();
-		this.cellHeight = containerDimensions.width / this.columns;
 	}
 
 }
