@@ -1,0 +1,30 @@
+@import '../../../styles/settings';
+
+.master {
+          display:flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          padding: 8em 15em;
+}
+
+.child {
+          border: 2px solid;
+          border-color: $sophisticated-white;
+          display:flex;
+          flex-direction:column;
+          justify-content: center;
+          align-items: center;
+          padding: 10px 10px 10px 10px;
+          border-radius: 10px;
+}
+
+h1, h2, em {
+          color: $sophisticated-white;
+}
+
+input {
+          border-color: grey;
+          border-radius: 10px;
+}

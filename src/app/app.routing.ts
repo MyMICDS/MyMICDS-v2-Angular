@@ -20,6 +20,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
+import { StandardsComponent } from './components/standards/standards.component';
 
 const appRoutes: Routes = [
 	{
@@ -113,6 +114,10 @@ const appRoutes: Routes = [
 	{
 		path: 'quote',
 		component: QuotesComponent
+	},
+	{
+		path: 'standards',
+		component: StandardsComponent
 	}
 ];
 

@@ -34,6 +34,7 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
+import { StandardsComponent } from './components/standards/standards.component';
 
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
 
@@ -95,6 +96,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SportsComponent,
 		SuggestionsComponent,
 		QuotesComponent,
+		StandardsComponent,
 
 		// Directives
 		BlurDirective,
