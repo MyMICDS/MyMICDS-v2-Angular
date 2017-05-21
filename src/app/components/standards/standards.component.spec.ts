@@ -6,20 +6,20 @@ describe('StandardsComponent', () => {
   let component: StandardsComponent;
   let fixture: ComponentFixture<StandardsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ StandardsComponent ]
-    })
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+		declarations: [ StandardsComponent ]
+	})
     .compileComponents();
-  }));
+	}));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StandardsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+	beforeEach(() => {
+		fixture = TestBed.createComponent(StandardsComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

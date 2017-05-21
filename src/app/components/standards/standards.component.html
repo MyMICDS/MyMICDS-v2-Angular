@@ -1,3 +1,11 @@
-<p>
-  standards works!
-</p>
+<div class="master">
+          <div mymicds-blur class="child">
+                    <h1>Standards Based Grade Calculator</h1>
+                    <em>Grades will be graded sequentially</em>
+                    <input type="number" (keyup)="calc($event)" placeholder="Enter a grade..." [(ngModel)]="grade1">
+                    <input type="number" (keyup)="calc($event)" placeholder="Enter a grade..." [(ngModel)]="grade2">
+                    <input type="number" (keyup)="calc($event)" placeholder="Enter a grade..." [(ngModel)]="grade3">
+                    <input type="number" (keyup)="calc($event)" placeholder="Enter a grade..." [(ngModel)]="grade4">
+                    <h2>{{finalgrade}}</h2>
+          </div>
+</div>
