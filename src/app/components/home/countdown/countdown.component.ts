@@ -38,12 +38,14 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
 	// Calculates amount of school days from moment object to moment object (inclusive)
 	calculateSchoolDays(fromDate, toDate) {
-		const pointer = moment(fromDate);
+		// Subtract 1 day because we add it back in the loop
+		const pointer = moment(fromDate).subtract(1, 'day');
 		const countdown = moment(toDate);
 
 		let days = 0;
 
 		while (pointer.isSameOrBefore(countdown)) {
+			pointer.add(1, 'day');
 
 			// Check if current pointer exists in day rotation
 			if (this.dayRotation[pointer.year()]
@@ -78,7 +80,6 @@ export class CountdownComponent implements OnInit, OnDestroy {
 					days++;
 				}
 			}
-			pointer.add(1, 'day');
 		}
 
 		return days;
