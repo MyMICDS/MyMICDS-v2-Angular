@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = 'Congratulations to Alexander Dawson for winning the $15! Still want to give feedback? <a href="https://goo.gl/forms/0gF66d1l2vVzJKKr1" target="_blank" class="alert-link">Fill out this form!</a> Don\'t forget to email support@mymicds.net at any time during the summer if you have any sugguestions! <strong>Have a great summer!</strong>';
+	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
