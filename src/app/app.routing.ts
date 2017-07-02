@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './common/auth.guard';
 import { CanDeactivateGuard } from './common/canDeactivate.guard';
 
+import { capitalizeURL, months } from './common/utils';
+
 import { HomeComponent } from './components/home/home.component';
 import { LunchComponent } from './components/lunch/lunch.component';
 import { PlannerComponent } from './components/planner/planner.component';
@@ -21,6 +23,10 @@ import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
+export function defaultTitleFunction(url: string) {
+	return `MyMICDS - ${capitalizeURL(url)}`;
+}
+
 const appRoutes: Routes = [
 	{
 		path: '',
@@ -29,22 +35,30 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'home',
-		component: HomeComponent,
-		data: {
-			title: 'MyMICDS - Home'
-		}
+		component: HomeComponent
 	},
 	{
 		path: 'lunch',
 		component: LunchComponent
 	},
 	{
-		path: 'planner/:year/:month',
-		component: PlannerComponent,
-	},
-	{
 		path: 'planner',
-		component: PlannerComponent
+		children: [
+			{
+				path: '',
+				component: PlannerComponent
+			},
+			{
+				path: ':year/:month',
+				component: PlannerComponent,
+				data: {
+					title: (url: string) => {
+						const parts = url.split('/');
+						return `MyMICDS - Planner - ${months[Number(parts[3]) - 1]} ${parts[2]}`;
+					}
+				}
+			}
+		]
 	},
 	{
 		path: 'daily-bulletin',
@@ -57,11 +71,11 @@ const appRoutes: Routes = [
 				path: 'archives',
 				component: BulletinArchivesComponent
 			},
+			{
+				path: ':bulletin',
+				component: DailyBulletinComponent
+			}
 		]
-	},
-	{
-		path: 'daily-bulletin/:bulletin',
-		component: DailyBulletinComponent
 	},
 	{
 		path: 'settings',
@@ -91,7 +105,13 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'confirm/:user/:hash',
-		component: ConfirmComponent
+		component: ConfirmComponent,
+		data: {
+			title: (url: string) => {
+				const parts = url.split('/');
+				return `MyMICDS - Confirm ${parts[2].toLowerCase()}@micds.org`;
+			}
+		}
 	},
 	{
 		path: 'forgot-password',
@@ -99,7 +119,13 @@ const appRoutes: Routes = [
 	},
 	{
 		path: 'reset-password/:user/:hash',
-		component: ResetPasswordComponent
+		component: ResetPasswordComponent,
+		data: {
+			title: (url: string) => {
+				const parts = url.split('/');
+				return `MyMICDS - Reset password for ${parts[2].toLowerCase()}`;
+			}
+		}
 	},
 	{
 		path: 'sports',

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import '../../common/rxjs-operators';
@@ -13,9 +13,10 @@ import { BulletinService } from '../../services/bulletin.service';
 	templateUrl: './daily-bulletin.component.html',
 	styleUrls: ['./daily-bulletin.component.scss']
 })
-export class DailyBulletinComponent implements OnInit {
+export class DailyBulletinComponent implements OnInit, OnDestroy {
 
 	loading = true;
+	sourceSubscription: any;
 
 	bulletins: string[] = [];
 	bulletinBaseURL = '';
@@ -26,12 +27,12 @@ export class DailyBulletinComponent implements OnInit {
 	constructor(private route: ActivatedRoute, private alertService: AlertService, private bulletinService: BulletinService) { }
 
 	ngOnInit() {
-		let source = Observable.combineLatest([
+		const source = Observable.combineLatest([
 			this.bulletinService.listBulletins(),
 			this.route.params
 		]);
 
-		source.subscribe(
+		this.sourceSubscription = source.subscribe(
 			(data: any) => {
 				this.loading = false;
 				this.bulletinBaseURL = data[0].baseURL;
@@ -51,6 +52,10 @@ export class DailyBulletinComponent implements OnInit {
 				this.alertService.addAlert('danger', 'Get Bulletins Error!', error);
 			}
 		);
+	}
+
+	ngOnDestroy() {
+		this.sourceSubscription.unsubscribe();
 	}
 
 	setBulletin(index) {

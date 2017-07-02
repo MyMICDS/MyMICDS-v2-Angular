@@ -2,13 +2,21 @@
  * Capitalize every word of a string, offset will ignore the first n characters.
  */
 
-export function capitalize(str: string, offset = 0) {
-	// Slice string n characters
-	let subStr = str.slice(offset);
-	// Turn all dashes/hypthens (-) into spaces ( )
-	let strSpaces = subStr.replace(/-/g, ' ');
-	// Capitalize beginning of each word
-	return strSpaces.replace(/\b\w/g, l => l.toUpperCase());
+export function capitalize(str: string) {
+	if (str.length < 1) {
+		return str;
+	}
+	return str[0].toUpperCase() + str.slice(1);
+}
+
+/**
+ * Assume every hyphen is a space and capitalize each word
+ */
+
+export function capitalizeURL(str: string) {
+	return str.split(/-|\//)
+		.map(capitalize)
+		.join(' ');
 }
 
 /*
@@ -186,3 +194,21 @@ export function rainbowCanvasGradient(width: number, height: number): CanvasGrad
 export function rainbowCSSGradient() {
 	return `linear-gradient(${rainbowGradientSlant}deg, ${rainbowGradientColors.join(', ')})`;
 }
+
+/**
+ * Months
+ */
+
+export const months = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'October',
+	'November',
+	'December'
+];

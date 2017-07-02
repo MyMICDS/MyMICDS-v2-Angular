@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { capitalize } from '../../common/utils';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 
@@ -10,25 +8,24 @@ import { UserService } from '../../services/user.service';
 	templateUrl: './navbar.component.html',
 	styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
 	isCollapsed = true;
-	url: string;
+	eventsSubscription: any;
 
-	constructor(private router: Router, private titleService: Title, private userService: UserService) { }
+	constructor(private router: Router, private route: ActivatedRoute, private userService: UserService) { }
 
 	ngOnInit() {
-		/** @TODO: Use import { ActivatedRoute } from '@angular/router'; to get custom title if any */
-		// Subscribe to router events to change title
-		this.router.events.subscribe((event: any) => {
-			if (typeof event.urlAfterRedirects === 'string') {
-				this.url = event.urlAfterRedirects.split('/')[1];
-				if (this.router.navigated && this.router.url.split('/')[1] !== this.url) {
-					this.isCollapsed = true;
-				};
-				this.titleService.setTitle('MyMICDS - ' + capitalize(event.urlAfterRedirects, 1));
+		// Collapse navbar on page change
+		this.eventsSubscription = this.router.events.subscribe(
+			() => {
+				this.isCollapsed = true;
 			}
-		});
+		);
+	}
+
+	ngOnDestroy() {
+		this.eventsSubscription.unsubscribe();
 	}
 
 	getUsername() {
