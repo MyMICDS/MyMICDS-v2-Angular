@@ -23,9 +23,33 @@ import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
+/**
+ * Title functions
+ * We MUST separate them and export them otherwise Angular can't resolve it statically or something
+ */
+
 export function defaultTitleFunction(url: string) {
 	return `MyMICDS - ${capitalizeURL(url)}`;
 }
+
+export function plannerTitle(url: string) {
+	const parts = url.split('/');
+	return `MyMICDS - Planner - ${months[Number(parts[3]) - 1]} ${parts[2]}`;
+}
+
+export function confirmTitle(url: string) {
+	const parts = url.split('/');
+	return `MyMICDS - Planner - ${months[Number(parts[3]) - 1]} ${parts[2]}`;
+}
+
+export function resetPasswordTitle(url: string) {
+	const parts = url.split('/');
+	return `MyMICDS - Reset password for ${parts[2].toLowerCase()}`;
+}
+
+/**
+ * Router Config
+ */
 
 export const appRoutes: Routes = [
 	{
@@ -52,10 +76,7 @@ export const appRoutes: Routes = [
 				path: ':year/:month',
 				component: PlannerComponent,
 				data: {
-					title: (url: string) => {
-						const parts = url.split('/');
-						return `MyMICDS - Planner - ${months[Number(parts[3]) - 1]} ${parts[2]}`;
-					}
+					title: plannerTitle
 				}
 			}
 		]
@@ -107,10 +128,7 @@ export const appRoutes: Routes = [
 		path: 'confirm/:user/:hash',
 		component: ConfirmComponent,
 		data: {
-			title: (url: string) => {
-				const parts = url.split('/');
-				return `MyMICDS - Confirm ${parts[2].toLowerCase()}@micds.org`;
-			}
+			title: confirmTitle
 		}
 	},
 	{
@@ -121,10 +139,7 @@ export const appRoutes: Routes = [
 		path: 'reset-password/:user/:hash',
 		component: ResetPasswordComponent,
 		data: {
-			title: (url: string) => {
-				const parts = url.split('/');
-				return `MyMICDS - Reset password for ${parts[2].toLowerCase()}`;
-			}
+			title: resetPasswordTitle
 		}
 	},
 	{
