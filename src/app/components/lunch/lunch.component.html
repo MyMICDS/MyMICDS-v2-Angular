@@ -45,8 +45,8 @@
 				<div *ngIf="school === schoolName">
 					<!-- Lunch Date -->
 					<div class="lunch-date">
-						<h3 class="date-weekday">{{day.date.weekday}}</h3>
-						<h5 class="date-date text-muted">{{day.date.date}}</h5>
+						<h3 class="date-weekday">{{ day.date.weekday }}</h3>
+						<h5 class="date-date text-muted">{{ day.date.date }}</h5>
 					</div>
 					<!-- Lunch Menu -->
 					<div class="lunch-menu">
@@ -55,11 +55,11 @@
 							<p>No Lunch Today</p>
 						</div>
 						<!-- Loop through menu and display lists -->
-						<div *ngIf="day.lunch.upperschool" class="lunch">
+						<div *ngIf="day.lunch[schoolName]" class="lunch">
 							<div *ngFor="let data of day.lunch[schoolName].categories | values" class="lunch-category">
-								<h3>{{data.key}}</h3>
+								<h3>{{ data.key }}</h3>
 								<ul>
-									<li *ngFor="let item of data.value">{{item}}</li>
+									<li *ngFor="let item of data.value">{{ item }}</li>
 								</ul>
 							</div>
 						</div>

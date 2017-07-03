@@ -12,6 +12,7 @@
 		<!-- <mymicds-progress mymicds-blur [schedule]="schedule" [today]="current" class="module"></mymicds-progress>
 		<mymicds-schedule mymicds-blur [currentSchedule]="schedule" class="module half"></mymicds-schedule>
 		<mymicds-weather mymicds-blur class="module half"></mymicds-weather>
+<<<<<<< HEAD
 		<mymicds-snowday mymicds-blur class="module half"></mymicds-snowday> -->
 		<!-- <mymicds-module-container mymicds-blur class="module" [moduleData]="{ type: 'progress', inputs: { schedule: schedule, today: current } }"></mymicds-module-container> -->
 		<mymicds-module-container *ngFor="let module of moduleLayout; let i = index"
@@ -38,5 +39,9 @@
 	</div>
 	<div class="modules-menu" *ngIf="editMode" mymicds-blur--dark>
 		<i *ngFor="let module of moduleList" class="fa module-icon" [ngClass]="module.icon" [attr.data-type]="module.name"></i>
+=======
+		<mymicds-snowday mymicds-blur class="module half"></mymicds-snowday>
+		<mymicds-countdown mymicds-blur class="module half"></mymicds-countdown>
+>>>>>>> master
 	</div>
 </div>

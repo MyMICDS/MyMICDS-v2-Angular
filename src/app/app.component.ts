@@ -1,7 +1,9 @@
 import { environment } from '../environments/environment';
 
 import { Component, ViewContainerRef } from '@angular/core';
-import { Router, Event, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { defaultTitleFunction } from './app.routing';
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
@@ -26,9 +28,12 @@ export class AppComponent {
 	 */
 	constructor(
 		private router: Router,
+		private route: ActivatedRoute,
+		private titleService: Title,
 		private viewContainerRef: ViewContainerRef,
 		private alertService: AlertService,
-		private backgroundService: BackgroundService) {
+		private backgroundService: BackgroundService
+	) {
 
 		// Get custom user background
 		this.backgroundService.get().subscribe(
@@ -39,6 +44,45 @@ export class AppComponent {
 				this.alertService.addAlert('danger', 'Get Background Error!', error);
 			}
 		);
+
+		// Dynamic browser page title
+		this.router.events
+			.filter(event => event instanceof NavigationEnd)
+			.switchMap(event => {
+				// Keep going down until we get to the bottom-most first child
+				// (so that we can get data from children roots)
+				let currentRoute = this.route;
+				while (currentRoute.firstChild) {
+					currentRoute = currentRoute.firstChild;
+				}
+				return currentRoute.data
+					// Combine it with previous event data
+					.map(data => {
+						return { data, event };
+					});
+			})
+			.subscribe(
+				({ data, event }) => {
+					console.log('route data', data);
+
+					const newURL = (<NavigationEnd>event).urlAfterRedirects;
+
+					let title;
+					switch (typeof data.title) {
+						case 'string':
+							title = data.title;
+							break;
+						case 'function':
+							title = data.title(newURL);
+							break;
+						default:
+							title = defaultTitleFunction(newURL);
+							break;
+					}
+
+					this.titleService.setTitle(title);
+				}
+			);
 
 		// Google Analytics track page views
 		this.router.events.subscribe(

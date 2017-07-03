@@ -18,6 +18,7 @@ declare const ResizeSensor: any;
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
+	// tslint:disable-next-line:max-line-length
 	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
@@ -43,9 +44,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 	// Used for iterating through unit cells
 	gridArray: number[][] = [];
 
-	interactModules: Interact.Interactable;
-	interactDropzones: Interact.Interactable;
-	interactMenuItems: Interact.Interactable;
+	interactModules: interact.interactable;
+	interactDropzones: interact.interactable;
+	interactMenuItems: interact.Interactable;
 
 	modifyingModuleIndex: number;
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import moment from 'moment';
@@ -17,7 +17,7 @@ import { UserService } from '../../services/user.service';
 	templateUrl: './planner.component.html',
 	styleUrls: ['./planner.component.scss']
 })
-export class PlannerComponent implements OnInit {
+export class PlannerComponent implements OnInit, OnDestroy {
 
 	// We need to include this to use in HTML
 	private darkenColor = darkenColor; // tslint:disable-line
@@ -34,6 +34,8 @@ export class PlannerComponent implements OnInit {
 
 	plannerLoading = true;
 	canvasLoading = true;
+
+	paramSubscription: any;
 
 	// Controller for sidebar's collapsed class
 	sidebarCollapsed = true;
@@ -117,10 +119,17 @@ export class PlannerComponent implements OnInit {
 		this.calendarDate = moment();
 
 		// Change the month and year according to the route parameters
-		if (this.route.snapshot.url[0].path === 'planner' && this.route.snapshot.url.length !== 1) {
-			this.calendarDate.year(this.route.snapshot.params['year']);
-			this.calendarDate.month(this.route.snapshot.params['month'] - 1);
-		}
+		this.paramSubscription = this.route.params
+			.subscribe(
+				params => {
+					if (params.year) {
+						this.calendarDate.year(params.year);
+					}
+					if (params.month) {
+						this.calendarDate.month(params.month - 1);
+					}
+				}
+			);
 
 		this.formattedMonth = this.formatMonth(this.calendarDate, []);
 
@@ -184,6 +193,10 @@ export class PlannerComponent implements OnInit {
 				this.deselectDay();
 			}
 		);
+	}
+
+	ngOnDestroy() {
+		this.paramSubscription.unsubscribe();
 	}
 
 	getEvents(date) {

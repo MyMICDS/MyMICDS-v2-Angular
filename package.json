@@ -45,7 +45,7 @@
     "chart.js": "^2.4.0",
     "core-js": "^2.4.1",
     "css-element-queries": "^0.4.0",
-    "interactjs": "^1.2.8",
+    "interactjs": "^1.2.9",
     "ng2-bootstrap": "^1.6.1",
     "ngx-color-picker": "^4.0.0",
     "prisma": "^3.1.0",
@@ -54,11 +54,10 @@
     "socket.io-client": "^1.7.3",
     "trianglify": "^1.0.1",
     "ts-helpers": "^1.1.1",
-    "typescript": "^2.2.1",
     "zone.js": "^0.8.5"
   },
   "devDependencies": {
-    "@angular/cli": "^1.0.0",
+    "@angular/cli": "^1.2.0",
     "@types/jasmine": "^2.5.43",
     "@types/node": "^7.0.5",
     "codelyzer": "~2.0.0-beta.4",

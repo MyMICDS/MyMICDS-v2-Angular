@@ -16,8 +16,10 @@ import { AlertComponent } from './components/alert/alert.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
 
+
 import { ModuleContainerComponent } from './components/module-container/module-container.component';
 
+import { CountdownComponent } from './components/modules/countdown/countdown.component';
 import { ProgressComponent } from './components/modules/progress/progress.component';
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
 import { SnowdayComponent } from './components/modules/snowday/snowday.component';
@@ -48,6 +50,7 @@ import { BackgroundService } from './services/background.service';
 import { BulletinService } from './services/bulletin.service';
 import { CanvasService } from './services/canvas.service';
 import { ClassesService } from './services/classes.service';
+import { DatesService } from './services/dates.service';
 import { LunchService } from './services/lunch.service';
 import { ModulesService } from './services/modules.service';
 import { PlannerService } from './services/planner.service';
@@ -75,10 +78,11 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 	declarations: [
 		// Components
 		AppComponent,
-		HomeComponent,
 		AboutComponent,
 		AlertComponent,
+		HomeComponent,
 		ModuleContainerComponent,
+		CountdownComponent,
 		ProgressComponent,
 		ScheduleComponent,
 		SnowdayComponent,
@@ -139,6 +143,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		BulletinService,
 		CanvasService,
 		ClassesService,
+		DatesService,
 		LunchService,
 		ModulesService,
 		PlannerService,
