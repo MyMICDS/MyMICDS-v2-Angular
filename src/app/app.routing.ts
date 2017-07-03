@@ -27,7 +27,7 @@ export function defaultTitleFunction(url: string) {
 	return `MyMICDS - ${capitalizeURL(url)}`;
 }
 
-const appRoutes: Routes = [
+export const appRoutes: Routes = [
 	{
 		path: '',
 		redirectTo: '/home',
