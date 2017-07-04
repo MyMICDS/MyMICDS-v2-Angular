@@ -58,6 +58,10 @@ body {
 }
 
 // Fix for Gridster (homepage modules)
+gridster .gridster-container {
+	height: initial;
+}
+
 gridster-item .gridster-item-inner {
 	height: 100%;
 }
