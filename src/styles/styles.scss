@@ -59,9 +59,14 @@ body {
 
 // Fix for Gridster (homepage modules)
 gridster .gridster-container {
-	height: initial;
+	height: initial !important;
 }
 
 gridster-item .gridster-item-inner {
-	height: 100%;
+	position: absolute;
+	top: $blur-margin / 2;
+	right: $blur-margin / 2;
+	bottom: $blur-margin / 2;
+	left: $blur-margin / 2;
+	overflow: hidden;
 }

@@ -1,11 +1,19 @@
 @import '../../../styles/settings';
 
+.edit-button {
+	position: absolute;
+}
+
 .container {
 	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
 
 	.announcement.dismissed {
 		animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+	}
+
+	.gridster-container {
+		margin: -($blur-margin / 2);
 	}
 }
 

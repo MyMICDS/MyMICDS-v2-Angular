@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { IGridsterOptions } from 'angular2gridster';
 
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
@@ -25,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Array of module objects from the back-end
 	moduleLayout: Module[];
 	// Grider options
-	gridsterOptions = {
+	gridsterOptions: IGridsterOptions = {
 		lanes: 4,
 		direction: 'vertical',
 		dragAndDrop: false,
