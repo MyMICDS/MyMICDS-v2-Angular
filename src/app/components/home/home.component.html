@@ -8,40 +8,13 @@
 		<strong>Announcement</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
-	<div #modulesContainer class="modules" [class.edit]="editMode" [style.grid-auto-rows]="cellHeight + 'px'">
-		<!-- <mymicds-progress mymicds-blur [schedule]="schedule" [today]="current" class="module"></mymicds-progress>
-		<mymicds-schedule mymicds-blur [currentSchedule]="schedule" class="module half"></mymicds-schedule>
-		<mymicds-weather mymicds-blur class="module half"></mymicds-weather>
-<<<<<<< HEAD
-		<mymicds-snowday mymicds-blur class="module half"></mymicds-snowday> -->
-		<!-- <mymicds-module-container mymicds-blur class="module" [moduleData]="{ type: 'progress', inputs: { schedule: schedule, today: current } }"></mymicds-module-container> -->
-		<mymicds-module-container *ngFor="let module of moduleLayout; let i = index"
-			[moduleData]="{ type: module.type, inputs: {} }"
-			[attr.data-index]="i"
-			[style.grid-column-start]="module.column"
-			[style.grid-column-end]="'span ' + module.width"
-			[style.grid-row-start]="module.row"
-			[style.grid-row-end]="'span ' + module.height">
-				<button class="delete-module btn btn-danger" *ngIf="editMode" (click)="deleteModule(i)"><i class="fa fa-times"></i></button>
-		</mymicds-module-container>
-
-		<ng-container *ngIf="editMode">
-			<ng-container *ngFor="let columns of gridArray; let row = index">
-				<div *ngFor="let column of columns"
-					#unitCell
-					class="unit-cell"
-					[attr.data-column]="column + 1"
-					[attr.data-row]="row + 1"
-					[style.grid-column-start]="column + 1"
-					[style.grid-row-start]="row + 1"></div>
-			</ng-container>
-		</ng-container>
-	</div>
-	<div class="modules-menu" *ngIf="editMode" mymicds-blur--dark>
-		<i *ngFor="let module of moduleList" class="fa module-icon" [ngClass]="module.icon" [attr.data-type]="module.name"></i>
-=======
-		<mymicds-snowday mymicds-blur class="module half"></mymicds-snowday>
-		<mymicds-countdown mymicds-blur class="module half"></mymicds-countdown>
->>>>>>> master
-	</div>
+	<gridster [options]="gridsterOptions">
+		<gridster-item *ngFor="let module of moduleLayout"
+			[(x)]="module.column"
+			[(y)]="module.row"
+			[(w)]="module.width"
+			[(h)]="module.height">
+			<mymicds-module-container [moduleData]="{ type: module.type, inputs: {} }"></mymicds-module-container>
+		</gridster-item>
+	</gridster>
 </div>

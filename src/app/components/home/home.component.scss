@@ -1,95 +1,11 @@
 @import '../../../styles/settings';
 
-/* --------------------------
-  Main Styles
---------------------------- */
-
 .container {
 	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
 
 	.announcement.dismissed {
 		animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
-	}
-
-	.modules {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		grid-align-content: stretch;
-		grid-gap: 5px;
-
-		// Something about the grid makes it so the columns - no matter what size or amount - will always overflow by 1rem.
-		// Could be caused by the module-container padding.
-		padding-right: 1rem;
-
-		.unit-cell {
-			// z-index: -1;
-			pointer-events: none;
-
-			&.active {
-				background: rgba($sophisticated-white, 0.8);
-			}
-
-			&.dropped {
-				background: rgba(red, 0.8);
-			}
-		}
-
-		&.edit {
-			.unit-cell {
-				border: 1px dashed rgba($sophisticated-white, 0.5);
-			}
-		}
-
-		mymicds-module-container {
-			position: relative;
-			.delete-module {
-				position: absolute;
-				top: 1rem;
-				right: 1rem;
-				opacity: 0;
-				z-index: -1;
-			}
-			&:hover {
-				.delete-module {
-					opacity: 1;
-					z-index: 1;
-				}
-			}
-		}
-	}
-
-	.modules-menu {
-		position: fixed;
-		bottom: 0;
-		left: 50%;
-		height: 15%;
-		width: 40rem;
-		transform: translate(-50%);
-		z-index: 10;
-
-		display: flex;
-		justify-content: space-around;
-		align-items: stretch;
-
-		.module-icon {
-			font-size: 3rem;
-			color: white;
-			width: auto;
-			flex: 1;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: background-color 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-
-			&:hover {
-				background-color: rgba(255, 255, 255, 0.25);
-			}
-
-			&.dragging {
-				background-color: rgba(255, 255, 255, 0.25);
-			}
-		}
 	}
 }
 
@@ -99,21 +15,5 @@
 	}
 	to {
 		opacity: 0;
-	}
-}
-
-/* --------------------------
-  Media Queries
---------------------------- */
-
-@media screen and (min-width: 544px) {
-	.container {
-		.modules {
-			.module {
-				&.half {
-					// width: calc(50% - #{$blur-margin / 2});
-				}
-			}
-		}
 	}
 }

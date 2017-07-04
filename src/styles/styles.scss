@@ -56,3 +56,8 @@ body {
 		}
 	}
 }
+
+// Fix for Gridster (homepage modules)
+gridster-item .gridster-item-inner {
+	height: 100%;
+}

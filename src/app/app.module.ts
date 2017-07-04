@@ -5,6 +5,7 @@ import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule } from 'ng2-bootstrap';
+import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 let jwtHelper = new JwtHelper();
 
@@ -15,7 +16,6 @@ import { AboutComponent } from './components/about/about.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
-
 
 import { ModuleContainerComponent } from './components/module-container/module-container.component';
 
@@ -130,7 +130,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		routing,
 		ColorPickerModule,
 		DatepickerModule.forRoot(),
-		ModalModule.forRoot()
+		ModalModule.forRoot(),
+		GridsterModule
 	],
 	providers: [
 		appRoutingProviders,
