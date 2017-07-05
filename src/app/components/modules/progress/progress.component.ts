@@ -17,8 +17,8 @@ declare let Chart: any;
 @MyMICDSModule({
 	name: 'progress',
 	icon: 'fa-tasks',
-	initHeight: 1,
-	initWidth: 4
+	defaultHeight: 1,
+	defaultWidth: 4
 })
 export class ProgressComponent implements OnInit, OnDestroy {
 

@@ -19,8 +19,8 @@ import '../../../common/rxjs-operators';
 @MyMICDSModule({
 	name: 'schedule',
 	icon: 'fa-calendar',
-	initHeight: 1,
-	initWidth: 2
+	defaultHeight: 1,
+	defaultWidth: 2
 })
 export class ScheduleComponent implements OnInit {
 

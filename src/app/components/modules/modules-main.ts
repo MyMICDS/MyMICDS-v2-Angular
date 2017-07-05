@@ -8,8 +8,8 @@ export function MyMICDSModule(config: ModuleConfig) {
 		modules[config.name] = {
 			component: target,
 			icon: config.icon,
-			initHeight: config.initHeight,
-			initWidth: config.initWidth
+			defaultHeight: config.defaultHeight,
+			defaultWidth: config.defaultWidth
 		};
 	};
 }
@@ -21,8 +21,8 @@ export function getModuleComponent(key: string) {
 
 interface ModuleConfigBase {
 	icon: string;
-	initHeight: number;
-	initWidth: number;
+	defaultHeight: number;
+	defaultWidth: number;
 }
 
 interface ModuleConfig extends ModuleConfigBase {

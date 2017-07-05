@@ -13,8 +13,8 @@ import { WeatherService } from '../../../services/weather.service';
 @MyMICDSModule({
 	name: 'weather',
 	icon: 'fa-cloud',
-	initHeight: 1,
-	initWidth: 2
+	defaultHeight: 1,
+	defaultWidth: 2
 })
 export class WeatherComponent implements OnInit, OnDestroy {
 
