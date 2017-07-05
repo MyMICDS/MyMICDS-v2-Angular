@@ -8,13 +8,15 @@
 		<strong>Announcement</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
-	<div class="gridster-container">
-		<gridster #grid [options]="gridsterOptions">
-			<gridster-item *ngFor="let module of moduleLayout"
+	<div #gridContainer class="grid-container">
+		<gridster [options]="gridsterOptions">
+			<gridster-item #gridItem *ngFor="let module of moduleLayout"
 				[(x)]="module.column"
 				[(y)]="module.row"
 				[(w)]="module.width"
-				[(h)]="module.height">
+				[(h)]="module.height"
+				(yChange)="calculateGridHeight()"
+				(hChange)="calculateGridHeight()">
 				<mymicds-module-container [moduleData]="{ type: module.type, inputs: {} }"></mymicds-module-container>
 			</gridster-item>
 		</gridster>
