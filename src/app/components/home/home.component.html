@@ -8,17 +8,37 @@
 		<strong>Announcement</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
-	<div #gridContainer class="grid-container">
-		<gridster [options]="gridsterOptions">
+	<div class="grid-container">
+		<gridster #gridster [options]="gridsterOptions">
 			<gridster-item #gridItem *ngFor="let module of moduleLayout"
 				[(x)]="module.column"
 				[(y)]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
 				(yChange)="calculateGridHeight()"
-				(hChange)="calculateGridHeight()">
+				(hChange)="calculateGridHeight()"
+				[style.cursor]="editMode ? 'pointer' : 'initial'">
+
 				<mymicds-module-container [moduleData]="{ type: module.type, inputs: {} }"></mymicds-module-container>
 			</gridster-item>
 		</gridster>
+	</div>
+</div>
+<div *ngIf="editMode" class="modules-menu" mymicds-blur--dark>
+	<p>Drag and drop modules onto the grid</p>
+	<div gridsterItemPrototype
+		*ngFor="let name of moduleNames"
+		class="drag-module"
+		[config]="{ helper: true }"
+		(drop)="addModule($event, name)"
+		(enter)="over($event)"
+		(out)="out($event)">
+
+		<i class="fa" [ngClass]="modules[name].icon"></i>
+		{{ name | capitalize }}
+
+		<div class="gridster-item-inner" style="width: 0;height: 0;">
+			<mymicds-module-container [moduleData]="{ type: name, inputs: {} }"></mymicds-module-container>
+		</div>
 	</div>
 </div>

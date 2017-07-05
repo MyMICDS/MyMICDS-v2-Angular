@@ -34,14 +34,12 @@ export class ModulesService {
 }
 
 export interface Module {
-	type: ModuleType;
+	type: string;
 	row: number;
 	column: number;
 	width: number;
 	height: number;
-	data: {
+	data?: {
 		[key: string]: any;
 	};
 }
-
-export type ModuleType = 'date' | 'lunch' | 'progress' | 'quotes' | 'schedule' | 'snowday' | 'stickynotes' | 'weather';

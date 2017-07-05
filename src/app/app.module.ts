@@ -66,6 +66,7 @@ import { NotificationService } from './services/notification.service';
 import { SuggestionsService } from './services/suggestions.service';
 import { QuoteService } from './services/quote.service';
 
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
 import { RoundPipe } from './pipes/round.pipe';
@@ -110,6 +111,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		WhiteBlurDirective,
 
 		// Pipes
+		CapitalizePipe,
 		CompassDirectionPipe,
 		DayRotationPipe,
 		RoundPipe,

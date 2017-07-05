@@ -1,7 +1,8 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
+import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 
+import { modules } from '../modules/modules-main';
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
 import { ScheduleService } from '../../services/schedule.service';
@@ -23,11 +24,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 	editMode = false;
 
 	moduleLayoutSubscription: any;
-	// Array of module objects from the back-end
 	moduleLayout: Module[];
 
+	// Different module names and module config
+	moduleNames = Object.keys(modules);
+	modules = modules;
+
 	// Gridster
-	@ViewChild('gridContainer') gridContainer: ElementRef;
+	@ViewChild('gridster') gridster: GridsterComponent;
 	@ViewChildren('gridItem') gridsterItems: QueryList<GridsterItemComponent>;
 	gridsterItemsSubscription: any;
 	// Gridster options
@@ -97,7 +101,36 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 			const height = parseInt(item.$element.style.top, 10) + parseInt(item.$element.style.height, 10);
 			maxHeight = Math.max(maxHeight, height);
 		});
-		this.gridContainer.nativeElement.style.height = `${maxHeight}px`;
+		this.gridster.$el.style.height = `${maxHeight}px`;
+	}
+
+	// When the user drops a module label onto the grid
+	addModule(event: any, moduleName: string) {
+		console.log('Add module', moduleName, event.item);
+		this.moduleLayout.push({
+			type: moduleName,
+			row: event.item.y,
+			column: event.item.x,
+			width: modules[moduleName].defaultWidth,
+			height: modules[moduleName].defaultHeight
+		});
+	}
+
+	// When a module label is dragged over the grid
+	over(event: any) {
+		console.log('over', event);
+		event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.width =
+			event.gridster.getItemWidth(event.item) + 'px';
+		event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.height =
+			event.gridster.getItemHeight(event.item) + 'px';
+		event.item.itemPrototype.$element.classList.add('is-over');
+	}
+
+	// When a module label is dragged back outside the grid
+	out(event: any) {
+		event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.width = '';
+		event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.height = '';
+		event.item.itemPrototype.$element.classList.remove('is-over');
 	}
 
 }

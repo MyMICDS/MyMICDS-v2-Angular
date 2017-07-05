@@ -70,3 +70,7 @@ gridster-item .gridster-item-inner {
 	left: $blur-margin / 2;
 	overflow: hidden;
 }
+
+.drag-module {
+	z-index: 100;
+}

@@ -17,6 +17,29 @@
 	}
 }
 
+.modules-menu {
+	position: fixed;
+	bottom: 0;
+	z-index: 100;
+
+	display: flex;
+	align-items: center;
+
+	color: $sophisticated-white;
+
+	> * {
+		padding: 1rem;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	.drag-module {
+		border-left: 1px solid rgba($sophisticated-white, 0.5);
+	}
+}
+
 @keyframes deleteAlert {
 	from {
 		opacity: 1;
