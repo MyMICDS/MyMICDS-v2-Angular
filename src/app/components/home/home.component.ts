@@ -101,6 +101,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 			const height = parseInt(item.$element.style.top, 10) + parseInt(item.$element.style.height, 10);
 			maxHeight = Math.max(maxHeight, height);
 		});
+
+		// If in edit mode, add extra 500px
+		if (this.editMode) {
+			maxHeight += 500;
+		}
+
 		this.gridster.$el.style.height = `${maxHeight}px`;
 	}
 

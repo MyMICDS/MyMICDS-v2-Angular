@@ -71,6 +71,28 @@ gridster-item .gridster-item-inner {
 	overflow: hidden;
 }
 
+.position-highlight .inner {
+	position: absolute;
+	top: $blur-margin / 2;
+	bottom: $blur-margin / 2;
+	left: $blur-margin / 2;
+	right: $blur-margin / 2;
+
+	background-color: rgba($sophisticated-white, 0.5);
+	border: 1px solid rgba($sophisticated-white, 0.75);
+	border-radius: 0.5rem;
+
+	transition-duration: 500ms;
+	transition-timing-function: ease-in-out;
+
+	// background-color: #768294;
+	// border: 1px solid transparent;
+	// -webkit-transition: background 3s;
+	// transition: background 3s;
+	// border-radius: 3px;
+	// box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
 .drag-module {
 	z-index: 100;
 }
