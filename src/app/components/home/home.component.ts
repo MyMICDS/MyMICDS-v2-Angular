@@ -119,18 +119,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 	// When a module label is dragged over the grid
 	over(event: any) {
 		console.log('over', event);
-		event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.width =
-			event.gridster.getItemWidth(event.item) + 'px';
-		event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.height =
-			event.gridster.getItemHeight(event.item) + 'px';
-		event.item.itemPrototype.$element.classList.add('is-over');
+		// event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.width =
+		// 	event.gridster.getItemWidth(event.item) + 'px';
+		// event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.height =
+		// 	event.gridster.getItemHeight(event.item) + 'px';
+		// event.item.itemPrototype.$element.classList.add('is-over');
 	}
 
 	// When a module label is dragged back outside the grid
 	out(event: any) {
-		event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.width = '';
-		event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.height = '';
-		event.item.itemPrototype.$element.classList.remove('is-over');
+		console.log('out', event);
+		// event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.width = '';
+		// event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.height = '';
+		// event.item.itemPrototype.$element.classList.remove('is-over');
 	}
 
 }

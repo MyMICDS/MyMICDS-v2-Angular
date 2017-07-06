@@ -1,5 +1,3 @@
-import { ModuleType } from '../../services/modules.service';
-
 export const modules: {[name: string]: ModuleList} = {};
 
 // Module decorator
@@ -26,7 +24,7 @@ interface ModuleConfigBase {
 }
 
 interface ModuleConfig extends ModuleConfigBase {
-	name: ModuleType;
+	name: string;
 }
 
 interface ModuleList extends ModuleConfigBase {

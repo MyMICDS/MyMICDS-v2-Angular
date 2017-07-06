@@ -30,6 +30,8 @@
 		*ngFor="let name of moduleNames"
 		class="drag-module"
 		[config]="{ helper: true }"
+		[w]="modules[name].defaultWidth"
+		[h]="modules[name].defaultHeight"
 		(drop)="addModule($event, name)"
 		(enter)="over($event)"
 		(out)="out($event)">
@@ -37,8 +39,8 @@
 		<i class="fa" [ngClass]="modules[name].icon"></i>
 		{{ name | capitalize }}
 
-		<div class="gridster-item-inner" style="width: 0;height: 0;">
+		<!-- <div class="gridster-item-inner" style="width: 0;height: 0;">
 			<mymicds-module-container [moduleData]="{ type: name, inputs: {} }"></mymicds-module-container>
-		</div>
+		</div> -->
 	</div>
 </div>
