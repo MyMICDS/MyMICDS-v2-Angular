@@ -1,5 +1,6 @@
 <button class="btn btn-info edit-button" [routerLink]="editMode ? '/home' : '/home/edit'">{{ editMode ? 'Done' : 'Edit' }}</button>
 
+<div class="debug">{{ moduleLayout | json }}</div>
 <div class="container">
 	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
@@ -15,8 +16,6 @@
 				[(y)]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
-				(yChange)="calculateGridHeight()"
-				(hChange)="calculateGridHeight()"
 				[style.cursor]="editMode ? 'pointer' : 'initial'">
 
 				<mymicds-module-container [moduleData]="{ type: module.type, inputs: {} }"></mymicds-module-container>
@@ -33,6 +32,7 @@
 		[w]="modules[name].defaultWidth"
 		[h]="modules[name].defaultHeight"
 		(drop)="addModule($event, name)"
+		(start)="start($event)"
 		(enter)="over($event)"
 		(out)="out($event)">
 

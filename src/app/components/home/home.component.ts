@@ -33,13 +33,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 	// Gridster
 	@ViewChild('gridster') gridster: GridsterComponent;
 	@ViewChildren('gridItem') gridsterItems: QueryList<GridsterItemComponent>;
+	// Labels that you drag onto the grid to add modules
+	// @ViewChildren(GridsterItemPrototypeDirective) dragModules: QueryList<GridsterItemPrototypeDirective>;
 	gridsterItemsSubscription: any;
 	// Gridster options
 	gridsterOptions: IGridsterOptions = {
-		lanes: 4,
 		direction: 'vertical',
+		lanes: 4,
+		widthHeightRatio: 1,
 		dragAndDrop: false,
-		resizable: false
+		resizable: false,
+		// shrink: true
 	};
 
 	constructor(
@@ -57,6 +61,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.editMode = !!data.edit;
 				this.gridsterOptions.dragAndDrop = this.editMode;
 				this.gridsterOptions.resizable = this.editMode;
+				// this.gridsterOptions.shrink = !this.editMode;
 			}
 		);
 
@@ -107,12 +112,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 			maxHeight += 500;
 		}
 
-		this.gridster.$el.style.height = `${maxHeight}px`;
+		// this.gridster.$element.style.height = `${maxHeight}px`;
 	}
 
 	// When the user drops a module label onto the grid
 	addModule(event: any, moduleName: string) {
 		console.log('Add module', moduleName, event.item);
+		// console.log('x', event.item.x, 'y', event.item.y);
+		console.log('Module object', {
+			type: moduleName,
+			row: event.item.y,
+			column: event.item.x,
+			width: modules[moduleName].defaultWidth,
+			height: modules[moduleName].defaultHeight
+		});
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,
@@ -120,6 +133,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 			width: modules[moduleName].defaultWidth,
 			height: modules[moduleName].defaultHeight
 		});
+	}
+
+	start(event: any) {
+		// console.log('start!', event, this.dragModules);
+
+		// this.dragModules.forEach(label => {
+		// 	label.onOut((<any>label).gridsterPrototype);
+		// 	label.onEnter((<any>label).gridsterPrototype);
+		// 	// (<any>label).gridsterPrototype.observeDropOver
+		// 	this.gridster.gridster.onStart(event.item);
+		// });
+
+		// event.item.itemPrototype
 	}
 
 	// When a module label is dragged over the grid
