@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 		widthHeightRatio: 1,
 		dragAndDrop: false,
 		resizable: false,
-		// shrink: true
+		shrink: false
 	};
 
 	constructor(
