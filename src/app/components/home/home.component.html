@@ -12,6 +12,7 @@
 	<div class="grid-container">
 		<gridster #gridster [options]="gridsterOptions">
 			<gridster-item #gridItem *ngFor="let module of moduleLayout"
+				[options]="gridsterItemOptions"
 				[(x)]="module.column"
 				[(y)]="module.row"
 				[(w)]="module.width"

@@ -45,6 +45,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 		resizable: false,
 		shrink: false
 	};
+	gridsterItemOptions = {
+		maxWidth: Infinity,
+		maxHeight: Infinity
+	};
 
 	constructor(
 		private route: ActivatedRoute,
