@@ -22,7 +22,6 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
-import { GridsterTestComponent } from './gridster-test/gridster-test.component';
 
 /**
  * Title functions
@@ -165,10 +164,6 @@ export const appRoutes: Routes = [
 	{
 		path: 'quote',
 		component: QuotesComponent
-	},
-	{
-		path: 'test',
-		component: GridsterTestComponent
 	}
 ];
 
