@@ -39,11 +39,34 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 	// Gridster options
 	gridsterOptions: IGridsterOptions = {
 		direction: 'vertical',
-		lanes: 4,
+		lanes: 1,
 		widthHeightRatio: 1,
 		dragAndDrop: false,
 		resizable: false,
-		shrink: false
+		shrink: false,
+		responsiveView: true,
+		responsiveOptions: [
+			{
+				breakpoint: 'sm',
+				minWidth: 576,
+				lanes: 2
+			},
+			{
+				breakpoint: 'md',
+				minWidth: 768,
+				lanes: 4
+			},
+			{
+				breakpoint: 'lg',
+				minWidth: 992,
+				lanes: 4
+			},
+			{
+				breakpoint: 'xl',
+				minWidth: 1200,
+				lanes: 4
+			}
+		]
 	};
 	gridsterItemOptions = {
 		maxWidth: Infinity,
@@ -72,7 +95,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 		// Get modules layout
 		this.moduleLayoutSubscription = this.modulesService.get()
 			.subscribe(modules => {
+				modules.push({
+					type: 'weather',
+					row: 4,
+					column: 2,
+					width: 2,
+					height: 1
+				});
 				this.moduleLayout = modules;
+				// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
+				// (like 730px wide area)
+				this.gridster.reload();
 			});
 
 	}
@@ -122,20 +155,20 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 	// When the user drops a module label onto the grid
 	addModule(event: any, moduleName: string) {
 		console.log('Add module', moduleName, event.item);
-		// console.log('x', event.item.x, 'y', event.item.y);
 		console.log('Module object', {
 			type: moduleName,
 			row: event.item.y,
 			column: event.item.x,
-			width: modules[moduleName].defaultWidth,
-			height: modules[moduleName].defaultHeight
+			width: event.item.w,
+			height: event.item.h
 		});
+
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,
 			column: event.item.x,
-			width: modules[moduleName].defaultWidth,
-			height: modules[moduleName].defaultHeight
+			width: event.item.w,
+			height: event.item.h
 		});
 	}
 
