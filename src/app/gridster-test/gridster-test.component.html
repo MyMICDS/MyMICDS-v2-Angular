@@ -77,7 +77,7 @@
 </div>
 <div class="main-content">
 
-	<gridster [options]="gridsterOptions"
+	<gridster [options]="gridsterOptions" [draggableOptions]="gridsterDraggableOptions"
 			  (optionsChange)="optionsChange($event)" #gridster1 style="min-height: 500px;">
 
 		<gridster-item *ngFor="let widget of widgets; let indx = index" #itemComp

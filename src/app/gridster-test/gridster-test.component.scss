@@ -12,10 +12,9 @@ h1 {
 
 .widgetbar {
 	width: 100%;
-	position: fixed;
+	position: relative;
 	height: 100px;
 	padding: 10px 0;
-	z-index: 100;
 }
 
 .main-content {

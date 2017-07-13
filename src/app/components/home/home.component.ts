@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
+import { GridsterComponent, IGridsterOptions } from 'angular2gridster';
 
 import { modules } from '../modules/modules-main';
 import { AlertService } from '../../services/alert.service';
@@ -12,7 +12,7 @@ import { ScheduleService } from '../../services/schedule.service';
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
@@ -30,12 +30,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 	moduleNames = Object.keys(modules);
 	modules = modules;
 
-	// Gridster
+	// Gridster component
 	@ViewChild('gridster') gridster: GridsterComponent;
-	@ViewChildren('gridItem') gridsterItems: QueryList<GridsterItemComponent>;
-	// Labels that you drag onto the grid to add modules
-	// @ViewChildren(GridsterItemPrototypeDirective) dragModules: QueryList<GridsterItemPrototypeDirective>;
-	gridsterItemsSubscription: any;
 	// Gridster options
 	gridsterOptions: IGridsterOptions = {
 		direction: 'vertical',
@@ -88,20 +84,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.editMode = !!data.edit;
 				this.gridsterOptions.dragAndDrop = this.editMode;
 				this.gridsterOptions.resizable = this.editMode;
-				// this.gridsterOptions.shrink = !this.editMode;
+				this.gridsterOptions.shrink = !this.editMode;
 			}
 		);
 
 		// Get modules layout
 		this.moduleLayoutSubscription = this.modulesService.get()
 			.subscribe(modules => {
-				modules.push({
-					type: 'weather',
-					row: 4,
-					column: 2,
-					width: 2,
-					height: 1
-				});
 				this.moduleLayout = modules;
 				// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
 				// (like 730px wide area)
@@ -110,19 +99,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	}
 
-	ngAfterViewInit() {
-		// Listen for changes
-		this.gridsterItemsSubscription = this.gridsterItems.changes.subscribe(
-			() => {
-				this.calculateGridHeight();
-			}
-		);
-	}
-
 	ngOnDestroy() {
 		this.moduleLayoutSubscription.unsubscribe();
 		this.routeDataSubscription.unsubscribe();
-		this.gridsterItemsSubscription.unsubscribe();
 	}
 
 	dismissAlert() {
@@ -134,22 +113,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 		setTimeout(() => {
 			this.showAnnouncement = false;
 		}, animationTime - 5);
-	}
-
-	// Because angular2gridster is weird, we need to manually calculate the height and set it for proper bottom margin
-	calculateGridHeight() {
-		let maxHeight = 0;
-		this.gridsterItems.forEach(item => {
-			const height = parseInt(item.$element.style.top, 10) + parseInt(item.$element.style.height, 10);
-			maxHeight = Math.max(maxHeight, height);
-		});
-
-		// If in edit mode, add extra 500px
-		if (this.editMode) {
-			maxHeight += 500;
-		}
-
-		// this.gridster.$element.style.height = `${maxHeight}px`;
 	}
 
 	// When the user drops a module label onto the grid
@@ -173,7 +136,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	start(event: any) {
-		// console.log('start!', event, this.dragModules);
+		console.log('start drag', event);
 
 		// this.dragModules.forEach(label => {
 		// 	label.onOut((<any>label).gridsterPrototype);

@@ -20,6 +20,10 @@ body {
 	background-size: cover;
 }
 
+button {
+	cursor: pointer;
+}
+
 [mymicds-blur] {
 	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url($background-url--blur);
 	background-size: cover;

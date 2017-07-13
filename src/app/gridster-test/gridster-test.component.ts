@@ -13,8 +13,8 @@ import { GridsterComponent, IGridsterOptions, IGridsterDraggableOptions } from '
 export class GridsterTestComponent {
 	@ViewChild(GridsterComponent) gridster: GridsterComponent;
 	itemOptions = {
-		maxWidth: Infinity,
-		maxHeight: Infinity
+		maxWidth: 3,
+		maxHeight: 3
 	};
 	gridsterOptions: IGridsterOptions = {
 		// core configuration is default one - for smallest view. It has hidden minWidth: 0.
