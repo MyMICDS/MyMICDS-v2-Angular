@@ -135,35 +135,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	start(event: any) {
-		console.log('start drag', event);
-
-		// this.dragModules.forEach(label => {
-		// 	label.onOut((<any>label).gridsterPrototype);
-		// 	label.onEnter((<any>label).gridsterPrototype);
-		// 	// (<any>label).gridsterPrototype.observeDropOver
-		// 	this.gridster.gridster.onStart(event.item);
-		// });
-
-		// event.item.itemPrototype
-	}
-
 	// When a module label is dragged over the grid
 	over(event: any) {
-		console.log('over', event);
-		// event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.width =
-		// 	event.gridster.getItemWidth(event.item) + 'px';
-		// event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.height =
-		// 	event.gridster.getItemHeight(event.item) + 'px';
-		// event.item.itemPrototype.$element.classList.add('is-over');
-	}
+		event.item.itemPrototype.$element.classList.add('dragging');
 
-	// When a module label is dragged back outside the grid
-	out(event: any) {
-		console.log('out', event);
-		// event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.width = '';
-		// event.item.itemPrototype.$element.querySelector('.gridster-item-inner').style.height = '';
-		// event.item.itemPrototype.$element.classList.remove('is-over');
+		const size = event.item.calculateSize(event.gridster);
+		const preview = event.item.itemPrototype.$element.getElementsByClassName('gridster-item-inner')[0];
+
+		preview.style.width = `${size.width}px`;
+		preview.style.height = `${size.height}px`;
 	}
 
 }

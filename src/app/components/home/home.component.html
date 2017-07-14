@@ -32,15 +32,18 @@
 		[w]="modules[name].defaultWidth"
 		[h]="modules[name].defaultHeight"
 		(drop)="addModule($event, name)"
-		(start)="start($event)"
-		(enter)="over($event)"
-		(out)="out($event)">
+		(enter)="over($event)">
 
-		<i class="fa" [ngClass]="modules[name].icon"></i>
-		{{ name | capitalize }}
+		<div class="module-label">
+			<i class="fa" [ngClass]="modules[name].icon"></i>
+			{{ name | capitalize }}
+		</div>
 
-		<!-- <div class="gridster-item-inner" style="width: 0;height: 0;">
-			<mymicds-module-container [moduleData]="{ type: name, inputs: {} }"></mymicds-module-container>
-		</div> -->
+		<div class="gridster-item-inner" style="width: 0; height: 0;">
+			<div mymicds-blur class="module-preview">
+				<i class="fa" [ngClass]="modules[name].icon"></i>
+				{{ name | capitalize }}
+			</div>
+		</div>
 	</div>
 </div>
