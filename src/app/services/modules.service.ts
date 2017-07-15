@@ -31,6 +31,25 @@ export class ModulesService {
 			.catch(handleError);
 	}
 
+	upsert(modules: Module[]) {
+		let body = JSON.stringify({ modules });
+		let headers = xhrHeaders();
+		let options = new RequestOptions({ headers });
+
+		return this.authHttp.post(environment.backendURL + '/modules/upsert', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if (data.error) {
+					throw new Error(data.error);
+				}
+
+				return;
+			})
+			.catch(handleError);
+	}
+
 }
 
 export interface Module {

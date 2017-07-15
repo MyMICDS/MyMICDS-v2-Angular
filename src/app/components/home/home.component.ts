@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GridsterComponent, IGridsterOptions } from 'angular2gridster';
+import * as _ from 'lodash';
 
 import { modules } from '../modules/modules-main';
 import { AlertService } from '../../services/alert.service';
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	editMode = false;
 
 	moduleLayoutSubscription: any;
+	ogModuleLayout: Module[];
 	moduleLayout: Module[];
 
 	// Different module names and module config
@@ -66,7 +68,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 	};
 	gridsterItemOptions = {
 		maxWidth: Infinity,
-		maxHeight: Infinity
+		maxHeight: Infinity,
+		// dragAndDrop: false,
+		// resizable: false
 	};
 
 	constructor(
@@ -91,6 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		// Get modules layout
 		this.moduleLayoutSubscription = this.modulesService.get()
 			.subscribe(modules => {
+				this.ogModuleLayout = JSON.parse(JSON.stringify(modules));
 				this.moduleLayout = modules;
 				// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
 				// (like 730px wide area)
@@ -115,17 +120,26 @@ export class HomeComponent implements OnInit, OnDestroy {
 		}, animationTime - 5);
 	}
 
+	detectChanges() {
+		return !_.isEqual(this.ogModuleLayout, this.moduleLayout);
+	}
+
+	// Save current moduleLayout in the back-end
+	saveModules() {
+		this.modulesService.upsert(this.moduleLayout)
+			.subscribe(
+				() => {
+					console.log('Saved modules!');
+					this.ogModuleLayout = JSON.parse(JSON.stringify(this.moduleLayout));
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Save Modules Error!', error);
+				}
+			);
+	}
+
 	// When the user drops a module label onto the grid
 	addModule(event: any, moduleName: string) {
-		console.log('Add module', moduleName, event.item);
-		console.log('Module object', {
-			type: moduleName,
-			row: event.item.y,
-			column: event.item.x,
-			width: event.item.w,
-			height: event.item.h
-		});
-
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,

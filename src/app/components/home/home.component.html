@@ -1,4 +1,22 @@
-<button class="btn btn-info edit-button" [routerLink]="editMode ? '/home' : '/home/edit'">{{ editMode ? 'Done' : 'Edit' }}</button>
+<div class="manage-menu-container">
+	<div class="manage-menu">
+		<ng-container *ngIf="!editMode">
+			<a class="edit" routerLink="/home/edit">
+				<i class="fa fa-pencil-square-o"></i>
+				Edit
+			</a>
+		</ng-container>
+		<ng-container *ngIf="editMode">
+			<button class="btn btn-danger edit-button" routerLink="/home">Done</button>
+			<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!detectChanges()">Save Changes</button>
+			<div class="debug">
+				Current: {{ moduleLayout | json }}
+				<br>
+				Original: {{ ogModuleLayout | json }}
+			</div>
+		</ng-container>
+	</div>
+</div>
 
 <div class="container">
 	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">

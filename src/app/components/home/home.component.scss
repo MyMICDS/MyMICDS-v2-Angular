@@ -1,8 +1,38 @@
 @import '../../../styles/settings';
 
-.edit-button {
+:host {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+}
+
+.manage-menu-container {
 	position: absolute;
-	z-index: 500;
+	top: 0;
+	bottom: 0;
+	left: 0;
+
+	.manage-menu {
+		position: sticky;
+		top: 0.5rem;
+
+		display: inline-block;
+		margin-top: 0.5rem;
+		padding-left: 1rem;
+
+		z-index: 500;
+
+		.edit {
+			color: $sophisticated-white;
+			text-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+		}
+
+		.debug {
+			margin-left: -1rem;
+			color: $sophisticated-white;
+			text-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+		}
+	}
 }
 
 .container {
