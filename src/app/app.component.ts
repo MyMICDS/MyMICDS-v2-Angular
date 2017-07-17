@@ -1,5 +1,3 @@
-import { environment } from '../environments/environment';
-
 import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -8,7 +6,7 @@ import { defaultTitleFunction } from './app.routing';
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
 
-declare let ga: any;
+declare const ga: any;
 
 @Component({
 	selector: 'mymicds-app',
@@ -16,11 +14,6 @@ declare let ga: any;
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-
-	backgrounds: any = {
-		normal: environment.backendURL + '/user-backgrounds/default/normal.jpg',
-		blur: environment.backendURL + '/user-backgrounds/default/blur.jpg'
-	};
 
 	/*
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
@@ -36,14 +29,7 @@ export class AppComponent {
 	) {
 
 		// Get custom user background
-		this.backgroundService.get().subscribe(
-			data => {
-				this.backgrounds = data.variants;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Background Error!', error);
-			}
-		);
+		this.backgroundService.initialize();
 
 		// Dynamic browser page title
 		this.router.events

@@ -7,7 +7,7 @@ import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule } from 'ng2-bootstrap';
 import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
-let jwtHelper = new JwtHelper();
+const jwtHelper = new JwtHelper();
 
 import { modules, getModuleComponent } from './components/modules/modules-main';
 

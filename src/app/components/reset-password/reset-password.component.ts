@@ -5,7 +5,6 @@ import { confirmPassword } from '../../common/form-validation';
 import { typeOf } from '../../common/utils';
 
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
 	selector: 'mymicds-reset-password',
@@ -32,23 +31,22 @@ export class ResetPasswordComponent implements OnInit {
 		private router: Router,
 		private formBuilder: FormBuilder,
 		private route: ActivatedRoute,
-		private authService: AuthService,
-		private userService: UserService
+		private authService: AuthService
 	) { }
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if (this.userService.getUsername()) {
-			this.router.navigate(['home']);
+		if (this.authService.authSnapshot) {
+			this.router.navigate(['/home']);
 			return;
 		}
 
 		this.route.params.subscribe(
-			(params: any) => {
+			params => {
 				this.user = params.user;
 				this.hash = params.hash;
 			},
-			(error) => {
+			err => {
 				this.resetResponse = 'There was a problem getting the URL variables!';
 			}
 		);

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { AuthService, JWT } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -13,7 +14,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
 	isCollapsed = true;
 	eventsSubscription: any;
 
-	constructor(private router: Router, private route: ActivatedRoute, private userService: UserService) { }
+	jwtSubscription: any;
+	jwt: JWT;
+
+	constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService, private userService: UserService) { }
 
 	ngOnInit() {
 		// Collapse navbar on page change
@@ -22,14 +26,18 @@ export class NavbarComponent implements OnInit, OnDestroy {
 				this.isCollapsed = true;
 			}
 		);
+
+		// Keep track if user's auth state for login/logout buttons
+		this.jwtSubscription = this.authService.auth$.subscribe(
+			jwt => {
+				this.jwt = jwt;
+			}
+		);
 	}
 
 	ngOnDestroy() {
 		this.eventsSubscription.unsubscribe();
-	}
-
-	getUsername() {
-		return this.userService.getUsername();
+		this.jwtSubscription.unsubscribe();
 	}
 
 }

@@ -8,9 +8,10 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import '../common/rxjs-operators';
 
-import { AuthService } from '../services/auth.service';
+import { AlertService } from './alert.service';
+import { AuthService } from './auth.service';
 
-declare let Trianglify: any;
+declare const Trianglify: any;
 
 @Injectable()
 export class BackgroundService {
@@ -24,7 +25,23 @@ export class BackgroundService {
 	};
 	hasDefault = true;
 
-	constructor(private authHttp: AuthHttp, private authService: AuthService) { }
+	constructor(private authHttp: AuthHttp, private alertService: AlertService, private authService: AuthService) { }
+
+	// Start getting of user's backgrounds and stuff
+	initialize() {
+		this.authService.auth$
+			.switchMap(() => this.get())
+			.subscribe(
+				({ variants, hasDefault }) => {
+					this.variants = variants;
+					this.hasDefault = hasDefault;
+					this.set();
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Background Error!', error);
+				}
+			);
+	}
 
 	get() {
 		let body = JSON.stringify({});
@@ -39,11 +56,6 @@ export class BackgroundService {
 				if (data.error) {
 					throw new Error(data.error);
 				}
-
-				// Assign to private variables
-				this.variants = data.variants;
-				this.hasDefault = data.hasDefault;
-				this.set();
 
 				return {
 					variants: this.variants,
@@ -67,6 +79,7 @@ export class BackgroundService {
 			formData.append('background', file, file.name);
 
 			xhr.onreadystatechange = () => {
+				console.log('xhr state change', xhr.readyState, xhr.status);
 				if (xhr.readyState === 4) {
 					if (xhr.status === 200) {
 						let data = JSON.parse(xhr.response);

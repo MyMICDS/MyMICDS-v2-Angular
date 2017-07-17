@@ -7,7 +7,7 @@ import { MyMICDSModule } from '../modules-main';
 import { ScheduleService } from '../../../services/schedule.service';
 // import { SocketioService } from '../../../services/socketio.service';
 
-declare let Chart: any;
+declare const Chart: any;
 
 @Component({
 	selector: 'mymicds-progress',
