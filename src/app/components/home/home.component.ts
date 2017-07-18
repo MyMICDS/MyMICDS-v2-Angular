@@ -44,35 +44,33 @@ export class HomeComponent implements OnInit, OnDestroy {
 		dragAndDrop: false,
 		resizable: false,
 		shrink: false,
-		responsiveView: true,
-		// responsiveOptions: [
-		// 	{
-		// 		breakpoint: 'sm',
-		// 		minWidth: 576,
-		// 		lanes: 2
-		// 	},
-		// 	{
-		// 		breakpoint: 'md',
-		// 		minWidth: 768,
-		// 		lanes: 4
-		// 	},
-		// 	{
-		// 		breakpoint: 'lg',
-		// 		minWidth: 992,
-		// 		lanes: 4
-		// 	},
-		// 	{
-		// 		breakpoint: 'xl',
-		// 		minWidth: 1200,
-		// 		lanes: 4
-		// 	}
-		// ]
+		responsiveView: false,
+		responsiveOptions: [
+			{
+				breakpoint: 'sm',
+				minWidth: 576,
+				lanes: 2
+			},
+			{
+				breakpoint: 'md',
+				minWidth: 768,
+				lanes: 4
+			},
+			{
+				breakpoint: 'lg',
+				minWidth: 992,
+				lanes: 4
+			},
+			{
+				breakpoint: 'xl',
+				minWidth: 1200,
+				lanes: 4
+			}
+		]
 	};
 	gridsterItemOptions = {
 		maxWidth: Infinity,
-		maxHeight: Infinity,
-		// dragAndDrop: false,
-		// resizable: false
+		maxHeight: Infinity
 	};
 
 	constructor(
@@ -133,18 +131,27 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Save current moduleLayout in the back-end
 	saveModules(saveModules = this.moduleLayout) {
 		this.savingModuleLayout = true;
-		this.modulesService.upsert(saveModules)
-			.subscribe(
-				modules => {
-					this.savingModuleLayout = false;
-					this.updateModuleLayout(modules);
-					this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
-				},
-				error => {
-					this.savingModuleLayout = false;
-					this.alertService.addAlert('danger', 'Save Modules Error!', error);
-				}
-			);
+
+		// Update the current layout so that all modules get collapsed
+		// It's not very optimal, but I haven't found any way to prevent collapsing,
+		// so we might as well do it before saving so what the user actually sees is synced with the database
+		this.updateModuleLayout(JSON.parse(JSON.stringify(saveModules)));
+		// Set a timeout so angular2gridster has time to update
+		setTimeout(() => {
+			this.modulesService.upsert(this.moduleLayout)
+				.subscribe(
+					modules => {
+						this.savingModuleLayout = false;
+						this.updateModuleLayout(modules);
+						this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
+					},
+					error => {
+						this.savingModuleLayout = false;
+						this.alertService.addAlert('danger', 'Save Modules Error!', error);
+					}
+				);
+		// I've found 61 ms works majority of time, but doesn't when there's more modules
+		}, 100);
 	}
 
 	// When the user drops a module label onto the grid
