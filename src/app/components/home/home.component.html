@@ -7,8 +7,11 @@
 			</a>
 		</ng-container>
 		<ng-container *ngIf="editMode">
-			<button class="btn btn-danger edit-button" routerLink="/home">Done</button>
-			<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!detectChanges()">Save Changes</button>
+			<button class="btn btn-success edit-button" routerLink="/home">Done</button>
+			<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!detectChanges() || savingModuleLayout">
+				{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
+			</button>
+			<button class="btn btn-danger" (click)="saveModules([])">Reset Layout</button>
 			<div class="debug">
 				Current: {{ moduleLayout | json }}
 				<br>

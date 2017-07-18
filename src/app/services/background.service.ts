@@ -79,7 +79,6 @@ export class BackgroundService {
 			formData.append('background', file, file.name);
 
 			xhr.onreadystatechange = () => {
-				console.log('xhr state change', xhr.readyState, xhr.status);
 				if (xhr.readyState === 4) {
 					if (xhr.status === 200) {
 						let data = JSON.parse(xhr.response);

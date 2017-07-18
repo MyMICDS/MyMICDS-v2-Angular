@@ -31,7 +31,7 @@ export class ModulesService {
 			.catch(handleError);
 	}
 
-	upsert(modules: Module[]) {
+	upsert(modules: Module[]): Observable<Module[]> {
 		let body = JSON.stringify({ modules });
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
@@ -45,7 +45,7 @@ export class ModulesService {
 					throw new Error(data.error);
 				}
 
-				return;
+				return data.modules;
 			})
 			.catch(handleError);
 	}

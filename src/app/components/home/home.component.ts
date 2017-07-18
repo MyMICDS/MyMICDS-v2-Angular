@@ -28,6 +28,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 	ogModuleLayout: Module[];
 	moduleLayout: Module[];
 
+	savingModuleLayout = false;
+
 	// Different module names and module config
 	moduleNames = Object.keys(modules);
 	modules = modules;
@@ -37,34 +39,34 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Gridster options
 	gridsterOptions: IGridsterOptions = {
 		direction: 'vertical',
-		lanes: 1,
+		lanes: 4,
 		widthHeightRatio: 1,
 		dragAndDrop: false,
 		resizable: false,
 		shrink: false,
 		responsiveView: true,
-		responsiveOptions: [
-			{
-				breakpoint: 'sm',
-				minWidth: 576,
-				lanes: 2
-			},
-			{
-				breakpoint: 'md',
-				minWidth: 768,
-				lanes: 4
-			},
-			{
-				breakpoint: 'lg',
-				minWidth: 992,
-				lanes: 4
-			},
-			{
-				breakpoint: 'xl',
-				minWidth: 1200,
-				lanes: 4
-			}
-		]
+		// responsiveOptions: [
+		// 	{
+		// 		breakpoint: 'sm',
+		// 		minWidth: 576,
+		// 		lanes: 2
+		// 	},
+		// 	{
+		// 		breakpoint: 'md',
+		// 		minWidth: 768,
+		// 		lanes: 4
+		// 	},
+		// 	{
+		// 		breakpoint: 'lg',
+		// 		minWidth: 992,
+		// 		lanes: 4
+		// 	},
+		// 	{
+		// 		breakpoint: 'xl',
+		// 		minWidth: 1200,
+		// 		lanes: 4
+		// 	}
+		// ]
 	};
 	gridsterItemOptions = {
 		maxWidth: Infinity,
@@ -95,11 +97,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		// Get modules layout
 		this.moduleLayoutSubscription = this.modulesService.get()
 			.subscribe(modules => {
-				this.ogModuleLayout = JSON.parse(JSON.stringify(modules));
-				this.moduleLayout = modules;
-				// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
-				// (like 730px wide area)
-				this.gridster.reload();
+				this.updateModuleLayout(modules);
 			});
 
 	}
@@ -124,15 +122,26 @@ export class HomeComponent implements OnInit, OnDestroy {
 		return !_.isEqual(this.ogModuleLayout, this.moduleLayout);
 	}
 
+	updateModuleLayout(modules: Module[]) {
+		this.ogModuleLayout = JSON.parse(JSON.stringify(modules));
+		this.moduleLayout = modules;
+		// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
+		// (like 730px wide area)
+		this.gridster.reload();
+	}
+
 	// Save current moduleLayout in the back-end
-	saveModules() {
-		this.modulesService.upsert(this.moduleLayout)
+	saveModules(saveModules = this.moduleLayout) {
+		this.savingModuleLayout = true;
+		this.modulesService.upsert(saveModules)
 			.subscribe(
-				() => {
-					console.log('Saved modules!');
-					this.ogModuleLayout = JSON.parse(JSON.stringify(this.moduleLayout));
+				modules => {
+					this.savingModuleLayout = false;
+					this.updateModuleLayout(modules);
+					this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
 				},
 				error => {
+					this.savingModuleLayout = false;
 					this.alertService.addAlert('danger', 'Save Modules Error!', error);
 				}
 			);
