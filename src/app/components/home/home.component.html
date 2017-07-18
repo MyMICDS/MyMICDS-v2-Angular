@@ -1,5 +1,5 @@
-<div class="manage-menu-container">
-	<div class="manage-menu">
+<div class="manage-menu">
+	<div class="manage-buttons">
 		<ng-container *ngIf="!editMode">
 			<a class="edit" routerLink="/home/edit">
 				<i class="fa fa-pencil-square-o"></i>
@@ -19,6 +19,10 @@
 			</div> -->
 		</ng-container>
 	</div>
+	<p *ngIf="editMode" class="manage-help">
+		<i class="fa fa-info-circle"></i>
+		Drag, drop, and resize modules on the grid to your liking!
+	</p>
 </div>
 
 <div class="container">
@@ -45,7 +49,7 @@
 	</div>
 </div>
 <div *ngIf="editMode" class="modules-menu" mymicds-blur--dark>
-	<p>Drag and drop modules onto the grid</p>
+	<p>Drag a module onto the grid to add</p>
 	<div gridsterItemPrototype
 		*ngFor="let name of moduleNames"
 		class="drag-module"
