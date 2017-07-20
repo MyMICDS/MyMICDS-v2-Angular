@@ -17,7 +17,7 @@ export class CanvasService {
 
 	getEvents() {
 
-		if(this._events) {
+		if (this._events) {
 			return Observable.create(observer => {
 				observer.next({
 					hasURL: this._hasURL,

@@ -67,6 +67,13 @@ import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 
+import { AliasesComponent } from './components/settings/aliases/aliases.component';
+import { BackgroundComponent } from './components/settings/background/background.component';
+import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
+import { ClassesComponent } from './components/settings/classes/classes.component';
+import { InfoComponent } from './components/settings/info/info.component';
+import { UrlComponent } from './components/settings/url/url.component';
+
 @NgModule({
 	declarations: [
 		// Components
@@ -112,7 +119,16 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe
+		WeatherIconPipe,
+
+		// Components for settings
+		// TODO: Move these to wherever they should go
+		AliasesComponent,
+		BackgroundComponent,
+		ChangePasswordComponent,
+		ClassesComponent,
+		InfoComponent,
+		UrlComponent
 	],
 	imports: [
 		BrowserModule,

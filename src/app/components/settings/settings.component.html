@@ -162,7 +162,7 @@
 						<td class="class-manage">
 							<button class="btn btn-info selected" [class.active]="class._id === aliasClass?._id" (click)="manageAliases(class._id)" [disabled]="savingClasses || !class._id">
 								<i class="fa fa-link"></i>
-								Alias
+								Link
 							</button>
 							<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="savingClasses || !classChanged(class._id) || !class._id">
 								<i class="fa fa-undo"></i>
@@ -177,7 +177,7 @@
 				</tbody>
 			</table>
 			<div *ngIf="aliasClass" class="aliases card">
-				<h3>Link Aliases for <strong>{{ aliasClass.name }}</strong></h3>
+				<h3>Link Classes for <strong>{{ aliasClass.name }}</strong></h3>
 				<button class="aliases-dismiss btn btn-danger" (click)="dismissAliases()">
 					<i class="fa fa-times"></i>
 				</button>
