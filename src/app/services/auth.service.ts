@@ -12,7 +12,7 @@ export class AuthService {
 
 	private jwtHelper = new JwtHelper();
 	// Emit on any auth state change. Undefined if auth state still pending.
-	auth$: BehaviorSubject<JWT> = new BehaviorSubject(undefined);
+	auth$ = new BehaviorSubject<JWT>(undefined);
 	// What the most recent auth state is (for redirecting when not authenticated or something that requires current state once)
 	authSnapshot: JWT;
 
