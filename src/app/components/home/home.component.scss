@@ -6,13 +6,18 @@
 	display: inline-block;
 }
 
+.manage-menu-container {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+}
+
 .manage-menu {
 	position: sticky;
 	top: 0.5rem;
 
-	display: inline-flex;
-	flex-direction: column;
-	// align-items: center;
+	display: inline-block;
 
 	margin-top: 0.5rem;
 	padding-top: 1rem;
@@ -22,25 +27,25 @@
 
 	pointer-events: none;
 
-	button {
+	a, button {
 		pointer-events: all;
 	}
 
 	.manage-buttons {
-		.edit {
-			color: $sophisticated-white;
-			text-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-		}
+		margin-bottom: 0.5rem;
 
-		.debug {
-			margin-left: -1rem;
+		.edit {
+			padding: 0.25rem;
+			border-radius: 0.25rem;
+			opacity: 0.5;
 			color: $sophisticated-white;
-			text-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 		}
 	}
 
 	.manage-help {
 		margin-bottom: 0;
+		padding: 0.25rem;
+		border-radius: 0.25rem;
 		color: $sophisticated-white;
 		text-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 	}

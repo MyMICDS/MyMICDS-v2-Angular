@@ -1,25 +1,23 @@
-<div class="manage-menu">
-	<div class="manage-buttons">
-		<ng-container *ngIf="!editMode">
-			<a class="edit" routerLink="/home/edit">
+<div  *ngIf="!editMode" class="manage-menu-container">
+	<div class="manage-menu">
+		<div class="manage-buttons">
+			<a mymicds-blur class="edit" routerLink="/home/edit">
 				<i class="fa fa-pencil-square-o"></i>
 				Edit
 			</a>
-		</ng-container>
-		<ng-container *ngIf="editMode">
-			<button class="btn btn-success edit-button" routerLink="/home">Done</button>
-			<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!detectChanges() || savingModuleLayout">
-				{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
-			</button>
-			<button class="btn btn-danger" (click)="saveModules([])">Reset Layout</button>
-			<!-- <div class="debug">
-				Current: {{ moduleLayout | json }}
-				<br>
-				Original: {{ ogModuleLayout | json }}
-			</div> -->
-		</ng-container>
+		</div>
 	</div>
-	<p *ngIf="editMode" class="manage-help">
+</div>
+
+<div *ngIf="editMode" class="manage-menu">
+	<div class="manage-buttons">
+		<button class="btn btn-success edit-button" routerLink="/home">Done</button>
+		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!detectChanges() || savingModuleLayout">
+			{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
+		</button>
+		<button class="btn btn-danger" (click)="saveModules([])">Reset Layout</button>
+	</div>
+	<p mymicds-blur--dark class="manage-help">
 		<i class="fa fa-info-circle"></i>
 		Drag, drop, and resize modules on the grid to your liking!
 	</p>
