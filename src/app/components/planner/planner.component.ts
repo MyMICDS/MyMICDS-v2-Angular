@@ -536,6 +536,17 @@ export class PlannerComponent implements OnInit, OnDestroy {
 		this.viewEventObject = event;
 	}
 
+	formatEventDate(start, end) {
+		start = moment(start);
+		end = moment(end);
+
+		if (start.isSame(end, 'day')) {
+			return start.format('MMM D, Y');
+		} else {
+			return `${start.format('MMM D, Y')} - ${end.format('MMM D, Y')}`;
+		}
+	}
+
 	/*
 	 * Edit Event
 	 */

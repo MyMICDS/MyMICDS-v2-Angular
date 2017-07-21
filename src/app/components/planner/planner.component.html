@@ -303,7 +303,7 @@
 				<h4 class="modal-title pull-left">
 					{{ viewEventObject?.title }}
 					<br>
-					<small class="text-muted">{{ viewEventObject?.start | date }} - {{ viewEventObject?.end | date }}</small>
+					<small class="text-muted">{{ formatEventDate(viewEventObject?.start, viewEventObject?.end) }}</small>
 				</h4>
 				<button type="button" class="close pull-right" (click)="viewEventModal.hide()" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
