@@ -3,6 +3,7 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
+import moment from 'moment';
 import { xhrHeaders, handleError } from '../common/http-helpers';
 import '../common/rxjs-operators';
 
@@ -10,8 +11,8 @@ import '../common/rxjs-operators';
 export class PlannerService {
 	constructor(private authHttp: AuthHttp) { }
 
-	getEvents(date: Date) {
-		let body = JSON.stringify(date);
+	getEvents() {
+		let body = JSON.stringify({});
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
 
@@ -24,14 +25,14 @@ export class PlannerService {
 					throw new Error(data.error);
 				}
 
-				// Convert possible event dates to date objects
+				// Convert possible event dates to moment.js objects
 				if (data.events) {
 					for (let i = 0; i < data.events.length; i++) {
 						if (data.events[i].start) {
-							data.events[i].start = new Date(data.events[i].start);
+							data.events[i].start = moment(data.events[i].start);
 						}
 						if (data.events[i].end) {
-							data.events[i].end = new Date(data.events[i].end);
+							data.events[i].end = moment(data.events[i].end);
 						}
 					}
 				}
@@ -55,7 +56,7 @@ export class PlannerService {
 					throw new Error(data.error);
 				}
 
-				return data.id;
+				return data.events;
 			})
 			.catch(handleError);
 	}
@@ -116,9 +117,4 @@ export class PlannerService {
 			})
 			.catch(handleError);
 	}
-}
-
-interface Date {
-	year?: number;
-	month?: number;
 }
