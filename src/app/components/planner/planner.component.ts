@@ -106,7 +106,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private alertService: AlertService,
-		private authService: AuthService,
+		public authService: AuthService,
 		private canvasService: CanvasService,
 		private classesService: ClassesService,
 		private plannerService: PlannerService,

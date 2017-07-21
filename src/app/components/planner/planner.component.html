@@ -258,7 +258,11 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form #createEventForm="ngForm" novalidate>
+				<div *ngIf="!authService.authSnapshot" class="create-event-register">
+					<p>Using the planner requires a MyMICDS Account!</p>
+					<a class="btn btn-primary" routerLink="/register">Register Now</a>
+				</div>
+				<form #createEventForm="ngForm" [hidden]="!authService.authSnapshot" novalidate>
 					<fieldset class="form-group" [class.has-danger]="createEventTitle.dirty && !createEventTitle.valid">
 						<legend>Event Title</legend>
 						<input #createEventTitle="ngModel" class="form-control" [class.form-control-danger]="createEventTitle.dirty && !createEventTitle.valid" name="title" [(ngModel)]="createEventModel.title" placeholder="Title" required>
