@@ -40,6 +40,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	}, { validator: confirmPassword('newPassword', 'confirmPassword') });
 
 	userSubscription: any;
+	backgroundSubscription: any;
 
 	// Canvas URL Form
 	canvasURLSubscription: any;
@@ -126,9 +127,9 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		private portalService: PortalService,
 		private userService: UserService
 	) {
-		this.backgroundService.get().subscribe(
-			data => {
-				this.hasDefaultBackground = data.hasDefault;
+		this.backgroundSubscription = this.backgroundService.background$.subscribe(
+			background => {
+				this.hasDefaultBackground = background.hasDefault;
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Background Error!', error);
@@ -290,6 +291,7 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 	ngOnDestroy() {
 		// Unsubscribe to prevent memory leaks or something
 		this.userSubscription.unsubscribe();
+		this.backgroundSubscription.unsubscribe();
 		this.gradeRangeSubscription.unsubscribe();
 
 		this.portalURLSubscription.unsubscribe();
@@ -435,14 +437,6 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			() => {
 				this.uploadingBackground = false;
 				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
-				this.backgroundService.get().subscribe(
-					data => {
-						this.hasDefaultBackground = data.hasDefault;
-					},
-					error => {
-						this.alertService.addAlert('danger', 'Get Background Error!', error);
-					}
-				);
 			},
 			error => {
 				this.uploadingBackground = false;
@@ -455,14 +449,6 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.backgroundService.delete().subscribe(
 			() => {
 				this.alertService.addAlert('success', 'Success!', 'Deleted background!', 3);
-				this.backgroundService.get().subscribe(
-					data => {
-						this.hasDefaultBackground = data.hasDefault;
-					},
-					error => {
-						this.alertService.addAlert('danger', 'Get Background Error!', error);
-					}
-				);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Delete Background Error!', error);
@@ -808,14 +794,6 @@ export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
 			() => {
 				this.uploadingBackground = false;
 				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
-				this.backgroundService.get().subscribe(
-					data => {
-						this.hasDefaultBackground = data.hasDefault;
-					},
-					error => {
-						this.alertService.addAlert('danger', 'Get Background Error!', error);
-					}
-				);
 			},
 			error => {
 				this.uploadingBackground = false;

@@ -45,8 +45,9 @@ export class RegisterComponent implements OnInit {
 	ngOnInit() {
 
 		// Check if user is already logged in
-		if (this.userService.getUsername()) {
-			this.router.navigate(['home']);
+		if (this.authService.authSnapshot) {
+			this.router.navigate(['/home']);
+			return;
 		}
 
 		this.userService.gradeRange().subscribe(

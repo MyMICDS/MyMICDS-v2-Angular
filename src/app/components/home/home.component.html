@@ -1,3 +1,28 @@
+<div  *ngIf="!editMode" class="manage-menu-container">
+	<div class="manage-menu">
+		<div class="manage-buttons">
+			<a mymicds-blur class="edit" routerLink="/home/edit">
+				<i class="fa fa-pencil-square-o"></i>
+				Edit
+			</a>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="editMode" class="manage-menu">
+	<div class="manage-buttons">
+		<button class="btn btn-success edit-button" routerLink="/home">Done</button>
+		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!detectChanges() || savingModuleLayout">
+			{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
+		</button>
+		<button class="btn btn-danger" (click)="saveModules([])">Reset Layout</button>
+	</div>
+	<p mymicds-blur--dark class="manage-help">
+		<i class="fa fa-info-circle"></i>
+		Drag, drop, and resize modules on the grid to your liking!
+	</p>
+</div>
+
 <div class="container">
 	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
@@ -6,11 +31,42 @@
 		<strong>Announcement</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
-	<div class="modules">
-		<mymicds-progress mymicds-blur [schedule]="schedule" [today]="current" class="module"></mymicds-progress>
-		<mymicds-schedule mymicds-blur [currentSchedule]="schedule" class="module half"></mymicds-schedule>
-		<mymicds-weather mymicds-blur class="module half"></mymicds-weather>
-		<mymicds-snowday mymicds-blur class="module half"></mymicds-snowday>
-		<mymicds-countdown mymicds-blur class="module half"></mymicds-countdown>
+	<div class="grid-container">
+		<gridster #gridster [options]="gridsterOptions">
+			<gridster-item #gridItem *ngFor="let module of moduleLayout"
+				[options]="gridsterItemOptions"
+				[(x)]="module.column"
+				[(y)]="module.row"
+				[(w)]="module.width"
+				[(h)]="module.height"
+				[style.cursor]="editMode ? 'pointer' : 'initial'">
+
+				<mymicds-module-container [moduleData]="{ type: module.type, inputs: {} }"></mymicds-module-container>
+			</gridster-item>
+		</gridster>
+	</div>
+</div>
+<div *ngIf="editMode" class="modules-menu" mymicds-blur--dark>
+	<p>Drag a module onto the grid to add</p>
+	<div gridsterItemPrototype
+		*ngFor="let name of moduleNames"
+		class="drag-module"
+		[config]="{ helper: true }"
+		[w]="modules[name].defaultWidth"
+		[h]="modules[name].defaultHeight"
+		(drop)="addModule($event, name)"
+		(enter)="over($event)">
+
+		<div class="module-label">
+			<i class="fa" [ngClass]="modules[name].icon"></i>
+			{{ name | capitalize }}
+		</div>
+
+		<div class="gridster-item-inner" style="width: 0; height: 0;">
+			<div mymicds-blur class="module-preview">
+				<i class="fa" [ngClass]="modules[name].icon"></i>
+				{{ name | capitalize }}
+			</div>
+		</div>
 	</div>
 </div>

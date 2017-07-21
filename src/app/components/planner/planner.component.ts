@@ -5,11 +5,11 @@ import moment from 'moment';
 import { contains, darkenColor, rainbowSafeWord, rainbowCSSGradient } from '../../common/utils';
 
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 import { CanvasService } from '../../services/canvas.service';
 import { ClassesService } from '../../services/classes.service';
 import { PlannerService } from '../../services/planner.service';
 import { PortalService } from '../../services/portal.service';
-import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -106,11 +106,11 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private alertService: AlertService,
+		private authService: AuthService,
 		private canvasService: CanvasService,
 		private classesService: ClassesService,
 		private plannerService: PlannerService,
 		private portalService: PortalService,
-		private userService: UserService,
 		private router: Router,
 		private route: ActivatedRoute
 	) { }
@@ -144,7 +144,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 				}
 			);
 
-		if (this.userService.getUsername()) {
+		if (this.authService.authSnapshot) {
 			// User logged in
 			this.getEvents(this.calendarDate);
 			// Get list of classes for when user inserts their own event
@@ -437,7 +437,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month() + 1]);
 
-		if (this.userService.getUsername()) {
+		if (this.authService.authSnapshot) {
 			// User logged in
 			this.getEvents(this.calendarDate);
 		} else {
@@ -450,7 +450,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 	currentMonth() {
 		this.calendarDate = moment();
 
-		if (this.userService.getUsername()) {
+		if (this.authService.authSnapshot) {
 			// User logged in
 			this.getEvents(this.calendarDate);
 		} else {
@@ -465,7 +465,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month() + 1]);
 
-		if (this.userService.getUsername()) {
+		if (this.authService.authSnapshot) {
 			// User logged in
 			this.getEvents(this.calendarDate);
 		} else {

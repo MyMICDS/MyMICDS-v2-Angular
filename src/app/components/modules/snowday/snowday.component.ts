@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
+import { MyMICDSModule } from '../modules-main';
+
 import { AlertService } from '../../../services/alert.service';
 import { SnowdayService } from '../../../services/snowday.service';
 
@@ -7,6 +9,12 @@ import { SnowdayService } from '../../../services/snowday.service';
 	selector: 'mymicds-snowday',
 	templateUrl: './snowday.component.html',
 	styleUrls: ['./snowday.component.scss']
+})
+@MyMICDSModule({
+	name: 'snowday',
+	icon: 'fa-snowflake-o',
+	defaultHeight: 1,
+	defaultWidth: 2
 })
 export class SnowdayComponent implements OnInit, OnDestroy {
 

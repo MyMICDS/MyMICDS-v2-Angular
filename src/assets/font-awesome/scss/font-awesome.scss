@@ -1,5 +1,5 @@
 /*!
- *  Font Awesome 4.6.3 by @davegandy - http://fontawesome.io - @fontawesome
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
  *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
  */
 
@@ -16,25 +16,3 @@
 @import "stacked";
 @import "icons";
 @import "screen-reader";
-
-// MyMICDS Custom Code to make the datepicker icons fixed for ng2-bootstrap
-
-.glyphicon {
-	@extend .fa;
-
-	&.glyphicon-chevron-left {
-		@extend .fa-chevron-left;
-	}
-
-	&.glyphicon-chevron-right {
-		@extend .fa-chevron-right;
-	}
-
-	&.glyphicon-chevron-up {
-		@extend .fa-chevron-up;
-	}
-
-	&.glyphicon-chevron-down {
-		@extend .fa-chevron-down;
-	}
-}

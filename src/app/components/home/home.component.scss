@@ -1,8 +1,55 @@
 @import '../../../styles/settings';
 
-/* --------------------------
-  Main Styles
---------------------------- */
+:host {
+	width: 100%;
+	position: relative;
+	display: inline-block;
+}
+
+.manage-menu-container {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.manage-menu {
+	position: sticky;
+	top: 0.5rem;
+
+	display: inline-block;
+
+	margin-top: 0.5rem;
+	padding-top: 1rem;
+	padding-left: 1rem;
+
+	z-index: 500;
+
+	pointer-events: none;
+
+	a, button {
+		pointer-events: all;
+	}
+
+	.manage-buttons {
+		margin-bottom: 0.5rem;
+
+		.edit {
+			padding: 0.25rem;
+			border-radius: 0.25rem;
+			opacity: 0.5;
+			color: $sophisticated-white;
+		}
+	}
+
+	.manage-help {
+		margin-bottom: 0;
+		padding: 0.25rem;
+		border-radius: 0.25rem;
+		color: $sophisticated-white;
+		text-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	}
+}
 
 .container {
 	margin-bottom: 6rem;
@@ -12,18 +59,34 @@
 		animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 	}
 
-	.modules {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
+	.grid-container {
+		margin: -($blur-margin / 2);
+	}
+}
 
-		.module {
-			width: 100%;
-			margin-bottom: $blur-margin;
-			padding: 1rem;
-			color: $sophisticated-white;
-			overflow: hidden;
-		}
+.modules-menu {
+	position: fixed;
+	bottom: 0;
+	z-index: 100;
+
+	display: flex;
+	align-items: center;
+
+	padding: 0.5rem;
+
+	color: $sophisticated-white;
+
+	> * {
+		padding: 1rem;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	.drag-module {
+		cursor: move;
+		border-left: 1px solid rgba($sophisticated-white, 0.5);
 	}
 }
 
@@ -33,21 +96,5 @@
 	}
 	to {
 		opacity: 0;
-	}
-}
-
-/* --------------------------
-  Media Queries
---------------------------- */
-
-@media screen and (min-width: 544px) {
-	.container {
-		.modules {
-			.module {
-				&.half {
-					width: calc(50% - #{$blur-margin / 2});
-				}
-			}
-		}
 	}
 }
