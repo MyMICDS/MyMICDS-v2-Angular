@@ -59,7 +59,17 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: 'home',
-		component: HomeComponent
+		children: [
+			{
+				path: '',
+				component: HomeComponent
+			},
+			{
+				path: 'edit',
+				component: HomeComponent,
+				data: { edit: true }
+			}
+		]
 	},
 	{
 		path: 'lunch',

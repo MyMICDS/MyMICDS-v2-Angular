@@ -70,7 +70,7 @@
 					.next-month {
 						font-weight: 300;
 
-						fa {
+						.fa {
 							margin: 0 0.5rem;
 						}
 					}
@@ -406,6 +406,10 @@
 .create-event-modal,
 .edit-event-modal {
 	.modal-body {
+		.create-event-register {
+			text-align: center;
+		}
+
 		.event-date {
 			display: flex;
 			justify-content: space-between;

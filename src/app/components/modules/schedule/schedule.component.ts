@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import moment from 'moment';
 import { contains } from '../../../common/utils';
+
+import { MyMICDSModule } from '../modules-main';
 
 import { AlertService } from '../../../services/alert.service';
 import { ScheduleService } from '../../../services/schedule.service';
@@ -14,20 +16,13 @@ import '../../../common/rxjs-operators';
 	templateUrl: './schedule.component.html',
 	styleUrls: ['./schedule.component.scss']
 })
+@MyMICDSModule({
+	name: 'schedule',
+	icon: 'fa-calendar',
+	defaultHeight: 1,
+	defaultWidth: 2
+})
 export class ScheduleComponent implements OnInit {
-
-	@Input()
-	set currentSchedule(value) {
-		this._currentSchedule = value;
-		this.viewSchedule = value;
-	}
-
-	get currentSchedule() {
-		return this._currentSchedule;
-	}
-
-	private _currentSchedule: any = null;
-	current = moment();
 
 	viewSchedule: any = null;
 	scheduleDate = moment();
@@ -98,12 +93,6 @@ export class ScheduleComponent implements OnInit {
 	}
 
 	getSchedule(date: any) {
-		// First check if date is current date
-		if (this.current.isSame(date, 'day')) {
-			this.viewSchedule = this._currentSchedule;
-			return;
-		}
-
 		this.viewSchedule = null;
 
 		this.scheduleService.get({

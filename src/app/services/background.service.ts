@@ -4,29 +4,42 @@ import { Injectable } from '@angular/core';
 import { RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { xhrHeaders, handleError } from '../common/http-helpers';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import '../common/rxjs-operators';
 
-import { AuthService } from '../services/auth.service';
+import { AlertService } from './alert.service';
+import { AuthService } from './auth.service';
 
-declare let Trianglify: any;
+declare const Trianglify: any;
 
 @Injectable()
 export class BackgroundService {
 
-	private backgroundChangeSource = new Subject();
-	backgroundChange$ = this.backgroundChangeSource.asObservable();
+	background$ = new BehaviorSubject<Background>({
+		hasDefault: true,
+		variants: {
+			normal: environment.backendURL + '/user-backgrounds/default/normal.jpg',
+			blur: environment.backendURL + '/user-backgrounds/default/blur.jpg'
+		}
+	});
 
-	variants = {
-		normal: environment.backendURL + '/user-backgrounds/default/normal.jpg',
-		blur: environment.backendURL + '/user-backgrounds/default/blur.jpg'
-	};
-	hasDefault = true;
+	constructor(private authHttp: AuthHttp, private alertService: AlertService, private authService: AuthService) { }
 
-	constructor(private authHttp: AuthHttp, private authService: AuthService) { }
+	// Start getting of user's backgrounds and stuff
+	initialize() {
+		this.authService.auth$
+			.switchMap(() => this.get())
+			.subscribe(
+				background => {
+					this.set(background);
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Background Error!', error);
+				}
+			);
+	}
 
-	get() {
+	private get(): Observable<Background> {
 		let body = JSON.stringify({});
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
@@ -40,22 +53,17 @@ export class BackgroundService {
 					throw new Error(data.error);
 				}
 
-				// Assign to private variables
-				this.variants = data.variants;
-				this.hasDefault = data.hasDefault;
-				this.set();
-
 				return {
-					variants: this.variants,
-					hasDefault: this.hasDefault
+					hasDefault: data.hasDefault,
+					variants: data.variants
 				};
 			})
 			.catch(handleError);
 	}
 
-	set() {
-		document.body.style.backgroundImage = 'url("' + this.variants.normal + '")';
-		this.backgroundChangeSource.next(this.variants.blur);
+	private set(background: Background) {
+		this.background$.next(background);
+		document.body.style.backgroundImage = 'url("' + background.variants.normal + '")';
 	}
 
 	upload(file: File) {
@@ -77,6 +85,11 @@ export class BackgroundService {
 							observer.complete();
 							return;
 						}
+
+						this.set({
+							hasDefault: data.hasDefault,
+							variants: data.variants
+						});
 
 						observer.next();
 					} else {
@@ -119,6 +132,11 @@ export class BackgroundService {
 					throw new Error(data.error);
 				}
 
+				this.set({
+					hasDefault: data.hasDefault,
+					variants: data.variants
+				});
+
 				return;
 			})
 			.catch(handleError);
@@ -155,4 +173,14 @@ export class BackgroundService {
 		let bgFile: File = new File([bgBlob], 'trianglify', { type: 'image/png' });
 		return this.upload(bgFile);
 	}
+}
+
+export interface Background {
+	hasDefault: boolean;
+	variants: Variants;
+}
+
+export interface Variants {
+	normal: string;
+	blur: string;
 }

@@ -20,6 +20,10 @@ body {
 	background-size: cover;
 }
 
+button {
+	cursor: pointer;
+}
+
 [mymicds-blur] {
 	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url($background-url--blur);
 	background-size: cover;
@@ -53,6 +57,74 @@ body {
 
 		.modal-content .modal-header .close {
 			align-self: flex-start;
+		}
+	}
+}
+
+// Fix for Gridster (homepage modules)
+.gridster-item-inner {
+	position: absolute;
+	top: $blur-margin / 2;
+	right: $blur-margin / 2;
+	bottom: $blur-margin / 2;
+	left: $blur-margin / 2;
+	overflow: hidden;
+}
+
+.position-highlight .inner {
+	position: absolute;
+	top: $blur-margin / 2;
+	bottom: $blur-margin / 2;
+	left: $blur-margin / 2;
+	right: $blur-margin / 2;
+
+	background-color: rgba($sophisticated-white, 0.5);
+	border: 1px solid rgba($sophisticated-white, 0.75);
+	border-radius: 0.5rem;
+
+	transition-duration: 500ms;
+	transition-timing-function: ease-in-out;
+}
+
+gridster-item.is-dragging .gridster-item-inner {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.drag-module {
+	position: relative;
+	z-index: 100;
+
+	.module-preview {
+		visibility: hidden;
+		transition-duration: 250ms;
+		transition-timing-function: ease-in-out;
+	}
+
+	&.dragging {
+		.module-label {
+			visibility: hidden;
+		}
+
+		.gridster-item-inner {
+			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+			.module-preview {
+				visibility: visible;
+				height: 100%;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				pointer-events: none;
+
+				color: $sophisticated-white;
+				font-size: 4.5rem;
+
+				i {
+					margin-right: 0.5rem;
+				}
+			}
 		}
 	}
 }

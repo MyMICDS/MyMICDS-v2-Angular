@@ -5,19 +5,25 @@ import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule } from 'ng2-bootstrap';
+import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
-let jwtHelper = new JwtHelper();
+const jwtHelper = new JwtHelper();
+
+import { modules, getModuleComponent } from './components/modules/modules-main';
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
-import { CountdownComponent } from './components/home/countdown/countdown.component';
-import { ProgressComponent } from './components/home/progress/progress.component';
-import { ScheduleComponent } from './components/home/schedule/schedule.component';
-import { SnowdayComponent } from './components/home/snowday/snowday.component';
-import { WeatherComponent } from './components/home/weather/weather.component';
+
+import { ModuleContainerComponent } from './components/module-container/module-container.component';
+
+import { CountdownComponent } from './components/modules/countdown/countdown.component';
+import { ProgressComponent } from './components/modules/progress/progress.component';
+import { ScheduleComponent } from './components/modules/schedule/schedule.component';
+import { SnowdayComponent } from './components/modules/snowday/snowday.component';
+import { WeatherComponent } from './components/modules/weather/weather.component';
 
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
@@ -46,6 +52,7 @@ import { CanvasService } from './services/canvas.service';
 import { ClassesService } from './services/classes.service';
 import { DatesService } from './services/dates.service';
 import { LunchService } from './services/lunch.service';
+import { ModulesService } from './services/modules.service';
 import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
 import { ScheduleService } from './services/schedule.service';
@@ -59,6 +66,7 @@ import { NotificationService } from './services/notification.service';
 import { SuggestionsService } from './services/suggestions.service';
 import { QuoteService } from './services/quote.service';
 
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
 import { RoundPipe } from './pipes/round.pipe';
@@ -78,9 +86,10 @@ import { UrlComponent } from './components/settings/url/url.component';
 	declarations: [
 		// Components
 		AppComponent,
-		HomeComponent,
 		AboutComponent,
 		AlertComponent,
+		HomeComponent,
+		ModuleContainerComponent,
 		CountdownComponent,
 		ProgressComponent,
 		ScheduleComponent,
@@ -109,6 +118,7 @@ import { UrlComponent } from './components/settings/url/url.component';
 		WhiteBlurDirective,
 
 		// Pipes
+		CapitalizePipe,
 		CompassDirectionPipe,
 		DayRotationPipe,
 		RoundPipe,
@@ -138,7 +148,8 @@ import { UrlComponent } from './components/settings/url/url.component';
 		routing,
 		ColorPickerModule,
 		DatepickerModule.forRoot(),
-		ModalModule.forRoot()
+		ModalModule.forRoot(),
+		GridsterModule
 	],
 	providers: [
 		appRoutingProviders,
@@ -153,6 +164,7 @@ import { UrlComponent } from './components/settings/url/url.component';
 		ClassesService,
 		DatesService,
 		LunchService,
+		ModulesService,
 		PlannerService,
 		PortalService,
 		ScheduleService,
@@ -173,7 +185,8 @@ import { UrlComponent } from './components/settings/url/url.component';
 			deps: [Http]
 		}
 	],
-	bootstrap: [AppComponent]
+	bootstrap: [AppComponent],
+	entryComponents: Object.keys(modules).map(getModuleComponent)
 })
 export class AppModule { }
 

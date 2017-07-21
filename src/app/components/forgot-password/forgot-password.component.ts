@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
-import {isAlphabetic, typeOf} from '../../common/utils';
+import { Router } from '@angular/router';
+import { isAlphabetic, typeOf } from '../../common/utils';
 
-import {AuthService} from '../../services/auth.service';
-import {UserService} from '../../services/user.service';
+import { AuthService} from '../../services/auth.service';
 
 @Component({
 	selector: 'mymicds-forgot-password',
@@ -20,12 +19,12 @@ export class ForgotPasswordComponent implements OnInit {
 	forgotResponse: any = null;
 	user: string;
 
-	constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
+	constructor(private router: Router, private authService: AuthService) { }
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if (this.userService.getUsername()) {
-			this.router.navigate(['home']);
+		if (this.authService.authSnapshot) {
+			this.router.navigate(['/home']);
 			return;
 		}
 	}

@@ -1,16 +1,24 @@
 import { environment } from '../../environments/environment';
 
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-import { AuthHttp } from 'angular2-jwt';
+import { AuthHttp, JwtHelper } from 'angular2-jwt';
 import { xhrHeaders, handleError } from '../common/http-helpers';
+import { BehaviorSubject } from 'rxjs/Rx';
 import '../common/rxjs-operators';
 
 @Injectable()
 export class AuthService {
-	constructor(private http: Http, private authHttp: AuthHttp) { }
 
-	loginEmitter = new EventEmitter();
+	private jwtHelper = new JwtHelper();
+	// Emit on any auth state change. Undefined if auth state still pending.
+	auth$ = new BehaviorSubject<JWT>(undefined);
+	// What the most recent auth state is (for redirecting when not authenticated or something that requires current state once)
+	authSnapshot: JWT;
+
+	constructor(private http: Http, private authHttp: AuthHttp) {
+		this.updateAuthState();
+	}
 
 	login(user: string, password: string, remember: any) {
 		let body = JSON.stringify({
@@ -32,7 +40,6 @@ export class AuthService {
 
 				// If login is successful, save the JWT
 				if (data.success && data.jwt) {
-					this.loginEmitter.emit(true);
 					if (!remember) {
 						// Store in session storage. Do not remember outside of the session!
 						sessionStorage.setItem('id_token', data.jwt);
@@ -40,6 +47,7 @@ export class AuthService {
 						// Save in local storage. Remember this outside of the session!
 						localStorage.setItem('id_token', data.jwt);
 					}
+					this.updateAuthState();
 				}
 
 				return {
@@ -63,6 +71,7 @@ export class AuthService {
 				// Delete JWT from the client
 				sessionStorage.removeItem('id_token');
 				localStorage.removeItem('id_token');
+				this.updateAuthState();
 
 				// Check if server-side error
 				if (data.error) {
@@ -174,9 +183,44 @@ export class AuthService {
 			.catch(handleError);
 	}
 
-	getJWT() {
-		return sessionStorage['id_token'] || localStorage['id_token'];
+	private updateAuthState() {
+		const jwt = this.getJWT();
+		if (jwt) {
+			this.authSnapshot = this.jwtHelper.decodeToken(jwt);
+			this.auth$.next(this.authSnapshot);
+		} else {
+			this.authSnapshot = null;
+			this.auth$.next(null);
+		}
 	}
+
+	getJWT(): any {
+		// Get JWT
+		let token = sessionStorage.getItem('id_token') || localStorage.getItem('id_token');
+		// If not JWT, then user isn't logged in
+		if (!token) { return null; }
+		if (token.split('.').length !== 3) {
+			localStorage.removeItem('id_token');
+			sessionStorage.removeItem('id_token');
+			return null;
+		}
+		// Check if token is expired
+		if (this.jwtHelper.isTokenExpired(token)) {
+			return null;
+		}
+
+		return token;
+	}
+}
+
+export interface JWT {
+	user: string;
+	scopes: string[];
+	aud: string;
+	exp: number;
+	iat: number;
+	iss: string;
+	sub: string;
 }
 
 interface UserData {
