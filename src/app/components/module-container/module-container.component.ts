@@ -14,7 +14,7 @@ export class ModuleContainerComponent implements OnInit {
 	@ViewChild('module', { read: ViewContainerRef }) dynamicModuleContainer: ViewContainerRef;
 
 	@Input()
-	set moduleData(data: { type: string, inputs: any }) {
+	set data(data: { type: string, inputs: any }) {
 		if (!data || !modules[data.type]) {
 			return;
 		}

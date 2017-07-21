@@ -61,6 +61,10 @@
 
 	.grid-container {
 		margin: -($blur-margin / 2);
+
+		mymicds-module-container {
+			height: 100%;
+		}
 	}
 }
 

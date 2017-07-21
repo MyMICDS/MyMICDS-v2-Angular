@@ -1,0 +1,13 @@
+<div mymicds-blur class="inspector-menu">
+	<h3>Inspect Module</h3>
+	<select [(ngModel)]="selectedModule">
+		<option *ngFor="let module of moduleNames" [value]="module">{{ module | capitalize }}</option>
+	</select>
+</div>
+
+<div class="module-container-container">
+	<div class="resize-icon">
+		<i class="fa fa-expand fa-flip-horizontal"></i>
+	</div>
+	<mymicds-module-container [data]="{ type: selectedModule, inputs: {} }"></mymicds-module-container>
+</div>

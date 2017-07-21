@@ -15,6 +15,7 @@ import { AboutComponent } from './components/about/about.component';
 import { HelpComponent } from './components/help/help.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { ModuleInspectorComponent } from './components/module-inspector/module-inspector.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
@@ -164,6 +165,10 @@ export const appRoutes: Routes = [
 	{
 		path: 'quote',
 		component: QuotesComponent
+	},
+	{
+		path: 'module-inspector',
+		component: ModuleInspectorComponent
 	}
 ];
 

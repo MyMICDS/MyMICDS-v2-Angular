@@ -32,6 +32,7 @@ import { HelpComponent } from './components/help/help.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { LunchComponent } from './components/lunch/lunch.component';
+import { ModuleInspectorComponent } from './components/module-inspector/module-inspector.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PlannerComponent } from './components/planner/planner.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -96,6 +97,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		LoginComponent,
 		LogoutComponent,
 		LunchComponent,
+		ModuleInspectorComponent,
 		NavbarComponent,
 		PlannerComponent,
 		RegisterComponent,

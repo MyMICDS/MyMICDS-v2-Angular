@@ -1,0 +1,45 @@
+@import '../../../styles/settings';
+
+.inspector-menu {
+	display: inline-block;
+	margin-top: 2rem;
+	margin-left: 2rem;
+	padding: 1rem;
+
+	border-radius: 0.5rem;
+	color: $sophisticated-white;
+}
+
+.module-container-container {
+	position: relative;
+	margin-top: 1rem;
+	margin-left: 2rem;
+	width: 1000px;
+	height: 500px;
+
+	.resize-icon {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		padding: 0.25rem;
+
+		opacity: 0;
+		transition-duration: 250ms;
+		transition-timing-function: ease-in-out;
+
+		color: $sophisticated-white;
+	}
+
+	&:hover .resize-icon {
+		opacity: 1;
+	}
+
+	mymicds-module-container {
+		height: 100%;
+	}
+}
