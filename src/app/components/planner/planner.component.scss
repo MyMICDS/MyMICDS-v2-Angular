@@ -406,6 +406,10 @@
 .create-event-modal,
 .edit-event-modal {
 	.modal-body {
+		.create-event-register {
+			text-align: center;
+		}
+
 		.event-date {
 			display: flex;
 			justify-content: space-between;

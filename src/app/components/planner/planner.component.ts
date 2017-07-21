@@ -63,11 +63,11 @@ export class PlannerComponent implements OnInit, OnDestroy {
 	// List of classes the user has
 	classes: Class[] = [];
 
-	// Date to display on calendar. Default to current month.
-	calendarDate: any;
+	// Month to display on calendar. Default to current month.
+	calendarMonth: any;
 
 	// Date selected in the calendar
-	selectionDay = null;
+	selectionDate = null;
 
 	// Event to deselect current day
 	deselect$: any;
@@ -106,7 +106,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private alertService: AlertService,
-		private authService: AuthService,
+		public authService: AuthService,
 		private canvasService: CanvasService,
 		private classesService: ClassesService,
 		private plannerService: PlannerService,
@@ -116,22 +116,21 @@ export class PlannerComponent implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit() {
-		this.calendarDate = moment();
+		this.calendarMonth = moment();
+		this.updatePlannerEvents();
 
 		// Change the month and year according to the route parameters
 		this.paramSubscription = this.route.params
 			.subscribe(
 				params => {
 					if (params.year) {
-						this.calendarDate.year(params.year);
+						this.calendarMonth.year(params.year);
 					}
 					if (params.month) {
-						this.calendarDate.month(params.month - 1);
+						this.calendarMonth.month(params.month - 1);
 					}
 				}
 			);
-
-		this.formattedMonth = this.formatMonth(this.calendarDate, []);
 
 		// Get day rotation
 		this.portalService.dayRotation()
@@ -146,7 +145,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 		if (this.authService.authSnapshot) {
 			// User logged in
-			this.getEvents(this.calendarDate);
+			this.fetchPlannerEvents();
 			// Get list of classes for when user inserts their own event
 			this.classesService.getClasses().subscribe(
 				classes => {
@@ -162,9 +161,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 					this.canvasLoading = false;
 					if (data.hasURL) {
 						this.canvasEvents = data.events;
-						// Recalculate events to add Canvas Events
-						this.comingUp = this.formatWeek(this.events);
-						this.formattedMonth = this.formatMonth(this.calendarDate, this.events);
+						this.updatePlannerEvents();
 					}
 				},
 				error => {
@@ -199,50 +196,32 @@ export class PlannerComponent implements OnInit, OnDestroy {
 		this.paramSubscription.unsubscribe();
 	}
 
-	getEvents(date) {
+	fetchPlannerEvents() {
 		this.plannerLoading = true;
-		let current = moment();
 
 		// Get events from back-end
-		this.plannerService.getEvents({
-			year: date.year(),
-			month: date.month() + 1
-
-		}).subscribe(
+		this.plannerService.getEvents().subscribe(
 			events => {
 				this.plannerLoading = false;
-				this.plannerEvents = events;
-				// Format events to be displayed on planner
-				this.formattedMonth = this.formatMonth(date, this.events);
-
-				// If querying current event, also update 'Coming Up' events
-				if (current.isSame(date, 'month')) {
-					this.comingUp = this.formatWeek(this.events);
-				}
+				this.updatePlannerEvents(events);
 			},
 			error => {
 				this.plannerLoading = false;
 				this.alertService.addAlert('danger', 'Get Events Error!', error);
 			}
 		);
+	}
 
-		// If not querying current month, also get current month to update 'Coming Up' event
-		if (!current.isSame(date, 'month')) {
-			// Get events from back-end
-			this.plannerService.getEvents({
-				year: current.year(),
-				month: current.month() + 1
+	private updatePlannerEvents(plannerEvents = this.plannerEvents) {
+		this.plannerEvents = plannerEvents;
+		// Format events to be displayed on planner
+		this.formattedMonth = this.formatMonth(this.calendarMonth, this.events);
 
-			}).subscribe(
-				events => {
-					this.comingUp = this.formatWeek(this.events);
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Events Error!', error);
-				}
-			);
-			this.comingUp = this.formatWeek(this.events);
+		if (this.selectionDate) {
+			this.selectionEvents = this.eventsForDay(this.selectionDate, this.events);
 		}
+
+		this.comingUp = this.formatWeek(this.events);
 	}
 
 	// Returns the object of a specific event. You must call getEvents() first!
@@ -252,7 +231,6 @@ export class PlannerComponent implements OnInit, OnDestroy {
 			let event = this.events[i];
 			if (event._id === id) { return event; }
 		}
-
 		return null;
 	}
 
@@ -284,8 +262,8 @@ export class PlannerComponent implements OnInit, OnDestroy {
 		}
 
 		// Reselect day so it refreshes the selection
-		if (this.selectionDay !== null) {
-			this.selectDay(this.selectionDay.day());
+		if (this.selectionDate !== null) {
+			this.selectDay(this.selectionDate.day());
 		}
 
 		return formattedMonth;
@@ -433,46 +411,21 @@ export class PlannerComponent implements OnInit, OnDestroy {
 	 */
 
 	previousMonth() {
-		this.calendarDate.subtract(1, 'months');
-
-		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month() + 1]);
-
-		if (this.authService.authSnapshot) {
-			// User logged in
-			this.getEvents(this.calendarDate);
-		} else {
-			// User not logged in
-			this.plannerLoading = false;
-			this.formattedMonth = this.formatMonth(this.calendarDate, []);
-		}
+		this.calendarMonth.subtract(1, 'months');
+		this.router.navigate(['/planner', this.calendarMonth.year(), this.calendarMonth.month() + 1]);
+		this.updatePlannerEvents();
 	}
 
 	currentMonth() {
-		this.calendarDate = moment();
-
-		if (this.authService.authSnapshot) {
-			// User logged in
-			this.getEvents(this.calendarDate);
-		} else {
-			// User not logged in
-			this.plannerLoading = false;
-			this.formattedMonth = this.formatMonth(this.calendarDate, []);
-		}
+		this.calendarMonth = moment();
+		this.router.navigate(['/planner']);
+		this.updatePlannerEvents();
 	}
 
 	nextMonth() {
-		this.calendarDate.add(1, 'months');
-
-		this.router.navigate(['/planner', this.calendarDate.year(), this.calendarDate.month() + 1]);
-
-		if (this.authService.authSnapshot) {
-			// User logged in
-			this.getEvents(this.calendarDate);
-		} else {
-			// User not logged in
-			this.plannerLoading = false;
-			this.formattedMonth = this.formatMonth(this.calendarDate, []);
-		}
+		this.calendarMonth.add(1, 'months');
+		this.router.navigate(['/planner', this.calendarMonth.year(), this.calendarMonth.month() + 1]);
+		this.updatePlannerEvents();
 	}
 
 	/*
@@ -496,12 +449,12 @@ export class PlannerComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this.selectionDay = date;
-		this.selectionEvents = this.eventsForDay(this.selectionDay, this.events);
+		this.selectionDate = date;
+		this.selectionEvents = this.eventsForDay(this.selectionDate, this.events);
 	}
 
 	deselectDay() {
-		this.selectionDay = null;
+		this.selectionDate = null;
 	}
 
 	/*
@@ -516,10 +469,9 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 	createEvent() {
 		this.plannerService.addEvent(this.createEventModel).subscribe(
-			() => {
+			(events: Event[]) => {
 				this.alertService.addAlert('success', 'Success!', 'Added event to planner!', 3);
-				// Refresh events on calendar since we just added one
-				this.getEvents(this.calendarDate);
+				this.updatePlannerEvents(events);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Add Event Error!', error);
@@ -574,10 +526,9 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 	editEvent() {
 		this.plannerService.addEvent(this.editEventModel).subscribe(
-			() => {
+			(events: Event[]) => {
 				this.alertService.addAlert('success', 'Success!', 'Edited event in planner!', 3);
-				// Refresh events on calendar since we just added one
-				this.getEvents(this.calendarDate);
+				this.updatePlannerEvents(events);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Edit Event Error!', error);
@@ -596,8 +547,13 @@ export class PlannerComponent implements OnInit, OnDestroy {
 			this.plannerService.deleteEvent(id).subscribe(
 				() => {
 					this.alertService.addAlert('success', 'Success!', 'Deleted event from planner!', 3);
-					// Refresh events on calendar since we just deleted one
-					this.getEvents(this.calendarDate);
+					// Delete planner event from array
+					for (let i = 0; i < this.plannerEvents.length; i++) {
+						if (this.plannerEvents[i]._id === id) {
+							this.plannerEvents.splice(i--, 1);
+						}
+					}
+					this.updatePlannerEvents();
 				},
 				error => {
 					this.alertService.addAlert('danger', 'Delete Event Error!', error);
