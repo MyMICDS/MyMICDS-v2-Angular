@@ -7,7 +7,9 @@ export function MyMICDSModule(config: ModuleConfig) {
 			component: target,
 			icon: config.icon,
 			defaultHeight: config.defaultHeight,
-			defaultWidth: config.defaultWidth
+			defaultWidth: config.defaultWidth,
+			optionTypes: config.optionTypes || {},
+			defaultOptions: config.defaultOptions || {}
 		};
 	};
 }
@@ -21,6 +23,8 @@ interface ModuleConfigBase {
 	icon: string;
 	defaultHeight: number;
 	defaultWidth: number;
+	optionTypes?: { [option: string]: 'boolean' | 'number' | 'string' };
+	defaultOptions?: { [option: string]: boolean | number | string };
 }
 
 interface ModuleConfig extends ModuleConfigBase {

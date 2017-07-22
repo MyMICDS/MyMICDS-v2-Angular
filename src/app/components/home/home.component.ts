@@ -161,7 +161,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 			row: event.item.y,
 			column: event.item.x,
 			width: event.item.w,
-			height: event.item.h
+			height: event.item.h,
+			options: modules[moduleName].defaultOptions
 		});
 	}
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
 import { MyMICDSModule } from '../modules-main';
 
@@ -14,13 +14,19 @@ import { WeatherService } from '../../../services/weather.service';
 	name: 'weather',
 	icon: 'fa-cloud',
 	defaultHeight: 1,
-	defaultWidth: 2
+	defaultWidth: 2,
+	optionTypes: {
+		metric: 'boolean'
+	},
+	defaultOptions: {
+		metric: false
+	}
 })
 export class WeatherComponent implements OnInit, OnDestroy {
 
 	weather: any = null;
 	subscription: any;
-	metric = false;
+	@Input() metric = false;
 
 	constructor(private alertService: AlertService, private weatherService: WeatherService) { }
 

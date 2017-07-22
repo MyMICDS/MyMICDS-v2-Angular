@@ -58,7 +58,5 @@ export interface Module {
 	column: number;
 	width: number;
 	height: number;
-	data?: {
-		[key: string]: any;
-	};
+	options?: { [option: string]: boolean | number | string; };
 }

@@ -14,7 +14,7 @@ export class ModuleContainerComponent implements OnInit {
 	@ViewChild('module', { read: ViewContainerRef }) dynamicModuleContainer: ViewContainerRef;
 
 	@Input()
-	set data(data: { type: string, inputs: any }) {
+	set data(data: { type: string, inputs: { [key: string]: any; }}) {
 		if (!data || !modules[data.type]) {
 			return;
 		}
@@ -27,6 +27,7 @@ export class ModuleContainerComponent implements OnInit {
 		}
 
 		// Assign inputs to the injected component
+		console.log('inputs', data.inputs);
 		Object.assign(this.currentModuleRef.instance, data.inputs);
 
 		this.currentModuleType = data.type;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as interact from 'interactjs';
 
 import { modules } from '../modules/modules-main';
@@ -8,12 +8,15 @@ import { modules } from '../modules/modules-main';
 	templateUrl: './module-inspector.component.html',
 	styleUrls: ['./module-inspector.component.scss']
 })
-export class ModuleInspectorComponent implements OnInit {
+export class ModuleInspectorComponent implements OnInit, OnDestroy {
 
 	moduleNames = Object.keys(modules);
 	modules = modules;
 
 	selectedModule = this.moduleNames[0];
+	// Dimensions of the module (in pixels)
+	moduleWidth = 1000;
+	moduleHeight = 500;
 
 	moduleInteractable: Interact.Interactable;
 
@@ -29,9 +32,16 @@ export class ModuleInspectorComponent implements OnInit {
 				}
 			})
 			.on('resizemove', event => {
+				this.moduleWidth = event.rect.width;
+				this.moduleHeight = event.rect.height;
+
 				event.target.style.width = `${event.rect.width}px`;
 				event.target.style.height = `${event.rect.height}px`;
 			});
+	}
+
+	ngOnDestroy() {
+		this.moduleInteractable.unset();
 	}
 
 }

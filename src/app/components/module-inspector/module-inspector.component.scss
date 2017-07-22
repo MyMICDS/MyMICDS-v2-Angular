@@ -8,14 +8,20 @@
 
 	border-radius: 0.5rem;
 	color: $sophisticated-white;
+
+	.inspector-options {
+		display: flex;
+
+		.inspector-option:not(:last-child) {
+			margin-right: 1rem;
+		}
+	}
 }
 
 .module-container-container {
 	position: relative;
 	margin-top: 1rem;
 	margin-left: 2rem;
-	width: 1000px;
-	height: 500px;
 
 	.resize-icon {
 		position: absolute;

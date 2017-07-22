@@ -1,11 +1,24 @@
 <div mymicds-blur class="inspector-menu">
 	<h3>Inspect Module</h3>
-	<select [(ngModel)]="selectedModule">
-		<option *ngFor="let module of moduleNames" [value]="module">{{ module | capitalize }}</option>
-	</select>
+	<div class="inspector-options">
+		<div class="inspector-option">
+			<h6>Module</h6>
+			<select class="custom-select" [(ngModel)]="selectedModule">
+				<option *ngFor="let module of moduleNames" [value]="module">{{ module | capitalize }}</option>
+			</select>
+		</div>
+		<div class="inspector-option">
+			<h6>Width</h6>
+			<input class="form-control" [(ngModel)]="moduleWidth">
+		</div>
+		<div class="inspector-option">
+			<h6>Height</h6>
+			<input class="form-control" [(ngModel)]="moduleHeight">
+		</div>
+	</div>
 </div>
 
-<div class="module-container-container">
+<div class="module-container-container" [style.width]="moduleWidth + 'px'" [style.height]="moduleHeight + 'px'">
 	<div class="resize-icon">
 		<i class="fa fa-expand fa-flip-horizontal"></i>
 	</div>
