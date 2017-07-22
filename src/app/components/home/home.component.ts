@@ -156,13 +156,20 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// When the user drops a module label onto the grid
 	addModule(event: any, moduleName: string) {
+		const moduleConfig = modules[moduleName].options || {};
+		const defaultOptions = {};
+
+		for (const optionKey of Object.keys(moduleConfig)) {
+			defaultOptions[optionKey] = moduleConfig[optionKey].default;
+		}
+
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,
 			column: event.item.x,
 			width: event.item.w,
 			height: event.item.h,
-			options: modules[moduleName].defaultOptions
+			options: defaultOptions
 		});
 	}
 

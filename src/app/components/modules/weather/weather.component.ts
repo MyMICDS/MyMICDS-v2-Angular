@@ -15,11 +15,23 @@ import { WeatherService } from '../../../services/weather.service';
 	icon: 'fa-cloud',
 	defaultHeight: 1,
 	defaultWidth: 2,
-	optionTypes: {
-		metric: 'boolean'
-	},
-	defaultOptions: {
-		metric: false
+	options: {
+		metric: {
+			label: 'Metric Units',
+			type: 'boolean',
+			default: false
+		},
+		/** @TODO The following are just temporary for testing. Remove later! */
+		location: {
+			label: 'Location',
+			type: 'string',
+			default: 'MICDS'
+		},
+		decimalPrecision: {
+			label: 'Decimal Precision',
+			type: 'number',
+			default: 2
+		}
 	}
 })
 export class WeatherComponent implements OnInit, OnDestroy {

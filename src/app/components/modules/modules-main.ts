@@ -1,3 +1,5 @@
+import { OptionsConfig } from './modules-config';
+
 export const modules: {[name: string]: ModuleList} = {};
 
 // Module decorator
@@ -8,8 +10,7 @@ export function MyMICDSModule(config: ModuleConfig) {
 			icon: config.icon,
 			defaultHeight: config.defaultHeight,
 			defaultWidth: config.defaultWidth,
-			optionTypes: config.optionTypes || {},
-			defaultOptions: config.defaultOptions || {}
+			options: config.options || {}
 		};
 	};
 }
@@ -23,8 +24,7 @@ interface ModuleConfigBase {
 	icon: string;
 	defaultHeight: number;
 	defaultWidth: number;
-	optionTypes?: { [option: string]: 'boolean' | 'number' | 'string' };
-	defaultOptions?: { [option: string]: boolean | number | string };
+	options?: OptionsConfig;
 }
 
 interface ModuleConfig extends ModuleConfigBase {

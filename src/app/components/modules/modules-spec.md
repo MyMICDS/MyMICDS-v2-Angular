@@ -29,15 +29,22 @@ Here is an example usage of the module decorator:
 	icon: 'fa-cloud',
 	defaultHeight: 1,
 	defaultWidth: 2,
-	optionTypes: {
-		location: 'string',
-		metric: 'boolean',
-		decimalPrecision: 'number'
-	},
-	defaultOptions: {
-		location: 'MICDS',
-		metric: false,
-		decimalPrecision: 2
+	options: {
+		metric: {
+			label: 'Metric Units',
+			type: 'boolean',
+			default: false
+		},
+		location: {
+			label: 'Location',
+			type: 'string',
+			default: 'MICDS'
+		},
+		decimalPrecision: {
+			label: 'Decimal Precision',
+			type: 'number',
+			default: 2
+		}
 	}
 })
 export class WeatherComponent implements OnInit, OnDestroy {
@@ -67,13 +74,9 @@ Initial height when module created in the drag-and-drop
 
 Initial width when module created in the drag-and-drop interface
 
-#### `optionTypes`?: { [option: string]: 'boolean' | 'number' | 'string' }
+#### `options`?: { [option: string]: { label: string, type: string, value: 'boolean' | 'number' | 'string' }}
 
-Optional. This is where the module's options and their types are defined. Options are sent to the component via changing its instance variables, so you **must** have one instance variable for each option with its documented default option.
-
-#### `defaultOptions`?: { [option: string]: boolean | number | string }
-
-Should only be defined if `optionTypes` is defined. Default module options upon creation. **This should correlate with the component's instance variable of the same option name! Make sure to add the `@Input` decorator to each option variable!**
+Optional. This is where a module's options are declared. **Each key must correlate to a component instance variable with the `@Input` decorator! Make sure the default value in the decorator matches the default instance variable value.** These values are used to generate a form to configure the module's options. **Make sure the option types are also documented in the back-end!**
 
 ## Design
 

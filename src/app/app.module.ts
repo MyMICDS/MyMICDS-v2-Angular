@@ -17,7 +17,9 @@ import { AlertComponent } from './components/alert/alert.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
 
+import { ModuleOptionsComponent } from './components/module-options/module-options.component';
 import { ModuleContainerComponent } from './components/module-container/module-container.component';
+import { ModuleOptionComponent } from './components/module-options/module-option/module-option.component';
 
 import { CountdownComponent } from './components/modules/countdown/countdown.component';
 import { ProgressComponent } from './components/modules/progress/progress.component';
@@ -83,6 +85,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		AboutComponent,
 		AlertComponent,
 		HomeComponent,
+		ModuleOptionsComponent,
+		ModuleOptionComponent,
 		ModuleContainerComponent,
 		CountdownComponent,
 		ProgressComponent,

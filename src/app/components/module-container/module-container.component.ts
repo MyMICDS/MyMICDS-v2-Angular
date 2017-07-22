@@ -27,7 +27,6 @@ export class ModuleContainerComponent implements OnInit {
 		}
 
 		// Assign inputs to the injected component
-		console.log('inputs', data.inputs);
 		Object.assign(this.currentModuleRef.instance, data.inputs);
 
 		this.currentModuleType = data.type;

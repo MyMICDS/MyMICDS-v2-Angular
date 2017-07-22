@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as interact from 'interactjs';
 
 import { modules } from '../modules/modules-main';
+import { Options } from '../modules/modules-config';
 
 @Component({
 	selector: 'mymicds-module-inspector',
@@ -14,6 +15,7 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 	modules = modules;
 
 	selectedModule = this.moduleNames[0];
+	moduleOptions: Options;
 	// Dimensions of the module (in pixels)
 	moduleWidth = 1000;
 	moduleHeight = 500;
@@ -42,6 +44,11 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.moduleInteractable.unset();
+	}
+
+	optionsChange(options: Options) {
+		console.log('Options Change!', options);
+		this.moduleOptions = options;
 	}
 
 }

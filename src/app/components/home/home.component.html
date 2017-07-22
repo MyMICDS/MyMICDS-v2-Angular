@@ -39,7 +39,23 @@
 				[(y)]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
-				[style.cursor]="editMode ? 'pointer' : 'initial'">
+				[style.cursor]="editMode ? 'move' : 'initial'">
+
+				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu">
+					<button class="edit-module-delete">&times;</button>
+					<button class="edit-module-config">
+						<i class="fa fa-cog"></i>
+						Configure
+					</button>
+					<div class="edit-module-resize">
+						Resize Me!
+						<i class="fa fa-expand fa-flip-horizontal"></i>
+					</div>
+					<div class="edit-module-drag">
+						<i class="fa fa-arrows"></i>
+						Drag Me!
+					</div>
+				</div>
 
 				<mymicds-module-container [data]="{ type: module.type, inputs: module.options }"></mymicds-module-container>
 			</gridster-item>
