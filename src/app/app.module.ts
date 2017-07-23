@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
-import { DatepickerModule, ModalModule } from 'ng2-bootstrap';
+import { DatepickerModule, ModalModule } from 'ngx-bootstrap';
 import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
