@@ -1,3 +1,33 @@
-<p>
-  url works!
-</p>
+<div mymicds-blur class="settings-section half">
+	<h3>URL Settings</h3>
+	<form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
+		<label for="portal-url">Portal URL</label>
+		<div class="input-group">
+			<input id="portal-url" class="portal-url form-control form-control-success form-control-danger" [(ngModel)]="portalURL" name="portalURL" placeholder="Portal URL" autocomplete="off" required>
+			<span class="input-group-btn">
+				<button class="btn btn-info" [disabled]="!portalForm.valid || !portalValid">Save</button>
+			</span>
+		</div>
+		<div *ngIf="portalURL?.length > 0" class="form-control-feedback">{{portalResponse}}</div>
+		<p class="form-text text-muted">
+			Submit your Portal URL to integrate your schedule into the site.
+			<br>
+			<a routerLink="/help">Find out how to get your Portal URL.</a>
+		</p>
+	</form>
+	<form #canvasForm="ngForm" class="canvas-form" [class.has-success]="canvasValid" [class.has-danger]="!canvasValid" (ngSubmit)="changeCanvasURL()" novalidate>
+		<label for="canvas-url">Canvas URL</label>
+		<div class="input-group">
+			<input id="canvas-url" class="canvas-url form-control form-control-success form-control-danger" [(ngModel)]="canvasURL" name="canvasURL" placeholder="Canvas URL" autocomplete="off" required>
+			<span class="input-group-btn">
+				<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
+			</span>
+		</div>
+		<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{canvasResponse}}</div>
+		<p class="form-text text-muted">
+			Submit your Canvas URL to integrate your homework assignments into our digital planner.
+			<br>
+			<a routerLink="/help">Find out how to get your Canvas URL.</a>
+		</p>
+	</form>
+</div>
