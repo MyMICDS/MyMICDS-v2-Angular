@@ -33,22 +33,23 @@
 	</div>
 	<div class="grid-container">
 		<gridster #gridster [options]="gridsterOptions">
-			<gridster-item #gridItem *ngFor="let module of moduleLayout"
+			<gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
 				[(x)]="module.column"
 				[(y)]="module.row"
 				[(w)]="module.width"
-				[(h)]="module.height"
-				[style.cursor]="editMode ? 'move' : 'initial'">
+				[(h)]="module.height">
+
+				<mymicds-module-container [type]="module.type" [inputs]="module.options"></mymicds-module-container>
 
 				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu">
 					<button class="edit-module-delete">&times;</button>
-					<button class="edit-module-config">
+					<button *ngIf="module.options" class="edit-module-config" [popover]="configModule" popoverTitle="Configure Module">
 						<i class="fa fa-cog"></i>
 						Configure
 					</button>
 					<div class="edit-module-resize">
-						Resize Me!
+						<!-- Resize Me! -->
 						<i class="fa fa-expand fa-flip-horizontal"></i>
 					</div>
 					<div class="edit-module-drag">
@@ -57,7 +58,10 @@
 					</div>
 				</div>
 
-				<mymicds-module-container [data]="{ type: module.type, inputs: module.options }"></mymicds-module-container>
+				<ng-template #configModule>
+					<mymicds-module-options [type]="module.type" [options]="module.options" (optionsChange)="module.options = $event"></mymicds-module-options>
+				</ng-template>
+
 			</gridster-item>
 		</gridster>
 	</div>

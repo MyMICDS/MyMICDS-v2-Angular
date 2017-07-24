@@ -20,6 +20,24 @@ export function getModuleComponent(key: string) {
 	return modules[key].component;
 }
 
+export function getDefaultOptions(moduleName: string) {
+	const module = modules[moduleName];
+	if (!module) {
+		return {};
+	}
+
+	const optionsConfig = module.options;
+	if (!optionsConfig) {
+		return {};
+	}
+
+	const options = {};
+	for (const optionKey of Object.keys(optionsConfig)) {
+		options[optionKey] = optionsConfig[optionKey].default;
+	}
+	return options;
+}
+
 interface ModuleConfigBase {
 	icon: string;
 	defaultHeight: number;

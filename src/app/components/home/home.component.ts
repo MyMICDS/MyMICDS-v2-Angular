@@ -4,6 +4,7 @@ import { GridsterComponent, IGridsterOptions } from 'angular2gridster';
 import * as _ from 'lodash';
 
 import { modules } from '../modules/modules-main';
+import { Options } from '../modules/modules-config';
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
 import { ScheduleService } from '../../services/schedule.service';
@@ -171,6 +172,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 			height: event.item.h,
 			options: defaultOptions
 		});
+	}
+
+	changeModuleOptions(module: Module, options: Options) {
+		setTimeout(() => {
+			module.options = options;
+		}, 0);
 	}
 
 	// When a module label is dragged over the grid

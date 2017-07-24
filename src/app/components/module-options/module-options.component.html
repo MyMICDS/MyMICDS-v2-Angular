@@ -1,1 +1,3 @@
-<mymicds-module-option *ngFor="let optionKey of optionKeys" [config]="optionsConfig[optionKey]" (value)="changeValue(optionKey, $event)"></mymicds-module-option>
+<ng-container *ngIf="options">
+	<mymicds-module-option *ngFor="let optionKey of optionKeys" [config]="optionsConfig[optionKey]" [(value)]="options[optionKey]" (valueChange)="valueChanged()"></mymicds-module-option>
+</ng-container>

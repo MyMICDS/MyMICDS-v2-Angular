@@ -3,7 +3,7 @@
 	<div class="inspector-options">
 		<div class="inspector-option">
 			<h6>Module</h6>
-			<select class="custom-select" [(ngModel)]="selectedModule">
+			<select class="custom-select" [(ngModel)]="selectedModuleType" (ngModelChange)="setDefaultOptions($event)">
 				<option *ngFor="let module of moduleNames" [value]="module">{{ module | capitalize }}</option>
 			</select>
 		</div>
@@ -17,7 +17,7 @@
 		</div>
 		<div class="inspector-option">
 			<h6>Module Options</h6>
-			<mymicds-module-options [module]="selectedModule" (options)="optionsChange($event)"></mymicds-module-options>
+			<mymicds-module-options [type]="selectedModuleType" [(options)]="moduleOptions" (optionsChange)="updateOptions($event)"></mymicds-module-options>
 		</div>
 	</div>
 </div>
@@ -26,5 +26,5 @@
 	<div class="resize-icon">
 		<i class="fa fa-expand fa-flip-horizontal"></i>
 	</div>
-	<mymicds-module-container [data]="{ type: selectedModule, inputs: moduleOptions }"></mymicds-module-container>
+	<mymicds-module-container [type]="selectedModuleType" [inputs]="moduleOptions"></mymicds-module-container>
 </div>

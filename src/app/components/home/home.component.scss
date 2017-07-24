@@ -74,21 +74,18 @@
 				right: 0;
 				bottom: 0;
 				left: 0;
-				z-index: 100;
 
 				display: flex;
 				justify-content: center;
 				align-items: center;
 
-				pointer-events: none;
-				color: $sophisticated-white;
+				cursor: move;
 
 				opacity: 0;
 				transition-duration: 100ms;
 				transition-timing-function: ease-in-out;
 
 				a, button {
-					pointer-events: all;
 					padding: 0;
 
 					background: none;
@@ -126,6 +123,7 @@
 
 					padding: 0.25rem;
 					line-height: 0.7;
+					color: $sophisticated-white;
 
 					.fa {
 						margin-left: 0.5rem;
@@ -134,11 +132,13 @@
 
 				.edit-module-drag {
 					font-size: 2.5rem;
+					color: $sophisticated-white;
 				}
 			}
 
 			mymicds-module-container {
 				height: 100%;
+				overflow: hidden;
 			}
 		}
 	}

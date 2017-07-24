@@ -68,7 +68,6 @@ button {
 	right: $blur-margin / 2;
 	bottom: $blur-margin / 2;
 	left: $blur-margin / 2;
-	overflow: hidden;
 
 	.gridster-item-resizable-handler {
 
@@ -91,9 +90,7 @@ button {
 		}
 
 		// Get rid of the triangle resize icon in the bottom-right corner so we can have our own
-		.gridster-item-resizable-handler.handle-se {
-			width: 10px !important;
-			height: 10px !important;
+		&.handle-se {
 			border: none !important;
 		}
 	}

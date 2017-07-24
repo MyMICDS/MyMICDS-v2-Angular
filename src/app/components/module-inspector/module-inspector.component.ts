@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as interact from 'interactjs';
 
-import { modules } from '../modules/modules-main';
+import { modules, getDefaultOptions } from '../modules/modules-main';
 import { Options } from '../modules/modules-config';
 
 @Component({
@@ -14,8 +14,8 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 	moduleNames = Object.keys(modules);
 	modules = modules;
 
-	selectedModule = this.moduleNames[0];
-	moduleOptions: Options;
+	selectedModuleType = this.moduleNames[0];
+	moduleOptions: Options = getDefaultOptions(this.selectedModuleType);
 	// Dimensions of the module (in pixels)
 	moduleWidth = 1000;
 	moduleHeight = 500;
@@ -46,9 +46,12 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		this.moduleInteractable.unset();
 	}
 
-	optionsChange(options: Options) {
-		console.log('Options Change!', options);
-		this.moduleOptions = options;
+	setDefaultOptions(type: string) {
+		this.moduleOptions = getDefaultOptions(type);
+	}
+
+	updateOptions(options: Options) {
+		// this.moduleOptions = JSON.parse(JSON.stringify(options));
 	}
 
 }
