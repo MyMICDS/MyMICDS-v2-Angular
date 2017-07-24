@@ -1,0 +1,17 @@
+form {
+	.full-name {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		input {
+			width: 100%;
+		}
+	}
+
+	.grad-year {
+		.student span {
+			margin-right: 0.5rem;
+		}
+	}
+}
