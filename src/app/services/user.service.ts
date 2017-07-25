@@ -3,13 +3,22 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
+import { BehaviorSubject } from 'rxjs/Rx';
 import { xhrHeaders, handleError } from '../common/http-helpers';
 import '../common/rxjs-operators';
+
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class UserService {
 
-	constructor(private http: Http, private authHttp: AuthHttp) { }
+	user$ = new BehaviorSubject<UserInfo>(undefined);
+
+	constructor(private http: Http, private authHttp: AuthHttp, private authService: AuthService) {
+		this.authService.auth$
+			.switchMap(() => this.getInfo())
+			.subscribe(this.user$.next);
+	}
 
 	getInfo() {
 		let body = JSON.stringify({});
@@ -82,7 +91,7 @@ export class UserService {
 	}
 }
 
-interface UserInfo {
+export interface UserInfo {
 	firstName?: string;
 	lastName?: string;
 	gradYear?: string;
