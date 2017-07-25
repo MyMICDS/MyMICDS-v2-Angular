@@ -23,7 +23,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-
+		this.authSubscription.unsubscribe();
 	}
 
 }

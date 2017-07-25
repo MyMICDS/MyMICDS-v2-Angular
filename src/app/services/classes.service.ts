@@ -25,8 +25,8 @@ export class ClassesService {
 				}
 
 				// Turn all colors to lowercase
-				for (let i = 0; i < data.classes.length; i++) {
-					data.classes[i].color = data.classes[i].color.toLowerCase();
+				for (let scheduleClass of data.classes) {
+					scheduleClass.color = scheduleClass.color.toLowerCase();
 				}
 
 				return data.classes;

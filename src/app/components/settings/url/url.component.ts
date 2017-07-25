@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { AlertService } from '../../../services/alert.service';
@@ -11,7 +11,7 @@ import { UserService } from '../../../services/user.service';
 	templateUrl: './url.component.html',
 	styleUrls: ['./url.component.scss']
 })
-export class UrlComponent implements OnInit, AfterViewInit {
+export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	userInfo: any = null;
 	userSubscription: any;
@@ -39,6 +39,10 @@ export class UrlComponent implements OnInit, AfterViewInit {
 		this.userSubscription = this.userService.user$.subscribe(
 			data => {
 				this.userInfo = data;
+
+				if (!this.userInfo) {
+					return;
+				}
 
 				// Get URL's
 				this.portalURL = this.userInfo.portalURL;
@@ -116,6 +120,13 @@ export class UrlComponent implements OnInit, AfterViewInit {
 					}
 				);
 		}, 1);
+	}
+
+	ngOnDestroy() {
+		console.log('destroyed');
+		this.canvasURLSubscription.unsubscribe();
+		this.portalURLSubscription.unsubscribe();
+		this.userSubscription.unsubscribe();
 	}
 
 	/*

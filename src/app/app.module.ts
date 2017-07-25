@@ -79,6 +79,7 @@ import { BackgroundComponent } from './components/settings/background/background
 import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
 import { ClassesComponent } from './components/settings/classes/classes.component';
 import { InfoComponent } from './components/settings/info/info.component';
+import { SettingContainerComponent } from './components/settings/setting-container/setting-container.component';
 import { UrlComponent } from './components/settings/url/url.component';
 
 @NgModule({
@@ -136,6 +137,7 @@ import { UrlComponent } from './components/settings/url/url.component';
 		ChangePasswordComponent,
 		ClassesComponent,
 		InfoComponent,
+		SettingContainerComponent,
 		UrlComponent
 	],
 	imports: [

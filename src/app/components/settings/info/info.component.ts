@@ -16,7 +16,12 @@ export class InfoComponent implements OnInit, OnDestroy {
 	gradeRangeSubscription: any;
 	gradeRange: number[];
 
-	infoForm: any = null;
+	infoForm = this.formBuilder.group({
+		firstName: ['', Validators.required],
+		lastName: ['', Validators.required],
+		gradYear: [''],
+		teacher: ['']
+	}, { validator: confirmGrade('gradYear', 'teacher') });
 
 	userInfo: any = null;
 	userSubscription: any;
@@ -32,6 +37,10 @@ export class InfoComponent implements OnInit, OnDestroy {
 		this.userSubscription = this.userService.user$.subscribe(
 			data => {
 				this.userInfo = data;
+
+				if (!this.userInfo) {
+					return;
+				}
 
 				// Prefill user data in forms
 				this.infoForm = this.formBuilder.group({

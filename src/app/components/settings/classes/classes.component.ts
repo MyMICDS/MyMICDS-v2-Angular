@@ -246,7 +246,7 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		this.savingClasses = true;
 
 		// Delete any old classes
-		let deleteObservables = this.deleteClassIds.map(this.classesService.deleteClass);
+		let deleteObservables = this.deleteClassIds.map(id => this.classesService.deleteClass(id));
 
 		// Reset delete class ids
 		this.deleteClassIds = [];
