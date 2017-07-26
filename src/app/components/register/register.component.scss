@@ -1,108 +1,101 @@
 @import '../../../styles/settings';
-
 .register-form {
-	width: 35rem;
-	margin: 2.5rem auto 6rem;
-	padding: 1rem 2.5rem;
-	color: $sophisticated-white;
-
-	.register-header {
-		margin-bottom: 1rem;
-		text-align: center;
-
-		h1 {
-			margin-bottom: 1.5rem;
-			font-size: 3rem;
-			font-weight: 300;
-		}
-
-		img {
-			width: 5rem;
-			border-radius: 5rem;
-		}
-	}
-
-	form {
-
-		fieldset legend {
-			font-size: 2.5rem;
-			font-weight: 300;
-		}
-
-		.full-name {
-			display: flex;
-			justify-content: space-between;
-
-			input:first-child {
-				width: 100%;
-				margin-right: 0.5rem;
-			}
-
-			input:last-child {
-				width: 100%;
-				margin-left: 0.5rem;
-			}
-		}
-
-		.grad-year {
-
-			.grade-spacer {
-				margin-bottom: 0.75rem;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-
-				.line {
-					height: 1px;
-					width:100%;
-					border-bottom: 1px solid $sophisticated-white;
-				}
-
-				.text {
-					margin: 0 1rem;
-				}
-			}
-
-			.student span {
-				margin-right: 0.5rem;
-			}
-		}
-
-		fieldset:last-of-type {
-			margin-bottom: 2rem;
-		}
-	}
+    color: $sophisticated-white;
+    width: 400%;
+    height: calc(100% - 5rem);
+    overflow: hidden;
+    form {
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        .form-group {
+            width: 30rem;
+            height: 40rem;
+            margin: auto;
+            padding: 1.5rem 2.5rem;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            .register-header {
+                margin-bottom: 3rem;
+                border-bottom: solid white 1px;
+            }
+            .register-body {}
+            .register-footer {
+                margin-top: auto;
+                display: flex;
+                flex-direction: column;
+                button {
+                    align-self: flex-end;
+                }
+            }
+        }
+        fieldset legend {
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+        .full-name {
+            display: flex;
+            justify-content: space-between;
+            input:first-child {
+                width: 100%;
+                margin-right: 0.5rem;
+            }
+            input:last-child {
+                width: 100%;
+                margin-left: 0.5rem;
+            }
+        }
+        .grad-year {
+            .grade-spacer {
+                margin-bottom: 0.75rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .line {
+                    height: 1px;
+                    width: 100%;
+                    border-bottom: 1px solid $sophisticated-white;
+                }
+                .text {
+                    margin: 0 1rem;
+                }
+            }
+            .student span {
+                margin-right: 0.5rem;
+            }
+        }
+        fieldset:last-of-type {
+            margin-bottom: 2rem;
+        }
+    }
 }
 
 .register-container {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	.register-response {
-		width: 35rem;
-		padding: 1rem;
-		text-align: center;
-		color: $sophisticated-white;
-
-		h1 {
-			font-size: 3rem;
-			font-weight: 300;
-		}
-
-		.fa {
-			display: block;
-			margin-bottom: 1rem;
-		}
-
-		a:not(.gmail) {
-			color: #0275d8;
-			cursor: pointer;
-		}
-	}
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .register-response {
+        width: 35rem;
+        padding: 1rem;
+        text-align: center;
+        color: $sophisticated-white;
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+        }
+        .fa {
+            display: block;
+            margin-bottom: 1rem;
+        }
+        a:not(.gmail) {
+            color: #0275d8;
+            cursor: pointer;
+        }
+    }
 }
