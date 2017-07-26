@@ -17,7 +17,7 @@ export class UserService {
 	constructor(private http: Http, private authHttp: AuthHttp, private authService: AuthService) {
 		this.authService.auth$
 			.switchMap(() => this.getInfo())
-			.subscribe(this.user$.next);
+			.subscribe(jwt => this.user$.next(jwt)); // Stupid `this` context ruining my functional programming
 	}
 
 	getInfo() {

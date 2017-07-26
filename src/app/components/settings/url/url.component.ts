@@ -123,7 +123,6 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		console.log('destroyed');
 		this.canvasURLSubscription.unsubscribe();
 		this.portalURLSubscription.unsubscribe();
 		this.userSubscription.unsubscribe();

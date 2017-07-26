@@ -136,6 +136,7 @@ export class ClassesComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+		this.aliasesSubscription.unsubscribe();
 		this.getClassesSubscription.unsubscribe();
 		this.getCanvasClassesSubscription.unsubscribe();
 		this.getPortalClassesSubscription.unsubscribe();
