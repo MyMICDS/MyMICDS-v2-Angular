@@ -65,6 +65,10 @@ export class RegisterComponent implements OnInit {
 		this.authService.register(this.registerForm.value).subscribe(
 			() => {
 				this.registerResponse = true;
+				
+				setTimeout(() => {
+					this.router.navigate(["/tutorial"]);
+				}, 2000);
 			},
 			error => {
 				this.registerResponse = error;

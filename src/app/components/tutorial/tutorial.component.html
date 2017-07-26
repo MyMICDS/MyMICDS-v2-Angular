@@ -1,6 +1,9 @@
 <h1>Tutorial</h1>
 
-<div class="flex">
-          <em><b>{{annotation}}</b></em>
+<div class="flex" [style.visibility]="masterVis">
+          <em><b>{{explanation}}</b></em>
           <img [src]="currentImage">
+          <div class="pointer" [style.left]="pleft" [style.top]="ptop"><p>{{annotation}}</p></div>
 </div>
+
+<h2 [style.visibility]="doneVis">Whew! The tutorial is over! More help at <a href="https://mymicds.net/help">the help page</a></h2>

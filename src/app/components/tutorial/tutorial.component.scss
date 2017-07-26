@@ -12,14 +12,38 @@
           right: 15%;
 }
 
+.pointer {
+          z-index: 100;
+          position: fixed;
+          
+          border: 1px solid grey;
+          border-radius: 5px;
+          background-color: grey;
+}
+
 img {
           width: 70%;
           height: 70%;
+          margin-bottom: 15px;
+}
+
+h2 {
+          color: $sophisticated-white;
+          position: fixed;
+          left: 30%;
+          top: 50%;
+          
+          -webkit-animation: fadein 1s;
 }
 
 em {
           color: $sophisticated-white;
           font-size: 2em;
+}
+
+p {
+          color: $sophisticated-white;
+          margin: 20px 60px 20px 60px;
 }
 
 h1 {
