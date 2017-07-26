@@ -1,0 +1,45 @@
+@import '../../../styles/_settings.scss';
+
+.flex {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          
+          position: fixed;
+          top: 20%;
+          left: 20%;
+          right: 15%;
+}
+
+img {
+          width: 70%;
+          height: 70%;
+}
+
+em {
+          color: $sophisticated-white;
+          font-size: 2em;
+}
+
+h1 {
+          color: $sophisticated-white;
+          
+          position: fixed;
+          top: 10%;
+          left: 47%;
+}
+
+div {
+          border: 2px solid $sophisticated-white;
+}
+
+img, div {
+          -webkit-animation: fadein 1s; // not from us
+}
+
+/* not from us */
+@keyframes fadein {
+        from { opacity: 0; }
+        to { opacity: 1; }
+}

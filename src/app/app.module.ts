@@ -39,6 +39,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { SettingsComponent } from './components/settings/settings.component';
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
+import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
@@ -122,7 +123,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe
+		WeatherIconPipe,
+		TutorialComponent
 	],
 	imports: [
 		BrowserModule,

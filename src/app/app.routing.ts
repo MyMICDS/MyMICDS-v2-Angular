@@ -21,6 +21,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
+import { TutorialComponent } from './components/tutorial/tutorial.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
 /**
@@ -113,6 +114,10 @@ export const appRoutes: Routes = [
 		component: SettingsComponent,
 		canActivate: [AuthGuard],
 		canDeactivate: [CanDeactivateGuard]
+	},
+	{
+		path: 'tutorial',
+		component: TutorialComponent
 	},
 	{
 		path: 'about',
