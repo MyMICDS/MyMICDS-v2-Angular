@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { confirmRegister } from '../../common/form-validation';
+import { confirmPassword, confirmGrade } from '../../common/form-validation';
 import { isAlphabetic, typeOf } from '../../common/utils';
 
 import { AlertService } from '../../services/alert.service';
@@ -19,20 +19,28 @@ export class RegisterComponent implements OnInit {
 	private isAlphabetic = isAlphabetic; // tslint:disable-line
 	private typeOf = typeOf; // tslint:disable-line
 
-	registerForm = this.formBuilder.group({
+	registerForm1 = this.formBuilder.group({
 		user: ['', Validators.required],
+	});
+	registerForm2 = this.formBuilder.group({
 		password: ['', Validators.required],
 		confirmPassword: ['', Validators.required],
+	}, { validator: confirmPassword('password', 'confirmPassword') });
+	registerForm3 = this.formBuilder.group({
 		firstName: ['', Validators.required],
 		lastName: ['', Validators.required],
+	});
+	registerForm4 = this.formBuilder.group({
 		gradYear: [null],
 		teacher: [false]
-	}, { validator: confirmRegister(['password', 'confirmPassword'], ['gradYear', 'teacher']) });
+	}, { validator: confirmGrade('gradYear', 'teacher') });
 
 	gradeRange: number[];
 
 	submitted = false;
 	registerResponse: any = null;
+
+	step = 1;
 
 	constructor(
 		private router: Router,
@@ -62,7 +70,9 @@ export class RegisterComponent implements OnInit {
 
 	register() {
 		this.submitted = true;
-		this.authService.register(this.registerForm.value).subscribe(
+		this.authService.register(
+			Object.assign({}, this.registerForm1.value, this.registerForm2.value, this.registerForm3.value, this.registerForm4.value)
+		).subscribe(
 			() => {
 				this.registerResponse = true;
 			},
@@ -75,6 +85,10 @@ export class RegisterComponent implements OnInit {
 	resubmitForm() {
 		this.submitted = false;
 		this.registerResponse = null;
+	}
+
+	nextStep() {
+		this.step++;
 	}
 
 }
