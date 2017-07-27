@@ -1,9 +1,41 @@
-<h1>Tutorial</h1>
+<h1 style="left:45%">Setup API URLs</h1>
 
 <div class="flex" [style.visibility]="masterVis">
-          <em><b>{{explanation}}</b></em>
-          <img [src]="currentImage">
+          <!-- <em><b>{{explanation}}</b></em> -->
+          
           <div class="pointer" [style.left]="pleft" [style.top]="ptop"><p>{{annotation}}</p></div>
+          
+          <div [style.visibility]="portal">
+          <form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
+	<label for="portal-url">Portal URL</label>
+	<div class="input-group">
+		<input id="portal-url" class="portal-url form-control form-control-success form-control-danger" [(ngModel)]="portalURL" name="portalURL" placeholder="Portal URL" autocomplete="off" required>
+		<span class="input-group-btn">
+			<button class="btn btn-info" [disabled]="!portalForm.valid || !portalValid">Save</button>
+		</span>
+	</div>
+	<div *ngIf="portalURL?.length > 0" class="form-control-feedback">{{portalResponse}}</div>
+          </form>
+          </div>
+          
+          <div [style.visibility]="canvas">
+          <form #canvasForm="ngForm" class="canvas-form" [class.has-success]="canvasValid" [class.has-danger]="!canvasValid" (ngSubmit)="changeCanvasURL()" novalidate>
+	<label for="canvas-url">Canvas URL</label>
+	<div class="input-group">
+		<input id="canvas-url" class="canvas-url form-control form-control-success form-control-danger" [(ngModel)]="canvasURL" name="canvasURL" placeholder="Canvas URL" autocomplete="off" required>
+		<span class="input-group-btn">
+			<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
+		</span>
+	</div>
+	<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{canvasResponse}}</div>
+	<p class="form-text text-muted" style="visibility: hidden;">
+		Submit your Canvas URL to integrate your homework assignments into our digital planner.
+		<br>
+	</p>
+          </form>
+          </div>
+          
+          <img [src]="currentImage">
 </div>
 
 <h2 [style.visibility]="doneVis">Whew! The tutorial is over! More help at <a href="https://mymicds.net/help">the help page</a></h2>

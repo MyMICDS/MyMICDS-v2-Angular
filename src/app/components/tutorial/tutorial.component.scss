@@ -1,4 +1,5 @@
 @import '../../../styles/_settings.scss';
+/* @import '../settings/settings.component.scss'; */
 
 .flex {
           display: flex;
@@ -41,7 +42,7 @@ em {
           font-size: 2em;
 }
 
-p {
+p, label {
           color: $sophisticated-white;
           margin: 20px 60px 20px 60px;
 }
@@ -52,10 +53,6 @@ h1 {
           position: fixed;
           top: 10%;
           left: 47%;
-}
-
-div {
-          border: 2px solid $sophisticated-white;
 }
 
 img, div {
