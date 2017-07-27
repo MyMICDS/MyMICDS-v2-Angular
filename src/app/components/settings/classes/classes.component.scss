@@ -1,0 +1,75 @@
+h3 {
+	display: inline-block;
+}
+
+.add-class {
+	float: right;
+}
+
+table {
+	width: 100%;
+	margin-bottom: 1rem;
+
+	tbody {
+		tr {
+			td {
+				white-space: nowrap;
+
+				select.form-control {
+					width: inherit;
+				}
+
+				&.class-name {
+					input {
+						width: 8rem;
+					}
+				}
+
+				&.class-color {
+					input {
+						width: 6rem;
+					}
+				}
+
+				&.class-teacher {
+					input {
+						width: 8rem;
+					}
+					white-space: normal;
+				}
+
+				&.class-manage {
+					width: 100%;
+					text-align: right;
+					white-space: normal;
+				}
+			}
+		}
+	}
+}
+
+.save-classes {
+	float: right;
+}
+
+.aliases {
+	padding: 1rem;
+	color: #55595C;
+
+	h3 {
+		margin-bottom: 1rem;
+	}
+
+	.aliases-dismiss {
+		float: right;
+	}
+
+	.aliases-list {
+		display: flex;
+		justify-content: space-around;
+
+		h4 {
+			font-weight: 600;
+		}
+	}
+}
