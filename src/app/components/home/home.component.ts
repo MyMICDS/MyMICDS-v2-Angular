@@ -118,7 +118,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 	}
 
 	detectChanges() {
-		return !_.isEqual(this.ogModuleLayout, this.moduleLayout);
+		// return !_.isEqual(this.ogModuleLayout, this.moduleLayout);
+		return JSON.stringify(this.ogModuleLayout) !== JSON.stringify(this.moduleLayout);
 	}
 
 	updateModuleLayout(modules: Module[]) {
@@ -178,6 +179,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 		setTimeout(() => {
 			module.options = options;
 		}, 0);
+	}
+
+	onXChange(newX: number) {
+		console.log('x change', newX);
+	}
+
+	onYChange(newY: number) {
+		console.log('y change', newY);
 	}
 
 	// When a module label is dragged over the grid
