@@ -181,7 +181,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// Because for some reason angular2gridster's two-way binding isn't working
 	updateModulePosition(index: number, x: number, y: number) {
-		console.log('update pos', x, y);
 		this.moduleLayout[index].column = x;
 		this.moduleLayout[index].row = y;
 	}

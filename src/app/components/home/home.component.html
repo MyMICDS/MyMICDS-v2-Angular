@@ -39,6 +39,8 @@
 				[(y)]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
+				[dragAndDrop]="editMode"
+				[resizable]="editMode"
 				(change)="updateModulePosition(i, gridItem.item.x, gridItem.item.y)">
 
 				<mymicds-module-container [type]="module.type" [inputs]="module.options"></mymicds-module-container>
