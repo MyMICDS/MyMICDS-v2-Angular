@@ -8,23 +8,6 @@
 	padding: 2rem 0 0 0;
 	text-align: center;
 
-	.grade-spacer {
-		margin-bottom: 0.75rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		.line {
-			height: 1px;
-			width:100%;
-			border-bottom: 1px solid $sophisticated-white;
-		}
-
-		.text {
-			margin: 0 1rem;
-		}
-	}
-
 	.settings-header {
 		display: inline-block;
 		margin-bottom: 5px;
@@ -79,50 +62,7 @@
   Media Queries
 --------------------------- */
 @media screen and (min-width: 544px) {
-	.container {
-		.settings-body {
-			.settings-section {
-				&.half {
-					width: calc(50% - #{$blur-margin / 2});
-				}
-			}
-		}
-	}
-}
-
-// TODO: move media queries maybe
-
-@media screen and (min-width: 992px) {
-	.container {
-		.settings-body {
-			mymicds-classes {
-				table {
-					tbody {
-						tr {
-							td {
-								&.class-teacher {
-									white-space: nowrap;
-								}
-								&.class-manage {
-									white-space: nowrap;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-@media screen and (min-width: 1200px) {
-	.container .settings-body mymicds-info form .full-name {
-		flex-direction: row;
-		input {
-			width: 49.5%;
-		}
-	}
-	.class-teacher {
-		display: -webkit-box;
+	.container .settings-body .settings-section.half {
+		width: calc(50% - #{$blur-margin / 2});
 	}
 }

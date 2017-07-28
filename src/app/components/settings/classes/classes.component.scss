@@ -10,40 +10,36 @@ table {
 	width: 100%;
 	margin-bottom: 1rem;
 
-	tbody {
-		tr {
-			td {
-				white-space: nowrap;
+	td {
+		white-space: nowrap;
 
-				select.form-control {
-					width: inherit;
-				}
+		select.form-control {
+			width: inherit;
+		}
 
-				&.class-name {
-					input {
-						width: 8rem;
-					}
-				}
-
-				&.class-color {
-					input {
-						width: 6rem;
-					}
-				}
-
-				&.class-teacher {
-					input {
-						width: 8rem;
-					}
-					white-space: normal;
-				}
-
-				&.class-manage {
-					width: 100%;
-					text-align: right;
-					white-space: normal;
-				}
+		&.class-name {
+			input {
+				width: 8rem;
 			}
+		}
+
+		&.class-color {
+			input {
+				width: 6rem;
+			}
+		}
+
+		&.class-teacher {
+			input {
+				width: 8rem;
+			}
+			white-space: normal;
+		}
+
+		&.class-manage {
+			width: 100%;
+			text-align: right;
+			white-space: normal;
 		}
 	}
 }
@@ -71,5 +67,23 @@ table {
 		h4 {
 			font-weight: 600;
 		}
+	}
+}
+
+@media screen and (min-width: 992px) {
+	table td {
+		&.class-teacher {
+			white-space: nowrap;
+		}
+
+		&.class-manage {
+			white-space: nowrap;
+		}
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.class-teacher {
+		display: -webkit-box;
 	}
 }
