@@ -45,9 +45,15 @@
 
 				<mymicds-module-container [type]="module.type" [inputs]="module.options"></mymicds-module-container>
 
-				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu">
+				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu" [class.popover-open]="modulePopoverBtn?.isOpen">
 					<button class="edit-module-delete">&times;</button>
-					<button *ngIf="module.options" class="edit-module-config" [popover]="configModule" popoverTitle="Configure Module">
+					<button [hidden]="!module.options"
+						class="edit-module-config"
+						[popover]="configModuleTemplate"
+						#modulePopoverBtn="bs-popover"
+						popoverTitle="Configure Module"
+						container="body">
+
 						<i class="fa fa-cog"></i>
 						Configure
 					</button>
@@ -61,7 +67,7 @@
 					</div>
 				</div>
 
-				<ng-template #configModule>
+				<ng-template #configModuleTemplate>
 					<mymicds-module-options [type]="module.type" [options]="module.options" (optionsChange)="module.options = $event"></mymicds-module-options>
 				</ng-template>
 
