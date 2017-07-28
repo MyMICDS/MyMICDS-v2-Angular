@@ -8,23 +8,6 @@
 	padding: 2rem 0 0 0;
 	text-align: center;
 
-	.grade-spacer {
-		margin-bottom: 0.75rem;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		.line {
-			height: 1px;
-			width:100%;
-			border-bottom: 1px solid $sophisticated-white;
-		}
-
-		.text {
-			margin: 0 1rem;
-		}
-	}
-
 	.settings-header {
 		display: inline-block;
 		margin-bottom: 5px;
@@ -53,31 +36,11 @@
 			margin-bottom: $blur-margin;
 			padding: 1rem;
 			text-align: left;
-			color: $sophisticated-white;
 			border-radius: 5px;
 
 			h3 {
 				font-size: 2.5rem;
 				font-weight: 300;
-			}
-		}
-
-		.basic-info form {
-
-			.full-name {
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
-
-				input {
-					width: 100%;
-				}
-			}
-
-			.grad-year {
-				.student span {
-					margin-right: 0.5rem;
-				}
 			}
 		}
 
@@ -88,94 +51,8 @@
 			cursor: not-allowed;
 		}
 
-		.change-background {
-			.upload-background-form {
-				margin-bottom: 1rem;
-			}
-
-			.trianglify {
-				margin-bottom: 1rem;
-				white-space: normal;
-			}
-		}
-
-		.set-classes {
+		mymicds-classes {
 			overflow-x: auto;
-			h3 {
-				display: inline-block;
-			}
-
-			.add-class {
-				float: right;
-			}
-
-			table {
-				width: 100%;
-				margin-bottom: 1rem;
-
-				tbody {
-					tr {
-						td {
-							white-space: nowrap;
-
-							select.form-control {
-								width: inherit;
-							}
-
-							&.class-name {
-								input {
-									width: 8rem;
-								}
-							}
-
-							&.class-color {
-								input {
-									width: 6rem;
-								}
-							}
-
-							&.class-teacher {
-								input {
-									width: 8rem;
-								}
-								white-space: normal;
-							}
-
-							&.class-manage {
-								width: 100%;
-								text-align: right;
-								white-space: normal;
-							}
-						}
-					}
-				}
-			}
-
-			.aliases {
-				padding: 1rem;
-				color: #55595C;
-
-				h3 {
-					margin-bottom: 1rem;
-				}
-
-				.aliases-dismiss {
-					float: right;
-				}
-
-				.aliases-list {
-					display: flex;
-					justify-content: space-around;
-
-					h4 {
-						font-weight: 600;
-					}
-				}
-			}
-
-			.save-classes {
-				float: right;
-			}
 		}
 	}
 }
@@ -184,48 +61,7 @@
   Media Queries
 --------------------------- */
 @media screen and (min-width: 544px) {
-	.container {
-		.settings-body {
-			.settings-section {
-				&.half {
-					width: calc(50% - #{$blur-margin / 2});
-				}
-			}
-		}
-	}
-}
-
-@media screen and (min-width: 992px) {
-	.container {
-		.settings-body {
-			.set-classes {
-				table {
-					tbody {
-						tr {
-							td {
-								&.class-teacher {
-									white-space: nowrap;
-								}
-								&.class-manage {
-									white-space: nowrap;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-@media screen and (min-width: 1200px) {
-	.container .settings-body .basic-info form .full-name {
-		flex-direction: row;
-		input {
-			width: 49.5%;
-		}
-	}
-	.class-teacher {
-		display: -webkit-box;
+	.container .settings-body .settings-section.half {
+		width: calc(50% - #{$blur-margin / 2});
 	}
 }

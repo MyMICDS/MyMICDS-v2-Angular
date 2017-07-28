@@ -1,0 +1,31 @@
+<h3>Basic Info</h3>
+<form [formGroup]="infoForm" (ngSubmit)="changeInfo()" novalidate>
+	<fieldset class="form-group">
+		<legend>Name</legend>
+		<div class="full-name form-inline">
+			<input class="form-control" formControlName="firstName" placeholder="First Name">
+			<input class="form-control" formControlName="lastName" placeholder="Last Name">
+		</div>
+	</fieldset>
+	<fieldset class="grad-year form-group">
+		<legend>Grade</legend>
+		<div class="teacher checkbox">
+			<label>
+				<input type="checkbox" formControlName="teacher">
+				I am a Teacher
+			</label>
+		</div>
+		<div *ngIf="!infoForm.controls.teacher.value" class="grade-spacer">
+			<span class="line"></span>
+			<span class="text">or</span>
+			<span class="line"></span>
+		</div>
+		<div *ngIf="!infoForm.controls.teacher.value" class="student">
+			<span>Choose your graduation year</span>
+			<select class="form-control" formControlName="gradYear">
+				<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
+			</select>
+		</div>
+	</fieldset>
+	<button class="btn btn-info" [disabled]="!infoForm.valid || !valueChanged()">Save Changes</button>
+</form>
