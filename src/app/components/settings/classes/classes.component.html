@@ -36,7 +36,7 @@
 				<input class="form-control" placeholder="Last Name" name="teacherLastName" [value]="class.teacher.lastName" [(ngModel)]="class.teacher.lastName">
 			</td>
 			<td class="class-manage">
-				<button class="btn btn-info selected" [class.active]="class._id === aliasClass?._id" (click)="manageAliases(class._id)" [disabled]="savingClasses || !class._id">
+				<button class="btn btn-info selected" [class.active]="class._id === aliasClass?._id" (click)="aliasClass = class; aliasModal.show()" [disabled]="savingClasses || !class._id">
 					<i class="fa fa-link"></i>
 					Link
 				</button>
@@ -52,32 +52,30 @@
 		</tr>
 	</tbody>
 </table>
-<div *ngIf="aliasClass" class="aliases card">
-	<h3>Link Classes for <strong>{{ aliasClass.name }}</strong></h3>
-	<button class="aliases-dismiss btn btn-danger" (click)="dismissAliases()">
-		<i class="fa fa-times"></i>
-	</button>
-	<div class="aliases-list">
-		<div class="aliases-portal">
-			<h4>Portal Classes</h4>
-			<div *ngFor="let class of portalClasses" class="checkbox">
-				<label>
-					<input type="checkbox" (change)="aliasChange($event, 'portal', class, aliasClass._id)" [checked]="aliasChecked('portal', class, aliasClass._id)" [disabled]="aliasDisabled('portal', class, aliasClass._id)">
-					{{ class }}
-				</label>
+
+<div bsModal #aliasModal="bs-modal" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title pull-left">Link Classes for <strong>{{ aliasClass?.name }}</strong></h4>
+				<button type="button" class="close pull-right" aria-label="Close" (click)="aliasModal.hide()">
+					<span aria-hidden="true">&times;</span>
+				</button>
 			</div>
-		</div>
-		<div class="aliases-canvas">
-			<h4>Canvas Classes</h4>
-			<div *ngFor="let class of canvasClasses" class="checkbox">
-				<label>
-					<input type="checkbox" (change)="aliasChange($event, 'canvas', class, aliasClass._id)" [checked]="aliasChecked('canvas', class, aliasClass._id)" [disabled]="aliasDisabled('canvas', class, aliasClass._id)">
-					{{ class }}
-				</label>
+			<div class="modal-body">
+				<div class="aliases-portal">
+					<h4>Portal Classes</h4>
+					<mymicds-aliases type="portal" [externalClasses]="portalClasses" [class]="aliasClass"></mymicds-aliases>
+				</div>
+				<div class="aliases-canvas">
+					<h4>Canvas Classes</h4>
+					<mymicds-aliases type="canvas" [externalClasses]="canvasClasses" [class]="aliasClass"></mymicds-aliases>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
 <button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="savingClasses || (!anyClassChanged() && !anyClassAdded() && !anyClassDeleted())">
 	{{ savingClasses ? 'Saving Classes...' : 'Save Changes' }}
 </button>

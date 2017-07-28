@@ -38,6 +38,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 import { SettingsComponent } from './components/settings/settings.component';
+import { AliasesComponent } from './components/settings/aliases/aliases.component';
 import { BackgroundComponent } from './components/settings/background/background.component';
 import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
 import { ClassesComponent } from './components/settings/classes/classes.component';
@@ -108,6 +109,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		RegisterComponent,
 		ResetPasswordComponent,
 		SettingsComponent,
+		AliasesComponent,
 		BackgroundComponent,
 		ChangePasswordComponent,
 		ClassesComponent,

@@ -1,6 +1,12 @@
 @import '../../../../styles/settings';
 
+h3 {
+	color: $sophisticated-white;
+}
+
 form {
+	color: $sophisticated-white;
+
 	.full-name {
 		display: flex;
 		flex-direction: column;
