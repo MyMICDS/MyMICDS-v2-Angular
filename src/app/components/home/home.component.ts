@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Save current moduleLayout in the back-end
 	saveModules(saveModules = this.moduleLayout) {
 		this.savingModuleLayout = true;
-		this.modulesService.upsert(this.moduleLayout)
+		this.modulesService.upsert(saveModules)
 			.subscribe(
 				modules => {
 					this.savingModuleLayout = false;
