@@ -9,10 +9,6 @@
 	</div>
 </div>
 
-{{ ogModuleLayout | json }}
-<br>
-{{ moduleLayout | json }}
-
 <div *ngIf="editMode" class="manage-menu">
 	<div class="manage-buttons">
 		<button class="btn btn-success edit-button" routerLink="/home">Done</button>
@@ -43,11 +39,7 @@
 				[(y)]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
-				(xChange)="onXChange($event)"
-				(yChange)="onYChange($event)">
-
-				<span style="color: #eee">col {{ module.column }}
-				row {{ module.row }} height {{ module.height }} width {{ module.width }}</span>
+				(change)="updateModulePosition(i, gridItem.item.x, gridItem.item.y)">
 
 				<mymicds-module-container [type]="module.type" [inputs]="module.options"></mymicds-module-container>
 

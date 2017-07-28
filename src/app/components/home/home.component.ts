@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GridsterComponent, IGridsterOptions } from 'angular2gridster';
-import * as _ from 'lodash';
 
 import { modules } from '../modules/modules-main';
 import { Options } from '../modules/modules-config';
@@ -118,7 +117,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	}
 
 	detectChanges() {
-		// return !_.isEqual(this.ogModuleLayout, this.moduleLayout);
 		return JSON.stringify(this.ogModuleLayout) !== JSON.stringify(this.moduleLayout);
 	}
 
@@ -181,12 +179,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 		}, 0);
 	}
 
-	onXChange(newX: number) {
-		console.log('x change', newX);
-	}
-
-	onYChange(newY: number) {
-		console.log('y change', newY);
+	// Because for some reason angular2gridster's two-way binding isn't working
+	updateModulePosition(index: number, x: number, y: number) {
+		console.log('update pos', x, y);
+		this.moduleLayout[index].column = x;
+		this.moduleLayout[index].row = y;
 	}
 
 	// When a module label is dragged over the grid
