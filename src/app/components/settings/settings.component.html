@@ -1,210 +1,23 @@
 <div class="container">
-	<div mymicds-blur *ngIf="userInfo === null || infoForm === null" class="settings-header">
-		<h1>Fetching user settings...</h1>
-	</div>
-	<div mymicds-blur *ngIf="userInfo !== null && infoForm !== null" class="settings-header">
+	<div mymicds-blur class="settings-header">
 		<h1>Settings</h1>
-		<h3>{{userInfo.user}}</h3>
+		<h3 *ngIf="userInfo !== null">{{username}}</h3>
 	</div>
-	<div *ngIf="userInfo !== null && infoForm !== null" class="settings-body">
+	<div class="settings-body">
 
 		<!-- Change Basic Information -->
-		<div mymicds-blur class="basic-info settings-section half">
-			<h3>Basic Info</h3>
-			<form [formGroup]="infoForm" (ngSubmit)="changeInfo()" novalidate>
-				<fieldset class="form-group">
-					<legend>Name</legend>
-					<div class="full-name form-inline">
-						<input class="form-control" formControlName="firstName" placeholder="First Name">
-						<input class="form-control" formControlName="lastName" placeholder="Last Name">
-					</div>
-				</fieldset>
-				<fieldset class="grad-year form-group">
-					<legend>Grade</legend>
-					<div class="teacher checkbox">
-						<label>
-							<input type="checkbox" formControlName="teacher">
-							I am a Teacher
-						</label>
-					</div>
-					<div *ngIf="!infoForm.controls.teacher.value" class="grade-spacer">
-						<span class="line"></span>
-						<span class="text">or</span>
-						<span class="line"></span>
-					</div>
-					<div *ngIf="!infoForm.controls.teacher.value" class="student">
-						<span>Choose your graduation year</span>
-						<select class="form-control" formControlName="gradYear">
-							<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
-						</select>
-					</div>
-				</fieldset>
-				<button class="btn btn-info" [disabled]="!infoForm.valid || !valueChanged()">Save Changes</button>
-			</form>
-		</div>
+		<mymicds-info mymicds-blur class="settings-section half"></mymicds-info>
 
 		<!-- Change Password -->
-		<div mymicds-blur class="settings-section half">
-			<h3>Change Password</h3>
-			<form [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
-				<div class="form-group">
-					<label class="col-form-label" for="old-password">Old Password</label>
-					<input id="old-password" type="password" class="form-control" formControlName="oldPassword" placeholder="Old Password">
-				</div>
-				<div class="form-group">
-					<label class="col-form-label" for="old-password">New Password</label>
-					<input id="new-password" type="password" class="form-control" formControlName="newPassword" placeholder="New Password">
-				</div>
-				<div class="form-group">
-					<label class="col-form-label" for="old-password">Confirm New Password</label>
-					<input id="confirm-password" type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
-					<div *ngIf="passwordForm.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
-				</div>
-				<p class="form-text text-muted">MyMICDS.net is not affiliated with Mary Institute and Saint Louis Country Day School. We recommend you use a different password than your normal, school password. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
-				<button class="btn btn-info" [disabled]="!passwordForm.valid">Change Password</button>
-			</form>
-		</div>
+		<mymicds-change-password mymicds-blur class="settings-section half"></mymicds-change-password>
 
 		<!-- Change Background -->
-		<div mymicds-blur class="change-background settings-section half">
-			<h3>Change Background</h3>
-			<form class="upload-background-form" (submit)="uploadBackground($event)">
-				<div class="form-group">
-					<label for="upload-background">Upload Background</label>
-					<input id="upload-background" type="file" class="form-control-file" (change)="backgroundFileChange()" accept="image/png,image/jpeg">
-					<small class="form-text text-muted">All images must be school appropriate. Any violent, graphic or obscene images will be deleted.</small>
-				</div>
-				<button class="btn btn-info" [disabled]="!fileSelected || uploadingBackground">{{ uploadingBackground ? 'Uploading...' : 'Upload'}}</button>
-			</form>
-			<div class="grade-spacer">
-				<span class="line"></span>
-				<span class="text">or</span>
-				<span class="line"></span>
-			</div>
-			<button class="trianglify btn btn-info" (click)="setTrianglify()" [disabled]="uploadingBackground">Use Randomly Generated Triangle Art for Background</button>
-			<button class="btn btn-danger" (click)="deleteBackground()" [disabled]="hasDefaultBackground">Revert to Default Background</button>
-		</div>
+		<mymicds-background mymicds-blur class="settings-section half"></mymicds-background>
 
 		<!-- Set URLs -->
-		<div mymicds-blur class="settings-section half">
-			<h3>URL Settings</h3>
-			<form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
-				<label for="portal-url">Portal URL</label>
-				<div class="input-group">
-					<input id="portal-url" class="portal-url form-control form-control-success form-control-danger" [(ngModel)]="portalURL" name="portalURL" placeholder="Portal URL" autocomplete="off" required>
-					<span class="input-group-btn">
-						<button class="btn btn-info" [disabled]="!portalForm.valid || !portalValid">Save</button>
-					</span>
-				</div>
-				<div *ngIf="portalURL?.length > 0" class="form-control-feedback">{{portalResponse}}</div>
-				<p class="form-text text-muted">
-					Submit your Portal URL to integrate your schedule into the site.
-					<br>
-					<a routerLink="/help">Find out how to get your Portal URL.</a>
-				</p>
-			</form>
-			<form #canvasForm="ngForm" class="canvas-form" [class.has-success]="canvasValid" [class.has-danger]="!canvasValid" (ngSubmit)="changeCanvasURL()" novalidate>
-				<label for="canvas-url">Canvas URL</label>
-				<div class="input-group">
-					<input id="canvas-url" class="canvas-url form-control form-control-success form-control-danger" [(ngModel)]="canvasURL" name="canvasURL" placeholder="Canvas URL" autocomplete="off" required>
-					<span class="input-group-btn">
-						<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
-					</span>
-				</div>
-				<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{canvasResponse}}</div>
-				<p class="form-text text-muted">
-					Submit your Canvas URL to integrate your homework assignments into our digital planner.
-					<br>
-					<a routerLink="/help">Find out how to get your Canvas URL.</a>
-				</p>
-			</form>
-		</div>
+		<mymicds-url mymicds-blur class="settings-section half"></mymicds-url>
 
 		<!-- Set Classes -->
-		<div mymicds-blur class="set-classes settings-section">
-			<h3>Set Classes</h3>
-			<button class="add-class btn btn-success" (click)="addClass()" [disabled]="savingClasses">Add Class</button>
-			<table>
-				<thead>
-					<tr>
-						<th>Class Name</th>
-						<th>Color</th>
-						<th>Block</th>
-						<th>Type</th>
-						<th>Teacher</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let class of classesList; let i = index">
-						<td class="class-name">
-							<input class="form-control" placeholder="Class Name" name="name" [value]="class.name" [(ngModel)]="class.name">
-						</td>
-						<td class="class-color">
-							<input class="form-control" [(colorPicker)]="class.color" [style.background]="class.color" name="color" [value]="class.color | uppercase" [(ngModel)]="class.color">
-						</td>
-						<td>
-							<select class="form-control" name="block" [value]="class.block" [(ngModel)]="class.block">
-								<option *ngFor="let block of classBlocks" [value]="block">{{ capitalize(block) }}</option>
-							</select>
-						</td>
-						<td>
-							<select class="form-control" name="type" [value]="class.type" [(ngModel)]="class.type">
-								<option *ngFor="let type of classTypes" [value]="type">{{ capitalize(type) }}</option>
-							</select>
-						</td>
-						<td class="class-teacher form-inline">
-							<select class="form-control" [value]="class.teacherPrefix" [(ngModel)]="class.teacher.prefix">
-								<option *ngFor="let prefix of teacherPrefixes" name="teacherPrefix" [value]="prefix">{{ prefix }}</option>
-							</select>
-							<input class="form-control" placeholder="First Name" name="teacherFirstName" [value]="class.teacher.firstName" [(ngModel)]="class.teacher.firstName">
-							<input class="form-control" placeholder="Last Name" name="teacherLastName" [value]="class.teacher.lastName" [(ngModel)]="class.teacher.lastName">
-						</td>
-						<td class="class-manage">
-							<button class="btn btn-info selected" [class.active]="class._id === aliasClass?._id" (click)="manageAliases(class._id)" [disabled]="savingClasses || !class._id">
-								<i class="fa fa-link"></i>
-								Alias
-							</button>
-							<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="savingClasses || !classChanged(class._id) || !class._id">
-								<i class="fa fa-undo"></i>
-								Restore
-							</button>
-							<button class="btn btn-danger" (click)="deleteClass(i)" [disabled]="savingClasses">
-								<i class="fa fa-times"></i>
-								Delete
-							</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<div *ngIf="aliasClass" class="aliases card">
-				<h3>Link Aliases for <strong>{{ aliasClass.name }}</strong></h3>
-				<button class="aliases-dismiss btn btn-danger" (click)="dismissAliases()">
-					<i class="fa fa-times"></i>
-				</button>
-				<div class="aliases-list">
-					<div class="aliases-portal">
-						<h4>Portal Classes</h4>
-						<div *ngFor="let class of portalClasses" class="checkbox">
-							<label>
-								<input type="checkbox" (change)="aliasChange($event, 'portal', class, aliasClass._id)" [checked]="aliasChecked('portal', class, aliasClass._id)" [disabled]="aliasDisabled('portal', class, aliasClass._id)">
-								{{ class }}
-							</label>
-						</div>
-					</div>
-					<div class="aliases-canvas">
-						<h4>Canvas Classes</h4>
-						<div *ngFor="let class of canvasClasses" class="checkbox">
-							<label>
-								<input type="checkbox" (change)="aliasChange($event, 'canvas', class, aliasClass._id)" [checked]="aliasChecked('canvas', class, aliasClass._id)" [disabled]="aliasDisabled('canvas', class, aliasClass._id)">
-								{{ class }}
-							</label>
-						</div>
-					</div>
-				</div>
-			</div>
-			<button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="savingClasses || (!anyClassChanged() && !anyClassAdded() && !anyClassDeleted())">
-				{{ savingClasses ? 'Saving Classes...' : 'Save Changes' }}
-			</button>
-		</div>
+		<mymicds-classes mymicds-blur class="set-classes settings-section"></mymicds-classes>
 	</div>
 </div>

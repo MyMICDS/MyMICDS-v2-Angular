@@ -36,7 +36,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { PlannerComponent } from './components/planner/planner.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+
 import { SettingsComponent } from './components/settings/settings.component';
+import { AliasesComponent } from './components/settings/aliases/aliases.component';
+import { BackgroundComponent } from './components/settings/background/background.component';
+import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
+import { ClassesComponent } from './components/settings/classes/classes.component';
+import { InfoComponent } from './components/settings/info/info.component';
+import { UrlComponent } from './components/settings/url/url.component';
+
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
@@ -101,6 +109,12 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		RegisterComponent,
 		ResetPasswordComponent,
 		SettingsComponent,
+		AliasesComponent,
+		BackgroundComponent,
+		ChangePasswordComponent,
+		ClassesComponent,
+		InfoComponent,
+		UrlComponent,
 		SportsComponent,
 		SuggestionsComponent,
 		QuotesComponent,
