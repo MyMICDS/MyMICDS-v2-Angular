@@ -36,7 +36,14 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { PlannerComponent } from './components/planner/planner.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+
 import { SettingsComponent } from './components/settings/settings.component';
+import { BackgroundComponent } from './components/settings/background/background.component';
+import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
+import { ClassesComponent } from './components/settings/classes/classes.component';
+import { InfoComponent } from './components/settings/info/info.component';
+import { UrlComponent } from './components/settings/url/url.component';
+
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
@@ -75,12 +82,6 @@ import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 
-import { BackgroundComponent } from './components/settings/background/background.component';
-import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
-import { ClassesComponent } from './components/settings/classes/classes.component';
-import { InfoComponent } from './components/settings/info/info.component';
-import { UrlComponent } from './components/settings/url/url.component';
-
 @NgModule({
 	declarations: [
 		// Components
@@ -107,6 +108,11 @@ import { UrlComponent } from './components/settings/url/url.component';
 		RegisterComponent,
 		ResetPasswordComponent,
 		SettingsComponent,
+		BackgroundComponent,
+		ChangePasswordComponent,
+		ClassesComponent,
+		InfoComponent,
+		UrlComponent,
 		SportsComponent,
 		SuggestionsComponent,
 		QuotesComponent,
@@ -128,15 +134,7 @@ import { UrlComponent } from './components/settings/url/url.component';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe,
-
-		// Components for settings
-		// TODO: Move these to wherever they should go
-		BackgroundComponent,
-		ChangePasswordComponent,
-		ClassesComponent,
-		InfoComponent,
-		UrlComponent
+		WeatherIconPipe
 	],
 	imports: [
 		BrowserModule,
