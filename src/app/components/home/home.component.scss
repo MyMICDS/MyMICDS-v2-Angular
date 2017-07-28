@@ -64,13 +64,20 @@
 
 		gridster-item {
 
+			mymicds-module-container {
+				z-index: -1;
+			}
+
+			&:hover .edit-module-menu {
+				opacity: 1;
+			}
+
 			.edit-module-menu {
 				position: absolute;
 				top: 0;
 				right: 0;
 				bottom: 0;
 				left: 0;
-				z-index: 10;
 
 				display: flex;
 				justify-content: center;
@@ -82,7 +89,6 @@
 				transition-duration: 100ms;
 				transition-timing-function: ease-in-out;
 
-				&:hover,
 				&.popover-open {
 					opacity: 1;
 				}

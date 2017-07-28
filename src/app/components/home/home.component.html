@@ -46,7 +46,7 @@
 				<mymicds-module-container [type]="module.type" [inputs]="module.options"></mymicds-module-container>
 
 				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu" [class.popover-open]="modulePopoverBtn?.isOpen">
-					<button class="edit-module-delete">&times;</button>
+					<button class="edit-module-delete" (click)="deleteModule(i)">&times;</button>
 					<button [hidden]="!module.options"
 						class="edit-module-config"
 						[popover]="configModuleTemplate"
@@ -84,7 +84,7 @@
 		[w]="modules[name].defaultWidth"
 		[h]="modules[name].defaultHeight"
 		(drop)="addModule($event, name)"
-		(enter)="over($event)">
+		(enter)="onDragOver($event)">
 
 		<div class="module-label">
 			<i class="fa" [ngClass]="modules[name].icon"></i>

@@ -185,8 +185,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.moduleLayout[index].row = y;
 	}
 
+	deleteModule(index: number) {
+		this.moduleLayout.splice(index, 1);
+	}
+
 	// When a module label is dragged over the grid
-	over(event: any) {
+	onDragOver(event: any) {
 		event.item.itemPrototype.$element.classList.add('dragging');
 
 		const size = event.item.calculateSize(event.gridster);
