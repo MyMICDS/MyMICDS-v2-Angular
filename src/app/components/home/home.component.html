@@ -41,7 +41,7 @@
 				[(h)]="module.height"
 				[dragAndDrop]="editMode"
 				[resizable]="editMode"
-				(change)="updateModulePosition(i, gridItem.item.x, gridItem.item.y)">
+				(change)="updateModulePositions()">
 
 				<mymicds-module-container [type]="module.type" [inputs]="module.options"></mymicds-module-container>
 
@@ -64,6 +64,12 @@
 					<div class="edit-module-drag">
 						<i class="fa fa-arrows"></i>
 						Drag Me!
+					</div>
+					<div style="color: white">
+						x {{ module.column }}
+						y {{ module.row }} {{ gridItem?.item?.y }}
+						w {{ module.width }}
+						h {{ module.height }}
 					</div>
 				</div>
 
