@@ -1,0 +1,73 @@
+@import '../../../../styles/settings';
+
+h3, table {
+	color: $sophisticated-white;
+}
+
+h3 {
+	display: inline-block;
+}
+
+.add-class {
+	float: right;
+}
+
+table {
+	width: 100%;
+	margin-bottom: 1rem;
+
+	td {
+		white-space: nowrap;
+
+		select.form-control {
+			width: inherit;
+		}
+
+		&.class-name {
+			input {
+				width: 8rem;
+			}
+		}
+
+		&.class-color {
+			input {
+				width: 6rem;
+			}
+		}
+
+		&.class-teacher {
+			input {
+				width: 8rem;
+			}
+			white-space: normal;
+		}
+
+		&.class-manage {
+			width: 100%;
+			text-align: right;
+			white-space: normal;
+		}
+	}
+}
+
+.save-classes {
+	float: right;
+}
+
+@media screen and (min-width: 992px) {
+	table td {
+		&.class-teacher {
+			white-space: nowrap;
+		}
+
+		&.class-manage {
+			white-space: nowrap;
+		}
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.class-teacher {
+		display: -webkit-box;
+	}
+}

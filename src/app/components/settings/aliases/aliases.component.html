@@ -1,0 +1,11 @@
+<ng-container *ngIf="aliasTypes.includes(type) && class">
+	<div *ngFor="let externalClass of externalClasses" class="checkbox">
+		<label>
+			<input type="checkbox"
+				(change)="aliasChange($event, externalClass, class._id)"
+				[checked]="aliasChecked(externalClass, class._id)"
+				[disabled]="aliasDisabled(externalClass, class._id)">
+			{{ externalClass }}
+		</label>
+	</div>
+</ng-container>

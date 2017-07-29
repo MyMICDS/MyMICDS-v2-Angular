@@ -25,10 +25,10 @@ export class SportsComponent implements OnInit {
 				this.loadingScores = false;
 			},
 			err => {
-				this.alertService.addAlert("danger", "Error getting sports data:", err);
+				this.alertService.addAlert('danger', 'Error getting sports data:', err);
 			}
 		)
 	}
 
-	
+
 }

@@ -1,0 +1,52 @@
+@import '../../../../styles/settings';
+
+h3 {
+	color: $sophisticated-white;
+}
+
+form {
+	color: $sophisticated-white;
+
+	.full-name {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		input {
+			width: 100%;
+		}
+	}
+
+	.grad-year {
+		.grade-spacer {
+			margin-bottom: 0.75rem;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.line {
+				height: 1px;
+				width:100%;
+				border-bottom: 1px solid $sophisticated-white;
+			}
+
+			.text {
+				margin: 0 1rem;
+			}
+		}
+
+		.student span {
+			margin-right: 0.5rem;
+		}
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	form .full-name {
+		flex-direction: row;
+
+		input {
+			width: 49.5%;
+		}
+	}
+}
