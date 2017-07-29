@@ -18,99 +18,101 @@
     </div>
 </div>
 
-<div *ngIf="!submitted" class="register-form" [style.margin-left]="'-' + (step - 1) + '00%'">
-    <!-- <div class="register-header">
-		<h1>Register</h1>
-		<img src="/assets/logo/logo.svg">
-	</div> -->
+<div *ngIf="!submitted" class="register-wrapper">
+    <div class="register-form" [style.margin-left]="'-' + (step - 1) + '00%'">
+        <!-- <div class="register-header">
+			<h1>Register</h1>
+			<img src="/assets/logo/logo.svg">
+		</div> -->
 
-    <form [formGroup]="registerForm1" (ngSubmit)="nextStep()" novalidate mymicds-blur class="form-group" [class.has-warning]="registerForm1.controls.user.dirty && !isAlphabetic(registerForm1.controls.user.value)">
-        <div class="register-header">
-            <h1>Welcome!</h1>
-            <p>You are about to register for a new account on MyMICDS.</p>
-        </div>
-        <div class="register-body">
-            <h1>Username</h1>
-            <div class="input-group">
-                <input class="form-control" [class.form-control-warning]="registerForm1.controls.user.dirty && !isAlphabetic(registerForm1.controls.user.value)" formControlName="user" placeholder="Username">
-                <div class="input-group-addon">@micds.org</div>
+        <form [formGroup]="registerForm1" (ngSubmit)="nextStep()" novalidate mymicds-blur class="form-group" [class.has-warning]="registerForm1.controls.user.dirty && !isAlphabetic(registerForm1.controls.user.value)">
+            <div class="register-header">
+                <h1>Welcome!</h1>
+                <p>You are about to register for a new account on MyMICDS.</p>
             </div>
-            <p class="form-control-feedback">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
-        </div>
-        <div class="register-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!registerForm1.valid || step !== 1">Next</button>
-        </div>
-    </form>
-
-    <form [formGroup]="registerForm2" (ngSubmit)="nextStep()" novalidate mymicds-blur class="form-group">
-        <div class="register-header">
-            <p><i>Treat your password like your toothbrush. Don't let anybody else use it, and get a new one every six months.</i></p>
-        </div>
-        <div class="register-body">
-            <h1>Password</h1>
-            <input type="password" class="form-control" formControlName="password" placeholder="Password">
-            <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
-            <div *ngIf="registerForm2.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
-            <p class="form-text">MyMICDS.net is not affiliated with Mary Institute and Saint Louis Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
-        </div>
-        <div class="register-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!registerForm2.valid || step !== 2">Next</button>
-        </div>
-    </form>
-
-    <form [formGroup]="registerForm3" (ngSubmit)="nextStep()" novalidate mymicds-blur class="form-group" [class.has-danger]="(registerForm3.controls.firstName.dirty && !registerForm3.controls.firstName.valid) || (registerForm3.controls.lastName.dirty && !registerForm3.controls.lastName.valid)">
-        <div class="register-header">
-            <p><i>Bee to the blossom, moth to the flame; Each to his passion; what's in a name?</i></p>
-        </div>
-        <div class="register-body">
-            <h1>Name</h1>
-            <div class="full-name form-inline">
-                <div>
-                    <label for="firstName">First</label>
-                    <input id="firstName" class="form-control" [class.form-control-danger]="registerForm3.controls.firstName.dirty && !registerForm3.controls.firstName.valid" formControlName="firstName" placeholder="First Name">
+            <div class="register-body">
+                <h1>Username</h1>
+                <div class="input-group">
+                    <input class="form-control" [class.form-control-warning]="registerForm1.controls.user.dirty && !isAlphabetic(registerForm1.controls.user.value)" formControlName="user" placeholder="Username">
+                    <div class="input-group-addon">@micds.org</div>
                 </div>
-                <div>
-                    <label for="lastName">Last</label>
-                    <input id="lastName" class="form-control" [class.form-control-danger]="registerForm3.controls.lastName.dirty && !registerForm3.controls.lastName.valid" formControlName="lastName" placeholder="Last Name">
+                <p class="form-control-feedback">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
+            </div>
+            <div class="register-footer">
+                <button type="submit" class="btn btn-primary" [disabled]="!registerForm1.valid || step !== 1">Next</button>
+            </div>
+        </form>
+
+        <form [formGroup]="registerForm2" (ngSubmit)="nextStep()" novalidate mymicds-blur class="form-group">
+            <div class="register-header">
+                <p><i>Treat your password like your toothbrush. Don't let anybody else use it, and get a new one every six months.</i></p>
+            </div>
+            <div class="register-body">
+                <h1>Password</h1>
+                <input type="password" class="form-control" formControlName="password" placeholder="Password">
+                <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+                <div *ngIf="registerForm2.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
+                <p class="form-text">MyMICDS.net is not affiliated with Mary Institute and Saint Louis Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
+            </div>
+            <div class="register-footer">
+                <button type="submit" class="btn btn-primary" [disabled]="!registerForm2.valid || step !== 2">Next</button>
+            </div>
+        </form>
+
+        <form [formGroup]="registerForm3" (ngSubmit)="nextStep()" novalidate mymicds-blur class="form-group" [class.has-danger]="(registerForm3.controls.firstName.dirty && !registerForm3.controls.firstName.valid) || (registerForm3.controls.lastName.dirty && !registerForm3.controls.lastName.valid)">
+            <div class="register-header">
+                <p><i>Bee to the blossom, moth to the flame; Each to his passion; what's in a name?</i></p>
+            </div>
+            <div class="register-body">
+                <h1>Name</h1>
+                <div class="full-name form-inline">
+                    <div>
+                        <label for="firstName">First</label>
+                        <input id="firstName" class="form-control" [class.form-control-danger]="registerForm3.controls.firstName.dirty && !registerForm3.controls.firstName.valid" formControlName="firstName" placeholder="First Name">
+                    </div>
+                    <div>
+                        <label for="lastName">Last</label>
+                        <input id="lastName" class="form-control" [class.form-control-danger]="registerForm3.controls.lastName.dirty && !registerForm3.controls.lastName.valid" formControlName="lastName" placeholder="Last Name">
+                    </div>
+                </div>
+                <p *ngIf="(registerForm3.controls.firstName.dirty && !registerForm3.controls.firstName.valid) || (registerForm3.controls.lastName.dirty && !registerForm3.controls.lastName.valid)" class="form-control-feedback">
+                    First name and last name are required.
+                </p>
+            </div>
+            <div class="register-footer">
+                <button type="submit" class="btn btn-primary" [disabled]="!registerForm3.valid || step !== 3">Next</button>
+            </div>
+        </form>
+
+        <form [formGroup]="registerForm4" (ngSubmit)="register()" novalidate mymicds-blur class="grad-year form-group">
+            <div class="register-body">
+                <h1>Grade</h1>
+                <div class="teacher checkbox">
+                    <label>
+						<input type="checkbox" formControlName="teacher">
+						I am a Teacher
+					</label>
+                </div>
+                <div *ngIf="!registerForm4?.controls?.teacher.value" class="grade-spacer">
+                    <span class="line"></span>
+                    <span class="text">or</span>
+                    <span class="line"></span>
+                </div>
+                <div *ngIf="!registerForm4?.controls?.teacher.value" class="student">
+                    <span>Choose your graduation year</span>
+                    <select class="form-control" formControlName="gradYear">
+						<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
+					</select>
                 </div>
             </div>
-            <p *ngIf="(registerForm3.controls.firstName.dirty && !registerForm3.controls.firstName.valid) || (registerForm3.controls.lastName.dirty && !registerForm3.controls.lastName.valid)" class="form-control-feedback">
-                First name and last name are required.
-            </p>
-        </div>
-        <div class="register-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!registerForm3.valid || step !== 3">Next</button>
-        </div>
-    </form>
+            <div class="register-footer">
+                <button type="submit" class="btn btn-primary" [disabled]="!registerForm4.valid || step !== 4">All done</button>
+            </div>
+        </form>
 
-    <form [formGroup]="registerForm4" (ngSubmit)="register()" novalidate mymicds-blur class="grad-year form-group">
-        <div class="register-body">
-            <h1>Grade</h1>
-            <div class="teacher checkbox">
-                <label>
-					<input type="checkbox" formControlName="teacher">
-					I am a Teacher
-				</label>
-            </div>
-            <div *ngIf="!registerForm4?.controls?.teacher.value" class="grade-spacer">
-                <span class="line"></span>
-                <span class="text">or</span>
-                <span class="line"></span>
-            </div>
-            <div *ngIf="!registerForm4?.controls?.teacher.value" class="student">
-                <span>Choose your graduation year</span>
-                <select class="form-control" formControlName="gradYear">
-					<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
-				</select>
-            </div>
+        <div class="step-count">
+            <div *ngFor="let x of [1, 2, 3, 4]" class="dot" [class.filled]="x <= step"></div>
         </div>
-        <div class="register-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="!registerForm4.valid || step !== 4">All done</button>
-        </div>
-    </form>
-
-    <div class="step-count">
-        <div *ngFor="let x of [1, 2, 3, 4]" class="dot" [class.filled]="x <= step"></div>
+        <!-- <button class="btn btn-primary btn-lg btn-block" [disabled]="!registerForm.valid">Register</button> -->
     </div>
-    <!-- <button class="btn btn-primary btn-lg btn-block" [disabled]="!registerForm.valid">Register</button> -->
 </div>

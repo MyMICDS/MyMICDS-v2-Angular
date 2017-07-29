@@ -1,90 +1,94 @@
 @import '../../../styles/settings';
-.register-form {
-    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    color: $sophisticated-white;
-    width: 400%;
-    height: calc(100% - 5rem);
-    display: flex;
-    justify-content: space-around;
-    .form-group {
-        width: 30rem;
-        height: 40rem;
-        margin: auto;
-        padding: 1.5rem 2.5rem;
-        border-radius: 1rem;
+.register-wrapper {
+    height: calc(100% - 6rem);
+    overflow: hidden;
+    .register-form {
+        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        color: $sophisticated-white;
+        width: 400%;
+        height: 100%;
         display: flex;
-        flex-direction: column;
-        .register-header {
-            margin-bottom: 3rem;
-            border-bottom: solid white 1px;
-            min-height: 7.5rem;
-        }
-        .register-body {}
-        .register-footer {
-            margin-top: auto;
+        justify-content: space-around;
+        .form-group {
+            width: 30rem;
+            height: 40rem;
+            margin: auto;
+            padding: 1.5rem 2.5rem;
+            border-radius: 1rem;
             display: flex;
             flex-direction: column;
-            button {
-                align-self: flex-end;
+            .register-header {
+                margin-bottom: 3rem;
+                border-bottom: solid white 1px;
+                min-height: 7.5rem;
+            }
+            .register-body {}
+            .register-footer {
+                margin-top: auto;
+                display: flex;
+                flex-direction: column;
+                button {
+                    align-self: flex-end;
+                }
             }
         }
-    }
-    fieldset legend {
-        font-size: 2.5rem;
-        font-weight: 300;
-    }
-    .full-name {
-        display: flex;
-        justify-content: space-between;
-        div {
-            width: 45%;
-            label {
-                justify-content: flex-start;
-            }
-            input {
-                width: 100%;
-            }
+        fieldset legend {
+            font-size: 2.5rem;
+            font-weight: 300;
         }
-    }
-    .grad-year {
-        .grade-spacer {
-            margin-bottom: 0.75rem;
+        .full-name {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            .line {
-                height: 1px;
-                width: 100%;
-                border-bottom: 1px solid $sophisticated-white;
-            }
-            .text {
-                margin: 0 1rem;
+            justify-content: space-between;
+            div {
+                width: 45%;
+                label {
+                    justify-content: flex-start;
+                }
+                input {
+                    width: 100%;
+                }
             }
         }
-        .student span {
-            margin-right: 0.5rem;
+        .grad-year {
+            .grade-spacer {
+                margin-bottom: 0.75rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .line {
+                    height: 1px;
+                    width: 100%;
+                    border-bottom: 1px solid $sophisticated-white;
+                }
+                .text {
+                    margin: 0 1rem;
+                }
+            }
+            .student span {
+                margin-right: 0.5rem;
+            }
         }
-    }
-    fieldset:last-of-type {
-        margin-bottom: 2rem;
-    }
-    .step-count {
-        width: 8rem;
-        margin: 0 auto;
-        position: absolute;
-        bottom: 5rem;
-        left: 50%;
-        transform: translate(-50%);
-        display: flex;
-        justify-content: space-between;
-        .dot {
-            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-            width: 0.8rem;
-            height: 0.8rem;
-            border-radius: 50%;
-            border: #0275d8 1px solid;
-            &.filled {
-                background-color: #0275d8
+        fieldset:last-of-type {
+            margin-bottom: 2rem;
+        }
+        .step-count {
+            width: 8rem;
+            margin: 0 auto;
+            position: absolute;
+            bottom: 5rem;
+            left: 50%;
+            transform: translate(-50%);
+            display: flex;
+            justify-content: space-between;
+            .dot {
+                transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+                width: 0.8rem;
+                height: 0.8rem;
+                border-radius: 50%;
+                border: #0275d8 1px solid;
+                &.filled {
+                    background-color: #0275d8
+                }
             }
         }
     }
