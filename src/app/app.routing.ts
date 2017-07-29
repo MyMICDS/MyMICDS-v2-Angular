@@ -116,7 +116,7 @@ export const appRoutes: Routes = [
 		canDeactivate: [CanDeactivateGuard]
 	},
 	{
-		path: 'tutorial',
+		path: 'url-setup',
 		component: TutorialComponent
 	},
 	{

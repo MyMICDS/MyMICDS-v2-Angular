@@ -11,7 +11,7 @@
 	<div class="input-group">
 		<input id="portal-url" class="portal-url form-control form-control-success form-control-danger" [(ngModel)]="portalURL" name="portalURL" placeholder="Portal URL" autocomplete="off" required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!portalForm.valid || !portalValid">Save</button>
+			<button class="btn btn-info">Save</button>
 		</span>
 	</div>
 	<div *ngIf="portalURL?.length > 0" class="form-control-feedback">{{portalResponse}}</div>
@@ -24,7 +24,7 @@
 	<div class="input-group">
 		<input id="canvas-url" class="canvas-url form-control form-control-success form-control-danger" [(ngModel)]="canvasURL" name="canvasURL" placeholder="Canvas URL" autocomplete="off" required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
+			<button class="btn btn-info">Save</button>
 		</span>
 	</div>
 	<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{canvasResponse}}</div>
@@ -38,4 +38,6 @@
           <img [src]="currentImage">
 </div>
 
-<h2 [style.visibility]="doneVis">Whew! The tutorial is over! More help at <a href="https://mymicds.net/help">the help page</a></h2>
+<div [style.visibility]="doneVis" style="flex">
+<h2>Whew! The tutorial is over! More help at <a href="https://mymicds.net/help">the help page</a> or <a style="color: blue;" (click)="commenceSlideShow($)">Walk me through it again</a></h2>
+</div>

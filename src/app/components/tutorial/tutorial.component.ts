@@ -105,8 +105,13 @@ export class TutorialComponent implements OnInit {
 			}
 		);
                     
+                    this.commenceSlideShow();
+          }
+          
+          async commenceSlideShow() {
+                    this.masterVis = "visible";
+                    this.doneVis = "hidden";
                     this.currentImage = this.imgPaths.slideshow[0];
-                    
                     for (var i = 0; i < this.imgPaths.slideshow.length; i++) {
                               switch (i) {
                                         case 0:
@@ -165,6 +170,8 @@ export class TutorialComponent implements OnInit {
                     }
                     
                     console.log("Slideshow Complete");
+                    this.masterVis = "hidden";
+                    this.doneVis = "visible";
           }
           
           slide(position, text : string) {
