@@ -68,7 +68,32 @@ button {
 	right: $blur-margin / 2;
 	bottom: $blur-margin / 2;
 	left: $blur-margin / 2;
-	overflow: hidden;
+
+	.gridster-item-resizable-handler {
+
+		&.handle-s,
+		&.handle-n,
+		&.handle-se,
+		&.handle-ne,
+		&.handle-sw,
+		&.handle-nw {
+			height: $gridster-resize-margin !important;
+		}
+
+		&.handle-e,
+		&.handle-w,
+		&.handle-se,
+		&.handle-ne,
+		&.handle-sw,
+		&.handle-nw {
+			width: $gridster-resize-margin !important;
+		}
+
+		// Get rid of the triangle resize icon in the bottom-right corner so we can have our own
+		&.handle-se {
+			border: none !important;
+		}
+	}
 }
 
 .position-highlight .inner {

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
-import { DatepickerModule, ModalModule } from 'ngx-bootstrap';
+import { DatepickerModule, ModalModule, PopoverModule } from 'ngx-bootstrap';
 import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
@@ -17,7 +17,9 @@ import { AlertComponent } from './components/alert/alert.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
 
+import { ModuleOptionsComponent } from './components/module-options/module-options.component';
 import { ModuleContainerComponent } from './components/module-container/module-container.component';
+import { ModuleOptionComponent } from './components/module-options/module-option/module-option.component';
 
 import { CountdownComponent } from './components/modules/countdown/countdown.component';
 import { ProgressComponent } from './components/modules/progress/progress.component';
@@ -32,6 +34,7 @@ import { HelpComponent } from './components/help/help.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { LunchComponent } from './components/lunch/lunch.component';
+import { ModuleInspectorComponent } from './components/module-inspector/module-inspector.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PlannerComponent } from './components/planner/planner.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -90,6 +93,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		AboutComponent,
 		AlertComponent,
 		HomeComponent,
+		ModuleOptionsComponent,
+		ModuleOptionComponent,
 		ModuleContainerComponent,
 		CountdownComponent,
 		ProgressComponent,
@@ -104,6 +109,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		LoginComponent,
 		LogoutComponent,
 		LunchComponent,
+		ModuleInspectorComponent,
 		NavbarComponent,
 		PlannerComponent,
 		RegisterComponent,
@@ -147,6 +153,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ColorPickerModule,
 		DatepickerModule.forRoot(),
 		ModalModule.forRoot(),
+		PopoverModule.forRoot(),
 		GridsterModule
 	],
 	providers: [

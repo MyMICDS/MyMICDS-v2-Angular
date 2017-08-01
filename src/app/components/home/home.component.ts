@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GridsterComponent, IGridsterOptions } from 'angular2gridster';
-import * as _ from 'lodash';
+import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 
 import { modules } from '../modules/modules-main';
+import { Options } from '../modules/modules-config';
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
 import { ScheduleService } from '../../services/schedule.service';
@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// Gridster component
 	@ViewChild('gridster') gridster: GridsterComponent;
+	@ViewChildren('gridItem') gridItems: QueryList<GridsterItemComponent>;
 	// Gridster options
 	gridsterOptions: IGridsterOptions = {
 		direction: 'vertical',
@@ -117,7 +118,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	}
 
 	detectChanges() {
-		return !_.isEqual(this.ogModuleLayout, this.moduleLayout);
+		return JSON.stringify(this.ogModuleLayout) !== JSON.stringify(this.moduleLayout);
 	}
 
 	updateModuleLayout(modules: Module[]) {
@@ -126,47 +127,67 @@ export class HomeComponent implements OnInit, OnDestroy {
 		// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
 		// (like 730px wide area)
 		this.gridster.reload();
+		this.updateModulePositions();
 	}
 
 	// Save current moduleLayout in the back-end
 	saveModules(saveModules = this.moduleLayout) {
 		this.savingModuleLayout = true;
-
-		// Update the current layout so that all modules get collapsed
-		// It's not very optimal, but I haven't found any way to prevent collapsing,
-		// so we might as well do it before saving so what the user actually sees is synced with the database
-		this.updateModuleLayout(JSON.parse(JSON.stringify(saveModules)));
-		// Set a timeout so angular2gridster has time to update
-		setTimeout(() => {
-			this.modulesService.upsert(this.moduleLayout)
-				.subscribe(
-					modules => {
-						this.savingModuleLayout = false;
-						this.updateModuleLayout(modules);
-						this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
-					},
-					error => {
-						this.savingModuleLayout = false;
-						this.alertService.addAlert('danger', 'Save Modules Error!', error);
-					}
-				);
-		// I've found 61 ms works majority of time, but doesn't when there's more modules
-		}, 100);
+		this.modulesService.upsert(saveModules)
+			.subscribe(
+				modules => {
+					this.savingModuleLayout = false;
+					this.updateModuleLayout(modules);
+					this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
+				},
+				error => {
+					this.savingModuleLayout = false;
+					this.alertService.addAlert('danger', 'Save Modules Error!', error);
+				}
+			);
 	}
 
 	// When the user drops a module label onto the grid
 	addModule(event: any, moduleName: string) {
+		const moduleConfig = modules[moduleName].options || {};
+		const defaultOptions = {};
+
+		for (const optionKey of Object.keys(moduleConfig)) {
+			defaultOptions[optionKey] = moduleConfig[optionKey].default;
+		}
+
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,
 			column: event.item.x,
 			width: event.item.w,
-			height: event.item.h
+			height: event.item.h,
+			options: defaultOptions
 		});
 	}
 
+	changeModuleOptions(module: Module, options: Options) {
+		setTimeout(() => {
+			module.options = options;
+		}, 0);
+	}
+
+	// Because for some reason angular2gridster's two-way binding isn't working
+	updateModulePositions() {
+		this.gridItems.forEach((item, index) => {
+			this.moduleLayout[index].column = item.item.x;
+			this.moduleLayout[index].row = item.item.y;
+			this.moduleLayout[index].height = item.item.h;
+			this.moduleLayout[index].width = item.item.w;
+		});
+	}
+
+	deleteModule(index: number) {
+		this.moduleLayout.splice(index, 1);
+	}
+
 	// When a module label is dragged over the grid
-	over(event: any) {
+	onDragOver(event: any) {
 		event.item.itemPrototype.$element.classList.add('dragging');
 
 		const size = event.item.calculateSize(event.gridster);

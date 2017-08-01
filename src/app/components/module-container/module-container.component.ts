@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
 import { modules } from '../modules/modules-main';
 
 @Component({
@@ -6,34 +6,39 @@ import { modules } from '../modules/modules-main';
 	templateUrl: './module-container.component.html',
 	styleUrls: ['./module-container.component.scss']
 })
-export class ModuleContainerComponent implements OnInit {
-	currentModule = null;
-	currentModuleRef = null;
-	currentModuleType: string = null;
+export class ModuleContainerComponent {
+	private currentModuleRef = null;
+	private currentModuleType: string = null;
+
+	private currentInputs: { [key: string]: any };
 
 	@ViewChild('module', { read: ViewContainerRef }) dynamicModuleContainer: ViewContainerRef;
 
 	@Input()
-	set moduleData(data: { type: string, inputs: any }) {
-		if (!data || !modules[data.type]) {
-			return;
-		}
-
-		if (data.type !== this.currentModuleType) {
+	set type(type: string) {
+		if (type !== this.currentModuleType) {
 			// We create a factory out of the component we want to create
-			const factory = this.resolver.resolveComponentFactory(modules[data.type].component);
+			const factory = this.resolver.resolveComponentFactory(modules[type].component);
 			this.dynamicModuleContainer.clear();
 			this.currentModuleRef = this.dynamicModuleContainer.createComponent(factory);
 		}
 
 		// Assign inputs to the injected component
-		Object.assign(this.currentModuleRef.instance, data.inputs);
+		if (this.currentInputs) {
+			Object.assign(this.currentModuleRef.instance, this.inputs);
+		}
 
-		this.currentModuleType = data.type;
+		this.currentModuleType = type;
+	}
+
+	@Input()
+	set inputs(inputs: { [key: string]: any }) {
+		if (this.currentModuleRef) {
+			Object.assign(this.currentModuleRef.instance, inputs);
+		}
+		this.currentInputs = inputs;
 	}
 
 	constructor(private resolver: ComponentFactoryResolver) { }
 
-	ngOnInit() {
-	}
 }

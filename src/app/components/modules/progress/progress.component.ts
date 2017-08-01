@@ -18,7 +18,14 @@ declare const Chart: any;
 	name: 'progress',
 	icon: 'fa-tasks',
 	defaultHeight: 3,
-	defaultWidth: 4
+	defaultWidth: 4,
+	options: {
+		date: {
+			label: 'Show Date',
+			type: 'boolean',
+			default: true
+		}
+	},
 })
 export class ProgressComponent implements OnInit, OnDestroy {
 

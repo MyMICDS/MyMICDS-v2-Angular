@@ -33,15 +33,44 @@
 	</div>
 	<div class="grid-container">
 		<gridster #gridster [options]="gridsterOptions">
-			<gridster-item #gridItem *ngFor="let module of moduleLayout"
+			<gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
 				[(x)]="module.column"
 				[(y)]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
-				[style.cursor]="editMode ? 'pointer' : 'initial'">
+				[dragAndDrop]="editMode"
+				[resizable]="editMode"
+				(change)="updateModulePositions()">
 
-				<mymicds-module-container [moduleData]="{ type: module.type, inputs: {} }"></mymicds-module-container>
+				<mymicds-module-container [type]="module.type" [inputs]="module.options"></mymicds-module-container>
+
+				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu" [class.popover-open]="modulePopoverBtn?.isOpen">
+					<button class="edit-module-delete" (click)="deleteModule(i)">&times;</button>
+					<button [hidden]="!module.options"
+						class="edit-module-config"
+						[popover]="configModuleTemplate"
+						#modulePopoverBtn="bs-popover"
+						popoverTitle="Configure Module"
+						container="body">
+
+						<i class="fa fa-cog"></i>
+						Configure
+					</button>
+					<div class="edit-module-resize">
+						<!-- Resize Me! -->
+						<i class="fa fa-expand fa-flip-horizontal"></i>
+					</div>
+					<div class="edit-module-drag">
+						<i class="fa fa-arrows"></i>
+						Drag Me!
+					</div>
+				</div>
+
+				<ng-template #configModuleTemplate>
+					<mymicds-module-options [type]="module.type" [options]="module.options" (optionsChange)="module.options = $event"></mymicds-module-options>
+				</ng-template>
+
 			</gridster-item>
 		</gridster>
 	</div>
@@ -55,7 +84,7 @@
 		[w]="modules[name].defaultWidth"
 		[h]="modules[name].defaultHeight"
 		(drop)="addModule($event, name)"
-		(enter)="over($event)">
+		(enter)="onDragOver($event)">
 
 		<div class="module-label">
 			<i class="fa" [ngClass]="modules[name].icon"></i>

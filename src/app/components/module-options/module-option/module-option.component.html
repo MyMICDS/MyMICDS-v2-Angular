@@ -1,0 +1,12 @@
+<ng-container *ngIf="config">
+	<div *ngIf="config.type === 'boolean'" class="form-check">
+		<label class="form-check-label">
+			<input type="checkbox" class="form-check-input" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+			{{ config.label }}
+		</label>
+	</div>
+
+	<p *ngIf="['number', 'string'].includes(config.type)">{{ config.label }}</p>
+	<input *ngIf="config.type === 'number'" class="form-control" type="number" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+	<input *ngIf="config.type === 'string'" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+</ng-container>
