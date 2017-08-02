@@ -19,6 +19,10 @@
 </div>
 
 <div *ngIf="!submitted" class="register-wrapper">
+	<div mymicds-blur class="step-count">
+		<div *ngFor="let x of [1, 2, 3, 4]" class="dot" [class.filled]="x <= step" [class.curr]="x === step"></div>
+	</div>
+
     <div class="register-form" [style.margin-left]="'-' + (step - 1) + '00%'">
         <!-- <div class="register-header">
 			<h1>Register</h1>
@@ -110,9 +114,6 @@
             </div>
         </form>
 
-        <div class="step-count">
-            <div *ngFor="let x of [1, 2, 3, 4]" class="dot" [class.filled]="x <= step"></div>
-        </div>
         <!-- <button class="btn btn-primary btn-lg btn-block" [disabled]="!registerForm.valid">Register</button> -->
     </div>
 </div>
