@@ -1,7 +1,7 @@
 @import '../../../styles/settings';
 .register-wrapper {
     height: calc(100% - 6rem);
-	// overflow: hidden;
+	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	.step-count {
@@ -42,7 +42,7 @@
     .register-form {
         transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         color: $sophisticated-white;
-        width: 400%;
+        width: 600%;
         display: flex;
 		justify-content: space-around;
 		// below is mobile layout WIP
@@ -92,7 +92,7 @@
                 margin-top: auto;
                 display: flex;
                 flex-direction: column;
-                button {
+                &:nth-child(n) {
                     align-self: flex-end;
                 }
             }
