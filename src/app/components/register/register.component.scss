@@ -1,7 +1,7 @@
 @import '../../../styles/settings';
 .register-wrapper {
     height: calc(100% - 6rem);
-	overflow: hidden;
+	// overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	.step-count {
@@ -13,6 +13,7 @@
 		justify-content: space-between;
 		align-items: center;
 		position: relative;
+		border-radius: 3.5rem;
 		&:before {
 			content: '';
 			border-bottom: white 0.25rem solid;
@@ -42,24 +43,51 @@
         transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
         color: $sophisticated-white;
         width: 400%;
-        height: 100%;
         display: flex;
-        justify-content: space-around;
-        .form-group {
-            width: 30rem;
-            height: 40rem;
-            margin: auto;
-            padding: 1.5rem 2.5rem;
-            border-radius: 1rem;
-            display: flex;
-            flex-direction: column;
-            .register-header {
-                margin-bottom: 3rem;
-                border-bottom: solid white 1px;
-                min-height: 7.5rem;
-            }
-            .register-body {}
-            .register-footer {
+		justify-content: space-around;
+		// below is mobile layout WIP
+        // .form-group {
+        //     width: 30rem;
+        //     height: 40rem;
+        //     margin: auto;
+        //     padding: 1.5rem 2.5rem;
+        //     border-radius: 1rem;
+        //     display: flex;
+        //     flex-direction: column;
+        //     .register-header {
+        //         margin-bottom: 3rem;
+        //         border-bottom: solid white 1px;
+        //         min-height: 7.5rem;
+        //     }
+        //     .register-body {}
+        //     .register-footer {
+        //         margin-top: auto;
+        //         display: flex;
+        //         flex-direction: column;
+        //         button {
+        //             align-self: flex-end;
+        //         }
+        //     }
+		// }
+		.form-group {
+			display: flex;
+			flex-direction: column;
+			width: 55rem;
+			margin-bottom: 0;
+			padding: 2.5rem;
+			hr {
+				width: 100%;
+				border-top: 1px solid white;
+			}
+			.register-inputs {
+				width: 60%;
+			}
+			.register-content {
+				padding: 0.5rem 1rem;
+				border-left: 0.25rem solid white;
+				margin: 1.75rem;
+			}
+		    .register-footer {
                 margin-top: auto;
                 display: flex;
                 flex-direction: column;
@@ -67,7 +95,7 @@
                     align-self: flex-end;
                 }
             }
-        }
+		}
         fieldset legend {
             font-size: 2.5rem;
             font-weight: 300;
