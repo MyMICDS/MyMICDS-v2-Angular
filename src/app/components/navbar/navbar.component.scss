@@ -44,17 +44,13 @@
 		border-bottom: 1px solid #29ABE2;
 	}
 
-	.mymicds-logo {
-		text-align: center;
-		order: 1;
-	}
-	img.navbar-brand {
-		width: 30px;
-		vertical-align: top
-	}
 	.navbar-brand {
 		float: initial;
 		font-size: 1.5em;
+
+		img {
+			border-radius: 0.25rem;
+		}
 	}
 
 	.navbar-right {
@@ -89,31 +85,32 @@
 	.navbar {
 		flex-direction: row;
 		flex-wrap: nowrap;
+
 		.navbar-nav {
 			order: 2;
 			flex-direction: row;
 			width: inherit;
 			height: 100%;
 			padding: 0 0;
+
 			.collapse {
 				padding-top: .425rem;
     			padding-bottom: .425rem;
 				height: 2.5em;
 			}
+
 			.fa-caret-down {
 				display: none;
 			}
+
 			a {
 				overflow: visible;
 				height: 100%;
 			}
 		}
+
 		.navbar-brand {
 			font-size: 1.25em;
-		}
-		img.navbar-brand {
-			height: 2rem;
-			width: 2rem;
 		}
 
 		.navbar-right {
@@ -121,6 +118,7 @@
 			flex-direction: column;
 			order: 3;
 			width: inherit;
+
 			.logged-in-user {
 				display: inline;
 				margin: 0 1rem 0 1rem;
@@ -134,19 +132,21 @@
 		.logged-in-user {
 			margin: 0 1rem 0 0;
 		}
+
 		.navbar-nav {
 			padding-bottom: 0px;
 		}
+
 		.navbar-right {
 			margin-left: auto;
 			flex-direction: row;
+
 			button {
 				font-size: normal;
 			}
-			.logged-in-user {
-				.hide {
-					display: inline-block;
-				}
+
+			.logged-in-user .hide {
+				display: inline-block;
 			}
 		}
 	}
