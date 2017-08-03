@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import moment from 'moment';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { MyMICDSModule } from '../modules-main';
 
@@ -20,22 +22,37 @@ declare const Chart: any;
 	defaultHeight: 3,
 	defaultWidth: 4,
 	options: {
-		date: {
+		showDate: {
 			label: 'Show Date',
 			type: 'boolean',
 			default: true
 		}
-	},
+	}
 })
 export class ProgressComponent implements OnInit, OnDestroy {
 
-	today: any = new Date();
+	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+
+	@Input() showDate = true;
+
+	today: any = new Date(2017, 4, 23, 12);
 	scheduleSubscription: any;
 	schedule: any = null;
+
+	progressType: ProgressType = ProgressType.circular;
 
 	// Circular Progress References
 	ctx: any;
 	progressBar: any;
+
+	// Linear Progress Bar stuff
+	linearProgress: {
+		className: string;
+		percentage: number;
+		progressWidth: number;
+		color: string;
+		current: boolean;
+	}[];
 
 	// Current Class Label
 	currentClass: string = null;
@@ -76,6 +93,14 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		ElementQueries.listen();
+		ElementQueries.init();
+
+		console.log(this.moduleContainer);
+		new ResizeSensor(this.moduleContainer.nativeElement, () => {
+			console.log('changed');
+		});
+
 		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
 
@@ -95,6 +120,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 				}]
 			},
 			options: {
+				responsive: true,
+				maintainAspectRatio: false,
 				animation: {
 					easing: 'easeInOutCirc'
 				},
@@ -114,21 +141,26 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 		// Start timer
 		this.calculatePercentages();
-		this.timer = setInterval(() => {
-			this.today = new Date();
-			// Calculate rainbow gradient again in case module dimensions changed
-			this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
-			this.calculatePercentages();
-		}, 1000);
+		// this.timer = setInterval(() => {
+		// 	this.today = new Date(2017, 4, 23, 12);
+		// 	// Calculate rainbow gradient again in case module dimensions changed
+		// 	this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
+		// 	this.calculatePercentages();
+		// }, 1000);
 
 		// Get today's schedule
 		this.scheduleSubscription = this.scheduleService
 			.get({
 				year: this.today.getFullYear(),
-				month: this.today.getMonth() + 1,
-				day: this.today.getDate()
+				// month: this.today.getMonth() + 1,
+				month: 5,
+				// day: this.today.getDate()
+				day: 23
 			})
-			.subscribe(schedule => this.schedule = schedule);
+			.subscribe(schedule => {
+				this.schedule = schedule;
+				this.calculatePercentages();
+			});
 
 		// Socket.io service to spin the spinny
 		// this.progressDayCtx = document.getElementsByClassName('progress-day')[0];
@@ -180,12 +212,23 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			this.progressBar.data.labels = this.defaultLabels();
 			this.progressBar.data.durations = this.defaultDurations();
 
+			this.linearProgress = [{
+				className: this.defaultLabels()[0],
+				percentage: this.defaultData()[0],
+				progressWidth: this.defaultData()[0],
+				color: this.defaultColors()[0],
+				current: false
+			}];
+
 			this.progressBar.update();
 			return;
 		}
 
 		// Define nowTime just to make things clearer
 		let nowTime = this.today.getTime();
+
+		// Clear linear progress
+		this.linearProgress = [];
 
 		// Create a new array and later assign to progress bar
 		let newColors: any[] = [];
@@ -277,6 +320,14 @@ export class ProgressComponent implements OnInit, OnDestroy {
 				newData.push(roundedPercent);
 				newLabels.push(blockName);
 				newDurations.push(classDuration);
+
+				this.linearProgress.push({
+					className: blockName,
+					percentage: +classPercent.toFixed(2),
+					progressWidth: roundedPercent,
+					color: block.color,
+					current: (0 < classPercent && classPercent < 100)
+				});
 			}
 
 			// Check if class is the current class
@@ -364,4 +415,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		return tooltip;
 
 	}
+}
+
+const enum ProgressType {
+	linear = 'linear',
+	circular = 'circular'
 }

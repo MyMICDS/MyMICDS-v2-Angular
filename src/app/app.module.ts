@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
-import { DatepickerModule, ModalModule, PopoverModule } from 'ngx-bootstrap';
+import { DatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
 import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
@@ -154,6 +154,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		DatepickerModule.forRoot(),
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
+		TooltipModule.forRoot(),
 		GridsterModule
 	],
 	providers: [

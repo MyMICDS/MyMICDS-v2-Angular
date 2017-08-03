@@ -1,157 +1,212 @@
 /* --------------------------
   Main Styles
 --------------------------- */
+
+.module-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+
+	.today {
+		flex-grow: 0;
+		flex-shrink: 1;
+	}
+
+	.progress-container {
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}
+
 .today {
 	display: flex;
 	justify-content: space-between;
-	.date {
-		.date-full {
-			font-weight: 400;
-			font-size: 1.5rem;
+
+	&[max-width~='600px'] .date .date-full {
+		display: none;
+
+		&.short {
+			display: block;
+		}
+	}
+
+	&[max-width~='450px'] {
+		flex-direction: column;
+		align-items: flex-start;
+
+		.date .date-full {
+			display: none;
+
+			&.short {
+				display: none;
+			}
 		}
 
-		.date-numbered {
-			font-weight: 300;
-			font-size: 0.75rem;
+		.day .time {
+			display: none;
 		}
+	}
+
+	.date,
+	.day {
+		h2 {
+			font-weight: 400;
+		}
+
+		h3 {
+			font-weight: 300;
+		}
+	}
+
+	.date .date-full.short {
+		display: none;
 	}
 
 	.day {
 		text-align: right;
-		.time {
-			font-weight: 400;
-			font-size: 1.5rem;
-		}
-
-		.day-rotation {
-			font-weight: 300;
-			font-size: 0.75rem;
-		}
 	}
 }
 
 .progress-container {
-	background-color: transparent;
-	height: 100%;
-	width: 100%;
+	// height: 100%;
 	display: flex;
 	flex-direction: column;
-	margin: 0 auto;
+	// justify-content: center;
+	// align-items: center;
 
-	.progress-day {
-		margin: 1rem auto;
-		cursor: pointer;
-		transition-duration: 0.5s;
+	.progress-day-container {
+		flex-grow: 0;
+		flex-shrink: 1;
 
-		font-size: 100%;
+		text-align: center;
 
-		-webkit-touch-callout: none;
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
+		.progress-day {
+			margin: 1rem auto;
+			cursor: pointer;
+			transition-duration: 0.5s;
+			user-select: none;
 
-		&:active,
-		&.rotate {
-			transform: rotate(360deg);
+			&:active,
+			&.rotate {
+				transform: rotate(360deg);
+			}
 		}
 	}
 
 	.progress-circular {
-		position: relative;
-		display: flex;
-		overflow: visible;
+		flex-grow: 1;
+		flex-shrink: 1;
 
-		.progress-chart {
+		// height: 100%;
+		// position: relative;
+
+		.circular-container {
+			height: 100%;
 			position: relative;
 		}
+	}
 
-		.progress-percentage {
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
+	// .progress-circular {
+	// 	position: relative;
+	// 	display: flex;
+	// 	overflow: visible;
+	//
+	// 	.progress-chart {
+	// 		position: relative;
+	// 	}
+	//
+	// 	.progress-percentage {
+	// 		position: absolute;
+	// 		top: 0;
+	// 		left: 0;
+	// 		right: 0;
+	// 		bottom: 0;
+	//
+	// 		display: flex;
+	// 		flex-direction: column;
+	// 		justify-content: center;
+	// 		align-items: center;
+	//
+	// 		.class-label {
+	// 			font-size: 1.3rem;
+	// 			font-weight: 300;
+	// 			letter-spacing: 0.03em;
+	// 			text-align: center;
+	// 			line-height: 1;
+	// 			margin: 10px;
+	// 		}
+	//
+	// 		.class-percent {
+	// 			font-size: 5rem;
+	// 			font-weight: 500;
+	// 			line-height: 0.80;
+	// 		}
+	//
+	// 		.school-done {
+	// 			font-size: 2rem;
+	// 			font-weight: 500;
+	// 			line-height: 0.75;
+	// 			text-align: center;
+	// 		}
+	// 	}
+	// }
 
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-
-			.class-label {
-				font-size: 1.3rem;
-				font-weight: 300;
-				letter-spacing: 0.03em;
-				text-align: center;
-				line-height: 1;
-				margin: 10px;
-			}
-
-			.class-percent {
-				font-size: 5rem;
-				font-weight: 500;
-				line-height: 0.80;
-			}
-
-			.school-done {
-				font-size: 2rem;
-				font-weight: 500;
-				line-height: 0.75;
-				text-align: center;
-			}
-		}
+	.progress-linear {
+		width: 100%;
 	}
 }
 
 /* --------------------------
   Media Queries
 --------------------------- */
-@media screen and (min-width: 544px) {
-	.today {
-		.date {
-			.date-full {
-				font-size: 2em;
-			}
-
-			.date-numbered {
-				font-size: 1.75em;
-			}
-		}
-
-		.day {
-			.time {
-				font-size: 2em;
-			}
-
-			.day-rotation {
-				font-size: 1.75em;
-			}
-		}
-	}
-
-	.progress-container {
-		width: 50%;
-
-		.progress-day {
-			font-size: 75%;
-		}
-
-		.progress-circular .progress-percentage {
-			.class-label {
-				font-size: 1.5rem;
-				font-weight: 300;
-			}
-
-			.class-percent {
-				font-size: 8rem;
-				font-weight: 600;
-			}
-
-			.school-done {
-				font-size: 4rem;
-				font-weight: 600;
-			}
-		}
-	}
-}
+// @media screen and (min-width: 544px) {
+// 	.today {
+// 		.date {
+// 			.date-full {
+// 				font-size: 2em;
+// 			}
+//
+// 			.date-numbered {
+// 				font-size: 1.75em;
+// 			}
+// 		}
+//
+// 		.day {
+// 			.time {
+// 				font-size: 2em;
+// 			}
+//
+// 			.day-rotation {
+// 				font-size: 1.75em;
+// 			}
+// 		}
+// 	}
+//
+// 	.progress-container {
+// 		width: 50%;
+//
+// 		.progress-day {
+// 			font-size: 75%;
+// 		}
+//
+// 		.progress-circular .progress-percentage {
+// 			.class-label {
+// 				font-size: 1.5rem;
+// 				font-weight: 300;
+// 			}
+//
+// 			.class-percent {
+// 				font-size: 8rem;
+// 				font-weight: 600;
+// 			}
+//
+// 			.school-done {
+// 				font-size: 4rem;
+// 				font-weight: 600;
+// 			}
+// 		}
+// 	}
+// }
