@@ -8,7 +8,7 @@
 		Weather at MICDS
 	</h1>
 	<div class="temperature">
-		<div class="temp-actual" (click)="toggleMetric()">
+		<div class="temp-actual">
 			<div class="current-temp">
 				{{weather.currently.temperature}}
 				<span class="degrees">{{metric ? '&deg;C' : '&deg;F'}}</span>
@@ -41,7 +41,7 @@
 		</div>
 	</div>
 
-	<div class="wind" (click)="toggleMetric()">
+	<div class="wind">
 		<i class="wi wi-wind from-{{weather.currently.windBearing}}-deg"></i>
 		<div class="wind-vector">
 			<div class="wind-magnitude">Wind <span class="wind-speed">{{weather.currently.windSpeed}}</span> {{metric ? 'kilometers' : 'miles'}} per hour</div>
