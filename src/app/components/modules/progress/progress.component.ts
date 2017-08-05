@@ -104,6 +104,11 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
 
+		// Add resize sensor so we know what to change font size to
+		new ResizeSensor(this.ctx, () => {
+			console.log('chart changed');
+		});
+
 		// Rainbow color top priority
 		this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
 

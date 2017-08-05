@@ -18,7 +18,7 @@
 			<div class="circular-container">
 				<canvas class="progress-chart"></canvas>
 			</div>
-			<!-- <div *ngIf="0 < schoolPercent && schoolPercent < 100" class="progress-percentage">
+			<div *ngIf="0 < schoolPercent && schoolPercent < 100" class="progress-percentage">
 				<span class="class-label">{{ currentClass }} is</span>
 				<span class="class-percent">{{ currentClassPercent }}%</span>
 				<span class="class-label">Done</span>
@@ -26,7 +26,7 @@
 			<div *ngIf="!schoolPercent || schoolPercent === 0 || schoolPercent === 100" class="progress-percentage">
 				<span class="class-label">School is</span>
 				<span class="school-done">Not in Session.</span>
-			</div> -->
+			</div>
 		</div>
 		<div [hidden]="progressType !== 'linear'" class="progress-linear progress">
 			<div *ngFor="let progress of linearProgress"
