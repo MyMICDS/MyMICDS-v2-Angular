@@ -177,7 +177,24 @@
 	}
 }
 
-.module-container[max-height~='450px'] {
+.module-container[max-height~='300px'] {
+	.weather {
+		.temperature {
+			.temp-actual {
+				.current-temp {
+					font-size: 4.5rem;
+				}
+			}
+		}
+		.wind {
+			i {
+				font-size: 6rem;
+			}
+		}
+	}
+}
+
+.module-container[max-height~='450px'][max-width~='450px'] {
 	.weather {
 		.weather-misc {
 			display: none;
