@@ -1,4 +1,6 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { MyMICDSModule } from '../modules-main';
 
@@ -41,10 +43,16 @@ export class WeatherComponent implements OnInit, OnDestroy {
 	@Input() set metric(m) {
 		this.toggleMetric(m);
 	}
+	@ViewChild('moduleContainer') containerEl: ElementRef;
 
 	constructor(private alertService: AlertService, private weatherService: WeatherService) { }
 
 	ngOnInit() {
+		ElementQueries.listen();
+		ElementQueries.init();
+		new ResizeSensor(this.containerEl.nativeElement, () => {
+			console.log('changed');
+		});
 		this.subscription = this.weatherService.getWeather().subscribe(
 			data => {
 				this.weather = data;
