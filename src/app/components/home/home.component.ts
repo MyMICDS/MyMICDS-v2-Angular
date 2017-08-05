@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList } from
 import { ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 
-import { modules } from '../modules/modules-main';
+import { modules, getDefaultOptions } from '../modules/modules-main';
 import { Options } from '../modules/modules-config';
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
@@ -149,20 +149,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// When the user drops a module label onto the grid
 	addModule(event: any, moduleName: string) {
-		const moduleConfig = modules[moduleName].options || {};
-		const defaultOptions = {};
-
-		for (const optionKey of Object.keys(moduleConfig)) {
-			defaultOptions[optionKey] = moduleConfig[optionKey].default;
-		}
-
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,
 			column: event.item.x,
 			width: event.item.w,
 			height: event.item.h,
-			options: defaultOptions
+			options: getDefaultOptions(moduleName)
 		});
 	}
 
