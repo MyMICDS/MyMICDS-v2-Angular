@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 
@@ -13,7 +13,7 @@ import { ScheduleService } from '../../services/schedule.service';
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
@@ -92,13 +92,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 				this.gridsterOptions.shrink = !this.editMode;
 			}
 		);
+	}
 
+	ngAfterViewInit() {
 		// Get modules layout
 		this.moduleLayoutSubscription = this.modulesService.get()
 			.subscribe(modules => {
+				console.log(modules);
 				this.updateModuleLayout(modules);
 			});
-
 	}
 
 	ngOnDestroy() {
@@ -123,7 +125,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	updateModuleLayout(modules: Module[]) {
 		this.ogModuleLayout = JSON.parse(JSON.stringify(modules));
-		this.moduleLayout = modules;
+		setTimeout(() => {this.moduleLayout = modules; }, 0);
 		// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
 		// (like 730px wide area)
 		this.gridster.reload();

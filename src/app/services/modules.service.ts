@@ -17,18 +17,30 @@ export class ModulesService {
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
 
-		return this.authHttp.post(environment.backendURL + '/modules/get', body, options)
-			.map(res => {
-				let data = res.json();
+		let modulesCache;
+		try {
+			modulesCache = JSON.parse(localStorage.getItem('modulesCache'));
+		} catch (e) {
+			localStorage.removeItem('modulesCache');
+		}
 
-				// Check if server-side error
-				if (data.error) {
-					throw new Error(data.error);
-				}
+		return Observable.merge(
+			this.authHttp.post(environment.backendURL + '/modules/get', body, options)
+					.map(res => {
+						let data = res.json();
 
-				return data.modules;
-			})
-			.catch(handleError);
+						// Check if server-side error
+						if (data.error) {
+							throw new Error(data.error);
+						}
+
+						return data.modules;
+					})
+					.catch(handleError),
+			Observable.of(modulesCache)
+		)
+		.filter(layout => !!layout)
+		.distinct(layout => JSON.stringify(layout));
 	}
 
 	upsert(modules: Module[]): Observable<Module[]> {
