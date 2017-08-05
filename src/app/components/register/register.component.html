@@ -126,7 +126,7 @@
 				</div>
 
 				<div class="register-footer">
-					<button class="btn btn-primary" [disabled]="step !== 4" (click)="nextStep()">Next</button>
+					<button class="btn btn-primary" [disabled]="step !== 4 || registerResponse !== true" (click)="nextStep()">Next</button>
 				</div>
 			</div>
 		</div>
@@ -134,7 +134,7 @@
 		<div class="step-wrapper" *ngIf="step === 5" @flyInOut>
 			<div class="form-group" mymicds-blur>
 				<mymicds-url></mymicds-url>
-				<div class="register-footer">
+				<div class="register-footer" *ngIf="urlComp">
 					<div class="button-group">
 						<button [routerLink]="'/home'" class="btn btn-primary" [disabled]="!urlComp.canvasValid || !urlComp.portalValid || !urlComp.canvasURL || !urlComp.portalURL || step !== 5">All Done</button>
 						<button [routerLink]="'/home'" class="btn btn-warning" [disabled]="step !== 5">Skip this step</button>
