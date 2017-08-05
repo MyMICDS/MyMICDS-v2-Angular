@@ -40,11 +40,10 @@
 		}
 	}
     .register-form {
-        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-        color: $sophisticated-white;
-        width: 600%;
-        display: flex;
-		justify-content: space-around;
+		color: $sophisticated-white;
+		width: 100%;
+		height: 77%;
+		position: relative;
 		// below is mobile layout WIP
         // .form-group {
         //     width: 30rem;
@@ -69,6 +68,13 @@
         //         }
         //     }
 		// }
+		.step-wrapper {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+		}
 		.form-group {
 			display: flex;
 			flex-direction: column;

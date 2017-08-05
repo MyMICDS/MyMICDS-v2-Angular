@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { confirmPassword, confirmGrade } from '../../common/form-validation';
@@ -12,7 +13,19 @@ import { UserService } from '../../services/user.service';
 @Component({
 	selector: 'mymicds-register',
 	templateUrl: './register.component.html',
-	styleUrls: ['./register.component.scss']
+	styleUrls: ['./register.component.scss'],
+	animations: [
+		trigger('flyInOut', [
+			state('*', style({transform: 'translateX(0%)'})),
+			transition(':enter', [
+				style({transform: 'translateX(200%)'}),
+				animate('0.6s cubic-bezier(0.165, 0.84, 0.44, 1)')
+			]),
+			transition(':leave', [
+				animate('0.6s cubic-bezier(0.165, 0.84, 0.44, 1)', style({transform: 'translateX(-200%)'}))
+			])
+		])
+	]
 })
 export class RegisterComponent implements OnInit {
 
@@ -45,7 +58,7 @@ export class RegisterComponent implements OnInit {
 
 	step = 0;
 
-	urlComp: UrlComponent = ViewChild(UrlComponent);
+	@ViewChild(UrlComponent) urlComp: UrlComponent;
 
 	constructor(
 		private router: Router,
