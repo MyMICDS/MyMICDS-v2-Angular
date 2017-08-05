@@ -1,108 +1,169 @@
 @import '../../../styles/settings';
-
-.register-form {
-	width: 35rem;
-	margin: 2.5rem auto 6rem;
-	padding: 1rem 2.5rem;
-	color: $sophisticated-white;
-
-	.register-header {
-		margin-bottom: 1rem;
-		text-align: center;
-
-		h1 {
-			margin-bottom: 1.5rem;
-			font-size: 3rem;
-			font-weight: 300;
+.register-wrapper {
+    height: calc(100% - 6rem);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	.step-count {
+		width: 80%;
+		height: 7rem;
+		margin: 1.5rem auto;
+		padding: 0 2rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		position: relative;
+		border-radius: 3.5rem;
+		&:before {
+			content: '';
+			border-bottom: white 0.25rem solid;
+			position: absolute;
+			width: calc(100% - 4rem);
+			z-index: 0;
 		}
-
-		img {
-			width: 5rem;
-			border-radius: 5rem;
+		.dot {
+			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 50%;
+			border: white 0.25rem solid;
+			z-index: 2;
+			background: #bbb;
+			&.filled {
+				background: #5cb85c;
+			}
+			&.curr {
+				background: #0275d8;
+				width: 4.5rem;
+				height: 4.5rem;
+			}
 		}
 	}
-
-	form {
-
-		fieldset legend {
-			font-size: 2.5rem;
-			font-weight: 300;
-		}
-
-		.full-name {
+    .register-form {
+        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        color: $sophisticated-white;
+        width: 600%;
+        display: flex;
+		justify-content: space-around;
+		// below is mobile layout WIP
+        // .form-group {
+        //     width: 30rem;
+        //     height: 40rem;
+        //     margin: auto;
+        //     padding: 1.5rem 2.5rem;
+        //     border-radius: 1rem;
+        //     display: flex;
+        //     flex-direction: column;
+        //     .register-header {
+        //         margin-bottom: 3rem;
+        //         border-bottom: solid white 1px;
+        //         min-height: 7.5rem;
+        //     }
+        //     .register-body {}
+        //     .register-footer {
+        //         margin-top: auto;
+        //         display: flex;
+        //         flex-direction: column;
+        //         button {
+        //             align-self: flex-end;
+        //         }
+        //     }
+		// }
+		.form-group {
 			display: flex;
-			justify-content: space-between;
-
-			input:first-child {
+			flex-direction: column;
+			width: 55rem;
+			margin-bottom: 0;
+			padding: 2.5rem;
+			border-radius: 1rem;
+			hr {
 				width: 100%;
-				margin-right: 0.5rem;
+				border-top: 1px solid white;
 			}
-
-			input:last-child {
-				width: 100%;
-				margin-left: 0.5rem;
+			.register-inputs {
+				width: 60%;
 			}
+			.register-content {
+				padding: 0.5rem 1rem;
+				border-left: 0.25rem solid white;
+				margin: 1.75rem;
+			}
+		    .register-footer {
+                margin-top: auto;
+                display: flex;
+                flex-direction: column;
+                &:nth-child(n) {
+                    align-self: flex-end;
+                }
+            }
 		}
-
-		.grad-year {
-
-			.grade-spacer {
-				margin-bottom: 0.75rem;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-
-				.line {
-					height: 1px;
-					width:100%;
-					border-bottom: 1px solid $sophisticated-white;
-				}
-
-				.text {
-					margin: 0 1rem;
-				}
-			}
-
-			.student span {
-				margin-right: 0.5rem;
-			}
-		}
-
-		fieldset:last-of-type {
-			margin-bottom: 2rem;
-		}
-	}
+        fieldset legend {
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+        .full-name {
+            display: flex;
+            justify-content: space-between;
+            div {
+                width: 45%;
+                label {
+                    justify-content: flex-start;
+                }
+                input {
+                    width: 100%;
+                }
+            }
+        }
+        .grad-year {
+            .grade-spacer {
+                margin-bottom: 0.75rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                .line {
+                    height: 1px;
+                    width: 100%;
+                    border-bottom: 1px solid $sophisticated-white;
+                }
+                .text {
+                    margin: 0 1rem;
+                }
+            }
+            .student span {
+                margin-right: 0.5rem;
+            }
+        }
+        fieldset:last-of-type {
+            margin-bottom: 2rem;
+        }
+    }
 }
 
 .register-container {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	.register-response {
-		width: 35rem;
-		padding: 1rem;
-		text-align: center;
-		color: $sophisticated-white;
-
-		h1 {
-			font-size: 3rem;
-			font-weight: 300;
-		}
-
-		.fa {
-			display: block;
-			margin-bottom: 1rem;
-		}
-
-		a:not(.gmail) {
-			color: #0275d8;
-			cursor: pointer;
-		}
-	}
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .register-response {
+        width: 35rem;
+        padding: 1rem;
+        text-align: center;
+        color: $sophisticated-white;
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+        }
+        .fa {
+            display: block;
+            margin-bottom: 1rem;
+        }
+        a:not(.gmail) {
+            color: #0275d8;
+            cursor: pointer;
+        }
+    }
 }
