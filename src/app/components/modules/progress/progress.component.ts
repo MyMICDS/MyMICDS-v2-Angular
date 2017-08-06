@@ -38,7 +38,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 	@Input() showDate = true;
 
-	today: any = new Date(2017, 4, 23, 12);
+	today: any = new Date();
 	scheduleSubscription: any;
 	schedule: any = null;
 
@@ -179,21 +179,19 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 		// Start timer
 		this.calculatePercentages();
-		// this.timer = setInterval(() => {
-		// 	this.today = new Date(2017, 4, 23, 12);
-		// 	// Calculate rainbow gradient again in case module dimensions changed
-		// 	this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
-		// 	this.calculatePercentages();
-		// }, 1000);
+		this.timer = setInterval(() => {
+			this.today = new Date();
+			// Calculate rainbow gradient again in case module dimensions changed
+			this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
+			this.calculatePercentages();
+		}, 1000);
 
 		// Get today's schedule
 		this.scheduleSubscription = this.scheduleService
 			.get({
 				year: this.today.getFullYear(),
-				// month: this.today.getMonth() + 1,
-				month: 5,
-				// day: this.today.getDate()
-				day: 23
+				month: this.today.getMonth() + 1,
+				day: this.today.getDate()
 			})
 			.subscribe(schedule => {
 				this.schedule = schedule;

@@ -98,7 +98,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		// Get modules layout
 		this.moduleLayoutSubscription = this.modulesService.get()
 			.subscribe(modules => {
-				console.log(modules);
 				this.updateModuleLayout(modules);
 			});
 	}
