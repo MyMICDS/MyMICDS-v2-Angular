@@ -22,8 +22,6 @@ export class ModuleOptionsComponent {
 		this.optionsConfig = modules[name].options;
 		this.optionKeys = Object.keys(this.optionsConfig);
 
-		console.log('set type', name, getDefaultOptions(name));
-
 		// Fall back to default options if none are provided
 		this.options = {};
 	}

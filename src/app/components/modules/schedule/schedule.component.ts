@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import moment from 'moment';
-import { contains } from '../../../common/utils';
 
 import { MyMICDSModule } from '../modules-main';
 
 import { AlertService } from '../../../services/alert.service';
 import { ScheduleService } from '../../../services/schedule.service';
 
-import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Rx';
 import '../../../common/rxjs-operators';
 
 
@@ -22,79 +21,52 @@ import '../../../common/rxjs-operators';
 	defaultHeight: 1,
 	defaultWidth: 2
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
+
+	current = moment();
 
 	viewSchedule: any = null;
-	scheduleDate = moment();
+	scheduleDate = moment([2017, 4, 19]);
 
-	// Observable navigation
-	click$: Observable<{}>;
-	clickSub: any;
-	previousCreated = [];
-	currentCreated = [];
-	nextCreated = [];
+	changeSchedule$ = new Subject<void>();
 
 	constructor(private alertService: AlertService, private scheduleService: ScheduleService) { }
 
 	ngOnInit() {
-		this.getSchedule(this.scheduleDate);
-		this.click$ = Observable.empty();
+		this.getSchedule();
+
+		this.changeSchedule$
+			.debounceTime(300)
+			.subscribe(
+				() => {
+					this.getSchedule();
+				}
+			);
 	}
 
-	previousDay(event) {
-		this.scheduleDate.subtract(1, 'day');
-		if (!contains(this.previousCreated, event.target)) {
-			let o = Observable.fromEvent(event.target, 'click');
-			this.click$ = Observable.merge(this.click$, o);
-			this.previousCreated.push(event.target);
-			this.getSchedule(this.scheduleDate);
-			this.clickSub = this.click$
-				.debounceTime(1000)
-				.subscribe(
-					() => {
-						this.getSchedule(this.scheduleDate);
-					}
-				);
-		}
+	ngOnDestroy() {
+		this.changeSchedule$.unsubscribe();
 	}
 
-	currentDay(event) {
-		this.scheduleDate = moment();
-		if (!contains(this.currentCreated, event.target)) {
-			let o = Observable.fromEvent(event.target, 'click');
-			this.click$ = Observable.merge(this.click$, o);
-			this.currentCreated.push(event.target);
-			this.getSchedule(this.scheduleDate);
-			this.clickSub = this.click$
-				.debounceTime(1000)
-				.subscribe(
-					() => {
-						this.getSchedule(this.scheduleDate);
-					}
-				);
-		}
-	}
-
-	nextDay(event) {
-		this.scheduleDate.add(1, 'day');
-		if (!contains(this.nextCreated, event.target)) {
-			let o = Observable.fromEvent(event.target, 'click');
-			this.click$ = Observable.merge(this.click$, o);
-			this.nextCreated.push(event.target);
-			this.getSchedule(this.scheduleDate);
-			this.clickSub = this.click$
-				.debounceTime(1000)
-				.subscribe(
-					() => {
-						this.getSchedule(this.scheduleDate);
-					}
-				);
-		}
-	}
-
-	getSchedule(date: any) {
+	previousDay() {
 		this.viewSchedule = null;
+		this.scheduleDate.add(1, 'day');
+		this.changeSchedule$.next();
+	}
 
+	currentDay() {
+		this.viewSchedule = null;
+		this.scheduleDate = moment();
+		this.changeSchedule$.next();
+	}
+
+	nextDay() {
+		this.viewSchedule = null;
+		this.scheduleDate.subtract(1, 'day');
+		this.changeSchedule$.next();
+	}
+
+	getSchedule() {
 		this.scheduleService.get({
 			year : this.scheduleDate.year(),
 			month: this.scheduleDate.month() + 1,

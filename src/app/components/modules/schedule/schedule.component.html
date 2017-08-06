@@ -1,19 +1,19 @@
 <!-- Day navigation bar -->
 <div class="day-navigation">
-	<button class="previous-day" (click)="previousDay($event)">
+	<button class="previous-day" (click)="previousDay()">
 		<span>
 			<i class="fa fa-angle-left"></i>
 			Previous Day
 		</span>
 	</button>
 
-	<button class="current-day" (click)="currentDay($event)">
+	<button class="current-day" (click)="currentDay()">
 		<span *ngIf="viewSchedule?.day">Day {{ viewSchedule.day }}</span>
 		<span>{{ scheduleDate.toDate() | date:'EEEE, MMM d' }}</span>
 		<span *ngIf="viewSchedule?.special">Special Schedule</span>
 	</button>
 
-	<button class="next-day" (click)="nextDay($event)">
+	<button class="next-day" (click)="nextDay()">
 		<span>
 			Next Day
 			<i class="fa fa-angle-right"></i>
