@@ -1,9 +1,40 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import moment from 'moment';
 
 import { AlertService } from '../../../services/alert.service';
 import { PortalService } from '../../../services/portal.service';
+import { MyMICDSModule } from '../modules-main';
 
+@MyMICDSModule({
+	name: 'countdown',
+	icon: 'clock-o',
+	defaultHeight: 1,
+	defaultWidth: 2,
+	options: {
+		preset: {
+			label: 'Preset dates (Overwrites custom dates)',
+			type: 'string',
+			default: 'Summer Break',
+			select: true,
+			selectItems: ['Summer Break', 'Next Break', 'Next Weekend', 'Next Long Weekend', 'Custom Date']
+		},
+		countdownTo: {
+			label: 'Count towards',
+			type: 'Date',
+			default: moment().year(2018).month('may').date(26).hour(15).minute(15).toDate()
+		},
+		eventLabel: {
+			label: 'Until...',
+			type: 'string',
+			default: 'Summer Break'
+		},
+		schoolDays: {
+			label: 'Count school days',
+			type: 'boolean',
+			default: true
+		}
+	}
+})
 @Component({
 	selector: 'mymicds-countdown',
 	templateUrl: './countdown.component.html',
@@ -14,8 +45,21 @@ export class CountdownComponent implements OnInit, OnDestroy {
 	dayRotationSubscription: any;
 	dayRotation: any;
 	daysLeft: number;
+	minutesLeft: number;
+	hoursLeft: number;
 
-	countdownTo: any = moment().year(2017).month('may').date(26).hour(15).minute(15);
+	@Input() preset: string;
+	@Input() countdownTo: Date;
+	@Input() eventLabel: string;
+	private _schoolDays: boolean;
+	@Input() set schoolDays(s: boolean) {
+		this._schoolDays = s;
+		if (s && this.dayRotation) {
+			this.daysLeft = this.calculateSchoolDays(moment(), this.countdownTo);
+		} else {
+			this.daysLeft = moment(this.countdownTo).diff(moment(), 'days');
+		}
+	};
 
 	constructor(private alertService: AlertService, private portalService: PortalService) {}
 
@@ -24,7 +68,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 			.subscribe(
 				days => {
 					this.dayRotation = days;
-					this.daysLeft = this.calculateSchoolDays(moment(), this.countdownTo);
+					this.schoolDays = this._schoolDays;
 				},
 				error => {
 					this.alertService.addAlert('danger', 'Get Day Rotation Error!', error);

@@ -124,7 +124,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	updateModuleLayout(modules: Module[]) {
 		this.ogModuleLayout = JSON.parse(JSON.stringify(modules));
-		setTimeout(() => {this.moduleLayout = modules; }, 0);
+		this.moduleLayout = modules;
 		// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
 		// (like 730px wide area)
 		this.gridster.reload();

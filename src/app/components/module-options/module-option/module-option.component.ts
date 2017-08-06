@@ -13,6 +13,8 @@ export class ModuleOptionComponent {
 	@Input() value: OptionValue;
 	@Output() valueChange = new EventEmitter<OptionValue>();
 
+	currDate = new Date();
+
 	constructor() { }
 
 }

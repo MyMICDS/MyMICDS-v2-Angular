@@ -1,11 +1,19 @@
-p {
-	letter-spacing: 0.03rem;
-}
+// p {
+// 	letter-spacing: 0.03rem;
+// }
 
-h1 {
-	text-align: center;
+// h1 {
+// 	text-align: center;
 
-	strong {
-		font-weight: 600;
-	}
+// 	strong {
+// 		font-weight: 600;
+// 	}
+// }
+
+.countdown-wrapper {
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
 }

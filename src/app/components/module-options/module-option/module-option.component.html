@@ -6,7 +6,14 @@
 		</label>
 	</div>
 
-	<p *ngIf="['number', 'string'].includes(config.type)">{{ config.label }}</p>
-	<input *ngIf="config.type === 'number'" class="form-control" type="number" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
-	<input *ngIf="config.type === 'string'" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+	<p *ngIf="['number', 'string', 'Date'].includes(config.type)">{{ config.label }}</p>
+	<ng-container *ngIf="!config.select">
+		<input *ngIf="config.type === 'number'" class="form-control" type="number" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+		<input *ngIf="config.type === 'string'" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+		<datepicker *ngIf="config.type === 'Date'" class="form-control" [minDate]="currDate" [ngModel]="value" (ngModelChange)="valueChange.emit($event)"></datepicker>
+	</ng-container>
+
+	<select *ngIf="config.select" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+		<option *ngFor="let item of config.selectItems" [value]="item" [selected]="config.default === item">{{ item }}</option>
+	</select>
 </ng-container>

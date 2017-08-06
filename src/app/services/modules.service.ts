@@ -6,6 +6,9 @@ import { AuthHttp } from 'angular2-jwt';
 import { xhrHeaders, handleError } from '../common/http-helpers';
 import { Observable } from 'rxjs';
 import '../common/rxjs-operators';
+import * as moment from 'moment';
+
+import { modules } from '../components/modules/modules-main';
 
 @Injectable()
 export class ModulesService {
@@ -34,7 +37,28 @@ export class ModulesService {
 							throw new Error(data.error);
 						}
 
+						// Convert ISO strings back into Date format
+						data.modules.forEach(m => {
+							let dateKey;
+							if (m.options) {
+								for (let optKey in modules[m.type].options) {
+									if ( modules[m.type].options[optKey] ) {
+										let option = modules[m.type].options[optKey];
+										if (option.type === 'Date') {
+											dateKey = optKey;
+										}
+									}
+								}
+								m.options[dateKey] = moment(m.options[dateKey]).toDate();
+							}
+						});
+
 						return data.modules;
+					})
+					.do(m => {
+						if (JSON.stringify(m) !== modulesCache) {
+							localStorage.setItem('modulesCache', m);
+						}
 					})
 					.catch(handleError),
 			Observable.of(modulesCache)
@@ -47,6 +71,7 @@ export class ModulesService {
 		let body = JSON.stringify({ modules });
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
+		console.log(modules);
 
 		return this.authHttp.post(environment.backendURL + '/modules/upsert', body, options)
 			.map(res => {
@@ -70,5 +95,5 @@ export interface Module {
 	column: number;
 	width: number;
 	height: number;
-	options?: { [option: string]: boolean | number | string; };
+	options?: { [option: string]: boolean | number | string | Date; };
 }
