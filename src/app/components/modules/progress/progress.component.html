@@ -1,5 +1,5 @@
 <div #moduleContainer class="module-container">
-	<div [hidden]="!showDate" class="today">
+	<div [hidden]="!showDate || (progressType === 'circular' && moduleHeight < 320)" class="today">
 		<div class="date">
 			<h2 class="date-full">{{ today | date:'EEEE, MMMM d, y' }}</h2>
 			<h2 class="date-full short">{{ today | date:'EEE, MMM d, y' }}</h2>
@@ -19,22 +19,38 @@
 				<canvas class="progress-chart"></canvas>
 			</div>
 			<div *ngIf="0 < schoolPercent && schoolPercent < 100" class="progress-percentage">
-				<span class="class-label">{{ currentClass }} is</span>
-				<span class="class-percent">{{ currentClassPercent }}%</span>
-				<span class="class-label">Done</span>
+				<span class="class-label" [style.font-size]="classLabelFontSize + 'px'">{{ currentClass }} is</span>
+				<span class="class-percent" [style.font-size]="classPercentFontSize + 'px'">{{ currentClassPercent }}%</span>
+				<span class="class-label" [style.font-size]="classLabelFontSize + 'px'">Done</span>
 			</div>
 			<div *ngIf="!schoolPercent || schoolPercent === 0 || schoolPercent === 100" class="progress-percentage">
-				<span class="class-label">School is</span>
-				<span class="school-done">Not in Session.</span>
+				<span class="class-label" [style.font-size]="classLabelFontSize + 'px'">School is</span>
+				<span class="school-done" [style.font-size]="schoolDoneFontSize + 'px'">Not in Session.</span>
 			</div>
 		</div>
-		<div [hidden]="progressType !== 'linear'" class="progress-linear progress">
-			<div *ngFor="let progress of linearProgress"
-				class="progress-bar"
-				[style.width]="progress.progressWidth + '%'"
-				[style.background-color]="progress.color"
-				[tooltip]="progress.className + ': ' + progress.percentage + '%'"
-				container="body"></div>
+		<div [hidden]="progressType !== 'linear'"
+			class="progress-linear progress"
+			[class.vertical]="moduleHeight > moduleWidth">
+
+			<!-- Horizontal Progress Bar -->
+			<ng-container *ngIf="moduleWidth >= moduleHeight">
+				<div *ngFor="let progress of linearProgress"
+					class="progress-bar"
+					[style.width]="progress.progressWidth + '%'"
+					[style.background-color]="progress.color"
+					[tooltip]="progress.className + ': ' + progress.percentage + '%'"
+					container="body"></div>
+			</ng-container>
+
+			<!-- Vertical Progress Bar -->
+			<ng-container *ngIf="moduleHeight > moduleWidth">
+				<div *ngFor="let progress of linearProgress"
+					class="progress-bar"
+					[style.height]="progress.progressWidth + '%'"
+					[style.background-color]="progress.color"
+					[tooltip]="progress.className + ': ' + progress.percentage + '%'"
+					container="body"></div>
+			</ng-container>
 		</div>
 	</div>
 </div>

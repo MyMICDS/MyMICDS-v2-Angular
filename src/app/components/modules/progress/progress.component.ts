@@ -32,6 +32,9 @@ declare const Chart: any;
 export class ProgressComponent implements OnInit, OnDestroy {
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	// Used for collapsing date and if progress bar should be horizontal or vertical
+	moduleHeight: number;
+	moduleWidth: number;
 
 	@Input() showDate = true;
 
@@ -44,6 +47,11 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	// Circular Progress References
 	ctx: any;
 	progressBar: any;
+
+	// Font sizes for label and percentage in circular progress bar (in pixels)
+	classLabelFontSize: number;
+	classPercentFontSize: number;
+	schoolDoneFontSize: number;
 
 	// Linear Progress Bar stuff
 	linearProgress: {
@@ -96,18 +104,43 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		ElementQueries.listen();
 		ElementQueries.init();
 
-		console.log(this.moduleContainer);
-		new ResizeSensor(this.moduleContainer.nativeElement, () => {
-			console.log('changed');
-		});
+		// Detect when whole module resizes
+		const onContainerResize = () => {
+			const width = this.moduleContainer.nativeElement.clientWidth;
+			const height = this.moduleContainer.nativeElement.clientHeight;
+			this.moduleHeight = height;
+			this.moduleWidth = width;
+
+			const aspectRatio = Math.min(width, height) / Math.max(width, height);
+
+			// Only have circular progress bar if module is "square" enough
+			if (aspectRatio < 0.5) {
+				this.progressType = ProgressType.linear;
+			} else {
+				this.progressType = ProgressType.circular;
+			}
+		};
+		onContainerResize();
+		new ResizeSensor(this.moduleContainer.nativeElement, onContainerResize);
 
 		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
 
+
 		// Add resize sensor so we know what to change font size to
-		new ResizeSensor(this.ctx, () => {
-			console.log('chart changed');
-		});
+		const onChartResize = () => {
+			// Calculate chart diameter
+			const diameter = Math.min(this.ctx.clientWidth, this.ctx.clientHeight);
+
+			const percentSize = Math.max(diameter * (1 / 6), 60);
+
+			this.classLabelFontSize = percentSize * (1.3 / 5);
+			this.classPercentFontSize = percentSize;
+			this.schoolDoneFontSize = percentSize * (3 / 5);
+		};
+
+		onChartResize();
+		new ResizeSensor(this.ctx, onChartResize);
 
 		// Rainbow color top priority
 		this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);

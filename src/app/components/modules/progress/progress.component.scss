@@ -73,6 +73,7 @@
 .progress-container {
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
 
 	.progress-day-container {
@@ -129,22 +130,24 @@
 			align-items: center;
 
 			.class-label {
-				font-size: 1.3rem;
+				transition-duration: 100ms;
+				transition-timing-function: linear;
+			}
+
+			.class-label {
 				font-weight: 300;
 				letter-spacing: 0.03em;
 				text-align: center;
 				line-height: 1;
-				margin: 10px;
+				margin: 0.6rem;
 			}
 
 			.class-percent {
-				font-size: 5rem;
 				font-weight: 500;
 				line-height: 0.80;
 			}
 
 			.school-done {
-				font-size: 2rem;
 				font-weight: 500;
 				line-height: 0.75;
 				text-align: center;
@@ -154,57 +157,11 @@
 
 	.progress-linear {
 		width: 100%;
+
+		&.vertical {
+			width: 1rem;
+			height: 100%;
+			flex-direction: column-reverse;
+		}
 	}
 }
-
-/* --------------------------
-  Media Queries
---------------------------- */
-// @media screen and (min-width: 544px) {
-// 	.today {
-// 		.date {
-// 			.date-full {
-// 				font-size: 2em;
-// 			}
-//
-// 			.date-numbered {
-// 				font-size: 1.75em;
-// 			}
-// 		}
-//
-// 		.day {
-// 			.time {
-// 				font-size: 2em;
-// 			}
-//
-// 			.day-rotation {
-// 				font-size: 1.75em;
-// 			}
-// 		}
-// 	}
-//
-// 	.progress-container {
-// 		width: 50%;
-//
-// 		.progress-day {
-// 			font-size: 75%;
-// 		}
-//
-// 		.progress-circular .progress-percentage {
-// 			.class-label {
-// 				font-size: 1.5rem;
-// 				font-weight: 300;
-// 			}
-//
-// 			.class-percent {
-// 				font-size: 8rem;
-// 				font-weight: 600;
-// 			}
-//
-// 			.school-done {
-// 				font-size: 4rem;
-// 				font-weight: 600;
-// 			}
-// 		}
-// 	}
-// }
