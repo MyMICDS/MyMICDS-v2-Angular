@@ -23,10 +23,11 @@ import '../../../common/rxjs-operators';
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
 
-	current = moment();
+	updateCurrentInterval: NodeJS.Timer;
+	current = moment([2017, 4, 19, 12]);
 
 	viewSchedule: any = null;
-	scheduleDate = moment([2017, 4, 19]);
+	scheduleDate = moment([2017, 4, 19, 12]);
 
 	changeSchedule$ = new Subject<void>();
 
@@ -34,6 +35,10 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.getSchedule();
+
+		// this.updateCurrentInterval = setInterval(() => {
+		// 	this.current = moment();
+		// }, 1000);
 
 		this.changeSchedule$
 			.debounceTime(300)
@@ -45,12 +50,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
+		clearInterval(this.updateCurrentInterval);
 		this.changeSchedule$.unsubscribe();
 	}
 
 	previousDay() {
 		this.viewSchedule = null;
-		this.scheduleDate.add(1, 'day');
+		this.scheduleDate.subtract(1, 'day');
 		this.changeSchedule$.next();
 	}
 
@@ -62,7 +68,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
 	nextDay() {
 		this.viewSchedule = null;
-		this.scheduleDate.subtract(1, 'day');
+		this.scheduleDate.add(1, 'day');
 		this.changeSchedule$.next();
 	}
 

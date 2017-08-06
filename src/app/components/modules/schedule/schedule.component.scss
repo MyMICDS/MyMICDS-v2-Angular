@@ -1,5 +1,20 @@
 @import '../../../../styles/settings';
 
+:host {
+	display: flex;
+	flex-direction: column;
+
+	.day-navigation {
+		flex-grow: 0;
+		flex-shrink: 1;
+	}
+
+	.table {
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}
+
 .day-navigation {
 	margin-bottom: 0.5rem;
 	display: flex;
@@ -50,7 +65,13 @@
 	thead {
 		.start,
 		.end {
-			width: 6rem;
+			width: 6.5rem;
 		}
+	}
+
+	tr.current {
+		background: rgba($sophisticated-white, 0.5);
+		color: #464a4c;
+		font-weight: 800;
 	}
 }

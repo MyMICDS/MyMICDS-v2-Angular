@@ -38,7 +38,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr *ngFor="let block of viewSchedule.classes">
+		<tr *ngFor="let block of viewSchedule.classes" [class.current]="block.start.getTime() <= current.valueOf() && current.valueOf() < block.end.getTime()">
 			<td>{{ block.start | date:'shortTime' }}</td>
 			<td>{{ block.end | date:'shortTime' }}</td>
 			<td>{{ block.class?.name || block.class }}</td>
