@@ -2,11 +2,11 @@ import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule, PopoverModule } from 'ngx-bootstrap';
 import { GridsterModule } from 'angular2gridster';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
 
@@ -150,13 +150,13 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		FormsModule,
 		ReactiveFormsModule,
 		HttpModule,
+		BrowserAnimationsModule,
 		routing,
 		ColorPickerModule,
 		DatepickerModule.forRoot(),
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
-		GridsterModule,
-		BrowserAnimationsModule
+		GridsterModule
 	],
 	providers: [
 		appRoutingProviders,

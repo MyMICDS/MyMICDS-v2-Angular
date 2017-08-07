@@ -1,21 +1,35 @@
-<div class="register-wrapper">
-	<div mymicds-blur class="step-count">
-		<div *ngFor="let x of [0, 1, 2, 3, 4, 5]" class="dot" [class.filled]="x <= step" [class.curr]="x === step"></div>
+<div class="register-container container">
+	<div mymicds-blur class="register-header">
+		<h1>Register</h1>
+		<div class="step-count">
+			<div *ngFor="let x of [0, 1, 2, 3, 4, 5]" mymicds-blur class="dot" [class.filled]="x < step" [class.curr]="x === step"></div>
+		</div>
 	</div>
 
     <div class="register-form">
-        <!-- <div class="register-header">
-			<h1>Register</h1>
-			<img src="/assets/logo/logo.svg">
-		</div> -->
-
 		<div class="step-wrapper" *ngIf="step === 0" @flyInOut>
-			<form [formGroup]="registerForms[0]" (ngSubmit)="nextStep()" novalidate mymicds-blur class="form-group" [class.has-warning]="registerForms[0].controls.user.dirty && !isAlphabetic(registerForms[0].controls.user.value)">
-				<h1 class="display-3">Welcome!</h1>
-				<p class="lead register-content">You are about to register for a new account on MyMICDS.</p>
-				<hr class="my-2">
+			<form mymicds-blur novalidate
+				[formGroup]="registerForms[0]"
+				(ngSubmit)="nextStep()"
+				class="form-username form-group"
+				[class.has-warning]="registerForms[0].controls.user.dirty && !isAlphabetic(registerForms[0].controls.user.value)">
 
 				<h1 class="display-3">Username</h1>
+				<hr>
+				<div class="username-inputs">
+					<div class="input-group">
+						<input class="form-control form-control-lg"
+							[class.form-control-warning]="registerForms[0].controls.user.dirty && !isAlphabetic(registerForms[0].controls.user.value)"
+							formControlName="user"
+							placeholder="Username">
+
+						<div class="input-group-addon">@micds.org</div>
+					</div>
+					<p class="form-control-feedback">Your username is the prefix of your MICDS email. <strong>Do not add the '@micds.org' to your username.</strong></p>
+				</div>
+				<button class="btn btn-primary btn-lg btn-block" [disabled]="!registerForms[0].valid || step !== 0">Next</button>
+
+				<!-- <h1 class="display-3">Username</h1>
 				<div class="register-inputs register-content">
 					<div class="input-group">
 						<input class="form-control" [class.form-control-warning]="registerForms[0].controls.user.dirty && !isAlphabetic(registerForms[0].controls.user.value)" formControlName="user" placeholder="Username">
@@ -26,7 +40,7 @@
 
 				<div class="register-footer">
 					<button type="submit" class="btn btn-primary" [disabled]="!registerForms[0].valid || step !== 0">Next</button>
-				</div>
+				</div> -->
 			</form>
 		</div>
 
@@ -48,7 +62,7 @@
 				</div>
 			</form>
 		</div>
-		
+
 		<div class="step-wrapper" *ngIf="step === 2" @flyInOut>
 			<form [formGroup]="registerForms[2]" (ngSubmit)="nextStep()" novalidate mymicds-blur class="form-group" [class.has-danger]="(registerForms[2].controls.firstName.dirty && !registerForms[2].controls.firstName.valid) || (registerForms[2].controls.lastName.dirty && !registerForms[2].controls.lastName.valid)">
 				<p class="lead register-content"><i>Bee to the blossom, moth to the flame; Each to his passion; what's in a name?</i></p>
@@ -141,7 +155,7 @@
 					</div>
 				</div>
 			</div>
-		</div>			
+		</div>
         <!-- <button class="btn btn-primary btn-lg btn-block" [disabled]="!registerForm.valid">Register</button> -->
     </div>
 </div>
