@@ -42,10 +42,6 @@ export class DailyBulletinComponent implements OnInit, OnDestroy {
 		this.routeDataSubscription = this.route.data.subscribe(
 			data => {
 				this.parse = !!data.parse;
-				console.log('parse?', this.parse);
-				if (this.parse && this.bulletins) {
-					this.getParsedBulletin();
-				}
 			}
 		);
 
