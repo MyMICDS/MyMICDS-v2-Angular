@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Router, ActivatedRoute } from '@angular/router';
 import '../../common/rxjs-operators';
 import moment from 'moment';
 import { contains } from '../../common/utils';
@@ -15,8 +14,11 @@ import { BulletinService } from '../../services/bulletin.service';
 })
 export class DailyBulletinComponent implements OnInit, OnDestroy {
 
+	routeDataSubscription: any;
+	parse = false;
+
 	loading = true;
-	sourceSubscription: any;
+	bulletinsSubscription: any;
 
 	bulletins: string[] = [];
 	bulletinBaseURL = '';
@@ -24,28 +26,47 @@ export class DailyBulletinComponent implements OnInit, OnDestroy {
 	bulletinDate: any = moment();
 	bulletinIndex = 0;
 
-	constructor(private route: ActivatedRoute, private alertService: AlertService, private bulletinService: BulletinService) { }
+	getParseSubscription: any;
+	parsedBulletin: any;
+
+	constructor(
+		private router: Router,
+		private route: ActivatedRoute,
+		private alertService: AlertService,
+		private bulletinService: BulletinService
+	) { }
 
 	ngOnInit() {
-		const source = Observable.combineLatest([
-			this.bulletinService.listBulletins(),
-			this.route.params
-		]);
 
-		this.sourceSubscription = source.subscribe(
-			(data: any) => {
+		// Find out whether or not we should parse bulletin for debugging stuff
+		this.routeDataSubscription = this.route.data.subscribe(
+			data => {
+				this.parse = !!data.parse;
+				console.log('parse?', this.parse);
+				if (this.parse && this.bulletins) {
+					this.getParsedBulletin();
+				}
+			}
+		);
+
+		this.bulletinsSubscription = this.bulletinService.listBulletins().subscribe(
+			bulletinsData => {
 				this.loading = false;
-				this.bulletinBaseURL = data[0].baseURL;
-				this.bulletins = data[0].bulletins;
+				this.bulletinBaseURL = bulletinsData.baseURL;
+				this.bulletins = bulletinsData.bulletins;
 
 				// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
-				let bulletinParam = data[1]['bulletin'];
-				if (typeof bulletinParam !== 'undefined' && contains(this.bulletins, bulletinParam)) {
-					// Bulletin parameter is valid! Use that instead.
-					this.bulletinIndex = this.bulletins.indexOf(bulletinParam);
+				const params = this.route.snapshot.params;
+				if (params.bulletin && contains(this.bulletins, params.bulletin)) {
+					this.bulletinIndex = this.bulletins.indexOf(params.bulletin);
 				}
 
-				this.setBulletin(this.bulletinIndex);
+				this.setBulletin(this.bulletinIndex, !params.bulletin);
+
+				// Possibly parse
+				if (this.parse) {
+					this.getParsedBulletin();
+				}
 
 			},
 			error => {
@@ -55,30 +76,54 @@ export class DailyBulletinComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.sourceSubscription.unsubscribe();
+		this.routeDataSubscription.unsubscribe();
+		this.bulletinsSubscription.unsubscribe();
+		if (this.getParseSubscription) {
+			this.getParseSubscription.unsubscribe();
+		}
 	}
 
-	setBulletin(index) {
+	setBulletin(index: number, clearURL = false) {
+		let navURL = '/daily-bulletin';
+		if (this.parse) {
+			navURL += '/parse';
+		}
+		if (!clearURL) {
+			navURL += `/${this.bulletins[index]}`;
+		}
+		this.router.navigate([navURL]);
+
 		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.pdf';
 		this.bulletinDate = moment(this.bulletins[index]);
 	}
 
 	previousBulletin() {
 		if (this.bulletinIndex < this.bulletins.length - 1) {
-			this.bulletinIndex++;
-			this.setBulletin(this.bulletinIndex);
+			this.setBulletin(++this.bulletinIndex);
 		}
 	}
 
 	currentBulletin() {
 		this.bulletinIndex = 0;
-		this.setBulletin(this.bulletinIndex);
+		this.setBulletin(this.bulletinIndex, true);
 	}
 
 	nextBulletin() {
 		if (this.bulletinIndex > 0) {
-			this.bulletinIndex--;
-			this.setBulletin(this.bulletinIndex);
+			this.setBulletin(--this.bulletinIndex);
 		}
+	}
+
+	getParsedBulletin() {
+		this.getParseSubscription = this.bulletinService.parseBulletin(this.bulletins[this.bulletinIndex])
+			.subscribe(
+				parsed => {
+					this.parsedBulletin = parsed;
+					this.getParseSubscription.unsubscribe();
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Parse Bulletin Error!', error);
+				}
+			);
 	}
 }
