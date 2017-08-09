@@ -45,10 +45,7 @@ export class BulletinService {
 					throw new Error(data.error);
 				}
 
-				return {
-					baseURL: data.baseURL,
-					bulletins: data.bulletins
-				};
+				return data.data;
 			})
 			.catch(handleError);
 	}
