@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import { AlertService } from '../../../services/alert.service';
 import { PortalService } from '../../../services/portal.service';
+import { DatesService } from '../../../services/dates.service';
 import { MyMICDSModule } from '../modules-main';
 
 @MyMICDSModule({
@@ -43,6 +44,7 @@ import { MyMICDSModule } from '../modules-main';
 export class CountdownComponent implements OnInit, OnDestroy {
 
 	dayRotationSubscription: any;
+	breaksSubscription: any;
 	dayRotation: any;
 	daysLeft: number;
 	minutesLeft: number;
@@ -51,7 +53,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 	@Input() preset: string;
 	@Input() countdownTo: Date;
 	@Input() eventLabel: string;
-	private _schoolDays: boolean;
+	private _schoolDays = false;
 	@Input() set schoolDays(s: boolean) {
 		this._schoolDays = s;
 		if (s && this.dayRotation) {
@@ -61,7 +63,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		}
 	};
 
-	constructor(private alertService: AlertService, private portalService: PortalService) {}
+	constructor(private alertService: AlertService, private portalService: PortalService, private datesService: DatesService) {}
 
 	ngOnInit() {
 		this.dayRotationSubscription = this.portalService.dayRotation()
@@ -74,10 +76,32 @@ export class CountdownComponent implements OnInit, OnDestroy {
 					this.alertService.addAlert('danger', 'Get Day Rotation Error!', error);
 				}
 			);
+		this.breaksSubscription = this.datesService.breaks().subscribe(
+			breaks => {
+				switch (this.preset) {
+					case 'Summer Break':
+						this.countdownTo = moment().year(2018).month('may').date(26).hour(15).minute(15).toDate();
+						break;
+					case 'Next Break':
+						this.countdownTo = moment(breaks.vacations[0].start).toDate();
+						break;
+					case 'Next Weekend':
+						this.countdownTo = moment(breaks.weekends[0].start).toDate();
+						break;
+					case 'Next Long Weekend':
+						this.countdownTo = moment(breaks.longWeekends[0].start).toDate();
+						break;
+				}
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Get breaks Error!', error);
+			}
+		);
 	}
 
 	ngOnDestroy() {
 		this.dayRotationSubscription.unsubscribe();
+		this.breaksSubscription.unsubscribe();
 	}
 
 	// Calculates amount of school days from moment object to moment object (inclusive)
