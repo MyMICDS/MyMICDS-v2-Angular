@@ -63,6 +63,11 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		}
 	};
 
+	get daysScale(): number {
+		let a = Math.sqrt((20 / this.daysLeft));
+		return a < 0.8 ? 0.8 : a;
+	}
+
 	constructor(private alertService: AlertService, private portalService: PortalService, private datesService: DatesService) {}
 
 	ngOnInit() {
