@@ -1,7 +1,7 @@
 <!-- <p>Hang in there, there's only</p> -->
 <!-- <h1 class="display-3"><strong>{{ daysLeft }}</strong> day{{ daysLeft === 1 ? '' : 's' }} left.</h1> -->
 <div class="countdown-wrapper">
-	<h2 class="display-4 countdown days" [style.font-size]="(1 / daysLeft * 100) + 'rem'">{{ daysLeft }} Days</h2>
+	<h2 class="display-4 countdown days" [style.transform]="'scale(' + daysScale + ')'">{{ daysLeft }} Days</h2>
 	<h2 class="display-4 until">until...</h2>
 	<h2 class="display-3">{{ eventLabel }}</h2>
 </div>
