@@ -1,4 +1,5 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
@@ -155,7 +156,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
 		TooltipModule.forRoot(),
-		GridsterModule
+		GridsterModule,
+		BrowserAnimationsModule
 	],
 	providers: [
 		appRoutingProviders,

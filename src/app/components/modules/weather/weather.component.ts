@@ -50,9 +50,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		ElementQueries.listen();
 		ElementQueries.init();
-		new ResizeSensor(this.containerEl.nativeElement, () => {
-			console.log('changed');
-		});
+		new ResizeSensor(this.containerEl.nativeElement, () => {});
 		this.subscription = this.weatherService.getWeather().subscribe(
 			data => {
 				this.weather = data;

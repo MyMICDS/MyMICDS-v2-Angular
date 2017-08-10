@@ -1,4 +1,7 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild } from '@angular/core';
+import { trigger, state, style } from '@angular/animations';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import moment from 'moment';
 
 import { AlertService } from '../../../services/alert.service';
@@ -39,7 +42,20 @@ import { MyMICDSModule } from '../modules-main';
 @Component({
 	selector: 'mymicds-countdown',
 	templateUrl: './countdown.component.html',
-	styleUrls: ['./countdown.component.scss']
+	styleUrls: ['./countdown.component.scss'],
+	animations: [
+		trigger('shaking', [
+			state('small', style({
+				animation: '0.8s infinite linear shaking-small'
+			})),
+			state('medium', style({
+				animation: '0.7s infinite linear shaking-medium'
+			})),
+			state('large', style({
+				animation: '0.6s infinite linear shaking-large'
+			})),
+		])
+	]
 })
 export class CountdownComponent implements OnInit, OnDestroy {
 
@@ -63,50 +79,79 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		}
 	};
 
-	get daysScale(): number {
-		let a = Math.sqrt((20 / this.daysLeft));
-		return a < 0.8 ? 0.8 : a;
-	}
+	@ViewChild('moduleContainer') containerEl: ElementRef;
+
+	daysScale: number;
+
+	shaking: string;
 
 	constructor(private alertService: AlertService, private portalService: PortalService, private datesService: DatesService) {}
 
 	ngOnInit() {
-		this.dayRotationSubscription = this.portalService.dayRotation()
-			.subscribe(
-				days => {
-					this.dayRotation = days;
-					this.schoolDays = this._schoolDays;
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Day Rotation Error!', error);
-				}
-			);
+		ElementQueries.listen();
+		ElementQueries.init();
+		new ResizeSensor(this.containerEl.nativeElement, () => {});
 		this.breaksSubscription = this.datesService.breaks().subscribe(
 			breaks => {
 				switch (this.preset) {
 					case 'Summer Break':
 						this.countdownTo = moment().year(2018).month('may').date(26).hour(15).minute(15).toDate();
+						this.eventLabel = 'Summer Break';
 						break;
 					case 'Next Break':
 						this.countdownTo = moment(breaks.vacations[0].start).toDate();
+						this.eventLabel = 'Next Break';
 						break;
 					case 'Next Weekend':
 						this.countdownTo = moment(breaks.weekends[0].start).toDate();
+						this.eventLabel = 'Next Weekend';
 						break;
 					case 'Next Long Weekend':
 						this.countdownTo = moment(breaks.longWeekends[0].start).toDate();
+						this.eventLabel = 'Next Long Weekend';
 						break;
 				}
+
+				this.dayRotationSubscription = this.portalService.dayRotation()
+					.subscribe(
+						days => {
+							this.dayRotation = days;
+							this.schoolDays = this._schoolDays;
+							this.animateDaysLeft();
+						},
+						error => {
+							this.alertService.addAlert('danger', 'Get Day Rotation Error!', error);
+						}
+					);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get breaks Error!', error);
 			}
 		);
+		this.minutesLeft = moment(this.countdownTo).diff(moment(), 'minutes') % (60 * 24);
+		this.hoursLeft = moment(this.countdownTo).diff(moment(), 'hours') % 24;
+		setInterval(() => {
+			this.minutesLeft = moment(this.countdownTo).minutes(moment().minutes()).diff(moment(this.countdownTo), 'minutes');
+			this.hoursLeft = moment(this.countdownTo).hours(moment().hours()).diff(moment(this.countdownTo), 'hours');
+		}, 60000);
 	}
 
 	ngOnDestroy() {
 		this.dayRotationSubscription.unsubscribe();
 		this.breaksSubscription.unsubscribe();
+	}
+
+	animateDaysLeft() {
+		if (this.daysLeft <= 3) {
+			this.shaking = 'large';
+		} else if (this.daysLeft <= 7) {
+			this.shaking = 'medium';
+		} else if (this.daysLeft <= 30) {
+			this.shaking = 'small';
+		}
+
+		let a = Math.sqrt((20 / this.daysLeft));
+		this.daysScale = a < 1 ? 1 : a;
 	}
 
 	// Calculates amount of school days from moment object to moment object (inclusive)

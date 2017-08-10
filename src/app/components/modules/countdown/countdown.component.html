@@ -1,7 +1,12 @@
 <!-- <p>Hang in there, there's only</p> -->
 <!-- <h1 class="display-3"><strong>{{ daysLeft }}</strong> day{{ daysLeft === 1 ? '' : 's' }} left.</h1> -->
-<div class="countdown-wrapper">
-	<h2 class="display-4 countdown days" [style.transform]="'scale(' + daysScale + ')'">{{ daysLeft }} Days</h2>
+<div #moduleContainer class="countdown-wrapper">
+	<h2 class="display-3 countdown days">
+		<div [style.transform]="'scale(' + daysScale + ')'">
+			<div [@shaking]="shaking">{{ daysLeft }} Days</div>
+		</div>
+		<div class="details mt-2">{{ hoursLeft }} Hours {{ minutesLeft }} Minutes</div>
+	</h2>
 	<h2 class="display-4 until">until...</h2>
-	<h2 class="display-3">{{ eventLabel }}</h2>
+	<h2 class="event-label display-3" mymicds-blur>{{ eventLabel }}</h2>
 </div>
