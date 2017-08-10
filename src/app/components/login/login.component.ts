@@ -27,9 +27,6 @@ export class LoginComponent implements OnInit {
 		// Check if user is already logged in
 		if (this.authService.authSnapshot) {
 			this.router.navigate(['/home']);
-		} else {
-			// tslint:disable-next-line:max-line-length
-			this.alertService.addAlert('info', 'Heads up!', 'During the summer, we have temporarily disabled the login system as we implement new and exciting features!');
 		}
 	}
 

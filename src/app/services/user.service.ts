@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { xhrHeaders, handleError } from '../common/http-helpers';
 import '../common/rxjs-operators';
 
@@ -16,7 +16,13 @@ export class UserService {
 
 	constructor(private http: Http, private authHttp: AuthHttp, private authService: AuthService) {
 		this.authService.auth$
-			.switchMap(() => this.getInfo())
+			.switchMap(jwt => {
+				if (jwt) {
+					return this.getInfo();
+				} else {
+					return Observable.of(null);
+				}
+			})
 			.subscribe(info => this.user$.next(info)); // Stupid `this` context ruining my functional programming
 	}
 

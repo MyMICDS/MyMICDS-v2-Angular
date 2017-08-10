@@ -30,4 +30,11 @@
 	<p mymicds-blur *ngIf="!loading && bulletins.length === 0" class="bulletin-message">There are no Daily Bulletins!</p>
 	<!-- Embeded PDF -->
 	<object *ngIf="!loading && bulletins.length > 0" class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object>
+	<!-- Possible parse debug box -->
+	<div *ngIf="parse" class="parse-debug card">
+		<button class="btn btn-info" (click)="getParsedBulletin()">Reparse</button>
+		<pre>
+			{{ parsedBulletin | json }}
+		</pre>
+	</div>
 </div>
