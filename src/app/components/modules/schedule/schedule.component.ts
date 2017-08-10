@@ -1,5 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import moment from 'moment';
+// import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { MyMICDSModule } from '../modules-main';
 
@@ -23,11 +25,20 @@ import '../../../common/rxjs-operators';
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
 
+	@ViewChild('schedule') scheduleTable: ElementRef;
+	tableWidth: number = null;
+	// @ViewChild('startHeader') startHeader: ElementRef;
+	// @ViewChild('endHeader') endHeader: ElementRef;
+	@ViewChild('start') startCell: ElementRef;
+	startWidth: number = null;
+	@ViewChild('end') endCell: ElementRef;
+	endWidth: number = null;
+
 	updateCurrentInterval: NodeJS.Timer;
-	current = moment([2017, 4, 19, 12]);
+	current = moment([2017, 7, 24, 12]);
 
 	viewSchedule: any = null;
-	scheduleDate = moment([2017, 4, 19, 12]);
+	scheduleDate = moment([2017, 7, 24, 12]);
 
 	changeSchedule$ = new Subject<void>();
 
@@ -39,6 +50,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 		// this.updateCurrentInterval = setInterval(() => {
 		// 	this.current = moment();
 		// }, 1000);
+
+		// ElementQueries.listen();
+		// ElementQueries.init();
+
+		this.resizeTable();
+		new ResizeSensor(this.scheduleTable.nativeElement, () => this.resizeTable());
 
 		this.changeSchedule$
 			.debounceTime(300)
@@ -80,11 +97,30 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 		}).subscribe(
 			schedule => {
 				this.viewSchedule = schedule;
+				setTimeout(() => {
+					this.resizeTable();
+				}, 0);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Schedule Error!', error);
 			}
 		);
+	}
+
+	resizeTable() {
+		// Set table height
+		this.tableWidth = this.scheduleTable.nativeElement.clientWidth;
+		const tableHeight = this.scheduleTable.nativeElement.clientHeight;
+		const theadHeight = this.scheduleTable.nativeElement.getElementsByTagName('thead')[0].clientHeight;
+		const tbody = this.scheduleTable.nativeElement.getElementsByTagName('tbody')[0];
+		tbody.style.height = `${tableHeight - theadHeight}px`;
+
+		if (this.startCell) {
+			this.startWidth = this.startCell.nativeElement.clientWidth;
+		}
+		if (this.endCell) {
+			this.endWidth = this.endCell.nativeElement.clientWidth;
+		}
 	}
 
 }

@@ -1,6 +1,10 @@
 @import '../../../../styles/settings';
 
 :host {
+	position: relative;
+	width: 100%;
+	height: 100%;
+
 	display: flex;
 	flex-direction: column;
 
@@ -9,7 +13,7 @@
 		flex-shrink: 1;
 	}
 
-	.table {
+	.table-container {
 		flex-grow: 1;
 		flex-shrink: 1;
 	}
@@ -59,19 +63,38 @@
 	}
 }
 
-.table {
-	margin: 0;
 
-	thead {
-		.start,
-		.end {
-			width: 6.5rem;
+.table-container {
+	overflow: hidden;
+
+	.table {
+		margin: 0;
+
+		display: flex;
+		flex-direction: column;
+
+		tbody {
+			display: block;
+			overflow: auto;
 		}
-	}
 
-	tr.current {
-		background: rgba($sophisticated-white, 0.5);
-		color: #464a4c;
-		font-weight: 800;
+		tr {
+			&.current {
+				background: rgba($sophisticated-white, 0.5);
+				color: #464a4c;
+				font-weight: 800;
+			}
+
+			th, td {
+				&.start,
+				&.end {
+					white-space: nowrap;
+				}
+
+				&.class-name {
+					width: 100%;
+				}
+			}
+		}
 	}
 }
