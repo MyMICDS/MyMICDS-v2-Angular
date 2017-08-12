@@ -10,7 +10,11 @@
 	<ng-container *ngIf="!config.select">
 		<input *ngIf="config.type === 'number'" class="form-control" type="number" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
 		<input *ngIf="config.type === 'string'" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
-		<datepicker *ngIf="config.type === 'Date'" class="form-control" [minDate]="currDate" [ngModel]="value" (ngModelChange)="valueChange.emit($event)"></datepicker>
+		<div *ngIf="config.type === 'Date' && value.getHours">
+			<datepicker class="form-control" [ngModel]="value" (ngModelChange)="dateChange($event)"></datepicker>
+			<input type="number" class="form-control" [ngModel]="value.getHours()" (ngModelChange)="dateHourChange($event)" min="0" max="23">
+			<input type="number" class="form-control" [ngModel]="value.getMinutes()" (ngModelChange)="dateMinuteChange($event)" min="0" max="59">
+		</div>
 	</ng-container>
 
 	<select *ngIf="config.select" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">

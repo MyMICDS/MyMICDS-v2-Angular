@@ -71,7 +71,6 @@ export class ModulesService {
 		let body = JSON.stringify({ modules });
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
-		console.log(modules);
 
 		return this.authHttp.post(environment.backendURL + '/modules/upsert', body, options)
 			.map(res => {

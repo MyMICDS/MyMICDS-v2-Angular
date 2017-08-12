@@ -13,8 +13,25 @@ export class ModuleOptionComponent {
 	@Input() value: OptionValue;
 	@Output() valueChange = new EventEmitter<OptionValue>();
 
-	currDate = new Date();
+	currDate: Date;
 
-	constructor() { }
+	constructor() {
+		this.valueChange.debounceTime(50);
+	}
+
+	dateChange(d) {
+		this.currDate = d;
+		this.valueChange.emit(d);
+	}
+
+	dateHourChange(h) {
+		this.currDate.setHours(h);
+		this.valueChange.emit(this.currDate);
+	}
+
+	dateMinuteChange(m) {
+		this.currDate.setMinutes(m);
+		this.valueChange.emit(this.currDate);
+	}
 
 }
