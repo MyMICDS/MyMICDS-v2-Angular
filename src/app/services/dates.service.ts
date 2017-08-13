@@ -14,7 +14,7 @@ export class DatesService {
 
 	constructor(private http: Http) { }
 
-	dayRotation() {
+	breaks() {
 
 		// Check if we already have a cached version of the breaks
 		if (this._breaks) {
