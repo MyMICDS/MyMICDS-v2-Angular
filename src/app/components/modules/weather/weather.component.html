@@ -1,53 +1,55 @@
-<div *ngIf="!weather" class="weather-loading">
-	<p>Loading weather data...<p>
-</div>
+<div #moduleContainer class="module-container">
+	<div *ngIf="!weather" class="weather-loading">
+		<p>Loading weather data...<p>
+	</div>
 
-<div *ngIf="weather" class="weather">
-	<h1 class="weather-header">
-		<i class="wi {{weather.currently.icon | weatherIcon}}"></i>
-		Weather at MICDS
-	</h1>
-	<div class="temperature">
-		<div class="temp-actual" (click)="toggleMetric()">
-			<div class="current-temp">
-				{{weather.currently.temperature}}
-				<span class="degrees">{{metric ? '&deg;C' : '&deg;F'}}</span>
-			</div>
-			<div class="temp-range">
-				<div class="temp-high">
-					<span class="temp-range-label">High</span>
-					{{weather.daily.data[0].temperatureMax}}{{metric ? '&deg;C' : '&deg;F'}}
+	<div *ngIf="weather" class="weather">
+		<h1 class="weather-header">
+			<i class="wi {{weather.currently.icon | weatherIcon}}"></i>
+			Weather at MICDS
+		</h1>
+		<div class="temperature">
+			<div class="temp-actual">
+				<div class="current-temp">
+					{{weather.currently.temperature}}
+					<span class="degrees">{{metric ? '&deg;C' : '&deg;F'}}</span>
 				</div>
+				<div class="temp-range">
+					<div class="temp-high">
+						<span class="temp-range-label">High</span>
+						{{weather.daily.data[0].temperatureMax}}{{metric ? '&deg;C' : '&deg;F'}}
+					</div>
 
-				<span class="temp-spacer"></span>
+					<span class="temp-spacer"></span>
 
-				<div class="temp-low">
-					<span class="temp-range-label">Low</span>
-					{{weather.daily.data[0].temperatureMin}}{{metric ? '&deg;C' : '&deg;F'}}
+					<div class="temp-low">
+						<span class="temp-range-label">Low</span>
+						{{weather.daily.data[0].temperatureMin}}{{metric ? '&deg;C' : '&deg;F'}}
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="weather-misc">
-		<div class="humidity">
-			<span class="weather-label">Humidity</span>
-			{{(weather.currently.humidity * 100) | round}}%
+		<div class="weather-misc">
+			<div class="humidity">
+				<span class="weather-label">Humidity</span>
+				{{(weather.currently.humidity * 100) | round}}%
+			</div>
+
+			<div class="precipitation">
+				<span class="weather-label">Precipitation Chance</span>
+				{{(weather.currently.precipProbability * 100) | round}}%
+			</div>
 		</div>
 
-		<div class="precipitation">
-			<span class="weather-label">Precipitation Chance</span>
-			{{(weather.currently.precipProbability * 100) | round}}%
+		<div class="wind">
+			<i class="wi wi-wind from-{{weather.currently.windBearing}}-deg"></i>
+			<div class="wind-vector">
+				<div class="wind-magnitude">Wind <span class="wind-speed">{{weather.currently.windSpeed}}</span> {{metric ? 'kilometers' : 'miles'}}/hour</div>
+				<div class="wind-direction">From {{weather.currently.windBearing | compassDirection}}</div>
+			</div>
 		</div>
-	</div>
 
-	<div class="wind" (click)="toggleMetric()">
-		<i class="wi wi-wind from-{{weather.currently.windBearing}}-deg"></i>
-		<div class="wind-vector">
-			<div class="wind-magnitude">Wind <span class="wind-speed">{{weather.currently.windSpeed}}</span> {{metric ? 'kilometers' : 'miles'}} per hour</div>
-			<div class="wind-direction">From {{weather.currently.windBearing | compassDirection}}</div>
-		</div>
+		<p class="forecast-io">Powered by <a href="https://forecast.io" target="_blank">Forecast.io</a></p>
 	</div>
-
-	<p class="forecast-io">Powered by <a href="https://forecast.io" target="_blank">Forecast.io</a></p>
 </div>
