@@ -1,8 +1,6 @@
 @import '../../../styles/settings';
 
 .register-container {
-	height: 100%;
-	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
 
 	.register-header {
@@ -68,11 +66,9 @@
 		}
 	}
 	.register-form {
-
 		color: $sophisticated-white;
-		// width: 100%;
-		// height: 77%;
-		// position: relative;
+		width: 100%;
+		position: relative;
 
 		// below is mobile layout WIP
 		// .form-group {
@@ -100,61 +96,50 @@
 		// }
 
 		.step-wrapper {
-			// position: absolute;
-			// width: 100%;
-			// height: 100%;
-			// display: flex;
-			// justify-content: center;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
 
-			form {
+			.form-group {
 				padding: 1rem;
+				width: 100%;
+				height: 50rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
 
-				&.form-username {
-					.username-inputs {
-						width: 80%;
-						margin: 0 auto;
+				hr {
+					width: 100%;
+					border-bottom: 1px solid white;
+				}
+
+				.register-inputs {
+					width: 80%;
+					margin: 0 auto;
+					.form-control {
+						height: 6rem;
+						font-size: 3rem;
+					}
+					.form-control-feedback {
+						font-size: 1.5rem;
+					}
+				}
+
+				button.next {
+					align-self: flex-end;
+				}
+
+				.register-footer {
+					align-self: center;
+					display: flex;
+					justify-content: space-around;
+					button {
+						width: 10rem;
 					}
 				}
 			}
-		}
-
-		.form-group {
-			// display: flex;
-			// flex-direction: column;
-			// width: 55rem;
-			// margin-bottom: 0;
-			// padding: 2.5rem;
-			// border-radius: 1rem;
-
-			hr {
-				width: 100%;
-				border-bottom: 1px solid white;
-			}
-
-			.register-inputs {
-				width: 60%;
-			}
-
-			.register-content {
-				padding: 0.5rem 1rem;
-				border-left: 0.25rem solid white;
-				margin: 1.75rem;
-			}
-
-			.register-footer {
-				margin-top: auto;
-				display: flex;
-				flex-direction: column;
-
-				&:nth-child(n) {
-					align-self: flex-end;
-				}
-			}
-		}
-
-		fieldset legend {
-			font-size: 2.5rem;
-			font-weight: 300;
 		}
 
 		.full-name {
@@ -194,6 +179,24 @@
 			.student span {
 				margin-right: 0.5rem;
 			}
+			.teacher.checkbox {
+				label {
+					font-size: 3rem;
+					input {
+						height: 2rem;
+						width: 2rem;
+					}
+				}
+			}
+		}
+
+		.register-response {
+			text-align: center;
+			height: 20rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			justify-content: space-evenly;
 		}
 
 		fieldset:last-of-type {
@@ -211,22 +214,5 @@
 // 	display: flex;
 // 	justify-content: center;
 // 	align-items: center;
-// 	.register-response {
-// 		width: 35rem;
-// 		padding: 1rem;
-// 		text-align: center;
-// 		color: $sophisticated-white;
-// 		h1 {
-// 			font-size: 3rem;
-// 			font-weight: 300;
-// 		}
-// 		.fa {
-// 			display: block;
-// 			margin-bottom: 1rem;
-// 		}
-// 		a:not(.gmail) {
-// 			color: #0275d8;
-// 			cursor: pointer;
-// 		}
-// 	}
+
 // }
