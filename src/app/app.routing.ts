@@ -104,6 +104,21 @@ export const appRoutes: Routes = [
 				component: BulletinArchivesComponent
 			},
 			{
+				path: 'parse',
+				children: [
+					{
+						path: '',
+						component: DailyBulletinComponent,
+						data: { parse: true }
+					},
+					{
+						path: ':bulletin',
+						component: DailyBulletinComponent,
+						data: { parse: true }
+					}
+				]
+			},
+			{
 				path: ':bulletin',
 				component: DailyBulletinComponent
 			}
