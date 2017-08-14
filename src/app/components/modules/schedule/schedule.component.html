@@ -1,49 +1,89 @@
-<!-- Day navigation bar -->
-<div class="day-navigation">
-	<button class="previous-day" (click)="previousDay()">
-		<span>
-			<i class="fa fa-angle-left"></i>
-			Previous Day
-		</span>
-	</button>
+<div #moduleContainer class="module-container">
+	<div class="full-schedule-container" [hidden]="collapsed">
+		<!-- Day navigation bar -->
+		<div class="day-navigation">
+			<button class="previous-day" (click)="previousDay()">
+				<span>
+					<i class="fa fa-angle-left"></i>
+					Previous Day
+				</span>
+			</button>
 
-	<button class="current-day" (click)="currentDay()">
-		<span *ngIf="viewSchedule?.day">Day {{ viewSchedule.day }}</span>
-		<span>{{ scheduleDate.toDate() | date:'EEEE, MMM d' }}</span>
-		<span *ngIf="viewSchedule?.special">Special Schedule</span>
-	</button>
+			<button class="current-day" (click)="currentDay()">
+				<span *ngIf="viewSchedule?.day">Day {{ viewSchedule.day }}</span>
+				<span>{{ scheduleDate.toDate() | date:'EEEE, MMM d' }}</span>
+				<span *ngIf="viewSchedule?.special">Special Schedule</span>
+			</button>
 
-	<button class="next-day" (click)="nextDay()">
-		<span>
-			Next Day
-			<i class="fa fa-angle-right"></i>
-		</span>
-	</button>
-</div>
-<!-- Loading -->
-<div *ngIf="!viewSchedule">
-	<p>Loading schedule...</p>
-</div>
-<!-- If there are no classes -->
-<div *ngIf="viewSchedule?.classes?.length === 0">
-	<p>There are no classes!</p>
-</div>
-<!-- Table to view schedule -->
-<div #schedule class="table-container">
-	<table [hidden]="viewSchedule?.classes?.length <= 0" class="table">
-		<thead class="thead-default">
-			<tr>
-				<th class="start" [style.width]="startWidth + 'px'">Start</th>
-				<th class="end" [style.width]="endWidth + 'px'">End</th>
-				<th class="class-name" [style.width]="(tableWidth - startWidth - endWidth) + 'px'">Class</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let block of viewSchedule?.classes" [class.current]="block.start.getTime() <= current.valueOf() && current.valueOf() < block.end.getTime()">
-				<td #start class="start" >{{ block.start | date:'shortTime' }}</td>
-				<td #end class="end">{{ block.end | date:'shortTime' }}</td>
-				<td class="class-name">{{ block.class?.name || block.class }}</td>
-			</tr>
-		</tbody>
-	</table>
+			<button class="next-day" (click)="nextDay()">
+				<span>
+					Next Day
+					<i class="fa fa-angle-right"></i>
+				</span>
+			</button>
+		</div>
+		<!-- Loading -->
+		<div *ngIf="!viewSchedule">
+			<p>Loading schedule...</p>
+		</div>
+		<!-- If there are no classes -->
+		<div *ngIf="viewSchedule?.classes?.length === 0">
+			<p>There are no classes!</p>
+		</div>
+		<!-- Table to view schedule -->
+		<div #schedule class="table-container" [hidden]="viewSchedule?.classes?.length <= 0">
+			<table class="table">
+				<thead class="thead-default">
+					<tr>
+						<th class="start" [style.width]="startWidth + 'px'">Start</th>
+						<th class="end" [style.width]="endWidth + 'px'">End</th>
+						<th class="class-name" [style.width]="(tableWidth - startWidth - endWidth) + 'px'">Class</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let block of viewSchedule?.classes" [class.current]="block.start.getTime() <= current.valueOf() && current.valueOf() < block.end.getTime()">
+						<td #start class="start" >{{ block.start | date:'shortTime' }}</td>
+						<td #end class="end">{{ block.end | date:'shortTime' }}</td>
+						<td class="class-name">{{ block.class.name }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div [hidden]="!collapsed" class="collapsed-container">
+		<h1 class="display-4">
+			<ng-container *ngIf="currentSchedule?.day">
+				Day {{ currentSchedule.day }}
+			</ng-container>
+			<ng-container *ngIf="currentSchedule?.special">
+				Special Schedule
+			</ng-container>
+			<ng-container *ngIf="!currentSchedule?.day">
+				{{ current.toDate() | date:'MMMM d' }}
+			</ng-container>
+		</h1>
+		<!-- Loading -->
+		<div *ngIf="!currentSchedule">
+			<p>Loading schedule...</p>
+		</div>
+		<!-- If there are no classes -->
+		<div *ngIf="currentSchedule?.classes?.length === 0">
+			<p>There are no classes!</p>
+		</div>
+		<div class="collapsed-schedule-container">
+			<h3 *ngIf="currentSchedule?.classes?.length > 0">{{ showNCurrent === 1 ? 'Current Class' : 'Upcoming Classes' }}</h3>
+			<div #collapsedSchedule
+				class="collapsed-schedule"
+				[style.flex-direction]="moduleHeight > moduleWidth ? 'column' : 'row'"
+				[style.height]="moduleHeight > moduleWidth ? '100%' : ''">
+				<ng-container *ngFor="let block of currentSchedule?.classes; let i = index">
+					<div [hidden]="i > showNCurrent || current.isAfter(block.end)" class="collapsed-class">
+						<h3>{{ block.class.name }}</h3>
+						<div>{{ block.start | date:'shortTime' }} - {{ block.end | date:'shortTime' }}</div>
+					</div>
+				</ng-container>
+			</div>
+		</div>
+	</div>
 </div>
