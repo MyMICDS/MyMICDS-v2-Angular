@@ -37,8 +37,11 @@ export class ModulesService {
 							throw new Error(data.error);
 						}
 
+						return data.modules;
+					})
+					.do(layout => {
 						// Convert ISO strings back into Date format
-						data.modules.forEach(m => {
+						layout.forEach(m => {
 							let dateKey;
 							if (m.options) {
 								for (let optKey in modules[m.type].options) {
@@ -46,18 +49,16 @@ export class ModulesService {
 										let option = modules[m.type].options[optKey];
 										if (option.type === 'Date') {
 											dateKey = optKey;
+											m.options[dateKey] = moment(m.options[dateKey]).toDate();
 										}
 									}
 								}
-								m.options[dateKey] = moment(m.options[dateKey]).toDate();
 							}
 						});
-
-						return data.modules;
 					})
-					.do(m => {
-						if (JSON.stringify(m) !== modulesCache) {
-							localStorage.setItem('modulesCache', m);
+					.do(layout => {
+						if (JSON.stringify(layout) !== modulesCache) {
+							localStorage.setItem('modulesCache', layout);
 						}
 					})
 					.catch(handleError),
@@ -95,4 +96,5 @@ export interface Module {
 	width: number;
 	height: number;
 	options?: { [option: string]: boolean | number | string | Date; };
+	_id?: string;
 }

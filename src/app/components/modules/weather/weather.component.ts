@@ -40,8 +40,12 @@ export class WeatherComponent implements OnInit, OnDestroy {
 
 	weather: any = null;
 	subscription: any;
+	private _metric: boolean;
 	@Input() set metric(m) {
-		this.toggleMetric(m);
+		if (this._metric !== m) {
+			this._metric = m;
+			this.toggleMetric(m);
+		}
 	}
 	@ViewChild('moduleContainer') containerEl: ElementRef;
 
