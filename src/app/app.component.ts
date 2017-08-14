@@ -49,8 +49,6 @@ export class AppComponent {
 			})
 			.subscribe(
 				({ data, event }) => {
-					console.log('route data', data);
-
 					const newURL = (<NavigationEnd>event).urlAfterRedirects;
 
 					let title;

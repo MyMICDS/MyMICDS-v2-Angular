@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 
-import { modules } from '../modules/modules-main';
+import { modules, getDefaultOptions } from '../modules/modules-main';
 import { Options } from '../modules/modules-config';
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
@@ -13,7 +13,7 @@ import { ScheduleService } from '../../services/schedule.service';
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
@@ -92,13 +92,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 				this.gridsterOptions.shrink = !this.editMode;
 			}
 		);
+	}
 
+	ngAfterViewInit() {
 		// Get modules layout
 		this.moduleLayoutSubscription = this.modulesService.get()
 			.subscribe(modules => {
 				this.updateModuleLayout(modules);
 			});
-
 	}
 
 	ngOnDestroy() {
@@ -149,20 +150,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// When the user drops a module label onto the grid
 	addModule(event: any, moduleName: string) {
-		const moduleConfig = modules[moduleName].options || {};
-		const defaultOptions = {};
-
-		for (const optionKey of Object.keys(moduleConfig)) {
-			defaultOptions[optionKey] = moduleConfig[optionKey].default;
-		}
-
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,
 			column: event.item.x,
 			width: event.item.w,
 			height: event.item.h,
-			options: defaultOptions
+			options: getDefaultOptions(moduleName)
 		});
 	}
 

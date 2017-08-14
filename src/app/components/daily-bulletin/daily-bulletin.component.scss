@@ -80,6 +80,17 @@
 		height: 1800px;
 		border: none;
 	}
+
+	.parse-debug {
+		display: block;
+		margin-bottom: 1rem;
+		padding: 0.5rem;
+		text-align: left;
+
+		pre {
+			white-space: pre-wrap;
+		}
+	}
 }
 
 

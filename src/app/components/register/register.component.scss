@@ -1,175 +1,218 @@
 @import '../../../styles/settings';
-.register-wrapper {
-    height: calc(100% - 6rem);
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	.step-count {
-		width: 80%;
-		height: 7rem;
-		margin: 1.5rem auto;
-		padding: 0 2rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		position: relative;
-		border-radius: 3.5rem;
-		&:before {
-			content: '';
-			border-bottom: white 0.25rem solid;
-			position: absolute;
-			width: calc(100% - 4rem);
-			z-index: 0;
+
+.register-container {
+	padding: 2rem 0 0 0;
+
+	.register-header {
+
+		h1 {
+			padding: 1rem;
+			text-align: center;
+			color: $sophisticated-white;
+			font-weight: 600;
 		}
-		.dot {
-			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-			width: 2.5rem;
-			height: 2.5rem;
-			border-radius: 50%;
-			border: white 0.25rem solid;
-			z-index: 2;
-			background: #bbb;
-			&.filled {
-				background: #5cb85c;
+
+		.step-count {
+			margin-bottom: 1rem;
+			padding: 1rem;
+
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+
+			&:before {
+				content: '';
+				border-bottom: 1px solid $sophisticated-white;
+				position: absolute;
+				width: calc(100% - 2rem);
 			}
-			&.curr {
-				background: #0275d8;
-				width: 4.5rem;
-				height: 4.5rem;
+
+			.dot {
+				width: 2.5rem;
+				height: 2.5rem;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				border: 1px solid $sophisticated-white;
+				border-radius: 50%;
+
+				z-index: 1;
+
+				&:before {
+					content: '';
+					width: 0;
+					height: 0;
+
+					transition-duration: 600ms;
+					transition-timing-function: ease-in-out;
+				}
+
+				&.curr:before {
+					width: 1rem;
+					height: 1rem;
+					border-radius: 0.5rem;
+					background: rgba($sophisticated-white, 0.5);
+				}
+
+				&.filled:before {
+					width: 2.5rem;
+					height: 2.5rem;
+					border-radius: 1.25rem;
+					background: $sophisticated-white;
+				}
 			}
 		}
 	}
-    .register-form {
+	.register-form {
 		color: $sophisticated-white;
 		width: 100%;
-		height: 77%;
 		position: relative;
+
 		// below is mobile layout WIP
-        // .form-group {
-        //     width: 30rem;
-        //     height: 40rem;
-        //     margin: auto;
-        //     padding: 1.5rem 2.5rem;
-        //     border-radius: 1rem;
-        //     display: flex;
-        //     flex-direction: column;
-        //     .register-header {
-        //         margin-bottom: 3rem;
-        //         border-bottom: solid white 1px;
-        //         min-height: 7.5rem;
-        //     }
-        //     .register-body {}
-        //     .register-footer {
-        //         margin-top: auto;
-        //         display: flex;
-        //         flex-direction: column;
-        //         button {
-        //             align-self: flex-end;
-        //         }
-        //     }
+		// .form-group {
+		//     width: 30rem;
+		//     height: 40rem;
+		//     margin: auto;
+		//     padding: 1.5rem 2.5rem;
+		//     border-radius: 1rem;
+		//     display: flex;
+		//     flex-direction: column;
+		//     .register-header {
+		//         margin-bottom: 3rem;
+		//         border-bottom: solid white 1px;
+		//         min-height: 7.5rem;
+		//     }
+		//     .register-body {}
+		//     .register-footer {
+		//         margin-top: auto;
+		//         display: flex;
+		//         flex-direction: column;
+		//         button {
+		//             align-self: flex-end;
+		//         }
+		//     }
 		// }
+
 		.step-wrapper {
 			position: absolute;
 			width: 100%;
 			height: 100%;
 			display: flex;
 			justify-content: center;
+
+			.form-group {
+				padding: 1rem;
+				width: 100%;
+				height: 50rem;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+
+				hr {
+					width: 100%;
+					border-bottom: 1px solid white;
+				}
+
+				.register-inputs {
+					width: 80%;
+					margin: 0 auto;
+					.form-control {
+						height: 6rem;
+						font-size: 3rem;
+					}
+					.form-control-feedback {
+						font-size: 1.5rem;
+					}
+				}
+
+				button.next {
+					align-self: flex-end;
+				}
+
+				.register-footer {
+					align-self: center;
+					display: flex;
+					justify-content: space-around;
+					button {
+						width: 10rem;
+					}
+				}
+			}
 		}
-		.form-group {
+
+		.full-name {
+			display: flex;
+			justify-content: space-between;
+
+			div {
+				width: 45%;
+
+				label {
+					justify-content: flex-start;
+				}
+
+				input {
+					width: 100%;
+				}
+			}
+		}
+		.grad-year {
+			.grade-spacer {
+				margin-bottom: 0.75rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				.line {
+					height: 1px;
+					width: 100%;
+					border-bottom: 1px solid $sophisticated-white;
+				}
+
+				.text {
+					margin: 0 1rem;
+				}
+			}
+
+			.student span {
+				margin-right: 0.5rem;
+			}
+			.teacher.checkbox {
+				label {
+					font-size: 3rem;
+					input {
+						height: 2rem;
+						width: 2rem;
+					}
+				}
+			}
+		}
+
+		.register-response {
+			text-align: center;
+			height: 20rem;
 			display: flex;
 			flex-direction: column;
-			width: 55rem;
-			margin-bottom: 0;
-			padding: 2.5rem;
-			border-radius: 1rem;
-			hr {
-				width: 100%;
-				border-top: 1px solid white;
-			}
-			.register-inputs {
-				width: 60%;
-			}
-			.register-content {
-				padding: 0.5rem 1rem;
-				border-left: 0.25rem solid white;
-				margin: 1.75rem;
-			}
-		    .register-footer {
-                margin-top: auto;
-                display: flex;
-                flex-direction: column;
-                &:nth-child(n) {
-                    align-self: flex-end;
-                }
-            }
+			justify-content: space-around;
+			justify-content: space-evenly;
 		}
-        fieldset legend {
-            font-size: 2.5rem;
-            font-weight: 300;
-        }
-        .full-name {
-            display: flex;
-            justify-content: space-between;
-            div {
-                width: 45%;
-                label {
-                    justify-content: flex-start;
-                }
-                input {
-                    width: 100%;
-                }
-            }
-        }
-        .grad-year {
-            .grade-spacer {
-                margin-bottom: 0.75rem;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                .line {
-                    height: 1px;
-                    width: 100%;
-                    border-bottom: 1px solid $sophisticated-white;
-                }
-                .text {
-                    margin: 0 1rem;
-                }
-            }
-            .student span {
-                margin-right: 0.5rem;
-            }
-        }
-        fieldset:last-of-type {
-            margin-bottom: 2rem;
-        }
-    }
+
+		fieldset:last-of-type {
+			margin-bottom: 2rem;
+		}
+	}
 }
 
-.register-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .register-response {
-        width: 35rem;
-        padding: 1rem;
-        text-align: center;
-        color: $sophisticated-white;
-        h1 {
-            font-size: 3rem;
-            font-weight: 300;
-        }
-        .fa {
-            display: block;
-            margin-bottom: 1rem;
-        }
-        a:not(.gmail) {
-            color: #0275d8;
-            cursor: pointer;
-        }
-    }
-}
+// .register-container {
+// 	position: absolute;
+// 	top: 0;
+// 	right: 0;
+// 	bottom: 0;
+// 	left: 0;
+// 	display: flex;
+// 	justify-content: center;
+// 	align-items: center;
+
+// }
