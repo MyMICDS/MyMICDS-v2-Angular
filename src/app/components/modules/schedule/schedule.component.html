@@ -59,6 +59,9 @@
 			<ng-container *ngIf="currentSchedule?.special">
 				Special Schedule
 			</ng-container>
+			<ng-container *ngIf="!currentSchedule?.day">
+				{{ current.toDate() | date:'MMMM d' }}
+			</ng-container>
 		</h1>
 		<!-- Loading -->
 		<div *ngIf="!currentSchedule">

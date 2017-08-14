@@ -33,8 +33,6 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
 	@ViewChild('schedule') scheduleTable: ElementRef;
 	tableWidth: number = null;
-	// @ViewChild('startHeader') startHeader: ElementRef;
-	// @ViewChild('endHeader') endHeader: ElementRef;
 	@ViewChild('start') startCell: ElementRef;
 	startWidth: number = null;
 	@ViewChild('end') endCell: ElementRef;
@@ -42,13 +40,13 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
 	updateCurrentInterval: NodeJS.Timer;
 	@ViewChild('collapsedSchedule') collapsedSchedule: ElementRef;
-	current = moment([2017, 7, 24, 9]);
+	current = moment();
 	currentSchedule: any = null;
 	// How many classes to display when schedule is collapsed
 	showNCurrent = 1;
 
 	viewSchedule: any = null;
-	scheduleDate = moment([2017, 7, 24, 12]);
+	scheduleDate = moment();
 
 	changeSchedule$ = new Subject<void>();
 
@@ -61,7 +59,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 		this.getSchedule();
 
 		this.updateCurrentInterval = setInterval(() => {
-			// this.current = moment();
+			this.current = moment();
 			if (this.collapsed) {
 				this.calcCollapsedClasses();
 			}
@@ -71,12 +69,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
 			this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
 
-			// const aspectRatio = Math.min(this.moduleWidth, this.moduleHeight) / Math.max(this.moduleWidth, this.moduleHeight);
-
-			// Collapse if module isn't square enough
-			// this.collapsed = (aspectRatio < 0.5 || this.moduleWidth < 420);
 			this.collapsed = (this.moduleWidth < 420 || this.moduleHeight < 360);
-
 			if (!this.collapsed) {
 				this.resizeTable();
 			} else {
