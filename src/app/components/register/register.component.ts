@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
-import { confirmRegister } from '../../common/form-validation';
+import { confirmPassword, confirmGrade } from '../../common/form-validation';
 import { isAlphabetic, typeOf } from '../../common/utils';
+import { UrlComponent } from '../settings/url/url.component';
 
 import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
@@ -11,7 +13,19 @@ import { UserService } from '../../services/user.service';
 @Component({
 	selector: 'mymicds-register',
 	templateUrl: './register.component.html',
-	styleUrls: ['./register.component.scss']
+	styleUrls: ['./register.component.scss'],
+	animations: [
+		trigger('flyInOut', [
+			state('*', style({transform: 'translateX(0%)'})),
+			transition(':enter', [
+				style({transform: 'translateX(200%)'}),
+				animate('0.6s cubic-bezier(0.165, 0.84, 0.44, 1)')
+			]),
+			transition(':leave', [
+				animate('0.6s cubic-bezier(0.165, 0.84, 0.44, 1)', style({transform: 'translateX(-200%)'}))
+			])
+		])
+	]
 })
 export class RegisterComponent implements OnInit {
 
@@ -19,20 +33,32 @@ export class RegisterComponent implements OnInit {
 	private isAlphabetic = isAlphabetic; // tslint:disable-line
 	private typeOf = typeOf; // tslint:disable-line
 
-	registerForm = this.formBuilder.group({
-		user: ['', Validators.required],
-		password: ['', Validators.required],
-		confirmPassword: ['', Validators.required],
-		firstName: ['', Validators.required],
-		lastName: ['', Validators.required],
-		gradYear: [null],
-		teacher: [false]
-	}, { validator: confirmRegister(['password', 'confirmPassword'], ['gradYear', 'teacher']) });
+	registerForms = [
+		this.formBuilder.group({
+			user: ['', Validators.required],
+		}),
+		this.formBuilder.group({
+			password: ['', Validators.required],
+			confirmPassword: ['', Validators.required],
+		}, { validator: confirmPassword('password', 'confirmPassword') }),
+		this.formBuilder.group({
+			firstName: ['', Validators.required],
+			lastName: ['', Validators.required],
+		}),
+		this.formBuilder.group({
+			gradYear: [null],
+			teacher: [false]
+		}, { validator: confirmGrade('gradYear', 'teacher') }),
+	];
 
 	gradeRange: number[];
 
 	submitted = false;
 	registerResponse: any = null;
+
+	step = 0;
+
+	@ViewChild(UrlComponent) urlComp: UrlComponent;
 
 	constructor(
 		private router: Router,
@@ -61,8 +87,11 @@ export class RegisterComponent implements OnInit {
 	}
 
 	register() {
+		this.nextStep();
 		this.submitted = true;
-		this.authService.register(this.registerForm.value).subscribe(
+		this.authService.register(
+			Object.assign({}, this.registerForms[0].value, this.registerForms[1].value, this.registerForms[2].value, this.registerForms[3].value)
+		).subscribe(
 			() => {
 				this.registerResponse = true;
 			},
@@ -75,6 +104,10 @@ export class RegisterComponent implements OnInit {
 	resubmitForm() {
 		this.submitted = false;
 		this.registerResponse = null;
+	}
+
+	nextStep() {
+		this.step++;
 	}
 
 }
