@@ -1,26 +1,60 @@
 @import '../../../../styles/settings';
 
-/* --------------------------
-  Main Styles
---------------------------- */
+.module-container {
+	height: 100%;
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
+
+	h1 {
+		flex-grow: 0;
+		flex-shrink: 1;
+	}
+
+	p, .weather {
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}
+
+h1 {
+	margin-bottom: 1rem;
+	font-weight: 300;
+}
+
+.powered-by-container {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+	display: flex;
+	justify-content: flex-end;
+
+	.powered-by {
+		height: 2.5rem;
+
+		img {
+			width: 100%;
+			height: 100%;
+		}
+	}
+}
 
 .weather {
 	position: relative;
 	height: 100%;
-
-	.weather-header {
-		margin-bottom: 1rem;
-		font-weight: 300;
-	}
+	padding-bottom: 2.5rem;
 
 	.temperature {
 		display: inline-block;
 		float: right;
 
 		.temp-actual {
-			cursor: pointer;
 			.current-temp {
 				display: flex;
+				justify-content: center;
 				align-items: flex-start;
 				line-height: 0.7;
 				margin-bottom: 1rem;
@@ -54,7 +88,7 @@
 				}
 			}
 		}
-		
+
 		.temp-feels-like {
 			text-align: center;
 			letter-spacing: 0.02rem;
@@ -86,60 +120,86 @@
 		display: inline-flex;
 		justify-content: center;
 		width: 100%;
-		
-		cursor: pointer;
 
 		.wi {
-			font-size: 8rem;
+			font-size: 5rem;
 		}
 
 		.wind-vector {
 			display: flex;
-		    flex-direction: column;
+			flex-direction: column;
 			justify-content: center;
-		    align-items: flex-start;
-		    margin-left: 1rem;
+			align-items: flex-start;
+			margin-left: 1rem;
 
 			.wind-magnitude {
 				font-size: 1.5rem;
 				font-weight: 300;
 
 				.wind-speed {
-				    font-weight: 700;
+					font-weight: 700;
 				}
-			}
-		}
-	}
-
-	.forecast-io {
-		display: block;
-		float:right;
-		a {
-			color: darken($sophisticated-white, 10%);
-			font-size: 1.5rem;
-			font-weight: 500;
-			text-decoration: none;
-
-			transition-duration: 0.25s;
-
-			&:hover {
-				text-shadow:2px 2px 2px #333;
 			}
 		}
 	}
 }
 
-/* --------------------------
-  Media Queries
---------------------------- */
-@media screen and (min-width:544px) {
+.module-container[max-width~='575px'][max-height~='500px'] {
 	.weather {
-		.temp-actual, .wind {
-			transition: all 0.3s ease;
+		justify-content: center;
 
-			&:hover {
-				transform: scale(1.1);
+		.weather-misc,
+		.wind {
+			display: none;
+		}
+	}
+}
+
+.module-container[max-width~='575px'] {
+	.weather {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		align-items: center;
+
+		h1 {
+			font-size: 0;
+			text-align: center;
+
+			.wi:before {
+				font-size: 5rem;
 			}
 		}
+	}
+}
+
+.module-container[max-width~='320px'],
+.module-container[max-width~='575px'][max-height~='300px'] {
+	.weather .temperature .temp-actual {
+		.current-temp {
+			font-size: 4rem;
+		}
+
+		.temp-range {
+			margin: 0;
+		}
+	}
+}
+
+.module-container[max-width~='300px'][max-height~='300px'] {
+	.weather .temperature .temp-actual {
+		.current-temp {
+			font-weight: 300;
+		}
+
+		.temp-range {
+			display: none;
+		}
+	}
+}
+
+.module-container[max-height~='275px'] {
+	.weather .wind {
+		display: none;
 	}
 }

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
 import { MyMICDSModule } from '../modules-main';
 
@@ -20,32 +21,27 @@ import { WeatherService } from '../../../services/weather.service';
 			label: 'Metric Units',
 			type: 'boolean',
 			default: false
-		},
-		/** @TODO The following are just temporary for testing. Remove later! */
-		location: {
-			label: 'Location',
-			type: 'string',
-			default: 'MICDS'
-		},
-		decimalPrecision: {
-			label: 'Decimal Precision',
-			type: 'number',
-			default: 2
 		}
 	}
 })
 export class WeatherComponent implements OnInit, OnDestroy {
 
 	weather: any = null;
+	// Weather object converted to metric
+	weatherMetric: any = null;
 	subscription: any;
 	@Input() metric = false;
+	@ViewChild('moduleContainer') containerEl: ElementRef;
 
 	constructor(private alertService: AlertService, private weatherService: WeatherService) { }
 
 	ngOnInit() {
+		ElementQueries.listen();
+		ElementQueries.init();
 		this.subscription = this.weatherService.getWeather().subscribe(
 			data => {
 				this.weather = data;
+				this.weatherMetric = this.convertToMetric(data);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Weather Error!', error);
@@ -58,20 +54,23 @@ export class WeatherComponent implements OnInit, OnDestroy {
 		this.subscription.unsubscribe();
 	}
 
-	// Toggle the format of temperatures between Ferinheight and Celcius
-	toggleMetric() {
-		this.metric = !this.metric;
-		if (this.metric) {
-			this.weather.currently.windSpeed = (this.weather.currently.windSpeed * 1.609344).toPrecision(4);
-			this.weather.currently.temperature = ((this.weather.currently.temperature - 32) / 1.8).toPrecision(4);
-			this.weather.daily.data[0].temperatureMax = ((this.weather.daily.data[0].temperatureMax - 32) / 1.8).toPrecision(4);
-			this.weather.daily.data[0].temperatureMin = ((this.weather.daily.data[0].temperatureMin - 32) / 1.8).toPrecision(4);
-		} else {
-			this.weather.currently.windSpeed = (this.weather.currently.windSpeed / 1.609344).toPrecision(4);
-			this.weather.currently.temperature = (this.weather.currently.temperature * 1.8 + 32).toPrecision(4);
-			this.weather.daily.data[0].temperatureMax = (this.weather.daily.data[0].temperatureMax * 1.8 + 32).toPrecision(4);
-			this.weather.daily.data[0].temperatureMin = (this.weather.daily.data[0].temperatureMin * 1.8 + 32).toPrecision(4);
-		}
+	private convertToMetric(weather) {
+		const metric = JSON.parse(JSON.stringify(weather));
+		metric.currently.windSpeed = this.convertWindspeed(weather.currently.windSpeed);
+		metric.currently.temperature = this.convertTemperature(weather.currently.temperature);
+		metric.daily.data[0].temperatureMax = this.convertTemperature(weather.daily.data[0].temperatureMax);
+		metric.daily.data[0].temperatureMin = this.convertTemperature(weather.daily.data[0].temperatureMin);
+		return metric;
+	}
+
+	// Converts fahrenheight to celsius
+	private convertTemperature(f: number) {
+		return ((f - 32) / 1.8).toPrecision(2);
+	}
+
+	// Converts from miles per hour to kilometers per hour
+	private convertWindspeed(mh: number) {
+		return (mh * 1.609344).toPrecision(2);
 	}
 
 }

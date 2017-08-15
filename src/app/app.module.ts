@@ -1,10 +1,11 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
-import { DatepickerModule, ModalModule, PopoverModule } from 'ngx-bootstrap';
+import { DatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
 import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
@@ -26,6 +27,7 @@ import { ProgressComponent } from './components/modules/progress/progress.compon
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
 import { SnowdayComponent } from './components/modules/snowday/snowday.component';
 import { WeatherComponent } from './components/modules/weather/weather.component';
+import { StickynotesComponent } from './components/modules/stickynote/stickynote.component';
 
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
@@ -76,6 +78,7 @@ import { WeatherService } from './services/weather.service';
 import { NotificationService } from './services/notification.service';
 import { SuggestionsService } from './services/suggestions.service';
 import { QuoteService } from './services/quote.service';
+import { StickynotesService } from './services/stickynotes.service';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
@@ -142,7 +145,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe
+		WeatherIconPipe,
+		StickynotesComponent
 	],
 	imports: [
 		BrowserModule,
@@ -154,7 +158,9 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		DatepickerModule.forRoot(),
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
-		GridsterModule
+		TooltipModule.forRoot(),
+		GridsterModule,
+		BrowserAnimationsModule
 	],
 	providers: [
 		appRoutingProviders,
@@ -182,6 +188,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		NotificationService,
 		SuggestionsService,
 		QuoteService,
+		StickynotesService,
 
 		// JWT
 		{

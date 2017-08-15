@@ -1,66 +1,96 @@
 @import '../../../../styles/settings';
 
-/* --------------------------
-  Main Styles
---------------------------- */
+.module-container {
+	height: 100%;
+}
 
 .snowday {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 
 	.snowday-days {
-		width: 100%;
-		display: flex;
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+
+	.powered-by-container {
+		flex-grow: 0;
+		flex-shrink: 1;
+	}
+}
+
+.powered-by-container {
+	display: flex;
+	justify-content: flex-end;
+	text-align: right;
+
+	.powered-by {
+		color: $sophisticated-white;
+		text-decoration: none;
+	}
+}
+
+.snowday-days {
+	width: 100%;
+	display: flex;
+
+	&.vertical {
+		flex-direction: column;
+		align-items: center;
 
 		.snowday-day {
-			width: 100%;
-			padding: 0.25rem;
-
-			text-align: center;
-			border-right: 1px solid rgba($sophisticated-white, 0.5);
-
-			.snowday-date {
-				margin-bottom: 0.75rem;
-			}
-
-			.snowday-percent {
-				font-size: 3.5rem;
-				font-weight: 600;
-				line-height: 0.7;
-			}
-
-			.snowday-label {
-				margin-bottom: 0.5rem;
-			}
-
-			.snowday-message {
-
-			}
-
-			&:last-child {
-				border-right: none;
-			}
+			width: 80%;
+			border-right: none;
+			border-bottom: 1px solid rgba($sophisticated-white, 0.5);
 		}
 	}
 
-	.snowdaycalculator-com {
-		display: block;
-		float:right;
-		a {
-			color: darken($sophisticated-white, 10%);
-			font-size: 1.5rem;
-			font-weight: 500;
-			text-decoration: none;
+	.snowday-day {
+		width: 100%;
+		height: 80%;
 
-			transition-duration: 0.25s;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 0.25rem;
 
-			&:hover {
-				text-shadow:2px 2px 2px #333;
-			}
+		text-align: center;
+		border-right: 1px solid rgba($sophisticated-white, 0.5);
+
+		&:last-child {
+			border: none;
+		}
+
+		.snowday-date {
+			margin-bottom: 0.75rem;
+		}
+
+		.snowday-percent {
+			margin-bottom: 0.5rem;
+			font-size: 3.5rem;
+			font-weight: 600;
+			line-height: 0.7;
+		}
+
+		.snowday-label {
+			margin-bottom: 0.5rem;
 		}
 	}
 }
 
-/* --------------------------
-  Media Queries
---------------------------- */
-@media screen and (min-width:544px) {
+.module-container[max-width~='450px'] .snowday .snowday-days:not(.vertical),
+.module-container[max-height~='450px'] .snowday .snowday-days.vertical {
+	.snowday-day {
+		border: none;
+
+		&:not(:first-child) {
+			display: none;
+		}
+	}
+}
+
+.module-container[max-width~='450px'] .snowday .powered-by-container {
+	font-size: 0.85rem;
 }

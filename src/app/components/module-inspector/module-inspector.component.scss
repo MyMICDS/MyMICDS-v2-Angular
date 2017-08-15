@@ -22,10 +22,16 @@
 	position: relative;
 	margin: 1rem 2rem 6rem;
 
+	// Allow visible overflow on dev so we know if our modules are actually going out of bounds
+	mymicds-module-container ::ng-deep .module-container {
+		overflow: visible;
+	}
+
 	.resize-icon {
 		position: absolute;
 		right: 0;
 		bottom: 0;
+		z-index: 100;
 
 		display: flex;
 		justify-content: center;

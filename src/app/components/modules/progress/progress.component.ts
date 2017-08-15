@@ -1,6 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import moment from 'moment';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { MyMICDSModule } from '../modules-main';
 
@@ -20,22 +22,45 @@ declare const Chart: any;
 	defaultHeight: 3,
 	defaultWidth: 4,
 	options: {
-		date: {
+		showDate: {
 			label: 'Show Date',
 			type: 'boolean',
 			default: true
 		}
-	},
+	}
 })
 export class ProgressComponent implements OnInit, OnDestroy {
+
+	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	// Used for collapsing date and if progress bar should be horizontal or vertical
+	moduleHeight: number;
+	moduleWidth: number;
+
+	@Input() showDate = true;
 
 	today: any = new Date();
 	scheduleSubscription: any;
 	schedule: any = null;
 
+	progressType: ProgressType = ProgressType.circular;
+
 	// Circular Progress References
 	ctx: any;
 	progressBar: any;
+
+	// Font sizes for label and percentage in circular progress bar (in pixels)
+	classLabelFontSize: number;
+	classPercentFontSize: number;
+	schoolDoneFontSize: number;
+
+	// Linear Progress Bar stuff
+	linearProgress: {
+		className: string;
+		percentage: number;
+		progressWidth: number;
+		color: string;
+		current: boolean;
+	}[];
 
 	// Current Class Label
 	currentClass: string = null;
@@ -76,8 +101,46 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		ElementQueries.listen();
+		ElementQueries.init();
+
+		// Detect when whole module resizes
+		const onContainerResize = () => {
+			const width = this.moduleContainer.nativeElement.clientWidth;
+			const height = this.moduleContainer.nativeElement.clientHeight;
+			this.moduleHeight = height;
+			this.moduleWidth = width;
+
+			const aspectRatio = Math.min(width, height) / Math.max(width, height);
+
+			// Only have circular progress bar if module is "square" enough
+			if (aspectRatio < 0.5) {
+				this.progressType = ProgressType.linear;
+			} else {
+				this.progressType = ProgressType.circular;
+			}
+		};
+		onContainerResize();
+		new ResizeSensor(this.moduleContainer.nativeElement, onContainerResize);
+
 		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
+
+
+		// Add resize sensor so we know what to change font size to
+		const onChartResize = () => {
+			// Calculate chart diameter
+			const diameter = Math.min(this.ctx.clientWidth, this.ctx.clientHeight);
+
+			const percentSize = Math.max(diameter * (1 / 6), 60);
+
+			this.classLabelFontSize = percentSize * (1.3 / 5);
+			this.classPercentFontSize = percentSize;
+			this.schoolDoneFontSize = percentSize * (3 / 5);
+		};
+
+		onChartResize();
+		new ResizeSensor(this.ctx, onChartResize);
 
 		// Rainbow color top priority
 		this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
@@ -95,6 +158,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 				}]
 			},
 			options: {
+				responsive: true,
+				maintainAspectRatio: false,
 				animation: {
 					easing: 'easeInOutCirc'
 				},
@@ -128,7 +193,10 @@ export class ProgressComponent implements OnInit, OnDestroy {
 				month: this.today.getMonth() + 1,
 				day: this.today.getDate()
 			})
-			.subscribe(schedule => this.schedule = schedule);
+			.subscribe(schedule => {
+				this.schedule = schedule;
+				this.calculatePercentages();
+			});
 
 		// Socket.io service to spin the spinny
 		// this.progressDayCtx = document.getElementsByClassName('progress-day')[0];
@@ -180,12 +248,23 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			this.progressBar.data.labels = this.defaultLabels();
 			this.progressBar.data.durations = this.defaultDurations();
 
+			this.linearProgress = [{
+				className: this.defaultLabels()[0],
+				percentage: this.defaultData()[0],
+				progressWidth: this.defaultData()[0],
+				color: this.defaultColors()[0],
+				current: false
+			}];
+
 			this.progressBar.update();
 			return;
 		}
 
 		// Define nowTime just to make things clearer
 		let nowTime = this.today.getTime();
+
+		// Clear linear progress
+		this.linearProgress = [];
 
 		// Create a new array and later assign to progress bar
 		let newColors: any[] = [];
@@ -277,6 +356,14 @@ export class ProgressComponent implements OnInit, OnDestroy {
 				newData.push(roundedPercent);
 				newLabels.push(blockName);
 				newDurations.push(classDuration);
+
+				this.linearProgress.push({
+					className: blockName,
+					percentage: +classPercent.toFixed(2),
+					progressWidth: roundedPercent,
+					color: block.color,
+					current: (0 < classPercent && classPercent < 100)
+				});
 			}
 
 			// Check if class is the current class
@@ -364,4 +451,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		return tooltip;
 
 	}
+}
+
+const enum ProgressType {
+	linear = 'linear',
+	circular = 'circular'
 }

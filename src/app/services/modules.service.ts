@@ -6,6 +6,9 @@ import { AuthHttp } from 'angular2-jwt';
 import { xhrHeaders, handleError } from '../common/http-helpers';
 import { Observable } from 'rxjs';
 import '../common/rxjs-operators';
+import * as moment from 'moment';
+
+import { modules } from '../components/modules/modules-main';
 
 @Injectable()
 export class ModulesService {
@@ -17,18 +20,52 @@ export class ModulesService {
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
 
-		return this.authHttp.post(environment.backendURL + '/modules/get', body, options)
-			.map(res => {
-				let data = res.json();
+		let modulesCache;
+		try {
+			modulesCache = JSON.parse(localStorage.getItem('modulesCache'));
+		} catch (e) {
+			localStorage.removeItem('modulesCache');
+		}
 
-				// Check if server-side error
-				if (data.error) {
-					throw new Error(data.error);
-				}
+		return Observable.merge(
+			this.authHttp.post(environment.backendURL + '/modules/get', body, options)
+					.map(res => {
+						let data = res.json();
 
-				return data.modules;
-			})
-			.catch(handleError);
+						// Check if server-side error
+						if (data.error) {
+							throw new Error(data.error);
+						}
+
+						return data.modules;
+					})
+					.do(layout => {
+						// Convert ISO strings back into Date format
+						layout.forEach(m => {
+							let dateKey;
+							if (m.options) {
+								for (let optKey in modules[m.type].options) {
+									if ( modules[m.type].options[optKey] ) {
+										let option = modules[m.type].options[optKey];
+										if (option.type === 'Date') {
+											dateKey = optKey;
+											m.options[dateKey] = moment(m.options[dateKey]).toDate();
+										}
+									}
+								}
+							}
+						});
+					})
+					.do(layout => {
+						if (JSON.stringify(layout) !== modulesCache) {
+							localStorage.setItem('modulesCache', layout);
+						}
+					})
+					.catch(handleError),
+			Observable.of(modulesCache)
+		)
+		.filter(layout => !!layout)
+		.distinct(layout => JSON.stringify(layout));
 	}
 
 	upsert(modules: Module[]): Observable<Module[]> {
@@ -58,5 +95,6 @@ export interface Module {
 	column: number;
 	width: number;
 	height: number;
-	options?: { [option: string]: boolean | number | string; };
+	options?: { [option: string]: boolean | number | string | Date; };
+	_id?: string;
 }
