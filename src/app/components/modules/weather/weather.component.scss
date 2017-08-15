@@ -1,219 +1,205 @@
 @import '../../../../styles/settings';
 
-/* --------------------------
-  Main Styles
---------------------------- */
-
 .module-container {
-	width: 100;
 	height: 100%;
-	.weather {
-		position: relative;
-		height: 100%;
+	position: relative;
 
-		.weather-header {
-			margin-bottom: 1rem;
-			font-weight: 300;
+	display: flex;
+	flex-direction: column;
+
+	h1 {
+		flex-grow: 0;
+		flex-shrink: 1;
+	}
+
+	p, .weather {
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+}
+
+h1 {
+	margin-bottom: 1rem;
+	font-weight: 300;
+}
+
+.powered-by-container {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+
+	display: flex;
+	justify-content: flex-end;
+
+	.powered-by {
+		height: 2.5rem;
+
+		img {
+			width: 100%;
+			height: 100%;
 		}
+	}
+}
 
-		.temperature {
-			display: inline-block;
-			float: right;
+.weather {
+	position: relative;
+	height: 100%;
+	padding-bottom: 2.5rem;
 
-			.temp-actual {
-				.current-temp {
-					display: flex;
-					align-items: flex-start;
-					line-height: 0.7;
-					margin-bottom: 1rem;
-					font-size: 6rem;
+	.temperature {
+		display: inline-block;
+		float: right;
 
-					.degrees {
-						font-size: 3rem;
+		.temp-actual {
+			.current-temp {
+				display: flex;
+				justify-content: center;
+				align-items: flex-start;
+				line-height: 0.7;
+				margin-bottom: 1rem;
+				font-size: 6rem;
+
+				.degrees {
+					font-size: 3rem;
+					font-weight: 300;
+				}
+			}
+
+			.temp-range {
+				display: flex;
+				justify-content: center;
+				margin-right: 2.8rem;
+
+				.temp-high,
+				.temp-low {
+					letter-spacing: 0.03rem;
+					font-weight: 700;
+
+					.temp-range-label {
 						font-weight: 300;
 					}
 				}
 
-				.temp-range {
-					display: flex;
-					justify-content: center;
-					margin-right: 2.8rem;
-
-					.temp-high,
-					.temp-low {
-						letter-spacing: 0.03rem;
-						font-weight: 700;
-
-						.temp-range-label {
-							font-weight: 300;
-						}
-					}
-
-					.temp-spacer {
-						width: 1px;
-						margin: 0 1rem;
-						background: rgba($sophisticated-white, 0.5);
-					}
-				}
-			}
-			
-			.temp-feels-like {
-				text-align: center;
-				letter-spacing: 0.02rem;
-				font-size: 1.5rem;
-				font-weight: 700;
-
-				.temp-feels-label {
-					font-weight: 400;
+				.temp-spacer {
+					width: 1px;
+					margin: 0 1rem;
+					background: rgba($sophisticated-white, 0.5);
 				}
 			}
 		}
 
-		.weather-misc {
-			display: inline-block;
-			margin-top: 1rem;
+		.temp-feels-like {
+			text-align: center;
+			letter-spacing: 0.02rem;
+			font-size: 1.5rem;
+			font-weight: 700;
 
-			.humidity,
-			.precipitation {
-				font-size: 1.2rem;
-				font-weight: 600;
-
-				.weather-label {
-					font-weight: 300;
-				}
+			.temp-feels-label {
+				font-weight: 400;
 			}
 		}
+	}
 
-		.wind {
-			display: inline-flex;
+	.weather-misc {
+		display: inline-block;
+		margin-top: 1rem;
+
+		.humidity,
+		.precipitation {
+			font-size: 1.2rem;
+			font-weight: 600;
+
+			.weather-label {
+				font-weight: 300;
+			}
+		}
+	}
+
+	.wind {
+		display: inline-flex;
+		justify-content: center;
+		width: 100%;
+
+		.wi {
+			font-size: 5rem;
+		}
+
+		.wind-vector {
+			display: flex;
+			flex-direction: column;
 			justify-content: center;
-			width: 100%;
+			align-items: flex-start;
+			margin-left: 1rem;
 
-			.wi {
-				font-size: 5rem;
-			}
-
-			.wind-vector {
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: flex-start;
-				margin-left: 1rem;
-
-				.wind-magnitude {
-					font-size: 1.5rem;
-					font-weight: 300;
-
-					.wind-speed {
-						font-weight: 700;
-					}
-				}
-			}
-		}
-
-		.forecast-io {
-			display: block;
-			float:right;
-			a {
-				color: darken($sophisticated-white, 10%);
+			.wind-magnitude {
 				font-size: 1.5rem;
-				font-weight: 500;
-				text-decoration: none;
+				font-weight: 300;
 
-				transition-duration: 0.25s;
-
-				&:hover {
-					text-shadow:2px 2px 2px #333;
+				.wind-speed {
+					font-weight: 700;
 				}
 			}
 		}
 	}
 }
 
-.module-container[max-width~='450px'] {
+.module-container[max-width~='575px'][max-height~='500px'] {
+	.weather {
+		justify-content: center;
+
+		.weather-misc,
+		.wind {
+			display: none;
+		}
+	}
+}
+
+.module-container[max-width~='575px'] {
 	.weather {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-around;		
-		.weather-header {
+		justify-content: space-around;
+		align-items: center;
+
+		h1 {
 			font-size: 0;
 			text-align: center;
-			i {
-				font-size: 2.5rem;
-			}
-		}
-		.temperature {
-			width: 100%;
-			.temp-actual {
-				.current-temp {
-					justify-content: center;
-					font-size: 4.5rem;
-				}
-				.temp-range {
-					margin: 0;
-					font-size: 1.5rem;
-					text-align: center;
-					.temp-spacer {
-						margin: 0 0.6rem;
-					}
-				}
-			}
-		}
 
-		.wind {
-			i {
-				font-size: 5rem;
-			}
-		}
-
-		.forecast-io {
-			align-self: flex-end;
-			margin-bottom: 0;
-			font-size: 0;
-			a {
-				font-size: 1rem;
-			}
-		}
-	}
-}
-
-.module-container[max-height~='300px'] {
-	.weather {
-		.temperature {
-			.temp-actual {
-				.current-temp {
-					font-size: 4.5rem;
-				}
-			}
-		}
-		.wind {
-			i {
+			.wi:before {
 				font-size: 5rem;
 			}
 		}
 	}
 }
 
-.module-container[max-height~='450px'][max-width~='450px'] {
-	.weather {
-		.weather-misc {
-			display: none;
+.module-container[max-width~='320px'],
+.module-container[max-width~='575px'][max-height~='300px'] {
+	.weather .temperature .temp-actual {
+		.current-temp {
+			font-size: 4rem;
 		}
-		.wind {
+
+		.temp-range {
+			margin: 0;
+		}
+	}
+}
+
+.module-container[max-width~='300px'][max-height~='300px'] {
+	.weather .temperature .temp-actual {
+		.current-temp {
+			font-weight: 300;
+		}
+
+		.temp-range {
 			display: none;
 		}
 	}
 }
 
-/* --------------------------
-  Media Queries
---------------------------- */
-@media screen and (max-width:544px) {
-	.weather {
-		.temp-actual {
-			.current-temp {
-				font-size: 4rem;
-			}
-		}
+.module-container[max-height~='275px'] {
+	.weather .wind {
+		display: none;
 	}
 }
