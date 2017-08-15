@@ -28,6 +28,9 @@ interface Teacher {
 })
 export class AliasesComponent implements OnInit, OnDestroy {
 
+	// For template
+	contains = contains;
+
 	@Input() type: string;
 	aliasTypes = ['canvas', 'portal'];
 

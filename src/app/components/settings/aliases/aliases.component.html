@@ -1,4 +1,4 @@
-<ng-container *ngIf="aliasTypes.includes(type) && class">
+<ng-container *ngIf="contains(aliasTypes, type) && class">
 	<div *ngFor="let externalClass of externalClasses" class="checkbox">
 		<label>
 			<input type="checkbox"
