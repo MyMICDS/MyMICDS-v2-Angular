@@ -22,11 +22,6 @@ import { MyMICDSModule } from '../modules-main';
 			select: true,
 			selectItems: ['Summer Break', 'Next Break', 'Next Weekend', 'Next Long Weekend', 'Custom Date']
 		},
-		countdownFrom: {
-			label: 'Count from (default now)',
-			type: 'Date',
-			default: moment().toDate()
-		},
 		countdownTo: {
 			label: 'Count towards',
 			type: 'Date',
@@ -74,20 +69,16 @@ export class CountdownComponent implements OnInit, OnDestroy {
 	progressResize: ResizeSensor;
 
 	@Input() preset: string;
-	_countdownFrom: moment.Moment;
 	@Input() set countdownTo(to: Date) {
 		this._countdownTo = moment(to);
 	};
 	_countdownTo: moment.Moment;
-	@Input() set countdownFrom(from: Date) {
-		this._countdownFrom = moment(from);
-	};
 	@Input() eventLabel: string;
 	private _schoolDays = false;
 	@Input() set schoolDays(s: boolean) {
 		this._schoolDays = s;
 		if (s && this.dayRotation) {
-			this.daysLeft = this.calculateSchoolDays(moment(), this.countdownTo);
+			this.daysLeft = this.calculateSchoolDays(moment(), this._countdownTo);
 		} else {
 			this.daysLeft = this._countdownTo.diff(moment(), 'days');
 		}
@@ -179,20 +170,14 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		this.hoursLeft = this._countdownTo.diff(moment(), 'hours') % 24;
 
 		let progress: SVGPathElement = this.renderer.selectRootElement('.countdown-wrapper .countdown-progress path');
-		let borderLen = progress.getTotalLength() + 5;
-		let timeDiff = this._schoolDays ?
-			this.calculateSchoolDays(this._countdownFrom, this._countdownTo) * 60 * 24 +
-			this._countdownFrom.hours() * 60 +
-			this._countdownFrom.minutes() :
-			this._countdownTo.diff(this._countdownFrom, 'minutes');
-		let offset = borderLen * (this.daysLeft * 60 * 24 + this.hoursLeft * 60 + this.minutesLeft) / timeDiff;
+		let borderLen = (progress.getTotalLength() + 5) / 60, offset = 0;
 		this.renderer.setStyle(progress, 'stroke-dashoffset', borderLen);
 		this.renderer.setStyle(progress, 'stroke-dasharray', borderLen + ',' + borderLen);
 
 		this.countdownInterval = setInterval(() => {
 			this.minutesLeft = Math.floor(this._countdownTo.diff(moment(), 'minutes') / 24) % 60;
 			this.hoursLeft = this._countdownTo.diff(moment(), 'hours') % 24;
-			if (timeDiff >= 0 && offset > 0) { offset -= borderLen / timeDiff / 60; }
+			if (offset >= 0) { offset += borderLen / 3; }
 			this.renderer.setStyle(progress, 'stroke-dashoffset', offset);
 		}, 1000);
 

@@ -39,6 +39,13 @@ export class ModuleContainerComponent {
 		this.currentInputs = inputs;
 	}
 
+	@Input()
+	set moduleId(id: string) {
+		if (this.currentModuleRef) {
+			Object.assign(this.currentModuleRef.instance, { moduleId: id });
+		}
+	}
+
 	constructor(private resolver: ComponentFactoryResolver) { }
 
 }

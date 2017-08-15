@@ -27,6 +27,7 @@ import { ProgressComponent } from './components/modules/progress/progress.compon
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
 import { SnowdayComponent } from './components/modules/snowday/snowday.component';
 import { WeatherComponent } from './components/modules/weather/weather.component';
+import { StickynotesComponent } from './components/modules/stickynote/stickynote.component';
 
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
@@ -77,6 +78,7 @@ import { WeatherService } from './services/weather.service';
 import { NotificationService } from './services/notification.service';
 import { SuggestionsService } from './services/suggestions.service';
 import { QuoteService } from './services/quote.service';
+import { StickynotesService } from './services/stickynotes.service';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
@@ -143,7 +145,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe
+		WeatherIconPipe,
+		StickynotesComponent
 	],
 	imports: [
 		BrowserModule,
@@ -185,6 +188,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		NotificationService,
 		SuggestionsService,
 		QuoteService,
+		StickynotesService,
 
 		// JWT
 		{
