@@ -18,6 +18,12 @@ export class ModuleContainerComponent {
 	set type(type: string) {
 		if (type !== this.currentModuleType) {
 			// We create a factory out of the component we want to create
+
+			// If invalid module type, ignore
+			if (!modules[type]) {
+				return;
+			}
+
 			const factory = this.resolver.resolveComponentFactory(modules[type].component);
 			this.dynamicModuleContainer.clear();
 			this.currentModuleRef = this.dynamicModuleContainer.createComponent(factory);
