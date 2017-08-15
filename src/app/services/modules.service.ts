@@ -43,7 +43,7 @@ export class ModulesService {
 						// Convert ISO strings back into Date format
 						layout.forEach(m => {
 							let dateKey;
-							if (m.options) {
+							if (m.options && m.type && modules[m.type]) {
 								for (let optKey in modules[m.type].options) {
 									if ( modules[m.type].options[optKey] ) {
 										let option = modules[m.type].options[optKey];
