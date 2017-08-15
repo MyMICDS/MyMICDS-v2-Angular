@@ -132,6 +132,16 @@ export class CountdownComponent implements OnInit, OnDestroy {
 							this.schoolDays = this._schoolDays;
 							this.styleDaysLeft();
 							this.initProgress();
+							let buffer = true;
+							this.progressResize = new ResizeSensor(this.containerEl.nativeElement, () => {
+								if (buffer) {
+									this.initProgress();
+									buffer = false;
+									setTimeout(() => {
+										buffer = true;
+									}, 500);
+								}
+							});
 						},
 						error => {
 							this.alertService.addAlert('danger', 'Get Day Rotation Error!', error);
@@ -164,7 +174,6 @@ export class CountdownComponent implements OnInit, OnDestroy {
 	}
 
 	initProgress() {
-		delete this.progressResize;
 		clearInterval(this.countdownInterval);
 		this.minutesLeft = Math.floor(this._countdownTo.diff(moment(), 'minutes') / 24) % 60;
 		this.hoursLeft = this._countdownTo.diff(moment(), 'hours') % 24;
@@ -180,10 +189,6 @@ export class CountdownComponent implements OnInit, OnDestroy {
 			if (offset >= 0) { offset += borderLen / 3; }
 			this.renderer.setStyle(progress, 'stroke-dashoffset', offset);
 		}, 1000);
-
-		this.progressResize = new ResizeSensor(this.containerEl.nativeElement, () => {
-			this.initProgress();
-		});
 	}
 
 	// Calculates amount of school days from moment object to moment object (inclusive)
