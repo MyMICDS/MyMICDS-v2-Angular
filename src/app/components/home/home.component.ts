@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = '';
+	announcement = 'Welcome back everyone to another exciting school year! We\'ve been working on new features and optimizations over the summer, but similar to many of you, we wait until the last minute to do things. Many of you said in the end-of-school survey that you wanted more customization, and we brought exactly that! <strong>Click on the \'Edit\' button in the top left corner to customize your homepage with the new modules system!</strong> Also, <strong>if you have errors with your portal URL, please re-insert it in the Settings page.</strong> Expect new features and modules to be rolling out the next week or so! As always, hit us up at support@mymicds.net for any feature suggestions, bugs, and anything else!';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
