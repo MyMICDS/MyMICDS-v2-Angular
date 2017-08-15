@@ -137,7 +137,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.modulesService.upsert(saveModules)
 			.subscribe(
 				modules => {
-					console.log(modules);
 					this.savingModuleLayout = false;
 					this.updateModuleLayout(modules);
 					this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
