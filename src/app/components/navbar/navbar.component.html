@@ -4,30 +4,19 @@
 		MyMICDS.net
 	</a>
 	<div class="navbar-nav mr-auto">
-		<a [class.collapse]="isCollapsed" class="nav-item nav-link" [routerLink]="['/home']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-home"></i> Home
-			<i class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed" class="nav-item nav-link" [routerLink]="['/lunch']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-cutlery"></i> Lunch
-			<i class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed" class="nav-item nav-link" [routerLink]="['/planner']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-calendar"></i> Planner
-			<i class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed" class="nav-item nav-link" [routerLink]="['/daily-bulletin']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-bullhorn"></i> Bulletin
-			<i class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed" *ngIf="jwt" class="nav-item nav-link" [routerLink]="['/settings']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-gear"></i> Settings
-			<i class="fa fa-caret-down"></i>
-		</a>
-		<a [class.collapse]="isCollapsed" class="nav-item nav-link" [routerLink]="['/about']" [routerLinkActive]="['active']" (click)="isCollapsed = !isCollapsed">
-			<i class="fa fa-info"></i> About
-			<i class="fa fa-caret-down"></i>
-		</a>
+		<ng-container *ngFor="let page of pages">
+			<a *ngIf="!page.auth || jwt"
+				#rla="routerLinkActive"
+				class="nav-item nav-link"
+				[class.collapse]="isCollapsed && !rla.isActive"
+				[routerLink]="[page.url]"
+				[routerLinkActive]="['active']"
+				(click)="isCollapsed = !isCollapsed">
+
+				<i class="fa" [ngClass]="page.icon"></i> {{ page.name }}
+				<i *ngIf="rla.isActive" class="fa fa-caret-down"></i>
+			</a>
+		</ng-container>
 	</div>
 	<div *ngIf="!jwt" class="navbar-right">
 		<button class="btn btn-success" [routerLink]="['/login']">Login</button>
