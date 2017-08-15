@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-// import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { MyMICDSModule } from '../modules-main';
 
