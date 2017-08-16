@@ -1,21 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
 
-import { MyMICDSModule } from '../modules-main';
-
 import { StickynotesService } from '../../../services/stickynotes.service';
 import { AlertService } from '../../../services/alert.service';
 
-// @MyMICDSModule({
-// 	name: 'stickynotes',
-// 	icon: '',
-// 	defaultHeight: 2,
-// 	defaultWidth: 2
-// })
 @Component({
 	selector: 'mymicds-stickynote',
-	templateUrl: './stickynote.component.html',
-	styleUrls: ['./stickynote.component.scss']
+	templateUrl: './stickynotes.component.html',
+	styleUrls: ['./stickynotes.component.scss']
 })
 export class StickynotesComponent implements OnInit {
 

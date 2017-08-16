@@ -3,8 +3,6 @@ import moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
-import { MyMICDSModule } from '../modules-main';
-
 import { AlertService } from '../../../services/alert.service';
 import { ScheduleService } from '../../../services/schedule.service';
 
@@ -16,12 +14,6 @@ import '../../../common/rxjs-operators';
 	selector: 'mymicds-schedule',
 	templateUrl: './schedule.component.html',
 	styleUrls: ['./schedule.component.scss']
-})
-@MyMICDSModule({
-	name: 'schedule',
-	icon: 'fa-calendar',
-	defaultHeight: 1,
-	defaultWidth: 2
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
 

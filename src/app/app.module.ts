@@ -1,6 +1,6 @@
+import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
@@ -9,8 +9,6 @@ import { DatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx
 import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
-
-import { modules, getModuleComponent } from './components/modules/modules-main';
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
@@ -22,12 +20,14 @@ import { ModuleOptionsComponent } from './components/module-options/module-optio
 import { ModuleContainerComponent } from './components/module-container/module-container.component';
 import { ModuleOptionComponent } from './components/module-options/module-option/module-option.component';
 
+import { moduleComponents } from './components/modules/module-config';
+
 import { CountdownComponent } from './components/modules/countdown/countdown.component';
 import { ProgressComponent } from './components/modules/progress/progress.component';
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
 import { SnowdayComponent } from './components/modules/snowday/snowday.component';
 import { WeatherComponent } from './components/modules/weather/weather.component';
-import { StickynotesComponent } from './components/modules/stickynote/stickynote.component';
+import { StickynotesComponent } from './components/modules/stickynotes/stickynotes.component';
 
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
@@ -198,7 +198,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		}
 	],
 	bootstrap: [AppComponent],
-	entryComponents: Object.keys(modules).map(getModuleComponent)
+	entryComponents: moduleComponents
 })
 export class AppModule { }
 

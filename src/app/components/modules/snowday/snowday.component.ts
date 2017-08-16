@@ -2,8 +2,6 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/co
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
-import { MyMICDSModule } from '../modules-main';
-
 import { AlertService } from '../../../services/alert.service';
 import { SnowdayService } from '../../../services/snowday.service';
 
@@ -11,12 +9,6 @@ import { SnowdayService } from '../../../services/snowday.service';
 	selector: 'mymicds-snowday',
 	templateUrl: './snowday.component.html',
 	styleUrls: ['./snowday.component.scss']
-})
-@MyMICDSModule({
-	name: 'snowday',
-	icon: 'fa-snowflake-o',
-	defaultHeight: 1,
-	defaultWidth: 2
 })
 export class SnowdayComponent implements OnInit, OnDestroy {
 

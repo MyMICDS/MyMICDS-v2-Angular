@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList, After
 import { ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 
-import { modules, getDefaultOptions } from '../modules/modules-main';
-import { Options } from '../modules/modules-config';
+import { config, getDefaultOptions } from '../modules/module-config';
+import { Options } from '../modules/module-options';
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
 import { ScheduleService } from '../../services/schedule.service';
@@ -31,8 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	savingModuleLayout = false;
 
 	// Different module names and module config
-	moduleNames = Object.keys(modules);
-	modules = modules;
+	moduleNames = Object.keys(config);
+	modules = config;
 
 	// Gridster component
 	@ViewChild('gridster') gridster: GridsterComponent;
