@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { OptionConfig, OptionValue } from '../../modules/modules-config';
+import { OptionConfig, OptionValue } from '../../modules/module-options';
 
 @Component({
 	selector: 'mymicds-module-option',

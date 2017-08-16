@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as interact from 'interactjs';
 
-import { modules, getDefaultOptions } from '../modules/modules-main';
-import { Options } from '../modules/modules-config';
+import { config, getDefaultOptions } from '../modules/module-config';
+import { Options } from '../modules/module-options';
 
 @Component({
 	selector: 'mymicds-module-inspector',
@@ -12,8 +12,8 @@ import { Options } from '../modules/modules-config';
 })
 export class ModuleInspectorComponent implements OnInit, OnDestroy {
 
-	moduleNames = Object.keys(modules);
-	modules = modules;
+	moduleNames = Object.keys(config);
+	modules = config;
 
 	get selectedModuleType() {
 		return this._selectedModuleType;

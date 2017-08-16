@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
-import { modules } from '../modules/modules-main';
+import { config } from '../modules/module-config';
 
 @Component({
 	selector: 'mymicds-module-container',
@@ -20,11 +20,11 @@ export class ModuleContainerComponent {
 			// We create a factory out of the component we want to create
 
 			// If invalid module type, ignore
-			if (!modules[type]) {
+			if (!config[type]) {
 				return;
 			}
 
-			const factory = this.resolver.resolveComponentFactory(modules[type].component);
+			const factory = this.resolver.resolveComponentFactory(config[type].component);
 			this.dynamicModuleContainer.clear();
 			this.currentModuleRef = this.dynamicModuleContainer.createComponent(factory);
 		}

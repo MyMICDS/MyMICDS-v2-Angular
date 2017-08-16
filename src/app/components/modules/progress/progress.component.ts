@@ -4,8 +4,6 @@ import moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
-import { MyMICDSModule } from '../modules-main';
-
 import { ScheduleService } from '../../../services/schedule.service';
 // import { SocketioService } from '../../../services/socketio.service';
 
@@ -15,19 +13,6 @@ declare const Chart: any;
 	selector: 'mymicds-progress',
 	templateUrl: './progress.component.html',
 	styleUrls: ['./progress.component.scss']
-})
-@MyMICDSModule({
-	name: 'progress',
-	icon: 'fa-tasks',
-	defaultHeight: 3,
-	defaultWidth: 4,
-	options: {
-		showDate: {
-			label: 'Show Date',
-			type: 'boolean',
-			default: true
-		}
-	}
 })
 export class ProgressComponent implements OnInit, OnDestroy {
 

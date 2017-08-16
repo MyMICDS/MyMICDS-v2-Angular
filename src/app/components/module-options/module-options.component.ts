@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { contains } from '../../common/utils';
-import { modules, getDefaultOptions } from '../modules/modules-main';
-import { OptionsConfig, Options } from '../modules/modules-config';
+import { config, getDefaultOptions } from '../modules/module-config';
+import { OptionsConfig, Options } from '../modules/module-options';
 
 @Component({
 	selector: 'mymicds-module-options',
@@ -15,11 +15,11 @@ export class ModuleOptionsComponent {
 		return this._type;
 	}
 	set type(name: string) {
-		if (!modules[name] || name === this.type) {
+		if (!config[name] || name === this.type) {
 			return;
 		}
 		this._type = name;
-		this.optionsConfig = modules[name].options;
+		this.optionsConfig = config[name].options;
 		this.optionKeys = Object.keys(this.optionsConfig);
 
 		// Fall back to default options if none are provided

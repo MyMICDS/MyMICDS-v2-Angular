@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
-import { MyMICDSModule } from '../modules-main';
-
 import { AlertService } from '../../../services/alert.service';
 import { WeatherService } from '../../../services/weather.service';
 
@@ -10,19 +8,6 @@ import { WeatherService } from '../../../services/weather.service';
 	selector: 'mymicds-weather',
 	templateUrl: './weather.component.html',
 	styleUrls: ['./weather.component.scss']
-})
-@MyMICDSModule({
-	name: 'weather',
-	icon: 'fa-cloud',
-	defaultHeight: 1,
-	defaultWidth: 2,
-	options: {
-		metric: {
-			label: 'Metric Units',
-			type: 'boolean',
-			default: false
-		}
-	}
 })
 export class WeatherComponent implements OnInit, OnDestroy {
 

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import '../common/rxjs-operators';
 import * as moment from 'moment';
 
-import { modules } from '../components/modules/modules-main';
+import { config } from '../components/modules/module-config';
 
 @Injectable()
 export class ModulesService {
@@ -42,15 +42,11 @@ export class ModulesService {
 					.do(layout => {
 						// Convert ISO strings back into Date format
 						layout.forEach(m => {
-							let dateKey;
-							if (m.options && m.type && modules[m.type]) {
-								for (let optKey in modules[m.type].options) {
-									if ( modules[m.type].options[optKey] ) {
-										let option = modules[m.type].options[optKey];
-										if (option.type === 'Date') {
-											dateKey = optKey;
-											m.options[dateKey] = moment(m.options[dateKey]).toDate();
-										}
+							if (m.options && m.type && config[m.type]) {
+								for (const optKey of Object.keys(config[m.type].options)) {
+									const option = config[m.type].options[optKey];
+									if (option && option.type === 'Date') {
+										m.options[optKey] = moment(m.options[optKey]).toDate();
 									}
 								}
 							}
