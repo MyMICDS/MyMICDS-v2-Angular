@@ -126,5 +126,16 @@ export class LunchComponent implements OnInit {
 
 		return dates;
 	}
-
+	lunchClassMaker(classInput) {
+		switch (classInput) {
+			case "Main Dish":
+				return "main-dish";
+			case "Pizza Station":
+				return "pizza";
+			case "Soup":
+				return "soup";
+			case "Dessert":
+				return "dessert"; 
+		}
+	}
 }

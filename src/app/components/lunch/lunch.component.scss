@@ -5,200 +5,187 @@
 --------------------------- */
 
 .loading-container {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	.loading {
-		width: 35rem;
-		padding: 1rem;
-		text-align: center;
-		color: $sophisticated-white;
-
-		h1 {
-			font-size: 3rem;
-			font-weight: 300;
-		}
-	}
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .loading {
+        width: 35rem;
+        padding: 1rem;
+        text-align: center;
+        color: $sophisticated-white;
+        h1 {
+            font-size: 3rem;
+            font-weight: 300;
+        }
+    }
 }
 
 .lunch-container {
-	padding: 2rem 0 0 0;
-	margin-bottom: 6rem;
-
-	.school-selection {
-		margin-bottom: 1rem;
-		text-align: center;
-		.btn {
-			font-size: small;
-		}
-	}
-
-	.week-navigation {
-		margin-bottom: 0.5rem;
-		display: flex;
-
-		.previous-week,
-		.current-week,
-		.next-week {
-			width: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding: 1rem 0 1rem;
-
-			border: none;
-			color: $sophisticated-white;
-
-			&:hover {
-				color: darken($sophisticated-white, 20%);
-			}
-			&:active {
-				color: darken($sophisticated-white, 40%);
-			}
-		}
-
-		.previous-week,
-		.next-week {
-			font-size: 1rem;
-			font-weight: 300;
-
-			.fa {
-				margin: 0 0.5rem;
-			}
-		}
-
-		.current-week {
-			display: none;
-			font-size: 1rem;
-			font-weight: 600;
-			border-left: 1px solid rgba($sophisticated-white, 0.5);
-			border-right: 1px solid rgba($sophisticated-white, 0.5);
-		}
-	}
-
-	.lunch-week {
-		display: flex;
-		justify-content: space-between;
-		width: auto;
-		height: auto;
-		overflow-x: scroll;
-
-		.lunch-day {
-			//width: calc(20% - 0.5rem);
-			flex: 0 0 100%;
-			padding: 0.5rem;
-			color: $sophisticated-white;
-
-			&.today {
-				border: 0.25rem solid #A5001E;
-			}
-
-			.lunch-date {
-				margin-bottom: 1rem;
-
-				h3 {
-					margin-bottom: 0.25rem;
-					font-weight: 300;
-					letter-spacing: 0.03rem;
-				}
-
-				h5 {
-					margin: 0;
-				}
-			}
-
-			.lunch-menu {
-				.no-lunch {
-					padding: 1rem;
-					text-align: center;
-					border-top: 1px solid rgba(white, 0.5);
-
-					p {
-						margin: 0;
-						font-size: 1.25rem;
-						font-weight: 300;
-					}
-				}
-
-				.lunch {
-					.lunch-category {
-						padding-top: 0.5rem;
-						border-top: 1px solid rgba(white, 0.5);
-
-						h3 {
-							text-align: center;
-							font-weight: 600;
-							letter-spacing: 0.03rem;
-						}
-
-						ul {
-							margin: 0 0 1rem 0;
-							padding: 0;
-							list-style: none;
-
-							li {
-								font-weight: 300;
-
-								&:before {
-									content: '🍔';
-									padding-right: 0.5em;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+    padding: 2rem 0 0 0;
+    margin-bottom: 6rem;
+    .school-selection {
+        margin-bottom: 1rem;
+        text-align: center;
+        .btn {
+            font-size: small;
+        }
+    }
+    .week-navigation {
+        margin-bottom: 0.5rem;
+        display: flex;
+        .previous-week,
+        .current-week,
+        .next-week {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0 1rem;
+            border: none;
+            color: $sophisticated-white;
+            &:hover {
+                color: darken($sophisticated-white, 20%);
+            }
+            &:active {
+                color: darken($sophisticated-white, 40%);
+            }
+        }
+        .previous-week,
+        .next-week {
+            font-size: 1rem;
+            font-weight: 300;
+            .fa {
+                margin: 0 0.5rem;
+            }
+        }
+        .current-week {
+            display: none;
+            font-size: 1rem;
+            font-weight: 600;
+            border-left: 1px solid rgba($sophisticated-white, 0.5);
+            border-right: 1px solid rgba($sophisticated-white, 0.5);
+        }
+    }
+    .lunch-week {
+        display: flex;
+        justify-content: space-between;
+        width: auto;
+        height: auto;
+        overflow-x: scroll;
+        .lunch-day {
+            //width: calc(20% - 0.5rem);
+            flex: 0 0 100%;
+            padding: 0.5rem;
+            color: $sophisticated-white;
+            &.today {
+                border: 0.25rem solid #A5001E;
+            }
+            .lunch-date {
+                margin-bottom: 1rem;
+                h3 {
+                    margin-bottom: 0.25rem;
+                    font-weight: 300;
+                    letter-spacing: 0.03rem;
+                }
+                h5 {
+                    margin: 0;
+                }
+            }
+            .lunch-menu {
+                .no-lunch {
+                    padding: 1rem;
+                    text-align: center;
+                    border-top: 1px solid rgba(white, 0.5);
+                    p {
+                        margin: 0;
+                        font-size: 1.25rem;
+                        font-weight: 300;
+                    }
+                }
+                .lunch {
+                    .lunch-category {
+                        padding-top: 0.5rem;
+                        border-top: 1px solid rgba(white, 0.5);
+                        h3 {
+                            text-align: center;
+                            font-weight: 600;
+                            letter-spacing: 0.03rem;
+                        }
+                        ul {
+                            margin: 0 0 1rem 0;
+                            padding: 0;
+                            list-style: none;
+                            li {
+                                font-weight: 300;
+                                &:before {
+                                    padding-right: 0.5em;
+                                }
+                                &.main-dish:before {
+                                    content: '🍔';
+                                }
+                                &.pizza:before {
+                                    content: '🍕'
+                                }
+                                &.soup:before {
+                                    content: '🍲'
+                                }
+                                &.dessert:before {
+                                    content: '🍩'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
 
 /* --------------------------
   Media Queries
 --------------------------- */
 
 @media screen and (min-width:544px) {
-	.lunch-container {
-		.school-selection {
-			.btn {
-				font-size: inherit;
-			}
-		}
-		.week-navigation {
-			.previous-week,
-			.current-week,
-			.next-week {
-				padding: 1rem;
-			}
-
-			.previous-week,
-			.next-week {
-				font-size: 2rem;
-				font-weight: 300;
-				.fa {
-					margin: 0 0.5rem;
-				}
-			}
-
-			.current-week {
-				display: inherit;
-				font-size: 2.5rem;
-				font-weight: 600;
-			}
-		}
-		.lunch-week {
-			overflow-x: auto;
-			width: 100%;
-			height: auto;
-			.lunch-day {
-				width: calc(20% - 0.5rem);
-				flex: initial;
-			}
-		}
-	}
+    .lunch-container {
+        .school-selection {
+            .btn {
+                font-size: inherit;
+            }
+        }
+        .week-navigation {
+            .previous-week,
+            .current-week,
+            .next-week {
+                padding: 1rem;
+            }
+            .previous-week,
+            .next-week {
+                font-size: 2rem;
+                font-weight: 300;
+                .fa {
+                    margin: 0 0.5rem;
+                }
+            }
+            .current-week {
+                display: inherit;
+                font-size: 2.5rem;
+                font-weight: 600;
+            }
+        }
+        .lunch-week {
+            overflow-x: auto;
+            width: 100%;
+            height: auto;
+            .lunch-day {
+                width: calc(20% - 0.5rem);
+                flex: initial;
+            }
+        }
+    }
 }
