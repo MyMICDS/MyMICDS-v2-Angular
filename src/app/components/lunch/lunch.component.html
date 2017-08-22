@@ -59,7 +59,7 @@
                             <div *ngFor="let data of day.lunch[schoolName].categories | values" class="lunch-category">
                                 <h3>{{ data.key }}</h3>
                                 <ul>
-                                    <li *ngFor="let item of data.value" ng-class="[lunchClassMaker(item);]">{{ item }}</li>
+                                    <li *ngFor="let item of data.value" *ngFor="let data of data.key" ng-class="[lunchClassMaker(data);]">{{ item }}</li>
                                 </ul>
                             </div>
                         </div>
