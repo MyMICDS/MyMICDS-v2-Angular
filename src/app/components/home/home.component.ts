@@ -45,26 +45,21 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		dragAndDrop: false,
 		resizable: false,
 		shrink: false,
-		responsiveView: false,
+		responsiveView: true,
 		responsiveOptions: [
 			{
 				breakpoint: 'sm',
+				minWidth: 0,
+				lanes: 1
+			},
+			{
+				breakpoint: 'md',
 				minWidth: 576,
 				lanes: 2
 			},
 			{
-				breakpoint: 'md',
-				minWidth: 768,
-				lanes: 4
-			},
-			{
 				breakpoint: 'lg',
-				minWidth: 992,
-				lanes: 4
-			},
-			{
-				breakpoint: 'xl',
-				minWidth: 1200,
+				minWidth: 768,
 				lanes: 4
 			}
 		]
@@ -82,7 +77,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	) { }
 
 	ngOnInit() {
-
 		// Find out whether or not we're in edit mode
 		this.routeDataSubscription = this.route.data.subscribe(
 			data => {
