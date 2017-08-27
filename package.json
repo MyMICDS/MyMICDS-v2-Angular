@@ -4,6 +4,7 @@
   "description": "Angular front-end for MyMICDS.net",
   "scripts": {
     "start": "ng serve",
+    "build": "ng build",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
     "pree2e": "webdriver-manager update",

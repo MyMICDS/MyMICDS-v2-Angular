@@ -1,0 +1,6 @@
+language: node_js
+node_js:
+- 'node'
+script: npm run build
+after_success:
+- sh .travis/deploy.sh 45.56.70.141 /home/apps/MyMICDS/MyMICDS-v2-angular-test-deploy
