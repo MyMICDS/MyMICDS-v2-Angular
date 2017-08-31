@@ -64,6 +64,7 @@ import { BulletinService } from './services/bulletin.service';
 import { CanvasService } from './services/canvas.service';
 import { ClassesService } from './services/classes.service';
 import { DatesService } from './services/dates.service';
+import { FeedsService } from './services/feeds.service';
 import { LunchService } from './services/lunch.service';
 import { ModulesService } from './services/modules.service';
 import { PlannerService } from './services/planner.service';
@@ -174,6 +175,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		CanvasService,
 		ClassesService,
 		DatesService,
+		FeedsService,
 		LunchService,
 		ModulesService,
 		PlannerService,

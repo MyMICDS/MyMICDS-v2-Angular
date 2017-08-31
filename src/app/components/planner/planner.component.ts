@@ -8,9 +8,9 @@ import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
 import { CanvasService } from '../../services/canvas.service';
 import { ClassesService } from '../../services/classes.service';
+import { FeedsService } from '../../services/feeds.service';
 import { PlannerService } from '../../services/planner.service';
 import { PortalService } from '../../services/portal.service';
-
 
 @Component({
 	selector: 'mymicds-planner',
@@ -36,6 +36,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 	canvasLoading = true;
 
 	paramSubscription: any;
+	updateSubscription: any;
 
 	// Controller for sidebar's collapsed class
 	sidebarCollapsed = true;
@@ -109,6 +110,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 		public authService: AuthService,
 		private canvasService: CanvasService,
 		private classesService: ClassesService,
+		private feedsService: FeedsService,
 		private plannerService: PlannerService,
 		private portalService: PortalService,
 		private router: Router,
@@ -194,6 +196,9 @@ export class PlannerComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.paramSubscription.unsubscribe();
+		if (this.updateSubscription) {
+			this.updateSubscription.unsubscribe();
+		}
 	}
 
 	fetchPlannerEvents() {
@@ -210,6 +215,28 @@ export class PlannerComponent implements OnInit, OnDestroy {
 				this.alertService.addAlert('danger', 'Get Events Error!', error);
 			}
 		);
+	}
+
+	refreshCanvas() {
+		this.canvasLoading = true;
+
+		this.updateSubscription = this.feedsService.updateCanvasCache()
+			.switchMap(() => this.canvasService.getEvents())
+			.subscribe(
+				(data: any) => {
+					this.updateSubscription.unsubscribe();
+					this.canvasLoading = false;
+					if (data.hasURL) {
+						this.canvasEvents = data.events;
+						this.updatePlannerEvents();
+					}
+				},
+				error => {
+					this.updateSubscription.unsubscribe();
+					this.canvasLoading = false;
+					this.alertService.addAlert('danger', 'Get Canvas Events Error!', error);
+				}
+			);
 	}
 
 	private updatePlannerEvents(plannerEvents = this.plannerEvents) {

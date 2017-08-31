@@ -89,17 +89,23 @@
 					</h3>
 					<!-- Create Event and Coming Up button at the top -->
 					<div class="sidebar-buttons">
+						<button *ngIf="selectionDate !== null" class="sidebar-coming-up btn btn-warning" (click)="deselectDay()">
+							<span>
+								<i class="fa fa-undo"></i>
+								Coming Up
+							</span>
+						</button>
 						<div class="btn-group">
+							<button *ngIf="authService.authSnapshot" class="btn btn-danger" (click)="refreshCanvas()">
+								<span>
+									<i class="fa fa-refresh"></i>
+									Refresh Canvas
+								</span>
+							</button>
 							<button class="btn btn-info" (click)="createEventModal.show()">
 								<span>
 									<i class="fa fa-plus"></i>
 									Create Event
-								</span>
-							</button>
-							<button *ngIf="selectionDate !== null" class="btn btn-warning" (click)="deselectDay()">
-								<span>
-									<i class="fa fa-undo"></i>
-									Coming Up
 								</span>
 							</button>
 						</div>

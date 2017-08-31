@@ -270,17 +270,20 @@
 						display: block;
 						margin: 1rem auto 0.5rem;
 						text-align: center;
+
+						.sidebar-coming-up {
+							margin-bottom: 0.5rem;
+						}
 					}
 				}
 
 				.coming-up,
 				.day-selection {
-					position:absolute;
-					top:6em;
-					left:0.5em;
-					right:0.5em;
-					bottom:0.5em;
-					overflow:auto;
+					position: absolute;
+					left: 0.5em;
+					right: 0.5em;
+					bottom: 0.5em;
+					overflow: auto;
 					padding-right: 0.5em;
 
 					.event {
@@ -375,6 +378,7 @@
 				}
 
 				.coming-up {
+					top: 6em;
 
 					.coming-up-day {
 
@@ -397,6 +401,10 @@
 							}
 						}
 					}
+				}
+
+				.day-selection {
+					top: 13rem;
 				}
 			}
 		}
@@ -616,7 +624,7 @@
 					}
 
 					.day-selection {
-						top: 10rem;
+						top: 13rem;
 					}
 				}
 			}
