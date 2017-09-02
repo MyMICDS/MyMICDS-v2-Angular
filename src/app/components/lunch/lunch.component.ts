@@ -127,14 +127,6 @@ export class LunchComponent implements OnInit {
 		return dates;
 	}
 	lunchClassMaker(classInput) {
-		for (var i = 0; i < classInput.length; ++i) {
-			if (classInput[i] == classInput[i].toUpperCase()) {
-				classInput[i] = classInput[i].toLowerCase();
-			}
-			if (classInput[i] == " ") {
-				classInput[i] = "-";
-			}
-		}
-		return classInput;
+		return classInput.toLowerClase.replace(/ /, "-");
 	}
 }
