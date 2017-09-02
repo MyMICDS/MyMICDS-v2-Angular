@@ -127,15 +127,14 @@ export class LunchComponent implements OnInit {
 		return dates;
 	}
 	lunchClassMaker(classInput) {
-		switch (classInput) {
-			case "Main Dish":
-				return "main-dish";
-			case "Pizza Station":
-				return "pizza";
-			case "Soup":
-				return "soup";
-			case "Dessert":
-				return "dessert"; 
+		for (var i = 0; i < classInput.length; ++i) {
+			if (classInput[i] == classInput[i].toUpperCase()) {
+				classInput[i] = classInput[i].toLowerCase();
+			}
+			if (classInput[i] == " ") {
+				classInput[i] = "-";
+			}
 		}
+		return classInput;
 	}
 }
