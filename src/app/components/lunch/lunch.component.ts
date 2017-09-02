@@ -127,6 +127,6 @@ export class LunchComponent implements OnInit {
 		return dates;
 	}
 	lunchClassMaker(classInput) {
-		return classInput.toLowerClase.replace(/ /, "-");
+		return classInput.toLowerCase.replace(/ /, "-");
 	}
 }
