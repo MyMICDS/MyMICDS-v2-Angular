@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
+import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
@@ -14,6 +15,10 @@ import { ScheduleService } from '../../services/schedule.service';
 	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
+
+	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	moduleWidth: number;
+	moduleHeight: number;
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
@@ -77,6 +82,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	) { }
 
 	ngOnInit() {
+		const onResize = () => {
+			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
+			this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
+		};
+		onResize();
+		new ResizeSensor(this.moduleContainer.nativeElement, onResize);
+
 		// Find out whether or not we're in edit mode
 		this.routeDataSubscription = this.route.data.subscribe(
 			data => {
@@ -121,7 +133,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.moduleLayout = modules;
 		// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
 		// (like 730px wide area)
-		this.gridster.reload();
+		if (this.gridster) {
+			this.gridster.reload();
+		}
 		this.updateModulePositions();
 	}
 

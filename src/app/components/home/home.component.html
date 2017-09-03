@@ -23,7 +23,7 @@
 	</p>
 </div>
 
-<div class="container">
+<div #moduleContainer class="container">
 	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
@@ -31,7 +31,7 @@
 		<strong>Announcement</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
-	<div class="grid-container">
+	<div *ngIf="editMode || moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth" class="grid-container">
 		<gridster #gridster [options]="gridsterOptions">
 			<gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
@@ -73,6 +73,12 @@
 
 			</gridster-item>
 		</gridster>
+	</div>
+	<div *ngIf="!editMode && moduleWidth < gridsterOptions.responsiveOptions[1].minWidth" class="collapsed-grid">
+		<mymicds-module-container *ngFor="let module of moduleLayout"
+			[type]="module.type"
+			[inputs]="module.options"
+			[moduleId]="module._id"></mymicds-module-container>
 	</div>
 </div>
 <div *ngIf="editMode" class="modules-menu" mymicds-blur--dark>

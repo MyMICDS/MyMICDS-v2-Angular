@@ -150,6 +150,12 @@
 			}
 		}
 	}
+
+	.collapsed-grid {
+		mymicds-module-container {
+			margin-bottom: $blur-margin;
+		}
+	}
 }
 
 .modules-menu {
