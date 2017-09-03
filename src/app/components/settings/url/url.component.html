@@ -14,6 +14,17 @@
 		<a routerLink="/help">Find out how to get your Portal URL.</a>
 	</p>
 </form>
+<ng-container *ngIf="userInfo?.portalURL">
+	<button class="btn btn-danger" (click)="updatePortalFeed()" [disabled]="portalFeedUpdateLoading">
+		{{ portalFeedUpdateLoading ? 'Updating...' : 'Update Portal Feed' }}
+	</button>
+	<p class="form-text text-muted">Automatically updates every 24 hours</p>
+</ng-container>
+
+<div class="spacer">
+	<div class="line"></div>
+</div>
+
 <form #canvasForm="ngForm" class="canvas-form" [class.has-success]="canvasValid" [class.has-danger]="!canvasValid" (ngSubmit)="changeCanvasURL()" novalidate>
 	<label for="canvas-url">Canvas URL</label>
 	<div class="input-group">
@@ -29,3 +40,9 @@
 		<a routerLink="/help">Find out how to get your Canvas URL.</a>
 	</p>
 </form>
+<ng-container *ngIf="userInfo?.canvasURL">
+	<button class="btn btn-danger" (click)="updateCanvasFeed()" [disabled]="canvasFeedUpdateLoading">
+		{{ canvasFeedUpdateLoading ? 'Updating...' : 'Update Canvas Feed' }}
+	</button>
+	<p class="form-text text-muted">Automatically updates every 6 hours</p>
+</ng-container>

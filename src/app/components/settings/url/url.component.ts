@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AlertService } from '../../../services/alert.service';
 import { CanvasService} from '../../../services/canvas.service';
+import { FeedsService } from '../../../services/feeds.service';
 import { PortalService } from '../../../services/portal.service';
 import { UserService } from '../../../services/user.service';
 
@@ -22,15 +23,20 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	canvasValid: boolean;
 	canvasResponse: string;
 
+	canvasFeedUpdateLoading = false;
+
 	// Portal URL Form
 	portalURLSubscription: any;
 	portalURL: string;
 	portalValid: boolean;
 	portalResponse: string;
 
+	portalFeedUpdateLoading = false;
+
 	constructor(
 		private alertService: AlertService,
 		private canvasService: CanvasService,
+		private feedsService: FeedsService,
 		private portalService: PortalService,
 		private userService: UserService
 	) { }
@@ -138,6 +144,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.portalValid = (data.valid === true);
 				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if (data.valid === true) {
+					this.userInfo.portalURL = data.url;
 					this.alertService.addAlert('success', 'Success!', 'Changed Portal URL!', 3);
 				} else {
 					this.alertService.addAlert('warning', 'Change Portal URL Warning:', data.valid);
@@ -155,6 +162,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.canvasValid = (data.valid === true);
 				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if (data.valid === true) {
+					this.userInfo.canvasURL = data.url;
 					this.alertService.addAlert('success', 'Success!', 'Changed Canvas URL!', 3);
 				} else {
 					this.alertService.addAlert('warning', 'Change Canvas URL Warning:', data.valid);
@@ -164,6 +172,43 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.alertService.addAlert('danger', 'Change Canvas URL Error!', error);
 			}
 		);
+	}
+
+	updateCanvasFeed() {
+		this.canvasFeedUpdateLoading = true;
+		this.feedsService.updateCanvasCache()
+			.subscribe(
+				() => {
+					this.alertService.addAlert('success', 'Success!', 'Updated canvas feed!', 3);
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Update Canvas Feed Error!', error);
+				},
+				() => {
+					this.canvasFeedUpdateLoading = false;
+				}
+			);
+	}
+
+	updatePortalFeed() {
+		this.portalFeedUpdateLoading = true;
+		this.feedsService.addPortalQueue()
+			.subscribe(
+				() => {
+					this.alertService.addAlert(
+						'success',
+						'Success!',
+						'Add portal to the update queue. If it doesn\'t update immediately, it could take anywhere from 30 minutes to a few hours.',
+						3
+					);
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Update Portal Feed Error!', error);
+				},
+				() => {
+					this.portalFeedUpdateLoading = false;
+				}
+			);
 	}
 
 }

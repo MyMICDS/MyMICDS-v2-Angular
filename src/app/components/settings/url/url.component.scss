@@ -7,3 +7,18 @@ h3, form {
 .text-muted {
 	color: mix($sophisticated-white, #636c72) !important;
 }
+
+.spacer {
+	margin-bottom: 0.75rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	color: $sophisticated-white;
+
+	.line {
+		height: 1px;
+		width:100%;
+		border-bottom: 1px solid $sophisticated-white;
+	}
+}
