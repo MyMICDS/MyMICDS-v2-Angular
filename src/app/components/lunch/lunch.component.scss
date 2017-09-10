@@ -34,6 +34,7 @@
 	.school-selection {
 		margin-bottom: 1rem;
 		text-align: center;
+
 		.btn {
 			font-size: small;
 		}
@@ -58,6 +59,7 @@
 			&:hover {
 				color: darken($sophisticated-white, 20%);
 			}
+
 			&:active {
 				color: darken($sophisticated-white, 40%);
 			}
@@ -126,29 +128,44 @@
 					}
 				}
 
-				.lunch {
-					.lunch-category {
-						padding-top: 0.5rem;
-						border-top: 1px solid rgba(white, 0.5);
+				.lunch .lunch-category {
+					padding-top: 0.5rem;
+					border-top: 1px solid rgba(white, 0.5);
 
-						h3 {
-							text-align: center;
-							font-weight: 600;
-							letter-spacing: 0.03rem;
-						}
+					h3 {
+						text-align: center;
+						font-weight: 600;
+						letter-spacing: 0.03rem;
+					}
 
-						ul {
-							margin: 0 0 1rem 0;
-							padding: 0;
-							list-style: none;
+					ul {
+						margin: 0 0 1rem 0;
+						padding: 0;
+						list-style: none;
 
-							li {
-								font-weight: 300;
+						li {
+							font-weight: 300;
 
-								&:before {
-									content: '🍔';
-									padding-right: 0.5em;
-								}
+							&:before {
+								padding-right: 0.5em;
+								// Default bullet point
+								content: '🍔';
+							}
+
+							&.main-dish:before {
+								content: '🍔';
+							}
+
+							&.pizza-station:before {
+								content: '🍕'
+							}
+
+							&.soup:before {
+								content: '🍲'
+							}
+
+							&.dessert:before {
+								content: '🍩'
 							}
 						}
 					}
@@ -164,11 +181,10 @@
 
 @media screen and (min-width:544px) {
 	.lunch-container {
-		.school-selection {
-			.btn {
-				font-size: inherit;
-			}
+		.school-selection .btn {
+			font-size: inherit;
 		}
+
 		.week-navigation {
 			.previous-week,
 			.current-week,
@@ -180,6 +196,7 @@
 			.next-week {
 				font-size: 2rem;
 				font-weight: 300;
+
 				.fa {
 					margin: 0 0.5rem;
 				}
@@ -191,10 +208,12 @@
 				font-weight: 600;
 			}
 		}
+
 		.lunch-week {
 			overflow-x: auto;
 			width: 100%;
 			height: auto;
+
 			.lunch-day {
 				width: calc(20% - 0.5rem);
 				flex: initial;
