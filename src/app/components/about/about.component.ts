@@ -38,21 +38,38 @@ export class AboutComponent implements OnInit {
 			lastName : 'Gira',
 			gradYear : 2019,
 			title    : 'Creator and Lead Developer',
-			image    : 'assets/developers/michaels-ugly-face-new.jpg'
+			image    : 'assets/developers/michaels-ugly-face-new-new.jpg'
 		},
 		{
 			firstName: 'Nick',
 			lastName : 'Clifford',
 			gradYear : 2020,
 			title    : 'System Administrations',
-			image    : 'assets/developers/nicks-ugly-face-new.jpg'
+			image    : 'assets/developers/nicks-ugly-face-new-new.jpg'
 		},
 		{
 			firstName: 'Jack',
 			lastName : 'Cai',
 			gradYear : 2019,
 			title    : 'Full Stack Developer',
-			image    : 'assets/developers/jacks-ugly-face-new.jpg'
+			image    : 'assets/developers/jacks-ugly-face-new-new.jpg'
+		},
+		{
+			firstName: 'Sebastian',
+			lastName : 'N.',
+			gradYear : 2021,
+			title    : 'Emotional Support',
+			image    : 'assets/developers/sebastians-ugly-face.jpg'
+		}
+	];
+	
+	alumni: any[] = [
+		{
+			firstName: 'Sidd',
+			lastName : 'Mehta',
+			gradYear : 2017,
+			title    : 'Back-End Developer',
+			image    : 'assets/developers/sidds-ugly-face.jpg'
 		},
 		{
 			firstName: 'Bob',
@@ -60,20 +77,6 @@ export class AboutComponent implements OnInit {
 			gradYear : 2017,
 			title    : 'Full Stack Developer',
 			image    : 'assets/developers/bobs-ugly-face-new.jpg'
-		},
-		{
-			firstName: 'Alex',
-			lastName : 'Migala',
-			gradYear : 2020,
-			title    : 'Junior Developer',
-			image    : 'assets/developers/alexs-ugly-face.jpg'
-		},
-		{
-			firstName: 'Sidd',
-			lastName : 'Mehta',
-			gradYear : 2017,
-			title    : 'Back-End Developer',
-			image    : 'assets/developers/sidds-ugly-face.jpg'
 		}
 	];
 
