@@ -58,25 +58,25 @@ export class AboutComponent implements OnInit {
 			firstName: 'Sebastian',
 			lastName : 'Neumann',
 			gradYear : 2021,
-			title    : 'Emotional Support',
+			title    : 'Junior Developer',
 			image    : 'assets/developers/sebastians-ugly-face.jpg'
 		}
 	];
-	
+
 	alumni: any[] = [
-		{
-			firstName: 'Sidd',
-			lastName : 'Mehta',
-			gradYear : 2017,
-			title    : 'Back-End Developer',
-			image    : 'assets/developers/sidds-ugly-face.jpg'
-		},
 		{
 			firstName: 'Bob',
 			lastName : 'Sforza',
 			gradYear : 2017,
 			title    : 'Full Stack Developer',
 			image    : 'assets/developers/bobs-ugly-face-new.jpg'
+		},
+		{
+			firstName: 'Sidd',
+			lastName : 'Mehta',
+			gradYear : 2017,
+			title    : 'Back-End Developer',
+			image    : 'assets/developers/sidds-ugly-face.jpg'
 		}
 	];
 

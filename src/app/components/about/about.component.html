@@ -29,12 +29,12 @@
 			<div class="developers">
 				<div *ngFor="let dev of developers" class="developer card">
 					<div class="card-block">
-						<h4 class="card-title">{{dev.firstName}}<br>{{dev.lastName}}</h4>
-						<h6 class="card-subtitle text-muted">Class of {{dev.gradYear}}</h6>
+						<h4 class="card-title">{{ dev.firstName }}<br>{{ dev.lastName }}</h4>
+						<h6 class="card-subtitle text-muted">Class of {{ dev.gradYear }}</h6>
 					</div>
 					<img [src]="dev.image">
 					<div class="card-block">
-						<p class="card-text">{{dev.title}}</p>
+						<p class="card-text">{{ dev.title }}</p>
 					</div>
 				</div>
 			</div>
@@ -48,17 +48,17 @@
 			<div class="developers">
 				<div *ngFor="let alum of alumni" class="developer card">
 					<div class="card-block">
-						<h4 class="card-title">{{alum.firstName + ' ' + alum.lastName}}</h4>
-						<h6 class="card-subtitle text-muted">Class of {{alum.gradYear}}</h6>
+						<h4 class="card-title">{{ alum.firstName }}<br>{{ alum.lastName }}</h4>
+						<h6 class="card-subtitle text-muted">Class of {{ alum.gradYear }}</h6>
 					</div>
 					<img [src]="alum.image">
 					<div class="card-block">
-						<p class="card-text">{{alum.title}}</p>
+						<p class="card-text">{{ alum.title }}</p>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<div mymicds-blur id="join-us" class="join-us">
 			<h3>You know what you should do? <strong>Join the development team.</strong></h3>
 			<p class="no seriously please join">If you are already a coding master, or if you're just curious about coding, we'll be happy to have you! We can provide special resources to help you code, and eventually let you practice your skills on a website that people actually use! If you are even just considering it, we highly encourage you to email support@mymicds.net. <strong>There is no commitment whatsoever if you email us, and no time commitment if you choose to join the development team.</strong> If you don't want to program, and have other skills you think you can offer to the website, then also feel free to contact us.</p>
