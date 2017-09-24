@@ -56,7 +56,7 @@ export class AboutComponent implements OnInit {
 		},
 		{
 			firstName: 'Sebastian',
-			lastName : 'N.',
+			lastName : 'Neumann',
 			gradYear : 2021,
 			title    : 'Emotional Support',
 			image    : 'assets/developers/sebastians-ugly-face.jpg'

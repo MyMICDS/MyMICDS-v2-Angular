@@ -29,7 +29,7 @@
 			<div class="developers">
 				<div *ngFor="let dev of developers" class="developer card">
 					<div class="card-block">
-						<h4 class="card-title">{{dev.firstName + ' ' + dev.lastName}}</h4>
+						<h4 class="card-title">{{dev.firstName}}<br>{{dev.lastName}}</h4>
 						<h6 class="card-subtitle text-muted">Class of {{dev.gradYear}}</h6>
 					</div>
 					<img [src]="dev.image">
