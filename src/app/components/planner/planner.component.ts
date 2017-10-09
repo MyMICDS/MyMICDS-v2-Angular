@@ -168,7 +168,7 @@ export class PlannerComponent implements OnInit, OnDestroy {
 				},
 				error => {
 					this.canvasLoading = false;
-					this.alertService.addAlert('danger', 'Get Canvas Events Error!', error);
+					this.alertService.addAlert('canvasdanger', 'Get Canvas Events Error!', error);
 				}
 			);
 		} else {
