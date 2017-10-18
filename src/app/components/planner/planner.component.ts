@@ -546,8 +546,8 @@ export class PlannerComponent implements OnInit, OnDestroy {
 			title: eventObj.title,
 			desc: eventObj.desc,
 			classId: classId,
-			start: eventObj.start,
-			end: eventObj.end
+			start: eventObj.start.toDate(),
+			end: eventObj.end.toDate()
 		};
 	}
 
