@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = '';
+	announcement = 'The official <strong>MyMICDS Alexa skill has just been released!</strong> You can now use any Alexa-enabled device to get the lunch or day rotation. <a class="alert-link" href="https://skills-store.amazon.com/deeplink/dp/B076DWGCZY?deviceType=app&share&refSuffix=ss_copy">Click here for more info!</a>';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
