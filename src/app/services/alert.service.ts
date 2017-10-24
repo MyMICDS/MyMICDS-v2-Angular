@@ -34,9 +34,7 @@ export class AlertService {
 		if (type === 'danger') {
 			alert.content += ' Try refreshing the page to fix any problems.';
 		}
-		if (type === 'canvasdanger'){
-			alert.content += ' Try refreshing the page to fix any problems. Make sure your Canvas URL has been added to settings.';
-		}
+		
 
 		this.alertEmitSource.next(alert);
 	}
