@@ -273,7 +273,7 @@
 					.sidebar-buttons {
 						display: block;
 						margin: 1rem auto 0.5rem;
-						text-align: center;	
+						text-align: center;
 
 						.sidebar-coming-up {
 							margin-bottom: 0.5rem;
@@ -433,6 +433,8 @@
 		}
 	}
 }
+
+/* Media queries */
 @media screen and (max-width:1475px) {
 	.planner-interface {
 		.planner-container {
@@ -450,6 +452,7 @@
 		}
 	}
 }
+
 @media screen and (min-width:544px) {
 	.planner-interface {
 		// Add padding instead of margin so clicking the bottom will also deselect the day
