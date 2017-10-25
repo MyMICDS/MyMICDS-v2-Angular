@@ -82,8 +82,9 @@
 				<div class="sidebar-header" [style.text-align]="selectionDate === null ? 'left' : 'inherit'">
 					<h1>
 						<span *ngIf="selectionDate === null">Coming Up</span>
-						<span *ngIf="selectionDate !== null">{{ selectionDate.toDate() | date:'MMMM d, y' }}</span>
 					</h1>
+						<span *ngIf="selectionDate !== null" class="date-display">{{ selectionDate.toDate() | date:'MMMM d, y' }}</span>
+					
 					<h3 *ngIf="selectionDate !== null && days[selectionDate.year()] && days[selectionDate.year()][selectionDate.month() + 1] && days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()]">
 						Day {{ days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()] }}
 					</h3>
