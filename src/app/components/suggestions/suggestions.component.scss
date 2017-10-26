@@ -1,10 +1,40 @@
-.container {
-	padding: 10em 15em;
-	color: white;
+@import '../../../styles/settings';
+
+.suggestions-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 	.suggestions-form {
-		padding: 2em;
-		legend {
-			text-align: center;
+		width: 35rem;
+		padding: 1rem 2.5rem;
+		color: $sophisticated-white;
+
+		h1 {
+			margin-bottom: 2.5rem;
+			font-weight: 300;
+		}
+	}
+
+	.suggestions-response {
+		width: 35rem;
+		padding: 1rem;
+		text-align: center;
+		color: $sophisticated-white;
+
+		h1 {
+			font-size: 3rem;
+			font-weight: 300;
+		}
+
+		.fa {
+			display: block;
+			margin-bottom: 1rem;
 		}
 	}
 }

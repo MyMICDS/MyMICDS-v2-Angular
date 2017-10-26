@@ -1,20 +1,37 @@
-<div class="container">
-	<div mymicds-blur>
-		<form class="suggestions-form" (ngSubmit)="submitSuggestions()" [formGroup]="suggestionsForm">
-			<legend>Suggestions</legend>
+<div class="suggestions-container">
+	<!-- Regular Form -->
+	<div mymicds-blur *ngIf="!submitted" class="suggestions-form">
+		<h1>Suggestions</h1>
+		<form [formGroup]="suggestionsForm" (ngSubmit)="submitSuggestions()" novalidate>
 			<div class="form-group">
 				<label for="type-input">Type</label>
 				<select formControlName="type" class="form-control" id="type-input">
 					<option value="suggestion">Suggestion</option>
 					<option value="bug">Bug</option>
-					<option value="quote">Quote</option>
 					<option value="other">Other</option>
 				</select>
 			</div>
 			<div class="form-group">
-				<textarea formControlName="submission" class="form-control" row="4" placeholder="Please describe your inquiry here."></textarea>
+				<textarea formControlName="submission" class="form-control" row="4" placeholder="Describe your inquiry here."></textarea>
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button class="btn btn-success btn-lg btn-block" [disabled]="!suggestionsForm.valid">Submit</button>
 		</form>
+	</div>
+	<!-- Loading Screen -->
+	<div mymicds-blur *ngIf="submitted && suggestionResponse === null" class="suggestions-response">
+		<h1>Submitting Suggestion...</h1>
+	</div>
+	<!-- Success Response -->
+	<div mymicds-blur *ngIf="submitted && suggestionResponse === true" class="suggestions-response">
+		<h1>Success!</h1>
+		<p>The MyMICDS Development Team is working on it. We'll try to send you a follow-up email.</p>
+		<i class="fa fa-check fa-5x"></i>
+		<p>Thanks for helping improve the site!</p>
+	</div>
+	<!-- Failure Response -->
+	<div mymicds-blur *ngIf="submitted && typeOf(suggestionResponse) === 'string'" class="suggestions-response">
+		<h1>{{suggestionResponse}}</h1>
+		<i class="fa fa-times fa-5x"></i>
+		<p><a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error keeps happening.</p>
 	</div>
 </div>

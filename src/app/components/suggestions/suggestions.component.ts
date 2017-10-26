@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { typeOf } from '../../common/utils';
+
 import { AlertService } from '../../services/alert.service';
 import { SuggestionsService } from '../../services/suggestions.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
 	selector: 'mymicds-suggestions',
@@ -9,6 +11,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 	styleUrls: ['./suggestions.component.scss']
 })
 export class SuggestionsComponent implements OnInit {
+
+	// We need to include this to use in HTML
+	typeOf = typeOf;
+
+	submitted = false;
+	suggestionResponse: any = null;
+	user: string;
 
 	suggestionsForm: FormGroup;
 
@@ -22,14 +31,20 @@ export class SuggestionsComponent implements OnInit {
 	}
 
 	submitSuggestions() {
+		this.submitted = true;
 		this.suggestionsService.sendSuggestions(this.suggestionsForm.value).subscribe(
 			val => {
-				this.alertService.addAlert('success', 'Success!', 'Suggestion submitted. MyMICDS devs will be working on it.');
+				this.suggestionResponse = true;
 			},
 			err => {
-				this.alertService.addAlert('danger', 'Submittion failed.', 'Check if you are logged in, or you can reach us via support@mymicds.net');
+				this.suggestionResponse = err;
 			}
 		);
+	}
+
+	resubmitForm() {
+		this.submitted = false;
+		this.suggestionResponse = null;
 	}
 
 }
