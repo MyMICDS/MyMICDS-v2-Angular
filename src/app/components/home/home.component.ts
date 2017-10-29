@@ -8,6 +8,7 @@ import { Options } from '../modules/module-options';
 import { AlertService } from '../../services/alert.service';
 import { ModulesService, Module } from '../../services/modules.service';
 import { ScheduleService } from '../../services/schedule.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
 	selector: 'mymicds-home',
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = 'The official <strong>MyMICDS Alexa skill has just been released!</strong> You can now use any Alexa-enabled device to get the lunch or day rotation. <a class="alert-link" href="https://skills-store.amazon.com/deeplink/dp/B076DWGCZY?deviceType=app&share&refSuffix=ss_copy">Click here for more info!</a>';
+	announcement = '';
+	// announcement = 'The official <strong>MyMICDS Alexa skill has just been released!</strong> You can now use any Alexa-enabled device to get the lunch or day rotation. <a class="alert-link" href="https://skills-store.amazon.com/deeplink/dp/B076DWGCZY?deviceType=app&share&refSuffix=ss_copy">Click here for more info!</a>';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
@@ -38,6 +40,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	// Different module names and module config
 	moduleNames = Object.keys(config);
 	modules = config;
+
+	userSubscription: any;
 
 	// Gridster component
 	@ViewChild('gridster') gridster: GridsterComponent;
@@ -78,7 +82,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		private route: ActivatedRoute,
 		private alertService: AlertService,
 		private modulesService: ModulesService,
-		private scheduleService: ScheduleService
+		private scheduleService: ScheduleService,
+		private userService: UserService
 	) { }
 
 	ngOnInit() {
@@ -98,6 +103,32 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 				this.gridsterOptions.shrink = !this.editMode;
 			}
 		);
+
+		// Check if user has set Portal and Canvas URL
+		this.userSubscription = this.userService.user$.subscribe(
+			user => {
+				if (!user) {
+					return;
+				}
+				console.log('user', user);
+
+				const lacks = [];
+
+				if (!user.portalURL) {
+					lacks.push('Portal');
+				}
+				if (!user.canvasURL) {
+					lacks.push('Canvas');
+				}
+
+				if (lacks.length <= 0 || this.announcement) {
+					return;
+				}
+
+				// tslint:disable-next-line:max-line-length
+				this.announcement = `Hey there! <strong>It looks like you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
+			}
+		);
 	}
 
 	ngAfterViewInit() {
@@ -111,6 +142,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	ngOnDestroy() {
 		this.moduleLayoutSubscription.unsubscribe();
 		this.routeDataSubscription.unsubscribe();
+		this.userSubscription.unsubscribe();
 	}
 
 	dismissAlert() {

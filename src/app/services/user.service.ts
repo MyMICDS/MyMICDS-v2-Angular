@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 @Injectable()
 export class UserService {
 
-	user$ = new BehaviorSubject<UserInfo>(undefined);
+	user$ = new BehaviorSubject<UserInfoResponse>(undefined);
 
 	constructor(private http: Http, private authHttp: AuthHttp, private authService: AuthService) {
 		this.authService.auth$
@@ -95,6 +95,18 @@ export class UserService {
 			})
 			.catch(handleError);
 	}
+}
+
+export interface UserInfoResponse {
+	user: string;
+	password: string;
+	firstName: string;
+	lastName: string;
+	gradYear: number;
+	grade: number;
+	school: number;
+	canvasURL: string;
+	portalURL: string;
 }
 
 export interface UserInfo {
