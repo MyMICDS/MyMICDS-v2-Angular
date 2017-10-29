@@ -92,13 +92,25 @@
 		overflow-x: scroll;
 
 		.lunch-day {
-			//width: calc(20% - 0.5rem);
+			position: relative;
 			flex: 0 0 100%;
 			padding: 0.5rem;
 			color: $sophisticated-white;
 
 			&.today {
-				border: 0.25rem solid #A5001E;
+				border: 0.25rem solid $sophisticated-white;
+
+				&:after {
+					content: '';
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
+					pointer-events: none;
+
+					background: rgba($sophisticated-white, 0.2);
+				}
 			}
 
 			.lunch-date {
