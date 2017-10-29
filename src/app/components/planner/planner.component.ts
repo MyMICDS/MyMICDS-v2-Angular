@@ -228,8 +228,10 @@ export class PlannerComponent implements OnInit, OnDestroy {
 					this.canvasLoading = false;
 					if (data.hasURL) {
 						this.canvasEvents = data.events;
-						this.updatePlannerEvents();
+					} else {
+						this.canvasEvents = [];
 					}
+					this.updatePlannerEvents();
 				},
 				error => {
 					this.updateSubscription.unsubscribe();
