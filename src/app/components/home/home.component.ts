@@ -6,6 +6,7 @@ import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
 import { AlertService } from '../../services/alert.service';
+import { AuthService } from '../../services/auth.service';
 import { ModulesService, Module } from '../../services/modules.service';
 import { ScheduleService } from '../../services/schedule.service';
 import { UserService } from '../../services/user.service';
@@ -80,6 +81,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	constructor(
 		private route: ActivatedRoute,
 		private alertService: AlertService,
+		private authService: AuthService,
 		private modulesService: ModulesService,
 		private scheduleService: ScheduleService,
 		private userService: UserService

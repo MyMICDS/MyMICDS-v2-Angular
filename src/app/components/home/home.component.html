@@ -1,4 +1,4 @@
-<div  *ngIf="!editMode" class="manage-menu-container">
+<div *ngIf="!editMode" class="manage-menu-container">
 	<div class="manage-menu">
 		<div class="manage-buttons">
 			<a mymicds-blur class="edit" routerLink="/home/edit">
@@ -12,10 +12,10 @@
 <div *ngIf="editMode" class="manage-menu">
 	<div class="manage-buttons">
 		<button class="btn btn-success edit-button" routerLink="/home">Done</button>
-		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!detectChanges() || savingModuleLayout">
+		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!authService.authSnapshot || !detectChanges() || savingModuleLayout">
 			{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
 		</button>
-		<button class="btn btn-danger" (click)="saveModules([])">Reset Layout</button>
+		<button class="btn btn-danger" (click)="saveModules([])" [disabled]="!authService.authSnapshot">Reset Layout</button>
 	</div>
 	<p mymicds-blur--dark class="manage-help">
 		<i class="fa fa-info-circle"></i>
@@ -31,7 +31,14 @@
 		<strong>Announcement</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
-	<div *ngIf="editMode || moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth" class="grid-container">
+
+	<!-- If in edit mode and user isn't logged in -->
+	<div mymicds-blur *ngIf="editMode && !authService.authSnapshot" class="account-required">
+		<p>Editing the homepage layout requires a MyMICDS Account!</p>
+		<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
+	</div>
+
+	<div *ngIf="(editMode && authService.authSnapshot) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth)" class="grid-container">
 		<gridster #gridster [options]="gridsterOptions">
 			<gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
@@ -81,7 +88,7 @@
 			[moduleId]="module._id"></mymicds-module-container>
 	</div>
 </div>
-<div *ngIf="editMode" class="modules-menu" mymicds-blur--dark>
+<div *ngIf="editMode && authService.authSnapshot" class="modules-menu" mymicds-blur--dark>
 	<p>Drag a module onto the grid to add</p>
 	<div gridsterItemPrototype
 		*ngFor="let name of moduleNames"

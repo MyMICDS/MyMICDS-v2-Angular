@@ -59,6 +59,14 @@
 		animation: deleteAlert 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 	}
 
+	.account-required {
+		margin-bottom: 1rem;
+		padding: 1rem;
+		text-align: center;
+		color: $sophisticated-white;
+		font-size: 1.5rem;
+	}
+
 	.grid-container {
 		margin: -($blur-margin / 2);
 
