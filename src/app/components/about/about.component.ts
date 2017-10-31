@@ -58,7 +58,7 @@ export class AboutComponent implements OnInit {
 			firstName: 'Sebastian',
 			lastName : 'Neumann',
 			gradYear : 2021,
-			title    : 'Junior Developer',
+			title    : 'Front-End Developer',
 			image    : 'assets/developers/sebastians-ugly-face.jpg'
 		},
 		{
