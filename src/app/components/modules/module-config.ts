@@ -5,6 +5,7 @@ import { OptionsConfig } from './module-options';
 // import { CountdownComponent } from './countdown/countdown.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
 // import { StickynotesComponent } from './stickynotes/stickynotes.component';
 import { WeatherComponent } from './weather/weather.component';
@@ -15,6 +16,7 @@ export const moduleComponents: any[] = [
 	// CountdownComponent,
 	ProgressComponent,
 	ScheduleComponent,
+	SimplifiedScheduleComponent,
 	SnowdayComponent,
 	// StickynotesComponent,
 	WeatherComponent
@@ -70,6 +72,13 @@ export const config: Config = {
 		displayName: 'Schedule',
 		icon: 'fa-calendar',
 		component: ScheduleComponent,
+		defaultHeight: 2,
+		defaultWidth: 2
+	},
+	simplifiedSchedule: {
+		displayName: 'Simplified Schedule',
+		icon: 'fa-calendar',
+		component: SimplifiedScheduleComponent,
 		defaultHeight: 1,
 		defaultWidth: 2
 	},
@@ -91,7 +100,7 @@ export const config: Config = {
 		displayName: 'Weather',
 		icon: 'fa-cloud',
 		component: WeatherComponent,
-		defaultHeight: 1,
+		defaultHeight: 2,
 		defaultWidth: 2,
 		options: {
 			metric: {
