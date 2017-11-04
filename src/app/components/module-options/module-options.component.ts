@@ -19,7 +19,7 @@ export class ModuleOptionsComponent {
 			return;
 		}
 		this._type = name;
-		this.optionsConfig = config[name].options;
+		this.optionsConfig = config[name].options || {};
 		this.optionKeys = Object.keys(this.optionsConfig);
 
 		// Fall back to default options if none are provided
