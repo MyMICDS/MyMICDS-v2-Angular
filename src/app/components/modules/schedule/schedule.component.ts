@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
@@ -19,6 +19,12 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
 	// moduleWidth: number;
 	// moduleHeight: number;
+
+	@Input()
+	set fixedHeight(fixed: boolean) {
+		this._fixedHeight = fixed;
+	}
+	_fixedHeight: boolean;
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 

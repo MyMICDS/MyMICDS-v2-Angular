@@ -7,6 +7,18 @@
 	display: flex;
 	flex-direction: column;
 
+	&.fixed {
+		.table-container .table {
+			display: flex;
+			flex-direction: column;
+
+			tbody {
+				display: block;
+				overflow: auto;
+			}
+		}
+	}
+
 	.day-navigation {
 		flex-grow: 0;
 		flex-shrink: 1;
@@ -74,12 +86,12 @@
 		.table {
 			margin: 0;
 
-			display: flex;
-			flex-direction: column;
+			// display: flex;
+			// flex-direction: column;
 
 			tbody {
-				display: block;
-				overflow: auto;
+				// display: block;
+				// overflow: auto;
 			}
 
 			tr {
