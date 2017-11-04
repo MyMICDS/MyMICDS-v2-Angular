@@ -11,7 +11,7 @@
 
 <div *ngIf="editMode" class="manage-menu">
 	<div class="manage-buttons">
-		<button class="btn btn-success edit-button" routerLink="/home">Done</button>
+		<button class="btn btn-success edit-button" (click)="exitEditMode()">Done</button>
 		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!authService.authSnapshot || !detectChanges() || savingModuleLayout">
 			{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
 		</button>

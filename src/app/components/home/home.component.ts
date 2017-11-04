@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
@@ -79,6 +79,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	};
 
 	constructor(
+		private router: Router,
 		private route: ActivatedRoute,
 		private alertService: AlertService,
 		public authService: AuthService,
@@ -157,6 +158,16 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		}, animationTime - 5);
 	}
 
+	exitEditMode() {
+		if (this.detectChanges()) {
+			if (!confirm('It looks like you have some unsaved changes. Are you sure you want to quit without saving your layout?')) {
+				return;
+			}
+		}
+		this.router.navigate(['/home']);
+	}
+
+	// In edit mode, detect if layout has changed from saved layout in back-end
 	detectChanges() {
 		return JSON.stringify(this.ogModuleLayout) !== JSON.stringify(this.moduleLayout);
 	}
