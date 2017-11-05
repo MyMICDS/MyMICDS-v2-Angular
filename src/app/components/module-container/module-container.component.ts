@@ -52,6 +52,13 @@ export class ModuleContainerComponent {
 		}
 	}
 
+	@Input()
+	set fixedHeight(fixed: boolean) {
+		if (this.currentModuleRef) {
+			Object.assign(this.currentModuleRef.instance, { fixedHeight: fixed });
+		}
+	}
+
 	constructor(private resolver: ComponentFactoryResolver) { }
 
 }

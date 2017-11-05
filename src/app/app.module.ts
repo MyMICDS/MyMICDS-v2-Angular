@@ -25,6 +25,7 @@ import { moduleComponents } from './components/modules/module-config';
 import { CountdownComponent } from './components/modules/countdown/countdown.component';
 import { ProgressComponent } from './components/modules/progress/progress.component';
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
+import { SimplifiedScheduleComponent } from './components/modules/simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './components/modules/snowday/snowday.component';
 import { WeatherComponent } from './components/modules/weather/weather.component';
 import { StickynotesComponent } from './components/modules/stickynotes/stickynotes.component';
@@ -103,7 +104,9 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		CountdownComponent,
 		ProgressComponent,
 		ScheduleComponent,
+		SimplifiedScheduleComponent,
 		SnowdayComponent,
+		StickynotesComponent,
 		WeatherComponent,
 		BulletinArchivesComponent,
 		ConfirmComponent,
@@ -146,8 +149,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe,
-		StickynotesComponent
+		WeatherIconPipe
 	],
 	imports: [
 		BrowserModule,

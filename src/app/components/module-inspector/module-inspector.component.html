@@ -17,14 +17,27 @@
 		</div>
 		<div class="inspector-option">
 			<h6>Module Options</h6>
+			<div class="form-check">
+				<label class="form-check-label">
+					<input type="checkbox" class="form-check-input" [(ngModel)]="fixedHeight">
+					Fixed Height
+				</label>
+			</div>
 			<mymicds-module-options [type]="selectedModuleType" [(options)]="moduleOptions" (optionsChange)="updateOptions($event)"></mymicds-module-options>
 		</div>
 	</div>
 </div>
 
-<div class="module-container-container" [style.width]="moduleWidth + 'px'" [style.height]="moduleHeight + 'px'">
+<div *ngIf="fixedHeight" class="fixed-height module-container-container" [style.width]="moduleWidth + 'px'" [style.height]="moduleHeight + 'px'">
 	<div class="resize-icon">
 		<i class="fa fa-expand fa-flip-horizontal"></i>
 	</div>
-	<mymicds-module-container [type]="selectedModuleType" [inputs]="moduleOptions"></mymicds-module-container>
+	<mymicds-module-container [type]="selectedModuleType" [inputs]="moduleOptions" [fixedHeight]="true"></mymicds-module-container>
+</div>
+
+<div *ngIf="!fixedHeight" class="module-container-container" [style.width]="moduleWidth + 'px'">
+	<div class="resize-icon">
+		<i class="fa fa-expand fa-flip-horizontal"></i>
+	</div>
+	<mymicds-module-container [type]="selectedModuleType" [inputs]="moduleOptions" [fixedHeight]="false"></mymicds-module-container>
 </div>

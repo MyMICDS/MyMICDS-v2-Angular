@@ -1,0 +1,35 @@
+<div #moduleContainer class="module-container">
+	<h1 class="display-4">
+		<ng-container *ngIf="schedule?.day">
+			Day {{ schedule.day }}
+		</ng-container>
+		<ng-container *ngIf="schedule?.special">
+			Special Schedule
+		</ng-container>
+		<ng-container *ngIf="!schedule?.day">
+			{{ scheduleDate.toDate() | date:'MMMM d' }}
+		</ng-container>
+	</h1>
+	<!-- Loading -->
+	<div *ngIf="!schedule">
+		<p>Loading schedule...</p>
+	</div>
+	<!-- If there are no classes -->
+	<div *ngIf="schedule?.classes?.length === 0">
+		<p>There are no classes!</p>
+	</div>
+	<div class="collapsed-schedule-container">
+		<h3 *ngIf="schedule?.classes?.length > 0">{{ showNCurrent === 1 ? 'Current Class' : 'Upcoming Classes' }}</h3>
+		<div #collapsedSchedule
+			class="collapsed-schedule"
+			[style.flex-direction]="moduleHeight > moduleWidth ? 'column' : 'row'"
+			[style.height]="moduleHeight > moduleWidth ? '100%' : ''">
+			<ng-container *ngFor="let block of schedule?.classes; let i = index">
+				<div [hidden]="i > showNCurrent || current.isAfter(block.end)" class="collapsed-class">
+					<h3>{{ block.class.name }}</h3>
+					<div>{{ block.start | date:'shortTime' }} - {{ block.end | date:'shortTime' }}</div>
+				</div>
+			</ng-container>
+		</div>
+	</div>
+</div>
