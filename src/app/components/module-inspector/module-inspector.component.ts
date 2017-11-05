@@ -45,6 +45,15 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 	}
 	private _moduleHeight = 500;
 
+	get fixedHeight() {
+		return this._fixedHeight;
+	}
+	set fixedHeight(value: boolean) {
+		this._fixedHeight = value;
+		this.updateURL();
+	}
+	private _fixedHeight = true;
+
 	private updateURLTimeout: NodeJS.Timer;
 
 	moduleInteractable: Interact.Interactable;
@@ -64,6 +73,9 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		if (params.height) {
 			this.moduleHeight = params.height;
 		}
+		if (params.fixedHeight) {
+			this.fixedHeight = params.fixedHeight;
+		}
 
 		this.moduleInteractable = interact('.module-container-container')
 			.resizable({
@@ -78,7 +90,10 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 				this.moduleHeight = event.rect.height;
 
 				event.target.style.width = `${event.rect.width}px`;
-				event.target.style.height = `${event.rect.height}px`;
+
+				if (event.target.classList.contains('fixed-height')) {
+					event.target.style.height = `${event.rect.height}px`;
+				}
 			});
 	}
 
@@ -102,7 +117,8 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 				queryParams: {
 					type: this.selectedModuleType,
 					width: this.moduleWidth,
-					height: this.moduleHeight
+					height: this.moduleHeight,
+					fixedHeight: this.fixedHeight
 				}
 			});
 		}, 500);
