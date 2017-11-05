@@ -17,9 +17,6 @@ import '../../../common/rxjs-operators';
 })
 export class ScheduleComponent implements OnInit, OnDestroy {
 
-	// moduleWidth: number;
-	// moduleHeight: number;
-
 	@Input()
 	set fixedHeight(fixed: boolean) {
 		this._fixedHeight = fixed;
@@ -59,13 +56,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 			this.current = moment();
 		}, 1000);
 
-		const onModuleResize = () => {
-			// this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
-			// this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
-			this.resizeTable();
-		};
-		onModuleResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, () => onModuleResize());
+		this.resizeTable();
+		new ResizeSensor(this.moduleContainer.nativeElement, () => this.resizeTable());
 
 		this.changeSchedule$
 			.debounceTime(300)
