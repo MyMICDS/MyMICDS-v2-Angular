@@ -20,10 +20,11 @@ export class AuthService {
 		this.updateAuthState();
 	}
 
-	login(user: string, password: string, remember: any) {
+	login(user: string, password: string, comment: string, remember: any) {
 		let body = JSON.stringify({
 			user,
 			password,
+			comment,
 			remember: !!remember
 		});
 		let headers = xhrHeaders();
