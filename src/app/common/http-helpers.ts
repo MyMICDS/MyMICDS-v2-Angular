@@ -23,8 +23,21 @@ export function handleError(error: any) {
 	}
 
 	// Check if server-side error
-	if (typeof error.error === 'string') {
-		return Observable.throw(error.message);
+	if (typeof error._body === 'string') {
+		try {
+			const parsedBody = JSON.parse(error._body);
+			if (typeof parsedBody.error === 'string') {
+				let message = parsedBody.error;
+
+				if (error.status === 401) {
+					message += ' <strong>Please log out and log back in to fix any problems.</strong>';
+				}
+
+				return Observable.throw(message);
+			}
+		} catch (err) {
+			; // :^)
+		}
 	}
 
 	// Check if client-side error
