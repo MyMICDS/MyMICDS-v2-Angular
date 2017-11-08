@@ -9,6 +9,7 @@
 
 	&.fixed-height {
 		.table-container .table {
+			position: absolute;
 			display: flex;
 			flex-direction: column;
 
