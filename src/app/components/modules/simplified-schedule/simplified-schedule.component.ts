@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import moment from 'moment';
-// import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { AlertService } from '../../../services/alert.service';
@@ -19,10 +19,14 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 		@ViewChild('moduleContainer') moduleContainer: ElementRef;
 
 		updateCurrentInterval: NodeJS.Timer;
-		@ViewChild('collapsedSchedule') collapsedSchedule: ElementRef;
-		current = moment();
-		// How many classes to display when schedule is collapsed
-		showNCurrent = 1;
+		@ViewChild('scheduleQueue') scheduleQueue: ElementRef;
+		@ViewChildren('displayBlock') displayBlocks: QueryList<ElementRef>;
+		current = moment().hour(8).minute(0);
+
+		// Which class to start displaying
+		startIndex = 0;
+		// How many blocks to display
+		showNBlocks = 0;
 
 		private scheduleSubscription: any;
 		schedule: any = null;
@@ -31,8 +35,8 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 		constructor(private alertService: AlertService, private scheduleService: ScheduleService) { }
 
 		ngOnInit() {
-			// ElementQueries.listen();
-			// ElementQueries.init();
+			ElementQueries.listen();
+			ElementQueries.init();
 
 			this.scheduleSubscription = this.scheduleService.get({
 				year : this.scheduleDate.year(),
@@ -48,14 +52,14 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 			);
 
 			this.updateCurrentInterval = setInterval(() => {
-				this.current = moment();
-				this.calcCollapsedClasses();
+				// this.current = moment();
+				this.calcBlockDisplay();
 			}, 1000);
 
 			const onModuleResize = () => {
 				this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
 				this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
-				this.calcCollapsedClasses();
+				this.calcBlockDisplay();
 			};
 			onModuleResize();
 			new ResizeSensor(this.moduleContainer.nativeElement, () => onModuleResize());
@@ -66,43 +70,59 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 			this.scheduleSubscription.unsubscribe();
 		}
 
-		// Determine how many classes to show in collapsed mode
-		calcCollapsedClasses() {
-			this.showNCurrent = 1;
+		// Determine how many blocks to show in the queue (depending on how much physical space we have to work with)
+		calcBlockDisplay() {
+			this.startIndex = 0;
+			this.showNBlocks = 0;
 
-			const horizontal = (this.moduleWidth >= this.moduleHeight);
-
-			let collapsedTotal;
-			if (horizontal) {
-				collapsedTotal = this.collapsedSchedule.nativeElement.clientWidth;
-			} else {
-				collapsedTotal = this.collapsedSchedule.nativeElement.clientHeight;
+			// If blocks aren't rendered in the DOM, don't worry about it fam
+			if (!this.displayBlocks) {
+				return;
 			}
 
-			// Get width for finding hypothetical height of classes
-			const collapsedMaxWidth = this.collapsedSchedule.nativeElement.clientWidth;
-			const classes = this.collapsedSchedule.nativeElement.getElementsByClassName('collapsed-class');
+			const isHorizontal = (this.moduleWidth >= this.moduleHeight);
+			console.log('is hor', isHorizontal);
 
-			this.showNCurrent = 1;
-			let currentWidth = 0;
-			for (let i = 0; i < classes.length; i++) {
-				const collapsedClass = classes[i];
+			// Find maximum amount of space blocks can take up
+			let collapsedTotal;
+			if (isHorizontal) {
+				collapsedTotal = this.scheduleQueue.nativeElement.clientWidth;
+			} else {
+				collapsedTotal = this.scheduleQueue.nativeElement.clientHeight;
+			}
 
-				const dimensions = this.getActualDimensions(collapsedClass, collapsedMaxWidth);
-				const classWidth = horizontal ? dimensions.width : dimensions.height;
+			// Width that each block cannot surpass
+			const maxWidth = this.scheduleQueue.nativeElement.clientWidth;
 
-				if (currentWidth + classWidth <= collapsedTotal) {
-					this.showNCurrent = i + 1;
-					currentWidth += classWidth;
+			// Keep track how much space classes are taking up
+			let currentBlocksWidth = 0;
+
+			const blocks = this.displayBlocks.toArray();
+
+			for (let i = 0; i < blocks.length; i++) {
+				const block = blocks[i];
+
+				// Check if class has already passed
+				if (this.current.isAfter(this.schedule.classes[i].end)) {
+					this.startIndex = i + 1;
+					continue;
+				}
+
+				// Get physical dimensions of the block
+				const dimensions = this.getActualDimensions(block.nativeElement, maxWidth);
+				const classWidth = isHorizontal ? dimensions.width : dimensions.height;
+
+				if (currentBlocksWidth + classWidth <= collapsedTotal) {
+					// Show at least one block
+					this.showNBlocks++;
+					currentBlocksWidth += classWidth;
 				} else {
 					break;
 				}
 			}
-
-			// At least show one class
-			this.showNCurrent = Math.max(this.showNCurrent, 1);
 		}
 
+		// Get pixel dimensions of an HTML element if it wasn't constrained at all
 		private getActualDimensions(elem: HTMLElement, maxWidth?: number) {
 			const clone: HTMLElement = elem.cloneNode(true) as HTMLElement;
 

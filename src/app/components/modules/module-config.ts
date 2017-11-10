@@ -75,13 +75,13 @@ export const config: Config = {
 		defaultHeight: 2,
 		defaultWidth: 2
 	},
-	// simplifiedSchedule: {
-	// 	displayName: 'Simplified Schedule',
-	// 	icon: 'fa-calendar',
-	// 	component: SimplifiedScheduleComponent,
-	// 	defaultHeight: 1,
-	// 	defaultWidth: 2
-	// },
+	simplifiedSchedule: {
+		displayName: 'Simplified Schedule',
+		icon: 'fa-calendar',
+		component: SimplifiedScheduleComponent,
+		defaultHeight: 1,
+		defaultWidth: 2
+	},
 	snowday: {
 		displayName: 'Snowday',
 		icon: 'fa-snowflake-o',
