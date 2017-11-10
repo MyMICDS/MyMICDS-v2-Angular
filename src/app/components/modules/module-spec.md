@@ -103,29 +103,29 @@ const modulesConfig = {
 
 Note that if a module does not have any options, **no entry is needed in the `modulesConfig` object**. The module id should still be in the `modulesList` array.
 
-#### Module Config Properties
+## Module Config Properties
 
-##### Key of Config
+### Key of Config
 
 Id of the module. No spaces or dashes. Should be camel case.
 
-#### `displayName`: string
+### `displayName`: string
 
 Name of the module (use spaces, no dashes or camel case)
 
-#### `icon`: string
+### `icon`: string
 
 Font Awesome icon name used to represent the module
 
-#### `defaultHeight`: string
+### `defaultHeight`: string
 
 Initial grid height when module created in the drag-and-drop
 
-#### `defaultWidth`: string
+### `defaultWidth`: string
 
 Initial grid width when module created in the drag-and-drop interface
 
-#### `options`?: { [option: string]: { label: string, type: string, value: 'boolean' | 'number' | 'string' }}
+### `options`?: { [option: string]: { label: string, type: string, value: 'boolean' | 'number' | 'string' }}
 
 Optional. This is where a module's options are declared. **Each key must correlate to a component instance variable with the `@Input` decorator! Make sure the default value in the decorator matches the default instance variable value.** These values are used to generate a form to configure the module's options. **Make sure the option types are also documented in the back-end!**
 
