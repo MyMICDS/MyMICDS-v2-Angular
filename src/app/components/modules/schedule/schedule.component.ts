@@ -18,10 +18,13 @@ import '../../../common/rxjs-operators';
 export class ScheduleComponent implements OnInit, OnDestroy {
 
 	@Input()
+	get fixedHeight() {
+		return this._fixedHeight;
+	}
 	set fixedHeight(fixed: boolean) {
 		this._fixedHeight = fixed;
 	}
-	_fixedHeight: boolean;
+	private _fixedHeight: boolean;
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 
