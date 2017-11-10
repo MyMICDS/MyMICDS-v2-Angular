@@ -15,13 +15,14 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 
 		moduleWidth: number;
 		moduleHeight: number;
+		isHorizontal = true;
 
 		@ViewChild('moduleContainer') moduleContainer: ElementRef;
 
 		updateCurrentInterval: NodeJS.Timer;
 		@ViewChild('scheduleQueue') scheduleQueue: ElementRef;
 		@ViewChildren('displayBlock') displayBlocks: QueryList<ElementRef>;
-		current = moment().hour(8).minute(0);
+		current = moment();
 
 		// Which class to start displaying
 		startIndex = 0;
@@ -52,7 +53,7 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 			);
 
 			this.updateCurrentInterval = setInterval(() => {
-				// this.current = moment();
+				this.current = moment();
 				this.calcBlockDisplay();
 			}, 1000);
 
@@ -74,18 +75,16 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 		calcBlockDisplay() {
 			this.startIndex = 0;
 			this.showNBlocks = 0;
+			this.isHorizontal = (this.moduleWidth >= this.moduleHeight);
 
 			// If blocks aren't rendered in the DOM, don't worry about it fam
 			if (!this.displayBlocks) {
 				return;
 			}
 
-			const isHorizontal = (this.moduleWidth >= this.moduleHeight);
-			console.log('is hor', isHorizontal);
-
 			// Find maximum amount of space blocks can take up
 			let collapsedTotal;
-			if (isHorizontal) {
+			if (this.isHorizontal) {
 				collapsedTotal = this.scheduleQueue.nativeElement.clientWidth;
 			} else {
 				collapsedTotal = this.scheduleQueue.nativeElement.clientHeight;
@@ -110,7 +109,7 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 
 				// Get physical dimensions of the block
 				const dimensions = this.getActualDimensions(block.nativeElement, maxWidth);
-				const classWidth = isHorizontal ? dimensions.width : dimensions.height;
+				const classWidth = this.isHorizontal ? dimensions.width : dimensions.height;
 
 				if (currentBlocksWidth + classWidth <= collapsedTotal) {
 					// Show at least one block
@@ -143,10 +142,12 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 				height: clone.offsetHeight
 			};
 
-			// Account for margins
+			// Account for margin and padding
 			const computedStyles = window.getComputedStyle(elem, null);
-			dimensions.width += parseInt(computedStyles.marginLeft, 10) + parseInt(computedStyles.marginRight, 10);
-			dimensions.height += parseInt(computedStyles.marginTop, 10) + parseInt(computedStyles.marginBottom, 10);
+			dimensions.width += parseFloat(computedStyles.marginLeft) + parseFloat(computedStyles.marginRight)
+				+ parseFloat(computedStyles.paddingLeft) + parseFloat(computedStyles.paddingRight);
+			dimensions.height += parseFloat(computedStyles.marginTop) + parseFloat(computedStyles.marginBottom)
+				+ parseFloat(computedStyles.paddingTop) + parseFloat(computedStyles.paddingBottom);
 
 			clone.remove();
 			return dimensions;

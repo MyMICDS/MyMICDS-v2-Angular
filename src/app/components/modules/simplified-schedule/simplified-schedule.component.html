@@ -10,7 +10,7 @@
 			{{ scheduleDate.toDate() | date:'MMMM d' }}
 		</ng-container>
 	</h1>
-	<h3>Upcoming Classes {{ showNBlocks }}</h3>
+	<h3>Upcoming Classes</h3>
 	<div class="schedule-container">
 		<!-- Loading -->
 		<div *ngIf="!schedule">
@@ -27,8 +27,8 @@
 		<!-- Actual list of classes -->
 		<div #scheduleQueue
 			class="schedule"
-			[style.flex-direction]="moduleHeight > moduleWidth ? 'column' : 'row'"
-			[style.height]="moduleHeight > moduleWidth ? '100%' : ''">
+			[style.flex-direction]="isHorizontal ? 'row' : 'column'"
+			[style.height]="isHorizontal ? '' : '100%'">
 
 			<ng-container *ngFor="let block of schedule?.classes; let i = index">
 				<div #displayBlock class="block" [hidden]="startIndex > i || i >= (startIndex + showNBlocks)">

@@ -11,6 +11,10 @@
 		font-size: 3.5rem;
 	}
 
+	&[max-width~='300px'] h3 {
+		font-size: 1.5rem;
+	}
+
 	h1 {
 		font-size: 2rem;
 		font-weight: 400;
@@ -29,6 +33,8 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
+		overflow: hidden;
 
 		.schedule {
 			display: flex;
