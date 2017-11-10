@@ -10,10 +10,11 @@ The home page of MyMICDS is composed of different 'modules.' These modules can b
 
 All modules should be created in the `/src/app/components/modules` directory. Apart from standard naming of file directory/classes, there is no specific naming convention for modules.
 
-### MyMICDS Module Config
+## MyMICDS Module Config
 
 **All homepage modules should be inserted into the modules config.**
 
+### Front-End
 Here is an example module in `module-config.ts`:
 
 ```javascript
@@ -69,6 +70,7 @@ export class WeatherComponent implements OnInit, OnDestroy {
 }
 ```
 
+### Back-End
 Finally, **each module type and it's possible options must be inserted in the back-end in [`/src/libs/modules.js`](https://github.com/MyMICDS/MyMICDS-v2/blob/master/src/libs/modules.js) for server-side validation.**
 
 In the back-end in `modules.js`:
