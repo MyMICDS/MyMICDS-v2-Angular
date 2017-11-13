@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = 'For those of you who liked the collapsed version of the schedule homepage module (happened when it was small), that has now been separated into its own \'Simplified Schedule\' module. Log in and click the \'Edit\' button in the top left corner of the homepage to check it out!';
+	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
