@@ -134,6 +134,9 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 			}
 		}
 
+		// Show at least one class
+		this.showNBlocks = Math.max(this.showNBlocks, 1);
+
 		// Default number of blocks if varying height
 		if (!this.fixedHeight) {
 			this.showNBlocks = 3;

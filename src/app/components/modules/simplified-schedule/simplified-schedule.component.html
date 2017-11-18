@@ -1,4 +1,4 @@
-<div #moduleContainer class="module-container">
+<div #moduleContainer class="module-container" [class.vertical]="!isHorizontal">
 	<h1 class="display-4">
 		<ng-container *ngIf="schedule?.day">
 			Day {{ schedule.day }}
