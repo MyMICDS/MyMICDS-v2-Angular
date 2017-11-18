@@ -9,7 +9,7 @@ import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-sc
 import { SnowdayComponent } from './snowday/snowday.component';
 // import { StickynotesComponent } from './stickynotes/stickynotes.component';
 import { WeatherComponent } from './weather/weather.component';
-
+import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
 export const moduleComponents: any[] = [
@@ -19,7 +19,8 @@ export const moduleComponents: any[] = [
 	SimplifiedScheduleComponent,
 	SnowdayComponent,
 	// StickynotesComponent,
-	WeatherComponent
+	WeatherComponent,
+	SimplifiedLunchComponent
 ];
 
 export const config: Config = {
@@ -87,6 +88,13 @@ export const config: Config = {
 		icon: 'fa-snowflake-o',
 		component: SnowdayComponent,
 		defaultHeight: 1,
+		defaultWidth: 2
+	},
+	simplifiedLunch: {
+		displayName: 'Simplified Lunch',
+		icon: 'fa-cutlery',
+		component: SimplifiedLunchComponent,
+		defaultHeight: 2,
 		defaultWidth: 2
 	},
 	// stickynotes: {

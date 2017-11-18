@@ -29,6 +29,7 @@ import { SimplifiedScheduleComponent } from './components/modules/simplified-sch
 import { SnowdayComponent } from './components/modules/snowday/snowday.component';
 import { WeatherComponent } from './components/modules/weather/weather.component';
 import { StickynotesComponent } from './components/modules/stickynotes/stickynotes.component';
+import { SimplifiedLunchComponent } from './components/modules/simplified-lunch/simplified-lunch.component';
 
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
@@ -104,6 +105,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		CountdownComponent,
 		ProgressComponent,
 		ScheduleComponent,
+		SimplifiedLunchComponent,
 		SimplifiedScheduleComponent,
 		SnowdayComponent,
 		StickynotesComponent,
@@ -149,7 +151,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe
+		WeatherIconPipe,
 	],
 	imports: [
 		BrowserModule,
