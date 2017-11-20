@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import moment from 'moment';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
 import { AlertService } from '../../../services/alert.service';
 import { LunchService } from '../../../services/lunch.service';
@@ -23,7 +24,7 @@ export class SimplifiedLunchComponent implements OnInit {
   		'lowerschool'
   	];
   	school = this.schools[0];
-
+    @ViewChild('moduleContainer') containerEl: ElementRef;
 
   constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {
 
@@ -39,16 +40,13 @@ export class SimplifiedLunchComponent implements OnInit {
 
   ngOnInit() {
     this.getLunch(moment());
-
+    ElementQueries.listen();
+		ElementQueries.init();
   }
 
   getLunch(getDate) {
     // Display loading screen
     this.loading = true;
-
-    if (getDate.day() == 0 || getDate.day() == 6){
-      getDate.add(1, 'week');
-    }
 
     this.lunchService.getLunch({
       year : getDate.year(),
@@ -65,14 +63,9 @@ export class SimplifiedLunchComponent implements OnInit {
         let current = moment();
         let dates = this.getDatesFromWeek(getDate);
 
-        let i = getDate.day();
-        // if (i == 0 || i == 6){
-        //   i = 1;
-        // }
-        // else {
-        //   i = (i-1);
-        // }
-        if (i == 6){
+        let i = moment().day();
+
+        if (i === 6 || i === 0){
         i = 0;
         }
         else {
@@ -91,7 +84,7 @@ export class SimplifiedLunchComponent implements OnInit {
             lunch: dayLunch
           });
 
-          this.todaysLunch = this.lunch[0];
+          this.todaysLunch = this.lunch[0]
       },
       error => {
         this.alertService.addAlert('danger', 'Get Lunch Error!', error);
