@@ -1,19 +1,17 @@
 <div class="module-container">
-<div *ngIf="loading" class="loading-container">
-	<div mymicds-blur class="loading">
-		<h1>Fetching the Lunch Menu...</h1>
+	<div *ngIf="loading" class="loading-container">
+		<div mymicds-blur class="loading">
+			<h1>Fetching the Lunch Menu...</h1>
+		</div>
 	</div>
-</div>
 <div *ngIf="!loading" class="lunch-container container">
 
 
-	<!-- Actual Lunch --> 
+	<!-- Actual Lunch -->
 	<div class="lunch-week" routerLink='/lunch'>
 		<!-- Loop through Weekdays -->
-		<div myMicds-blur class = "lunch-day text-center" [class.today] = "">
-		<!-- <div mymicds-blur *ngFor="let day of lunch" class="lunch-day" [class.today]="day.date.today">
+		<div mymicds-blur class="lunch-day text-center" [class.today]="">
 			<!-- Within each weekday, loop through the schools -->
-      <!-- {{day | json}} -->
 			<div *ngFor="let schoolName of schools">
 				<!-- Only show school lunch if it's selected -->
 				<div *ngIf="school === schoolName">
@@ -31,18 +29,18 @@
 						<!-- Loop through menu and display lists -->
 						<div *ngIf="todaysLunch.lunch[schoolName]" class="lunch">
 							<div *ngFor="let data of todaysLunch.lunch[schoolName].categories | values" class="lunch-category">
-								<div *ngIf="data.key=='Main Entree'" class="main-entree">
+								<div *ngIf="data.key=='Main Dish'||data.key=='Main Entree'" class="main-entree">
 								<h3>{{ data.key }}</h3>
 								<ul>
 									<li *ngFor="let item of data.value" [ngClass]="lunchClassMaker(data.key)">{{ item }}</li>
 								</ul>
 								</div>
-							<div *ngIf="data.key!='Main Entree'" class="not-main-entree">
-							<h3 class = "main-entree-key">{{ data.key }}</h3>
-							<ul>
-								<li *ngFor="let item of data.value" [ngClass]="lunchClassMaker(data.key)">{{ item }}</li>
-							</ul>
-						</div>
+								<div *ngIf="data.key!='Main Dish' && data.key!='Main Entree'" class="not-main-entree">
+									<h3 class = "main-entree-key">{{ data.key }}</h3>
+									<ul>
+										<li *ngFor="let item of data.value" [ngClass]="lunchClassMaker(data.key)">{{ item }}</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>

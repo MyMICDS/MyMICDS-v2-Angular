@@ -24,7 +24,6 @@ export class SimplifiedLunchComponent implements OnInit {
   		'lowerschool'
   	];
   	school = this.schools[0];
-    @ViewChild('moduleContainer') containerEl: ElementRef;
 
   constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {
 
@@ -41,7 +40,7 @@ export class SimplifiedLunchComponent implements OnInit {
   ngOnInit() {
     this.getLunch(moment());
     ElementQueries.listen();
-		ElementQueries.init();
+    ElementQueries.init();
   }
 
   getLunch(getDate) {
@@ -54,7 +53,6 @@ export class SimplifiedLunchComponent implements OnInit {
       day  : getDate.date()
     }).subscribe(
       lunch => {
-        console.log(lunch);
         // Stop loading
         this.loading = false;
         // Reset lunch array
@@ -67,8 +65,7 @@ export class SimplifiedLunchComponent implements OnInit {
 
         if (i === 6 || i === 0){
         i = 0;
-        }
-        else {
+        } else {
           i = (i-1);
         }
           let date = dates[i];
@@ -93,10 +90,6 @@ export class SimplifiedLunchComponent implements OnInit {
         for (let i = 0; i < this.lunch.length; i++) {
           if (this.lunch[i].date.today) {
             let todayEl;
-            setTimeout(() => {
-              todayEl = document.getElementsByClassName('lunch-day').item(i);
-              todayEl.scrollIntoView({behavior: 'smooth'});
-            }, 0);
           }
         }
       }
@@ -111,14 +104,15 @@ export class SimplifiedLunchComponent implements OnInit {
 		let dates = [];
 
 		for (let i = 0; i < 5; i++) {
-			dates.push(weekday.clone());
-			weekday.add(1, 'day');
+		    dates.push(weekday.clone());
+		    weekday.add(1, 'day');
 		}
 
-		return dates;
+    return dates;
 	}
+
   lunchClassMaker(classInput) {
-		return classInput.toLowerCase().replace(/ /, '-');
-	}
+	   return classInput.toLowerCase().replace(/ /, '-');
+   }
 
 }

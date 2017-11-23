@@ -5,11 +5,12 @@ import { OptionsConfig } from './module-options';
 // import { CountdownComponent } from './countdown/countdown.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
 // import { StickynotesComponent } from './stickynotes/stickynotes.component';
 import { WeatherComponent } from './weather/weather.component';
-import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
+
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
 export const moduleComponents: any[] = [
@@ -91,7 +92,7 @@ export const config: Config = {
 		defaultWidth: 2
 	},
 	simplifiedLunch: {
-		displayName: 'Simplified Lunch',
+		displayName: 'Lunch',
 		icon: 'fa-cutlery',
 		component: SimplifiedLunchComponent,
 		defaultHeight: 2,

@@ -7,36 +7,7 @@
   width:100%;
   height:100%;
 }
-.module-container[max-height~='500px']{
-  .not-main-entree{
-    display: none;
-  }
-  .lunch-category{
-    border-top: none;
-  }
-}
-.module-container[max-width~='500px']{
-  .not-main-entree{
-    display: none; 
-  }
-  .lunch-category{
-    border-top: none;
-  }
-}
-.module-container[max-height~='300px']{
-  .lunch-date{
-    display:none;
-  }
-  .lunch-category{
-    padding-top: 0rem;
-  }
 
-}
-
-.lunch-week .lunch-category{
-  border-top: 1px solid rgba(white, 0.5);
-
-}
 .loading-container {
 	position: absolute;
 	top: 0;
@@ -60,6 +31,38 @@
 	}
 }
 
+.module-container[max-height~='500px']{
+  .not-main-entree{
+    display: none;
+  }
+  .lunch-category{
+    border-top: none;
+  }
+}
+
+.module-container[max-width~='500px']{
+  .not-main-entree{
+    display: none;
+  }
+  .lunch-category{
+    border-top: none;
+  }
+}
+
+.module-container[max-height~='300px']{
+  .lunch-date{
+    display:none;
+  }
+  .lunch-category{
+    padding-top: 0rem;
+  }
+}
+
+.lunch-week .lunch-category{
+  border-top: 1px solid rgba(white, 0.5);
+
+}
+
 .lunch-container {
 	padding: 2rem 0 0 0;
 	margin-bottom: 6rem;
@@ -69,50 +72,6 @@
 
 		.btn {
 			font-size: small;
-		}
-	}
-
-	.week-navigation {
-		margin-bottom: 0.5rem;
-		display: flex;
-
-		.previous-week,
-		.current-week,
-		.next-week {
-			width: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			padding: 1rem 0 1rem;
-
-			border: none;
-			color: $sophisticated-white;
-
-			&:hover {
-				color: darken($sophisticated-white, 20%);
-			}
-
-			&:active {
-				color: darken($sophisticated-white, 40%);
-			}
-		}
-
-		.previous-week,
-		.next-week {
-			font-size: 1rem;
-			font-weight: 300;
-
-			.fa {
-				margin: 0 0.5rem;
-			}
-		}
-
-		.current-week {
-			display: none;
-			font-size: 1rem;
-			font-weight: 600;
-			border-left: 1px solid rgba($sophisticated-white, 0.5);
-			border-right: 1px solid rgba($sophisticated-white, 0.5);
 		}
 	}
 
@@ -227,34 +186,6 @@
 
 @media screen and (min-width:544px) {
 	.lunch-container {
-		.school-selection .btn {
-			font-size: inherit;
-		}
-
-		.week-navigation {
-			.previous-week,
-			.current-week,
-			.next-week {
-				padding: 1rem;
-			}
-
-			.previous-week,
-			.next-week {
-				font-size: 2rem;
-				font-weight: 300;
-
-				.fa {
-					margin: 0 0.5rem;
-				}
-			}
-
-			.current-week {
-				display: inherit;
-				font-size: 2.5rem;
-				font-weight: 600;
-			}
-		}
-
 		.lunch-week {
 			overflow-x: auto;
 			width: 100%;

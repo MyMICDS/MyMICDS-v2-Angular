@@ -151,7 +151,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SafeResourceUrlPipe,
 		SchoolPercentagePipe,
 		ValuesPipe,
-		WeatherIconPipe,
+		WeatherIconPipe
 	],
 	imports: [
 		BrowserModule,
