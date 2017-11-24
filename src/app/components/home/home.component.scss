@@ -6,16 +6,10 @@
 	display: inline-block;
 }
 
-.manage-menu-container {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: 0;
-}
-
 .manage-menu {
 	position: sticky;
 	top: 0.5rem;
+	z-index: 2;
 
 	display: inline-block;
 
@@ -196,5 +190,18 @@
 	}
 	to {
 		opacity: 0;
+	}
+}
+
+/* --------------------------
+  Media Queries
+--------------------------- */
+
+@media screen and (min-width: 1320px) {
+	.manage-menu-container {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
 	}
 }

@@ -38,6 +38,7 @@
 		<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
 	</div>
 
+	<!-- Regular module grid -->
 	<div *ngIf="(editMode && authService.authSnapshot) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth)" class="grid-container">
 		<gridster #gridster [options]="gridsterOptions">
 			<gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
@@ -81,6 +82,7 @@
 			</gridster-item>
 		</gridster>
 	</div>
+	<!-- Collapsed module grid -->
 	<div *ngIf="!editMode && moduleWidth < gridsterOptions.responsiveOptions[1].minWidth" class="collapsed-grid">
 		<mymicds-module-container *ngFor="let module of moduleLayout"
 			[type]="module.type"
