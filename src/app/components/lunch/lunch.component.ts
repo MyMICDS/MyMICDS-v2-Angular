@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import moment from 'moment';
 
 import { AlertService } from '../../services/alert.service';
@@ -10,7 +10,7 @@ import { UserService } from '../../services/user.service';
 	templateUrl: './lunch.component.html',
 	styleUrls: ['./lunch.component.scss']
 })
-export class LunchComponent implements OnInit {
+export class LunchComponent implements OnInit, OnDestroy {
 
 	loading = true;
 	lunchDate = moment();
@@ -23,9 +23,17 @@ export class LunchComponent implements OnInit {
 	];
 	school = this.schools[0];
 
-	constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {
-		this.userService.getInfo().subscribe(
+	userSubscription: any;
+
+	constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {	}
+
+	ngOnInit() {
+		this.currentWeek();
+		this.userSubscription = this.userService.user$.subscribe(
 			data => {
+				if (!data) {
+					return;
+				}
 				this.school = data.school;
 			},
 			error => {
@@ -34,8 +42,8 @@ export class LunchComponent implements OnInit {
 		);
 	}
 
-	ngOnInit() {
-		this.currentWeek();
+	ngOnDestroy() {
+		this.userSubscription.unsubscribe();
 	}
 
 	/*

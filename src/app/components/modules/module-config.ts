@@ -17,11 +17,11 @@ export const moduleComponents: any[] = [
 	// CountdownComponent,
 	ProgressComponent,
 	ScheduleComponent,
+	SimplifiedLunchComponent,
 	SimplifiedScheduleComponent,
 	SnowdayComponent,
 	// StickynotesComponent,
-	WeatherComponent,
-	SimplifiedLunchComponent
+	WeatherComponent
 ];
 
 export const config: Config = {
@@ -77,6 +77,13 @@ export const config: Config = {
 		defaultHeight: 2,
 		defaultWidth: 2
 	},
+	simplifiedLunch: {
+		displayName: 'Lunch',
+		icon: 'fa-cutlery',
+		component: SimplifiedLunchComponent,
+		defaultHeight: 2,
+		defaultWidth: 2
+	},
 	simplifiedSchedule: {
 		displayName: 'Simplified Schedule',
 		icon: 'fa-calendar',
@@ -89,13 +96,6 @@ export const config: Config = {
 		icon: 'fa-snowflake-o',
 		component: SnowdayComponent,
 		defaultHeight: 1,
-		defaultWidth: 2
-	},
-	simplifiedLunch: {
-		displayName: 'Lunch',
-		icon: 'fa-cutlery',
-		component: SimplifiedLunchComponent,
-		defaultHeight: 2,
 		defaultWidth: 2
 	},
 	// stickynotes: {

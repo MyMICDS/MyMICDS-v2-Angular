@@ -104,7 +104,7 @@ export interface UserInfoResponse {
 	lastName: string;
 	gradYear: number;
 	grade: number;
-	school: number;
+	school: string;
 	canvasURL: string;
 	portalURL: string;
 }
