@@ -15,7 +15,7 @@ import { UserService } from '../../../services/user.service';
 export class SimplifiedLunchComponent implements OnInit, OnDestroy {
 
 	loading = true;
-	lunchDate = moment().date(29);
+	lunchDate = moment();
 	lunch = [];
 	todaysLunch = null;
 	schools = [
