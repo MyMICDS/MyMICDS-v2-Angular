@@ -278,6 +278,12 @@
 						.sidebar-coming-up {
 							margin-bottom: 0.5rem;
 						}
+						.btn-group{
+							display: block;
+							.btn-info{
+								margin-left: -6px;
+							}
+						}
 					}
 				}
 
@@ -435,6 +441,8 @@
 }
 
 /* Media queries */
+
+/* Resizes font size of date for smaller screens/browsers */
 @media screen and (max-width:1475px) {
 	.planner-interface {
 		.planner-container {
@@ -452,7 +460,23 @@
 		}
 	}
 }
+/*Resizes buttons on mobile for collapsed sidebar, resizes buttons on the larger layout when the browser becomes smaller*/
 
+@media screen and (max-width:560px), screen and (min-width:992px) and (max-width:1300px){
+	.planner-interface {
+		.planner-container {
+			.calendar-container {
+				.sidebar{
+					.sidebar-header{
+						.btn{
+							font-size: 0.65rem;
+						}
+					}
+				}
+			}
+		}
+	}
+}
 @media screen and (min-width:544px) {
 	.planner-interface {
 		// Add padding instead of margin so clicking the bottom will also deselect the day
