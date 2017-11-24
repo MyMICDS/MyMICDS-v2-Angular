@@ -1,21 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import moment from 'moment';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
-import { AlertService } from '../../services/alert.service';
-import { LunchService } from '../../services/lunch.service';
-import { UserService } from '../../services/user.service';
+import { AlertService } from '../../../services/alert.service';
+import { LunchService } from '../../../services/lunch.service';
+import { UserService } from '../../../services/user.service';
+
 
 @Component({
-	selector: 'mymicds-lunch',
-	templateUrl: './lunch.component.html',
-	styleUrls: ['./lunch.component.scss']
+	selector: 'mymicds-simplified-lunch',
+	templateUrl: './simplified-lunch.component.html',
+	styleUrls: ['./simplified-lunch.component.scss']
 })
-export class LunchComponent implements OnInit, OnDestroy {
+export class SimplifiedLunchComponent implements OnInit, OnDestroy {
 
 	loading = true;
-	lunchDate = moment();
+	lunchDate = moment().date(29);
 	lunch = [];
-
+	todaysLunch = null;
 	schools = [
 		'upperschool',
 		'middleschool',
@@ -28,7 +30,11 @@ export class LunchComponent implements OnInit, OnDestroy {
 	constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {	}
 
 	ngOnInit() {
-		this.currentWeek();
+		ElementQueries.listen();
+		ElementQueries.init();
+
+		this.getLunch(this.lunchDate);
+
 		this.userSubscription = this.userService.user$.subscribe(
 			data => {
 				if (!data) {
@@ -45,29 +51,6 @@ export class LunchComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.userSubscription.unsubscribe();
 	}
-
-	/*
-	 * Week Navigation
-	 */
-
-	previousWeek() {
-		this.lunchDate.subtract(1, 'week');
-		this.getLunch(this.lunchDate);
-	}
-
-	currentWeek() {
-		this.lunchDate = moment();
-		this.getLunch(this.lunchDate);
-	}
-
-	nextWeek() {
-		this.lunchDate.add(1, 'week');
-		this.getLunch(this.lunchDate);
-	}
-
-	/*
-	 * Query Lunch
-	 */
 
 	getLunch(getDate) {
 		// Display loading screen
@@ -87,35 +70,31 @@ export class LunchComponent implements OnInit, OnDestroy {
 				let current = moment();
 				let dates = this.getDatesFromWeek(getDate);
 
-				for (let i = 0; i < dates.length; i++) {
+				let i = moment().day();
 
-					let date = dates[i];
-					let lunchIndex = date.format('YYYY[-]MM[-]DD');
-					let dayLunch = lunch[lunchIndex] || { };
-
-					this.lunch.push({
-						date: {
-							weekday: date.format('dddd'),
-							date: date.format('MMMM Do[,] YYYY'),
-							today: date.isSame(current, 'day')
-						},
-						lunch: dayLunch
-					});
+				if (i === 6 || i === 0) {
+					i = 0;
+				} else {
+					i--;
 				}
+
+				let date = dates[i];
+				let lunchIndex = date.format('YYYY[-]MM[-]DD');
+				let dayLunch = lunch[lunchIndex] || { };
+
+				this.lunch.push({
+					date: {
+						weekday: date.format('dddd'),
+						date: date.format('MMMM Do[,] YYYY'),
+						today: date.isSame(current, 'day')
+					},
+					lunch: dayLunch
+				});
+
+				this.todaysLunch = this.lunch[0];
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Lunch Error!', error);
-			},
-			() => {
-				for (let i = 0; i < this.lunch.length; i++) {
-					if (this.lunch[i].date.today) {
-						let todayEl;
-						setTimeout(() => {
-							todayEl = document.getElementsByClassName('lunch-day').item(i);
-							todayEl.scrollIntoView({behavior: 'smooth'});
-						}, 0);
-					}
-				}
 			}
 		);
 	}
@@ -138,4 +117,5 @@ export class LunchComponent implements OnInit, OnDestroy {
 	lunchClassMaker(classInput) {
 		return classInput.toLowerCase().replace(/ /, '-');
 	}
+
 }

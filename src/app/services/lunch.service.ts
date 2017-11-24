@@ -22,7 +22,7 @@ export class LunchService {
 				if (data.error) {
 					throw new Error(data.error);
 				}
-
+				console.log(data.lunch);
 				return data.lunch;
 			})
 			.catch(handleError);

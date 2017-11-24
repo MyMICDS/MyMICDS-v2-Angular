@@ -5,6 +5,7 @@ import { OptionsConfig } from './module-options';
 // import { CountdownComponent } from './countdown/countdown.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
 // import { StickynotesComponent } from './stickynotes/stickynotes.component';
@@ -16,6 +17,7 @@ export const moduleComponents: any[] = [
 	// CountdownComponent,
 	ProgressComponent,
 	ScheduleComponent,
+	SimplifiedLunchComponent,
 	SimplifiedScheduleComponent,
 	SnowdayComponent,
 	// StickynotesComponent,
@@ -72,6 +74,13 @@ export const config: Config = {
 		displayName: 'Schedule',
 		icon: 'fa-calendar',
 		component: ScheduleComponent,
+		defaultHeight: 2,
+		defaultWidth: 2
+	},
+	simplifiedLunch: {
+		displayName: 'Lunch',
+		icon: 'fa-cutlery',
+		component: SimplifiedLunchComponent,
 		defaultHeight: 2,
 		defaultWidth: 2
 	},

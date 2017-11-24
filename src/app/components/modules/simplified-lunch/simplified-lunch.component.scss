@@ -1,0 +1,172 @@
+@import '../../../../styles/settings';
+
+.module-container {
+	width: 100%;
+	height: 100%;
+
+	&[max-width~='500px'] {
+		.not-main-entree{
+			display: none;
+		}
+
+		.lunch-category {
+			border-top: none;
+		}
+	}
+
+	&[max-height~='500px'] {
+		.not-main-entree {
+			display: none;
+		}
+
+		.lunch-category {
+			border-top: none;
+		}
+	}
+
+	&[max-height~='300px'] {
+		.lunch-date{
+			display: none;
+		}
+
+		.lunch-category{
+			padding-top: 0rem;
+		}
+	}
+}
+
+.loading-container {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.loading {
+		width: 35rem;
+		padding: 1rem;
+		text-align: center;
+		color: $sophisticated-white;
+
+		h1 {
+			font-size: 3rem;
+			font-weight: 300;
+		}
+	}
+}
+
+.lunch-container {
+	.school-selection {
+		margin-bottom: 1rem;
+		text-align: center;
+
+		.btn {
+			font-size: small;
+		}
+	}
+
+	.lunch-week {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		width: auto;
+		height: auto;
+
+		.lunch-day {
+			width: 100%;
+			position: relative;
+			flex: 0 0 100%;
+			color: $sophisticated-white;
+
+			&.today {
+				border: 0.25rem solid $sophisticated-white;
+
+				&:after {
+					content: '';
+					position: absolute;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					left: 0;
+					pointer-events: none;
+
+					background: rgba($sophisticated-white, 0.2);
+				}
+			}
+
+			.lunch-date {
+				margin-bottom: 1rem;
+
+				h3 {
+					margin-bottom: 0.25rem;
+					font-weight: 300;
+					letter-spacing: 0.03rem;
+				}
+
+				h5 {
+					margin: 0;
+				}
+			}
+
+			.lunch-menu {
+				.no-lunch {
+					padding: 1rem;
+					text-align: center;
+					border-top: 1px solid rgba(white, 0.5);
+
+					p {
+						margin: 0;
+						font-size: 1.25rem;
+						font-weight: 300;
+					}
+				}
+
+				.lunch .lunch-category {
+					padding-top: 0.5rem;
+					// border-top: 1px solid rgba(white, 0.5);
+
+					h3 {
+						text-align: center;
+						font-weight: 600;
+						letter-spacing: 0.03rem;
+					}
+
+					ul {
+						margin: 0 0 1rem 0;
+						padding: 0;
+						list-style: none;
+
+						li {
+							font-weight: 300;
+
+							&:before {
+								padding-right: 0.5em;
+								// Default bullet point
+								content: '🍔';
+							}
+
+							&.main-dish:before {
+								content: '🍔';
+							}
+
+							&.pizza-station:before {
+								content: '🍕'
+							}
+
+							&.soup:before {
+								content: '🍲'
+							}
+
+							&.dessert:before {
+								content: '🍩'
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
