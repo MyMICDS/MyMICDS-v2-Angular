@@ -81,24 +81,9 @@
 			flex: 0 0 100%;
 			color: $sophisticated-white;
 
-			&.today {
-				border: 0.25rem solid $sophisticated-white;
-
-				&:after {
-					content: '';
-					position: absolute;
-					top: 0;
-					right: 0;
-					bottom: 0;
-					left: 0;
-					pointer-events: none;
-
-					background: rgba($sophisticated-white, 0.2);
-				}
-			}
-
 			.lunch-date {
-				margin-bottom: 1rem;
+				padding-bottom: 1rem;
+				border-bottom: 1px solid rgba(white, 0.5);
 
 				h3 {
 					margin-bottom: 0.25rem;
@@ -115,7 +100,6 @@
 				.no-lunch {
 					padding: 1rem;
 					text-align: center;
-					border-top: 1px solid rgba(white, 0.5);
 
 					p {
 						margin: 0;
