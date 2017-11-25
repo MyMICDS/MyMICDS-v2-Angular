@@ -56,6 +56,10 @@ export class SimplifiedLunchComponent implements OnInit, OnDestroy {
 		// Display loading screen
 		this.loading = true;
 
+		if(getDate.day() === 0 || getDate.day() === 6){
+			getDate.add(1, 'week');
+		}
+
 		this.lunchService.getLunch({
 			year : getDate.year(),
 			month: getDate.month() + 1,
@@ -70,7 +74,7 @@ export class SimplifiedLunchComponent implements OnInit, OnDestroy {
 				let current = moment();
 				let dates = this.getDatesFromWeek(getDate);
 
-				let i = moment().day();
+				let i = getDate.day();
 
 				if (i === 6 || i === 0) {
 					i = 0;
