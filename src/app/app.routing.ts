@@ -23,6 +23,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
+import { GpaComponent } from './components/gpa/gpa.component';
 
 /**
  * Title functions
@@ -184,6 +185,10 @@ export const appRoutes: Routes = [
 	{
 		path: 'module-inspector',
 		component: ModuleInspectorComponent
+	},
+	{
+		path: 'gpa',
+		component: GpaComponent
 	}
 ];
 

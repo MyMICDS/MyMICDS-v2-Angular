@@ -1,0 +1,51 @@
+<div mymicds-blur class="inspector-menu">
+	<h3>GPA Calculator</h3>
+	<div class="all-classes">
+      <div class="class-1">
+  			<h6>Block A</h6>
+  			<select class="custom-select" [(ngModel)]="gradeValues[0]" (ngModelChange)="getAverageGrade()">
+  				<option *ngFor="let grade of GRADES" value="{{grade.value}}">{{ grade.name }}</option>
+  			</select>
+  		</div>
+      <div class="class-2">
+        <h6>Block B</h6>
+        <select class="custom-select" [(ngModel)]="gradeValues[1]" (ngModelChange)="getAverageGrade()">
+          <option *ngFor="let grade of GRADES" value="{{grade.value}}">{{ grade.name }}</option>
+        </select>
+      </div>
+      <div class="class-3">
+        <h6>Block C</h6>
+        <select class="custom-select" [(ngModel)]="gradeValues[2]" (ngModelChange)="getAverageGrade()">
+          <option *ngFor="let grade of GRADES" value="{{grade.value}}">{{ grade.name }}</option>
+        </select>
+      </div>
+      <div class="class-4">
+  			<h6>Block D</h6>
+  			<select class="custom-select" [(ngModel)]="gradeValues[3]" (ngModelChange)="getAverageGrade()">
+  				<option *ngFor="let grade of GRADES" value="{{grade.value}}">{{ grade.name }}</option>
+  			</select>
+  		</div>
+      <div class="class-5">
+        <h6>Block E</h6>
+        <select class="custom-select" [(ngModel)]="gradeValues[4]" (ngModelChange)="getAverageGrade()">
+          <option *ngFor="let grade of GRADES" value="{{grade.value}}">{{ grade.name }}</option>
+        </select>
+      </div>
+      <div class="class-6">
+        <h6>Block F</h6>
+        <select class="custom-select" [(ngModel)]="gradeValues[5]" (ngModelChange)="getAverageGrade()">
+          <option *ngFor="let grade of GRADES" value="{{grade.value}}">{{ grade.name }}</option>
+        </select>
+      </div>
+      <div class="class-3">
+        <h6>Block G</h6>
+        <select class="custom-select" [(ngModel)]="gradeValues[6]" (ngModelChange)="getAverageGrade()">
+          <option *ngFor="let grade of GRADES" value="{{grade.value}}">{{ grade.name }}</option>
+        </select>
+      </div>
+	</div>
+</div>
+<div mymicds-blur class="actual-gpa">
+  <h2>Your GPA</h2>
+  <h1>{{ finalGpa }}</h1>
+</div>

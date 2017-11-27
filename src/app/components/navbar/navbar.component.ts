@@ -48,6 +48,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 			url: '/about',
 			name: 'About',
 			icon: 'fa-info'
+		},
+		{
+			url: '/gpa',
+			name: 'GPA',
+			icon: 'fa-calculator'
 		}
 	];
 

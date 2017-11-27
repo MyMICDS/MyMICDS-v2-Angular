@@ -33,6 +33,7 @@ import { StickynotesComponent } from './components/modules/stickynotes/stickynot
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { GpaComponent } from './components/gpa/gpa.component';
 import { HelpComponent } from './components/help/help.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -131,6 +132,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SportsComponent,
 		SuggestionsComponent,
 		QuotesComponent,
+		GpaComponent,
 
 		// Directives
 		BlurDirective,

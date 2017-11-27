@@ -1,0 +1,39 @@
+@import '../../../styles/settings';
+
+.inspector-menu {
+	display: inline-block;
+	margin-top: 2rem;
+	margin-left: 1rem;
+  margin-right: 1rem;
+	padding: 1rem;
+
+	border-radius: 0.5rem;
+	color: $sophisticated-white;
+
+	.all-classes {
+		display: flex;
+    flex-wrap: wrap;
+    .class-1, .class-2, .class-3, .class-4, .class-5, .class-6, .class-7{
+      padding: 1rem;
+    }
+	}
+}
+
+.actual-gpa {
+	display: inline-block;
+	margin-top: 2rem;
+	margin-left: 1rem;
+	padding: 1rem;
+
+	border-radius: 0.5rem;
+	color: $sophisticated-white;
+}
+
+.module-container-container {
+	position: relative;
+	margin: 1rem 2rem 6rem;
+
+	mymicds-module-container {
+		height: 100%;
+	}
+}
