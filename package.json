@@ -49,6 +49,7 @@
     "interactjs": "^1.2.9",
     "ngx-bootstrap": "^1.8.0",
     "ngx-color-picker": "^4.0.0",
+    "node-sass": "^4.7.2",
     "prisma": "^3.1.0",
     "request": "^2.83.0",
     "rxjs": "^5.2.0",
