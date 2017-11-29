@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = '<strong>The MyMICDS lunch homepage module is now online!</strong> Click the \'Edit\' button in the top left corner of the homepage and add it to your layout to see it in action!';
+	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
