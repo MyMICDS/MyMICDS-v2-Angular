@@ -6,7 +6,7 @@ import { defaultTitleFunction } from './app.routing';
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
 
-declare const ga: any;
+declare const gtag: any;
 
 @Component({
 	selector: 'mymicds-app',
@@ -65,16 +65,14 @@ export class AppComponent {
 					}
 
 					this.titleService.setTitle(title);
+
+					// Google Analytics track page views
+					gtag('config', 'UA-76216916-1', {
+						'page_title': title,
+						// 'page_location': 'http://foo.com/home',
+						'page_path': (event as NavigationEnd).urlAfterRedirects
+					});
 				}
 			);
-
-		// Google Analytics track page views
-		this.router.events.subscribe(
-			(event: Event) => {
-				if (event instanceof NavigationEnd) {
-					ga('send', 'pageview', event.urlAfterRedirects);
-				}
-			}
-		);
 	}
 }

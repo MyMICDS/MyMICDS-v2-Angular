@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
 
+declare const gtag: any;
+
 @Component({
 	selector: 'mymicds-logout',
 	templateUrl: './logout.component.html',
@@ -20,12 +22,13 @@ export class LogoutComponent {
 				 * Storage events do not (according to specification) alert the current window.
 				 */
 				setTimeout(() => {
-					this.router.navigate(['home']);
+					this.router.navigate(['/home']);
+					gtag('event', 'logout');
 				}, 0);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Logout Error!', error);
-				this.router.navigate(['home']);
+				this.router.navigate(['/home']);
 			}
 		);
 	}

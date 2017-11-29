@@ -8,6 +8,8 @@ import * as useragent from 'useragent';
 import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
 
+declare const gtag: any;
+
 @Component({
 	selector: 'mymicds-login',
 	templateUrl: './login.component.html',
@@ -42,6 +44,7 @@ export class LoginComponent implements OnInit {
 			loginRes => {
 				if (loginRes.success) {
 					this.router.navigateByUrl('/home');
+					gtag('event', 'login');
 				} else {
 					this.alertService.addAlert('warning', 'Warning!', loginRes.message, 3);
 				}

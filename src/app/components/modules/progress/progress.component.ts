@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import moment from 'moment';
+import { Observable } from 'rxjs/Observable';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
@@ -8,6 +9,7 @@ import { ScheduleService } from '../../../services/schedule.service';
 // import { SocketioService } from '../../../services/socketio.service';
 
 declare const Chart: any;
+declare const gtag: any;
 
 @Component({
 	selector: 'mymicds-progress',
@@ -32,6 +34,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	// Circular Progress References
 	ctx: any;
 	progressBar: any;
+	@ViewChild('spinnyThingy') spinnyThingy: ElementRef;
 
 	// Font sizes for label and percentage in circular progress bar (in pixels)
 	classLabelFontSize: number;
@@ -192,13 +195,14 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// 	}
 		// );
 
-		// this.progressDayClick = Observable.fromEvent(this.progressDayCtx, 'mousedown')
-		// 	.debounceTime(100)
-		// 	.subscribe(
-		// 		e => {
-		// 			this.socketioService.emit('progress label click', true);
-		// 		}
-		// 	);
+		this.progressDayClick = Observable.fromEvent(this.spinnyThingy.nativeElement, 'mousedown')
+			.debounceTime(100)
+			.subscribe(
+				e => {
+					gtag('event', 'spinny_thingy');
+					// this.socketioService.emit('progress label click', true);
+				}
+			);
 
 		// this.progressDayUnclick = Observable.fromEvent(this.progressDayCtx, 'mouseup')
 		// 	.debounceTime(100)
@@ -216,7 +220,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		this.progressBar.destroy();
 		// Unsubsciribe socket connection
 		// this.socketioConnection.unsubscribe();
-		// this.progressDayClick.unsubscribe();
+		this.progressDayClick.unsubscribe();
 		// this.progressDayUnclick.unsubscribe();
 	}
 
