@@ -75,7 +75,6 @@
 
 			a {
 				font-size: 2rem;
-				// font-
 			}
 		}
 
@@ -98,9 +97,8 @@
 				justify-content: space-around;
 
 				.developer {
-					max-width: 19%;
-					min-width: 12rem;
-					flex-basis: 0;
+					max-width: 50%;
+					flex-basis: 100%;
 					flex-grow: 1;
 					margin-bottom: 2rem;
 
@@ -228,6 +226,7 @@
 	.container .about-body {
 		.dev-team .developers .developer {
 			flex-basis: 30%;
+			max-width: 24%;
 		}
 
 		.registered-graph-container,
@@ -247,6 +246,6 @@
 
 @media screen and (min-width: 1200px) {
 	.container .about-body .dev-team .developers .developer {
-		flex-basis: 16%;
+		flex-basis: 0;
 	}
 }

@@ -67,6 +67,13 @@ export class AboutComponent implements OnInit {
 			gradYear : 2018,
 			title    : 'Full Stack Developer',
 			image    : 'assets/developers/alexds-ugly-face.jpg'
+		},
+		{
+			firstName: 'Tanay',
+			lastName : 'Chandak',
+			gradYear : 2020,
+			title    : 'Junior Developer',
+			image    : 'assets/developers/tanays-ugly-face.jpg'
 		}
 	];
 
