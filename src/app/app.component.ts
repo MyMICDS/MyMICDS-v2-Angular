@@ -74,11 +74,17 @@ export class AppComponent {
 					// 	'page_path': (event as NavigationEnd).urlAfterRedirects
 					// });
 
-					gtag('event', 'page_view', {
-						'send_to': 'UA-76216916-1',
+					// gtag('event', 'page_view', {
+					// 	'send_to': 'UA-76216916-1',
+					// 	'page_title': title,
+					// 	'page_path': (event as NavigationEnd).urlAfterRedirects
+					// });
+
+					gtag('config', 'UA-76216916-1', {
 						'page_title': title,
 						'page_path': (event as NavigationEnd).urlAfterRedirects
 					});
+
 
 				}
 			);
