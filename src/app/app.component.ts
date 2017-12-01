@@ -67,11 +67,19 @@ export class AppComponent {
 					this.titleService.setTitle(title);
 
 					// Google Analytics track page views
-					gtag('config', 'UA-76216916-1', {
+					// gtag('config', 'UA-76216916-1', {
+					// 	'send_page_view': true,
+					// 	'page_title': title,
+					// 	// 'page_location': 'http://foo.com/home',
+					// 	'page_path': (event as NavigationEnd).urlAfterRedirects
+					// });
+
+					gtag('event', 'page_view', {
+						'send_to': 'UA-76216916-1',
 						'page_title': title,
-						// 'page_location': 'http://foo.com/home',
 						'page_path': (event as NavigationEnd).urlAfterRedirects
 					});
+
 				}
 			);
 	}
