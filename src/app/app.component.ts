@@ -80,8 +80,10 @@ export class AppComponent {
 					// 	'page_path': (event as NavigationEnd).urlAfterRedirects
 					// });
 
+					console.log('send to los google analytics', (event as NavigationEnd).urlAfterRedirects);
+
 					gtag('config', 'UA-76216916-1', {
-						'page_title': title,
+						// 'page_title': title,
 						'page_path': (event as NavigationEnd).urlAfterRedirects
 					});
 
