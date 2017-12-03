@@ -39,7 +39,7 @@ export class StickynotesComponent implements OnInit {
 						console.log(success);
 					},
 					error => {
-						console.log('fuk');
+						console.log(error);
 					}
 				);
 			}
