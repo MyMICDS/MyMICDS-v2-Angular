@@ -4,8 +4,6 @@ import { typeOf } from '../../common/utils';
 
 import { AuthService } from '../../services/auth.service';
 
-declare const gtag: any;
-
 @Component({
 	selector: 'mymicds-confirm',
 	templateUrl: './confirm.component.html',
@@ -34,7 +32,6 @@ export class ConfirmComponent implements OnInit {
 				this.authService.confirm(user, hash).subscribe(
 					() => {
 						this.confirmResponse = true;
-						gtag('event', 'sign_up');
 					},
 					error => {
 						this.confirmResponse = 'There was a problem getting the URL variables!';

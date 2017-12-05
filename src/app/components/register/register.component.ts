@@ -8,8 +8,6 @@ import { AlertService } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 
-declare const gtag: any;
-
 @Component({
 	selector: 'mymicds-register',
 	templateUrl: './register.component.html',
@@ -67,7 +65,6 @@ export class RegisterComponent implements OnInit {
 		this.authService.register(this.registerForm.value).subscribe(
 			() => {
 				this.registerResponse = true;
-				gtag('event', 'register_form');
 			},
 			error => {
 				this.registerResponse = error;

@@ -9,7 +9,6 @@ import { ScheduleService } from '../../../services/schedule.service';
 // import { SocketioService } from '../../../services/socketio.service';
 
 declare const Chart: any;
-declare const gtag: any;
 
 @Component({
 	selector: 'mymicds-progress',
@@ -199,7 +198,6 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			.debounceTime(100)
 			.subscribe(
 				e => {
-					gtag('event', 'spinny_thingy');
 					// this.socketioService.emit('progress label click', true);
 				}
 			);
