@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = 'Thanks for another great Hour of Code! For those of you who couldn\'t make it to the party, you can still <a class="alert-link" href="https://hourofcode.com/us/learn" target="_blank">do the Hour of Code activities here.</a> Also email mgira@micds.org if you\'re interested in joining Programming Club.';
+	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
