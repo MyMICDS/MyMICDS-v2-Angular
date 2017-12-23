@@ -103,7 +103,16 @@ export const config: Config = {
 		icon: 'fa-sticky-note-o',
 		component: StickynotesComponent,
 		defaultHeight: 2,
-		defaultWidth: 2
+		defaultWidth: 2,
+		options: {
+			color: {
+				label: 'color',
+				type: 'string',
+				default: 'white',
+				select: true,
+				selectItems: ['white', 'teal', 'yellow', 'pink', 'orange']
+			}
+		}
 	},
 	weather: {
 		displayName: 'Weather',

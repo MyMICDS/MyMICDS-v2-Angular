@@ -28,6 +28,9 @@ export class StickynotesComponent implements OnInit {
 	text: string;
 	textChange: Subject<string> = new Subject();
 
+	colorList = { white: '#ffffff', teal: '#72cac4', yellow: '#e3e547', pink: '#f59dba', orange: '#fbac4b' };
+	@Input() color = 'white';
+
 	constructor(private stickynotesService: StickynotesService, private alertService: AlertService) { }
 
 	ngOnInit() {
