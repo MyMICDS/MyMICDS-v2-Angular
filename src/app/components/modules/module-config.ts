@@ -25,37 +25,37 @@ export const moduleComponents: any[] = [
 ];
 
 export const config: Config = {
-	countdown: {
-		displayName: 'Countdown',
-		icon: 'clock-o',
-		component: CountdownComponent,
-		defaultHeight: 1,
-		defaultWidth: 2,
-		options: {
-			preset: {
-				label: 'Preset dates (Overwrites custom dates)',
-				type: 'string',
-				default: 'Summer Break',
-				select: true,
-				selectItems: ['Summer Break', 'Next Break', 'Next Weekend', 'Next Long Weekend', 'Custom Date']
-			},
-			countdownTo: {
-				label: 'Count towards',
-				type: 'Date',
-				default: moment().year(2018).month('may').date(26).hour(15).minute(15).toDate()
-			},
-			eventLabel: {
-				label: 'Until...',
-				type: 'string',
-				default: 'Summer Break'
-			},
-			schoolDays: {
-				label: 'Count school days',
-				type: 'boolean',
-				default: true
-			}
-		}
-	},
+	// countdown: {
+	// 	displayName: 'Countdown',
+	// 	icon: 'clock-o',
+	// 	component: CountdownComponent,
+	// 	defaultHeight: 1,
+	// 	defaultWidth: 2,
+	// 	options: {
+	// 		preset: {
+	// 			label: 'Preset dates (Overwrites custom dates)',
+	// 			type: 'string',
+	// 			default: 'Summer Break',
+	// 			select: true,
+	// 			selectItems: ['Summer Break', 'Next Break', 'Next Weekend', 'Next Long Weekend', 'Custom Date']
+	// 		},
+	// 		countdownTo: {
+	// 			label: 'Count towards',
+	// 			type: 'Date',
+	// 			default: moment().year(2018).month('may').date(26).hour(15).minute(15).toDate()
+	// 		},
+	// 		eventLabel: {
+	// 			label: 'Until...',
+	// 			type: 'string',
+	// 			default: 'Summer Break'
+	// 		},
+	// 		schoolDays: {
+	// 			label: 'Count school days',
+	// 			type: 'boolean',
+	// 			default: true
+	// 		}
+	// 	}
+	// },
 	progress: {
 		displayName: 'Progress',
 		icon: 'fa-tasks',
