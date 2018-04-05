@@ -2,3 +2,8 @@
 <mymicds-alert></mymicds-alert>
 <!-- <mymicds-sidebar></mymicds-sidebar> -->
 <router-outlet></router-outlet>
+
+<div *ngIf="admin" class="prompt">
+	<h3>{{ messages[0] }}</h3>
+	<h1>{{ messages[1] }}</h1>
+</div>

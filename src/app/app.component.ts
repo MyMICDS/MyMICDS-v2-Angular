@@ -17,6 +17,9 @@ declare const ga: any;
 })
 export class AppComponent {
 
+	admin = false;
+	messages: string[] = [];
+
 	/*
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
 	 * You need this small hack in order to catch application root view container ref.
@@ -87,8 +90,10 @@ export class AppComponent {
 			);
 		});
 
-		this.realtimeService.listen('admin').subscribe(enabled => {
-			console.log('admin', enabled);
+		this.realtimeService.listen('admin').subscribe(({ enabled, messages }) => {
+			console.log('admin', enabled, messages);
+			this.messages = messages;
+			this.admin = enabled;
 		});
 	}
 }
