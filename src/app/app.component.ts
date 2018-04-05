@@ -77,12 +77,18 @@ export class AppComponent {
 			);
 
 		// Get realtime working
-		this.realtimeService.emit('jwt', this.authService.getJWT());
-		this.realtimeService.listen('jwt').subscribe(
-			payload => {
-				console.log('get jwt response', payload);
-				this.authService.updateRealtimeState(!!payload);
-			}
-		);
+		this.authService.auth$.subscribe(() => {
+			this.realtimeService.emit('jwt', this.authService.getJWT());
+			this.realtimeService.listen('jwt').subscribe(
+				payload => {
+					console.log('get jwt response', payload);
+					this.authService.updateRealtimeState(!!payload);
+				}
+			);
+		});
+
+		this.realtimeService.listen('admin').subscribe(enabled => {
+			console.log('admin', enabled);
+		});
 	}
 }

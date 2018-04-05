@@ -13,10 +13,19 @@ export class RealtimeService {
 		this.socket = io(environment.realtimeURL);
 	}
 
-	// Listens to a specific event and convert the data stream into an observable
+	// Listens to a specific event
 	listen(event: string) {
 		return Observable.create(observer => {
 			this.socket.on(event, (...args) => {
+				observer.next(...args);
+			});
+		});
+	}
+
+	// Listens to a specific event only once
+	once(event: string) {
+		return Observable.create(observer => {
+			this.socket.once(event, (...args) => {
 				observer.next(...args);
 			});
 		});
