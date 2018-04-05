@@ -67,13 +67,13 @@ import { CanvasService } from './services/canvas.service';
 import { ClassesService } from './services/classes.service';
 import { DatesService } from './services/dates.service';
 import { FeedsService } from './services/feeds.service';
+import { RealtimeService } from './services/realtime.service';
 import { LunchService } from './services/lunch.service';
 import { ModulesService } from './services/modules.service';
 import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
 import { ScheduleService } from './services/schedule.service';
 import { SnowdayService } from './services/snowday.service';
-// import { SocketioService } from './services/socketio.service';
 import { SportsService } from './services/sports.service';
 import { StatsService } from './services/stats.service';
 import { UserService } from './services/user.service';
@@ -180,13 +180,13 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ClassesService,
 		DatesService,
 		FeedsService,
+		RealtimeService,
 		LunchService,
 		ModulesService,
 		PlannerService,
 		PortalService,
 		ScheduleService,
 		SnowdayService,
-		// SocketioService,
 		SportsService,
 		StatsService,
 		UserService,

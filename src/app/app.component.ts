@@ -1,10 +1,12 @@
 import { Component, ViewContainerRef } from '@angular/core';
-import { Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { defaultTitleFunction } from './app.routing';
 
 import { AlertService } from './services/alert.service';
+import { AuthService } from './services/auth.service';
 import { BackgroundService } from './services/background.service';
+import { RealtimeService } from './services/realtime.service';
 
 declare const ga: any;
 
@@ -25,7 +27,9 @@ export class AppComponent {
 		private titleService: Title,
 		private viewContainerRef: ViewContainerRef,
 		private alertService: AlertService,
-		private backgroundService: BackgroundService
+		private authService: AuthService,
+		private backgroundService: BackgroundService,
+		private realtimeService: RealtimeService
 	) {
 
 		// Get custom user background
@@ -71,5 +75,14 @@ export class AppComponent {
 
 				}
 			);
+
+		// Get realtime working
+		this.realtimeService.emit('jwt', this.authService.getJWT());
+		this.realtimeService.listen('jwt').subscribe(
+			payload => {
+				console.log('get jwt response', payload);
+				this.authService.updateRealtimeState(!!payload);
+			}
+		);
 	}
 }
