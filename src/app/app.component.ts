@@ -96,6 +96,7 @@ export class AppComponent {
 			this.messages = messages;
 			this.admin = enabled;
 
+			this.messageSequence = 0;
 			setTimeout(() => {
 				this.messageSequence = 1;
 
