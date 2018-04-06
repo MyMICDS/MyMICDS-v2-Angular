@@ -19,6 +19,7 @@ export class AppComponent {
 
 	admin = false;
 	messages: string[] = [];
+	messageSequence = 0;
 
 	/*
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
@@ -94,6 +95,14 @@ export class AppComponent {
 			console.log('admin', enabled, messages);
 			this.messages = messages;
 			this.admin = enabled;
+
+			setTimeout(() => {
+				this.messageSequence = 1;
+
+				setTimeout(() => {
+					this.messageSequence = 2;
+				}, 1100);
+			}, 250);
 		});
 	}
 }
