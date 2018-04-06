@@ -102,7 +102,7 @@ export class AppComponent {
 
 				setTimeout(() => {
 					this.messageSequence = 2;
-				}, 1100);
+				}, 1250);
 			}, 250);
 		});
 	}
