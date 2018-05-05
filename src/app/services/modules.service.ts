@@ -91,6 +91,6 @@ export interface Module {
 	column: number;
 	width: number;
 	height: number;
-	options?: { [option: string]: boolean | number | string | Date; };
+	options?: { [option: string]: boolean | number | string | Date | any; };
 	_id?: string;
 }

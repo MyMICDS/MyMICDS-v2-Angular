@@ -2,7 +2,7 @@
 
 import { OptionsConfig } from './module-options';
 
-// import { CountdownComponent } from './countdown/countdown.component';
+import { CountdownComponent } from './countdown/countdown.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
@@ -11,10 +11,22 @@ import { SnowdayComponent } from './snowday/snowday.component';
 // import { StickynotesComponent } from './stickynotes/stickynotes.component';
 import { WeatherComponent } from './weather/weather.component';
 
+/**
+ * Specific Module Config Types
+ */
+
+enum COUNTDOWN_MODE {
+	END = 'END',
+	BREAK = 'BREAK',
+	LONG_WEEKEND = 'LONG_WEEKEND',
+	WEEKEND = 'WEEKEND',
+	CUSTOM = 'CUSTOM'
+}
+
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
 export const moduleComponents: any[] = [
-	// CountdownComponent,
+	CountdownComponent,
 	ProgressComponent,
 	ScheduleComponent,
 	SimplifiedLunchComponent,
@@ -56,6 +68,62 @@ export const config: Config = {
 	// 		}
 	// 	}
 	// },
+	countdown: {
+		displayName: 'Countdown',
+		icon: 'clock-o',
+		component: CountdownComponent,
+		defaultHeight: 1,
+		defaultWidth: 2,
+		options: {
+			eventLabel: {
+				label: 'Label',
+				type: 'string',
+				default: 'Countdown'
+			},
+			schoolDays: {
+				label: 'Only Count School Days',
+				type: 'boolean',
+				default: true
+			},
+			mode: {
+				label: 'Display',
+				type: {
+					name: 'COUNTDOWN_MODE',
+					values: [
+						{
+							name: 'End of School',
+							value: COUNTDOWN_MODE.END
+						},
+						{
+							name: 'Next Break',
+							value: COUNTDOWN_MODE.BREAK
+						},
+						{
+							name: 'Next Long Weekend',
+							value: COUNTDOWN_MODE.LONG_WEEKEND
+						},
+						{
+							name: 'Next Weekend',
+							value: COUNTDOWN_MODE.WEEKEND
+						},
+						{
+							name: 'Custom Date',
+							value: COUNTDOWN_MODE.WEEKEND
+						}
+					]
+				},
+				default: COUNTDOWN_MODE.END,
+			},
+			countdownTo: {
+				label: 'Countdown To',
+				type: 'Date',
+				default: new Date(),
+				// showIf: {
+				// 	mode: COUNTDOWN_MODE.CUSTOM
+				// }
+			}
+		}
+	},
 	progress: {
 		displayName: 'Progress',
 		icon: 'fa-tasks',

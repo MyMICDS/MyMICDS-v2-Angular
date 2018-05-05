@@ -8,18 +8,41 @@ import { OptionConfig, OptionValue } from '../../modules/module-options';
 })
 export class ModuleOptionComponent {
 
-	@Input() config: OptionConfig;
+	@Input()
+	get config() {
+		return this._config;
+	}
+	set config(newValue: OptionConfig) {
+		this._config = newValue;
+		this.select = (typeof this.config.type === 'object' && typeof this.config.type.name !== 'undefined');
+	}
+	private _config: OptionConfig;
 
 	@Input() value: OptionValue;
 	@Output() valueChange = new EventEmitter<OptionValue>();
 
-	currDate: Date;
+	select = false;
+
+	// Date picker stuff
+	currDate: Date = new Date();
+	showPicker = false;
+	showDate = true;
+	showTime = true;
+	clearButton: any = { show: false };
+	nowButton: any = { show: true, label: 'Today', cssClass: 'btn btn-info' };
+	closeButton: any = { show: true, label: 'Enter', cssClass: 'btn btn-primary' };
 
 	constructor() {
 		this.valueChange.debounceTime(50);
 	}
 
-	dateChange(d) {
+	onTogglePicker() {
+		if (this.showPicker === false) {
+			this.showPicker = true;
+		}
+	}
+
+	changeDate(d) {
 		this.currDate = d;
 		this.valueChange.emit(d);
 	}

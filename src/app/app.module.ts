@@ -6,6 +6,7 @@ import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
+import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
@@ -164,6 +165,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
 		TooltipModule.forRoot(),
+		DatetimePopupModule.forRoot(),
 		GridsterModule,
 		BrowserAnimationsModule
 	],
