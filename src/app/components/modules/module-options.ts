@@ -3,11 +3,10 @@ export interface OptionsConfig {
 }
 
 export interface OptionConfig {
-	label: string;
+	label?: string;
 	type: OptionType;
 	default: OptionValue;
-	select?: boolean;
-	selectItems?: OptionValue[];
+	showIf?: { [variable: string]: any };
 }
 
 export interface Options {
