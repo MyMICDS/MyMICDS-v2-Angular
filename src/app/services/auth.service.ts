@@ -16,6 +16,11 @@ export class AuthService {
 	// What the most recent auth state is (for redirecting when not authenticated or something that requires current state once)
 	authSnapshot: JWT;
 
+	// Whether or not logged in to realtime
+	realtimeLoggedIn = false;
+	// Emit on any realtime auth state change. Undefined if auth state still pending.
+	realtime$ = new BehaviorSubject<boolean>(undefined);
+
 	constructor(private http: Http, private authHttp: AuthHttp) {
 		this.updateAuthState();
 	}
@@ -182,6 +187,11 @@ export class AuthService {
 				return;
 			})
 			.catch(handleError);
+	}
+
+	updateRealtimeState(loggedIn: boolean) {
+		this.realtimeLoggedIn = loggedIn;
+		this.realtime$.next(loggedIn);
 	}
 
 	private updateAuthState() {

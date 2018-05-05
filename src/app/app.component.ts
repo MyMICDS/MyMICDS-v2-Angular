@@ -1,10 +1,12 @@
 import { Component, ViewContainerRef } from '@angular/core';
-import { Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { defaultTitleFunction } from './app.routing';
 
 import { AlertService } from './services/alert.service';
+import { AuthService } from './services/auth.service';
 import { BackgroundService } from './services/background.service';
+import { RealtimeService } from './services/realtime.service';
 
 declare const ga: any;
 
@@ -14,6 +16,10 @@ declare const ga: any;
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+	admin = false;
+	messages: string[] = [];
+	messageSequence = 0;
 
 	/*
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
@@ -25,7 +31,9 @@ export class AppComponent {
 		private titleService: Title,
 		private viewContainerRef: ViewContainerRef,
 		private alertService: AlertService,
-		private backgroundService: BackgroundService
+		private authService: AuthService,
+		private backgroundService: BackgroundService,
+		private realtimeService: RealtimeService
 	) {
 
 		// Get custom user background
@@ -71,5 +79,31 @@ export class AppComponent {
 
 				}
 			);
+
+		// Get realtime working
+		this.authService.auth$.subscribe(() => {
+			this.realtimeService.emit('jwt', this.authService.getJWT());
+			this.realtimeService.listen('jwt').subscribe(
+				payload => {
+					console.log('get jwt response', payload);
+					this.authService.updateRealtimeState(!!payload);
+				}
+			);
+		});
+
+		this.realtimeService.listen('admin').subscribe(({ enabled, messages }) => {
+			console.log('admin', enabled, messages);
+			this.messages = messages;
+			this.admin = enabled;
+
+			this.messageSequence = 0;
+			setTimeout(() => {
+				this.messageSequence = 1;
+
+				setTimeout(() => {
+					this.messageSequence = 2;
+				}, 1250);
+			}, 250);
+		});
 	}
 }
