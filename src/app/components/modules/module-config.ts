@@ -39,7 +39,7 @@ export const moduleComponents: any[] = [
 export const config: Config = {
 	countdown: {
 		displayName: 'Countdown',
-		icon: 'clock-o',
+		icon: 'fa-clock-o',
 		component: CountdownComponent,
 		defaultHeight: 1,
 		defaultWidth: 2,
