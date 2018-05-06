@@ -15,9 +15,9 @@ import { WeatherComponent } from './weather/weather.component';
  * Specific Module Config Types
  */
 
-enum COUNTDOWN_MODE {
+export enum COUNTDOWN_MODE {
 	END = 'END',
-	BREAK = 'BREAK',
+	VACATION = 'VACATION',
 	LONG_WEEKEND = 'LONG_WEEKEND',
 	WEEKEND = 'WEEKEND',
 	CUSTOM = 'CUSTOM'
@@ -44,11 +44,6 @@ export const config: Config = {
 		defaultHeight: 1,
 		defaultWidth: 2,
 		options: {
-			eventLabel: {
-				label: 'Label',
-				type: 'string',
-				default: 'Countdown'
-			},
 			schoolDays: {
 				label: 'Only Count School Days',
 				type: 'boolean',
@@ -65,7 +60,7 @@ export const config: Config = {
 						},
 						{
 							name: 'Next Break',
-							value: COUNTDOWN_MODE.BREAK
+							value: COUNTDOWN_MODE.VACATION
 						},
 						{
 							name: 'Next Long Weekend',
@@ -83,7 +78,16 @@ export const config: Config = {
 				},
 				default: COUNTDOWN_MODE.END,
 			},
+			eventLabel: {
+				label: 'Label',
+				type: 'string',
+				default: 'Countdown',
+				showIf: {
+					mode: COUNTDOWN_MODE.CUSTOM
+				}
+			},
 			countdownTo: {
+				label: 'Date',
 				type: 'Date',
 				default: new Date(),
 				showIf: {
