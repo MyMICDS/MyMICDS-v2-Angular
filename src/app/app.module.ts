@@ -8,6 +8,7 @@ import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
 import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
+import { AngularFittextModule } from 'angular-fittext';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
 
@@ -167,7 +168,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		TooltipModule.forRoot(),
 		DatetimePopupModule.forRoot(),
 		GridsterModule,
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
+		AngularFittextModule
 	],
 	providers: [
 		appRoutingProviders,
