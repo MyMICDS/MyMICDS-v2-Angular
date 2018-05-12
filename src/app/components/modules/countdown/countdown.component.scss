@@ -17,8 +17,11 @@
 		align-items: center;
 
 		div {
+			max-width: 100%;
 			line-height: normal !important;
 			text-align: center;
+			overflow-wrap: break-word;
+			overflow: hidden;
 		}
 	}
 }
