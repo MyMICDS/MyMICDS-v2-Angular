@@ -128,6 +128,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 				this.schoolEnds = schoolEnds;
 				this.breaks = breaks;
 				this.calculate();
+				console.log('breaks', breaks);
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Get Countdown Dates Error!', error);
@@ -152,27 +153,31 @@ export class CountdownComponent implements OnInit, OnDestroy {
 			return;
 		}
 		switch (this.mode) {
+			case COUNTDOWN_MODE.TIME_OFF:
+				this.displayCountdown = this.nextTimeOff(...Object.keys(this.breaks).map(k => this.breaks[k]));
+				this.displayLabel = 'Time off School';
+				break;
 			case COUNTDOWN_MODE.END:
 				this.displayCountdown = this.schoolEnds;
 				this.displayLabel = 'Summer Break';
 				break;
 			case COUNTDOWN_MODE.VACATION:
-				this.displayCountdown = moment(this.breaks.vacations[0].start).toDate();
+				this.displayCountdown = this.nextTimeOff(this.breaks.vacations);
 				this.displayLabel = 'Next Break';
 				break;
 			case COUNTDOWN_MODE.LONG_WEEKEND:
-				this.displayCountdown = moment(this.breaks.longWeekends[0].start).toDate();
+				this.displayCountdown = this.nextTimeOff(this.breaks.longWeekends);
 				this.displayLabel = 'Next Long Weekend';
 				break;
 			case COUNTDOWN_MODE.WEEKEND:
-				this.displayCountdown = moment(this.breaks.weekends[0].start).toDate();
+				this.displayCountdown = this.nextTimeOff(this.breaks.weekends);
 				this.displayLabel = 'Next Weekend';
 				break;
 			case COUNTDOWN_MODE.CUSTOM:
 				this.displayCountdown = this.countdownTo;
 				this.displayLabel = this.eventLabel;
 		}
-		if (moment().isAfter(this.displayCountdown)) {
+		if (this.displayCountdown === null || moment().isAfter(this.displayCountdown)) {
 			this.finished = true;
 			return;
 		} else {
@@ -205,6 +210,21 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		} else {
 			this.shaking = 'none';
 		}
+	}
+
+	nextTimeOff(...breaks) {
+		const durations = breaks.reduce((acc, val) => acc.concat(val), []);
+		let closest = null;
+		for (const duration of durations) {
+			const start = moment(duration.start);
+			if (start.isSameOrAfter(moment())) {
+				if (closest === null || start.isBefore(closest)) {
+					closest = start;
+				}
+			}
+		}
+		console.log('closest', closest);
+		return closest;
 	}
 
 	// Calculates amount of school days from moment object to moment object (inclusive)

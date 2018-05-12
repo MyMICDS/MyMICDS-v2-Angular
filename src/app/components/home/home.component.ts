@@ -160,7 +160,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	exitEditMode() {
 		if (this.detectChanges()) {
-			if (!confirm('It looks like you have some unsaved changes. Are you sure you want to quit without saving your layout?')) {
+			// tslint:disable-next-line:max-line-length
+			if (!confirm('It looks like you have some unsaved changes. Are you sure you want to quit without saving your layout or module options?')) {
 				return;
 			}
 		}
