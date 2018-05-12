@@ -1,8 +1,11 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, ViewChildren, QueryList, Renderer2 } from '@angular/core';
 import { trigger, state, style } from '@angular/animations';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import { Observable } from 'rxjs/Observable';
+import { AngularFittextDirective } from 'angular-fittext';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import moment from 'moment';
+
+import { COUNTDOWN_MODE } from '../module-config';
 
 import { AlertService } from '../../../services/alert.service';
 import { PortalService } from '../../../services/portal.service';
@@ -14,6 +17,9 @@ import { DatesService } from '../../../services/dates.service';
 	styleUrls: ['./countdown.component.scss'],
 	animations: [
 		trigger('shaking', [
+			state('none', style({
+				animation: 'none'
+			})),
 			state('small', style({
 				animation: '0.8s infinite linear shaking-small'
 			})),
@@ -28,38 +34,73 @@ import { DatesService } from '../../../services/dates.service';
 })
 export class CountdownComponent implements OnInit, OnDestroy {
 
-	dayRotationSubscription: any;
-	breaksSubscription: any;
-	countdownInterval: NodeJS.Timer;
-	dayRotation: any;
-	daysLeft: number;
-	minutesLeft: number;
-	hoursLeft: number;
-	progressResize: ResizeSensor;
+	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChildren(AngularFittextDirective)
+	private fittexts: QueryList<AngularFittextDirective>;
+	datesSubscription: any;
 
-	@Input() preset: string;
-	@Input() set countdownTo(to: Date) {
-		this._countdownTo = moment(to);
-	};
-	_countdownTo: moment.Moment;
-	@Input() eventLabel: string;
-	private _schoolDays = false;
-	@Input() set schoolDays(s: boolean) {
-		this._schoolDays = s;
-		if (s && this.dayRotation) {
-			this.daysLeft = this.calculateSchoolDays(moment(), this._countdownTo);
-		} else {
-			this.daysLeft = this._countdownTo.diff(moment(), 'days');
-		}
+	@Input()
+	get mode() {
+		return this._mode;
+	}
+	set mode(newValue: string) {
+		this._mode = newValue;
+		this.calculate();
+	}
+	private _mode: string;
+
+	@Input()
+	get shake() {
+		return this._shake;
+	}
+	set shake(newValue: boolean) {
+		this._shake = newValue;
 		this.styleDaysLeft();
-		if (this.dayRotation) {
-			this.initProgress();
-		}
-	};
+	}
+	private _shake: boolean;
 
-	@ViewChild('moduleContainer') containerEl: ElementRef;
+	@Input()
+	get schoolDays() {
+		return this._schoolDays;
+	}
+	set schoolDays(newValue: boolean) {
+		this._schoolDays = newValue;
+		this.calculate();
+	}
+	private _schoolDays: boolean;
 
-	daysScale: number;
+	@Input()
+	get eventLabel() {
+		return this._eventLabel;
+	}
+	set eventLabel(newValue: string) {
+		this._eventLabel = newValue;
+		this.calculate();
+	}
+	private _eventLabel: string;
+
+	@Input()
+	get countdownTo() {
+		return this._countdownTo;
+	}
+	set countdownTo(newValue: Date) {
+		this._countdownTo = newValue;
+		this.calculate();
+	}
+	private _countdownTo: Date;
+
+	countdownInterval: NodeJS.Timer;
+	dayRotation: number[][];
+	schoolEnds: Date;
+	breaks: any;
+
+	displayLabel: string = null;
+	displayCountdown = null;
+	finished = false;
+	daysLeft: number;
+	// hoursLeft: number;
+	// minutesLeft: number;
+	// secondsLeft: number;
 
 	shaking: string;
 
@@ -70,94 +111,120 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		private renderer: Renderer2) {}
 
 	ngOnInit() {
-		ElementQueries.listen();
-		ElementQueries.init();
+		setTimeout(() => this.onResize());
+		new ResizeSensor(this.moduleContainer.nativeElement, () => this.onResize());
 
-		this.breaksSubscription = this.datesService.breaks().subscribe(
-			breaks => {
-				switch (this.preset) {
-					case 'Summer Break':
-						this.countdownTo = moment().year(2018).month('may').date(26).hour(15).minute(15).toDate();
-						this.eventLabel = 'Summer Break';
-						break;
-					case 'Next Break':
-						this.countdownTo = moment(breaks.vacations[0].start).toDate();
-						this.eventLabel = 'Next Break';
-						break;
-					case 'Next Weekend':
-						this.countdownTo = moment(breaks.weekends[0].start).toDate();
-						this.eventLabel = 'Next Weekend';
-						break;
-					case 'Next Long Weekend':
-						this.countdownTo = moment(breaks.longWeekends[0].start).toDate();
-						this.eventLabel = 'Next Long Weekend';
-						break;
-				}
+		this.countdownInterval = setInterval(() => {
+			this.calculate();
+		}, 1000);
 
-				this.dayRotationSubscription = this.portalService.dayRotation()
-					.subscribe(
-						days => {
-							this.dayRotation = days;
-							this.schoolDays = this._schoolDays;
-							this.styleDaysLeft();
-							this.initProgress();
-							let buffer = true;
-							this.progressResize = new ResizeSensor(this.containerEl.nativeElement, () => {
-								if (buffer) {
-									this.initProgress();
-									buffer = false;
-									setTimeout(() => {
-										buffer = true;
-									}, 500);
-								}
-							});
-						},
-						error => {
-							this.alertService.addAlert('danger', 'Get Day Rotation Error!', error);
-						}
-					);
+		this.datesSubscription = Observable.combineLatest(
+			this.portalService.dayRotation(),
+			this.datesService.schoolEnds(),
+			this.datesService.breaks()
+		).subscribe(
+			([days, schoolEnds, breaks]) => {
+				this.dayRotation = days;
+				this.schoolEnds = schoolEnds;
+				this.breaks = breaks;
+				this.calculate();
+				console.log('breaks', breaks);
 			},
 			error => {
-				this.alertService.addAlert('danger', 'Get breaks Error!', error);
+				this.alertService.addAlert('danger', 'Get Countdown Dates Error!', error);
 			}
 		);
 	}
 
 	ngOnDestroy() {
-		this.dayRotationSubscription.unsubscribe();
-		this.breaksSubscription.unsubscribe();
+		this.datesSubscription.unsubscribe();
 		clearInterval(this.countdownInterval);
+	}
+
+	onResize() {
+		this.fittexts.forEach(item => {
+			item.onWindowResize();
+		});
+	}
+
+	// Calculates how many days/minutes/seconds to display
+	calculate() {
+		if (!this.breaks || !this.schoolEnds) {
+			return;
+		}
+		switch (this.mode) {
+			case COUNTDOWN_MODE.TIME_OFF:
+				this.displayCountdown = this.nextTimeOff(...Object.keys(this.breaks).map(k => this.breaks[k]));
+				this.displayLabel = 'Time off School';
+				break;
+			case COUNTDOWN_MODE.END:
+				this.displayCountdown = this.schoolEnds;
+				this.displayLabel = 'Summer Break';
+				break;
+			case COUNTDOWN_MODE.VACATION:
+				this.displayCountdown = this.nextTimeOff(this.breaks.vacations);
+				this.displayLabel = 'Next Break';
+				break;
+			case COUNTDOWN_MODE.LONG_WEEKEND:
+				this.displayCountdown = this.nextTimeOff(this.breaks.longWeekends);
+				this.displayLabel = 'Next Long Weekend';
+				break;
+			case COUNTDOWN_MODE.WEEKEND:
+				this.displayCountdown = this.nextTimeOff(this.breaks.weekends);
+				this.displayLabel = 'Next Weekend';
+				break;
+			case COUNTDOWN_MODE.CUSTOM:
+				this.displayCountdown = this.countdownTo;
+				this.displayLabel = this.eventLabel;
+		}
+		if (this.displayCountdown === null || moment().isAfter(this.displayCountdown)) {
+			this.finished = true;
+			return;
+		} else {
+			this.finished = false;
+		}
+
+		if (this.schoolDays) {
+			if (!this.dayRotation) {
+				return;
+			}
+			this.daysLeft = this.calculateSchoolDays(moment(), this.displayCountdown);
+		} else {
+			this.daysLeft = -moment().diff(this.displayCountdown, 'days');
+		}
+		this.styleDaysLeft();
+		this.onResize();
 	}
 
 	styleDaysLeft() {
-		if (this.daysLeft <= 3) {
-			this.shaking = 'large';
-		} else if (this.daysLeft <= 7) {
-			this.shaking = 'medium';
-		} else if (this.daysLeft <= 30) {
-			this.shaking = 'small';
+		if (!this.shake) {
+			this.shaking = 'none';
+			return;
 		}
-
-		let a = Math.sqrt((20 / this.daysLeft));
-		this.daysScale = a < 1 ? 1 : a;
+		if (this.daysLeft <= 1) {
+			this.shaking = 'large';
+		} else if (this.daysLeft <= 3) {
+			this.shaking = 'medium';
+		} else if (this.daysLeft <= 7) {
+			this.shaking = 'small';
+		} else {
+			this.shaking = 'none';
+		}
 	}
 
-	initProgress() {
-		clearInterval(this.countdownInterval);
-		this.minutesLeft = Math.floor(this._countdownTo.diff(moment(), 'minutes') / 24) % 60;
-		this.hoursLeft = this._countdownTo.diff(moment(), 'hours') % 24;
-
-		let progress: SVGPathElement = this.renderer.selectRootElement('.countdown-wrapper .countdown-progress path');
-		let borderLen = (progress.getTotalLength() + 5) / 60, offset = 0;
-		this.renderer.setStyle(progress, 'stroke-dashoffset', borderLen);
-		this.renderer.setStyle(progress, 'stroke-dasharray', borderLen + ',' + borderLen);
-
-		this.countdownInterval = setInterval(() => {
-			this.minutesLeft = Math.floor(this._countdownTo.diff(moment(), 'minutes') / 24) % 60;
-			this.hoursLeft = this._countdownTo.diff(moment(), 'hours') % 24;
-			if (offset >= 0) { offset += borderLen / 3; }
-			this.renderer.setStyle(progress, 'stroke-dashoffset', offset);
-		}, 1000);
+	nextTimeOff(...breaks) {
+		const durations = breaks.reduce((acc, val) => acc.concat(val), []);
+		let closest = null;
+		for (const duration of durations) {
+			const start = moment(duration.start);
+			if (start.isSameOrAfter(moment())) {
+				if (closest === null || start.isBefore(closest)) {
+					closest = start;
+				}
+			}
+		}
+		console.log('closest', closest);
+		return closest;
 	}
 
 	// Calculates amount of school days from moment object to moment object (inclusive)
@@ -172,7 +239,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 			pointer.add(1, 'day');
 
 			// Check if current pointer exists in day rotation
-			if (this.dayRotation[pointer.year()]
+			if (this.dayRotation && this.dayRotation[pointer.year()]
 				&& this.dayRotation[pointer.year()][pointer.month() + 1]
 				&& this.dayRotation[pointer.year()][pointer.month() + 1][pointer.date()]) {
 

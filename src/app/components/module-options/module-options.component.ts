@@ -41,6 +41,7 @@ export class ModuleOptionsComponent {
 
 	optionKeys: string[];
 	optionsConfig: OptionsConfig;
+	validOptions: Options;
 
 	constructor() { }
 
@@ -53,6 +54,7 @@ export class ModuleOptionsComponent {
 			}
 		}
 
+		this.validOptions = validOptions;
 		this.optionsChange.emit(validOptions);
 	}
 
