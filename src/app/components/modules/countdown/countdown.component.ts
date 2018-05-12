@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, ViewChildre
 import { trigger, state, style } from '@angular/animations';
 import { Observable } from 'rxjs/Observable';
 import { AngularFittextDirective } from 'angular-fittext';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import moment from 'moment';
 
@@ -37,7 +36,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 	@ViewChildren(AngularFittextDirective)
-	private fittexts: QueryList<any>;
+	private fittexts: QueryList<AngularFittextDirective>;
 	datesSubscription: any;
 
 	@Input()
@@ -101,18 +100,8 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		private renderer: Renderer2) {}
 
 	ngOnInit() {
-		ElementQueries.listen();
-		ElementQueries.init();
-
-		const onResize = () => {
-			console.log('resize', this.fittexts);
-			this.fittexts.forEach(item => {
-				console.log('item', item);
-				item.onWindowResize();
-			});
-		};
-		// onResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, () => onResize());
+		setTimeout(() => this.onResize());
+		new ResizeSensor(this.moduleContainer.nativeElement, () => this.onResize());
 
 		this.countdownInterval = setInterval(() => {
 			this.calculate();
@@ -138,6 +127,12 @@ export class CountdownComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.datesSubscription.unsubscribe();
 		clearInterval(this.countdownInterval);
+	}
+
+	onResize() {
+		this.fittexts.forEach(item => {
+			item.onWindowResize();
+		});
 	}
 
 	// Calculates how many days/minutes/seconds to display
@@ -176,6 +171,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 			this.daysLeft = -moment().diff(this.displayCountdown, 'days');
 		}
 		this.styleDaysLeft();
+		this.onResize();
 	}
 
 	styleDaysLeft() {

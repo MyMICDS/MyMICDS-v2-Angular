@@ -1,9 +1,6 @@
-<!-- <p>Hang in there, there's only</p> -->
-<!-- <h1 class="display-3"><strong>{{ daysLeft }}</strong> day{{ daysLeft === 1 ? '' : 's' }} left.</h1> -->
 <div #moduleContainer class="countdown-container">
-	<div #fit fittext> <!-- class="display-3" / 4 -->
-		<!-- <div [@shaking]="shaking">{{ daysLeft }} Day{{ daysLeft === 1 ? '' : 's' }}</div> -->
-		{{ daysLeft }} Day{{ daysLeft === 1 ? '' : 's' }}
+	<div class="countdown">
+		<div fittext>{{ daysLeft }} Day{{ daysLeft === 1 ? '' : 's' }}</div>
+		<div fittext>until {{ displayLabel }}</div>
 	</div>
-	<div #fit fittext>until {{ displayLabel }}</div>
 </div>
