@@ -49,6 +49,11 @@ export const config: Config = {
 				type: 'boolean',
 				default: true
 			},
+			shake: {
+				label: 'Shake as Date Approaches',
+				type: 'boolean',
+				default: true
+			},
 			mode: {
 				label: 'Countdown to',
 				type: {

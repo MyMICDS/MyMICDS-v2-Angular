@@ -1,6 +1,9 @@
 <div #moduleContainer class="countdown-container">
-	<div class="countdown">
-		<div fittext minFontSize="25">{{ daysLeft }} Day{{ daysLeft === 1 ? '' : 's' }}</div>
+	<div *ngIf="!finished" class="countdown">
+		<div fittext minFontSize="25" [@shaking]="shaking">{{ daysLeft }} Day{{ daysLeft === 1 ? '' : 's' }}</div>
 		<div fittext minFontSize="25" maxFontSize="75">until {{ displayLabel }}</div>
+	</div>
+	<div *ngIf="finished" class="finished-message">
+		<div fittext minFontSize="25" maxFontSize="75">{{ displayLabel }} is here! 🎉</div>
 	</div>
 </div>

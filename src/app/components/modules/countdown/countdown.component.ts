@@ -50,6 +50,16 @@ export class CountdownComponent implements OnInit, OnDestroy {
 	private _mode: string;
 
 	@Input()
+	get shake() {
+		return this._shake;
+	}
+	set shake(newValue: boolean) {
+		this._shake = newValue;
+		this.styleDaysLeft();
+	}
+	private _shake: boolean;
+
+	@Input()
 	get schoolDays() {
 		return this._schoolDays;
 	}
@@ -86,6 +96,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
 	displayLabel: string = null;
 	displayCountdown = null;
+	finished = false;
 	daysLeft: number;
 	// hoursLeft: number;
 	// minutesLeft: number;
@@ -161,6 +172,12 @@ export class CountdownComponent implements OnInit, OnDestroy {
 				this.displayCountdown = this.countdownTo;
 				this.displayLabel = this.eventLabel;
 		}
+		if (moment().isAfter(this.displayCountdown)) {
+			this.finished = true;
+			return;
+		} else {
+			this.finished = false;
+		}
 
 		if (this.schoolDays) {
 			if (!this.dayRotation) {
@@ -175,11 +192,15 @@ export class CountdownComponent implements OnInit, OnDestroy {
 	}
 
 	styleDaysLeft() {
+		if (!this.shake) {
+			this.shaking = 'none';
+			return;
+		}
 		if (this.daysLeft <= 1) {
 			this.shaking = 'large';
 		} else if (this.daysLeft <= 3) {
 			this.shaking = 'medium';
-		} else if (this.daysLeft <= 5) {
+		} else if (this.daysLeft <= 7) {
 			this.shaking = 'small';
 		} else {
 			this.shaking = 'none';

@@ -5,7 +5,8 @@
 	justify-content: center;
 	align-items: center;
 
-	.countdown {
+	.countdown,
+	.finished-message {
 		width: 100%;
 		height: 100%;
 		max-width: 20rem;
@@ -23,6 +24,10 @@
 			overflow-wrap: break-word;
 			overflow: hidden;
 		}
+	}
+
+	.finished-message {
+		max-width: 100%;
 	}
 }
 
