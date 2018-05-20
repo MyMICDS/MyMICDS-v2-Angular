@@ -52,6 +52,7 @@ import { BackgroundComponent } from './components/settings/background/background
 import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
 import { ClassesComponent } from './components/settings/classes/classes.component';
 import { InfoComponent } from './components/settings/info/info.component';
+import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
 import { UrlComponent } from './components/settings/url/url.component';
 
 import { SportsComponent } from './components/sports/sports.component';
@@ -132,6 +133,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ClassesComponent,
 		InfoComponent,
 		UrlComponent,
+		UnsubscribeComponent,
 		SportsComponent,
 		SuggestionsComponent,
 		QuotesComponent,

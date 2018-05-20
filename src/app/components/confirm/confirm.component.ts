@@ -34,7 +34,7 @@ export class ConfirmComponent implements OnInit {
 						this.confirmResponse = true;
 					},
 					error => {
-						this.confirmResponse = 'There was a problem getting the URL variables!';
+						this.confirmResponse = 'Invalid confirmation link!';
 					}
 				);
 			},
