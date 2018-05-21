@@ -81,7 +81,7 @@ import { SportsService } from './services/sports.service';
 import { StatsService } from './services/stats.service';
 import { UserService } from './services/user.service';
 import { WeatherService } from './services/weather.service';
-import { NotificationService } from './services/notification.service';
+import { NotificationsService } from './services/notifications.service';
 import { SuggestionsService } from './services/suggestions.service';
 import { QuoteService } from './services/quote.service';
 import { StickynotesService } from './services/stickynotes.service';
@@ -197,7 +197,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		StatsService,
 		UserService,
 		WeatherService,
-		NotificationService,
+		NotificationsService,
 		SuggestionsService,
 		QuoteService,
 		StickynotesService,

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { typeOf } from '../../common/utils';
 
 import { AlertService } from '../../services/alert.service';
+import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
 	selector: 'mymicds-unsubscribe',
@@ -16,19 +17,28 @@ export class UnsubscribeComponent implements OnInit {
 	typeOf = typeOf;
 	unsubscribeResponse: boolean = null;
 
-	constructor(private router: Router, private route: ActivatedRoute, private alertService: AlertService) { }
+	constructor(
+		private router: Router,
+		private route: ActivatedRoute,
+		private alertService: AlertService,
+		private notificationsService: NotificationsService
+	) { }
 
 	ngOnInit() {
-		this.route.params.subscribe(
-			params => {
+		Observable.combineLatest(
+			this.route.params,
+			this.route.queryParams
+		).subscribe(
+			([params, queryParams]) => {
 				const user = params.user;
 				const hash = params.hash;
-				console.log(user, hash);
-				Observable.of(null).delay(1000).subscribe(
+				const type = queryParams.type ? queryParams.type.toUpperCase() : 'ALL';
+				this.notificationsService.unsubscribe(type, user, hash).subscribe(
 					() => {
 						this.unsubscribeResponse = true;
 					},
 					error => {
+						this.alertService.addAlert('danger', 'Unsubscribe Error!', error);
 						this.unsubscribeResponse = false;
 					}
 				);
