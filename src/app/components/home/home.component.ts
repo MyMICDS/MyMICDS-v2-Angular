@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = 'School is wrapping up and summer break is beginning, which means we\'ll have some downtime to improve the site. What should we fix? What should we add? <a href="https://docs.google.com/forms/d/e/1FAIpQLSeqhf-DBGg74thhQTOvg-DW9FPEeSMlm6ijc6LWM71RI3oKPA/viewform?usp=sf_link" target="_blank" class="alert-link">We\'re launching a survey to find out just that.</a> Feel free to email <strong>support@mymicds.net</strong> any time for other feedback. Thanks so much!';
+	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
