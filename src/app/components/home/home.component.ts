@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = '';
+	announcement = 'MyMICDS now has a Twitter! <a class="alert-link" href="https://twitter.com/MyMICDS" target="_blank">Follow @MyMICDS</a> to get news on the latest features, announcements, and more!';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
