@@ -33,6 +33,7 @@ import { WeatherComponent } from './components/modules/weather/weather.component
 import { StickynotesComponent } from './components/modules/stickynotes/stickynotes.component';
 import { SimplifiedLunchComponent } from './components/modules/simplified-lunch/simplified-lunch.component';
 
+import { ConfettiComponent } from './components/confetti/confetti.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
@@ -114,6 +115,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		StickynotesComponent,
 		WeatherComponent,
 		BulletinArchivesComponent,
+		ConfettiComponent,
 		ConfirmComponent,
 		DailyBulletinComponent,
 		ForgotPasswordComponent,
