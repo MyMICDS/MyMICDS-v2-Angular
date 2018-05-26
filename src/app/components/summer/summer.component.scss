@@ -1,0 +1,13 @@
+@import '../../../styles/settings';
+
+.module-container {
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.stuff {
+	padding: 2rem;
+	color: $sophisticated-white;
+}

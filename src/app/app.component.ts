@@ -21,6 +21,9 @@ export class AppComponent {
 	messages: string[] = [];
 	messageSequence = 0;
 
+	showSummer = true;
+	showSummerOnce = true;
+
 	/*
 	 * We must import the ViewContainerRef in order to get the ng2-bootstrap modals to work.
 	 * You need this small hack in order to catch application root view container ref.
@@ -38,6 +41,11 @@ export class AppComponent {
 
 		// Get custom user background
 		this.backgroundService.initialize();
+
+		// Check if we've alredy showed summer page
+		if (this.showSummerOnce && sessionStorage.getItem('shownSummer')) {
+			this.showSummer = false;
+		}
 
 		// Dynamic browser page title
 		this.router.events
