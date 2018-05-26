@@ -17,6 +17,7 @@ import { WeatherComponent } from './weather/weather.component';
 
 export enum COUNTDOWN_MODE {
 	TIME_OFF = 'TIME_OFF',
+	START = 'START',
 	END = 'END',
 	VACATION = 'VACATION',
 	LONG_WEEKEND = 'LONG_WEEKEND',
@@ -63,6 +64,10 @@ export const config: Config = {
 						{
 							name: 'Any Time Off',
 							value: COUNTDOWN_MODE.TIME_OFF
+						},
+						{
+							name: 'Start of School',
+							value: COUNTDOWN_MODE.START
 						},
 						{
 							name: 'End of School',

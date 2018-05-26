@@ -91,6 +91,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
 	countdownInterval: NodeJS.Timer;
 	dayRotation: number[][];
+	schoolStarts: Date;
 	schoolEnds: Date;
 	breaks: any;
 
@@ -120,11 +121,13 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
 		this.datesSubscription = Observable.combineLatest(
 			this.portalService.dayRotation(),
+			this.datesService.schoolStarts(),
 			this.datesService.schoolEnds(),
 			this.datesService.breaks()
 		).subscribe(
-			([days, schoolEnds, breaks]) => {
+			([days, schoolStarts, schoolEnds, breaks]) => {
 				this.dayRotation = days;
+				this.schoolStarts = schoolStarts;
 				this.schoolEnds = schoolEnds;
 				this.breaks = breaks;
 				this.calculate();
@@ -157,6 +160,10 @@ export class CountdownComponent implements OnInit, OnDestroy {
 				this.displayCountdown = this.nextTimeOff(...Object.keys(this.breaks).map(k => this.breaks[k]));
 				this.displayLabel = 'Time off School';
 				break;
+				case COUNTDOWN_MODE.START:
+					this.displayCountdown = this.schoolStarts;
+					this.displayLabel = 'School Begins';
+					break;
 			case COUNTDOWN_MODE.END:
 				this.displayCountdown = this.schoolEnds;
 				this.displayLabel = 'Summer Break';
