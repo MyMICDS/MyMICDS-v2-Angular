@@ -5,11 +5,19 @@ import { AngularFittextDirective } from 'angular-fittext';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import moment from 'moment';
 
-import { COUNTDOWN_MODE } from '../module-config';
-
 import { AlertService } from '../../../services/alert.service';
 import { PortalService } from '../../../services/portal.service';
 import { DatesService } from '../../../services/dates.service';
+
+export enum COUNTDOWN_MODE {
+	TIME_OFF = 'TIME_OFF',
+	START = 'START',
+	END = 'END',
+	VACATION = 'VACATION',
+	LONG_WEEKEND = 'LONG_WEEKEND',
+	WEEKEND = 'WEEKEND',
+	CUSTOM = 'CUSTOM'
+}
 
 @Component({
 	selector: 'mymicds-countdown',
@@ -152,7 +160,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
 	// Calculates how many days/minutes/seconds to display
 	calculate() {
-		if (!this.breaks || !this.schoolEnds) {
+		if (!this.breaks || !this.schoolStarts || !this.schoolEnds) {
 			return;
 		}
 		switch (this.mode) {

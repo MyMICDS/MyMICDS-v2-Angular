@@ -4,5 +4,5 @@
 		<p>Have any features you want to see next year? <strong>Hit us up at <a href="mailto:support@mymicds.net">support@mymicds.net</a></strong></p>
 		<button class="btn btn-primary" (click)="continue()">Continue to site</button>
 	</div>
-	<mymicds-countdown mode="'START'" shake="false" schoolDays="false"></mymicds-countdown>
+	<mymicds-module-container [type]="'countdown'" [inputs]="{ mode: 'START', shake: false, schoolDays: false }" [fixedHeight]="true"></mymicds-module-container>
 </div>

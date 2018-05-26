@@ -2,7 +2,7 @@
 
 import { OptionsConfig } from './module-options';
 
-import { CountdownComponent } from './countdown/countdown.component';
+import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
@@ -10,20 +10,6 @@ import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-sc
 import { SnowdayComponent } from './snowday/snowday.component';
 // import { StickynotesComponent } from './stickynotes/stickynotes.component';
 import { WeatherComponent } from './weather/weather.component';
-
-/**
- * Specific Module Config Types
- */
-
-export enum COUNTDOWN_MODE {
-	TIME_OFF = 'TIME_OFF',
-	START = 'START',
-	END = 'END',
-	VACATION = 'VACATION',
-	LONG_WEEKEND = 'LONG_WEEKEND',
-	WEEKEND = 'WEEKEND',
-	CUSTOM = 'CUSTOM'
-}
 
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
