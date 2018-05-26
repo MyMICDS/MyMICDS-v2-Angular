@@ -29,9 +29,10 @@ import { ProgressComponent } from './components/modules/progress/progress.compon
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
 import { SimplifiedScheduleComponent } from './components/modules/simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './components/modules/snowday/snowday.component';
-import { WeatherComponent } from './components/modules/weather/weather.component';
 import { StickynotesComponent } from './components/modules/stickynotes/stickynotes.component';
 import { SimplifiedLunchComponent } from './components/modules/simplified-lunch/simplified-lunch.component';
+import { TwitterComponent } from './components/modules/twitter/twitter.component';
+import { WeatherComponent } from './components/modules/weather/weather.component';
 
 import { ConfettiComponent } from './components/confetti/confetti.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
@@ -114,6 +115,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SimplifiedScheduleComponent,
 		SnowdayComponent,
 		StickynotesComponent,
+		TwitterComponent,
 		WeatherComponent,
 		BulletinArchivesComponent,
 		ConfettiComponent,

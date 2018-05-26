@@ -9,6 +9,7 @@ import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.com
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
 // import { StickynotesComponent } from './stickynotes/stickynotes.component';
+import { TwitterComponent } from './twitter/twitter.component';
 import { WeatherComponent } from './weather/weather.component';
 
 // We need a static array for the app module component entries
@@ -21,6 +22,7 @@ export const moduleComponents: any[] = [
 	SimplifiedScheduleComponent,
 	SnowdayComponent,
 	// StickynotesComponent,
+	TwitterComponent,
 	WeatherComponent
 ];
 
@@ -146,6 +148,13 @@ export const config: Config = {
 	// 	defaultHeight: 2,
 	// 	defaultWidth: 2
 	// },
+	twitter: {
+		displayName: 'Twitter',
+		icon: 'fa-twitter',
+		component: TwitterComponent,
+		defaultHeight: 1,
+		defaultWidth: 2
+	},
 	weather: {
 		displayName: 'Weather',
 		icon: 'fa-cloud',
