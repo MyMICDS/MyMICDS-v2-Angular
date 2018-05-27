@@ -3,11 +3,13 @@
 .module-container {
 	height: 100%;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
 
 .stuff {
+	margin-bottom: 1rem;
 	padding: 2rem;
 	color: $sophisticated-white;
 }
