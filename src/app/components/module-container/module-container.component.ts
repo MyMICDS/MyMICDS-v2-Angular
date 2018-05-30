@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
-import { config } from '../modules/module-config';
+import { config, ModuleConfig } from '../modules/module-config';
 
 @Component({
 	selector: 'mymicds-module-container',
@@ -9,6 +9,7 @@ import { config } from '../modules/module-config';
 export class ModuleContainerComponent {
 	private currentModuleRef = null;
 	private currentModuleType: string = null;
+	currentModuleConfig: ModuleConfig = null;
 
 	private currentInputs: { [key: string]: any };
 
@@ -24,7 +25,9 @@ export class ModuleContainerComponent {
 				return;
 			}
 
-			const factory = this.resolver.resolveComponentFactory(config[type].component);
+			this.currentModuleConfig = config[type];
+
+			const factory = this.resolver.resolveComponentFactory(this.currentModuleConfig.component);
 			this.dynamicModuleContainer.clear();
 			this.currentModuleRef = this.dynamicModuleContainer.createComponent(factory);
 		}

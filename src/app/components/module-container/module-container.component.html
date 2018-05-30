@@ -1,4 +1,6 @@
-<div class="module-container" mymicds-blur>
-	<ng-content></ng-content>
-	<div #module></div>
+<div mymicds-blur class="module-blur">
+	<div class="module-container" [style.background]="currentModuleConfig?.background">
+		<ng-content></ng-content>
+		<div #module></div>
+	</div>
 </div>
