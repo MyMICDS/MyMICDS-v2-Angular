@@ -152,8 +152,9 @@ export const config: Config = {
 		displayName: 'Twitter',
 		icon: 'fa-twitter',
 		component: TwitterComponent,
-		defaultHeight: 1,
-		defaultWidth: 2
+		defaultHeight: 2,
+		defaultWidth: 1,
+		background: '#292F33'
 	},
 	weather: {
 		displayName: 'Weather',
@@ -199,5 +200,6 @@ export interface ModuleConfig {
 	component: any;
 	defaultHeight: number;
 	defaultWidth: number;
+	background?: string;
 	options?: OptionsConfig;
 }

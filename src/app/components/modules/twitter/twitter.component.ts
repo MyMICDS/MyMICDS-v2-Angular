@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 @Component({
 	selector: 'mymicds-twitter',
@@ -7,6 +8,16 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class TwitterComponent implements OnInit {
 
+	@Input() fixedHeight: boolean;
+
+	get moduleHeight(): number {
+		if (this.fixedHeight) {
+			return this.moduleContainer.nativeElement.clientHeight;
+		} else {
+			return 420;
+		}
+	}
+
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 
 	constructor() { }
@@ -14,8 +25,44 @@ export class TwitterComponent implements OnInit {
 	ngOnInit() {
 		this.loadTwitter();
 		(window as any).twttr.ready(() => {
-			(window as any).twttr.widgets.load(this.moduleContainer.nativeElement);
+			this.createTwitter();
+
+			let resizeTimeout = null;
+			new ResizeSensor(this.moduleContainer.nativeElement, () => {
+				clearTimeout(resizeTimeout);
+				if (this.fixedHeight) {
+					resizeTimeout = setTimeout(() => {
+						this.deleteTwitter();
+						this.createTwitter();
+					}, 1000);
+				}
+			});
 		});
+	}
+
+	private createTwitter(height: number = this.moduleHeight) {
+		(window as any).twttr.widgets.createTimeline(
+			{
+				sourceType: 'profile',
+				screenName: 'MyMICDS'
+			},
+			this.moduleContainer.nativeElement,
+			{
+				height,
+				chrome: 'nofooter',
+				linkColor: '#a61d35',
+				theme: 'dark'
+			}
+		);
+	}
+
+	private deleteTwitter() {
+		const container = this.moduleContainer.nativeElement;
+		for (const child of container.children) {
+			if (!child.classList.contains('resize-sensor')) {
+				container.removeChild(child);
+			}
+		}
 	}
 
 	private loadTwitter() {
