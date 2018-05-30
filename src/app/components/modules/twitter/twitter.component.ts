@@ -43,14 +43,14 @@ export class TwitterComponent implements OnInit {
 	private createTwitter(height: number = this.moduleHeight) {
 		(window as any).twttr.widgets.createTimeline(
 			{
-				sourceType: 'profile',
-				screenName: 'MyMICDS'
+				sourceType: 'list',
+				ownerScreenName: 'MyMICDS',
+				slug: 'mymicds-module-feed'
 			},
 			this.moduleContainer.nativeElement,
 			{
 				height,
 				chrome: 'nofooter',
-				linkColor: '#a61d35',
 				theme: 'dark'
 			}
 		);
