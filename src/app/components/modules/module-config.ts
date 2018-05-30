@@ -2,7 +2,7 @@ import moment from 'moment';
 
 import { OptionsConfig } from './module-options';
 
-import { CountdownComponent } from './countdown/countdown.component';
+import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
@@ -25,37 +25,78 @@ export const moduleComponents: any[] = [
 ];
 
 export const config: Config = {
-	// countdown: {
-	// 	displayName: 'Countdown',
-	// 	icon: 'clock-o',
-	// 	component: CountdownComponent,
-	// 	defaultHeight: 1,
-	// 	defaultWidth: 2,
-	// 	options: {
-	// 		preset: {
-	// 			label: 'Preset dates (Overwrites custom dates)',
-	// 			type: 'string',
-	// 			default: 'Summer Break',
-	// 			select: true,
-	// 			selectItems: ['Summer Break', 'Next Break', 'Next Weekend', 'Next Long Weekend', 'Custom Date']
-	// 		},
-	// 		countdownTo: {
-	// 			label: 'Count towards',
-	// 			type: 'Date',
-	// 			default: moment().year(2018).month('may').date(26).hour(15).minute(15).toDate()
-	// 		},
-	// 		eventLabel: {
-	// 			label: 'Until...',
-	// 			type: 'string',
-	// 			default: 'Summer Break'
-	// 		},
-	// 		schoolDays: {
-	// 			label: 'Count school days',
-	// 			type: 'boolean',
-	// 			default: true
-	// 		}
-	// 	}
-	// },
+	countdown: {
+		displayName: 'Countdown',
+		icon: 'fa-clock-o',
+		component: CountdownComponent,
+		defaultHeight: 1,
+		defaultWidth: 2,
+		options: {
+			schoolDays: {
+				label: 'Only Count School Days',
+				type: 'boolean',
+				default: true
+			},
+			shake: {
+				label: 'Shake as Date Approaches',
+				type: 'boolean',
+				default: true
+			},
+			mode: {
+				label: 'Countdown to',
+				type: {
+					name: 'COUNTDOWN_MODE',
+					values: [
+						{
+							name: 'Any Time Off',
+							value: COUNTDOWN_MODE.TIME_OFF
+						},
+						{
+							name: 'Start of School',
+							value: COUNTDOWN_MODE.START
+						},
+						{
+							name: 'End of School',
+							value: COUNTDOWN_MODE.END
+						},
+						{
+							name: 'Next Break',
+							value: COUNTDOWN_MODE.VACATION
+						},
+						{
+							name: 'Next Long Weekend',
+							value: COUNTDOWN_MODE.LONG_WEEKEND
+						},
+						{
+							name: 'Next Weekend',
+							value: COUNTDOWN_MODE.WEEKEND
+						},
+						{
+							name: 'Custom Date',
+							value: COUNTDOWN_MODE.CUSTOM
+						}
+					]
+				},
+				default: COUNTDOWN_MODE.END,
+			},
+			eventLabel: {
+				label: 'Label',
+				type: 'string',
+				default: 'Countdown',
+				showIf: {
+					mode: COUNTDOWN_MODE.CUSTOM
+				}
+			},
+			countdownTo: {
+				label: 'Date',
+				type: 'Date',
+				default: new Date(),
+				showIf: {
+					mode: COUNTDOWN_MODE.CUSTOM
+				}
+			}
+		}
+	},
 	progress: {
 		displayName: 'Progress',
 		icon: 'fa-tasks',

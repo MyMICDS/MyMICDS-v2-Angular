@@ -20,6 +20,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
@@ -46,6 +47,11 @@ export function confirmTitle(url: string) {
 export function resetPasswordTitle(url: string) {
 	const parts = url.split('/');
 	return `MyMICDS - Reset password for ${parts[2].toLowerCase()}`;
+}
+
+export function unsubscribeTitle(url: string) {
+	const parts = url.split('/');
+	return `MyMICDS - Unsubscribe ${parts[2].toLowerCase()}@micds.org`;
 }
 
 /**
@@ -166,6 +172,13 @@ export const appRoutes: Routes = [
 		component: ResetPasswordComponent,
 		data: {
 			title: resetPasswordTitle
+		}
+	},
+	{
+		path: 'unsubscribe/:user/:hash',
+		component: UnsubscribeComponent,
+		data: {
+			title: unsubscribeTitle
 		}
 	},
 	{

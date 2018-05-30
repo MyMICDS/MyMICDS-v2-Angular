@@ -10,10 +10,12 @@
 	text-align: center;
 
 	.about-header {
-		display: inline-block;
-		margin-bottom: 5px;
-		padding: 1rem 4rem;
 		width: 100%;
+		margin-bottom: 3rem;
+		padding: 1rem 4rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 		color: $sophisticated-white;
 
 		h1 {
@@ -24,24 +26,9 @@
 			font-weight: 300;
 		}
 
-		.github-logo {
-			width: 2rem;
-
-			.cls-1, .cls-2 {
-				transition-duration: 0.25s;
-				transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-				fill: #fff;
-			}
-
-			.cls-1 {
-				fill-rule: evenodd;
-			}
-
-			&:hover {
-				.cls-1, .cls-2 {
-					fill: #4078c0;
-				}
-			}
+		.social-icons a {
+			color: $sophisticated-white;
+			margin: 0 0.5rem;
 		}
 	}
 
@@ -65,16 +52,16 @@
 		}
 
 		.more {
-			margin-top: 2rem;
 			padding: 1rem;
+			color: $sophisticated-white;
 
-			strong {
-				color: $sophisticated-white;
-				font-size: 2rem;
-			}
+			p {
+				text-align: left;
 
-			a {
-				font-size: 2rem;
+				a {
+					color: $sophisticated-white;
+					font-size: 1.5rem;
+				}
 			}
 		}
 

@@ -1,4 +1,17 @@
-<mymicds-navbar></mymicds-navbar>
-<mymicds-alert></mymicds-alert>
-<!-- <mymicds-sidebar></mymicds-sidebar> -->
-<router-outlet></router-outlet>
+<mymicds-confetti></mymicds-confetti>
+
+<ng-container *ngIf="!showSummer">
+	<mymicds-navbar></mymicds-navbar>
+	<mymicds-alert></mymicds-alert>
+	<!-- <mymicds-sidebar></mymicds-sidebar> -->
+	<router-outlet></router-outlet>
+</ng-container>
+
+<mymicds-summer *ngIf="showSummer" [(showSummer)]="showSummer"></mymicds-summer>
+
+<div *ngIf="admin" class="prompt fadein">
+	<h3 class="animated" [class.fadein]="messageSequence >= 1" [class.bounceInRight]="messageSequence >= 1">{{ messages[0] }}</h3>
+	<h1 class="animated" [class.fadein]="messageSequence >= 2" [class.slideInUp]="messageSequence >= 2">
+		{{ messages[1] }}
+	</h1>
+</div>

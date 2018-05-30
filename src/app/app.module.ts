@@ -6,7 +6,9 @@ import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
+import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
+import { AngularFittextModule } from 'angular-fittext';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 const jwtHelper = new JwtHelper();
 
@@ -31,6 +33,7 @@ import { WeatherComponent } from './components/modules/weather/weather.component
 import { StickynotesComponent } from './components/modules/stickynotes/stickynotes.component';
 import { SimplifiedLunchComponent } from './components/modules/simplified-lunch/simplified-lunch.component';
 
+import { ConfettiComponent } from './components/confetti/confetti.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
@@ -50,10 +53,12 @@ import { BackgroundComponent } from './components/settings/background/background
 import { ChangePasswordComponent } from './components/settings/change-password/change-password.component';
 import { ClassesComponent } from './components/settings/classes/classes.component';
 import { InfoComponent } from './components/settings/info/info.component';
+import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
 import { UrlComponent } from './components/settings/url/url.component';
 
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
+import { SummerComponent } from './components/summer/summer.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
@@ -67,18 +72,18 @@ import { CanvasService } from './services/canvas.service';
 import { ClassesService } from './services/classes.service';
 import { DatesService } from './services/dates.service';
 import { FeedsService } from './services/feeds.service';
+import { RealtimeService } from './services/realtime.service';
 import { LunchService } from './services/lunch.service';
 import { ModulesService } from './services/modules.service';
 import { PlannerService } from './services/planner.service';
 import { PortalService } from './services/portal.service';
 import { ScheduleService } from './services/schedule.service';
 import { SnowdayService } from './services/snowday.service';
-// import { SocketioService } from './services/socketio.service';
 import { SportsService } from './services/sports.service';
 import { StatsService } from './services/stats.service';
 import { UserService } from './services/user.service';
 import { WeatherService } from './services/weather.service';
-import { NotificationService } from './services/notification.service';
+import { NotificationsService } from './services/notifications.service';
 import { SuggestionsService } from './services/suggestions.service';
 import { QuoteService } from './services/quote.service';
 import { StickynotesService } from './services/stickynotes.service';
@@ -111,6 +116,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		StickynotesComponent,
 		WeatherComponent,
 		BulletinArchivesComponent,
+		ConfettiComponent,
 		ConfirmComponent,
 		DailyBulletinComponent,
 		ForgotPasswordComponent,
@@ -130,8 +136,10 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ClassesComponent,
 		InfoComponent,
 		UrlComponent,
+		UnsubscribeComponent,
 		SportsComponent,
 		SuggestionsComponent,
+		SummerComponent,
 		QuotesComponent,
 
 		// Directives
@@ -164,8 +172,10 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
 		TooltipModule.forRoot(),
+		DatetimePopupModule.forRoot(),
 		GridsterModule,
-		BrowserAnimationsModule
+		BrowserAnimationsModule,
+		AngularFittextModule
 	],
 	providers: [
 		appRoutingProviders,
@@ -180,18 +190,18 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ClassesService,
 		DatesService,
 		FeedsService,
+		RealtimeService,
 		LunchService,
 		ModulesService,
 		PlannerService,
 		PortalService,
 		ScheduleService,
 		SnowdayService,
-		// SocketioService,
 		SportsService,
 		StatsService,
 		UserService,
 		WeatherService,
-		NotificationService,
+		NotificationsService,
 		SuggestionsService,
 		QuoteService,
 		StickynotesService,

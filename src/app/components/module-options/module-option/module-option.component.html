@@ -1,23 +1,43 @@
-<ng-container *ngIf="config">
+<ng-container *ngIf="config && show">
+	<!-- Boolean -->
 	<div *ngIf="config.type === 'boolean'" class="form-check">
 		<label class="form-check-label">
 			<input type="checkbox" class="form-check-input" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
-			{{ config.label }}
+			{{ config?.label }}
 		</label>
 	</div>
 
-	<p *ngIf="['number', 'string', 'Date'].includes(config.type)">{{ config.label }}</p>
-	<ng-container *ngIf="!config.select">
-		<input *ngIf="config.type === 'number'" class="form-control" type="number" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
-		<input *ngIf="config.type === 'string'" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
-		<div *ngIf="config.type === 'Date' && value.getHours">
-			<datepicker class="form-control" [ngModel]="value" (ngModelChange)="dateChange($event)"></datepicker>
-			<input type="number" class="form-control" [ngModel]="value.getHours()" (ngModelChange)="dateHourChange($event)" min="0" max="23">
-			<input type="number" class="form-control" [ngModel]="value.getMinutes()" (ngModelChange)="dateMinuteChange($event)" min="0" max="59">
+	<!-- Label -->
+	<p *ngIf="config.type !== 'boolean'"><strong>{{ config?.label }}</strong></p>
+
+	<!-- Number -->
+	<input *ngIf="config.type === 'number'" class="form-control" type="number" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+
+	<!-- String -->
+	<input *ngIf="config.type === 'string'" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+
+	<!-- Date -->
+	<ng-container *ngIf="config.type === 'Date'">
+		<div class="input-group">
+			<input class="form-control" [(ngModel)]="value">
+			<span class="input-group-btn">
+				<button class="btn btn-outline-secondary" (click)="onTogglePicker()">
+					<i class="fa fa-calendar" aria-hidden="true"></i>
+				</button>
+			</span>
 		</div>
+		<datetime-popup [value]="value" (valueChange)="changeDate($event)"
+			[(showPopup)]="showPicker"
+			[showDate]="true"
+			[showTime]="true"
+			[clearButton]="clearButton"
+			[nowButton]="nowButton"
+			[closeButton]="closeButton">
+		</datetime-popup>
 	</ng-container>
 
-	<select *ngIf="config.select" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
-		<option *ngFor="let item of config.selectItems" [value]="item" [selected]="config.default === item">{{ item }}</option>
+	<!-- Enum -->
+	<select *ngIf="select" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
+		<option *ngFor="let item of config.type.values" [value]="item.value" [selected]="config.default === item.value">{{ item.name }}</option>
 	</select>
 </ng-container>

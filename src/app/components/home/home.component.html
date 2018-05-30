@@ -28,7 +28,7 @@
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
-		<strong>Announcement</strong>
+		<strong>Announcement:</strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
 
@@ -60,7 +60,8 @@
 						[popover]="configModuleTemplate"
 						#modulePopoverBtn="bs-popover"
 						popoverTitle="Configure Module"
-						container="body">
+						container="body"
+						placement="bottom">
 
 						<i class="fa fa-cog"></i>
 						Configure

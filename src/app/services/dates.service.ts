@@ -14,8 +14,45 @@ export class DatesService {
 
 	constructor(private http: Http) { }
 
-	breaks() {
+	schoolStarts() {
+		let body = JSON.stringify({});
+		let headers = xhrHeaders();
+		let options = new RequestOptions({ headers });
 
+		return this.http.post(environment.backendURL + '/dates/school-starts', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if (data.error) {
+					throw new Error(data.error);
+				}
+
+				return data.date;
+			})
+			.catch(handleError);
+	}
+
+	schoolEnds() {
+		let body = JSON.stringify({});
+		let headers = xhrHeaders();
+		let options = new RequestOptions({ headers });
+
+		return this.http.post(environment.backendURL + '/dates/school-ends', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if (data.error) {
+					throw new Error(data.error);
+				}
+
+				return data.date;
+			})
+			.catch(handleError);
+	}
+
+	breaks() {
 		// Check if we already have a cached version of the breaks
 		if (this._breaks) {
 			return Observable.of(this._breaks);
