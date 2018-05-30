@@ -7,11 +7,11 @@ textarea {
 	font-size: 1.3rem;
 }
 
-.email-remind {
+.send-to-planner {
 	position: absolute;
 	top: 1rem;
 	right: 1rem;
-	width: 3.5rem;
+	width: 2.75rem;
 	transition: width cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s;
 	overflow: hidden;
 	cursor: pointer;
@@ -19,11 +19,11 @@ textarea {
 	padding: 0.25rem 0.5rem;
 	border-radius: 0.5rem;
 	&:hover {
-		width: 8rem;
+		width: 7rem;
 	}
 	div {
 		display: inline-block;
-		font-size: 0.9rem;
+		font-size: 1rem;
 		width: 5rem;
 		margin-left: 0.5rem;
 	}
