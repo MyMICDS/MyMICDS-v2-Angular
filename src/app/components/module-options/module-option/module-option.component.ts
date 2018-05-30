@@ -54,7 +54,7 @@ export class ModuleOptionComponent {
 
 	changeDate(date) {
 		this.value = date;
-		this.valueChange.emit(date);
+		this.valueChange.emit(this.value);
 	}
 
 	checkIfShow() {
@@ -72,10 +72,11 @@ export class ModuleOptionComponent {
 		}
 	}
 
-	// Get rid of the 'fa ' at the beginning
-	formatIconClass(icon: string) {
+	changeIcon(icon: string) {
+		// Get rid of the 'fa ' at the beginning
 		const split = icon.split(' ');
-		return split[split.length - 1];
+		this.value = split[split.length - 1];
+		this.valueChange.emit(this.value);
 	}
 
 }

@@ -42,7 +42,7 @@
 		[iconPicker]="value"
 		ipIconPack="fa"
 		ipPosition="button"
-		(iconPickerSelect)="value = formatIconClass($event)">
+		(iconPickerSelect)="changeIcon($event)">
 		<i class="fa" [ngClass]="value" aria-hidden="true"></i>
 	</button>
 

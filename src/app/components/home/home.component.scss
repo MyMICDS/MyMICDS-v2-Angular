@@ -181,6 +181,10 @@
 	.drag-module {
 		cursor: move;
 		border-left: 1px solid rgba($sophisticated-white, 0.5);
+
+		.module-label {
+			text-align: center;
+		}
 	}
 }
 
