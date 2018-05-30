@@ -13,7 +13,7 @@ export interface Options {
 	[option: string]: OptionValue;
 }
 
-export type OptionType = 'boolean' | 'number' | 'string' | 'Date' | OptionEnum;
+export type OptionType = 'boolean' | 'number' | 'string' | 'Date' | 'ICON' | OptionEnum;
 export type OptionValue = boolean | number | string | Date | OptionEnumValue;
 
 export interface OptionEnum {

@@ -2,6 +2,7 @@
 
 import { OptionsConfig } from './module-options';
 
+import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
@@ -15,6 +16,7 @@ import { WeatherComponent } from './weather/weather.component';
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
 export const moduleComponents: any[] = [
+	BookmarksComponent,
 	CountdownComponent,
 	ProgressComponent,
 	ScheduleComponent,
@@ -27,6 +29,30 @@ export const moduleComponents: any[] = [
 ];
 
 export const config: Config = {
+	bookmarks: {
+		displayName: 'Bookmarks',
+		icon: 'fa-bookmark',
+		component: BookmarksComponent,
+		defaultHeight: 1,
+		defaultWidth: 1,
+		options: {
+			label: {
+				label: 'Label',
+				type: 'string',
+				default: 'Really Cool Site'
+			},
+			icon: {
+				label: 'Icon',
+				type: 'ICON',
+				default: 'fa-bookmark'
+			},
+			url: {
+				label: 'URL',
+				type: 'string',
+				default: 'https://mymicds.net'
+			}
+		}
+	},
 	countdown: {
 		displayName: 'Countdown',
 		icon: 'fa-clock-o',

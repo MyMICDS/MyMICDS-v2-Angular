@@ -10,6 +10,7 @@ import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
 import { AngularFittextModule } from 'angular-fittext';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
+import { IconPickerModule } from 'ngx-icon-picker';
 const jwtHelper = new JwtHelper();
 
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { ModuleOptionComponent } from './components/module-options/module-option
 
 import { moduleComponents } from './components/modules/module-config';
 
+import { BookmarksComponent } from './components/modules/bookmarks/bookmarks.component';
 import { CountdownComponent } from './components/modules/countdown/countdown.component';
 import { ProgressComponent } from './components/modules/progress/progress.component';
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
@@ -108,6 +110,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ModuleOptionsComponent,
 		ModuleOptionComponent,
 		ModuleContainerComponent,
+		BookmarksComponent,
 		CountdownComponent,
 		ProgressComponent,
 		ScheduleComponent,
@@ -177,7 +180,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		DatetimePopupModule.forRoot(),
 		GridsterModule,
 		BrowserAnimationsModule,
-		AngularFittextModule
+		AngularFittextModule,
+		IconPickerModule
 	],
 	providers: [
 		appRoutingProviders,
