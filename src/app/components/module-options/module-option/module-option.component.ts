@@ -72,4 +72,10 @@ export class ModuleOptionComponent {
 		}
 	}
 
+	// Get rid of the 'fa ' at the beginning
+	formatIconClass(icon: string) {
+		const split = icon.split(' ');
+		return split[split.length - 1];
+	}
+
 }

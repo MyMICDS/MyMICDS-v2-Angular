@@ -36,6 +36,16 @@
 		</datetime-popup>
 	</ng-container>
 
+	<!-- Icon -->
+	<button *ngIf="config.type === 'ICON'"
+		class="btn btn-secondary"
+		[iconPicker]="value"
+		ipIconPack="fa"
+		ipPosition="button"
+		(iconPickerSelect)="value = formatIconClass($event)">
+		<i class="fa" [ngClass]="value" aria-hidden="true"></i>
+	</button>
+
 	<!-- Enum -->
 	<select *ngIf="select" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">
 		<option *ngFor="let item of config.type.values" [value]="item.value" [selected]="config.default === item.value">{{ item.name }}</option>
