@@ -4,6 +4,14 @@ import { Subject } from 'rxjs/Rx';
 import { StickynotesService } from '../../../services/stickynotes.service';
 import { AlertService } from '../../../services/alert.service';
 
+export enum COLOR {
+	WHITE = 'white',
+	TEAL = 'teal',
+	YELLOW = 'yellow',
+	PINK = 'pink',
+	ORANGE = 'orange'
+}
+
 @Component({
 	selector: 'mymicds-stickynote',
 	templateUrl: './stickynotes.component.html',

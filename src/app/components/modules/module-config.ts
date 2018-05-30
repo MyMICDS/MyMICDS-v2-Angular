@@ -8,7 +8,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
-import { StickynotesComponent } from './stickynotes/stickynotes.component';
+import { StickynotesComponent, COLOR } from './stickynotes/stickynotes.component';
 import { WeatherComponent } from './weather/weather.component';
 
 // We need a static array for the app module component entries
@@ -148,10 +148,32 @@ export const config: Config = {
 		options: {
 			color: {
 				label: 'color',
-				type: 'string',
 				default: 'white',
-				select: true,
-				selectItems: ['white', 'teal', 'yellow', 'pink', 'orange']
+				type: {
+					name: 'COLOR',
+					values: [
+						{
+							name: 'Orange',
+							value: COLOR.ORANGE
+						},
+						{
+							name: 'Pink',
+							value: COLOR.PINK
+						},
+						{
+							name: 'Teal',
+							value: COLOR.TEAL
+						},
+						{
+							name: 'White',
+							value: COLOR.WHITE
+						},
+						{
+							name: 'Yellow',
+							value: COLOR.YELLOW
+						}
+					]
+				},
 			}
 		}
 	},
