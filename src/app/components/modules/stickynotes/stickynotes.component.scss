@@ -1,10 +1,12 @@
 textarea {
 	margin-top: -1rem;
 	margin-left: -1rem;
+	padding: 1rem;
 	width: calc(100% + 2rem);
 	height: calc(100% + 2rem);
 	border: none;
 	font-size: 1.3rem;
+	resize: none;
 }
 
 .send-to-planner {
@@ -18,9 +20,11 @@ textarea {
 	background-color: rgba(0, 0, 0, 0.6);
 	padding: 0.25rem 0.5rem;
 	border-radius: 0.5rem;
+
 	&:hover {
 		width: 7rem;
 	}
+
 	div {
 		display: inline-block;
 		font-size: 1rem;

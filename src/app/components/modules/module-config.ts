@@ -173,11 +173,14 @@ export const config: Config = {
 		defaultWidth: 2,
 		options: {
 			color: {
-				label: 'color',
-				default: 'white',
+				label: 'Color',
 				type: {
 					name: 'COLOR',
 					values: [
+						{
+							name: 'Gray',
+							value: COLOR.GRAY
+						},
 						{
 							name: 'Orange',
 							value: COLOR.ORANGE
@@ -200,6 +203,7 @@ export const config: Config = {
 						}
 					]
 				},
+				default: COLOR.WHITE
 			}
 		}
 	},
