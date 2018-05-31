@@ -248,16 +248,16 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		}
 
 		// Define nowTime just to make things clearer
-		let nowTime = this.today.getTime();
+		const nowTime = this.today.getTime();
 
 		// Clear linear progress
 		this.linearProgress = [];
 
 		// Create a new array and later assign to progress bar
-		let newColors: any[] = [];
-		let newData: number[] = [];
-		let newLabels: string[] = [];
-		let newDurations: string[] = [];
+		const newColors: any[] = [];
+		const newData: number[] = [];
+		const newLabels: string[] = [];
+		const newDurations: string[] = [];
 
 		let newCurrentClass = null;
 		let newCurrentClassPercent = null;
@@ -265,8 +265,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// Insert a 'break' period in between classes that aren't back-to-back
 		let breaks = [];
 		for (let i = 0; i < this.schedule.classes.length - 1; i++) {
-			let currBlock = this.schedule.classes[i];
-			let nextBlock = this.schedule.classes[i + 1];
+			const currBlock = this.schedule.classes[i];
+			const nextBlock = this.schedule.classes[i + 1];
 
 			if (currBlock.end !== nextBlock.start) {
 				breaks.push({
@@ -279,7 +279,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		}
 
 		// Combine classes and breaks array into one
-		let formattedSchedule = this.schedule.classes.concat(breaks);
+		const formattedSchedule = this.schedule.classes.concat(breaks);
 		// Sort classes by start time
 		formattedSchedule.sort(function(a, b) {
 			return a.start - b.start;
@@ -295,26 +295,34 @@ export class ProgressComponent implements OnInit, OnDestroy {
 					continue;
 				}
 
-				let color = hexToRgb(formattedSchedule[i].class.color);
+				const color = hexToRgb(formattedSchedule[i].class.color);
 				formattedSchedule[i].color = 'rgba(' + color[0] + ', ' + color[1] + ', ' + color[2] + ', 0.8)';
 			}
 		}
 
+		// Either end school at last block or 3:15pm
+		const schoolCap = moment(this.today).startOf('day').hours(15).minutes(15).toDate();
+
 		// Get first and last blocks
-		let classCount = formattedSchedule.length;
-		let firstBlock = formattedSchedule[0];
-		let lastBlock  = formattedSchedule[classCount - 1];
+		const classCount = formattedSchedule.length;
+		const firstBlock = formattedSchedule[0];
+		const lastBlock  = formattedSchedule[classCount - 1];
+		const schoolEnd  = Math.min(lastBlock.end.getTime(), schoolCap.getTime());
 
 		// Get length and percentage of school day
-		let schoolLength  = lastBlock.end.getTime() - firstBlock.start.getTime();
-		let schoolPercent = this.getPercent(firstBlock.start, lastBlock.end);
+		const schoolLength  = schoolEnd - firstBlock.start.getTime();
+		const schoolPercent = this.getPercent(firstBlock.start, new Date(schoolEnd));
 
 		// Set school percentage variable to display inside the circle
 		this.schoolPercent = +schoolPercent.toFixed(2);
 
 		// Loop through classes and calculate stuff
 		for (let i = 0; i < formattedSchedule.length; i++) {
-			let block = formattedSchedule[i];
+			const block = formattedSchedule[i];
+
+			if (schoolEnd <= block.start.getTime()) {
+				continue;
+			}
 
 			let blockName = block.class;
 			if (typeof block.class === 'object') {
@@ -323,19 +331,19 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 			// Get class percentage
 			// Thanks to Amaan for helping me figure out this algorithim back in v1
-			let classLength = block.end.getTime() - block.start.getTime();
-			let classRatio = classLength / schoolLength;
-			let classPercent = this.getPercent(block.start, block.end);
-			let finalPercentage = classPercent * classRatio;
+			const classLength = block.end.getTime() - block.start.getTime();
+			const classRatio = classLength / schoolLength;
+			const classPercent = this.getPercent(block.start, block.end);
+			const finalPercentage = classPercent * classRatio;
 
-			let roundedPercent = +finalPercentage.toFixed(2);
+			const roundedPercent = +finalPercentage.toFixed(2);
 
 			let classLeft: number = classLength;
 			if (block.start.getTime() <= nowTime && nowTime < block.end.getTime()) {
 				classLeft = nowTime - block.start.getTime();
 			}
 
-			let classDuration = this.getDuration(classLeft);
+			const classDuration = this.getDuration(classLeft);
 
 			// Add values to their respective array if data is more than 0
 			if (roundedPercent > 0) {
@@ -360,7 +368,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		let schoolLeftDuration = lastBlock.end.getTime() - this.today.getTime();
+		const schoolLeftDuration = schoolEnd - this.today.getTime();
 
 		// Add a filler block for when school isn't complete yet
 		newColors.push('rgba(0, 0, 0, 0.1)');
@@ -392,7 +400,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		const numerator = this.today.getTime() - start.getTime();
 		const denominator = end.getTime() - start.getTime();
 
-		let answer = (numerator / denominator) * 100;
+		const answer = (numerator / denominator) * 100;
 
 		if (0 <= answer && answer <= 100) {
 			return answer;
@@ -409,7 +417,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 	getDuration(classLength): string {
 
-		let duration = moment.duration(classLength);
+		const duration = moment.duration(classLength);
 		let tooltip  = '';
 		let hasHours = false;
 
