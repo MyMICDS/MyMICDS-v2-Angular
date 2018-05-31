@@ -1,1 +1,11 @@
-<textarea [ngModel]="text" (ngModelChange)="textChange.next($event)"></textarea>
+<textarea
+	[ngModel]="text"
+	(ngModelChange)="textChange.next($event)"
+	[style.background-color]="colorList[color]"
+	placeholder="Type your deepest darkest secrets here...">
+</textarea>
+<!-- <a class="send-to-planner">
+	<i class="fa fa-calendar fa-2x">
+		<div>Send to Planner</div>
+	</i>
+</a> -->

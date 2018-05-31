@@ -1,5 +1,3 @@
-// import moment from 'moment';
-
 import { OptionsConfig } from './module-options';
 
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
@@ -9,7 +7,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
-// import { StickynotesComponent } from './stickynotes/stickynotes.component';
+import { StickynotesComponent, COLOR } from './stickynotes/stickynotes.component';
 import { TwitterComponent } from './twitter/twitter.component';
 import { WeatherComponent } from './weather/weather.component';
 
@@ -23,7 +21,7 @@ export const moduleComponents: any[] = [
 	SimplifiedLunchComponent,
 	SimplifiedScheduleComponent,
 	SnowdayComponent,
-	// StickynotesComponent,
+	StickynotesComponent,
 	TwitterComponent,
 	WeatherComponent
 ];
@@ -167,13 +165,48 @@ export const config: Config = {
 		defaultHeight: 1,
 		defaultWidth: 2
 	},
-	// stickynotes: {
-	// 	displayName: 'Sticky Notes',
-	// 	icon: 'fa-sticky-note-o',
-	// 	component: StickynotesComponent,
-	// 	defaultHeight: 2,
-	// 	defaultWidth: 2
-	// },
+	stickynotes: {
+		displayName: 'Sticky Notes',
+		icon: 'fa-sticky-note-o',
+		component: StickynotesComponent,
+		defaultHeight: 2,
+		defaultWidth: 2,
+		options: {
+			color: {
+				label: 'Color',
+				type: {
+					name: 'COLOR',
+					values: [
+						{
+							name: 'Gray',
+							value: COLOR.GRAY
+						},
+						{
+							name: 'Orange',
+							value: COLOR.ORANGE
+						},
+						{
+							name: 'Pink',
+							value: COLOR.PINK
+						},
+						{
+							name: 'Teal',
+							value: COLOR.TEAL
+						},
+						{
+							name: 'White',
+							value: COLOR.WHITE
+						},
+						{
+							name: 'Yellow',
+							value: COLOR.YELLOW
+						}
+					]
+				},
+				default: COLOR.WHITE
+			}
+		}
+	},
 	twitter: {
 		displayName: 'Twitter',
 		icon: 'fa-twitter',
