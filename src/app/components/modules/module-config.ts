@@ -1,7 +1,6 @@
-import moment from 'moment';
-
 import { OptionsConfig } from './module-options';
 
+import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
@@ -9,11 +8,13 @@ import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.com
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
 import { StickynotesComponent, COLOR } from './stickynotes/stickynotes.component';
+import { TwitterComponent } from './twitter/twitter.component';
 import { WeatherComponent } from './weather/weather.component';
 
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
 export const moduleComponents: any[] = [
+	BookmarksComponent,
 	CountdownComponent,
 	ProgressComponent,
 	ScheduleComponent,
@@ -21,10 +22,35 @@ export const moduleComponents: any[] = [
 	SimplifiedScheduleComponent,
 	SnowdayComponent,
 	StickynotesComponent,
+	TwitterComponent,
 	WeatherComponent
 ];
 
 export const config: Config = {
+	bookmarks: {
+		displayName: 'Bookmarks',
+		icon: 'fa-bookmark',
+		component: BookmarksComponent,
+		defaultHeight: 1,
+		defaultWidth: 1,
+		options: {
+			label: {
+				label: 'Label',
+				type: 'string',
+				default: 'Really Cool Site'
+			},
+			icon: {
+				label: 'Icon',
+				type: 'ICON',
+				default: 'fa-bookmark'
+			},
+			url: {
+				label: 'URL',
+				type: 'string',
+				default: 'https://mymicds.net'
+			}
+		}
+	},
 	countdown: {
 		displayName: 'Countdown',
 		icon: 'fa-clock-o',
@@ -177,6 +203,14 @@ export const config: Config = {
 			}
 		}
 	},
+	twitter: {
+		displayName: 'Twitter',
+		icon: 'fa-twitter',
+		component: TwitterComponent,
+		defaultHeight: 2,
+		defaultWidth: 1,
+		background: '#292F33'
+	},
 	weather: {
 		displayName: 'Weather',
 		icon: 'fa-cloud',
@@ -221,5 +255,6 @@ export interface ModuleConfig {
 	component: any;
 	defaultHeight: number;
 	defaultWidth: number;
+	background?: string;
 	options?: OptionsConfig;
 }

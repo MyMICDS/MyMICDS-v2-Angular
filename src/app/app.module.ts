@@ -10,6 +10,7 @@ import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
 import { AngularFittextModule } from 'angular-fittext';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
+import { IconPickerModule } from 'ngx-icon-picker';
 const jwtHelper = new JwtHelper();
 
 import { AppComponent } from './app.component';
@@ -24,14 +25,16 @@ import { ModuleOptionComponent } from './components/module-options/module-option
 
 import { moduleComponents } from './components/modules/module-config';
 
+import { BookmarksComponent } from './components/modules/bookmarks/bookmarks.component';
 import { CountdownComponent } from './components/modules/countdown/countdown.component';
 import { ProgressComponent } from './components/modules/progress/progress.component';
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
 import { SimplifiedScheduleComponent } from './components/modules/simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './components/modules/snowday/snowday.component';
-import { WeatherComponent } from './components/modules/weather/weather.component';
 import { StickynotesComponent } from './components/modules/stickynotes/stickynotes.component';
 import { SimplifiedLunchComponent } from './components/modules/simplified-lunch/simplified-lunch.component';
+import { TwitterComponent } from './components/modules/twitter/twitter.component';
+import { WeatherComponent } from './components/modules/weather/weather.component';
 
 import { ConfettiComponent } from './components/confetti/confetti.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
@@ -107,6 +110,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ModuleOptionsComponent,
 		ModuleOptionComponent,
 		ModuleContainerComponent,
+		BookmarksComponent,
 		CountdownComponent,
 		ProgressComponent,
 		ScheduleComponent,
@@ -114,6 +118,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SimplifiedScheduleComponent,
 		SnowdayComponent,
 		StickynotesComponent,
+		TwitterComponent,
 		WeatherComponent,
 		BulletinArchivesComponent,
 		ConfettiComponent,
@@ -175,7 +180,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		DatetimePopupModule.forRoot(),
 		GridsterModule,
 		BrowserAnimationsModule,
-		AngularFittextModule
+		AngularFittextModule,
+		IconPickerModule
 	],
 	providers: [
 		appRoutingProviders,
