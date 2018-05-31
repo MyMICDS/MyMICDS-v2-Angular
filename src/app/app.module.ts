@@ -11,6 +11,7 @@ import { GridsterModule } from 'angular2gridster';
 import { AngularFittextModule } from 'angular-fittext';
 import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 import { IconPickerModule } from 'ngx-icon-picker';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 const jwtHelper = new JwtHelper();
 
 import { AppComponent } from './app.component';
@@ -181,7 +182,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		GridsterModule,
 		BrowserAnimationsModule,
 		AngularFittextModule,
-		IconPickerModule
+		IconPickerModule,
+		PdfViewerModule
 	],
 	providers: [
 		appRoutingProviders,
