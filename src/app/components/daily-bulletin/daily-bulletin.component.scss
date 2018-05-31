@@ -5,6 +5,7 @@
   Main Styles
 --------------------------- */
 .container {
+	max-width: 52rem;
 	margin-bottom: 6rem;
 	padding: 2rem 0 0 0;
 	text-align: center;
@@ -100,10 +101,11 @@
 /* --------------------------
   Media Queries
 --------------------------- */
-@media screen and (min-width:544px) {
+@media screen and (min-width: 768px) {
 	.container {
 		.bulletin-header {
 			width: 40rem;
+
 			.bulletin-navigation {
 				.previous-bulletin,
 				.next-bulletin {
