@@ -2,14 +2,35 @@
 
 .module-container {
 	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 }
 
 .stuff {
-	margin-bottom: 1rem;
 	padding: 2rem;
 	color: $sophisticated-white;
+
+	h1 {
+		margin-bottom: 2rem;
+	}
+}
+
+.twitter {
+	height: 100%;
+}
+
+@media screen and (min-width: 768px) {
+	.module-container {
+		display: grid;
+		grid-template-rows: 100%;
+		grid-template-columns: 2fr 1fr;
+	}
+
+	.stuff {
+		grid-row: 1;
+		grid-column: 1;
+	}
+
+	.twitter {
+		grid-row: 1;
+		grid-column: 2;
+	}
 }
