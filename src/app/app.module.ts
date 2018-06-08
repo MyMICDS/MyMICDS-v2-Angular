@@ -1,3 +1,6 @@
+import { MyMICDS } from '@mymicds/sdk';
+import { MyMICDSFactory } from './common/mymicds-sdk';
+
 import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -186,6 +189,10 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		PdfViewerModule
 	],
 	providers: [
+		{
+			provide: MyMICDS,
+			useFactory: MyMICDSFactory
+		},
 		appRoutingProviders,
 		ColorPickerService,
 		Title,

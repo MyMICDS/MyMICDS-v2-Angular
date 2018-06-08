@@ -1,3 +1,5 @@
+import { MyMICDS } from '@mymicds/sdk';
+
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment';
 
@@ -116,34 +118,35 @@ export class AboutComponent implements OnInit {
 	viewingVisits = false;
 
 	constructor(
+		private mymicds: MyMICDS,
 		private alertService: AlertService,
 		private statsService: StatsService,
 		private userService: UserService
 	) { }
 
 	ngOnInit() {
-		this.userService.gradeRange().subscribe(
-			range => {
-				this.gradeRange = range;
+		this.mymicds.user.getGradeRange().subscribe(
+			data => {
+				this.gradeRange = data.gradYears;
 				this.getStats();
 			},
 			error => {
-				this.alertService.addAlert('danger', 'Get Grades Error!', error);
+				this.alertService.addAlert('danger', 'Get Grades Error!', error.message);
 			}
 		);
 	}
 
 	getStats() {
-		this.statsService.getStats().subscribe(
+		this.mymicds.stats.get().subscribe(
 			data => {
-				this.stats = data;
+				this.stats = data.stats;
 
 				// Loop through grades to insert into line chart
-				for (let gradYear of Object.keys(data.registered.gradYears)) {
+				for (let gradYear of Object.keys(this.stats.registered.gradYears)) {
 					// Keep track of total users at each point in time
 					let accountSum = 0;
 					this.lineData = [];
-					let dates = Object.keys(data.registered.gradYears[gradYear]);
+					let dates = Object.keys(this.stats.registered.gradYears[gradYear]);
 
 					// Sort the dates people registered at
 					let mappedDates = dates.map(function(date, i) {
@@ -161,7 +164,7 @@ export class AboutComponent implements OnInit {
 
 					// Loop through sorted dates and add up total accounts
 					for (let i = 0 ; i < sortedDates.length; i++) {
-						let accountNumber = data.registered.gradYears[gradYear][sortedDates[i]];
+						let accountNumber = this.stats.registered.gradYears[gradYear][sortedDates[i]];
 						accountSum += accountNumber;
 						let registerCountDate = moment(sortedDates[i]);
 						this.lineData.push({x: registerCountDate, y: accountSum});
@@ -184,8 +187,8 @@ export class AboutComponent implements OnInit {
 				}
 
 				// Process data for pie chart
-				for (let gradYear of Object.keys(data.visitedToday.gradYears)) {
-					this.pieData.push(data.visitedToday.gradYears[gradYear]);
+				for (let gradYear of Object.keys(this.stats.visitedToday.gradYears)) {
+					this.pieData.push(this.stats.visitedToday.gradYears[gradYear]);
 					let gradeString = this.gradYearToGradeString(gradYear);
 					this.gradeNames.push(gradeString);
 					this.pieBgColors.push(prisma(gradeString).hex);
