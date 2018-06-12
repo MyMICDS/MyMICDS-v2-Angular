@@ -1,3 +1,5 @@
+import { MyMICDS } from '@mymicds/sdk';
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // Even though we're not using the updating functionality in `useragent`,
@@ -5,15 +7,15 @@ import { Router } from '@angular/router';
 // Because AoT/Webpack nonsense
 import * as useragent from 'useragent';
 
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'mymicds-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends SubscriptionsComponent implements OnInit {
 
 	loginModel = {
 		user: '',
@@ -21,15 +23,13 @@ export class LoginComponent implements OnInit {
 		remember: true,
 	};
 
-	constructor(
-		private router: Router,
-		private alertService: AlertService,
-		private authService: AuthService
-	) { }
+	constructor(private mymicds: MyMICDS, private router: Router, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if (this.authService.authSnapshot) {
+		if (this.mymicds.auth.snapshot) {
 			this.router.navigate(['/home']);
 		}
 	}
@@ -38,17 +38,24 @@ export class LoginComponent implements OnInit {
 		const agent = useragent.parse(navigator.userAgent);
 		const jwtComment = `${agent.family}/${agent.os.family}`; // i.e. "Chrome/Linux"
 
-		this.authService.login(this.loginModel.user, this.loginModel.password, jwtComment, this.loginModel.remember).subscribe(
-			loginRes => {
-				if (loginRes.success) {
-					this.router.navigateByUrl('/home');
-				} else {
-					this.alertService.addAlert('warning', 'Warning!', loginRes.message, 3);
+		this.addSubscription(
+			this.mymicds.auth.login({
+				user: this.loginModel.user,
+				password: this.loginModel.password,
+				remember: this.loginModel.remember,
+				comment: jwtComment
+			}).subscribe(
+				loginRes => {
+					if (loginRes.success) {
+						this.router.navigateByUrl('/home');
+					} else {
+						this.alertService.addAlert('warning', 'Warning!', loginRes.message, 3);
+					}
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Login Error!', error);
 				}
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Login Error!', error);
-			}
+			)
 		);
 	}
 
