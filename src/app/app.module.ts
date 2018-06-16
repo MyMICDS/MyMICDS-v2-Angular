@@ -73,13 +73,13 @@ import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directiv
 import { AlertService } from './services/alert.service';
 import { AliasService } from './services/alias.service';
 import { AuthService } from './services/auth.service';
-import { BackgroundService } from './services/background.service';
+// import { BackgroundService } from './services/background.service';
 import { BulletinService } from './services/bulletin.service';
 import { CanvasService } from './services/canvas.service';
 import { ClassesService } from './services/classes.service';
 import { DatesService } from './services/dates.service';
 import { FeedsService } from './services/feeds.service';
-import { RealtimeService } from './services/realtime.service';
+// import { RealtimeService } from './services/realtime.service';
 import { LunchService } from './services/lunch.service';
 import { ModulesService } from './services/modules.service';
 import { PlannerService } from './services/planner.service';
@@ -199,13 +199,13 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		AlertService,
 		AliasService,
 		AuthService,
-		BackgroundService,
+		// BackgroundService,
 		BulletinService,
 		CanvasService,
 		ClassesService,
 		DatesService,
 		FeedsService,
-		RealtimeService,
+		// RealtimeService,
 		LunchService,
 		ModulesService,
 		PlannerService,

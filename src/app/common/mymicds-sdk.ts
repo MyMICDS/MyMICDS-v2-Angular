@@ -16,7 +16,9 @@ const mymicdsConfig: MyMICDSOptions = {
 	jwtClear() {
 		localStorage.removeItem('jwt');
 		sessionStorage.removeItem('jwt');
-	}
+	},
+	updateBackground: true,
+	updateUserInfo: true
 };
 
 export function MyMICDSFactory() {

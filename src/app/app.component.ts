@@ -1,12 +1,12 @@
-import { Component, ViewContainerRef } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
+
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { defaultTitleFunction } from './app.routing';
 
 import { AlertService } from './services/alert.service';
 import { AuthService } from './services/auth.service';
-import { BackgroundService } from './services/background.service';
-import { RealtimeService } from './services/realtime.service';
 
 declare const ga: any;
 
@@ -15,7 +15,7 @@ declare const ga: any;
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
 	admin = false;
 	messages: string[] = [];
@@ -29,23 +29,52 @@ export class AppComponent {
 	 * You need this small hack in order to catch application root view container ref.
 	 */
 	constructor(
+		private mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
 		private titleService: Title,
 		private viewContainerRef: ViewContainerRef,
 		private alertService: AlertService,
-		private authService: AuthService,
-		private backgroundService: BackgroundService,
-		private realtimeService: RealtimeService
+		private authService: AuthService
 	) {
-
-		// Get custom user background
-		this.backgroundService.initialize();
 
 		// Check if we've alredy showed summer page
 		if (this.showSummerOnce && sessionStorage.getItem('shownSummer')) {
 			this.showSummer = false;
 		}
+
+		// // Get realtime working
+		// this.authService.auth$.subscribe(() => {
+		// 	this.realtimeService.emit('jwt', this.authService.getJWT());
+		// 	this.realtimeService.listen('jwt').subscribe(
+		// 		payload => {
+		// 			console.log('get jwt response', payload);
+		// 			this.authService.updateRealtimeState(!!payload);
+		// 		}
+		// 	);
+		// });
+		//
+		// this.realtimeService.listen('admin').subscribe(({ enabled, messages }) => {
+		// 	console.log('admin', enabled, messages);
+		// 	this.messages = messages;
+		// 	this.admin = enabled;
+		//
+		// 	this.messageSequence = 0;
+		// 	setTimeout(() => {
+		// 		this.messageSequence = 1;
+		//
+		// 		setTimeout(() => {
+		// 			this.messageSequence = 2;
+		// 		}, 1250);
+		// 	}, 250);
+		// });
+	}
+
+	ngOnInit() {
+		// Set dynamic background
+		this.mymicds.background.$.subscribe(background => {
+			document.body.style.backgroundImage = 'url("' + background.variants.normal + '")';
+		});
 
 		// Dynamic browser page title
 		this.router.events
@@ -87,31 +116,5 @@ export class AppComponent {
 
 				}
 			);
-
-		// Get realtime working
-		this.authService.auth$.subscribe(() => {
-			this.realtimeService.emit('jwt', this.authService.getJWT());
-			this.realtimeService.listen('jwt').subscribe(
-				payload => {
-					console.log('get jwt response', payload);
-					this.authService.updateRealtimeState(!!payload);
-				}
-			);
-		});
-
-		this.realtimeService.listen('admin').subscribe(({ enabled, messages }) => {
-			console.log('admin', enabled, messages);
-			this.messages = messages;
-			this.admin = enabled;
-
-			this.messageSequence = 0;
-			setTimeout(() => {
-				this.messageSequence = 1;
-
-				setTimeout(() => {
-					this.messageSequence = 2;
-				}, 1250);
-			}, 250);
-		});
 	}
 }

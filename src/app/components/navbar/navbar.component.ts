@@ -1,7 +1,7 @@
 import { MyMICDS } from '@mymicds/sdk';
 import { JWT } from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -11,7 +11,7 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	templateUrl: './navbar.component.html',
 	styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
+export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 
 	isCollapsed = true;
 	jwt: JWT;
@@ -64,15 +64,11 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit, O
 
 		// Keep track if user's auth state for login/logout buttons
 		this.addSubscription(
-			this.mymicds.auth.subscribe(jwt => {
+			this.mymicds.auth.$.subscribe(jwt => {
 				console.log('uath change', jwt);
 				this.jwt = jwt;
 			})
 		);
-	}
-
-	ngOnDestroy() {
-		console.log('we implementing our own boiz');
 	}
 
 }
