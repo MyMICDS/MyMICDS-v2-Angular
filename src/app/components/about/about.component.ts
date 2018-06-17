@@ -3,9 +3,8 @@ import { MyMICDS } from '@mymicds/sdk';
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment';
 
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
-import { StatsService } from '../../services/stats.service';
-import { UserService } from '../../services/user.service';
 
 // import prisma from 'prisma';
 // function prisma(str) {
@@ -32,7 +31,7 @@ declare const Chart: any;
 	styleUrls: ['./about.component.scss']
 })
 
-export class AboutComponent implements OnInit {
+export class AboutComponent extends SubscriptionsComponent implements OnInit {
 
 	developers: any[] = [
 		{
@@ -117,127 +116,128 @@ export class AboutComponent implements OnInit {
 
 	viewingVisits = false;
 
-	constructor(
-		private mymicds: MyMICDS,
-		private alertService: AlertService,
-		private statsService: StatsService,
-		private userService: UserService
-	) { }
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
-		this.mymicds.user.getGradeRange().subscribe(
-			data => {
-				this.gradeRange = data.gradYears;
-				this.getStats();
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Grades Error!', error.message);
-			}
+		this.addSubscription(
+			this.mymicds.user.getGradeRange().subscribe(
+				data => {
+					this.gradeRange = data.gradYears;
+					this.getStats();
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Grades Error!', error.message);
+				}
+			)
 		);
 	}
 
 	getStats() {
-		this.mymicds.stats.get().subscribe(
-			data => {
-				this.stats = data.stats;
+		this.addSubscription(
+			this.mymicds.stats.get().subscribe(
+				data => {
+					this.stats = data.stats;
 
-				// Loop through grades to insert into line chart
-				for (let gradYear of Object.keys(this.stats.registered.gradYears)) {
-					// Keep track of total users at each point in time
-					let accountSum = 0;
-					this.lineData = [];
-					let dates = Object.keys(this.stats.registered.gradYears[gradYear]);
+					// Loop through grades to insert into line chart
+					for (let gradYear of Object.keys(this.stats.registered.gradYears)) {
+						// Keep track of total users at each point in time
+						let accountSum = 0;
+						this.lineData = [];
+						let dates = Object.keys(this.stats.registered.gradYears[gradYear]);
 
-					// Sort the dates people registered at
-					let mappedDates = dates.map(function(date, i) {
-						return {
-							index: i,
-							value: new Date(date).valueOf()
-						};
-					});
-					mappedDates.sort((a, b) => {
-						return a.value - b.value;
-					});
-					let sortedDates = mappedDates.map(function(el) {
-						return dates[el.index];
-					});
+						// Sort the dates people registered at
+						let mappedDates = dates.map(function(date, i) {
+							return {
+								index: i,
+								value: new Date(date).valueOf()
+							};
+						});
+						mappedDates.sort((a, b) => {
+							return a.value - b.value;
+						});
+						let sortedDates = mappedDates.map(function(el) {
+							return dates[el.index];
+						});
 
-					// Loop through sorted dates and add up total accounts
-					for (let i = 0 ; i < sortedDates.length; i++) {
-						let accountNumber = this.stats.registered.gradYears[gradYear][sortedDates[i]];
-						accountSum += accountNumber;
-						let registerCountDate = moment(sortedDates[i]);
-						this.lineData.push({x: registerCountDate, y: accountSum});
+						// Loop through sorted dates and add up total accounts
+						for (let i = 0 ; i < sortedDates.length; i++) {
+							let accountNumber = this.stats.registered.gradYears[gradYear][sortedDates[i]];
+							accountSum += accountNumber;
+							let registerCountDate = moment(sortedDates[i]);
+							this.lineData.push({x: registerCountDate, y: accountSum});
+						}
+
+						let gradeString = this.gradYearToGradeString(gradYear);
+
+						// Push data to line chart
+						this.lineDataSets.push({
+							label: gradeString,
+							data: this.lineData,
+							fill: false,
+							backgroundColor: prisma(gradeString).hex,
+							borderColor: prisma(gradeString).hex,
+							pointHoverBackgroundColor: '#fff',
+							pointHoverRadius: 5,
+							pointHoverBorderWidth: 2,
+							pointHitRadius: 10,
+						});
 					}
 
-					let gradeString = this.gradYearToGradeString(gradYear);
+					// Process data for pie chart
+					for (let gradYear of Object.keys(this.stats.visitedToday.gradYears)) {
+						this.pieData.push(this.stats.visitedToday.gradYears[gradYear]);
+						let gradeString = this.gradYearToGradeString(gradYear);
+						this.gradeNames.push(gradeString);
+						this.pieBgColors.push(prisma(gradeString).hex);
+					}
 
-					// Push data to line chart
-					this.lineDataSets.push({
-						label: gradeString,
-						data: this.lineData,
-						fill: false,
-						backgroundColor: prisma(gradeString).hex,
-						borderColor: prisma(gradeString).hex,
-						pointHoverBackgroundColor: '#fff',
-						pointHoverRadius: 5,
-						pointHoverBorderWidth: 2,
-						pointHitRadius: 10,
+					// Push data to pie chart
+					this.pieDataSets.push({
+						backgroundColor: this.pieBgColors,
+						data: this.pieData,
+						borderWidth: 0
 					});
-				}
 
-				// Process data for pie chart
-				for (let gradYear of Object.keys(this.stats.visitedToday.gradYears)) {
-					this.pieData.push(this.stats.visitedToday.gradYears[gradYear]);
-					let gradeString = this.gradYearToGradeString(gradYear);
-					this.gradeNames.push(gradeString);
-					this.pieBgColors.push(prisma(gradeString).hex);
-				}
-
-				// Push data to pie chart
-				this.pieDataSets.push({
-					backgroundColor: this.pieBgColors,
-					data: this.pieData,
-					borderWidth: 0
-				});
-
-				// Initialize Charts
-				setTimeout(() => {
-					// Initialize Line Chart
-					this.lineCtx = document.getElementById('registerCountChart');
-					this.lineChart = new Chart(this.lineCtx, {
-						type: 'line',
-						data: {
-							datasets: this.lineDataSets
-						},
-						options: {
-							scales: {
-								xAxes: [{
-									type: 'time',
-									time: {
-										displayFormats: {
-											quarter: 'MMM YYYY'
+					// Initialize Charts
+					setTimeout(() => {
+						// Initialize Line Chart
+						this.lineCtx = document.getElementById('registerCountChart');
+						this.lineChart = new Chart(this.lineCtx, {
+							type: 'line',
+							data: {
+								datasets: this.lineDataSets
+							},
+							options: {
+								scales: {
+									xAxes: [{
+										type: 'time',
+										time: {
+											displayFormats: {
+												quarter: 'MMM YYYY'
+											}
 										}
-									}
-								}]
+									}]
+								}
 							}
-						}
-					});
+						});
 
-					// Initialize Pie Chart
-					this.pieCtx = document.getElementById('visitedTodayChart');
-					this.pieChart = new Chart(this.pieCtx, {
-						type: 'pie',
-						data: {
-							labels: this.gradeNames,
-							datasets: this.pieDataSets
-						}
-					});
-				}, 1);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Stats Error!', error);
-			}
+						// Initialize Pie Chart
+						this.pieCtx = document.getElementById('visitedTodayChart');
+						this.pieChart = new Chart(this.pieCtx, {
+							type: 'pie',
+							data: {
+								labels: this.gradeNames,
+								datasets: this.pieDataSets
+							}
+						});
+					}, 1);
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Stats Error!', error);
+				}
+			)
 		);
 	}
 

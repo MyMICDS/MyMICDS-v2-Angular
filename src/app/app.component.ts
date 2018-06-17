@@ -5,8 +5,8 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { defaultTitleFunction } from './app.routing';
 
+import { SubscriptionsComponent } from './common/subscriptions-component';
 import { AlertService } from './services/alert.service';
-import { AuthService } from './services/auth.service';
 
 declare const ga: any;
 
@@ -15,7 +15,7 @@ declare const ga: any;
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent extends SubscriptionsComponent implements OnInit {
 
 	admin = false;
 	messages: string[] = [];
@@ -34,9 +34,9 @@ export class AppComponent implements OnInit {
 		private route: ActivatedRoute,
 		private titleService: Title,
 		private viewContainerRef: ViewContainerRef,
-		private alertService: AlertService,
-		private authService: AuthService
+		private alertService: AlertService
 	) {
+		super();
 
 		// Check if we've alredy showed summer page
 		if (this.showSummerOnce && sessionStorage.getItem('shownSummer')) {
@@ -77,44 +77,45 @@ export class AppComponent implements OnInit {
 		});
 
 		// Dynamic browser page title
-		this.router.events
-			.filter(event => event instanceof NavigationEnd)
-			.switchMap(event => {
-				// Keep going down until we get to the bottom-most first child
-				// (so that we can get data from children roots)
-				let currentRoute = this.route;
-				while (currentRoute.firstChild) {
-					currentRoute = currentRoute.firstChild;
-				}
-				return currentRoute.data
-					// Combine it with previous event data
-					.map(data => {
-						return { data, event };
-					});
-			})
-			.subscribe(
-				({ data, event }) => {
-					const newURL = (<NavigationEnd>event).urlAfterRedirects;
-
-					let title;
-					switch (typeof data.title) {
-						case 'string':
-							title = data.title;
-							break;
-						case 'function':
-							title = data.title(newURL);
-							break;
-						default:
-							title = defaultTitleFunction(newURL);
-							break;
+		this.addSubscription(
+			this.router.events
+				.filter(event => event instanceof NavigationEnd)
+				.switchMap(event => {
+					// Keep going down until we get to the bottom-most first child
+					// (so that we can get data from children roots)
+					let currentRoute = this.route;
+					while (currentRoute.firstChild) {
+						currentRoute = currentRoute.firstChild;
 					}
+					return currentRoute.data
+						// Combine it with previous event data
+						.map(data => {
+							return { data, event };
+						});
+				})
+				.subscribe(
+					({ data, event }) => {
+						const newURL = (<NavigationEnd>event).urlAfterRedirects;
 
-					this.titleService.setTitle(title);
+						let title;
+						switch (typeof data.title) {
+							case 'string':
+								title = data.title;
+								break;
+							case 'function':
+								title = data.title(newURL);
+								break;
+							default:
+								title = defaultTitleFunction(newURL);
+								break;
+						}
 
-					// Google Analytics track pageviews
-					ga('send', 'pageview', (event as NavigationEnd).urlAfterRedirects);
+						this.titleService.setTitle(title);
 
-				}
-			);
+						// Google Analytics track pageviews
+						ga('send', 'pageview', (event as NavigationEnd).urlAfterRedirects);
+					}
+				)
+		);
 	}
 }

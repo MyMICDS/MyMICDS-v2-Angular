@@ -71,29 +71,7 @@ import { QuotesComponent } from './components/quotes/quotes.component';
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
 
 import { AlertService } from './services/alert.service';
-import { AliasService } from './services/alias.service';
-import { AuthService } from './services/auth.service';
-// import { BackgroundService } from './services/background.service';
-import { BulletinService } from './services/bulletin.service';
-import { CanvasService } from './services/canvas.service';
-import { ClassesService } from './services/classes.service';
-import { DatesService } from './services/dates.service';
-import { FeedsService } from './services/feeds.service';
 // import { RealtimeService } from './services/realtime.service';
-import { LunchService } from './services/lunch.service';
-import { ModulesService } from './services/modules.service';
-import { PlannerService } from './services/planner.service';
-import { PortalService } from './services/portal.service';
-import { ScheduleService } from './services/schedule.service';
-import { SnowdayService } from './services/snowday.service';
-import { SportsService } from './services/sports.service';
-import { StatsService } from './services/stats.service';
-import { UserService } from './services/user.service';
-import { WeatherService } from './services/weather.service';
-import { NotificationsService } from './services/notifications.service';
-import { SuggestionsService } from './services/suggestions.service';
-import { QuoteService } from './services/quote.service';
-import { StickynotesService } from './services/stickynotes.service';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
@@ -197,29 +175,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ColorPickerService,
 		Title,
 		AlertService,
-		AliasService,
-		AuthService,
-		// BackgroundService,
-		BulletinService,
-		CanvasService,
-		ClassesService,
-		DatesService,
-		FeedsService,
 		// RealtimeService,
-		LunchService,
-		ModulesService,
-		PlannerService,
-		PortalService,
-		ScheduleService,
-		SnowdayService,
-		SportsService,
-		StatsService,
-		UserService,
-		WeatherService,
-		NotificationsService,
-		SuggestionsService,
-		QuoteService,
-		StickynotesService,
 
 		// JWT
 		{

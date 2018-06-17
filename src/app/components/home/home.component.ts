@@ -26,11 +26,8 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	announcement = 'MyMICDS now has a Twitter! <a class="alert-link" href="https://twitter.com/MyMICDS" target="_blank">Follow @MyMICDS</a> to get news on the latest features, announcements, and more! <strong>Happy last day of school, everyone! 🎉</strong>';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
-
-	routeDataSubscription: any;
 	editMode = false;
 
-	moduleLayoutSubscription: any;
 	ogModuleLayout: MyMICDSModule[];
 	moduleLayout: MyMICDSModule[];
 
@@ -39,8 +36,6 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	// Different module names and module config
 	moduleNames = Object.keys(config);
 	modules = config;
-
-	userSubscription: any;
 
 	// Gridster component
 	@ViewChild('gridster') gridster: GridsterComponent;

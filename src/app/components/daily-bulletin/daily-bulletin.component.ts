@@ -1,82 +1,73 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
+
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import '../../common/rxjs-operators';
 import moment from 'moment';
 import { contains } from '../../common/utils';
 
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
-import { BulletinService } from '../../services/bulletin.service';
 
 @Component({
 	selector: 'mymicds-daily-bulletin',
 	templateUrl: './daily-bulletin.component.html',
 	styleUrls: ['./daily-bulletin.component.scss']
 })
-export class DailyBulletinComponent implements OnInit, OnDestroy {
-
-	routeDataSubscription: any;
-	parse = false;
+export class DailyBulletinComponent extends SubscriptionsComponent implements OnInit {
 
 	loading = true;
-	bulletinsSubscription: any;
 
 	bulletins: string[] = [];
 	bulletinBaseURL = '';
 	bulletinURL = '';
-	bulletinDate: any = moment();
+	bulletinDate: moment.Moment = moment();
 	bulletinIndex = 0;
 
-	getParseSubscription: any;
+	parse = false;
 	parsedBulletin: any;
 
-	constructor(
-		private router: Router,
-		private route: ActivatedRoute,
-		private alertService: AlertService,
-		private bulletinService: BulletinService
-	) { }
+	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 
 		// Find out whether or not we should parse bulletin for debugging stuff
-		this.routeDataSubscription = this.route.data.subscribe(
-			data => {
-				this.parse = !!data.parse;
-			}
+		this.addSubscription(
+			this.route.data.subscribe(
+				data => {
+					this.parse = !!data.parse;
+				}
+			)
 		);
 
-		this.bulletinsSubscription = this.bulletinService.listBulletins().subscribe(
-			bulletinsData => {
-				this.loading = false;
-				this.bulletinBaseURL = bulletinsData.baseURL;
-				this.bulletins = bulletinsData.bulletins;
+		this.addSubscription(
+			this.mymicds.dailyBulletin.getList().subscribe(
+				bulletinsData => {
+					this.loading = false;
+					this.bulletinBaseURL = bulletinsData.baseURL;
+					this.bulletins = bulletinsData.bulletins;
 
-				// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
-				const params = this.route.snapshot.params;
-				if (params.bulletin && contains(this.bulletins, params.bulletin)) {
-					this.bulletinIndex = this.bulletins.indexOf(params.bulletin);
+					// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
+					const params = this.route.snapshot.params;
+					if (params.bulletin && contains(this.bulletins, params.bulletin)) {
+						this.bulletinIndex = this.bulletins.indexOf(params.bulletin);
+					}
+
+					this.setBulletin(this.bulletinIndex, !params.bulletin);
+
+					// Possibly parse
+					if (this.parse) {
+						this.getParsedBulletin();
+					}
+
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Bulletins Error!', error);
 				}
-
-				this.setBulletin(this.bulletinIndex, !params.bulletin);
-
-				// Possibly parse
-				if (this.parse) {
-					this.getParsedBulletin();
-				}
-
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Bulletins Error!', error);
-			}
+			)
 		);
-	}
-
-	ngOnDestroy() {
-		this.routeDataSubscription.unsubscribe();
-		this.bulletinsSubscription.unsubscribe();
-		if (this.getParseSubscription) {
-			this.getParseSubscription.unsubscribe();
-		}
 	}
 
 	setBulletin(index: number, clearURL = false) {
@@ -111,15 +102,16 @@ export class DailyBulletinComponent implements OnInit, OnDestroy {
 	}
 
 	getParsedBulletin() {
-		this.getParseSubscription = this.bulletinService.parseBulletin(this.bulletins[this.bulletinIndex])
-			.subscribe(
-				parsed => {
-					this.parsedBulletin = parsed;
-					this.getParseSubscription.unsubscribe();
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Parse Bulletin Error!', error);
-				}
-			);
+		console.error('Cannot parse Daily Bulletin!');
+		// this.addSubscription(
+		// 	this.mymicds.dailyBulletin.parse(this.bulletins[this.bulletinIndex]).subscribe(
+		// 		parsed => {
+		// 			this.parsedBulletin = parsed;
+		// 		},
+		// 		error => {
+		// 			this.alertService.addAlert('danger', 'Parse Bulletin Error!', error);
+		// 		}
+		// 	)
+		// );
 	}
 }
