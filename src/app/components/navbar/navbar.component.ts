@@ -1,5 +1,4 @@
-import { MyMICDS } from '@mymicds/sdk';
-import { JWT } from '@mymicds/sdk';
+import { MyMICDS, JWT } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';

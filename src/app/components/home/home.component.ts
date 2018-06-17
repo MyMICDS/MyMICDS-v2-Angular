@@ -1,22 +1,21 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { MyMICDS, MyMICDSModule } from '@mymicds/sdk';
+
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
 import { AlertService } from '../../services/alert.service';
-import { AuthService } from '../../services/auth.service';
-import { ModulesService, Module } from '../../services/modules.service';
-import { ScheduleService } from '../../services/schedule.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
 	selector: 'mymicds-home',
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HomeComponent extends SubscriptionsComponent implements OnInit, AfterViewInit {
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 	moduleWidth: number;
@@ -32,8 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	editMode = false;
 
 	moduleLayoutSubscription: any;
-	ogModuleLayout: Module[];
-	moduleLayout: Module[];
+	ogModuleLayout: MyMICDSModule[];
+	moduleLayout: MyMICDSModule[];
 
 	savingModuleLayout = false;
 
@@ -78,15 +77,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		maxHeight: Infinity
 	};
 
-	constructor(
-		private router: Router,
-		private route: ActivatedRoute,
-		private alertService: AlertService,
-		public authService: AuthService,
-		private modulesService: ModulesService,
-		private scheduleService: ScheduleService,
-		private userService: UserService
-	) { }
+	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		const onResize = () => {
@@ -97,54 +90,53 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		new ResizeSensor(this.moduleContainer.nativeElement, onResize);
 
 		// Find out whether or not we're in edit mode
-		this.routeDataSubscription = this.route.data.subscribe(
-			data => {
-				this.editMode = !!data.edit;
-				this.gridsterOptions.dragAndDrop = this.editMode;
-				this.gridsterOptions.resizable = this.editMode;
-				this.gridsterOptions.shrink = !this.editMode;
-			}
+		this.addSubscription(
+			this.route.data.subscribe(
+				data => {
+					this.editMode = !!data.edit;
+					this.gridsterOptions.dragAndDrop = this.editMode;
+					this.gridsterOptions.resizable = this.editMode;
+					this.gridsterOptions.shrink = !this.editMode;
+				}
+			)
 		);
 
 		// Check if user has set Portal and Canvas URL
-		this.userSubscription = this.userService.user$.subscribe(
-			user => {
-				if (!user) {
-					return;
-				}
-				console.log('user', user);
+		this.addSubscription(
+			this.mymicds.user.$.subscribe(
+				user => {
+					if (!user) {
+						return;
+					}
+					console.log('user', user);
 
-				const lacks = [];
+					const lacks = [];
 
-				if (!user.portalURL) {
-					lacks.push('Portal');
-				}
-				if (!user.canvasURL) {
-					lacks.push('Canvas');
-				}
+					if (!user.portalURL) {
+						lacks.push('Portal');
+					}
+					if (!user.canvasURL) {
+						lacks.push('Canvas');
+					}
 
-				if (lacks.length <= 0 || this.announcement) {
-					return;
-				}
+					if (lacks.length <= 0 || this.announcement) {
+						return;
+					}
 
-				// tslint:disable-next-line:max-line-length
-				this.announcement = `Hey there! <strong>It looks like you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
-			}
+					// tslint:disable-next-line:max-line-length
+					this.announcement = `Hey there! <strong>It looks like you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
+				}
+			)
 		);
 	}
 
 	ngAfterViewInit() {
 		// Get modules layout
-		this.moduleLayoutSubscription = this.modulesService.get()
-			.subscribe(modules => {
+		this.addSubscription(
+			this.mymicds.modules.get().subscribe(({ modules }) => {
 				this.updateModuleLayout(modules);
-			});
-	}
-
-	ngOnDestroy() {
-		this.moduleLayoutSubscription.unsubscribe();
-		this.routeDataSubscription.unsubscribe();
-		this.userSubscription.unsubscribe();
+			})
+		);
 	}
 
 	dismissAlert() {
@@ -173,7 +165,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		return JSON.stringify(this.ogModuleLayout) !== JSON.stringify(this.moduleLayout);
 	}
 
-	updateModuleLayout(modules: Module[]) {
+	updateModuleLayout(modules: MyMICDSModule[]) {
 		this.ogModuleLayout = JSON.parse(JSON.stringify(modules));
 		this.moduleLayout = modules;
 		// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
@@ -187,9 +179,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	// Save current moduleLayout in the back-end
 	saveModules(saveModules = this.moduleLayout) {
 		this.savingModuleLayout = true;
-		this.modulesService.upsert(saveModules)
+		this.mymicds.modules.update({ modules: saveModules })
 			.subscribe(
-				modules => {
+				({ modules }) => {
 					this.savingModuleLayout = false;
 					this.updateModuleLayout(modules);
 					this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
@@ -213,7 +205,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		});
 	}
 
-	changeModuleOptions(module: Module, options: Options) {
+	changeModuleOptions(module: MyMICDSModule, options: Options) {
 		setTimeout(() => {
 			module.options = options;
 		}, 0);

@@ -1,13 +1,13 @@
 /* tslint:disable:max-line-length */
 
 import { MyMICDS } from '@mymicds/sdk';
-import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, OnInit } from '@angular/core';
 import { SubscriptionsComponent } from '../common/subscriptions-component';
 
 @Directive({
 	selector: '[mymicds-blur]' // tslint:disable-line
 })
-export class BlurDirective extends SubscriptionsComponent implements OnInit, OnDestroy {
+export class BlurDirective extends SubscriptionsComponent implements OnInit {
 
 	subscription: any;
 
@@ -25,16 +25,12 @@ export class BlurDirective extends SubscriptionsComponent implements OnInit, OnD
 		);
 	}
 
-	ngOnDestroy() {
-		console.log('impelment onw destroy');
-	}
-
 }
 
 @Directive({
 	selector: '[mymicds-blur--dark]' // tslint:disable-line
 })
-export class DarkBlurDirective extends SubscriptionsComponent implements OnInit, OnDestroy {
+export class DarkBlurDirective extends SubscriptionsComponent implements OnInit {
 
 	subscription: any;
 
@@ -53,15 +49,12 @@ export class DarkBlurDirective extends SubscriptionsComponent implements OnInit,
 		);
 	}
 
-	ngOnDestroy() {
-		this.subscription.unsubscribe();
-	}
 }
 
 @Directive({
 	selector: '[mymicds-blur--white]' // tslint:disable-line
 })
-export class WhiteBlurDirective extends SubscriptionsComponent implements OnInit, OnDestroy {
+export class WhiteBlurDirective extends SubscriptionsComponent implements OnInit {
 
 	subscription: any;
 
@@ -79,7 +72,4 @@ export class WhiteBlurDirective extends SubscriptionsComponent implements OnInit
 		);
 	}
 
-	ngOnDestroy() {
-		this.subscription.unsubscribe();
-	}
 }
