@@ -1,69 +1,50 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { MyMICDS, MyMICDSClass, AliasType } from '@mymicds/sdk';
+
+import { Component, OnInit, Input } from '@angular/core';
 import { contains } from '../../../common/utils';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { AliasService } from '../../../services/alias.service';
-
-// For some reason it can't find the `Class` import
-// import { Class } from '../../../services/classes.service';
-interface Class {
-	_id?: string;
-	name: string;
-	color?: string;
-	block?: string;
-	type?: string;
-	teacher: Teacher;
-}
-
-interface Teacher {
-	prefix: string;
-	firstName: string;
-	lastName: string;
-}
 
 @Component({
 	selector: 'mymicds-aliases',
 	templateUrl: './aliases.component.html',
 	styleUrls: ['./aliases.component.scss']
 })
-export class AliasesComponent implements OnInit, OnDestroy {
+export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 
 	// For template
 	contains = contains;
 
-	@Input() type: string;
-	aliasTypes = ['canvas', 'portal'];
+	@Input() type: AliasType;
 
 	@Input() externalClasses: string[];
-	@Input() class: Class;
+	@Input() class: MyMICDSClass;
 
-	aliasesSubscription: any;
 	aliases = {};
 
-	constructor(private alertService: AlertService, private aliasService: AliasService) {
-
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+		super();
 	}
 
 	ngOnInit() {
 		// Get Aliases
-		this.aliasesSubscription = this.aliasService.listAliases().subscribe(
-			aliases => {
-				this.aliases = aliases;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Aliases Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.alias.list().subscribe(
+				aliases => {
+					this.aliases = aliases;
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Aliases Error!', error);
+				}
+			)
 		);
 	}
 
-	ngOnDestroy() {
-		this.aliasesSubscription.unsubscribe();
-	}
-
 	// Returns native class id alias belongs to is in, or null if no class
-	aliasClassObject(type: string, className: string) {
+	aliasClassObject(type: AliasType, className: string) {
 		// Make sure it's a valid alias type
-		if (!contains(this.aliasTypes, type)) { return; }
+		if (!(type in AliasType)) { return; }
 
 		for (let alias of this.aliases[type]) {
 			if (className === alias.classRemote) {
@@ -97,44 +78,55 @@ export class AliasesComponent implements OnInit, OnDestroy {
 	// When the user either checks or unchecks the box
 	aliasChange(event, className: string, classId: string) {
 		// Make sure it's a valid alias type
-		if (!contains(this.aliasTypes, this.type)) { return; }
+		if (!(this.type in AliasType)) { return; }
 
 		if (event.target.checked) {
 			// Add alias
-			this.aliasService.addAlias(this.type, className, classId).subscribe(
-				id => {
-					this.alertService.addAlert('success', 'Success!', 'Linked alias to class!', 3);
+			this.addSubscription(
+				this.mymicds.alias.add({
+					type: this.type,
+					classString: className,
+					classId
+				}).subscribe(
+					id => {
+						this.alertService.addAlert('success', 'Success!', 'Linked alias to class!', 3);
 
-					// Add alias to aliases array
-					this.aliases[this.type].push({
-						_id: id,
-						type: this.type,
-						classNative: classId,
-						classRemote: className
-					});
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Add Alias Error!', error);
-				}
+						// Add alias to aliases array
+						this.aliases[this.type].push({
+							_id: id,
+							type: this.type,
+							classNative: classId,
+							classRemote: className
+						});
+					},
+					error => {
+						this.alertService.addAlert('danger', 'Add Alias Error!', error);
+					}
+				)
 			);
 		} else {
 			// Delete alias
 			let aliasObject = this.aliasClassObject(this.type, className);
 			let aliasId = aliasObject._id;
-			this.aliasService.deleteAlias(this.type, aliasId).subscribe(
-				() => {
-					this.alertService.addAlert('success', 'Success!', 'Deleted alias from class!', 3);
+			this.addSubscription(
+				this.mymicds.alias.delete({
+					type: this.type,
+					id: aliasId
+				}).subscribe(
+					() => {
+						this.alertService.addAlert('success', 'Success!', 'Deleted alias from class!', 3);
 
-					// Remove alias from aliases array
-					for (let i = 0; i < this.aliases[this.type].length; i++) {
-						if (this.aliases[this.type][i]._id === aliasId) {
-							this.aliases[this.type].splice(i, 1);
+						// Remove alias from aliases array
+						for (let i = 0; i < this.aliases[this.type].length; i++) {
+							if (this.aliases[this.type][i]._id === aliasId) {
+								this.aliases[this.type].splice(i, 1);
+							}
 						}
+					},
+					error => {
+						this.alertService.addAlert('danger', 'Delete Alias Error!', error);
 					}
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Delete Alias Error!', error);
-				}
+				)
 			);
 		}
 	}

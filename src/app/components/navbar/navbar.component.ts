@@ -1,7 +1,7 @@
 import { MyMICDS, JWT } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
@@ -49,7 +49,7 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		}
 	];
 
-	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute) {
+	constructor(private mymicds: MyMICDS, private router: Router) {
 		super();
 	}
 

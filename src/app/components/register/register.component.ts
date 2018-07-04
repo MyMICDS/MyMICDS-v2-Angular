@@ -1,23 +1,24 @@
+import { MyMICDS } from '@mymicds/sdk';
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { confirmRegister } from '../../common/form-validation';
 import { isAlphabetic, typeOf } from '../../common/utils';
 
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
-import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
 	selector: 'mymicds-register',
 	templateUrl: './register.component.html',
 	styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	private isAlphabetic = isAlphabetic; // tslint:disable-line
-	private typeOf = typeOf; // tslint:disable-line
+	public isAlphabetic = isAlphabetic; // tslint:disable-line
+	public typeOf = typeOf; // tslint:disable-line
 
 	registerForm = this.formBuilder.group({
 		user: ['', Validators.required],
@@ -34,41 +35,41 @@ export class RegisterComponent implements OnInit {
 	submitted = false;
 	registerResponse: any = null;
 
-	constructor(
-		private router: Router,
-		private formBuilder: FormBuilder,
-		private alertService: AlertService,
-		private authService: AuthService,
-		private userService: UserService
-	) { }
+	constructor(private mymicds: MyMICDS, private router: Router, private formBuilder: FormBuilder, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 
 		// Check if user is already logged in
-		if (this.authService.authSnapshot) {
+		if (this.mymicds.auth.isLoggedIn) {
 			this.router.navigate(['/home']);
 			return;
 		}
 
-		this.userService.gradeRange().subscribe(
-			gradeRange => {
-				this.gradeRange = gradeRange;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Grade Range Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.user.getGradeRange().subscribe(
+				data => {
+					this.gradeRange = data.gradYears;
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Grade Range Error!', error);
+				}
+			)
 		);
 	}
 
 	register() {
 		this.submitted = true;
-		this.authService.register(this.registerForm.value).subscribe(
-			() => {
-				this.registerResponse = true;
-			},
-			error => {
-				this.registerResponse = error;
-			}
+		this.addSubscription(
+			this.mymicds.auth.register(this.registerForm.value).subscribe(
+				() => {
+					this.registerResponse = true;
+				},
+				error => {
+					this.registerResponse = error;
+				}
+			)
 		);
 	}
 

@@ -3,6 +3,7 @@ import { MyMICDS, MyMICDSClass, AddPlannerEventParameters, PlannerEvent } from '
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { switchMap } from 'rxjs/operators';
 import moment from 'moment';
 import { contains, darkenColor, rainbowSafeWord, rainbowCSSGradient } from '../../common/utils';
 
@@ -17,7 +18,7 @@ import { AlertService } from '../../services/alert.service';
 export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	private darkenColor = darkenColor; // tslint:disable-line
+	public darkenColor = darkenColor; // tslint:disable-line
 
 	weekdays = [
 		'Sunday',
@@ -183,7 +184,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			.filter((className: string[]) => contains(className, 'planner-interface'));
 
 		this.deselectSubscription = this.deselect$.subscribe(
-			className => {
+			() => {
 				this.deselectDay();
 			}
 		);
@@ -211,26 +212,26 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.canvasLoading = true;
 
 		this.addSubscription(
-			this.updateSubscription = this.mymicds.feeds.updateCanvasCache()
-				.switchMap(() => this.mymicds.canvas.getEvents())
-				.subscribe(
-					data => {
-						this.updateSubscription.unsubscribe();
-						this.canvasLoading = false;
-						if (data.hasURL) {
-							this.canvasEvents = data.events;
-						} else {
-							this.canvasEvents = [];
-						}
-						this.updatePlannerEvents();
-					},
-					error => {
-						this.updateSubscription.unsubscribe();
-						this.canvasLoading = false;
-						this.alertService.addAlert('danger', 'Get Canvas Events Error!', error);
+			this.updateSubscription = this.mymicds.feeds.updateCanvasCache().pipe(
+				switchMap(() => this.mymicds.canvas.getEvents())
+			).subscribe(
+				data => {
+					this.updateSubscription.unsubscribe();
+					this.canvasLoading = false;
+					if (data.hasURL) {
+						this.canvasEvents = data.events;
+					} else {
+						this.canvasEvents = [];
 					}
-				)
-			);
+					this.updatePlannerEvents();
+				},
+				error => {
+					this.updateSubscription.unsubscribe();
+					this.canvasLoading = false;
+					this.alertService.addAlert('danger', 'Get Canvas Events Error!', error);
+				}
+			)
+		);
 	}
 
 	private updatePlannerEvents(plannerEvents = this.plannerEvents) {
@@ -599,7 +600,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 					this.events[i].checked = true;
 					this.mymicds.planner.checkEvent({ id }).subscribe(
 						() => { },
-						error => {
+						() => {
 							this.alertService.addAlert('danger', 'Error!', 'Your event check will not be saved due to an error.');
 						}
 					);
@@ -607,7 +608,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 					this.events[i].checked = false;
 					this.mymicds.planner.uncheckEvent({ id }).subscribe(
 						() => { },
-						error => {
+						() => {
 							this.alertService.addAlert('danger', 'Error!', 'Your event check will not be saved due to an error.');
 						}
 					);
