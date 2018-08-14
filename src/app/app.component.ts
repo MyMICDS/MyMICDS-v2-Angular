@@ -21,7 +21,7 @@ export class AppComponent {
 	messages: string[] = [];
 	messageSequence = 0;
 
-	showSummer = true;
+	showSummer = false;
 	showSummerOnce = true;
 
 	/*
