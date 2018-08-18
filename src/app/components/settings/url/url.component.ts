@@ -25,11 +25,17 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	canvasFeedUpdateLoading = false;
 
-	// Portal URL Form
-	portalURLSubscription: any;
-	portalURL: string;
-	portalValid: boolean;
-	portalResponse: string;
+	// Portal Classes URL Form
+	portalClassesURLSubscription: any;
+	portalClassesURL: string;
+	portalClassesValid: boolean;
+	portalClassesResponse: string;
+
+	// Portal Calendar URL Form
+	portalCalendarURLSubscription: any;
+	portalCalendarURL: string;
+	portalCalendarValid: boolean;
+	portalCalendarResponse: string;
 
 	portalFeedUpdateLoading = false;
 
@@ -51,12 +57,12 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 				}
 
 				// Get URL's
-				this.portalURL = this.userInfo.portalURL;
+				this.portalClassesURL = this.userInfo.portalURL;
 				this.canvasURL = this.userInfo.canvasURL;
 
-				if (this.portalURL) {
-					this.portalValid = true;
-					this.portalResponse = 'Valid!';
+				if (this.portalClassesURL) {
+					this.portalClassesValid = true;
+					this.portalClassesResponse = 'Valid!';
 				}
 				if (this.canvasURL) {
 					this.canvasValid = true;
@@ -92,17 +98,17 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 			clearInterval(interval);
 
 			// Subscribe to Portal and Canvas URL inputs to test URL
-			this.portalURLSubscription = Observable.fromEvent(portalInput, 'keyup')
+			this.portalClassesURLSubscription = Observable.fromEvent(portalInput, 'keyup')
 				.debounceTime(250)
 				.switchMap(() => {
-					this.portalValid = false;
-					this.portalResponse = 'Validating...';
-					return this.portalService.testURL(this.portalURL);
+					this.portalClassesValid = false;
+					this.portalClassesResponse = 'Validating...';
+					return this.portalService.testURL(this.portalClassesURL);
 				})
 				.subscribe(
 					data => {
-						this.portalValid = (data.valid === true);
-						this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
+						this.portalClassesValid = (data.valid === true);
+						this.portalClassesResponse = (data.valid === true) ? 'Valid!' : data.valid;
 					},
 					error => {
 						this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
@@ -130,7 +136,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.canvasURLSubscription.unsubscribe();
-		this.portalURLSubscription.unsubscribe();
+		this.portalClassesURLSubscription.unsubscribe();
 		this.userSubscription.unsubscribe();
 	}
 
@@ -138,11 +144,11 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	 * Portal / Canvas URLs
 	 */
 
-	changePortalURL() {
-		this.portalService.setURL(this.portalURL).subscribe(
+	changePortalClassesURL() {
+		this.portalService.setURL(this.portalClassesURL).subscribe(
 			data => {
-				this.portalValid = (data.valid === true);
-				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				this.portalClassesValid = (data.valid === true);
+				this.portalClassesResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if (data.valid === true) {
 					this.userInfo.portalURL = data.url;
 					this.alertService.addAlert('success', 'Success!', 'Changed Portal URL!', 3);

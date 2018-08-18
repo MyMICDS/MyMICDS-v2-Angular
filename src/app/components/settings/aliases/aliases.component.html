@@ -8,4 +8,7 @@
 			{{ externalClass }}
 		</label>
 	</div>
+	<div *ngIf="externalClasses.length < 1">
+		<p>No {{ type }} classes found. Integrate them in the 'URL Settings' section!</p>
+	</div>
 </ng-container>
