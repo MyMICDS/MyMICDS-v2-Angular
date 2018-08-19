@@ -1,8 +1,8 @@
 <h3 class="title">
 	URL Settings
-	<span class="veracross-update badge badge-danger">Update to Veracross!</span>
+	<a class="veracross-update badge badge-danger" routerLink="/help">Update to Veracross!</a>
 </h3>
-<form class="form-portal" #portalCalendarForm="ngForm" [class.has-success]="portalCalendarValid" [class.has-danger]="!portalCalendarValid" (ngSubmit)="changePortalCalendarURL()" novalidate>
+<form class="form-portal" #portalCalendarForm="ngForm" [class.has-success]="portalCalendarValid" [class.has-danger]="portalCalendarValid === false" (ngSubmit)="changePortalCalendarURL()" novalidate>
 	<label for="portal-calendar-url">Portal 'My Calendar' URL</label>
 	<div class="input-group">
 		<input
@@ -14,12 +14,12 @@
 			autocomplete="off"
 			required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!portalCalendarForm.valid || !portalCalendarValid">Save</button>
+			<button class="btn btn-info" [disabled]="!portalCalendarForm.valid">Save</button>
 		</span>
 	</div>
 	<div *ngIf="portalCalendarURL?.length > 0" class="form-control-feedback">{{portalCalendarResponse}}</div>
 </form>
-<form class="form-portal" #portalClassesForm="ngForm" [class.has-success]="portalClassesValid" [class.has-danger]="!portalClassesValid" (ngSubmit)="changePortalClassesURL()" novalidate>
+<form class="form-portal" #portalClassesForm="ngForm" [class.has-success]="portalClassesValid" [class.has-danger]="portalClassesValid === false" (ngSubmit)="changePortalClassesURL()" novalidate>
 	<label for="portal-classes-url">Portal 'All Classes' URL</label>
 	<div class="input-group">
 		<input
@@ -31,7 +31,7 @@
 			autocomplete="off"
 			required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!portalClassesForm.valid || !portalClassesValid">Save</button>
+			<button class="btn btn-info" [disabled]="!portalClassesForm.valid">Save</button>
 		</span>
 	</div>
 	<div *ngIf="portalClassesURL?.length > 0" class="form-control-feedback">{{portalClassesResponse}}</div>
@@ -52,7 +52,7 @@
 	<div class="line"></div>
 </div>
 
-<form #canvasForm="ngForm" [class.has-success]="canvasValid" [class.has-danger]="!canvasValid" (ngSubmit)="changeCanvasURL()" novalidate>
+<form #canvasForm="ngForm" [class.has-success]="canvasValid" [class.has-danger]="canvasValid === false" (ngSubmit)="changeCanvasURL()" novalidate>
 	<label for="canvas-url">Canvas URL</label>
 	<div class="input-group">
 		<input
@@ -64,7 +64,7 @@
 			autocomplete="off"
 			required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
+			<button class="btn btn-info" [disabled]="!canvasForm.valid">Save</button>
 		</span>
 	</div>
 	<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{canvasResponse}}</div>

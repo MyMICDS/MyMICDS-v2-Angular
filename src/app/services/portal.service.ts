@@ -37,12 +37,12 @@ export class PortalService {
 			.catch(handleError);
 	}
 
-	testURL(url: string) {
+	testURLClasses(url: string) {
 		let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
 
-		return this.authHttp.post(environment.backendURL + '/portal/test-url', body, options)
+		return this.authHttp.post(environment.backendURL + '/portal/test-url-classes', body, options)
 			.map(res => {
 				let data = res.json();
 
@@ -59,12 +59,56 @@ export class PortalService {
 			.catch(handleError);
 	}
 
-	setURL(url: string) {
+	testURLCalendar(url: string) {
 		let body = JSON.stringify({ url });
 		let headers = xhrHeaders();
 		let options = new RequestOptions({ headers });
 
-		return this.authHttp.post(environment.backendURL + '/portal/set-url', body, options)
+		return this.authHttp.post(environment.backendURL + '/portal/test-url-calendar', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if (data.error) {
+					throw new Error(data.error);
+				}
+
+				return {
+					valid: data.valid,
+					url: data.url
+				};
+			})
+			.catch(handleError);
+	}
+
+	setURLClasses(url: string) {
+		let body = JSON.stringify({ url });
+		let headers = xhrHeaders();
+		let options = new RequestOptions({ headers });
+
+		return this.authHttp.post(environment.backendURL + '/portal/set-url-classes', body, options)
+			.map(res => {
+				let data = res.json();
+
+				// Check if server-side error
+				if (data.error) {
+					throw new Error(data.error);
+				}
+
+				return {
+					valid: data.valid,
+					url: data.url
+				};
+			})
+			.catch(handleError);
+	}
+
+	setURLCalendar(url: string) {
+		let body = JSON.stringify({ url });
+		let headers = xhrHeaders();
+		let options = new RequestOptions({ headers });
+
+		return this.authHttp.post(environment.backendURL + '/portal/set-url-calendar', body, options)
 			.map(res => {
 				let data = res.json();
 
