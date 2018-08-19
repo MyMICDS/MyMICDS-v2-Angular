@@ -107,6 +107,8 @@ export interface UserInfoResponse {
 	school: string;
 	canvasURL: string;
 	portalURL: string;
+	portalURLClasses: string;
+	portalURLCalendar: string;
 }
 
 export interface UserInfo {

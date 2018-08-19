@@ -116,19 +116,17 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 				const lacks = [];
 
-				if (!user.portalURL) {
+				if (!user.portalURLClasses || !user.portalURLCalendar) {
 					lacks.push('Portal');
 				}
 				if (!user.canvasURL) {
 					lacks.push('Canvas');
 				}
 
-				if (lacks.length <= 0 || this.announcement) {
-					return;
+				if (!this.announcement && lacks.length > 0) {
+					// tslint:disable-next-line:max-line-length
+					this.announcement = `Hey there! <strong>It looks like you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
 				}
-
-				// tslint:disable-next-line:max-line-length
-				this.announcement = `Hey there! <strong>It looks like you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
 			}
 		);
 	}
