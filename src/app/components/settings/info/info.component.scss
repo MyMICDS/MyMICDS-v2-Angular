@@ -1,12 +1,14 @@
 @import '../../../../styles/settings';
 
-h3 {
+h3, form {
 	color: $sophisticated-white;
 }
 
-form {
-	color: $sophisticated-white;
+.title {
+	margin-bottom: 2rem;
+}
 
+form {
 	.full-name {
 		display: flex;
 		flex-direction: column;

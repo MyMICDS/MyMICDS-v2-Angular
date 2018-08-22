@@ -4,8 +4,20 @@ h3, form {
 	color: $sophisticated-white;
 }
 
+.title {
+	margin-bottom: 2rem;
+}
+
+.veracross-update {
+	float: right;
+}
+
 .text-muted {
 	color: mix($sophisticated-white, #636c72) !important;
+}
+
+.form-portal:first-of-type {
+	margin-bottom: 1rem;
 }
 
 .spacer {

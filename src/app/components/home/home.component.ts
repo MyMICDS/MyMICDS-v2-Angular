@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = 'Welcome back! We\'re just as excited as you to start the new year! We\'re still making sure everything works smoothly (especially with the new portal), so definitely email <strong>support@mymicds.net</strong> if you encounter any bugs or features that should still be added. While you\'re at it, make sure to follow us on Twitter <a class="alert-link" href="https://twitter.com/MyMICDS" target="_blank">@MyMICDS</a> for announcements, status updates, and more! We\'ll send out an email soon.';
+	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
@@ -116,19 +116,23 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 				const lacks = [];
 
-				if (!user.portalURL) {
+				if (!user.portalURLClasses || !user.portalURLCalendar) {
 					lacks.push('Portal');
 				}
 				if (!user.canvasURL) {
 					lacks.push('Canvas');
 				}
 
-				if (lacks.length <= 0 || this.announcement) {
-					return;
+				// Engagement announcements
+				if (!this.announcement) {
+					if (this.userService.migrateToVeracross()) {
+						// tslint:disable-next-line:max-line-length
+						this.announcement = `Hey there! <strong>It appears you haven\'t migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
+					} else if (lacks.length > 0) {
+						// tslint:disable-next-line:max-line-length
+						this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
+					}
 				}
-
-				// tslint:disable-next-line:max-line-length
-				this.announcement = `Hey there! <strong>It looks like you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
 			}
 		);
 	}

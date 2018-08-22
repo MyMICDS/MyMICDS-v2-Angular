@@ -22,14 +22,23 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	canvasURL: string;
 	canvasValid: boolean;
 	canvasResponse: string;
+	canvasSaving = false;
 
 	canvasFeedUpdateLoading = false;
 
-	// Portal URL Form
-	portalURLSubscription: any;
-	portalURL: string;
-	portalValid: boolean;
-	portalResponse: string;
+	// Portal Classes URL Form
+	portalClassesURLSubscription: any;
+	portalClassesURL: string;
+	portalClassesValid: boolean;
+	portalClassesResponse: string;
+	portalClassesSaving = false;
+
+	// Portal Calendar URL Form
+	portalCalendarURLSubscription: any;
+	portalCalendarURL: string;
+	portalCalendarValid: boolean;
+	portalCalendarResponse: string;
+	portalCalendarSaving = false;
 
 	portalFeedUpdateLoading = false;
 
@@ -38,7 +47,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 		private canvasService: CanvasService,
 		private feedsService: FeedsService,
 		private portalService: PortalService,
-		private userService: UserService
+		public userService: UserService
 	) { }
 
 	ngOnInit() {
@@ -51,12 +60,17 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 				}
 
 				// Get URL's
-				this.portalURL = this.userInfo.portalURL;
+				this.portalClassesURL = this.userInfo.portalURLClasses;
+				this.portalCalendarURL = this.userInfo.portalURLCalendar;
 				this.canvasURL = this.userInfo.canvasURL;
 
-				if (this.portalURL) {
-					this.portalValid = true;
-					this.portalResponse = 'Valid!';
+				if (this.portalClassesURL) {
+					this.portalClassesValid = true;
+					this.portalClassesResponse = 'Valid!';
+				}
+				if (this.portalCalendarURL) {
+					this.portalCalendarValid = true;
+					this.portalCalendarResponse = 'Valid!';
 				}
 				if (this.canvasURL) {
 					this.canvasValid = true;
@@ -81,28 +95,48 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 		 * always on the second time.
 		 */
 
-		let interval = setInterval(() => {
+		const interval = setInterval(() => {
 
 			// Get URL inputs
-			let portalInput = document.getElementById('portal-url');
-			let canvasInput = document.getElementById('canvas-url');
+			const portalClassesInput = document.getElementById('portal-classes-url');
+			const portalCalendarInput = document.getElementById('portal-calendar-url');
+			const canvasInput = document.getElementById('canvas-url');
 
 			// Keep trying until DOM is loaded
-			if (!portalInput || !canvasInput) { return; }
+			if (!portalClassesInput || !portalCalendarInput || !canvasInput) { return; }
 			clearInterval(interval);
 
 			// Subscribe to Portal and Canvas URL inputs to test URL
-			this.portalURLSubscription = Observable.fromEvent(portalInput, 'keyup')
+			this.portalClassesURLSubscription = Observable.fromEvent(portalClassesInput, 'keyup')
+				.filter(() => (this.portalClassesURL && this.portalClassesURL.length > 0))
 				.debounceTime(250)
 				.switchMap(() => {
-					this.portalValid = false;
-					this.portalResponse = 'Validating...';
-					return this.portalService.testURL(this.portalURL);
+					this.portalClassesValid = null;
+					this.portalClassesResponse = 'Validating...';
+					return this.portalService.testURLClasses(this.portalClassesURL);
 				})
 				.subscribe(
 					data => {
-						this.portalValid = (data.valid === true);
-						this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
+						this.portalClassesValid = (data.valid === true);
+						this.portalClassesResponse = (data.valid === true) ? 'Valid!' : data.valid;
+					},
+					error => {
+						this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
+					}
+				);
+
+			this.portalCalendarURLSubscription = Observable.fromEvent(portalCalendarInput, 'keyup')
+				.filter(() => (this.portalCalendarURL && this.portalCalendarURL.length > 0))
+				.debounceTime(250)
+				.switchMap(() => {
+					this.portalCalendarValid = null;
+					this.portalCalendarResponse = 'Validating...';
+					return this.portalService.testURLCalendar(this.portalCalendarURL);
+				})
+				.subscribe(
+					data => {
+						this.portalCalendarValid = (data.valid === true);
+						this.portalCalendarResponse = (data.valid === true) ? 'Valid!' : data.valid;
 					},
 					error => {
 						this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
@@ -110,9 +144,10 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 				);
 
 			this.canvasURLSubscription = Observable.fromEvent(canvasInput, 'keyup')
+				.filter(() => (this.canvasURL && this.canvasURL.length > 0))
 				.debounceTime(250)
 				.switchMap(() => {
-					this.canvasValid = false;
+					this.canvasValid = null;
 					this.canvasResponse = 'Validating...';
 					return this.canvasService.testURL(this.canvasURL);
 				})
@@ -130,7 +165,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.canvasURLSubscription.unsubscribe();
-		this.portalURLSubscription.unsubscribe();
+		this.portalClassesURLSubscription.unsubscribe();
 		this.userSubscription.unsubscribe();
 	}
 
@@ -138,13 +173,15 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	 * Portal / Canvas URLs
 	 */
 
-	changePortalURL() {
-		this.portalService.setURL(this.portalURL).subscribe(
+	changePortalClassesURL() {
+		this.portalClassesSaving = true;
+		this.portalService.setURLClasses(this.portalClassesURL).subscribe(
 			data => {
-				this.portalValid = (data.valid === true);
-				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				this.portalClassesValid = (data.valid === true);
+				this.portalClassesResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if (data.valid === true) {
-					this.userInfo.portalURL = data.url;
+					this.userInfo.portalURLClasses = data.url;
+					this.portalClassesURL = data.url;
 					this.alertService.addAlert('success', 'Success!', 'Changed Portal URL!', 3);
 				} else {
 					this.alertService.addAlert('warning', 'Change Portal URL Warning:', data.valid);
@@ -152,17 +189,45 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Change Portal URL Error!', error);
+			},
+			() => {
+				this.portalClassesSaving = false;
+			}
+		);
+	}
+
+	changePortalCalendarURL() {
+		this.portalCalendarSaving = true;
+		this.portalService.setURLCalendar(this.portalCalendarURL).subscribe(
+			data => {
+				this.portalCalendarValid = (data.valid === true);
+				this.portalCalendarResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				if (data.valid === true) {
+					this.userInfo.portalURLCalendar = data.url;
+					this.portalCalendarURL = data.url;
+					this.alertService.addAlert('success', 'Success!', 'Changed Portal URL!', 3);
+				} else {
+					this.alertService.addAlert('warning', 'Change Portal URL Warning:', data.valid);
+				}
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Change Portal URL Error!', error);
+			},
+			() => {
+				this.portalCalendarSaving = false;
 			}
 		);
 	}
 
 	changeCanvasURL() {
+		this.canvasSaving = true;
 		this.canvasService.setURL(this.canvasURL).subscribe(
 			data => {
 				this.canvasValid = (data.valid === true);
 				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
 				if (data.valid === true) {
 					this.userInfo.canvasURL = data.url;
+					this.canvasURL = data.url;
 					this.alertService.addAlert('success', 'Success!', 'Changed Canvas URL!', 3);
 				} else {
 					this.alertService.addAlert('warning', 'Change Canvas URL Warning:', data.valid);
@@ -170,6 +235,9 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Change Canvas URL Error!', error);
+			},
+			() => {
+				this.canvasSaving = false;
 			}
 		);
 	}

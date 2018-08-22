@@ -1,19 +1,46 @@
-<h3>URL Settings</h3>
-<form #portalForm="ngForm" class="portal-form" [class.has-success]="portalValid" [class.has-danger]="!portalValid" (ngSubmit)="changePortalURL()" novalidate>
-	<label for="portal-url">Portal URL</label>
+<h3 class="title">
+	URL Settings
+	<a *ngIf="userService.migrateToVeracross()" class="veracross-update badge badge-danger" routerLink="/help">Update to Veracross!</a>
+</h3>
+<form class="form-portal" #portalCalendarForm="ngForm" [class.has-success]="portalCalendarValid" [class.has-danger]="portalCalendarValid === false" (ngSubmit)="changePortalCalendarURL()" novalidate>
+	<label for="portal-calendar-url">Portal 'My Calendar' URL</label>
 	<div class="input-group">
-		<input id="portal-url" class="portal-url form-control form-control-success form-control-danger" [(ngModel)]="portalURL" name="portalURL" placeholder="Portal URL" autocomplete="off" required>
+		<input
+			id="portal-calendar-url"
+			class="form-control form-control-success form-control-danger"
+			[(ngModel)]="portalCalendarURL"
+			name="portalCalendarURL"
+			placeholder="Portal Calendar URL"
+			autocomplete="off"
+			required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!portalForm.valid || !portalValid">Save</button>
+			<button class="btn btn-info" [disabled]="!portalCalendarForm.valid || portalCalendarSaving">{{ portalCalendarSaving ? 'Saving...' : 'Save' }}</button>
 		</span>
 	</div>
-	<div *ngIf="portalURL?.length > 0" class="form-control-feedback">{{portalResponse}}</div>
-	<p class="form-text text-muted">
-		Submit your Portal URL to integrate your schedule into the site.
-		<br>
-		<a routerLink="/help">Find out how to get your Portal URL.</a>
-	</p>
+	<div *ngIf="portalCalendarURL?.length > 0" class="form-control-feedback">{{portalCalendarResponse}}</div>
 </form>
+<form class="form-portal" #portalClassesForm="ngForm" [class.has-success]="portalClassesValid" [class.has-danger]="portalClassesValid === false" (ngSubmit)="changePortalClassesURL()" novalidate>
+	<label for="portal-classes-url">Portal 'All Classes' URL</label>
+	<div class="input-group">
+		<input
+			id="portal-classes-url"
+			class="form-control form-control-success form-control-danger"
+			[(ngModel)]="portalClassesURL"
+			name="portalClassesURL"
+			placeholder="Portal Classes URL"
+			autocomplete="off"
+			required>
+		<span class="input-group-btn">
+			<button class="btn btn-info" [disabled]="!portalClassesForm.valid || portalClassesSaving">{{ portalClassesSaving ? 'Saving...' : 'Save' }}</button>
+		</span>
+	</div>
+	<div *ngIf="portalClassesURL?.length > 0" class="form-control-feedback">{{portalClassesResponse}}</div>
+</form>
+<p class="form-text text-muted">
+	Submit your Portal URLs to integrate your schedule into the site.
+	<br>
+	<a routerLink="/help">Find out how to get your Portal URL.</a>
+</p>
 <ng-container *ngIf="userInfo?.portalURL">
 	<button class="btn btn-danger" (click)="updatePortalFeed()" [disabled]="portalFeedUpdateLoading">
 		{{ portalFeedUpdateLoading ? 'Updating...' : 'Update Portal Feed' }}
@@ -25,21 +52,28 @@
 	<div class="line"></div>
 </div>
 
-<form #canvasForm="ngForm" class="canvas-form" [class.has-success]="canvasValid" [class.has-danger]="!canvasValid" (ngSubmit)="changeCanvasURL()" novalidate>
+<form #canvasForm="ngForm" [class.has-success]="canvasValid" [class.has-danger]="canvasValid === false" (ngSubmit)="changeCanvasURL()" novalidate>
 	<label for="canvas-url">Canvas URL</label>
 	<div class="input-group">
-		<input id="canvas-url" class="canvas-url form-control form-control-success form-control-danger" [(ngModel)]="canvasURL" name="canvasURL" placeholder="Canvas URL" autocomplete="off" required>
+		<input
+			id="canvas-url"
+			class="form-control form-control-success form-control-danger"
+			[(ngModel)]="canvasURL"
+			name="canvasURL"
+			placeholder="Canvas URL"
+			autocomplete="off"
+			required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!canvasForm.valid || !canvasValid">Save</button>
+			<button class="btn btn-info" [disabled]="!canvasForm.valid || canvasSaving">{{ canvasSaving ? 'Saving...' : 'Save' }}</button>
 		</span>
 	</div>
 	<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{canvasResponse}}</div>
-	<p class="form-text text-muted">
-		Submit your Canvas URL to integrate your homework assignments into our digital planner.
-		<br>
-		<a routerLink="/help">Find out how to get your Canvas URL.</a>
-	</p>
 </form>
+<p class="form-text text-muted">
+	Submit your Canvas URL to integrate your homework assignments into our digital planner.
+	<br>
+	<a routerLink="/help">Find out how to get your Canvas URL.</a>
+</p>
 <ng-container *ngIf="userInfo?.canvasURL">
 	<button class="btn btn-danger" (click)="updateCanvasFeed()" [disabled]="canvasFeedUpdateLoading">
 		{{ canvasFeedUpdateLoading ? 'Updating...' : 'Update Canvas Feed' }}
