@@ -22,6 +22,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	canvasURL: string;
 	canvasValid: boolean;
 	canvasResponse: string;
+	canvasSaving = false;
 
 	canvasFeedUpdateLoading = false;
 
@@ -30,12 +31,14 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	portalClassesURL: string;
 	portalClassesValid: boolean;
 	portalClassesResponse: string;
+	portalClassesSaving = false;
 
 	// Portal Calendar URL Form
 	portalCalendarURLSubscription: any;
 	portalCalendarURL: string;
 	portalCalendarValid: boolean;
 	portalCalendarResponse: string;
+	portalCalendarSaving = false;
 
 	portalFeedUpdateLoading = false;
 
@@ -44,7 +47,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 		private canvasService: CanvasService,
 		private feedsService: FeedsService,
 		private portalService: PortalService,
-		private userService: UserService
+		public userService: UserService
 	) { }
 
 	ngOnInit() {
@@ -171,6 +174,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	 */
 
 	changePortalClassesURL() {
+		this.portalClassesSaving = true;
 		this.portalService.setURLClasses(this.portalClassesURL).subscribe(
 			data => {
 				this.portalClassesValid = (data.valid === true);
@@ -185,11 +189,15 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Change Portal URL Error!', error);
+			},
+			() => {
+				this.portalClassesSaving = false;
 			}
 		);
 	}
 
 	changePortalCalendarURL() {
+		this.portalCalendarSaving = true;
 		this.portalService.setURLCalendar(this.portalCalendarURL).subscribe(
 			data => {
 				this.portalCalendarValid = (data.valid === true);
@@ -204,11 +212,15 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Change Portal URL Error!', error);
+			},
+			() => {
+				this.portalCalendarSaving = false;
 			}
 		);
 	}
 
 	changeCanvasURL() {
+		this.canvasSaving = true;
 		this.canvasService.setURL(this.canvasURL).subscribe(
 			data => {
 				this.canvasValid = (data.valid === true);
@@ -223,6 +235,9 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 			},
 			error => {
 				this.alertService.addAlert('danger', 'Change Canvas URL Error!', error);
+			},
+			() => {
+				this.canvasSaving = false;
 			}
 		);
 	}

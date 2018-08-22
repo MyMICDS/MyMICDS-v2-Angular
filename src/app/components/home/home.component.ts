@@ -123,9 +123,15 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 					lacks.push('Canvas');
 				}
 
-				if (!this.announcement && lacks.length > 0) {
-					// tslint:disable-next-line:max-line-length
-					this.announcement = `Hey there! <strong>It looks like you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
+				// Engagement announcements
+				if (!this.announcement) {
+					if (this.userService.migrateToVeracross()) {
+						// tslint:disable-next-line:max-line-length
+						this.announcement = `Hey there! <strong>It appears you haven\'t migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
+					} else if (lacks.length > 0) {
+						// tslint:disable-next-line:max-line-length
+						this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
+					}
 				}
 			}
 		);

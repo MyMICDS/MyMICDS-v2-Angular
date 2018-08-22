@@ -1,6 +1,6 @@
 <h3 class="title">
 	URL Settings
-	<!-- <a class="veracross-update badge badge-danger" routerLink="/help">Update to Veracross!</a> -->
+	<a *ngIf="userService.migrateToVeracross()" class="veracross-update badge badge-danger" routerLink="/help">Update to Veracross!</a>
 </h3>
 <form class="form-portal" #portalCalendarForm="ngForm" [class.has-success]="portalCalendarValid" [class.has-danger]="portalCalendarValid === false" (ngSubmit)="changePortalCalendarURL()" novalidate>
 	<label for="portal-calendar-url">Portal 'My Calendar' URL</label>
@@ -14,7 +14,7 @@
 			autocomplete="off"
 			required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!portalCalendarForm.valid">Save</button>
+			<button class="btn btn-info" [disabled]="!portalCalendarForm.valid || portalCalendarSaving">{{ portalCalendarSaving ? 'Saving...' : 'Save' }}</button>
 		</span>
 	</div>
 	<div *ngIf="portalCalendarURL?.length > 0" class="form-control-feedback">{{portalCalendarResponse}}</div>
@@ -31,7 +31,7 @@
 			autocomplete="off"
 			required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!portalClassesForm.valid">Save</button>
+			<button class="btn btn-info" [disabled]="!portalClassesForm.valid || portalClassesSaving">{{ portalClassesSaving ? 'Saving...' : 'Save' }}</button>
 		</span>
 	</div>
 	<div *ngIf="portalClassesURL?.length > 0" class="form-control-feedback">{{portalClassesResponse}}</div>
@@ -64,7 +64,7 @@
 			autocomplete="off"
 			required>
 		<span class="input-group-btn">
-			<button class="btn btn-info" [disabled]="!canvasForm.valid">Save</button>
+			<button class="btn btn-info" [disabled]="!canvasForm.valid || canvasSaving">{{ canvasSaving ? 'Saving...' : 'Save' }}</button>
 		</span>
 	</div>
 	<div *ngIf="canvasURL?.length > 0" class="form-control-feedback">{{canvasResponse}}</div>

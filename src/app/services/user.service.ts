@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 export class UserService {
 
 	user$ = new BehaviorSubject<UserInfoResponse>(undefined);
+	userSnapshot: UserInfoResponse;
 
 	constructor(private http: Http, private authHttp: AuthHttp, private authService: AuthService) {
 		this.authService.auth$
@@ -23,7 +24,14 @@ export class UserService {
 					return Observable.of(null);
 				}
 			})
-			.subscribe(info => this.user$.next(info)); // Stupid `this` context ruining my functional programming
+			.subscribe(info => {
+				this.userSnapshot = info;
+				this.user$.next(this.userSnapshot);
+			});
+	}
+
+	migrateToVeracross() {
+		return this.userSnapshot && this.userSnapshot.portalURL && (!this.userSnapshot.portalURLClasses || !this.userSnapshot.portalURLCalendar);
 	}
 
 	getInfo() {
