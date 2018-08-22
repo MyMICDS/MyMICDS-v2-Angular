@@ -65,6 +65,10 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 					this.portalClassesValid = true;
 					this.portalClassesResponse = 'Valid!';
 				}
+				if (this.portalCalendarURL) {
+					this.portalCalendarValid = true;
+					this.portalCalendarResponse = 'Valid!';
+				}
 				if (this.canvasURL) {
 					this.canvasValid = true;
 					this.canvasResponse = 'Valid!';
