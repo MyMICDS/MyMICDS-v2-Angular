@@ -263,12 +263,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.feedsService.addPortalQueue()
 			.subscribe(
 				() => {
-					this.alertService.addAlert(
-						'success',
-						'Success!',
-						'Add portal to the update queue. If it doesn\'t update immediately, it could take anywhere from 30 minutes to a few hours.',
-						3
-					);
+					this.alertService.addAlert('success', 'Success!', 'Updated portal feed!', 3);
 				},
 				error => {
 					this.alertService.addAlert('danger', 'Update Portal Feed Error!', error);

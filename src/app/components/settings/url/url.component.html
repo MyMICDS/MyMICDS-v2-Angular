@@ -41,7 +41,7 @@
 	<br>
 	<a routerLink="/help">Find out how to get your Portal URL.</a>
 </p>
-<ng-container *ngIf="userInfo?.portalURL">
+<ng-container *ngIf="userInfo?.portalURLClasses || userInfo?.portalURLCalendar">
 	<button class="btn btn-danger" (click)="updatePortalFeed()" [disabled]="portalFeedUpdateLoading">
 		{{ portalFeedUpdateLoading ? 'Updating...' : 'Update Portal Feed' }}
 	</button>
