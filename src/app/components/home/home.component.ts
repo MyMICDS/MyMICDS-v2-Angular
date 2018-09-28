@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = '';
+	announcement = '<strong>We just hit 1000 accounts created on MyMICDS!</strong> Whether you created an account 3 years ago or yesterday, thank you for sticking with us. As we the developers graduate, we need new people to maintain the site. If interested, contact <strong>support@mymicds.net</strong>&mdash;no experience required!';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 
