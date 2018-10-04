@@ -84,7 +84,7 @@
 						<span *ngIf="selectionDate === null">Coming Up</span>
 					</h1>
 						<span *ngIf="selectionDate !== null" class="date-display">{{ selectionDate.toDate() | date:'MMMM d, y' }}</span>
-					
+
 					<h3 *ngIf="selectionDate !== null && days[selectionDate.year()] && days[selectionDate.year()][selectionDate.month() + 1] && days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()]">
 						Day {{ days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()] }}
 					</h3>
@@ -103,7 +103,7 @@
 									Refresh Canvas
 								</span>
 							</button>
-							<button class="btn btn-info" (click)="createEventModal.show()">
+							<button class="btn btn-info" (click)="resetCreateEventForm(); createEventModal.show()">
 								<span>
 									<i class="fa fa-plus"></i>
 									Create Event
