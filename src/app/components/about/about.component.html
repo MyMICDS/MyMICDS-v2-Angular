@@ -38,7 +38,25 @@
 		</div>
 		<div mymicds-blur class="dev-team">
 			<div class="developers">
-				<div *ngFor="let dev of developers" class="developer card">
+				<div *ngFor="let dev of activeDevelopers" class="developer card">
+					<div class="card-block">
+						<h4 class="card-title">{{ dev.firstName }}<br>{{ dev.lastName }}</h4>
+						<h6 class="card-subtitle text-muted">Class of {{ dev.gradYear }}</h6>
+					</div>
+					<img [src]="dev.image">
+					<div class="card-block">
+						<p class="card-text">{{ dev.title }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div mymicds-blur id="notable-mentions" class="subtitle">
+			<h2>Notable Mentions</h2>
+		</div>
+		<div mymicds-blur class="dev-team">
+			<div class="developers">
+				<div *ngFor="let dev of notableMentions" class="developer card">
 					<div class="card-block">
 						<h4 class="card-title">{{ dev.firstName }}<br>{{ dev.lastName }}</h4>
 						<h6 class="card-subtitle text-muted">Class of {{ dev.gradYear }}</h6>

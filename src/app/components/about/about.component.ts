@@ -21,6 +21,14 @@ import { UserService } from '../../services/user.service';
 // 	};
 // }
 
+interface Developer {
+	firstName: string;
+	lastName: string;
+	gradYear: number;
+	title: string;
+	image: string;
+}
+
 declare const prisma: any;
 declare const Chart: any;
 
@@ -32,7 +40,7 @@ declare const Chart: any;
 
 export class AboutComponent implements OnInit {
 
-	developers: any[] = [
+	activeDevelopers: Developer[] = [
 		{
 			firstName: 'Michael',
 			lastName : 'Gira',
@@ -53,7 +61,10 @@ export class AboutComponent implements OnInit {
 			gradYear : 2019,
 			title    : 'Full Stack Developer',
 			image    : 'assets/developers/jacks-ugly-face-new-new.jpg'
-		},
+		}
+	];
+
+	notableMentions: Developer[] = [
 		{
 			firstName: 'Sebastian',
 			lastName : 'Neumann',
@@ -70,7 +81,7 @@ export class AboutComponent implements OnInit {
 		}
 	];
 
-	alumni: any[] = [
+	alumni: Developer[] = [
 		{
 			firstName: 'Alex',
 			lastName : 'Donovan',
