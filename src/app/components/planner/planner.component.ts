@@ -496,6 +496,16 @@ export class PlannerComponent implements OnInit, OnDestroy {
 		return startTime <= endTime;
 	}
 
+	resetCreateEventForm() {
+		this.createEventModel = {
+			title: '',
+			desc: '',
+			classId: 'other',
+			start: new Date(),
+			end: new Date()
+		};
+	}
+
 	createEvent() {
 		this.plannerService.addEvent(this.createEventModel).subscribe(
 			(events: Event[]) => {
