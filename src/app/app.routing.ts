@@ -2,6 +2,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './common/auth.guard';
 import { CanDeactivateGuard } from './common/canDeactivate.guard';
+import moment from 'moment';
 
 import { capitalizeURL, months } from './common/utils';
 
@@ -36,12 +37,17 @@ export function defaultTitleFunction(url: string) {
 
 export function plannerTitle(url: string) {
 	const parts = url.split('/');
-	return `MyMICDS - Planner - ${months[Number(parts[3]) - 1]} ${parts[2]}`;
+	const date = moment();
+	// Use moment.js's .year and .month methods to take advantage of overflowing (Ex. month of -1 is December of previous year)
+	// (This is same strategy used to determine date of planner component, so title will always be synced)
+	date.year(Number(parts[2]));
+	date.month(Number(parts[3]) - 1);
+	return `MyMICDS - Planner - ${months[date.month()]} ${date.year()}`;
 }
 
 export function confirmTitle(url: string) {
 	const parts = url.split('/');
-	return `MyMICDS - Planner - ${months[Number(parts[3]) - 1]} ${parts[2]}`;
+	return `MyMICDS - Confirm account for ${parts[2].toLowerCase()}`;
 }
 
 export function resetPasswordTitle(url: string) {
