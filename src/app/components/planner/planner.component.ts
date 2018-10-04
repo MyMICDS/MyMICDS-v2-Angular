@@ -504,6 +504,10 @@ export class PlannerComponent implements OnInit, OnDestroy {
 			start: new Date(),
 			end: new Date()
 		};
+		if (this.selectionDate) {
+			this.createEventModel.start = moment(this.selectionDate).toDate();
+			this.createEventModel.end = moment(this.selectionDate).toDate();
+		}
 	}
 
 	createEvent() {
