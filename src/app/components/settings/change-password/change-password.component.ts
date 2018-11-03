@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
+
+import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { AuthService } from '../../../services/auth.service';
 import { confirmPassword } from '../../../common/form-validation';
 
 @Component({
@@ -10,7 +12,7 @@ import { confirmPassword } from '../../../common/form-validation';
 	templateUrl: './change-password.component.html',
 	styleUrls: ['./change-password.component.scss']
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent extends SubscriptionsComponent {
 
 	passwordForm: any = this.formBuilder.group({
 		oldPassword: ['', Validators.required],
@@ -19,23 +21,23 @@ export class ChangePasswordComponent implements OnInit {
 	}, { validator: confirmPassword('newPassword', 'confirmPassword') });
 
 
-	constructor(
-		private alertService: AlertService,
-		private authService: AuthService,
-		private formBuilder: FormBuilder
-	) { }
-
-	ngOnInit() {
+	constructor(private mymicds: MyMICDS, private alertService: AlertService, private formBuilder: FormBuilder) {
+		super();
 	}
 
 	changePassword() {
-		this.authService.changePassword(this.passwordForm.controls.oldPassword.value, this.passwordForm.controls.newPassword.value).subscribe(
-			() => {
-				this.alertService.addAlert('success', 'Success!', 'Password change successful!', 3);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Password Change Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.auth.changePassword({
+				oldPassword: this.passwordForm.controls.oldPassword.value,
+				newPassword: this.passwordForm.controls.newPassword.value
+			}).subscribe(
+				() => {
+					this.alertService.addAlert('success', 'Success!', 'Password change successful!', 3);
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Password Change Error!', error);
+				}
+			)
 		);
 	}
 

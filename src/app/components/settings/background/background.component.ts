@@ -1,7 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
 
+import { Component, OnInit } from '@angular/core';
+
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { AuthService } from '../../../services/auth.service';
 import { BackgroundService } from '../../../services/background.service';
 
 @Component({
@@ -9,33 +11,28 @@ import { BackgroundService } from '../../../services/background.service';
 	templateUrl: './background.component.html',
 	styleUrls: ['./background.component.scss']
 })
-export class BackgroundComponent implements OnDestroy {
-
-	backgroundSubscription: any;
+export class BackgroundComponent extends SubscriptionsComponent implements OnInit {
 
 	// Background Upload Form
 	hasDefaultBackground = true;
 	fileSelected = false;
 	uploadingBackground = false;
 
-	constructor(
-		private alertService: AlertService,
-		private authService: AuthService,
-		private backgroundService: BackgroundService,
-	) {
-		this.backgroundSubscription = this.backgroundService.background$.subscribe(
-			background => {
-				this.hasDefaultBackground = background.hasDefault;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Background Error!', error);
-			}
-		);
+	constructor(private mymicds: MyMICDS, private alertService: AlertService, private backgroundService: BackgroundService) {
+		super();
 	}
 
-	ngOnDestroy() {
-		// Unsubscribe to prevent memory leaks or something
-		this.backgroundSubscription.unsubscribe();
+	ngOnInit() {
+		this.addSubscription(
+			this.mymicds.background.$.subscribe(
+				background => {
+					this.hasDefaultBackground = background.hasDefault;
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Background Error!', error);
+				}
+			)
+		);
 	}
 
 	/*
@@ -49,11 +46,11 @@ export class BackgroundComponent implements OnDestroy {
 	uploadBackground($event) {
 		this.uploadingBackground = true;
 
-		let fileInput: any = document.getElementById('upload-background');
-		let FileList: FileList = fileInput.files;
-		let file: File = FileList[0];
+		const fileInput: any = document.getElementById('upload-background');
+		const FileList: FileList = fileInput.files;
+		const file: File = FileList[0];
 
-		this.backgroundService.upload(file).subscribe(
+		this.mymicds.background.upload({ background: file }).subscribe(
 			() => {
 				this.uploadingBackground = false;
 				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
@@ -66,7 +63,7 @@ export class BackgroundComponent implements OnDestroy {
 	}
 
 	deleteBackground() {
-		this.backgroundService.delete().subscribe(
+		this.mymicds.background.delete().subscribe(
 			() => {
 				this.alertService.addAlert('success', 'Success!', 'Deleted background!', 3);
 			},
@@ -78,7 +75,8 @@ export class BackgroundComponent implements OnDestroy {
 
 	setTrianglify() {
 		this.uploadingBackground = true;
-		this.backgroundService.setTrianglify().subscribe(
+		const file = this.backgroundService.generateTrianglify();
+		this.mymicds.background.upload({ background: file }).subscribe(
 			() => {
 				this.uploadingBackground = false;
 				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
