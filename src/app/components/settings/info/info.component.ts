@@ -1,19 +1,20 @@
+import { MyMICDS, GetUserInfoResponse, ChangeUserInfoParameters } from '@mymicds/sdk';
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
 import { confirmGrade } from '../../../common/form-validation';
-import { UserService, UserInfo } from '../../../services/user.service';
 
 @Component({
 	selector: 'mymicds-info',
 	templateUrl: './info.component.html',
 	styleUrls: ['./info.component.scss']
 })
-export class InfoComponent implements OnInit, OnDestroy {
+export class InfoComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
 
 	// Array of graduation years
-	gradeRangeSubscription: any;
 	gradeRange: number[];
 
 	infoForm = this.formBuilder.group({
@@ -23,46 +24,47 @@ export class InfoComponent implements OnInit, OnDestroy {
 		teacher: ['']
 	}, { validator: confirmGrade('gradYear', 'teacher') });
 
-	userInfo: any = null;
-	userSubscription: any;
+	userInfo: GetUserInfoResponse = null;
 
-	constructor(
-		private alertService: AlertService,
-		private formBuilder: FormBuilder,
-		private userService: UserService
-	) { }
+	constructor(private mymicds: MyMICDS, private alertService: AlertService, private formBuilder: FormBuilder) {
+		super();
+	}
 
 	ngOnInit() {
 		// Get basic info
-		this.userSubscription = this.userService.user$.subscribe(
-			data => {
-				this.userInfo = data;
+		this.addSubscription(
+			this.mymicds.user.$.subscribe(
+				data => {
+					this.userInfo = data;
 
-				if (!this.userInfo) {
-					return;
+					if (!this.userInfo) {
+						return;
+					}
+
+					// Prefill user data in forms
+					this.infoForm = this.formBuilder.group({
+						firstName: [this.userInfo.firstName, Validators.required],
+						lastName: [this.userInfo.lastName, Validators.required],
+						gradYear: [this.userInfo.gradYear],
+						teacher: [this.userInfo.gradYear === null]
+					}, { validator: confirmGrade('gradYear', 'teacher') });
+				},
+				error => {
+					this.alertService.addAlert('danger', 'User Info Error!', error);
 				}
-
-				// Prefill user data in forms
-				this.infoForm = this.formBuilder.group({
-					firstName: [this.userInfo.firstName, Validators.required],
-					lastName: [this.userInfo.lastName, Validators.required],
-					gradYear: [this.userInfo.gradYear],
-					teacher: [this.userInfo.gradYear === null]
-				}, { validator: confirmGrade('gradYear', 'teacher') });
-			},
-			error => {
-				this.alertService.addAlert('danger', 'User Info Error!', error);
-			}
+			)
 		);
 
 		// Get graduation year range
-		this.gradeRangeSubscription = this.userService.gradeRange().subscribe(
-			gradeRange => {
-				this.gradeRange = gradeRange;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Settings Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.user.getGradeRange().subscribe(
+				gradeRange => {
+					this.gradeRange = gradeRange.gradYears;
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Settings Error!', error);
+				}
+			)
 		);
 	}
 
@@ -105,7 +107,7 @@ export class InfoComponent implements OnInit, OnDestroy {
 
 	changeInfo() {
 		// Create new info object
-		let newInfo: UserInfo = {};
+		let newInfo: ChangeUserInfoParameters = {};
 		['firstName', 'lastName', 'gradYear', 'teacher'].forEach(key => {
 			newInfo[key] = this.infoForm.controls[key].value;
 		});
@@ -113,9 +115,9 @@ export class InfoComponent implements OnInit, OnDestroy {
 		// Set new values to the userInfo
 		this.userInfo.firstName = newInfo.firstName;
 		this.userInfo.lastName = newInfo.lastName;
-		this.userInfo.gradYear = !newInfo.teacher ? parseInt(newInfo.gradYear, 10) : null;
+		this.userInfo.gradYear = !newInfo.teacher ? newInfo.gradYear : null;
 
-		this.userService.changeInfo(newInfo).subscribe(
+		this.mymicds.user.changeInfo(newInfo).subscribe(
 			() => {
 				this.alertService.addAlert('success', 'Success!', 'Info change successful!', 3);
 			},
@@ -123,11 +125,6 @@ export class InfoComponent implements OnInit, OnDestroy {
 				this.alertService.addAlert('danger', 'Change Info Error!', error);
 			}
 		);
-	}
-
-	ngOnDestroy() {
-		this.userSubscription.unsubscribe();
-		this.gradeRangeSubscription.unsubscribe();
 	}
 
 }

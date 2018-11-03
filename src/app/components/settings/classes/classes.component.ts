@@ -1,37 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MyMICDS, MyMICDSClass, Block, ClassType, GetClassesResponse } from '@mymicds/sdk';
+
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { contains, capitalize } from '../../../common/utils';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { AliasService } from '../../../services/alias.service';
-import { CanvasService} from '../../../services/canvas.service';
-import { ClassesService, Class } from '../../../services/classes.service';
-import { PortalService } from '../../../services/portal.service';
 
 @Component({
 	selector: 'mymicds-classes',
 	templateUrl: './classes.component.html',
 	styleUrls: ['./classes.component.scss']
 })
-export class ClassesComponent implements OnInit, OnDestroy {
+export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
 	private capitalize = capitalize; // tslint:disable-line
 
-	getClassesSubscription: any;
 	// If saving classes, prevent user from adding/deleting classes so they don't break anything
 	savingClasses = false;
 	// List of classes to the database, these classes are binded to form values
-	classesList: Class[] = [];
+	classesList: GetClassesResponse['classes'] = [];
 	// Original array of classes from database to compare against new ones
-	ogClasses: Class[] = [];
+	ogClasses: GetClassesResponse['classes'] = [];
 	// Array of class ids to delete if user presses 'Save Changes'
 	deleteClassIds: string[] = [];
 
-	getCanvasClassesSubscription: any;
 	canvasClasses = [];
-
-	getPortalClassesSubscription: any;
 	portalClasses = [];
 
 	// Set Classes form
@@ -69,62 +64,58 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		'portal'
 	];
 
-	aliasClass: Class = null;
+	aliasClass: MyMICDSClass = null;
 
-	constructor(
-		private alertService: AlertService,
-		private aliasService: AliasService,
-		private canvasService: CanvasService,
-		private classesService: ClassesService,
-		private portalService: PortalService
-	) { }
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		// Get list of user's classes
-		this.getClassesSubscription = this.classesService.getClasses().subscribe(
-			classes => {
-				this.classesList = classes;
-				// Stringify and parse classes so it is a seperate array
-				this.ogClasses = JSON.parse(JSON.stringify(classes));
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Classes Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.classes.get().subscribe(
+				classes => {
+					this.classesList = classes.classes;
+					// Stringify and parse classes so it is a seperate array
+					this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Classes Error!', error);
+				}
+			)
 		);
 
 		// Get Canvas classes
-		this.getCanvasClassesSubscription = this.canvasService.getClasses().subscribe(
-			data => {
-				if (data.hasURL) {
-					this.canvasClasses = data.classes;
-				} else {
-					this.canvasClasses = [];
+		this.addSubscription(
+			this.mymicds.canvas.getClasses().subscribe(
+				data => {
+					if (data.hasURL) {
+						this.canvasClasses = data.classes;
+					} else {
+						this.canvasClasses = [];
+					}
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Canvas Classes Error!', error);
 				}
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Canvas Classes Error!', error);
-			}
+			)
 		);
 
 		// Get Canvas classes
-		this.getPortalClassesSubscription = this.portalService.getClasses().subscribe(
-			data => {
-				if (data.hasURL) {
-					this.portalClasses = data.classes;
-				} else {
-					this.portalClasses = [];
+		this.addSubscription(
+			this.mymicds.portal.getClasses().subscribe(
+				data => {
+					if (data.hasURL) {
+						this.portalClasses = data.classes;
+					} else {
+						this.portalClasses = [];
+					}
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Portal Classes Error!', error);
 				}
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Portal Classes Error!', error);
-			}
+			)
 		);
-	}
-
-	ngOnDestroy() {
-		this.getClassesSubscription.unsubscribe();
-		this.getCanvasClassesSubscription.unsubscribe();
-		this.getPortalClassesSubscription.unsubscribe();
 	}
 
 	/*
@@ -232,7 +223,7 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		this.savingClasses = true;
 
 		// Delete any old classes
-		let deleteObservables = this.deleteClassIds.map(id => this.classesService.deleteClass(id));
+		let deleteObservables = this.deleteClassIds.map(id => this.mymicds.classes.delete({ id }));
 
 		// Reset delete class ids
 		this.deleteClassIds = [];
@@ -240,7 +231,15 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		// Add any new classes
 		let saveObservables = this.classesList.map(scheduleClass => {
 			if (this.classChanged(scheduleClass._id)) {
-				return this.classesService.addClass(scheduleClass);
+				return this.mymicds.classes.add({
+					id: scheduleClass._id,
+					name: scheduleClass.name,
+					color: scheduleClass.color,
+					type: scheduleClass.type,
+					teacherPrefix: scheduleClass.teacher.prefix,
+					teacherFirstName: scheduleClass.teacher.firstName,
+					teacherLastName: scheduleClass.teacher.lastName
+				});
 			}
 		}).filter(Boolean); // Remove undefined
 
@@ -304,14 +303,14 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		this.classesList.push({
 			name: '',
 			color: color,
-			block: 'other',
-			type: 'other',
+			block: Block.OTHER,
+			type: ClassType.OTHER,
 			teacher: {
 				prefix: 'Mr.',
 				firstName: '',
 				lastName: ''
 			}
-		});
+		} as MyMICDSClass);
 	}
 
 	deleteClass(i: number) {

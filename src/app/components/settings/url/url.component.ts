@@ -1,24 +1,21 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { MyMICDS, GetUserInfoResponse } from '@mymicds/sdk';
+
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { CanvasService} from '../../../services/canvas.service';
-import { FeedsService } from '../../../services/feeds.service';
-import { PortalService } from '../../../services/portal.service';
-import { UserService } from '../../../services/user.service';
 
 @Component({
 	selector: 'mymicds-url',
 	templateUrl: './url.component.html',
 	styleUrls: ['./url.component.scss']
 })
-export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UrlComponent extends SubscriptionsComponent implements OnInit, AfterViewInit {
 
-	userInfo: any = null;
-	userSubscription: any;
+	userInfo: GetUserInfoResponse = null;
 
 	// Canvas URL Form
-	canvasURLSubscription: any;
 	canvasURL: string;
 	canvasValid: boolean;
 	canvasResponse: string;
@@ -26,46 +23,43 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	canvasFeedUpdateLoading = false;
 
 	// Portal URL Form
-	portalURLSubscription: any;
 	portalURL: string;
 	portalValid: boolean;
 	portalResponse: string;
 
 	portalFeedUpdateLoading = false;
 
-	constructor(
-		private alertService: AlertService,
-		private canvasService: CanvasService,
-		private feedsService: FeedsService,
-		private portalService: PortalService,
-		private userService: UserService
-	) { }
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
-		this.userSubscription = this.userService.user$.subscribe(
-			data => {
-				this.userInfo = data;
+		this.addSubscription(
+			this.mymicds.user.$.subscribe(
+				data => {
+					this.userInfo = data;
 
-				if (!this.userInfo) {
-					return;
-				}
+					if (!this.userInfo) {
+						return;
+					}
 
-				// Get URL's
-				this.portalURL = this.userInfo.portalURL;
-				this.canvasURL = this.userInfo.canvasURL;
+					// Get URL's
+					this.portalURL = this.userInfo.portalURL;
+					this.canvasURL = this.userInfo.canvasURL;
 
-				if (this.portalURL) {
-					this.portalValid = true;
-					this.portalResponse = 'Valid!';
+					if (this.portalURL) {
+						this.portalValid = true;
+						this.portalResponse = 'Valid!';
+					}
+					if (this.canvasURL) {
+						this.canvasValid = true;
+						this.canvasResponse = 'Valid!';
+					}
+				},
+				error => {
+					this.alertService.addAlert('danger', 'URL Error!', error);
 				}
-				if (this.canvasURL) {
-					this.canvasValid = true;
-					this.canvasResponse = 'Valid!';
-				}
-			},
-			error => {
-				this.alertService.addAlert('danger', 'URL Error!', error);
-			}
+			)
 		);
 	}
 
@@ -92,46 +86,44 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 			clearInterval(interval);
 
 			// Subscribe to Portal and Canvas URL inputs to test URL
-			this.portalURLSubscription = Observable.fromEvent(portalInput, 'keyup')
-				.debounceTime(250)
-				.switchMap(() => {
-					this.portalValid = false;
-					this.portalResponse = 'Validating...';
-					return this.portalService.testURL(this.portalURL);
-				})
-				.subscribe(
-					data => {
-						this.portalValid = (data.valid === true);
-						this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
-					},
-					error => {
-						this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
-					}
-				);
+			this.addSubscription(
+				Observable.fromEvent(portalInput, 'keyup')
+					.debounceTime(250)
+					.switchMap(() => {
+						this.portalValid = false;
+						this.portalResponse = 'Validating...';
+						return this.mymicds.portal.testURL({ url: this.portalURL });
+					})
+					.subscribe(
+						data => {
+							this.portalValid = (data.valid === true);
+							this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid as string;
+						},
+						error => {
+							this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
+						}
+					)
+			);
 
-			this.canvasURLSubscription = Observable.fromEvent(canvasInput, 'keyup')
-				.debounceTime(250)
-				.switchMap(() => {
-					this.canvasValid = false;
-					this.canvasResponse = 'Validating...';
-					return this.canvasService.testURL(this.canvasURL);
-				})
-				.subscribe(
-					data => {
-						this.canvasValid = (data.valid === true);
-						this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
-					},
-					error => {
-						this.alertService.addAlert('warning', 'Test Canvas URL Error!', error);
-					}
-				);
+			this.addSubscription(
+				Observable.fromEvent(canvasInput, 'keyup')
+					.debounceTime(250)
+					.switchMap(() => {
+						this.canvasValid = false;
+						this.canvasResponse = 'Validating...';
+						return this.mymicds.canvas.testURL({ url: this.canvasURL });
+					})
+					.subscribe(
+						data => {
+							this.canvasValid = (data.valid === true);
+							this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid as string;
+						},
+						error => {
+							this.alertService.addAlert('warning', 'Test Canvas URL Error!', error);
+						}
+					)
+			);
 		}, 1);
-	}
-
-	ngOnDestroy() {
-		this.canvasURLSubscription.unsubscribe();
-		this.portalURLSubscription.unsubscribe();
-		this.userSubscription.unsubscribe();
 	}
 
 	/*
@@ -139,15 +131,15 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	 */
 
 	changePortalURL() {
-		this.portalService.setURL(this.portalURL).subscribe(
+		this.mymicds.portal.setURL({ url: this.portalURL }).subscribe(
 			data => {
 				this.portalValid = (data.valid === true);
-				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				this.portalResponse = (data.valid === true) ? 'Valid!' : data.valid as string;
 				if (data.valid === true) {
 					this.userInfo.portalURL = data.url;
 					this.alertService.addAlert('success', 'Success!', 'Changed Portal URL!', 3);
 				} else {
-					this.alertService.addAlert('warning', 'Change Portal URL Warning:', data.valid);
+					this.alertService.addAlert('warning', 'Change Portal URL Warning:', data.valid as string);
 				}
 			},
 			error => {
@@ -157,15 +149,15 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	changeCanvasURL() {
-		this.canvasService.setURL(this.canvasURL).subscribe(
+		this.mymicds.canvas.setURL({ url: this.canvasURL }).subscribe(
 			data => {
 				this.canvasValid = (data.valid === true);
-				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid as string;
 				if (data.valid === true) {
 					this.userInfo.canvasURL = data.url;
 					this.alertService.addAlert('success', 'Success!', 'Changed Canvas URL!', 3);
 				} else {
-					this.alertService.addAlert('warning', 'Change Canvas URL Warning:', data.valid);
+					this.alertService.addAlert('warning', 'Change Canvas URL Warning:', data.valid as string);
 				}
 			},
 			error => {
@@ -176,7 +168,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	updateCanvasFeed() {
 		this.canvasFeedUpdateLoading = true;
-		this.feedsService.updateCanvasCache()
+		this.mymicds.feeds.updateCanvasCache()
 			.subscribe(
 				() => {
 					this.alertService.addAlert('success', 'Success!', 'Updated canvas feed!', 3);
@@ -192,7 +184,7 @@ export class UrlComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	updatePortalFeed() {
 		this.portalFeedUpdateLoading = true;
-		this.feedsService.addPortalQueue()
+		this.mymicds.feeds.addPortalQueue()
 			.subscribe(
 				() => {
 					this.alertService.addAlert(
