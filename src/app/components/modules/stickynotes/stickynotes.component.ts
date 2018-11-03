@@ -29,7 +29,7 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 			this.addSubscription(
 				this.mymicds.stickyNotes.get({ moduleId: id }).subscribe(
 					data => {
-						this.text = data.stickynote.text;
+						this.text = data.text;
 					},
 					error => {
 						this.alertService.addAlert('danger', 'Get Sticky Note Error!', 'Please save the module layout first.');

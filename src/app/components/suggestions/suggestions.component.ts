@@ -1,16 +1,18 @@
+import { MyMICDS } from '@mymicds/sdk';
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { typeOf } from '../../common/utils';
 
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
-import { SuggestionsService } from '../../services/suggestions.service';
 
 @Component({
 	selector: 'mymicds-suggestions',
 	templateUrl: './suggestions.component.html',
 	styleUrls: ['./suggestions.component.scss']
 })
-export class SuggestionsComponent implements OnInit {
+export class SuggestionsComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
 	typeOf = typeOf;
@@ -21,7 +23,9 @@ export class SuggestionsComponent implements OnInit {
 
 	suggestionsForm: FormGroup;
 
-	constructor(private alertService: AlertService, private suggestionsService: SuggestionsService, private fb: FormBuilder) { }
+	constructor(private mymicds: MyMICDS, private alertService: AlertService, private fb: FormBuilder) {
+		super();
+	}
 
 	ngOnInit() {
 		this.suggestionsForm = this.fb.group({
@@ -32,13 +36,15 @@ export class SuggestionsComponent implements OnInit {
 
 	submitSuggestions() {
 		this.submitted = true;
-		this.suggestionsService.sendSuggestions(this.suggestionsForm.value).subscribe(
-			val => {
-				this.suggestionResponse = true;
-			},
-			err => {
-				this.suggestionResponse = err;
-			}
+		this.addSubscription(
+			this.mymicds.suggestion.submit(this.suggestionsForm.value).subscribe(
+				val => {
+					this.suggestionResponse = true;
+				},
+				err => {
+					this.suggestionResponse = err;
+				}
+			)
 		);
 	}
 

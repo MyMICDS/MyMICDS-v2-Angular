@@ -1,5 +1,8 @@
+import { MyMICDS, GetScoresResponse } from '@mymicds/sdk';
+
 import { Component, OnInit } from '@angular/core';
-import { SportsService } from '../../services/sports.service';
+
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
@@ -7,27 +10,31 @@ import { AlertService } from '../../services/alert.service';
 	templateUrl: './sports.component.html',
 	styleUrls: ['./sports.component.scss']
 })
-export class SportsComponent implements OnInit {
+export class SportsComponent extends SubscriptionsComponent implements OnInit {
 
-	constructor(private sportsService: SportsService, private alertService: AlertService) { }
-
-	sportsEvents = [];
-	sportsScores = [];
+	sportsEvents: GetScoresResponse['scores']['events'] = [];
+	sportsScores: GetScoresResponse['scores']['scores'] = [];
 	loadingScores: boolean;
+
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		this.loadingScores = true;
-		this.sportsService.getScores().subscribe(
-			data => {
-				this.sportsEvents = data.events;
-				this.sportsScores = data.scores;
-				console.log(data.scores);
-				this.loadingScores = false;
-			},
-			err => {
-				this.alertService.addAlert('danger', 'Error getting sports data:', err);
-			}
-		)
+		this.addSubscription(
+			this.mymicds.sports.getScores().subscribe(
+				({ scores }) => {
+					this.sportsEvents = scores.events;
+					this.sportsScores = scores.scores;
+					console.log(scores.scores);
+					this.loadingScores = false;
+				},
+				err => {
+					this.alertService.addAlert('danger', 'Error Getting Sports Data', err);
+				}
+			)
+		);
 	}
 
 
