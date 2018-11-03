@@ -24,7 +24,7 @@ export function capitalizeURL(str: string) {
  */
 
 export function isAlphabetic(str: string) {
-	return /^[a-zA-Z()]+$/.test(str);
+	return /^[a-zA-Z()\-]+$/.test(str);
 }
 
 /*
@@ -208,6 +208,7 @@ export const months = [
 	'June',
 	'July',
 	'August',
+	'September',
 	'October',
 	'November',
 	'December'

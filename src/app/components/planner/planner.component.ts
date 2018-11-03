@@ -489,6 +489,20 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		return startTime <= endTime;
 	}
 
+	resetCreateEventForm() {
+		this.createEventModel = {
+			title: '',
+			desc: '',
+			classId: 'other',
+			start: new Date(),
+			end: new Date()
+		};
+		if (this.selectionDate) {
+			this.createEventModel.start = moment(this.selectionDate).toDate();
+			this.createEventModel.end = moment(this.selectionDate).toDate();
+		}
+	}
+
 	createEvent() {
 		this.mymicds.planner.addEvent(this.formatEventData(this.createEventModel)).subscribe(
 			({ events }) => {
