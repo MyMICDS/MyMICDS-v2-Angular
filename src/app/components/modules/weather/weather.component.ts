@@ -1,42 +1,43 @@
-import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { MyMICDS, GetWeatherResponse } from '@mymicds/sdk';
+
+import { Component, Input, OnInit, ElementRef, ViewChild } from '@angular/core';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { WeatherService } from '../../../services/weather.service';
 
 @Component({
 	selector: 'mymicds-weather',
 	templateUrl: './weather.component.html',
 	styleUrls: ['./weather.component.scss']
 })
-export class WeatherComponent implements OnInit, OnDestroy {
+export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 
-	weather: any = null;
+	weather: GetWeatherResponse = null;
 	// Weather object converted to metric
-	weatherMetric: any = null;
-	subscription: any;
+	weatherMetric: GetWeatherResponse = null;
 	@Input() metric = false;
 	@ViewChild('moduleContainer') containerEl: ElementRef;
 
-	constructor(private alertService: AlertService, private weatherService: WeatherService) { }
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		ElementQueries.listen();
 		ElementQueries.init();
-		this.subscription = this.weatherService.getWeather().subscribe(
-			data => {
-				this.weather = data;
-				this.weatherMetric = this.convertToMetric(data);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Weather Error!', error);
-			}
-		);
-	}
 
-	ngOnDestroy() {
-		// Unsubscribe to prevent memory leaks or something
-		this.subscription.unsubscribe();
+		this.addSubscription(
+			this.mymicds.weather.get().subscribe(
+				data => {
+					this.weather = data;
+					this.weatherMetric = this.convertToMetric(data);
+				},
+				error => {
+					this.alertService.addAlert('danger', 'Get Weather Error!', error);
+				}
+			)
+		);
 	}
 
 	private convertToMetric(weather) {

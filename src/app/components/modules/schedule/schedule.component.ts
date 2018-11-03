@@ -1,10 +1,12 @@
+import { MyMICDS } from '@mymicds/sdk';
+
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { ScheduleService } from '../../../services/schedule.service';
 
 import { Subject } from 'rxjs/Rx';
 import '../../../common/rxjs-operators';
@@ -15,7 +17,7 @@ import '../../../common/rxjs-operators';
 	templateUrl: './schedule.component.html',
 	styleUrls: ['./schedule.component.scss']
 })
-export class ScheduleComponent implements OnInit, OnDestroy {
+export class ScheduleComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
 
 	@Input()
 	get fixedHeight() {
@@ -47,7 +49,9 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
 	changeSchedule$ = new Subject<void>();
 
-	constructor(private alertService: AlertService, private scheduleService: ScheduleService) { }
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		ElementQueries.listen();
@@ -62,18 +66,19 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 		this.resizeTable();
 		new ResizeSensor(this.moduleContainer.nativeElement, () => this.resizeTable());
 
-		this.changeSchedule$
-			.debounceTime(300)
-			.subscribe(
-				() => {
-					this.getSchedule();
-				}
-			);
+		this.addSubscription(
+			this.changeSchedule$
+				.debounceTime(300)
+				.subscribe(
+					() => {
+						this.getSchedule();
+					}
+				)
+		);
 	}
 
 	ngOnDestroy() {
 		clearInterval(this.updateCurrentInterval);
-		this.changeSchedule$.unsubscribe();
 	}
 
 	previousDay() {
@@ -96,7 +101,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
 
 	getSchedule() {
 		const date = this.scheduleDate.clone();
-		this.scheduleService.get({
+		this.mymicds.schedule.get({
 			year : date.year(),
 			month: date.month() + 1,
 			day  : date.date()

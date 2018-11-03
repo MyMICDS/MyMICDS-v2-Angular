@@ -533,7 +533,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 		let classId = 'other';
 		if (eventObj.class) {
-			classId = eventObj.class._id || 'other';
+			classId = (eventObj.class as MyMICDSClass)._id || 'other';
 		}
 
 		this.editEventModel = {

@@ -1,3 +1,5 @@
+import { MyMICDS } from '@mymicds/sdk';
+
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import * as moment from 'moment';
@@ -5,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
-import { ScheduleService } from '../../../services/schedule.service';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 // import { SocketioService } from '../../../services/socketio.service';
 
 declare const Chart: any;
@@ -15,7 +17,7 @@ declare const Chart: any;
 	templateUrl: './progress.component.html',
 	styleUrls: ['./progress.component.scss']
 })
-export class ProgressComponent implements OnInit, OnDestroy {
+export class ProgressComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 	// Used for collapsing date and if progress bar should be horizontal or vertical
@@ -25,7 +27,6 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	@Input() showDate = true;
 
 	today: any = new Date();
-	scheduleSubscription: any;
 	schedule: any = null;
 
 	progressType: ProgressType = ProgressType.circular;
@@ -67,7 +68,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	progressDayUnclick: any;
 
 	// constructor(private socketioService: SocketioService) { }
-	constructor(private scheduleService: ScheduleService) { }
+	constructor(private mymicds: MyMICDS) {
+		super();
+	}
 
 	/*
 	 * Configure progress bar
@@ -174,16 +177,17 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		}, 1000);
 
 		// Get today's schedule
-		this.scheduleSubscription = this.scheduleService
-			.get({
-				year: this.today.getFullYear(),
-				month: this.today.getMonth() + 1,
-				day: this.today.getDate()
-			})
-			.subscribe(schedule => {
-				this.schedule = schedule;
-				this.calculatePercentages();
-			});
+		this.addSubscription(
+			this.mymicds.schedule.get({
+					year: this.today.getFullYear(),
+					month: this.today.getMonth() + 1,
+					day: this.today.getDate()
+				})
+				.subscribe(schedule => {
+					this.schedule = schedule;
+					this.calculatePercentages();
+				})
+			);
 
 		// Socket.io service to spin the spinny
 		// this.progressDayCtx = document.getElementsByClassName('progress-day')[0];

@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
+
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { LunchService } from '../../../services/lunch.service';
-import { UserService } from '../../../services/user.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { UserService } from '../../../services/user.service';
 	templateUrl: './simplified-lunch.component.html',
 	styleUrls: ['./simplified-lunch.component.scss']
 })
-export class SimplifiedLunchComponent implements OnInit, OnDestroy {
+export class SimplifiedLunchComponent extends SubscriptionsComponent implements OnInit {
 
 	loading = true;
 	lunchDate = moment();
@@ -25,9 +26,9 @@ export class SimplifiedLunchComponent implements OnInit, OnDestroy {
 	];
 	school = this.schools[0];
 
-	userSubscription: any;
-
-	constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {	}
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		ElementQueries.listen();
@@ -35,32 +36,30 @@ export class SimplifiedLunchComponent implements OnInit, OnDestroy {
 
 		this.getLunch(this.lunchDate);
 
-		this.userSubscription = this.userService.user$.subscribe(
-			data => {
-				if (!data) {
-					return;
+		this.addSubscription(
+			this.mymicds.user.$.subscribe(
+				data => {
+					if (!data) {
+						return;
+					}
+					this.school = data.school;
+				},
+				error => {
+					this.alertService.addAlert('warning', 'Warning!', 'We couldn\'t determine your grade. Automatically selected Upper School lunch.', 3);
 				}
-				this.school = data.school;
-			},
-			error => {
-				this.alertService.addAlert('warning', 'Warning!', 'We couldn\'t determine your grade. Automatically selected Upper School lunch.', 3);
-			}
+			)
 		);
-	}
-
-	ngOnDestroy() {
-		this.userSubscription.unsubscribe();
 	}
 
 	getLunch(getDate) {
 		// Display loading screen
 		this.loading = true;
 
-		if(getDate.day() === 0 || getDate.day() === 6){
+		if (getDate.day() === 0 || getDate.day() === 6) {
 			getDate.add(1, 'week');
 		}
 
-		this.lunchService.getLunch({
+		this.mymicds.lunch.get({
 			year : getDate.year(),
 			month: getDate.month() + 1,
 			day  : getDate.date()
