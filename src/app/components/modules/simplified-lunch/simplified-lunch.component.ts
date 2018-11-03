@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import moment from 'moment';
+import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
 import { AlertService } from '../../../services/alert.service';

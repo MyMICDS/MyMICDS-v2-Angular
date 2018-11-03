@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { switchMap } from 'rxjs/operators';
-import moment from 'moment';
+import * as moment from 'moment';
 import { contains, darkenColor, rainbowSafeWord, rainbowCSSGradient } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';

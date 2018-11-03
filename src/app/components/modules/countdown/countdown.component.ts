@@ -3,7 +3,7 @@ import { trigger, state, style } from '@angular/animations';
 import { Observable } from 'rxjs/Observable';
 import { AngularFittextDirective } from 'angular-fittext';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
-import moment from 'moment';
+import * as moment from 'moment';
 
 import { AlertService } from '../../../services/alert.service';
 import { PortalService } from '../../../services/portal.service';

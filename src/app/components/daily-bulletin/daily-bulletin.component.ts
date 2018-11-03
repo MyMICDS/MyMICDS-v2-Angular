@@ -3,7 +3,7 @@ import { MyMICDS } from '@mymicds/sdk';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import '../../common/rxjs-operators';
-import moment from 'moment';
+import * as moment from 'moment';
 import { contains } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';

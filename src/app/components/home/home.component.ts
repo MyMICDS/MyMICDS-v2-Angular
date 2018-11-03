@@ -1,4 +1,4 @@
-import { MyMICDS, MyMICDSModule } from '@mymicds/sdk';
+import { MyMICDS, MyMICDSModule, MyMICDSModuleType } from '@mymicds/sdk';
 
 import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -189,7 +189,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	}
 
 	// When the user drops a module label onto the grid
-	addModule(event: any, moduleName: string) {
+	addModule(event: any, moduleName: MyMICDSModuleType) {
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,

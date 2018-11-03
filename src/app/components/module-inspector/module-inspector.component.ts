@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as interact from 'interactjs';
+import interact from 'interactjs';
 
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
@@ -56,7 +56,8 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 
 	private updateURLTimeout: NodeJS.Timer;
 
-	moduleInteractable: Interact.Interactable;
+	// moduleInteractable: Interact.Interactable;
+	moduleInteractable: interact.Interactable;
 
 	constructor(private router: Router, private route: ActivatedRoute) { }
 
@@ -86,19 +87,19 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 				}
 			})
 			.on('resizemove', event => {
-				this.moduleWidth = event.rect.width;
-				this.moduleHeight = event.rect.height;
-
-				event.target.style.width = `${event.rect.width}px`;
-
-				if (event.target.classList.contains('fixed-height')) {
-					event.target.style.height = `${event.rect.height}px`;
-				}
+				// this.moduleWidth = event.rect.width;
+				// this.moduleHeight = event.rect.height;
+				//
+				// event.target.style.width = `${event.rect.width}px`;
+				//
+				// if (event.target.classList.contains('fixed-height')) {
+				// 	event.target.style.height = `${event.rect.height}px`;
+				// }
 			});
 	}
 
 	ngOnDestroy() {
-		this.moduleInteractable.unset();
+		// this.moduleInteractable.unset();
 	}
 
 	setDefaultOptions(type: string) {
