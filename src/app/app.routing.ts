@@ -2,7 +2,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './common/auth.guard';
 import { CanDeactivateGuard } from './common/canDeactivate.guard';
-import moment from 'moment';
+import * as moment from 'moment';
 
 import { capitalizeURL, months } from './common/utils';
 

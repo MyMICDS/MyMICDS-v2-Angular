@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { contains } from '../common/utils';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { UUID } from 'angular2-uuid';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AlertService {
 		'danger'
 	];
 
-	addAlert(type: string, title: string, content: string, expiresIn: number = -1) {
+	addAlert(type: string, title: string, content: string, expiresIn = -1) {
 		// Default alert type to 'info'
 		if (!contains(this.alertTypes, type)) {
 			type = 'info';

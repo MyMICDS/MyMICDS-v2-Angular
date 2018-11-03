@@ -1,9 +1,9 @@
-import { MyMICDS, MyMICDSClass, AddPlannerEventParameters, PlannerEvent } from '@mymicds/sdk';
+import { MyMICDS, MyMICDSClass, AddPlannerEventParameters, PlannerEvent, GetPortalDayRotationResponse } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { switchMap } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { contains, darkenColor, rainbowSafeWord, rainbowCSSGradient } from '../../common/utils';
 
@@ -33,14 +33,13 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	plannerLoading = true;
 	canvasLoading = true;
 
-	paramSubscription: any;
 	updateSubscription: any;
 
 	// Controller for sidebar's collapsed class
 	sidebarCollapsed = true;
 
 	// Keep track of day rotations
-	days: any = {};
+	days: GetPortalDayRotationResponse['days'] = {};
 
 	// Array of total events
 	get events(): PlannerEvent[] {
@@ -70,7 +69,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// PlannerEvent to deselect current day
 	deselect$: any;
-	deselectSubscription: any;
 
 	// Array dividing events into days
 	formattedMonth: any = null;
@@ -113,7 +111,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 		// Change the month and year according to the route parameters
 		this.addSubscription(
-			this.paramSubscription = this.route.params.subscribe(
+			this.route.params.subscribe(
 				params => {
 					if (params.year) {
 						this.calendarMonth.year(params.year);
@@ -128,7 +126,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		// Get day rotation
 		this.addSubscription(
 			this.mymicds.portal.getDayRotation().subscribe(
-				days => {
+				({ days }) => {
 					this.days = days;
 				},
 				error => {
@@ -174,19 +172,22 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		}
 
 		// PlannerEvent to trigger deselect of day
-		this.deselect$ = Observable.fromEvent(document, 'click')
-			.map((event: any) => {
+		this.deselect$ = fromEvent(document, 'click').pipe(
+			map((event: any) => {
 				if (event.target.className.split) {
 					return event.target.className.split(' ');
 				}
 				return [];
-			})
-			.filter((className: string[]) => contains(className, 'planner-interface'));
+			}),
+			filter((className: string[]) => contains(className, 'planner-interface'))
+		);
 
-		this.deselectSubscription = this.deselect$.subscribe(
-			() => {
-				this.deselectDay();
-			}
+		this.addSubscription(
+			this.deselect$.subscribe(
+				() => {
+					this.deselectDay();
+				}
+			)
 		);
 	}
 

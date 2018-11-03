@@ -1,7 +1,8 @@
 import { MyMICDS, GetUserInfoResponse } from '@mymicds/sdk';
 
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { fromEvent } from 'rxjs';
+import { filter, switchMap, debounceTime } from 'rxjs/operators';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
@@ -96,63 +97,63 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 			// Subscribe to Portal and Canvas URL inputs to test URL
 			this.addSubscription(
-				Observable.fromEvent(portalClassesInput, 'keyup')
-					.filter(() => (this.portalClassesURL && this.portalClassesURL.length > 0))
-					.debounceTime(250)
-					.switchMap(() => {
+				fromEvent(portalClassesInput, 'keyup').pipe(
+					filter(() => (this.portalClassesURL && this.portalClassesURL.length > 0)),
+					debounceTime(250),
+					switchMap(() => {
 						this.portalClassesValid = null;
 						this.portalClassesResponse = 'Validating...';
 						return this.mymicds.portal.testClassesURL({ url: this.portalClassesURL });
 					})
-					.subscribe(
-						data => {
-							this.portalClassesValid = (data.valid === true);
-							this.portalClassesResponse = (data.valid === true) ? 'Valid!' : data.valid;
-						},
-						error => {
-							this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
-						}
-					)
+				).subscribe(
+					data => {
+						this.portalClassesValid = (data.valid === true);
+						this.portalClassesResponse = (data.valid === true) ? 'Valid!' : data.valid;
+					},
+					error => {
+						this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
+					}
+				)
 			);
 
 			this.addSubscription(
-				Observable.fromEvent(portalCalendarInput, 'keyup')
-					.filter(() => (this.portalCalendarURL && this.portalCalendarURL.length > 0))
-					.debounceTime(250)
-					.switchMap(() => {
+				fromEvent(portalCalendarInput, 'keyup').pipe(
+					filter(() => (this.portalCalendarURL && this.portalCalendarURL.length > 0)),
+					debounceTime(250),
+					switchMap(() => {
 						this.portalCalendarValid = null;
 						this.portalCalendarResponse = 'Validating...';
 						return this.mymicds.portal.testCalendarURL({ url: this.portalCalendarURL });
-					})
-					.subscribe(
-						data => {
-							this.portalCalendarValid = (data.valid === true);
-							this.portalCalendarResponse = (data.valid === true) ? 'Valid!' : data.valid;
-						},
-						error => {
-							this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
-						}
-					)
+					}),
+				).subscribe(
+					data => {
+						this.portalCalendarValid = (data.valid === true);
+						this.portalCalendarResponse = (data.valid === true) ? 'Valid!' : data.valid;
+					},
+					error => {
+						this.alertService.addAlert('warning', 'Test Portal URL Error!', error);
+					}
+				)
 			);
 
 			this.addSubscription(
-				Observable.fromEvent(canvasInput, 'keyup')
-					.filter(() => (this.canvasURL && this.canvasURL.length > 0))
-					.debounceTime(250)
-					.switchMap(() => {
+				fromEvent(canvasInput, 'keyup').pipe(
+					filter(() => (this.canvasURL && this.canvasURL.length > 0)),
+					debounceTime(250),
+					switchMap(() => {
 						this.canvasValid = null;
 						this.canvasResponse = 'Validating...';
 						return this.mymicds.canvas.testURL({ url: this.canvasURL });
 					})
-					.subscribe(
-						data => {
-							this.canvasValid = (data.valid === true);
-							this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
-						},
-						error => {
-							this.alertService.addAlert('warning', 'Test Canvas URL Error!', error);
-						}
-					)
+				).subscribe(
+					data => {
+						this.canvasValid = (data.valid === true);
+						this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid;
+					},
+					error => {
+						this.alertService.addAlert('warning', 'Test Canvas URL Error!', error);
+					}
+				)
 			);
 		}, 1);
 	}
@@ -232,34 +233,32 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 	updateCanvasFeed() {
 		this.canvasFeedUpdateLoading = true;
-		this.mymicds.feeds.updateCanvasCache()
-			.subscribe(
-				() => {
-					this.alertService.addAlert('success', 'Success!', 'Updated canvas feed!', 3);
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Update Canvas Feed Error!', error);
-				},
-				() => {
-					this.canvasFeedUpdateLoading = false;
-				}
-			);
+		this.mymicds.feeds.updateCanvasCache().subscribe(
+			() => {
+				this.alertService.addAlert('success', 'Success!', 'Updated canvas feed!', 3);
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Update Canvas Feed Error!', error);
+			},
+			() => {
+				this.canvasFeedUpdateLoading = false;
+			}
+		);
 	}
 
 	updatePortalFeed() {
 		this.portalFeedUpdateLoading = true;
-		this.mymicds.feeds.addPortalQueue()
-			.subscribe(
-				() => {
-					this.alertService.addAlert('success', 'Success!', 'Updated portal feed!', 3);
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Update Portal Feed Error!', error);
-				},
-				() => {
-					this.portalFeedUpdateLoading = false;
-				}
-			);
+		this.mymicds.feeds.addPortalQueue().subscribe(
+			() => {
+				this.alertService.addAlert('success', 'Success!', 'Updated portal feed!', 3);
+			},
+			error => {
+				this.alertService.addAlert('danger', 'Update Portal Feed Error!', error);
+			},
+			() => {
+				this.portalFeedUpdateLoading = false;
+			}
+		);
 	}
 
 }

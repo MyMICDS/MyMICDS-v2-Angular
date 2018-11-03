@@ -1,15 +1,14 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
+import { Subject } from 'rxjs/Rx';
+import { debounceTime } from 'rxjs/operators';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-
-import { Subject } from 'rxjs/Rx';
-import '../../../common/rxjs-operators';
 
 
 @Component({
@@ -67,8 +66,8 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 		new ResizeSensor(this.moduleContainer.nativeElement, () => this.resizeTable());
 
 		this.addSubscription(
-			this.changeSchedule$
-				.debounceTime(300)
+			this.changeSchedule$.pipe(
+				debounceTime(300))
 				.subscribe(
 					() => {
 						this.getSchedule();

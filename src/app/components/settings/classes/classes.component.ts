@@ -1,7 +1,8 @@
 import { MyMICDS, MyMICDSClass, Block, ClassType, GetClassesResponse } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { empty as observableEmpty, combineLatest } from 'rxjs';
+import { defaultIfEmpty } from 'rxjs/operators';
 import { contains, capitalize } from '../../../common/utils';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
@@ -15,7 +16,7 @@ import { AlertService } from '../../../services/alert.service';
 export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	private capitalize = capitalize; // tslint:disable-line
+	capitalize = capitalize; // tslint:disable-line
 
 	// If saving classes, prevent user from adding/deleting classes so they don't break anything
 	savingClasses = false;
@@ -244,8 +245,8 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		}).filter(Boolean); // Remove undefined
 
 		// Combine all of those observables into a MEGA OBSERVABLE
-		let deleteClasses$ = Observable.combineLatest(deleteObservables);
-		let saveClasses$ = Observable.combineLatest(saveObservables);
+		let deleteClasses$ = combineLatest(deleteObservables);
+		let saveClasses$ = combineLatest(saveObservables);
 
 		// Only append to MEGA OBSERVABLE if it's actually going to do anything
 		let MEGAObservableArray = [];
@@ -253,16 +254,16 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		if (deleteObservables.length > 0) {
 			MEGAObservableArray[0] = deleteClasses$;
 		} else {
-			MEGAObservableArray[0] = Observable.empty().defaultIfEmpty();
+			MEGAObservableArray[0] = observableEmpty().pipe(defaultIfEmpty());
 		}
 
 		if (saveObservables.length > 0) {
 			MEGAObservableArray[1] = saveClasses$;
 		} else {
-			MEGAObservableArray[1] = Observable.empty().defaultIfEmpty();
+			MEGAObservableArray[1] = observableEmpty().pipe(defaultIfEmpty());
 		}
 
-		let MEGAObservable$ = Observable.combineLatest(MEGAObservableArray);
+		let MEGAObservable$ = combineLatest(MEGAObservableArray);
 
 		MEGAObservable$.subscribe(
 			(data: any) => {

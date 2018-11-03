@@ -4,6 +4,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { defaultTitleFunction } from './app.routing';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 import { SubscriptionsComponent } from './common/subscriptions-component';
 import { AlertService } from './services/alert.service';
@@ -78,44 +79,45 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 
 		// Dynamic browser page title
 		this.addSubscription(
-			this.router.events
-				.filter(event => event instanceof NavigationEnd)
-				.switchMap(event => {
+			this.router.events.pipe(
+				filter(event => event instanceof NavigationEnd),
+				switchMap(event => {
 					// Keep going down until we get to the bottom-most first child
 					// (so that we can get data from children roots)
 					let currentRoute = this.route;
 					while (currentRoute.firstChild) {
 						currentRoute = currentRoute.firstChild;
 					}
-					return currentRoute.data
+					return currentRoute.data.pipe(
 						// Combine it with previous event data
-						.map(data => {
+						map(data => {
 							return { data, event };
-						});
-				})
-				.subscribe(
-					({ data, event }) => {
-						const newURL = (<NavigationEnd>event).urlAfterRedirects;
+						})
+					);
+				}),
+			).subscribe(
+				({ data, event }) => {
+					const newURL = (<NavigationEnd>event).urlAfterRedirects;
 
-						let title;
-						switch (typeof data.title) {
-							case 'string':
-								title = data.title;
-								break;
-							case 'function':
-								title = data.title(newURL);
-								break;
-							default:
-								title = defaultTitleFunction(newURL);
-								break;
-						}
-
-						this.titleService.setTitle(title);
-
-						// Google Analytics track pageviews
-						ga('send', 'pageview', (event as NavigationEnd).urlAfterRedirects);
+					let title;
+					switch (typeof data.title) {
+						case 'string':
+							title = data.title;
+							break;
+						case 'function':
+							title = data.title(newURL);
+							break;
+						default:
+							title = defaultTitleFunction(newURL);
+							break;
 					}
-				)
+
+					this.titleService.setTitle(title);
+
+					// Google Analytics track pageviews
+					ga('send', 'pageview', (event as NavigationEnd).urlAfterRedirects);
+				}
+			)
 		);
 	}
 }

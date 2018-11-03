@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import '../common/rxjs-operators';
 
 declare const Trianglify: any;
 

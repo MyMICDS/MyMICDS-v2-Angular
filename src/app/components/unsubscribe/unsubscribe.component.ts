@@ -1,8 +1,8 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { ActivatedRoute } from '@angular/router';
+import { combineLatest } from 'rxjs';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -19,13 +19,13 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 	typeOf = typeOf;
 	unsubscribeResponse: boolean = null;
 
-	constructor(private router: Router, private route: ActivatedRoute, private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private route: ActivatedRoute, private mymicds: MyMICDS, private alertService: AlertService) {
 		super();
 	}
 
 	ngOnInit() {
 		this.addSubscription(
-			Observable.combineLatest(
+			combineLatest(
 				this.route.params,
 				this.route.queryParams
 			).subscribe(
@@ -45,7 +45,7 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 						)
 					);
 				},
-				error => {
+				() => {
 					this.unsubscribeResponse = false;
 				}
 			)

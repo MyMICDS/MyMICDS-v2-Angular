@@ -1,9 +1,10 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { debounceTime} from 'rxjs/operators';
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import * as moment from 'moment';
-import { Observable } from 'rxjs/Observable';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
@@ -198,10 +199,10 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		// 	}
 		// );
 
-		this.progressDayClick = Observable.fromEvent(this.spinnyThingy.nativeElement, 'mousedown')
-			.debounceTime(100)
+		this.progressDayClick = fromEvent(this.spinnyThingy.nativeElement, 'mousedown').pipe(
+			debounceTime(100))
 			.subscribe(
-				e => {
+				() => {
 					// this.socketioService.emit('progress label click', true);
 				}
 			);

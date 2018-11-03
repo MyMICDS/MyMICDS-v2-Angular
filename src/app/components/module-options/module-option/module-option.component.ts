@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
 import { Options, OptionConfig, OptionValue } from '../../modules/module-options';
 
 @Component({
@@ -43,7 +44,7 @@ export class ModuleOptionComponent {
 	closeButton: any = { show: true, label: 'Enter', cssClass: 'btn btn-primary' };
 
 	constructor() {
-		this.valueChange.debounceTime(50);
+		this.valueChange.pipe(debounceTime(50));
 	}
 
 	onTogglePicker() {

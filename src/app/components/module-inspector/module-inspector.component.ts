@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import interact from 'interactjs';
+import * as interact from 'interactjs';
 
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';

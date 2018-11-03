@@ -2,7 +2,6 @@ import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import '../../common/rxjs-operators';
 import * as moment from 'moment';
 import { contains } from '../../common/utils';
 

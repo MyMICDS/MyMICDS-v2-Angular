@@ -2,6 +2,7 @@ import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
+import { debounceTime } from 'rxjs/operators';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
@@ -31,7 +32,7 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 					data => {
 						this.text = data.text;
 					},
-					error => {
+					() => {
 						this.alertService.addAlert('danger', 'Get Sticky Note Error!', 'Please save the module layout first.');
 					}
 				)
@@ -56,14 +57,14 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 	}
 
 	ngOnInit() {
-		this.textChange.debounceTime(1000).subscribe(
+		this.textChange.pipe(debounceTime(1000)).subscribe(
 			text => {
 				console.log('submitted');
 				this.mymicds.stickyNotes.add({ moduleId: this._moduleId, text }).subscribe(
 					success => {
 						console.log(success);
 					},
-					error => {
+					() => {
 						// tslint:disable-next-line:max-line-length
 						this.alertService.addAlert('danger', 'Save Sticky Note Error!', 'There was a problem saving the sticky note. Your data is not yet saved.');
 					}
