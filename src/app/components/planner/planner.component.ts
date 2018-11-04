@@ -2,8 +2,8 @@ import { MyMICDS, MyMICDSClass, AddPlannerEventParameters, PlannerEvent, GetPort
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { fromEvent } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { Subject, fromEvent } from 'rxjs';
+import { tap, filter, map, switchMap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { contains, darkenColor, rainbowSafeWord, rainbowCSSGradient } from '../../common/utils';
 
@@ -33,7 +33,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	plannerLoading = true;
 	canvasLoading = true;
 
-	updateSubscription: any;
+	triggerCanvasRefresh = new Subject();
 
 	// Controller for sidebar's collapsed class
 	sidebarCollapsed = true;
@@ -165,6 +165,29 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 					}
 				)
 			);
+
+			// Canvas refresh
+			this.addSubscription(
+				this.triggerCanvasRefresh.pipe(
+					tap(() => this.canvasLoading = true),
+					switchMap(() => this.mymicds.feeds.updateCanvasCache()),
+					switchMap(() => this.mymicds.canvas.getEvents())
+				).subscribe(
+					data => {
+						this.canvasLoading = false
+						if (data.hasURL) {
+							this.canvasEvents = data.events;
+						} else {
+							this.canvasEvents = [];
+						}
+						this.updatePlannerEvents();
+					},
+					error => {
+						this.canvasLoading = false;
+						this.alertService.addAlert('danger', 'Get Canvas Events Error!', error);
+					}
+				)
+			);
 		} else {
 			// User not logged in
 			this.plannerLoading = false;
@@ -210,29 +233,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	refreshCanvas() {
-		this.canvasLoading = true;
-
-		this.addSubscription(
-			this.updateSubscription = this.mymicds.feeds.updateCanvasCache().pipe(
-				switchMap(() => this.mymicds.canvas.getEvents())
-			).subscribe(
-				data => {
-					this.updateSubscription.unsubscribe();
-					this.canvasLoading = false;
-					if (data.hasURL) {
-						this.canvasEvents = data.events;
-					} else {
-						this.canvasEvents = [];
-					}
-					this.updatePlannerEvents();
-				},
-				error => {
-					this.updateSubscription.unsubscribe();
-					this.canvasLoading = false;
-					this.alertService.addAlert('danger', 'Get Canvas Events Error!', error);
-				}
-			)
-		);
+		this.triggerCanvasRefresh.next();
 	}
 
 	private updatePlannerEvents(plannerEvents = this.plannerEvents) {
