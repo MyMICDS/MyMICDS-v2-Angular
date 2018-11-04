@@ -5,17 +5,14 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule, Http } from '@angular/http';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { DatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
 import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
 import { AngularFittextModule } from 'angular-fittext';
-import { AuthHttp, AuthConfig, JwtHelper } from 'angular2-jwt';
 import { IconPickerModule } from 'ngx-icon-picker';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-const jwtHelper = new JwtHelper();
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
@@ -152,7 +149,6 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		BrowserModule,
 		FormsModule,
 		ReactiveFormsModule,
-		HttpModule,
 		routing,
 		ColorPickerModule,
 		DatepickerModule.forRoot(),
@@ -176,51 +172,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		Title,
 		AlertService,
 		// RealtimeService,
-
-		// JWT
-		{
-			provide: AuthHttp,
-			useFactory: authHttpServiceFactory,
-			deps: [Http]
-		}
 	],
 	bootstrap: [AppComponent],
 	entryComponents: moduleComponents
 })
 export class AppModule { }
-
-export function authHttpServiceFactory(http) {
-	return new AuthHttp(new AuthConfig({
-		tokenGetter: () => {
-			// Look in session storage for id_token, but fallback to local storage
-			let session = sessionStorage.getItem('id_token');
-			let local = localStorage.getItem('id_token');
-
-			let token = session || local;
-
-			if (typeof token !== 'string') { return ''; }
-
-			// Remove any quotations from the sides
-			token = token.split('"').join('');
-
-			// Check validity of jwt token
-			if (token.split('.').length !== 3) {
-				localStorage.removeItem('id_token');
-				sessionStorage.removeItem('id_token');
-				return '';
-			}
-
-			// Check if token is expired. If it is, delete and send user to login page
-			if (jwtHelper.isTokenExpired(token)) {
-				sessionStorage.removeItem('id_token');
-				localStorage.removeItem('id_token');
-
-				this.router.navigate(['/login']);
-				return '';
-			}
-
-			return token;
-		},
-		noJwtError: true
-	}), http);
-}

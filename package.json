@@ -38,7 +38,6 @@
     "@angular/router": "7.0.2",
     "@mymicds/sdk": "file:../MyMICDS-SDK",
     "angular-fittext": "^2.1.1",
-    "angular2-jwt": "^0.2.0",
     "angular2-uuid": "^1.1.1",
     "angular2gridster": "^0.6.3",
     "animate.css": "^3.6.1",
