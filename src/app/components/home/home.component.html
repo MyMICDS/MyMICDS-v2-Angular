@@ -40,8 +40,8 @@
 
 	<!-- Regular module grid -->
 	<div *ngIf="(editMode && authService.authSnapshot) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth)" class="grid-container">
-		<gridster #gridster [options]="gridsterOptions">
-			<gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
+		<ngx-gridster #gridster [options]="gridsterOptions">
+			<ngx-gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
 				[(x)]="module.column"
 				[(y)]="module.row"
@@ -80,8 +80,8 @@
 					<mymicds-module-options [type]="module.type" [options]="module.options" (optionsChange)="module.options = $event"></mymicds-module-options>
 				</ng-template>
 
-			</gridster-item>
-		</gridster>
+			</ngx-gridster-item>
+		</ngx-gridster>
 	</div>
 	<!-- Collapsed module grid -->
 	<div *ngIf="!editMode && moduleWidth < gridsterOptions.responsiveOptions[1].minWidth" class="collapsed-grid">
@@ -94,7 +94,7 @@
 </div>
 <div *ngIf="editMode && authService.authSnapshot" class="modules-menu" mymicds-blur--dark>
 	<p>Drag a module onto the grid to add</p>
-	<div gridsterItemPrototype
+	<div ngxGridsterItemPrototype
 		*ngFor="let name of moduleNames"
 		class="drag-module"
 		[config]="{ helper: true }"

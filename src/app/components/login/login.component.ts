@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 // Even though we're not using the updating functionality in `useragent`,
 // Angular CLI yells at us if we don't have the optional dependencies installed
 // Because AoT/Webpack nonsense
-import * as useragent from 'useragent';
+// import * as useragent from 'useragent';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
@@ -35,8 +35,9 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	login() {
-		const agent = useragent.parse(navigator.userAgent);
-		const jwtComment = `${agent.family}/${agent.os.family}`; // i.e. "Chrome/Linux"
+		// const agent = useragent.parse(navigator.userAgent);
+		// const jwtComment = `${agent.family}/${agent.os.family}`; // i.e. "Chrome/Linux"
+		const jwtComment = 'useragent cant used for frontend';
 
 		this.addSubscription(
 			this.mymicds.auth.login({

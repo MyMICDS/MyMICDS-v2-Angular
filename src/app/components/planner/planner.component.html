@@ -289,11 +289,18 @@
 					<div class="event-date">
 						<fieldset class="form-group">
 							<legend>Event Start</legend>
-							<datepicker name="start" [(ngModel)]="createEventModel.start" [showWeeks]="false"></datepicker>
+							<!-- <datepicker name="start" [(ngModel)]="createEventModel.start" [showWeeks]="false"></datepicker> -->
+							<!-- <datetime-popup [value]="myDate" (valueChange)="onValueChange($event)"
+								[(showPopup)]="showPicker"
+								[showDate]="showDate"
+								[showTime]="showTime"
+								[closeButton]="closeButton"></datetime-popup> -->
+							<datetime-popup [(value)]="createEventModal.start"></datetime-popup>
 						</fieldset>
 						<fieldset class="form-group">
 							<legend>Event End</legend>
-							<datepicker name="end" [(ngModel)]="createEventModel.end" [showWeeks]="false"></datepicker>
+							<!-- <datepicker name="end" [(ngModel)]="createEventModel.end" [showWeeks]="false"></datepicker> -->
+							<datetime-popup [(value)]="createEventModal.end"></datetime-popup>
 						</fieldset>
 					</div>
 					<p *ngIf="!consecutiveDates(createEventModel.start, createEventModel.end)" class="text-danger">Start and end dates must be consecutive!</p>
@@ -368,11 +375,13 @@
 					<div class="event-date">
 						<fieldset class="form-group">
 							<legend>Event Start</legend>
-							<datepicker name="start" [(ngModel)]="editEventModel.start" [showWeeks]="false"></datepicker>
+							<!-- <datepicker name="start" [(ngModel)]="editEventModel.start" [showWeeks]="false"></datepicker> -->
+							<datetime-popup [(value)]="editEventModal.start"></datetime-popup>
 						</fieldset>
 						<fieldset class="form-group">
 							<legend>Event End</legend>
-							<datepicker name="end" [(ngModel)]="editEventModel.end" [showWeeks]="false"></datepicker>
+							<!-- <datepicker name="end" [(ngModel)]="editEventModel.end" [showWeeks]="false"></datepicker> -->
+							<datetime-popup [(value)]="editEventModal.end"></datetime-popup>
 						</fieldset>
 					</div>
 					<p *ngIf="!consecutiveDates(editEventModel.start, editEventModel.end)" class="text-danger">Start and end dates must be consecutive!</p>
