@@ -72,7 +72,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		maxHeight: Infinity
 	};
 
-	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
+	constructor(public mymicds: MyMICDS, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
 		super();
 	}
 

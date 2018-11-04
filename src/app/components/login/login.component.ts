@@ -29,8 +29,8 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if (this.mymicds.auth.snapshot) {
-			this.router.navigate(['/home']);
+		if (this.mymicds.auth.isLoggedIn) {
+			// this.router.navigate(['/home']);
 		}
 	}
 

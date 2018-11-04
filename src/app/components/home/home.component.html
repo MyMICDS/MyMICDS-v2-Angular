@@ -12,10 +12,10 @@
 <div *ngIf="editMode" class="manage-menu">
 	<div class="manage-buttons">
 		<button class="btn btn-success edit-button" (click)="exitEditMode()">Done</button>
-		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!authService.authSnapshot || !detectChanges() || savingModuleLayout">
+		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!mymicds.auth.isLoggedIn || !detectChanges() || savingModuleLayout">
 			{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
 		</button>
-		<button class="btn btn-danger" (click)="saveModules([])" [disabled]="!authService.authSnapshot">Reset Layout</button>
+		<button class="btn btn-danger" (click)="saveModules([])" [disabled]="!mymicds.auth.isLoggedInt">Reset Layout</button>
 	</div>
 	<p mymicds-blur--dark class="manage-help">
 		<i class="fa fa-info-circle"></i>
@@ -33,13 +33,13 @@
 	</div>
 
 	<!-- If in edit mode and user isn't logged in -->
-	<div mymicds-blur *ngIf="editMode && !authService.authSnapshot" class="account-required">
+	<div mymicds-blur *ngIf="editMode && !mymicds.auth.isLoggedIn" class="account-required">
 		<p>Editing the homepage layout requires a MyMICDS Account!</p>
 		<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
 	</div>
 
 	<!-- Regular module grid -->
-	<div *ngIf="(editMode && authService.authSnapshot) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth)" class="grid-container">
+	<div *ngIf="(editMode && mymicds.auth.isLoggedIn) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth)" class="grid-container">
 		<ngx-gridster #gridster [options]="gridsterOptions">
 			<ngx-gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
@@ -92,7 +92,7 @@
 			[fixedHeight]="false"></mymicds-module-container>
 	</div>
 </div>
-<div *ngIf="editMode && authService.authSnapshot" class="modules-menu" mymicds-blur--dark>
+<div *ngIf="editMode && mymicds.auth.isLoggedIn" class="modules-menu" mymicds-blur--dark>
 	<p>Drag a module onto the grid to add</p>
 	<div ngxGridsterItemPrototype
 		*ngFor="let name of moduleNames"

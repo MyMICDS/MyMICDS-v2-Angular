@@ -1,4 +1,4 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { MyMICDS, Action } from '@mymicds/sdk';
 
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
@@ -72,10 +72,36 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		// Error handling for MyMICDS SDK
+		this.addSubscription(
+			this.mymicds.errors.subscribe(error => {
+				console.log('MyMICDS Error!', error);
+				if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action)) {
+					this.router.navigate(['/login']);
+				}
+
+				switch (error.action) {
+					case Action.LOGIN_EXPIRED:
+					this.alertService.addAlert('warning', 'Login expired!', 'Please log in again.');
+					break;
+
+					case Action.NOT_LOGGED_IN:
+					this.alertService.addAlert('warning', 'You are not logged in!', 'You must be logged in access to this!');
+					break;
+
+					case Action.UNAUTHORIZED:
+					this.alertService.addAlert('warning', 'Not so fast!', 'You don\'t have access to this!');
+					break;
+				}
+			})
+		);
+
 		// Set dynamic background
-		this.mymicds.background.$.subscribe(background => {
-			document.body.style.backgroundImage = 'url("' + background.variants.normal + '")';
-		});
+		this.addSubscription(
+			this.mymicds.background.$.subscribe(background => {
+				document.body.style.backgroundImage = 'url("' + background.variants.normal + '")';
+			})
+		);
 
 		// Dynamic browser page title
 		this.addSubscription(

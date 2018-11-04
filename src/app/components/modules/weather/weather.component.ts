@@ -13,9 +13,9 @@ import { AlertService } from '../../../services/alert.service';
 })
 export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 
-	weather: GetWeatherResponse = null;
+	weather: GetWeatherResponse['weather'] = null;
 	// Weather object converted to metric
-	weatherMetric: GetWeatherResponse = null;
+	weatherMetric: GetWeatherResponse['weather'] = null;
 	@Input() metric = false;
 	@ViewChild('moduleContainer') containerEl: ElementRef;
 
@@ -29,9 +29,9 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 
 		this.addSubscription(
 			this.mymicds.weather.get().subscribe(
-				data => {
-					this.weather = data;
-					this.weatherMetric = this.convertToMetric(data);
+				({ weather }) => {
+					this.weather = weather;
+					this.weatherMetric = this.convertToMetric(weather);
 				},
 				error => {
 					this.alertService.addAlert('danger', 'Get Weather Error!', error);
