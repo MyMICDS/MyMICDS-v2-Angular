@@ -49,7 +49,7 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		}
 	];
 
-	constructor(private mymicds: MyMICDS, private router: Router) {
+	constructor(public mymicds: MyMICDS, private router: Router) {
 		super();
 	}
 
@@ -64,7 +64,7 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		// Keep track if user's auth state for login/logout buttons
 		this.addSubscription(
 			this.mymicds.auth.$.subscribe(jwt => {
-				console.log('uath change', jwt);
+				console.log('auth change navbar', jwt);
 				this.jwt = jwt;
 			})
 		);

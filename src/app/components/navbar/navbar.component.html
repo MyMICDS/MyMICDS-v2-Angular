@@ -1,4 +1,4 @@
-<nav class="navbar navbar-full navbar-inverse bg-inverse navbar-toggleable-md">
+<!-- <nav class="navbar navbar-full navbar-inverse bg-inverse navbar-toggleable-md">
 	<a class="navbar-brand" [routerLink]="['/home']">
 		<img src="/assets/logo/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
 		MyMICDS.net
@@ -26,4 +26,37 @@
 		<p class="logged-in-user text-muted"><span class="hide">Logged in as </span>{{ jwt.user }}</p>
 		<button class="btn btn-danger" [routerLink]="['/logout']">Logout</button>
 	</div>
+</nav> -->
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<a class="navbar-brand" routerLink="/home">
+		<img src="/assets/logo/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+		MyMICDS.net
+	</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		<div class="navbar-nav">
+			<ng-container *ngFor="let page of pages">
+				<a *ngIf="!page.auth || jwt"
+					class="nav-item nav-link"
+					[routerLink]="[page.url]"
+					[routerLinkActive]="'active'">
+					{{ page.name }}
+				</a>
+			</ng-container>
+		</div>
+	</div>
+	<div *ngIf="!jwt" class="form-inline">
+		<button class="btn btn-success" routerLink="/login">Login</button>
+		<button class="btn btn-primary" routerLink="/register">Register</button>
+	</div>
+	<ng-container *ngIf="jwt">
+		<span class="logged-in-user navbar-text">Logged in as {{ jwt.user }}</span>
+		<div class="form-inline">
+			<button class="btn btn-danger" routerLink="/logout">Logout</button>
+		</div>
+	</ng-container>
 </nav>
