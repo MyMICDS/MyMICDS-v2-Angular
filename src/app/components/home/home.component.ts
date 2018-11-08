@@ -81,7 +81,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
 			this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
 		};
-		onResize();
+		setTimeout(() => onResize());
 		new ResizeSensor(this.moduleContainer.nativeElement, onResize);
 
 		// Find out whether or not we're in edit mode

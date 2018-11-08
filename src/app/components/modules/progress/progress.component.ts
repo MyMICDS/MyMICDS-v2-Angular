@@ -57,7 +57,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 	schoolPercent: number = null;
 
 	// Start / destroy interval that calculates percentages
-	timer: NodeJS.Timer;
+	timer: any;
 
 	// CanvasGradient object to use for rainbow color
 	rainbow: CanvasGradient;
@@ -317,9 +317,9 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 
 			// @TODO I think something's still wrong
 
-			const color = hexToRgb(formattedSchedule[i].class);
+			// const color = hexToRgb(formattedSchedule[i].class);
 			console.log('schedule leftover', formattedSchedule[i]);
-			formattedScheduleColors[i] = `rgba(${color.join(', ')}, 0.8)`;
+			// formattedScheduleColors[i] = `rgba(${color.join(', ')}, 0.8)`;
 
 
 			// if (typeof formattedSchedule[i].class  && formattedSchedule[i].class.color) {

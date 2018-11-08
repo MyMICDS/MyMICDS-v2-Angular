@@ -12,7 +12,7 @@ export class SubscriptionsComponent implements OnDestroy {
 	constructor() {
 		// Even if ngOnDestory gets overriden by the child component, we can still unsubscribe from observables
 		// (https://stacksandfoundations.wordpress.com/2016/06/24/using-class-inheritance-to-hook-to-angular2-component-lifecycle/)
-		const childDestroy = this.ngOnDestroy;
+		const childDestroy = this.ngOnDestroy.bind(this);
 		this.ngOnDestroy = () => {
 			if (childDestroy) {
 				childDestroy();
