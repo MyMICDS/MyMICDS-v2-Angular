@@ -1,4 +1,4 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { MyMICDS, GetScheduleResponse } from '@mymicds/sdk';
 
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
@@ -39,11 +39,11 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 	updateCurrentInterval: NodeJS.Timer;
 	@ViewChild('collapsedSchedule') collapsedSchedule: ElementRef;
 	current = moment();
-	currentSchedule: any = null;
+	currentSchedule: GetScheduleResponse = null;
 	// How many classes to display when schedule is collapsed
 	showNCurrent = 1;
 
-	viewSchedule: any = null;
+	viewSchedule: GetScheduleResponse = null;
 	scheduleDate = moment();
 
 	changeSchedule$ = new Subject<void>();

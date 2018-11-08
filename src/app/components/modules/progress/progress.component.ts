@@ -1,4 +1,4 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { MyMICDS, GetScheduleResponse, ScheduleBlock, ClassType, Block } from '@mymicds/sdk';
 
 import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
 import { fromEvent } from 'rxjs';
@@ -27,8 +27,8 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 
 	@Input() showDate = true;
 
-	today: any = new Date();
-	schedule: any = null;
+	today: Date = new Date();
+	schedule: GetScheduleResponse['schedule'] = null;
 
 	progressType: ProgressType = ProgressType.circular;
 
@@ -47,7 +47,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		className: string;
 		percentage: number;
 		progressWidth: number;
-		color: string;
+		color: string | CanvasGradient;
 		current: boolean;
 	}[];
 
@@ -57,7 +57,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 	schoolPercent: number = null;
 
 	// Start / destroy interval that calculates percentages
-	timer: any;
+	timer: NodeJS.Timer;
 
 	// CanvasGradient object to use for rainbow color
 	rainbow: CanvasGradient;
@@ -184,8 +184,12 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 					month: this.today.getMonth() + 1,
 					day: this.today.getDate()
 				})
-				.subscribe(schedule => {
-					this.schedule = schedule;
+				.subscribe(({ schedule }) => {
+					if (schedule) {
+						this.schedule = schedule;
+					} else {
+						this.schedule = null;
+					}
 					this.calculatePercentages();
 				})
 			);
@@ -268,41 +272,67 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		let newCurrentClassPercent = null;
 
 		// Insert a 'break' period in between classes that aren't back-to-back
-		let breaks = [];
+		let breaks: ScheduleBlock[] = [];
 		for (let i = 0; i < this.schedule.classes.length - 1; i++) {
 			const currBlock = this.schedule.classes[i];
 			const nextBlock = this.schedule.classes[i + 1];
 
 			if (currBlock.end !== nextBlock.start) {
 				breaks.push({
-					class : 'Break',
+					class: {
+						name: 'Break',
+						teacher: null,
+						type: ClassType.OTHER,
+						block: Block.OTHER,
+						color: 'rgba(0, 0, 0, 0.4)',
+						textDark: false
+					},
 					start: currBlock.end,
-					end  : nextBlock.start,
-					color: 'rgba(0, 0, 0, 0.4)'
+					end: nextBlock.start
 				});
 			}
 		}
 
 		// Combine classes and breaks array into one
 		const formattedSchedule = this.schedule.classes.concat(breaks);
+		const formattedScheduleColors: (string | CanvasGradient)[] = [];
 		// Sort classes by start time
 		formattedSchedule.sort(function(a, b) {
-			return a.start - b.start;
+			return a.start.valueOf() - b.start.valueOf();
 		});
 
 		// Generate colors for each class
 		for (let i = 0; i < formattedSchedule.length; i++) {
-			if (!formattedSchedule[i].color) {
+			// console.log('schedule', formattedSchedule[i]);
 
+			if (typeof formattedSchedule[i].class.color === 'string') {
 				// Check if rainbow color
 				if (formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord) {
-					formattedSchedule[i].color = this.rainbow;
-					continue;
+					formattedScheduleColors[i] = this.rainbow;
+				} else {
+					formattedScheduleColors[i] = formattedSchedule[i].class.color;
 				}
-
-				const color = hexToRgb(formattedSchedule[i].class.color);
-				formattedSchedule[i].color = 'rgba(' + color[0] + ', ' + color[1] + ', ' + color[2] + ', 0.8)';
+				continue;
 			}
+
+			// @TODO I think something's still wrong
+
+			const color = hexToRgb(formattedSchedule[i].class);
+			console.log('schedule leftover', formattedSchedule[i]);
+			formattedScheduleColors[i] = `rgba(${color.join(', ')}, 0.8)`;
+
+
+			// if (typeof formattedSchedule[i].class  && formattedSchedule[i].class.color) {
+			//
+			// 	// Check if rainbow color
+			// 	if (formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord) {
+			// 		formattedScheduleColors[i] = this.rainbow;
+			// 		continue;
+			// 	}
+			//
+			// 	const color = hexToRgb(formattedSchedule[i].class.color);
+			// 	formattedScheduleColors[i] = `rgba(${color.join(', ')}, 0.8)`;
+			// }
 		}
 
 		// Either end school at last block or 3:15pm
@@ -312,11 +342,11 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		const classCount = formattedSchedule.length;
 		const firstBlock = formattedSchedule[0];
 		const lastBlock  = formattedSchedule[classCount - 1];
-		const schoolEnd  = Math.min(lastBlock.end.getTime(), schoolCap.getTime());
+		const schoolEnd  = Math.min(lastBlock.end.valueOf(), schoolCap.getTime());
 
 		// Get length and percentage of school day
-		const schoolLength  = schoolEnd - firstBlock.start.getTime();
-		const schoolPercent = this.getPercent(firstBlock.start, new Date(schoolEnd));
+		const schoolLength  = schoolEnd - firstBlock.start.valueOf();
+		const schoolPercent = this.getPercent(firstBlock.start, moment(schoolEnd));
 
 		// Set school percentage variable to display inside the circle
 		this.schoolPercent = +schoolPercent.toFixed(2);
@@ -324,19 +354,22 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		// Loop through classes and calculate stuff
 		for (let i = 0; i < formattedSchedule.length; i++) {
 			const block = formattedSchedule[i];
+			const color = formattedScheduleColors[i];
 
-			if (schoolEnd <= block.start.getTime()) {
+			if (schoolEnd <= block.start.valueOf()) {
 				continue;
 			}
 
-			let blockName = block.class;
+			let blockName: string;
 			if (typeof block.class === 'object') {
 				blockName = block.class.name;
+			} else {
+				blockName = block.class;
 			}
 
 			// Get class percentage
 			// Thanks to Amaan for helping me figure out this algorithim back in v1
-			const classLength = block.end.getTime() - block.start.getTime();
+			const classLength = block.end.valueOf() - block.start.valueOf();
 			const classRatio = classLength / schoolLength;
 			const classPercent = this.getPercent(block.start, block.end);
 			const finalPercentage = classPercent * classRatio;
@@ -344,15 +377,15 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 			const roundedPercent = +finalPercentage.toFixed(2);
 
 			let classLeft: number = classLength;
-			if (block.start.getTime() <= nowTime && nowTime < block.end.getTime()) {
-				classLeft = nowTime - block.start.getTime();
+			if (block.start.valueOf() <= nowTime && nowTime < block.end.valueOf()) {
+				classLeft = nowTime - block.start.valueOf();
 			}
 
 			const classDuration = this.getDuration(classLeft);
 
 			// Add values to their respective array if data is more than 0
 			if (roundedPercent > 0) {
-				newColors.push(block.color);
+				newColors.push(color);
 				newData.push(roundedPercent);
 				newLabels.push(blockName);
 				newDurations.push(classDuration);
@@ -361,7 +394,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 					className: blockName,
 					percentage: +classPercent.toFixed(2),
 					progressWidth: roundedPercent,
-					color: block.color,
+					color,
 					current: (0 < classPercent && classPercent < 100)
 				});
 			}
@@ -400,10 +433,10 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 	 * Will return 0 if class hasn't started yet or 100 of class has already finished.
 	 */
 
-	getPercent(start, end): number {
+	getPercent(start: moment.Moment, end: moment.Moment): number {
 
-		const numerator = this.today.getTime() - start.getTime();
-		const denominator = end.getTime() - start.getTime();
+		const numerator = this.today.getTime() - start.valueOf();
+		const denominator = end.valueOf() - start.valueOf();
 
 		const answer = (numerator / denominator) * 100;
 
