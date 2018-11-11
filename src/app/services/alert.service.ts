@@ -17,6 +17,8 @@ export class AlertService {
 	];
 
 	addAlert(type: string, title: string, content: string, expiresIn = -1) {
+		console.log('Alert', type, title, content);
+
 		// Default alert type to 'info'
 		if (!contains(this.alertTypes, type)) {
 			type = 'info';
@@ -31,7 +33,7 @@ export class AlertService {
 		};
 
 		// If error and we aren't already giving any advice to fix problems, append custom message
-		if (type === 'danger' && !alert.content.includes(' to fix any problems.')) {
+		if (type === 'danger' && typeof alert.content === 'string' && !alert.content.includes(' to fix any problems.')) {
 			alert.content += ' Try refreshing the page to fix any problems.';
 		}
 

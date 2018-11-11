@@ -101,7 +101,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		end: new Date()
 	};
 
-	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
+	constructor(public mymicds: MyMICDS, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
 		super();
 	}
 

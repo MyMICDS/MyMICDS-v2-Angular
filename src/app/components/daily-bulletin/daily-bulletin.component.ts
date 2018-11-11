@@ -26,20 +26,18 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 	parse = false;
 	parsedBulletin: any;
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
+	constructor(
+		private mymicds: MyMICDS,
+		private ngZone: NgZone,
+		private router: Router,
+		private route: ActivatedRoute,
+		private alertService: AlertService
+	) {
 		super();
 	}
 
 	ngOnInit() {
-
-		// Find out whether or not we should parse bulletin for debugging stuff
-		this.addSubscription(
-			this.route.data.subscribe(
-				data => {
-					this.parse = !!data.parse;
-				}
-			)
-		);
+		this.parse = !!this.route.snapshot.data.parse;
 
 		this.addSubscription(
 			this.mymicds.dailyBulletin.getList().subscribe(

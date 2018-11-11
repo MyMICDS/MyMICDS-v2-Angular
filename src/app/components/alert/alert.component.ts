@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService, Alert } from '../../services/alert.service';
 
 @Component({
@@ -6,13 +8,33 @@ import { AlertService, Alert } from '../../services/alert.service';
 	templateUrl: './alert.component.html',
 	styleUrls: ['./alert.component.scss']
 })
-export class AlertComponent implements OnInit, OnDestroy {
+export class AlertComponent extends SubscriptionsComponent implements OnInit {
 
 	subscription: any;
 	alerts: Alert[] = [];
 	alertsDismissed = { };
 
-	constructor(private alertService: AlertService) { }
+	constructor(private alertService: AlertService) {
+		super();
+	}
+
+	ngOnInit() {
+		// Subscribe to alerts service observable
+		this.addSubscription(
+			this.alertService.alertEmit$.subscribe((data: Alert) => {
+				console.log('alet!')
+				// Append alert to beginning of array
+				this.alerts.unshift(data);
+
+				// If there's an expiration, dismiss it automatically
+				if (data.expiresIn && 0 < data.expiresIn) {
+					setTimeout(() => {
+						this.dismiss(data.id);
+					}, data.expiresIn * 1000);
+				}
+			})
+		);
+	}
 
 	deleteAlert(id) {
 		this.alerts.forEach((value, index) => {
@@ -34,28 +56,6 @@ export class AlertComponent implements OnInit, OnDestroy {
 		setTimeout(() => {
 			this.deleteAlert(id);
 		}, animationTime - 5);
-	}
-
-	ngOnInit() {
-		// Subscribe to alerts service observable
-		this.subscription = this.alertService.alertEmit$.subscribe(
-			(data: Alert) => {
-				// Append alert to beginning of array
-				this.alerts.unshift(data);
-
-				// If there's an expiration, dismiss it automatically
-				if (data.expiresIn && 0 < data.expiresIn) {
-					setTimeout(() => {
-						this.dismiss(data.id);
-					}, data.expiresIn * 1000);
-				}
-			}
-		);
-	}
-
-	ngOnDestroy() {
-		// Unsubscribe to prevent memory leaks or something
-		this.subscription.unsubscribe();
 	}
 
 }

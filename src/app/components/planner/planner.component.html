@@ -97,7 +97,7 @@
 							</span>
 						</button>
 						<div class="btn-group">
-							<button *ngIf="authService.authSnapshot" class="btn btn-danger" (click)="refreshCanvas()">
+							<button *ngIf="mymicds.auth.isLoggedIn" class="btn btn-danger" (click)="refreshCanvas()">
 								<span>
 									<i class="fa fa-refresh"></i>
 									Refresh Canvas
@@ -265,11 +265,11 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div *ngIf="!authService.authSnapshot" class="create-event-register">
+				<div *ngIf="!mymicds.auth.isLoggedIn" class="create-event-register">
 					<p>Using the planner requires a MyMICDS Account!</p>
 					<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
 				</div>
-				<form #createEventForm="ngForm" [hidden]="!authService.authSnapshot" novalidate>
+				<form #createEventForm="ngForm" [hidden]="!mymicds.auth.isLoggedIn" novalidate>
 					<fieldset class="form-group" [class.has-danger]="createEventTitle.dirty && !createEventTitle.valid">
 						<legend>Event Title</legend>
 						<input #createEventTitle="ngModel" class="form-control" [class.form-control-danger]="createEventTitle.dirty && !createEventTitle.valid" name="title" [(ngModel)]="createEventModel.title" placeholder="Title" required>
