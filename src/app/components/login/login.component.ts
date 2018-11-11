@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 // Even though we're not using the updating functionality in `useragent`,
 // Angular CLI yells at us if we don't have the optional dependencies installed
@@ -23,7 +23,7 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 		remember: true,
 	};
 
-	constructor(private mymicds: MyMICDS, private router: Router, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private router: Router, private alertService: AlertService) {
 		super();
 	}
 
@@ -48,7 +48,8 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 			}).subscribe(
 				loginRes => {
 					if (loginRes.success) {
-						this.router.navigateByUrl('/home');
+						// this.router.navigate(['/home']);
+						this.ngZone.run(() => this.router.navigate(['/home'])).then();
 					} else {
 						this.alertService.addAlert('warning', 'Warning!', loginRes.message, 3);
 					}

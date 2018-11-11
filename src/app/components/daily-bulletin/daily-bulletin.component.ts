@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { contains } from '../../common/utils';
@@ -26,7 +26,7 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 	parse = false;
 	parsedBulletin: any;
 
-	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
 		super();
 	}
 
@@ -77,7 +77,8 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 		if (!clearURL) {
 			navURL += `/${this.bulletins[index]}`;
 		}
-		this.router.navigate([navURL]);
+		// this.router.navigate([navURL]);
+		this.ngZone.run(() => this.router.navigate([navURL])).then();
 
 		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.pdf';
 		this.bulletinDate = moment(this.bulletins[index]);

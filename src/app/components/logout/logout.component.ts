@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -13,7 +13,7 @@ import { AlertService } from '../../services/alert.service';
 })
 export class LogoutComponent extends SubscriptionsComponent implements OnInit {
 
-	constructor(private mymicds: MyMICDS, private router: Router, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private router: Router, private alertService: AlertService) {
 		super();
 	}
 
@@ -27,8 +27,9 @@ export class LogoutComponent extends SubscriptionsComponent implements OnInit {
 					 * Storage events do not (according to specification) alert the current window.
 					 */
 					// setTimeout(() => {
-						this.router.navigate(['/home']);
+						// this.router.navigate(['/home']);
 					// }, 0);
+					this.ngZone.run(() => this.router.navigate(['/home'])).then();
 				},
 				error => {
 					this.alertService.addAlert('danger', 'Logout Error!', error);
