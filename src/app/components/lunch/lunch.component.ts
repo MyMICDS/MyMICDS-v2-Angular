@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -24,7 +24,7 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 	];
 	school = this.schools[0];
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private cd: ChangeDetectorRef, private alertService: AlertService) {
 		super();
 	}
 
@@ -38,11 +38,16 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 					}
 					this.school = data.school;
 				},
-				error => {
+				() => {
 					this.alertService.addAlert('warning', 'Warning!', 'We couldn\'t determine your grade. Automatically selected Upper School lunch.', 3);
 				}
 			)
 		);
+	}
+
+	changeSchool(school: string) {
+		this.school = school;
+		this.cd.detectChanges();
 	}
 
 	/*
@@ -71,24 +76,24 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 	getLunch(getDate) {
 		// Display loading screen
 		this.loading = true;
+		this.cd.detectChanges();
 		this.addSubscription(
 			this.mymicds.lunch.get({
 				year : getDate.year(),
 				month: getDate.month() + 1,
 				day  : getDate.date()
 			}).subscribe(
-				lunch => {
-					// Stop loading
+				({ lunch }) => {
 					this.loading = false;
-					// Reset lunch array
 					this.lunch = [];
+
 					// Get dates for the week
 					const current = moment();
 					const dates = this.getDatesFromWeek(getDate);
 
 					for (const date of dates) {
 						const lunchIndex = date.format('YYYY[-]MM[-]DD');
-						const dayLunch = lunch[lunchIndex] || { };
+						const dayLunch = lunch[lunchIndex] || {};
 
 						this.lunch.push({
 							date: {
@@ -99,6 +104,8 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 							lunch: dayLunch
 						});
 					}
+					// Update template
+					this.cd.detectChanges();
 				},
 				error => {
 					this.alertService.addAlert('danger', 'Get Lunch Error!', error);

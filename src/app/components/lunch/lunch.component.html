@@ -8,9 +8,9 @@
 	<!-- School Selection -->
 	<div class="school-selection">
 		<div class="btn-group">
-			<button class="lowerschool btn btn-secondary" [class.active]="school === 'lowerschool'" (click)="school = 'lowerschool'">Lower School</button>
-			<button class="middleschool btn btn-secondary" [class.active]="school === 'middleschool'" (click)="school = 'middleschool'">Middle School</button>
-			<button class="upperschool btn btn-secondary" [class.active]="school === 'upperschool'" (click)="school = 'upperschool'">Upper School</button>
+			<button class="lowerschool btn btn-secondary" [class.active]="school === 'lowerschool'" (click)="changeSchool('lowerschool')">Lower School</button>
+			<button class="middleschool btn btn-secondary" [class.active]="school === 'middleschool'" (click)="changeSchool('middleschool')">Middle School</button>
+			<button class="upperschool btn btn-secondary" [class.active]="school === 'upperschool'" (click)="changeSchool('upperschool')">Upper School</button>
 		</div>
 	</div>
 
