@@ -68,6 +68,7 @@ import { QuotesComponent } from './components/quotes/quotes.component';
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
 
 import { AlertService } from './services/alert.service';
+import { BackgroundService } from './services/background.service';
 // import { RealtimeService } from './services/realtime.service';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
@@ -170,6 +171,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ColorPickerService,
 		Title,
 		AlertService,
+		BackgroundService
 		// RealtimeService,
 	],
 	bootstrap: [AppComponent],

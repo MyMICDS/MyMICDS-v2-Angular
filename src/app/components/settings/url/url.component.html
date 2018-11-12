@@ -1,6 +1,6 @@
 <h3 class="title">
 	URL Settings
-	<a *ngIf="userInfo.migrateToVeracross" class="veracross-update badge badge-danger" routerLink="/help">Update to Veracross!</a>
+	<a *ngIf="userInfo?.migrateToVeracross" class="veracross-update badge badge-danger" routerLink="/help">Update to Veracross!</a>
 </h3>
 <form class="form-portal" #portalCalendarForm="ngForm" [class.has-success]="portalCalendarValid" [class.has-danger]="portalCalendarValid === false" (ngSubmit)="changePortalCalendarURL()" novalidate>
 	<label for="portal-calendar-url">Portal 'My Calendar' URL</label>
