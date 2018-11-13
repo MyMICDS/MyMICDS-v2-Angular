@@ -74,7 +74,7 @@
     "ts-helpers": "^1.1.1",
     "useragent": "^2.2.1",
     "yamlparser": "0.0.2",
-    "zone.js": "~0.8.26"
+    "zone.js": "git://github.com/JiaLiPassion/zone.js#ts29-fix-dist"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",
