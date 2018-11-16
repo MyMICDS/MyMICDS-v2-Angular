@@ -1,15 +1,12 @@
 import { MyMICDS, GetScheduleResponse, ScheduleBlock, ClassType, Block } from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
-import { fromEvent } from 'rxjs';
-import { debounceTime} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
-// import { SocketioService } from '../../../services/socketio.service';
 
 declare const Chart: any;
 
@@ -24,6 +21,8 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 	// Used for collapsing date and if progress bar should be horizontal or vertical
 	moduleHeight: number;
 	moduleWidth: number;
+	resizeSensorModuleContainer: ResizeSensor;
+	resizeSensorChart: ResizeSensor;
 
 	@Input() showDate = true;
 
@@ -35,7 +34,6 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 	// Circular Progress References
 	ctx: any;
 	progressBar: any;
-	@ViewChild('spinnyThingy') spinnyThingy: ElementRef;
 
 	// Font sizes for label and percentage in circular progress bar (in pixels)
 	classLabelFontSize: number;
@@ -62,14 +60,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 	// CanvasGradient object to use for rainbow color
 	rainbow: CanvasGradient;
 
-	// Socket.io
-	progressDayCtx: any;
-	socketioConnection: any;
-	progressDayClick: any;
-	progressDayUnclick: any;
-
-	// constructor(private socketioService: SocketioService) { }
-	constructor(private mymicds: MyMICDS) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();
 	}
 
@@ -112,7 +103,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 			}
 		};
 		onContainerResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, onContainerResize);
+		this.resizeSensorModuleContainer = new ResizeSensor(this.moduleContainer.nativeElement, onContainerResize);
 
 		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
@@ -131,7 +122,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		};
 
 		onChartResize();
-		new ResizeSensor(this.ctx, onChartResize);
+		this.resizeSensorChart = new ResizeSensor(this.ctx, onChartResize);
 
 		// Rainbow color top priority
 		this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
@@ -185,39 +176,16 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 					day: this.today.getDate()
 				})
 				.subscribe(({ schedule }) => {
-					if (schedule) {
-						this.schedule = schedule;
-					} else {
-						this.schedule = null;
-					}
-					this.calculatePercentages();
+					this.ngZone.run(() => {
+						if (schedule) {
+							this.schedule = schedule;
+						} else {
+							this.schedule = null;
+						}
+						this.calculatePercentages();
+					});
 				})
 			);
-
-		// Socket.io service to spin the spinny
-		// this.progressDayCtx = document.getElementsByClassName('progress-day')[0];
-
-		// this.socketioConnection = this.socketioService.listen('progress label spin').subscribe(
-		// 	pressed => {
-		// 		pressed ? this.progressDayCtx.classList.add('rotate') : this.progressDayCtx.classList.remove('rotate');
-		// 	}
-		// );
-
-		this.progressDayClick = fromEvent(this.spinnyThingy.nativeElement, 'mousedown').pipe(
-			debounceTime(100))
-			.subscribe(
-				() => {
-					// this.socketioService.emit('progress label click', true);
-				}
-			);
-
-		// this.progressDayUnclick = Observable.fromEvent(this.progressDayCtx, 'mouseup')
-		// 	.debounceTime(100)
-		// 	.subscribe(
-		// 		e => {
-		// 			this.socketioService.emit('progress label click', false);
-		// 		}
-		// 	);
 	}
 
 	ngOnDestroy() {
@@ -225,10 +193,6 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		clearInterval(this.timer);
 		// Destroy Progress Bar Instance
 		this.progressBar.destroy();
-		// Unsubsciribe socket connection
-		// this.socketioConnection.unsubscribe();
-		this.progressDayClick.unsubscribe();
-		// this.progressDayUnclick.unsubscribe();
 	}
 
 	/*

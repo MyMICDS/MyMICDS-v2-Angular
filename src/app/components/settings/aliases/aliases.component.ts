@@ -1,6 +1,6 @@
 import { MyMICDS, MyMICDSClass, AliasType } from '@mymicds/sdk';
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { contains } from '../../../common/utils';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
@@ -23,21 +23,18 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 
 	aliases = {};
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
 		super();
 	}
 
 	ngOnInit() {
 		// Get Aliases
 		this.addSubscription(
-			this.mymicds.alias.list().subscribe(
-				aliases => {
+			this.mymicds.alias.list().subscribe(aliases => {
+				this.ngZone.run(() => {
 					this.aliases = aliases;
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Aliases Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 
@@ -87,9 +84,9 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 					type: this.type,
 					classString: className,
 					classId
-				}).subscribe(
-					id => {
-						this.alertService.addAlert('success', 'Success!', 'Linked alias to class!', 3);
+				}).subscribe(id => {
+					this.ngZone.run(() => {
+						this.alertService.addSuccess('Linked alias to class!');
 
 						// Add alias to aliases array
 						this.aliases[this.type].push({
@@ -98,23 +95,20 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 							classNative: classId,
 							classRemote: className
 						});
-					},
-					error => {
-						this.alertService.addAlert('danger', 'Add Alias Error!', error);
-					}
-				)
+					});
+				})
 			);
 		} else {
 			// Delete alias
-			let aliasObject = this.aliasClassObject(this.type, className);
-			let aliasId = aliasObject._id;
+			const aliasObject = this.aliasClassObject(this.type, className);
+			const aliasId = aliasObject._id;
 			this.addSubscription(
 				this.mymicds.alias.delete({
 					type: this.type,
 					id: aliasId
-				}).subscribe(
-					() => {
-						this.alertService.addAlert('success', 'Success!', 'Deleted alias from class!', 3);
+				}).subscribe(() => {
+					this.ngZone.run(() => {
+						this.alertService.addSuccess('Deleted alias from class!');
 
 						// Remove alias from aliases array
 						for (let i = 0; i < this.aliases[this.type].length; i++) {
@@ -122,11 +116,8 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 								this.aliases[this.type].splice(i, 1);
 							}
 						}
-					},
-					error => {
-						this.alertService.addAlert('danger', 'Delete Alias Error!', error);
-					}
-				)
+					});
+				})
 			);
 		}
 	}

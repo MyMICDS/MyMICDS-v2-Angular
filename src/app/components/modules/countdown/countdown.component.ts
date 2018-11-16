@@ -1,6 +1,6 @@
 import { MyMICDS, GetPortalDayRotationResponse, GetBreaksResponse } from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, ViewChildren, QueryList, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, ViewChildren, QueryList, NgZone } from '@angular/core';
 import { trigger, state, style } from '@angular/animations';
 import { combineLatest } from 'rxjs';
 import { AngularFittextDirective } from 'angular-fittext';
@@ -8,7 +8,6 @@ import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
-import { AlertService } from '../../../services/alert.service';
 
 export enum COUNTDOWN_MODE {
 	TIME_OFF = 'TIME_OFF',
@@ -45,6 +44,7 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 	@ViewChildren(AngularFittextDirective) private fittexts: QueryList<AngularFittextDirective>;
+	resizeSensor: ResizeSensor;
 
 	@Input()
 	get mode() {
@@ -112,13 +112,13 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 
 	shaking: string;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService, private renderer: Renderer2) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();
 	}
 
 	ngOnInit() {
 		setTimeout(() => this.onResize());
-		new ResizeSensor(this.moduleContainer.nativeElement, () => this.onResize());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => this.onResize());
 
 		this.countdownInterval = setInterval(() => {
 			this.calculate();
@@ -130,19 +130,16 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 				this.mymicds.dates.schoolStarts(),
 				this.mymicds.dates.schoolEnds(),
 				this.mymicds.dates.getBreaks()
-			).subscribe(
-				([days, schoolStarts, schoolEnds, breaks]) => {
+			).subscribe(([days, schoolStarts, schoolEnds, breaks]) => {
+				this.ngZone.run(() => {
 					this.dayRotation = days;
 					this.schoolStarts = schoolStarts.date;
 					this.schoolEnds = schoolEnds.date;
 					this.breaks = breaks;
 					this.calculate();
 					console.log('breaks', breaks);
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Countdown Dates Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 
@@ -166,10 +163,10 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 				this.displayCountdown = this.nextTimeOff(...Object.keys(this.breaks).map(k => this.breaks[k]));
 				this.displayLabel = 'Time off School';
 				break;
-				case COUNTDOWN_MODE.START:
-					this.displayCountdown = this.schoolStarts;
-					this.displayLabel = 'School Begins';
-					break;
+			case COUNTDOWN_MODE.START:
+				this.displayCountdown = this.schoolStarts;
+				this.displayLabel = 'School Begins';
+				break;
 			case COUNTDOWN_MODE.END:
 				this.displayCountdown = this.schoolEnds;
 				this.displayLabel = 'Summer Break';

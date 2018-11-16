@@ -1,9 +1,8 @@
 import { MyMICDS, GetScoresResponse } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-sports',
@@ -16,24 +15,21 @@ export class SportsComponent extends SubscriptionsComponent implements OnInit {
 	sportsScores: GetScoresResponse['scores']['scores'] = [];
 	loadingScores: boolean;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();
 	}
 
 	ngOnInit() {
 		this.loadingScores = true;
 		this.addSubscription(
-			this.mymicds.sports.getScores().subscribe(
-				({ scores }) => {
+			this.mymicds.sports.getScores().subscribe(({ scores }) => {
+				this.ngZone.run(() => {
 					this.sportsEvents = scores.events;
 					this.sportsScores = scores.scores;
 					console.log(scores.scores);
 					this.loadingScores = false;
-				},
-				err => {
-					this.alertService.addAlert('danger', 'Error Getting Sports Data', err);
-				}
-			)
+				});
+			})
 		);
 	}
 

@@ -1,6 +1,6 @@
 import { MyMICDS, MyMICDSClass, Block, ClassType, GetClassesResponse } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { empty as observableEmpty, combineLatest } from 'rxjs';
 import { defaultIfEmpty } from 'rxjs/operators';
 import { contains, capitalize } from '../../../common/utils';
@@ -67,55 +67,46 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 	aliasClass: MyMICDSClass = null;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
 		super();
 	}
 
 	ngOnInit() {
 		// Get list of user's classes
 		this.addSubscription(
-			this.mymicds.classes.get().subscribe(
-				classes => {
+			this.mymicds.classes.get().subscribe(classes => {
+				this.ngZone.run(() => {
 					this.classesList = classes.classes;
 					// Stringify and parse classes so it is a seperate array
 					this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Classes Error!', error);
-				}
-			)
+				});
+			})
 		);
 
 		// Get Canvas classes
 		this.addSubscription(
-			this.mymicds.canvas.getClasses().subscribe(
-				data => {
+			this.mymicds.canvas.getClasses().subscribe(data => {
+				this.ngZone.run(() => {
 					if (data.hasURL) {
 						this.canvasClasses = data.classes;
 					} else {
 						this.canvasClasses = [];
 					}
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Canvas Classes Error!', error);
-				}
-			)
+				});
+			})
 		);
 
 		// Get Canvas classes
 		this.addSubscription(
-			this.mymicds.portal.getClasses().subscribe(
-				data => {
+			this.mymicds.portal.getClasses().subscribe(data => {
+				this.ngZone.run(() => {
 					if (data.hasURL) {
 						this.portalClasses = data.classes;
 					} else {
 						this.portalClasses = [];
 					}
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Portal Classes Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 
@@ -265,17 +256,17 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 		let MEGAObservable$ = combineLatest(MEGAObservableArray);
 
-		MEGAObservable$.subscribe(
-			(data: any) => {
+		MEGAObservable$.subscribe((data: any) => {
+			this.ngZone.run(() => {
 				// Deleted class logic
 				if (data[0] && data[0].length > 0) {
-					this.alertService.addAlert('success', 'Success!', 'Deleted ' + data[0].length + ' classes.', 3);
+					this.alertService.addSuccess(`Deleted ${data[0].length} classes.`);
 				}
 
 				// Added class logic
 				let ids = data[1];
 				if (ids && ids.length > 0) {
-					this.alertService.addAlert('success', 'Success!', 'Saved ' + ids.length + ' classes.', 3);
+					this.alertService.addSuccess(`Saved ${ids.length} classes.`);
 
 					// Go through all classes without ids and insert their new ids
 					let idOffset = 0;
@@ -290,11 +281,8 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 				this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
 				this.savingClasses = false;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Save Class Error!', error);
-			}
-		);
+			});
+		});
 	}
 
 	// Adds a class to the bottom

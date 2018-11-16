@@ -1,12 +1,10 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
-
-import 'zone.js/dist/zone-patch-rxjs';
 
 @Component({
 	selector: 'mymicds-lunch',
@@ -26,34 +24,27 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 	];
 	school = this.schools[0];
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
 		super();
 	}
 
 	ngOnInit() {
-		// setTimeout(() => this.loading = false, 1000);
 		this.currentWeek();
-		// this.ngZone.run;
-		// console.log('in angular zone? ng init', NgZone.isInAngularZone());
 		this.addSubscription(
-			this.mymicds.user.$.subscribe(
-				data => {
+			this.mymicds.user.$.subscribe(data => {
+				this.ngZone.run(() => {
 					if (!data) {
+						this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
 						return;
 					}
 					this.school = data.school;
-					// console.log('in angular zone? userdata cb', NgZone.isInAngularZone());
-				},
-				() => {
-					this.alertService.addAlert('warning', 'Warning!', 'We couldn\'t determine your grade. Automatically selected Upper School lunch.', 3);
-				}
-			)
+				});
+			})
 		);
 	}
 
 	changeSchool(school: string) {
 		this.school = school;
-		// this.cd.detectChanges();
 	}
 
 	/*
@@ -80,21 +71,14 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 	 */
 
 	getLunch(getDate) {
-		// Display loading screen
 		this.loading = true;
-		setTimeout(() => {
-			// this.loading = false;
-			// console.log('in angular zone? setimout', NgZone.isInAngularZone());
-		}, 1000);
-		// this.cd.detectChanges();
 		this.addSubscription(
 			this.mymicds.lunch.get({
 				year : getDate.year(),
 				month: getDate.month() + 1,
 				day  : getDate.date()
-			}).subscribe(
-				({ lunch }) => {
-					console.log('this context within cb', this);
+			}).subscribe(({ lunch }) => {
+				this.ngZone.run(() => {
 					this.loading = false;
 					this.lunch = [];
 
@@ -115,24 +99,18 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 							lunch: dayLunch
 						});
 					}
-					// console.log('in angular zone? lunch cb', NgZone.isInAngularZone());
-					// Update template
-					// this.cd.detectChanges();
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Lunch Error!', error);
-				},
-				() => {
-					// for (let i = 0; i < this.lunch.length; i++) {
-					// 	if (this.lunch[i].date.today) {
-					// 		setTimeout(() => {
-					// 			const todayEl = document.getElementsByClassName('lunch-day').item(i);
-					// 			todayEl.scrollIntoView({ behavior: 'smooth' });
-					// 		}, 0);
-					// 	}
-					// }
-				}
-			)
+
+					// Scroll to current day (particularly for mobile)
+					for (let i = 0; i < this.lunch.length; i++) {
+						if (this.lunch[i].date.today) {
+							setTimeout(() => {
+								const todayEl = document.getElementsByClassName('lunch-day').item(i);
+								todayEl.scrollIntoView({ behavior: 'smooth' });
+							}, 0);
+						}
+					}
+				});
+			})
 		);
 	}
 

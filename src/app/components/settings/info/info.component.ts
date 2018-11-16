@@ -1,6 +1,6 @@
 import { MyMICDS, GetUserInfoResponse, ChangeUserInfoParameters } from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
@@ -26,15 +26,15 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 
 	userInfo: GetUserInfoResponse = null;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService, private formBuilder: FormBuilder) {
+	constructor(private mymicds: MyMICDS, private formBuilder: FormBuilder, private ngZone: NgZone, private alertService: AlertService) {
 		super();
 	}
 
 	ngOnInit() {
 		// Get basic info
 		this.addSubscription(
-			this.mymicds.user.$.subscribe(
-				data => {
+			this.mymicds.user.$.subscribe(data => {
+				this.ngZone.run(() => {
 					this.userInfo = data;
 
 					if (!this.userInfo) {
@@ -48,23 +48,17 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 						gradYear: [this.userInfo.gradYear],
 						teacher: [this.userInfo.gradYear === null]
 					}, { validator: confirmGrade('gradYear', 'teacher') });
-				},
-				error => {
-					this.alertService.addAlert('danger', 'User Info Error!', error);
-				}
-			)
+				});
+			})
 		);
 
 		// Get graduation year range
 		this.addSubscription(
-			this.mymicds.user.getGradeRange().subscribe(
-				gradeRange => {
+			this.mymicds.user.getGradeRange().subscribe(gradeRange => {
+				this.ngZone.run(() => {
 					this.gradeRange = gradeRange.gradYears;
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Settings Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 
@@ -117,14 +111,9 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 		this.userInfo.lastName = newInfo.lastName;
 		this.userInfo.gradYear = !newInfo.teacher ? newInfo.gradYear : null;
 
-		this.mymicds.user.changeInfo(newInfo).subscribe(
-			() => {
-				this.alertService.addAlert('success', 'Success!', 'Info change successful!', 3);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Change Info Error!', error);
-			}
-		);
+		this.mymicds.user.changeInfo(newInfo).subscribe(() => {
+			this.alertService.addSuccess('Info change successful!');
+		});
 	}
 
 }

@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
@@ -26,7 +26,7 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 	];
 	school = this.schools[0];
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
 		super();
 	}
 
@@ -37,17 +37,15 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 		this.getLunch(this.lunchDate);
 
 		this.addSubscription(
-			this.mymicds.user.$.subscribe(
-				data => {
+			this.mymicds.user.$.subscribe(data => {
+				this.ngZone.run(() => {
 					if (!data) {
+						this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
 						return;
 					}
 					this.school = data.school;
-				},
-				error => {
-					this.alertService.addAlert('warning', 'Warning!', 'We couldn\'t determine your grade. Automatically selected Upper School lunch.', 3);
-				}
-			)
+				});
+			})
 		);
 	}
 
@@ -59,46 +57,45 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 			getDate.add(1, 'week');
 		}
 
-		this.mymicds.lunch.get({
-			year : getDate.year(),
-			month: getDate.month() + 1,
-			day  : getDate.date()
-		}).subscribe(
-			lunch => {
-				// Stop loading
-				this.loading = false;
-				// Reset lunch array
-				this.lunch = [];
-				// Get dates for the week
-				let current = moment();
-				let dates = this.getDatesFromWeek(getDate);
+		this.addSubscription(
+			this.mymicds.lunch.get({
+				year : getDate.year(),
+				month: getDate.month() + 1,
+				day  : getDate.date()
+			}).subscribe(lunch => {
+				this.ngZone.run(() => {
+					// Stop loading
+					this.loading = false;
+					// Reset lunch array
+					this.lunch = [];
+					// Get dates for the week
+					let current = moment();
+					let dates = this.getDatesFromWeek(getDate);
 
-				let i = getDate.day();
+					let i = getDate.day();
 
-				if (i === 6 || i === 0) {
-					i = 0;
-				} else {
-					i--;
-				}
+					if (i === 6 || i === 0) {
+						i = 0;
+					} else {
+						i--;
+					}
 
-				let date = dates[i];
-				let lunchIndex = date.format('YYYY[-]MM[-]DD');
-				let dayLunch = lunch[lunchIndex] || { };
+					let date = dates[i];
+					let lunchIndex = date.format('YYYY[-]MM[-]DD');
+					let dayLunch = lunch[lunchIndex] || { };
 
-				this.lunch.push({
-					date: {
-						weekday: date.format('dddd'),
-						date: date.format('MMMM Do[,] YYYY'),
-						today: date.isSame(current, 'day')
-					},
-					lunch: dayLunch
+					this.lunch.push({
+						date: {
+							weekday: date.format('dddd'),
+							date: date.format('MMMM Do[,] YYYY'),
+							today: date.isSame(current, 'day')
+						},
+						lunch: dayLunch
+					});
+
+					this.todaysLunch = this.lunch[0];
 				});
-
-				this.todaysLunch = this.lunch[0];
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Lunch Error!', error);
-			}
+			})
 		);
 	}
 

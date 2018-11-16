@@ -23,7 +23,7 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 		remember: true,
 	};
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private router: Router, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private router: Router, private ngZone: NgZone, private alertService: AlertService) {
 		super();
 	}
 
@@ -45,19 +45,15 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 				password: this.loginModel.password,
 				remember: this.loginModel.remember,
 				comment: jwtComment
-			}).subscribe(
-				loginRes => {
+			}).subscribe(loginRes => {
+				this.ngZone.run(() => {
 					if (loginRes.success) {
-						// this.router.navigate(['/home']);
-						this.ngZone.run(() => this.router.navigate(['/home'])).then();
+						this.router.navigate(['/home']);
 					} else {
-						this.alertService.addAlert('warning', 'Warning!', loginRes.message, 3);
+						this.alertService.addWarning(loginRes.message);
 					}
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Login Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 

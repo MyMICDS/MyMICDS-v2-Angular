@@ -1,10 +1,9 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-import { AlertService } from '../../services/alert.service';
 
 // import prisma from 'prisma';
 // function prisma(str) {
@@ -127,28 +126,25 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 
 	viewingVisits = false;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();
 	}
 
 	ngOnInit() {
 		this.addSubscription(
-			this.mymicds.user.getGradeRange().subscribe(
-				data => {
+			this.mymicds.user.getGradeRange().subscribe(data => {
+				this.ngZone.run(() => {
 					this.gradeRange = data.gradYears;
 					this.getStats();
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Grades Error!', error.message);
-				}
-			)
+				});
+			})
 		);
 	}
 
 	getStats() {
 		this.addSubscription(
-			this.mymicds.stats.get().subscribe(
-				data => {
+			this.mymicds.stats.get().subscribe(data => {
+				this.ngZone.run(() => {
 					this.stats = data.stats;
 
 					// Loop through grades to insert into line chart
@@ -244,11 +240,8 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 							}
 						});
 					}, 1);
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Stats Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 

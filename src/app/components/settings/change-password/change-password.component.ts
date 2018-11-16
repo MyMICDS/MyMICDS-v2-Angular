@@ -30,14 +30,9 @@ export class ChangePasswordComponent extends SubscriptionsComponent {
 			this.mymicds.auth.changePassword({
 				oldPassword: this.passwordForm.controls.oldPassword.value,
 				newPassword: this.passwordForm.controls.newPassword.value
-			}).subscribe(
-				() => {
-					this.alertService.addAlert('success', 'Success!', 'Password change successful!', 3);
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Password Change Error!', error);
-				}
-			)
+			}).subscribe(() => {
+				this.alertService.addSuccess('Password change successful!');
+			})
 		);
 	}
 

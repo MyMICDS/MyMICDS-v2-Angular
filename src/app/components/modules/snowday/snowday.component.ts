@@ -1,11 +1,10 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
-import { AlertService } from '../../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-snowday',
@@ -17,10 +16,11 @@ export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 	moduleWidth: number;
 	moduleHeight: number;
+	resizeSensor: ResizeSensor;
 
 	snowdayData: any = null;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();
 	}
 
@@ -32,17 +32,14 @@ export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 			this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
 		};
 		onResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, onResize);
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, onResize);
 
 		this.addSubscription(
-			this.mymicds.snowday.get().subscribe(
-				data => {
+			this.mymicds.snowday.get().subscribe(data => {
+				this.ngZone.run(() => {
 					this.snowdayData = data;
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Snowday Calculator Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 

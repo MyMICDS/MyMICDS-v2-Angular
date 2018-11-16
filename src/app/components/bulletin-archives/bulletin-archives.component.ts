@@ -1,10 +1,9 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-bulletin-archives',
@@ -17,14 +16,14 @@ export class BulletinArchivesComponent extends SubscriptionsComponent implements
 	bulletinDateDisplays: string[] = [];
 	baseURL: string;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();
 	}
 
 	ngOnInit() {
 		this.addSubscription(
-			this.mymicds.dailyBulletin.getList().subscribe(
-				data => {
+			this.mymicds.dailyBulletin.getList().subscribe(data => {
+				this.ngZone.run(() => {
 					this.bulletins = data.bulletins;
 					this.baseURL = data.baseURL;
 
@@ -33,11 +32,8 @@ export class BulletinArchivesComponent extends SubscriptionsComponent implements
 						let date = moment(this.bulletins[i]);
 						this.bulletinDateDisplays[i] = date.format('dddd, MMMM Do, YYYY');
 					}
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Bulletins Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 

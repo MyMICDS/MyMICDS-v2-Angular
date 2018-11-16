@@ -1,12 +1,11 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-unsubscribe',
@@ -19,7 +18,7 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 	typeOf = typeOf;
 	unsubscribeResponse: boolean = null;
 
-	constructor(private route: ActivatedRoute, private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private route: ActivatedRoute, private ngZone: NgZone) {
 		super();
 	}
 
@@ -36,17 +35,22 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 					this.addSubscription(
 						this.mymicds.notifications.unsubscribe({ user, hash, type }).subscribe(
 							() => {
-								this.unsubscribeResponse = true;
+								this.ngZone.run(() => {
+									this.unsubscribeResponse = true;
+								});
 							},
-							error => {
-								this.alertService.addAlert('danger', 'Unsubscribe Error!', error);
-								this.unsubscribeResponse = false;
+							() => {
+								this.ngZone.run(() => {
+									this.unsubscribeResponse = false;
+								});
 							}
 						)
 					);
 				},
 				() => {
-					this.unsubscribeResponse = false;
+					this.ngZone.run(() => {
+						this.unsubscribeResponse = false;
+					});
 				}
 			)
 		);

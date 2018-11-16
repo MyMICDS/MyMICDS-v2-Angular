@@ -1,6 +1,6 @@
 import { MyMICDS, MyMICDSModule, MyMICDSModuleType } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
@@ -20,6 +20,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
 	moduleWidth: number;
 	moduleHeight: number;
+	resizeSensor: ResizeSensor;
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
@@ -72,34 +73,40 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		maxHeight: Infinity
 	};
 
-	constructor(public mymicds: MyMICDS, private router: Router, private route: ActivatedRoute, private alertService: AlertService) {
+	constructor(
+		public mymicds: MyMICDS,
+		private router: Router,
+		private route: ActivatedRoute,
+		private ngZone: NgZone,
+		private alertService: AlertService
+	) {
 		super();
 	}
 
 	ngOnInit() {
 		const onResize = () => {
-			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
-			this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
+			this.ngZone.run(() => {
+				this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
+				this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
+			});
 		};
 		setTimeout(() => onResize());
-		new ResizeSensor(this.moduleContainer.nativeElement, onResize);
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, onResize);
 
 		// Find out whether or not we're in edit mode
 		this.addSubscription(
-			this.route.data.subscribe(
-				data => {
-					this.editMode = !!data.edit;
-					this.gridsterOptions.dragAndDrop = this.editMode;
-					this.gridsterOptions.resizable = this.editMode;
-					this.gridsterOptions.shrink = !this.editMode;
-				}
-			)
+			this.route.data.subscribe(data => {
+				this.editMode = !!data.edit;
+				this.gridsterOptions.dragAndDrop = this.editMode;
+				this.gridsterOptions.resizable = this.editMode;
+				this.gridsterOptions.shrink = !this.editMode;
+			})
 		);
 
 		// Check if user has set Portal and Canvas URL
 		this.addSubscription(
-			this.mymicds.user.$.subscribe(
-				user => {
+			this.mymicds.user.$.subscribe(user => {
+				this.ngZone.run(() => {
 					if (!user) {
 						return;
 					}
@@ -124,8 +131,8 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 							this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
 						}
 					}
-				}
-			)
+				});
+			})
 		);
 
 	}
@@ -134,7 +141,9 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		// Get modules layout
 		this.addSubscription(
 			this.mymicds.modules.get().subscribe(({ modules }) => {
-				this.updateModuleLayout(modules);
+				this.ngZone.run(() => {
+					this.updateModuleLayout(modules);
+				});
 			})
 		);
 	}
@@ -182,13 +191,16 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		this.mymicds.modules.update({ modules: saveModules })
 			.subscribe(
 				({ modules }) => {
-					this.savingModuleLayout = false;
-					this.updateModuleLayout(modules);
-					this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
+					this.ngZone.run(() => {
+						this.savingModuleLayout = false;
+						this.updateModuleLayout(modules);
+						this.alertService.addSuccess('Successfully saved module layout!');
+					});
 				},
-				error => {
-					this.savingModuleLayout = false;
-					this.alertService.addAlert('danger', 'Save Modules Error!', error);
+				() => {
+					this.ngZone.run(() => {
+						this.savingModuleLayout = false;
+					});
 				}
 			);
 	}

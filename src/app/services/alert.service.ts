@@ -16,7 +16,23 @@ export class AlertService {
 		'danger'
 	];
 
-	addAlert(type: string, title: string, content: string, expiresIn = -1) {
+	addError(message: string) {
+		this.addAlert('danger', 'Error!', message);
+	}
+
+	addWarning(message: string) {
+		this.addAlert('warning', 'Warning!', message, 3);
+	}
+
+	addSuccess(message: string) {
+		this.addAlert('success', 'Success!', message, 3);
+	}
+
+	addAnnouncement(message: string) {
+		this.addAlert('info', 'Announcement!', message, 3);
+	}
+
+	private addAlert(type: string, title: string, content: string, expiresIn = -1) {
 		console.log('Alert', type, title, content);
 
 		// Default alert type to 'info'

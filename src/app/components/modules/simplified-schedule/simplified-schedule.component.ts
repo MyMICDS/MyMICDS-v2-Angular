@@ -1,12 +1,11 @@
 import { MyMICDS, GetScheduleResponse } from '@mymicds/sdk';
 
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, NgZone } from '@angular/core';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
-import { AlertService } from '../../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-simplified-schedule',
@@ -30,6 +29,7 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 	isHorizontal = true;
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	resizeSensor: ResizeSensor;
 
 	updateCurrentInterval: NodeJS.Timer;
 	@ViewChild('scheduleQueue') scheduleQueue: ElementRef;
@@ -44,7 +44,7 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 	schedule: GetScheduleResponse['schedule'] = null;
 	scheduleDate = moment();
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();
 	}
 
@@ -57,15 +57,12 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 				year : this.scheduleDate.year(),
 				month: this.scheduleDate.month() + 1,
 				day  : this.scheduleDate.date()
-			}).subscribe(
-				schedule => {
+			}).subscribe(schedule => {
+				this.ngZone.run(() => {
 					this.schedule = schedule.schedule;
 					setTimeout(() => this.calcBlockDisplay());
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Schedule Error!', error);
-				}
-			)
+				});
+			})
 		);
 
 		this.updateCurrentInterval = setInterval(() => {
@@ -79,7 +76,7 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 			this.calcBlockDisplay();
 		};
 		onModuleResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, () => onModuleResize());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => onModuleResize());
 	}
 
 	ngOnDestroy() {

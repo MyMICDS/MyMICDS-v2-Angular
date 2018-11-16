@@ -1,6 +1,6 @@
 import { MyMICDS, JWT } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -49,7 +49,7 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		}
 	];
 
-	constructor(public mymicds: MyMICDS, private router: Router) {
+	constructor(public mymicds: MyMICDS, private router: Router, private ngZone: NgZone) {
 		super();
 	}
 
@@ -64,8 +64,10 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		// Keep track if user's auth state for login/logout buttons
 		this.addSubscription(
 			this.mymicds.auth.$.subscribe(jwt => {
-				console.log('auth change navbar', jwt);
-				this.jwt = jwt;
+				this.ngZone.run(() => {
+					console.log('auth change navbar', jwt);
+					this.jwt = jwt;
+				});
 			})
 		);
 	}

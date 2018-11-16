@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
@@ -18,20 +18,22 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 	fileSelected = false;
 	uploadingBackground = false;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService, private backgroundService: BackgroundService) {
+	constructor(
+		private mymicds: MyMICDS,
+		private ngZone: NgZone,
+		private alertService: AlertService,
+		private backgroundService: BackgroundService
+	) {
 		super();
 	}
 
 	ngOnInit() {
 		this.addSubscription(
-			this.mymicds.background.$.subscribe(
-				background => {
+			this.mymicds.background.$.subscribe(background => {
+				this.ngZone.run(() => {
 					this.hasDefaultBackground = background.hasDefault;
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Background Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 
@@ -43,7 +45,7 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 		this.fileSelected = true;
 	}
 
-	uploadBackground($event) {
+	uploadBackground() {
 		this.uploadingBackground = true;
 
 		const fileInput: any = document.getElementById('upload-background');
@@ -52,25 +54,23 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 
 		this.mymicds.background.upload({ background: file }).subscribe(
 			() => {
-				this.uploadingBackground = false;
-				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
+				this.ngZone.run(() => {
+					this.uploadingBackground = false;
+					this.alertService.addSuccess('Uploaded background!');
+				});
 			},
-			error => {
-				this.uploadingBackground = false;
-				this.alertService.addAlert('danger', 'Upload Background Error!', error);
+			() => {
+				this.ngZone.run(() => {
+					this.uploadingBackground = false;
+				});
 			}
 		);
 	}
 
 	deleteBackground() {
-		this.mymicds.background.delete().subscribe(
-			() => {
-				this.alertService.addAlert('success', 'Success!', 'Deleted background!', 3);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Delete Background Error!', error);
-			}
-		);
+		this.mymicds.background.delete().subscribe(() => {
+			this.alertService.addSuccess('Deleted background!');
+		});
 	}
 
 	setTrianglify() {
@@ -78,12 +78,15 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 		const file = this.backgroundService.generateTrianglify();
 		this.mymicds.background.upload({ background: file }).subscribe(
 			() => {
-				this.uploadingBackground = false;
-				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
+				this.ngZone.run(() => {
+					this.uploadingBackground = false;
+					this.alertService.addSuccess('Uploaded background!');
+				});
 			},
-			error => {
-				this.uploadingBackground = false;
-				this.alertService.addAlert('danger', 'Upload Background Error!', error);
+			() => {
+				this.ngZone.run(() => {
+					this.uploadingBackground = false;
+				});
 			}
 		);
 	}

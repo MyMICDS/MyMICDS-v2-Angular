@@ -1,6 +1,6 @@
 import { MyMICDS, GetScheduleResponse } from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
 import { debounceTime } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -8,7 +8,6 @@ import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
-import { AlertService } from '../../../services/alert.service';
 
 
 @Component({
@@ -28,6 +27,7 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 	private _fixedHeight: boolean;
 
 	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	resizeSensor: ResizeSensor;
 
 	@ViewChild('schedule') scheduleTable: ElementRef;
 	tableWidth: number = null;
@@ -48,7 +48,7 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 
 	changeSchedule$ = new Subject<void>();
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();
 	}
 
@@ -63,16 +63,14 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 		}, 1000);
 
 		this.resizeTable();
-		new ResizeSensor(this.moduleContainer.nativeElement, () => this.resizeTable());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => this.resizeTable());
 
 		this.addSubscription(
 			this.changeSchedule$.pipe(
-				debounceTime(300))
-				.subscribe(
-					() => {
-						this.getSchedule();
-					}
-				)
+				debounceTime(300)
+			).subscribe(() => {
+				this.getSchedule();
+			})
 		);
 	}
 
@@ -104,8 +102,8 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 			year : date.year(),
 			month: date.month() + 1,
 			day  : date.date()
-		}).subscribe(
-			schedule => {
+		}).subscribe(schedule => {
+			this.ngZone.run(() => {
 				this.viewSchedule = schedule;
 
 				if (date.isSame(this.current, 'day')) {
@@ -115,11 +113,8 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 				setTimeout(() => {
 					this.resizeTable();
 				}, 0);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Schedule Error!', error);
-			}
-		);
+			});
+		});
 	}
 
 	resizeTable() {

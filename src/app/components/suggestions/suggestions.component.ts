@@ -1,11 +1,10 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-suggestions',
@@ -23,7 +22,7 @@ export class SuggestionsComponent extends SubscriptionsComponent implements OnIn
 
 	suggestionsForm: FormGroup;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService, private fb: FormBuilder) {
+	constructor(private mymicds: MyMICDS, private fb: FormBuilder, private ngZone: NgZone) {
 		super();
 	}
 
@@ -38,11 +37,15 @@ export class SuggestionsComponent extends SubscriptionsComponent implements OnIn
 		this.submitted = true;
 		this.addSubscription(
 			this.mymicds.suggestion.submit(this.suggestionsForm.value).subscribe(
-				val => {
-					this.suggestionResponse = true;
+				() => {
+					this.ngZone.run(() => {
+						this.suggestionResponse = true;
+					});
 				},
 				err => {
-					this.suggestionResponse = err;
+					this.ngZone.run(() => {
+						this.suggestionResponse = err;
+					});
 				}
 			)
 		);

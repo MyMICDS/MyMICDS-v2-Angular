@@ -82,15 +82,19 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 
 				switch (error.action) {
 					case Action.LOGIN_EXPIRED:
-					this.alertService.addAlert('warning', 'Login expired!', 'Please log in again.');
+					this.alertService.addWarning('Login expired! Please log in again.');
 					break;
 
 					case Action.NOT_LOGGED_IN:
-					this.alertService.addAlert('warning', 'You are not logged in!', 'You must be logged in access to this!');
+					this.alertService.addWarning('You are not logged in! You must be logged in access to this.');
 					break;
 
 					case Action.UNAUTHORIZED:
-					this.alertService.addAlert('warning', 'Not so fast!', 'You don\'t have access to this!');
+					this.alertService.addWarning('Not so fast! You don\'t have access to this.');
+					break;
+
+					default:
+					this.alertService.addError(error.message);
 					break;
 				}
 			})

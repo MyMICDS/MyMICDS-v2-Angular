@@ -6,7 +6,6 @@ import * as moment from 'moment';
 import { contains } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-daily-bulletin',
@@ -26,13 +25,7 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 	parse = false;
 	parsedBulletin: any;
 
-	constructor(
-		private mymicds: MyMICDS,
-		private ngZone: NgZone,
-		private router: Router,
-		private route: ActivatedRoute,
-		private alertService: AlertService
-	) {
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private router: Router, private route: ActivatedRoute) {
 		super();
 	}
 
@@ -40,8 +33,8 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 		this.parse = !!this.route.snapshot.data.parse;
 
 		this.addSubscription(
-			this.mymicds.dailyBulletin.getList().subscribe(
-				bulletinsData => {
+			this.mymicds.dailyBulletin.getList().subscribe(bulletinsData => {
+				this.ngZone.run(() => {
 					this.loading = false;
 					this.bulletinBaseURL = bulletinsData.baseURL;
 					this.bulletins = bulletinsData.bulletins;
@@ -58,12 +51,8 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 					if (this.parse) {
 						this.getParsedBulletin();
 					}
-
-				},
-				error => {
-					this.alertService.addAlert('danger', 'Get Bulletins Error!', error);
-				}
-			)
+				});
+			})
 		);
 	}
 
@@ -75,8 +64,8 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 		if (!clearURL) {
 			navURL += `/${this.bulletins[index]}`;
 		}
-		// this.router.navigate([navURL]);
-		this.ngZone.run(() => this.router.navigate([navURL])).then();
+		this.router.navigate([navURL]);
+		// this.ngZone.run(() => this.router.navigate([navURL])).then();
 
 		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.pdf';
 		this.bulletinDate = moment(this.bulletins[index]);

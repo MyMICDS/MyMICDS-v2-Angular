@@ -80,6 +80,9 @@ import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 
+// RxJS 6 Zone.js Fix
+// import 'zone.js/dist/zone-patch-rxjs';
+
 @NgModule({
 	declarations: [
 		// Components
