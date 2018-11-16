@@ -61,11 +61,6 @@
 
 	.grid-container {
 		margin: -($blur-margin / 2);
-		min-height: 1px;
-
-		ngx-gridster {
-			min-height: 1px;
-		}
 
 		ngx-gridster-item {
 
