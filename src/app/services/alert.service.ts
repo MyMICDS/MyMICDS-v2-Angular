@@ -21,7 +21,7 @@ export class AlertService {
 	}
 
 	addWarning(message: string) {
-		this.addAlert('warning', 'Warning!', message, 3);
+		this.addAlert('warning', 'Warning!', message, 5);
 	}
 
 	addSuccess(message: string) {
@@ -29,7 +29,7 @@ export class AlertService {
 	}
 
 	addAnnouncement(message: string) {
-		this.addAlert('info', 'Announcement!', message, 3);
+		this.addAlert('info', 'Announcement!', message);
 	}
 
 	private addAlert(type: string, title: string, content: string, expiresIn = -1) {
