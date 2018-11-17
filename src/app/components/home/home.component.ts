@@ -249,7 +249,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	}
 
 	moduleOptionsEmpty(options: { [key: string]: any }) {
-		return Object.keys(options).length === 0;
+		return typeof options !== 'object' && options !== undefined && options !== null && Object.keys(options).length === 0;
 	}
 
 }

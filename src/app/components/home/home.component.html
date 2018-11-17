@@ -24,7 +24,7 @@
 </div>
 
 <div #moduleContainer class="container">
-	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
+	<div *ngIf="!editMode && announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
