@@ -2,10 +2,7 @@ import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-// Even though we're not using the updating functionality in `useragent`,
-// Angular CLI yells at us if we don't have the optional dependencies installed
-// Because AoT/Webpack nonsense
-// import * as useragent from 'useragent';
+import { UAParser } from 'ua-parser-js';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
@@ -35,9 +32,10 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	login() {
-		// const agent = useragent.parse(navigator.userAgent);
-		// const jwtComment = `${agent.family}/${agent.os.family}`; // i.e. "Chrome/Linux"
-		const jwtComment = 'useragent cant used for frontend';
+		const agent = new UAParser(navigator.userAgent);
+		const jwtComment = `${agent.getBrowser().name}/${agent.getOS().name}`; // i.e. "Chrome/Linux"
+
+		console.log(jwtComment);
 
 		this.addSubscription(
 			this.mymicds.auth.login({
