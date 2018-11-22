@@ -56,7 +56,6 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 
 	private updateURLTimeout: NodeJS.Timer;
 
-	// moduleInteractable: Interact.Interactable;
 	moduleInteractable: interact.Interactable;
 
 	constructor(private router: Router, private route: ActivatedRoute) { }
@@ -86,20 +85,20 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 					bottom: '.resize-icon'
 				}
 			})
-			.on('resizemove', event => {
-				// this.moduleWidth = event.rect.width;
-				// this.moduleHeight = event.rect.height;
-				//
-				// event.target.style.width = `${event.rect.width}px`;
-				//
-				// if (event.target.classList.contains('fixed-height')) {
-				// 	event.target.style.height = `${event.rect.height}px`;
-				// }
+			.on('resizemove', (event: any) => {
+				this.moduleWidth = event.rect.width;
+				this.moduleHeight = event.rect.height;
+
+				event.target.style.width = `${event.rect.width}px`;
+
+				if (event.target.classList.contains('fixed-height')) {
+					event.target.style.height = `${event.rect.height}px`;
+				}
 			});
 	}
 
 	ngOnDestroy() {
-		// this.moduleInteractable.unset();
+		(this.moduleInteractable as any).unset();
 	}
 
 	setDefaultOptions(type: string) {
