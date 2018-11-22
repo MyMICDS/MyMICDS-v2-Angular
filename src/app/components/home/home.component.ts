@@ -3,9 +3,7 @@ import { MyMICDS, MyMICDSModule, MyMICDSModuleType } from '@mymicds/sdk';
 import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
-// import ResizeSensor from 'css-element-queries/src/ResizeSensor';
-// import { ResizeSensor } from 'css-element-queries/src/ResizeSensor';
-import { ResizeSensor } from 'css-element-queries';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { config, getDefaultOptions } from '../modules/module-config';

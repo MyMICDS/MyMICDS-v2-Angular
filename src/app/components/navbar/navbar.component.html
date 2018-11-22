@@ -29,34 +29,31 @@
 </nav> -->
 
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
 	<a class="navbar-brand" routerLink="/home">
 		<img src="/assets/logo/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
 		MyMICDS.net
 	</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-		<div class="navbar-nav">
-			<ng-container *ngFor="let page of pages">
-				<a *ngIf="!page.auth || jwt"
-					class="nav-item nav-link"
-					[routerLink]="[page.url]"
-					[routerLinkActive]="'active'">
-					{{ page.name }}
-				</a>
-			</ng-container>
-		</div>
+	<div class="navbar-nav" [class.collapsed]="isCollapsed">
+		<ng-container *ngFor="let page of pages">
+			<a *ngIf="!page.auth || jwt"
+				#rla="routerLinkActive"
+				class="nav-item nav-link"
+				[routerLink]="[page.url]"
+				[routerLinkActive]="'active'"
+				(click)="isCollapsed = !isCollapsed">
+				<i class="fa" [ngClass]="page.icon"></i>
+				{{ page.name }}
+				<i *ngIf="rla.isActive" class="collapse-dropdown-caret fa fa-caret-down"></i>
+			</a>
+		</ng-container>
 	</div>
-	<div *ngIf="!jwt" class="form-inline">
+	<div *ngIf="!jwt" class="logged-out">
 		<button class="btn btn-success" routerLink="/login">Login</button>
 		<button class="btn btn-primary" routerLink="/register">Register</button>
 	</div>
-	<ng-container *ngIf="jwt">
+	<div *ngIf="jwt" class="logged-in">
 		<span class="logged-in-user navbar-text">Logged in as {{ jwt.user }}</span>
-		<div class="form-inline">
-			<button class="btn btn-danger" routerLink="/logout">Logout</button>
-		</div>
-	</ng-container>
+		<button class="btn btn-danger" routerLink="/logout">Logout</button>
+	</div>
 </nav>
