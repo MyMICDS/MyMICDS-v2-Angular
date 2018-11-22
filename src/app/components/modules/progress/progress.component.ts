@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, NgZone } fr
 import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 

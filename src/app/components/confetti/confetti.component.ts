@@ -4,7 +4,7 @@
  */
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 // Math constants
 const PI = Math.PI;

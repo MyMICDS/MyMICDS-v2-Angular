@@ -3,7 +3,7 @@ import { MyMICDS, GetScheduleResponse } from '@mymicds/sdk';
 import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, NgZone } from '@angular/core';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 

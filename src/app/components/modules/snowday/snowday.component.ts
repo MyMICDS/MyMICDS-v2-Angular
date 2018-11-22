@@ -2,7 +2,7 @@ import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 

@@ -4,7 +4,7 @@ import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, ViewChildre
 import { trigger, state, style } from '@angular/animations';
 import { combineLatest } from 'rxjs';
 import { AngularFittextDirective } from 'angular-fittext';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
