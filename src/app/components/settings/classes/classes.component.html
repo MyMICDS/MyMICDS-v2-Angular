@@ -36,7 +36,12 @@
 				<input class="form-control" placeholder="Last Name" name="teacherLastName" [value]="class.teacher.lastName" [(ngModel)]="class.teacher.lastName">
 			</td>
 			<td class="class-manage">
-				<button class="btn btn-info selected" [class.active]="class._id === aliasClass?._id" (click)="aliasClass = class; aliasModal.show()" [disabled]="savingClasses || !class._id">
+				<button class="btn btn-info selected"
+					[class.active]="class._id === aliasClass?._id"
+					(click)="aliasClass = class; aliasModal.show()"
+					[disabled]="savingClasses || !class._id"
+					tooltip="Save the class before linking it!"
+					[tooltipEnable]="!savingClasses && class._id">
 					<i class="fa fa-link"></i>
 					Link
 				</button>
