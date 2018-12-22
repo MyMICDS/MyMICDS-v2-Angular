@@ -1,6 +1,6 @@
 import { MyMICDS, Action } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { defaultTitleFunction } from './app.routing';
@@ -35,6 +35,7 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 		private route: ActivatedRoute,
 		private titleService: Title,
 		private viewContainerRef: ViewContainerRef,
+		private ngZone: NgZone,
 		private alertService: AlertService
 	) {
 		super();
@@ -77,7 +78,9 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 			this.mymicds.errors.subscribe(error => {
 				console.log('MyMICDS Error!', error);
 				if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action)) {
-					this.router.navigate(['/login']);
+					this.ngZone.run(() => {
+						this.router.navigate(['/login']);
+					});
 				}
 
 				switch (error.action) {
