@@ -22,15 +22,27 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 		// Subscribe to alerts service observable
 		this.addSubscription(
 			this.alertService.alertEmit$.subscribe((data: Alert) => {
-				// Append alert to beginning of array
-				this.alerts.unshift(data);
+				// Check if there's another alert with same content
+				for (const alert of this.alerts) {
+					if (alert.content === data.content) {
+						alert.repeat++;
+						clearTimeout(alert.timeout);
+						alert.timeout = setTimeout(() => {
+							this.dismiss(data.id);
+						}, data.expiresIn * 1000);
+						return;
+					}
+				}
 
 				// If there's an expiration, dismiss it automatically
 				if (data.expiresIn && 0 < data.expiresIn) {
-					setTimeout(() => {
+					data.timeout = setTimeout(() => {
 						this.dismiss(data.id);
 					}, data.expiresIn * 1000);
 				}
+
+				// Append alert to beginning of array
+				this.alerts.unshift(data);
 			})
 		);
 	}

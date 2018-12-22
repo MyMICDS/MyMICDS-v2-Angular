@@ -44,7 +44,8 @@ export class AlertService {
 			expiresIn,
 			type,
 			title,
-			content
+			content,
+			repeat: 1
 		};
 
 		// If error and we aren't already giving any advice to fix problems, append custom message
@@ -63,4 +64,6 @@ export interface Alert {
 	type: string;
 	title: string;
 	content: string;
+	repeat: number;
+	timeout?: NodeJS.Timer;
 }
