@@ -52,7 +52,6 @@
     "@angular/router": "7.0.2",
     "@mymicds/sdk": "file:../MyMICDS-SDK",
     "angular-fittext": "^2.1.1",
-    "angular2-uuid": "^1.1.1",
     "angular2gridster": "^7.0.1",
     "animate.css": "^3.6.1",
     "bootstrap": "^4.1.3",

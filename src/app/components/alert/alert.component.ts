@@ -22,7 +22,6 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 		// Subscribe to alerts service observable
 		this.addSubscription(
 			this.alertService.alertEmit$.subscribe((data: Alert) => {
-				console.log('alet!')
 				// Append alert to beginning of array
 				this.alerts.unshift(data);
 
@@ -47,7 +46,7 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 
 	dismiss(id) {
 		// How long CSS delete animation is in milliseconds
-		let animationTime = 200;
+		const animationTime = 200;
 
 		// Apply dismiss class to alert
 		this.alertsDismissed[id] = true;

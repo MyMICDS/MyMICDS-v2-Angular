@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { contains } from '../common/utils';
 import { Subject } from 'rxjs';
-import { UUID } from 'angular2-uuid';
 
 @Injectable()
 export class AlertService {
@@ -41,7 +40,7 @@ export class AlertService {
 		}
 
 		let alert: Alert = {
-			id: UUID.UUID(),
+			id: Symbol(),
 			expiresIn,
 			type,
 			title,
@@ -59,7 +58,7 @@ export class AlertService {
 }
 
 export interface Alert {
-	id: string;
+	id: Symbol;
 	expiresIn?: number;
 	type: string;
 	title: string;
