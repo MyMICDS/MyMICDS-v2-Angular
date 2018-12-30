@@ -7,7 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { routing, appRoutingProviders } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
-import { ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
 import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
 import { AngularFittextModule } from 'angular-fittext';
@@ -155,6 +155,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ReactiveFormsModule,
 		routing,
 		ColorPickerModule,
+		BsDatepickerModule.forRoot(),
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
 		TooltipModule.forRoot(),

@@ -5,6 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, fromEvent } from 'rxjs';
 import { tap, filter, map, switchMap } from 'rxjs/operators';
 import * as moment from 'moment';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { contains, darkenColor, rainbowSafeWord, rainbowCSSGradient } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -76,13 +77,16 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	// List of events to show up in selection
 	selectionEvents: any[] = [];
 
+	daterangeOptions: Partial<BsDatepickerConfig> = {
+		containerClass: 'theme-red'
+	};
+
 	// Create Events form
 	createEventModel = {
 		title: '',
 		desc: '',
 		classId: 'other',
-		start: new Date(),
-		end: new Date()
+		dates: [new Date(), new Date()]
 	};
 
 	// Object of event to view
@@ -94,8 +98,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		title: '',
 		desc: '',
 		classId: 'other',
-		start: new Date(),
-		end: new Date()
+		dates: [new Date(), new Date()]
 	};
 
 	constructor(
@@ -487,23 +490,15 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	 * Create PlannerEvent
 	 */
 
-	consecutiveDates(start, end) {
-		let startTime = start.getTime();
-		let endTime   = end.getTime();
-		return startTime <= endTime;
-	}
-
 	resetCreateEventForm() {
 		this.createEventModel = {
 			title: '',
 			desc: '',
 			classId: 'other',
-			start: new Date(),
-			end: new Date()
+			dates: [new Date(), new Date()]
 		};
 		if (this.selectionDate) {
-			this.createEventModel.start = moment(this.selectionDate).toDate();
-			this.createEventModel.end = moment(this.selectionDate).toDate();
+			this.createEventModel.dates[0] = this.createEventModel.dates[1] = moment(this.selectionDate).toDate();
 		}
 	}
 
@@ -558,8 +553,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			title: eventObj.title,
 			desc: eventObj.desc,
 			classId: classId,
-			start: moment(eventObj.start).toDate(),
-			end: moment(eventObj.end).toDate()
+			dates: [moment(eventObj.start).toDate(), moment(eventObj.end).toDate()]
 		};
 	}
 
@@ -600,8 +594,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	private formatEventData(eventModel): AddPlannerEventParameters {
 		const eventParams: any = Object.assign({}, eventModel);
-		eventParams.start = moment(this.createEventModel.start);
-		eventParams.end = moment(this.createEventModel.end);
+		eventParams.start = moment(this.createEventModel.dates[0]);
+		eventParams.end = moment(this.createEventModel.dates[1]);
 		return eventParams;
 	}
 
