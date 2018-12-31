@@ -288,14 +288,19 @@
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Date</legend>
-						<input
-							#drp="bsDaterangepicker"
-							bsDaterangepicker
-							[bsConfig]="daterangeOptions"
-							placement="top"
-							class="form-control"
-							name="dates"
-							[(ngModel)]="createEventModel.dates">
+						<div class="event-date btn-group">
+							<input
+								#drpCreate="bsDaterangepicker"
+								bsDaterangepicker
+								[bsConfig]="daterangeOptions"
+								placement="top"
+								class="form-control"
+								name="dates"
+								[(ngModel)]="createEventModel.dates">
+							<button class="btn btn-secondary" (click)="drpCreate.toggle()">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						</div>
 					</fieldset>
 				</form>
 			</div>
@@ -367,14 +372,19 @@
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Date</legend>
-						<input
-							#drp="bsDaterangepicker"
-							bsDaterangepicker
-							[bsConfig]="daterangeOptions"
-							placement="top"
-							class="form-control"
-							name="dates"
-							[(ngModel)]="editEventModel.dates">
+						<div class="event-date btn-group">
+							<input
+								#drpEdit="bsDaterangepicker"
+								bsDaterangepicker
+								[bsConfig]="daterangeOptions"
+								placement="top"
+								class="form-control"
+								name="dates"
+								[(ngModel)]="editEventModel.dates">
+							<button class="btn btn-secondary" (click)="drpEdit.toggle()">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						</div>
 					</fieldset>
 				</form>
 			</div>

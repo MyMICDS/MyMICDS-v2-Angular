@@ -423,13 +423,7 @@
 		}
 
 		.event-date {
-			display: flex;
-			justify-content: space-between;
-			flex-wrap: wrap;
-
-			datepicker {
-				display: inline-block;
-			}
+			width: 100%;
 		}
 	}
 }
@@ -445,9 +439,9 @@
 							font-size: 1.5rem;
 						}
 					}
-	
+
 				}
-	
+
 			}
 		}
 	}
