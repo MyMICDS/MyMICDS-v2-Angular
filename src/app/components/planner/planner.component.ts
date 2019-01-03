@@ -594,8 +594,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	private formatEventData(eventModel): AddPlannerEventParameters {
 		const eventParams: any = Object.assign({}, eventModel);
-		eventParams.start = moment(this.createEventModel.dates[0]);
-		eventParams.end = moment(this.createEventModel.dates[1]);
+		eventParams.start = moment(eventModel.dates[0]);
+		eventParams.end = moment(eventModel.dates[1]);
 		return eventParams;
 	}
 
