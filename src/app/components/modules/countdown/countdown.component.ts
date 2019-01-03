@@ -137,7 +137,6 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 					this.schoolEnds = schoolEnds.date;
 					this.breaks = breaks;
 					this.calculate();
-					console.log('breaks', breaks);
 				});
 			})
 		);
@@ -226,6 +225,9 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 		const durations = breaks.reduce((acc, val) => acc.concat(val), []);
 		let closest = null;
 		for (const duration of durations) {
+			if (!duration) {
+				continue;
+			}
 			const start = moment(duration.start);
 			if (start.isSameOrAfter(moment())) {
 				if (closest === null || start.isBefore(closest)) {
@@ -233,7 +235,6 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 				}
 			}
 		}
-		console.log('closest', closest);
 		return closest;
 	}
 

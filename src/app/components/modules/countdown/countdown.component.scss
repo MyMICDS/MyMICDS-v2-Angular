@@ -8,14 +8,8 @@
 	.countdown,
 	.finished-message {
 		width: 100%;
-		height: 100%;
 		max-width: 20rem;
 		max-height: 20rem;
-
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
 
 		div {
 			max-width: 100%;
