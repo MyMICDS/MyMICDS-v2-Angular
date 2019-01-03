@@ -271,12 +271,16 @@
 					}
 
 					.sidebar-buttons {
-						display: block;
+						display: flex;
+						flex-direction: column;
 						margin: 1rem auto 0.5rem;
-						text-align: center;
 
 						.sidebar-coming-up {
 							margin-bottom: 0.5rem;
+						}
+
+						.btn-group .btn {
+							width: 100%;
 						}
 					}
 				}
@@ -408,7 +412,7 @@
 				}
 
 				.day-selection {
-					top: 13rem;
+					top: 14rem;
 				}
 			}
 		}
@@ -641,7 +645,7 @@
 					}
 
 					.day-selection {
-						top: 13rem;
+						top: 14rem;
 					}
 				}
 			}
