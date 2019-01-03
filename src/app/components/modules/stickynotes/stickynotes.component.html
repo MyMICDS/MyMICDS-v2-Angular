@@ -1,4 +1,4 @@
-<div class="module-container" [class.square]="!fixedHeight">
+<div #moduleContainer class="module-container" [class.square]="!fixedHeight" [style.height]="fixedHeight ? null : moduleWidth + 'px'">
 	<textarea
 		class="embed-responsive-item"
 		[ngModel]="text"

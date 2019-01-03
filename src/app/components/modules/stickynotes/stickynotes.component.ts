@@ -1,8 +1,9 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
 import { debounceTime } from 'rxjs/operators';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
@@ -21,6 +22,10 @@ export enum COLOR {
 	styleUrls: ['./stickynotes.component.scss']
 })
 export class StickynotesComponent extends SubscriptionsComponent implements OnInit {
+
+	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	moduleWidth: number;
+	resizeSensorModuleContainer: ResizeSensor;
 
 	@Input()
 	get fixedHeight() {
@@ -44,6 +49,7 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 			);
 		}
 	};
+
 	text: string;
 	textChange: Subject<string> = new Subject();
 
@@ -62,6 +68,13 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 	}
 
 	ngOnInit() {
+		// Detect when module resizes
+		const onModuleResize = () => {
+			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
+		};
+		onModuleResize();
+		this.resizeSensorModuleContainer = new ResizeSensor(this.moduleContainer.nativeElement, onModuleResize);
+
 		this.addSubscription(
 			this.textChange.pipe(debounceTime(1000)).subscribe(
 				text => {
