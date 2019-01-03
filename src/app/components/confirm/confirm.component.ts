@@ -1,10 +1,11 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-confirm',
@@ -17,13 +18,19 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 	typeOf = typeOf;
 	confirmResponse: boolean | string;
 
-	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute) {
+	constructor(
+		private mymicds: MyMICDS,
+		private router: Router,
+		private route: ActivatedRoute,
+		private ngZone: NgZone,
+		private alertService: AlertService) {
 		super();
 	}
 
 	ngOnInit() {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
+			this.alertService.addSuccess('You are already logged in!');
 			this.router.navigate(['/home']);
 			return;
 		}
@@ -37,15 +44,19 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 					this.addSubscription(
 						this.mymicds.auth.confirm({ user, hash }).subscribe(
 							() => {
-								this.confirmResponse = true;
+								this.ngZone.run(() => {
+									this.confirmResponse = true;
+								});
 							},
-							error => {
-								this.confirmResponse = 'Invalid confirmation link!';
+							() => {
+								this.ngZone.run(() => {
+									this.confirmResponse = 'Invalid confirmation link!';
+								});
 							}
 						)
 					);
 				},
-				error => {
+				() => {
 					this.confirmResponse = '';
 				}
 			)

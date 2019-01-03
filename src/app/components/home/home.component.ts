@@ -248,8 +248,9 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		preview.style.height = `${size.height}px`;
 	}
 
-	moduleOptionsEmpty(options: { [key: string]: any }) {
-		return typeof options !== 'object' && options !== undefined && options !== null && Object.keys(options).length === 0;
+	moduleOptionsIsEmpty(options: { [key: string]: any }) {
+		// console.log('see if empty', options);
+		return typeof options !== 'object' || options === undefined || options === null || Object.keys(options).length === 0;
 	}
 
 }

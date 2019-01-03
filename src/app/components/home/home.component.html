@@ -55,7 +55,7 @@
 
 				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu" [class.popover-open]="modulePopoverBtn?.isOpen">
 					<button class="edit-module-delete" (click)="deleteModule(i)">&times;</button>
-					<button [hidden]="moduleOptionsEmpty(module.options)"
+					<button [hidden]="moduleOptionsIsEmpty(module.options)"
 						class="edit-module-config"
 						[popover]="configModuleTemplate"
 						#modulePopoverBtn="bs-popover"
