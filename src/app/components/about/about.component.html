@@ -37,15 +37,15 @@
 			<h2>The Development Team</h2>
 		</div>
 		<div mymicds-blur class="dev-team">
-			<div class="developers">
-				<div *ngFor="let dev of activeDevelopers" class="developer card">
-					<div class="card-block">
-						<h4 class="card-title">{{ dev.firstName }}<br>{{ dev.lastName }}</h4>
-						<h6 class="card-subtitle text-muted">Class of {{ dev.gradYear }}</h6>
+			<div class="card-deck">
+				<div *ngFor="let person of activeDevelopers" class="card">
+					<img class="card-img-top" [src]="person.image" [alt]="person.firstName + '\'s Ugly Face'">
+					<div class="card-body">
+						<h5>{{ person.firstName }} {{ person.lastName }}</h5>
+						<p class="card-text">{{ person.title }}</p>
 					</div>
-					<img [src]="dev.image">
-					<div class="card-block">
-						<p class="card-text">{{ dev.title }}</p>
+					<div class="card-footer">
+						<small class="text-muted">Class of {{ person.gradYear }}</small>
 					</div>
 				</div>
 			</div>
@@ -55,15 +55,15 @@
 			<h2>Notable Mentions</h2>
 		</div>
 		<div mymicds-blur class="dev-team">
-			<div class="developers">
-				<div *ngFor="let dev of notableMentions" class="developer card">
-					<div class="card-block">
-						<h4 class="card-title">{{ dev.firstName }}<br>{{ dev.lastName }}</h4>
-						<h6 class="card-subtitle text-muted">Class of {{ dev.gradYear }}</h6>
+			<div class="card-deck">
+				<div *ngFor="let person of notableMentions" class="card">
+					<img class="card-img-top" [src]="person.image" [alt]="person.firstName + '\'s Ugly Face'">
+					<div class="card-body">
+						<h5>{{ person.firstName }} {{ person.lastName }}</h5>
+						<p class="card-text">{{ person.title }}</p>
 					</div>
-					<img [src]="dev.image">
-					<div class="card-block">
-						<p class="card-text">{{ dev.title }}</p>
+					<div class="card-footer">
+						<small class="text-muted">Class of {{ person.gradYear }}</small>
 					</div>
 				</div>
 			</div>
@@ -73,15 +73,15 @@
 			<h2>Alumni</h2>
 		</div>
 		<div mymicds-blur class="dev-team">
-			<div class="developers">
-				<div *ngFor="let alum of alumni" class="developer card">
-					<div class="card-block">
-						<h4 class="card-title">{{ alum.firstName }}<br>{{ alum.lastName }}</h4>
-						<h6 class="card-subtitle text-muted">Class of {{ alum.gradYear }}</h6>
+			<div class="card-deck">
+				<div *ngFor="let person of alumni" class="card">
+					<img class="card-img-top" [src]="person.image" [alt]="person.firstName + '\'s Ugly Face'">
+					<div class="card-body">
+						<h5>{{ person.firstName }} {{ person.lastName }}</h5>
+						<p class="card-text">{{ person.title }}</p>
 					</div>
-					<img [src]="alum.image">
-					<div class="card-block">
-						<p class="card-text">{{ alum.title }}</p>
+					<div class="card-footer">
+						<small class="text-muted">Class of {{ person.gradYear }}</small>
 					</div>
 				</div>
 			</div>

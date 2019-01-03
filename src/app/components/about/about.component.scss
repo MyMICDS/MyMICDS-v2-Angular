@@ -68,34 +68,11 @@
 		.dev-team {
 			padding: 1rem;
 
-			h3 {
-				margin-left: 1rem;
-				margin-bottom: 1rem;
-				text-align: left;
-				color: $sophisticated-white;
-				font-size: 3rem;
-				font-weight: 300;
-			}
-
-			.developers {
-				padding: 0;
-				display: flex;
-				flex-wrap: wrap;
+			.card-deck {
 				justify-content: space-around;
 
-				.developer {
-					max-width: 50%;
-					flex-basis: 100%;
-					flex-grow: 1;
-					margin-bottom: 2rem;
-
-					.card-block:first-child {
-						text-align: left;
-					}
-
-					img {
-						width: 100%;
-					}
+				.card {
+					max-width: 16rem;
 				}
 			}
 		}
