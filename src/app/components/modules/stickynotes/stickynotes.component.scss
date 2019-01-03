@@ -1,9 +1,30 @@
+.module-container:not(.square) {
+	height: 100%;
+
+	textarea {
+		margin-top: -1rem;
+		margin-left: -1rem;
+		width: calc(100% + 2rem);
+		height: calc(100% + 2rem);
+	}
+}
+
+.module-container.square {
+	padding-top: 100%;
+
+	textarea {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+}
+
 textarea {
-	margin-top: -1rem;
-	margin-left: -1rem;
 	padding: 1rem;
-	width: calc(100% + 2rem);
-	height: calc(100% + 2rem);
 	border: none;
 	font-size: 1.3rem;
 	resize: none;

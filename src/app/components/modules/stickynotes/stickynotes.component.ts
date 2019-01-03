@@ -22,6 +22,15 @@ export enum COLOR {
 })
 export class StickynotesComponent extends SubscriptionsComponent implements OnInit {
 
+	@Input()
+	get fixedHeight() {
+		return this._fixedHeight;
+	}
+	set fixedHeight(fixed: boolean) {
+		this._fixedHeight = fixed;
+	}
+	private _fixedHeight: boolean;
+
 	private _moduleId: string;
 	@Input() set moduleId(id) {
 		if (this._moduleId !== id) {
