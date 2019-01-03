@@ -28,7 +28,7 @@
 	<!-- Table to view schedule -->
 	<div #schedule class="table-container" [hidden]="viewSchedule?.classes?.length <= 0">
 		<table class="table">
-			<thead class="thead-default">
+			<thead class="thead-light">
 				<tr>
 					<th class="start" [style.width]="startWidth + 'px'">Start</th>
 					<th class="end" [style.width]="endWidth + 'px'">End</th>
@@ -36,7 +36,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let block of viewSchedule?.classes" [class.current]="block.start.getTime() <= current.valueOf() && current.valueOf() < block.end.getTime()">
+				<tr *ngFor="let block of viewSchedule?.classes" [class.current]="block.start.isSameOrBefore(current) && current.isBefore(block.end)">
 					<td #start class="start" >{{ block.start | date:'shortTime' }}</td>
 					<td #end class="end">{{ block.end | date:'shortTime' }}</td>
 					<td class="class-name">{{ block.class.name }}</td>

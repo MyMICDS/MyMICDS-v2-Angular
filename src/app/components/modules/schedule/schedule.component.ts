@@ -39,12 +39,12 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 	updateCurrentInterval: NodeJS.Timer;
 	@ViewChild('collapsedSchedule') collapsedSchedule: ElementRef;
 	current = moment();
-	currentSchedule: GetScheduleResponse = null;
+	currentSchedule: GetScheduleResponse['schedule'] = null;
 	// How many classes to display when schedule is collapsed
 	showNCurrent = 1;
 
-	viewSchedule: GetScheduleResponse = null;
 	scheduleDate = moment();
+	viewSchedule: GetScheduleResponse['schedule'] = null;
 
 	changeSchedule$ = new Subject<void>();
 
@@ -102,7 +102,7 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 			year : date.year(),
 			month: date.month() + 1,
 			day  : date.date()
-		}).subscribe(schedule => {
+		}).subscribe(({ schedule }) => {
 			this.ngZone.run(() => {
 				this.viewSchedule = schedule;
 
