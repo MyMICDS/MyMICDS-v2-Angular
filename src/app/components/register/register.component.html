@@ -32,7 +32,7 @@
 					<div class="input-group-text">@micds.org</div>
 				</div>
 			</div>
-			<p [class.text-warning]="!isAlphabetic(registerForm.controls.user.value)">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
+			<p class="form-text" [class.text-warning]="!isAlphabetic(registerForm.controls.user.value)">Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.</p>
 		</fieldset>
 		<fieldset class="form-group">
 			<legend>Password</legend>

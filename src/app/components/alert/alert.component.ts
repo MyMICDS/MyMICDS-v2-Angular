@@ -12,7 +12,7 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 
 	subscription: any;
 	alerts: Alert[] = [];
-	alertsDismissed = { };
+	alertsDismissed = {};
 
 	constructor(private alertService: AlertService) {
 		super();
@@ -22,6 +22,7 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 		// Subscribe to alerts service observable
 		this.addSubscription(
 			this.alertService.alertEmit$.subscribe((data: Alert) => {
+				console.log('Alert service', alert);
 				// Check if there's another alert with same content
 				for (const alert of this.alerts) {
 					if (alert.content === data.content) {

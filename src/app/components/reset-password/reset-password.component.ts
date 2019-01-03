@@ -78,7 +78,7 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 				},
 				error => {
 					this.ngZone.run(() => {
-						this.resetResponse = error;
+						this.resetResponse = error.message;
 					});
 				}
 			)

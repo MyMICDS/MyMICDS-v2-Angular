@@ -76,30 +76,29 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 		// Error handling for MyMICDS SDK
 		this.addSubscription(
 			this.mymicds.errors.subscribe(error => {
-				console.log('MyMICDS Error!', error);
-				if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action)) {
-					this.ngZone.run(() => {
+				this.ngZone.run(() => {
+					if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action)) {
 						this.router.navigate(['/login']);
-					});
-				}
+					}
 
-				switch (error.action) {
-					case Action.LOGIN_EXPIRED:
-					this.alertService.addWarning('Login expired! Please log in again.');
-					break;
+					switch (error.action) {
+						case Action.LOGIN_EXPIRED:
+						this.alertService.addWarning('Login expired! Please log in again.');
+						break;
 
-					case Action.NOT_LOGGED_IN:
-					this.alertService.addWarning('You are not logged in! You must be logged in access to this.');
-					break;
+						case Action.NOT_LOGGED_IN:
+						this.alertService.addWarning('You are not logged in! You must be logged in access to this.');
+						break;
 
-					case Action.UNAUTHORIZED:
-					this.alertService.addWarning('Not so fast! You don\'t have access to this.');
-					break;
+						case Action.UNAUTHORIZED:
+						this.alertService.addWarning('Not so fast! You don\'t have access to this.');
+						break;
 
-					default:
-					this.alertService.addError(error.message);
-					break;
-				}
+						default:
+						this.alertService.addError(error.message);
+						break;
+					}
+				});
 			})
 		);
 

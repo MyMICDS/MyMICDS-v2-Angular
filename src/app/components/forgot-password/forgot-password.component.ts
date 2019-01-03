@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { isAlphabetic, typeOf } from '../../common/utils';
 
@@ -21,7 +21,7 @@ export class ForgotPasswordComponent extends SubscriptionsComponent implements O
 	forgotResponse: boolean | string = null;
 	user: string;
 
-	constructor(private mymicds: MyMICDS, private router: Router) {
+	constructor(private mymicds: MyMICDS, private router: Router, private ngZone: NgZone) {
 		super();
 	}
 
@@ -38,10 +38,14 @@ export class ForgotPasswordComponent extends SubscriptionsComponent implements O
 		this.addSubscription(
 			this.mymicds.auth.forgotPassword({ user: this.user }).subscribe(
 				() => {
-					this.forgotResponse = true;
+					this.ngZone.run(() => {
+						this.forgotResponse = true;
+					});
 				},
 				error => {
-					this.forgotResponse = error.message;
+					this.ngZone.run(() => {
+						this.forgotResponse = error.message;
+					});
 				}
 			)
 		);

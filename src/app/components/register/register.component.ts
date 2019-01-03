@@ -66,7 +66,7 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 				},
 				error => {
 					this.ngZone.run(() => {
-						this.registerResponse = error;
+						this.registerResponse = error.message;
 					});
 				}
 			)

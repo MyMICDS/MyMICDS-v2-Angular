@@ -65,7 +65,6 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		this.addSubscription(
 			this.mymicds.auth.$.subscribe(jwt => {
 				this.ngZone.run(() => {
-					console.log('auth change navbar', jwt);
 					this.jwt = jwt;
 				});
 			})

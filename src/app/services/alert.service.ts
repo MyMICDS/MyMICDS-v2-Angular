@@ -39,7 +39,7 @@ export class AlertService {
 			type = 'info';
 		}
 
-		let alert: Alert = {
+		const alert: Alert = {
 			id: Symbol(),
 			expiresIn,
 			type,
@@ -47,11 +47,6 @@ export class AlertService {
 			content,
 			repeat: 1
 		};
-
-		// If error and we aren't already giving any advice to fix problems, append custom message
-		if (type === 'danger' && typeof alert.content === 'string' && !alert.content.includes(' to fix any problems.')) {
-			alert.content += ' Try refreshing the page to fix any problems.';
-		}
 
 		this.alertEmitSource.next(alert);
 	}
