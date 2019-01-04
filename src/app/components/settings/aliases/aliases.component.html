@@ -1,14 +1,16 @@
-<ng-container *ngIf="contains(aliasTypes, type) && class">
+<ng-container *ngIf="class">
 	<div *ngFor="let externalClass of externalClasses" class="checkbox">
 		<label>
 			<input type="checkbox"
-				(change)="aliasChange($event, externalClass, class._id)"
-				[checked]="aliasChecked(externalClass, class._id)"
-				[disabled]="aliasDisabled(externalClass, class._id)">
+				(change)="aliasChange($event, externalClass)"
+				[checked]="aliasChecked(externalClass)"
+				[disabled]="aliasDisabled(externalClass)">
 			{{ externalClass }}
 		</label>
 	</div>
-	<div *ngIf="externalClasses.length < 1">
-		<p>No {{ type }} classes found. Integrate them in the 'URL Settings' section!</p>
-	</div>
 </ng-container>
+
+<p *ngIf="externalClasses.length < 1">
+	No {{ type }} classes found. Insert your {{ type }} link{{ type === AliasType.PORTAL ? 's' : '' }} in the 'URL Settings' section to get started.
+	<strong>If you just inserted your URLs, refresh the page.</strong>
+</p>

@@ -41,7 +41,7 @@
 					(click)="aliasClass = class; aliasModal.show()"
 					[disabled]="savingClasses || !class._id"
 					tooltip="Save the class before linking it!"
-					[tooltipEnable]="!savingClasses && class._id">
+					[isDisabled]="savingClasses || !class._id">
 					<i class="fa fa-link"></i>
 					Link
 				</button>

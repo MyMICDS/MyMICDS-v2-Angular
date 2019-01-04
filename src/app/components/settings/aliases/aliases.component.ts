@@ -1,4 +1,4 @@
-import { MyMICDS, MyMICDSClass, AliasType } from '@mymicds/sdk';
+import { MyMICDS, MyMICDSClass, ListAliasesResponse, AliasType } from '@mymicds/sdk';
 
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { contains } from '../../../common/utils';
@@ -15,13 +15,14 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 
 	// For template
 	contains = contains;
+	AliasType = AliasType;
 
 	@Input() type: AliasType;
 
 	@Input() externalClasses: string[];
 	@Input() class: MyMICDSClass;
 
-	aliases = {};
+	aliases: ListAliasesResponse['aliases'];
 
 	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
 		super();
@@ -30,7 +31,7 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 	ngOnInit() {
 		// Get Aliases
 		this.addSubscription(
-			this.mymicds.alias.list().subscribe(aliases => {
+			this.mymicds.alias.list().subscribe(({ aliases }) => {
 				this.ngZone.run(() => {
 					this.aliases = aliases;
 				});
@@ -38,12 +39,9 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	// Returns native class id alias belongs to is in, or null if no class
-	aliasClassObject(type: AliasType, className: string) {
-		// Make sure it's a valid alias type
-		if (!(type in AliasType)) { return; }
-
-		for (let alias of this.aliases[type]) {
+	// Returns the MyMICDS class object of the remote class name
+	aliasClassObject(className: string) {
+		for (let alias of this.aliases[this.type]) {
 			if (className === alias.classRemote) {
 				return alias;
 			}
@@ -53,46 +51,45 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	// Whether alias checkbox should be checked
-	aliasChecked(className: string, classId: string) {
+	aliasChecked(className: string) {
 		// Look if class name is in alias
-		const aliasClassObject = this.aliasClassObject(this.type, className);
+		const aliasClassObject = this.aliasClassObject(className);
 		// If class name is not in alias, default to enabled
 		if (!aliasClassObject) { return false; }
 		// If class name is in alias, check whether the it is for this class or another
-		return classId === aliasClassObject.classNative;
+		return this.class._id === aliasClassObject.classNative;
 	}
 
 	// Whether alias checkbox should be disabled
-	aliasDisabled(className: string, classId: string) {
+	aliasDisabled(className: string) {
 		// Look if class name is in alias
-		let aliasClassObject = this.aliasClassObject(this.type, className);
+		const aliasClassObject = this.aliasClassObject(className);
 		// If class name is not in alias, default to enabled
 		if (!aliasClassObject) { return false; }
 		// If class name is in alias, check whether the it is for this class or another
-		return classId !== aliasClassObject.classNative;
+		return this.class._id !== aliasClassObject.classNative;
 	}
 
 	// When the user either checks or unchecks the box
-	aliasChange(event, className: string, classId: string) {
-		// Make sure it's a valid alias type
-		if (!(this.type in AliasType)) { return; }
-
+	aliasChange(event, className: string) {
 		if (event.target.checked) {
 			// Add alias
 			this.addSubscription(
 				this.mymicds.alias.add({
 					type: this.type,
 					classString: className,
-					classId
-				}).subscribe(id => {
+					classId: this.class._id
+				}).subscribe(({ id }) => {
 					this.ngZone.run(() => {
-						this.alertService.addSuccess('Linked alias to class!');
+						this.alertService.addSuccess(`Linked ${this.type} class from this MyMICDS class!`);
 
 						// Add alias to aliases array
 						this.aliases[this.type].push({
 							_id: id,
+							// User is not necessary
+							user: null,
 							type: this.type,
-							classNative: classId,
+							classNative: this.class._id,
 							classRemote: className
 						});
 					});
@@ -100,7 +97,7 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 			);
 		} else {
 			// Delete alias
-			const aliasObject = this.aliasClassObject(this.type, className);
+			const aliasObject = this.aliasClassObject(className);
 			const aliasId = aliasObject._id;
 			this.addSubscription(
 				this.mymicds.alias.delete({
@@ -108,7 +105,7 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 					id: aliasId
 				}).subscribe(() => {
 					this.ngZone.run(() => {
-						this.alertService.addSuccess('Deleted alias from class!');
+						this.alertService.addSuccess(`Unlinked ${this.type} class from this MyMICDS class!`);
 
 						// Remove alias from aliases array
 						for (let i = 0; i < this.aliases[this.type].length; i++) {
