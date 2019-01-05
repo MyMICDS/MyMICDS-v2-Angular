@@ -237,6 +237,9 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 							data: {
 								labels: this.gradeNames,
 								datasets: this.pieDataSets
+							},
+							options: {
+								aspectRatio: 1
 							}
 						});
 					}, 1);

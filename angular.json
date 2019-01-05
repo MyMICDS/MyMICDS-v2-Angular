@@ -36,9 +36,10 @@
             ],
             "scripts": [
               "node_modules/css-element-queries/src/ResizeSensor.js",
-      				"node_modules/css-element-queries/src/ElementQueries.js",
-      				"node_modules/chart.js/dist/Chart.min.js",
-      				"node_modules/prisma/dist/prisma.min.js"
+              "node_modules/css-element-queries/src/ElementQueries.js",
+              "node_modules/moment/min/moment.min.js", // Required for Chart.js
+              "node_modules/chart.js/dist/Chart.min.js",
+              "node_modules/prisma/dist/prisma.min.js"
             ]
           },
           "configurations": {
