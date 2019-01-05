@@ -25,7 +25,6 @@ export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		ElementQueries.listen();
 		ElementQueries.init();
 		const onResize = () => {
 			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;

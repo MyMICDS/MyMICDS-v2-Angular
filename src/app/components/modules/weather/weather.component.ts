@@ -23,7 +23,6 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		ElementQueries.listen();
 		ElementQueries.init();
 
 		this.addSubscription(

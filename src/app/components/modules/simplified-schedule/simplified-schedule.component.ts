@@ -49,7 +49,6 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 	}
 
 	ngOnInit() {
-		ElementQueries.listen();
 		ElementQueries.init();
 
 		this.addSubscription(

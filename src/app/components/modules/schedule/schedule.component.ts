@@ -53,7 +53,6 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 	}
 
 	ngOnInit() {
-		ElementQueries.listen();
 		ElementQueries.init();
 
 		this.getSchedule();

@@ -83,7 +83,6 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 	}
 
 	ngOnInit() {
-		ElementQueries.listen();
 		ElementQueries.init();
 
 		// Detect when whole module resizes
