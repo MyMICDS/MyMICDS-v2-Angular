@@ -19,18 +19,8 @@ export class LogoutComponent extends SubscriptionsComponent implements OnInit {
 	ngOnInit() {
 		this.addSubscription(
 			this.mymicds.auth.logout().subscribe(
-				() => {
-					this.ngZone.run(() => {
-						/*
-						 * We have a setTimeout with no delay so we navigate home on the next tick.
-						 * If we navigate before the timeout, the system still has a JWT, which is bad.
-						 * Storage events do not (according to specification) alert the current window.
-						 */
-						// setTimeout(() => {
-							this.router.navigate(['/home']);
-						// }, 0);
-					});
-				},
+				() => {},
+				() => {},
 				() => {
 					this.ngZone.run(() => {
 						this.router.navigate(['/home']);
