@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
@@ -12,6 +12,8 @@ import { BackgroundService } from '../../../services/background.service';
 	styleUrls: ['./background.component.scss']
 })
 export class BackgroundComponent extends SubscriptionsComponent implements OnInit {
+
+	@ViewChild('uploadForm') uploadForm: ElementRef;
 
 	// Background Upload Form
 	hasDefaultBackground = true;
@@ -45,28 +47,6 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 		this.fileSelected = true;
 	}
 
-	uploadBackground() {
-		this.uploadingBackground = true;
-
-		const fileInput: any = document.getElementById('upload-background');
-		const FileList: FileList = fileInput.files;
-		const file: File = FileList[0];
-
-		this.mymicds.background.upload({ background: file }).subscribe(
-			() => {
-				this.ngZone.run(() => {
-					this.uploadingBackground = false;
-					this.alertService.addSuccess('Uploaded background!');
-				});
-			},
-			() => {
-				this.ngZone.run(() => {
-					this.uploadingBackground = false;
-				});
-			}
-		);
-	}
-
 	deleteBackground() {
 		this.mymicds.background.delete().subscribe(() => {
 			this.alertService.addSuccess('Deleted background!');
@@ -74,18 +54,24 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 	}
 
 	setTrianglify() {
-		this.uploadingBackground = true;
 		const file = this.backgroundService.generateTrianglify();
+		this.uploadBackground(file);
+	}
+
+	private uploadBackground(file: File) {
+		this.uploadingBackground = true;
 		this.mymicds.background.upload({ background: file }).subscribe(
 			() => {
 				this.ngZone.run(() => {
-					this.uploadingBackground = false;
 					this.alertService.addSuccess('Uploaded background!');
 				});
 			},
+			() => {},
 			() => {
 				this.ngZone.run(() => {
 					this.uploadingBackground = false;
+					this.fileSelected = false;
+					this.uploadForm.nativeElement.reset();
 				});
 			}
 		);

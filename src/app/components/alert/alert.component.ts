@@ -27,10 +27,12 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 				for (const alert of this.alerts) {
 					if (alert.content === data.content) {
 						alert.repeat++;
-						clearTimeout(alert.timeout);
-						alert.timeout = setTimeout(() => {
-							this.dismiss(data.id);
-						}, data.expiresIn * 1000);
+						if (data.expiresIn) {
+							clearTimeout(alert.timeout);
+							alert.timeout = setTimeout(() => {
+								this.dismiss(alert.id);
+							}, data.expiresIn * 1000);
+						}
 						return;
 					}
 				}

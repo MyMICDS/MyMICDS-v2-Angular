@@ -1,8 +1,8 @@
 <h3 class="title">Change Background</h3>
-<form class="upload-background-form" (submit)="uploadBackground()">
+<form #uploadForm class="upload-background-form" (submit)="uploadBackground(fileUpload.files[0])">
 	<div class="form-group">
 		<label for="upload-background">Upload Background</label>
-		<input id="upload-background" type="file" class="form-control-file" (change)="backgroundFileChange()" accept="image/png,image/jpeg">
+		<input #fileUpload id="upload-background" type="file" class="form-control-file" (change)="backgroundFileChange()" accept="image/png,image/jpeg">
 		<small class="form-text text-muted">All images must be school-appropriate. Any violent, graphic, or obscene images will be deleted.</small>
 	</div>
 	<button class="btn btn-info" [disabled]="!fileSelected || uploadingBackground">{{ uploadingBackground ? 'Uploading...' : 'Upload'}}</button>
