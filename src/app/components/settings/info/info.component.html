@@ -23,7 +23,7 @@
 		<div *ngIf="!infoForm.controls.teacher.value" class="student">
 			<span>Choose your graduation year</span>
 			<select class="form-control" formControlName="gradYear">
-				<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
+				<option *ngFor="let year of gradeRange; let grade = index" [value]="year">Class of {{ year }} ({{ 12 - grade | gradePipe }})</option>
 			</select>
 		</div>
 	</fieldset>

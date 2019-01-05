@@ -62,7 +62,7 @@
 			<div *ngIf="!registerForm?.controls?.teacher.value" class="student">
 				<div class="form-element">Choose your graduation year</div>
 				<select class="form-control" formControlName="gradYear">
-					<option *ngFor="let year of gradeRange" [value]="year">Class of {{year}}</option>
+					<option *ngFor="let year of gradeRange; let grade = index" [value]="year">Class of {{ year }} ({{ 12 - grade | gradePipe }})</option>
 				</select>
 			</div>
 		</fieldset>

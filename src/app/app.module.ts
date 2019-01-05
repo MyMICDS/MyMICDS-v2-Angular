@@ -74,6 +74,7 @@ import { BackgroundService } from './services/background.service';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
+import { GradePipePipe } from './pipes/grade-pipe.pipe';
 import { RoundPipe } from './pipes/round.pipe';
 import { SafeHtmlPipe, SafeScriptPipe, SafeStylePipe, SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe.pipe';
 import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
@@ -139,6 +140,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		CapitalizePipe,
 		CompassDirectionPipe,
 		DayRotationPipe,
+		GradePipePipe,
 		RoundPipe,
 		SafeHtmlPipe,
 		SafeScriptPipe,
