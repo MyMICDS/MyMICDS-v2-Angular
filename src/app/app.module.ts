@@ -17,6 +17,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
 
@@ -90,6 +91,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		AppComponent,
 		AboutComponent,
 		AlertComponent,
+		AlertDebugComponent,
 		HomeComponent,
 		ModuleOptionsComponent,
 		ModuleOptionComponent,

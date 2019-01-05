@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-import { AlertService, Alert } from '../../services/alert.service';
+import { Alert } from '../../common/alert';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-alert',
@@ -22,12 +23,11 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 		// Subscribe to alerts service observable
 		this.addSubscription(
 			this.alertService.alertEmit$.subscribe((data: Alert) => {
-				console.log('Alert service', alert);
 				// Check if there's another alert with same content
 				for (const alert of this.alerts) {
-					if (alert.content === data.content) {
+					if (alert.equals(data)) {
 						alert.repeat++;
-						if (data.expiresIn) {
+						if (0 < data.expiresIn) {
 							clearTimeout(alert.timeout);
 							alert.timeout = setTimeout(() => {
 								this.dismiss(alert.id);
