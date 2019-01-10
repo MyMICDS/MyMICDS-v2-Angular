@@ -53,6 +53,10 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 		});
 	}
 
+	EditLayout() {
+		//manage stuff
+	}
+
 	setTrianglify() {
 		const file = this.backgroundService.generateTrianglify();
 		this.uploadBackground(file);
