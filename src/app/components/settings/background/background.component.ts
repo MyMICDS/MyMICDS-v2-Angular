@@ -1,6 +1,7 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone} from '@angular/core';
+import { Router } from "@angular/router";
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
@@ -24,7 +25,8 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 		private mymicds: MyMICDS,
 		private ngZone: NgZone,
 		private alertService: AlertService,
-		private backgroundService: BackgroundService
+		private backgroundService: BackgroundService,
+		private router: Router
 	) {
 		super();
 	}
@@ -54,7 +56,7 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 	}
 
 	EditLayout() {
-		//manage stuff
+		this.router.navigate(['/home/edit']);
 	}
 
 	setTrianglify() {
