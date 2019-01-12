@@ -61,6 +61,13 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 			gradYear : 2019,
 			title    : 'Full Stack Developer',
 			image    : 'assets/developers/jacks-ugly-face-new-new.jpg'
+		},
+		{
+			firstName: 'Sam',
+			lastName : 'Baumohl',
+			gradYear : 2022,
+			title    : 'Full Stack Developer',
+			image    : 'assets/developers/sams-always-ugly-face.jpg'
 		}
 	];
 
