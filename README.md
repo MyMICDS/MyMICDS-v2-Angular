@@ -15,5 +15,7 @@ $ npm install -D
 $ ng serve
 ```
 
+[Having Issues?](troubleshooting.md)
+
 ## More Info
 [Main repository is located over here](https://github.com/michaelgira23/MyMICDS-v2)
