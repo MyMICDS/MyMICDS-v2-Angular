@@ -17,6 +17,6 @@ Folder
 |-- MyMICDS-v2
 ```
 
-## Error `errno: -4048 code: 'EPERM' syscall: 'unlink`
+## Error `errno: -4048 code: 'EPERM' syscall: 'unlink``
 
 ## Error
