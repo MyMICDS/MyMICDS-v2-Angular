@@ -240,19 +240,25 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 			const currBlock = this.schedule.classes[i];
 			const nextBlock = this.schedule.classes[i + 1];
 
-			if (currBlock.end !== nextBlock.start) {
-				breaks.push({
-					class: {
-						name: 'Break',
-						teacher: null,
-						type: ClassType.OTHER,
-						block: Block.OTHER,
-						color: 'rgba(0, 0, 0, 0.4)',
-						textDark: false
-					},
-					start: currBlock.end,
-					end: nextBlock.start
-				});
+			 if (currBlock.end !== nextBlock.start) {
+				 var breakObj = {
+ 					class: {
+ 						name: 'Break',
+ 						teacher: null,
+ 						type: ClassType.OTHER,
+ 						block: Block.OTHER,
+ 						color: 'rgba(0, 0, 0, 0.4)',
+ 						textDark: false
+ 					},
+ 					start: currBlock.end,
+ 					end: nextBlock.start
+ 				};
+
+				if (i === this.schedule.classes.length - 1){// If there's a break as the last class of the day, make the break end at 3:15
+					breakObj.end = moment(this.today).startOf('day').hours(15).minutes(15);
+				}
+
+				 breaks.push(breakObj);
 			}
 		}
 
