@@ -222,6 +222,9 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		// Define nowTime just to make things clearer
 		const nowTime = this.today.getTime();
 
+		//End of School constant created for DRY
+		const SchoolDayEnd315 = moment(this.today).startOf('day').hours(15).minutes(15);
+
 		// Clear linear progress
 		this.linearProgress = [];
 
@@ -240,25 +243,26 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 			const currBlock = this.schedule.classes[i];
 			const nextBlock = this.schedule.classes[i + 1];
 
-			 if (currBlock.end !== nextBlock.start) {
-				 var breakObj = {
- 					class: {
- 						name: 'Break',
- 						teacher: null,
- 						type: ClassType.OTHER,
- 						block: Block.OTHER,
- 						color: 'rgba(0, 0, 0, 0.4)',
- 						textDark: false
- 					},
- 					start: currBlock.end,
- 					end: nextBlock.start
- 				};
+			console.log(this.schedule.classes[this.schedule.classes.length - 1].end !== SchoolDayEnd315);
 
-				if (i === this.schedule.classes.length - 1){// If there's a break as the last class of the day, make the break end at 3:15
-					breakObj.end = moment(this.today).startOf('day').hours(15).minutes(15);
-				}
+			var breakObj = {
+			 class: {
+				 name: 'Break',
+				 teacher: null,
+				 type: ClassType.OTHER,
+				 block: Block.OTHER,
+				 color: 'rgba(0, 0, 0, 0.4)',
+				 textDark: false
+			 },
+			 start: currBlock.end,
+			 end: nextBlock.start
+		 };
 
-				 breaks.push(breakObj);
+			if (this.schedule.classes[this.schedule.classes.length - 1].end !== SchoolDayEnd315 && this.schedule.classes.length - 1 === i){// If there's a break as the last class of the day, make the break end at 3:15
+				breakObj.end = SchoolDayEnd315;
+				breaks.push(breakObj);
+			}	else if (currBlock.end !== nextBlock.start) {
+				breaks.push(breakObj);
 			}
 		}
 
@@ -305,7 +309,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		}
 
 		// Either end school at last block or 3:15pm
-		const schoolCap = moment(this.today).startOf('day').hours(15).minutes(15).toDate();
+		const schoolCap = SchoolDayEnd315.toDate();
 
 		// Get first and last blocks
 		const classCount = formattedSchedule.length;
