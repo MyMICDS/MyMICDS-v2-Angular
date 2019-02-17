@@ -223,7 +223,6 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     const nowTime = this.today.getTime();
 
     // End of School constant created for DRY
-
     const schoolDayEnd315 = moment(this.today).startOf('day').hours(15).minutes(15);
 
     // Clear linear progress
@@ -259,7 +258,8 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
         end: nextBlock.start
       };
 
-      if (this.schedule.classes[this.schedule.classes.length - 1].end !== schoolDayEnd315 && this.schedule.classes.length - 1 === i) {// If there's a break as the last class of the day, make the break end at 3:15
+			// If there's a break as the last class of the day, make the break end at 3:15
+      if (this.schedule.classes[this.schedule.classes.length - 1].end !== schoolDayEnd315 && this.schedule.classes.length - 1 === i) {
         breakObj.end = schoolDayEnd315;
         breaks.push(breakObj);
       } else if (currBlock.end !== nextBlock.start) {
