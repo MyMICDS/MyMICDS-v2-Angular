@@ -223,6 +223,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		const nowTime = this.today.getTime();
 
 		//End of School constant created for DRY
+
 		const SchoolDayEnd315 = moment(this.today).startOf('day').hours(15).minutes(15);
 
 		// Clear linear progress
