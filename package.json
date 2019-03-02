@@ -50,7 +50,7 @@
     "@angular/platform-browser": "7.0.2",
     "@angular/platform-browser-dynamic": "7.0.2",
     "@angular/router": "7.0.2",
-    "@mymicds/sdk": "^1.7.0",
+    "@mymicds/sdk": "file:../MyMICDS-SDK",
     "angular-fittext": "^2.1.1",
     "angular2gridster": "^7.0.1",
     "animate.css": "^3.6.1",
