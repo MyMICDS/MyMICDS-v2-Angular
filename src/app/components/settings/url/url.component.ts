@@ -157,7 +157,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 	changePortalClassesURL() {
 		this.portalClassesSaving = true;
-		this.mymicds.portal.setClassesURL({ url: this.portalClassesURL }).subscribe(
+		this.mymicds.portal.setClassesURL({ url: this.portalClassesURL }, true).subscribe(
 			data => {
 				this.ngZone.run(() => {
 					this.portalClassesValid = (data.valid === true);
@@ -180,7 +180,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 	changePortalCalendarURL() {
 		this.portalCalendarSaving = true;
-		this.mymicds.portal.setCalendarURL({ url: this.portalCalendarURL }).subscribe(
+		this.mymicds.portal.setCalendarURL({ url: this.portalCalendarURL }, true).subscribe(
 			data => {
 				this.ngZone.run(() => {
 					this.portalCalendarValid = (data.valid === true);
@@ -203,7 +203,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 	changeCanvasURL() {
 		this.canvasSaving = true;
-		this.mymicds.canvas.setURL({ url: this.canvasURL }).subscribe(
+		this.mymicds.canvas.setURL({ url: this.canvasURL }, true).subscribe(
 			data => {
 				this.ngZone.run(() => {
 					this.canvasValid = (data.valid === true);
@@ -226,7 +226,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 	updateCanvasFeed() {
 		this.canvasFeedUpdateLoading = true;
-		this.mymicds.feeds.updateCanvasCache().subscribe(
+		this.mymicds.feeds.updateCanvasCache(true).subscribe(
 			() => {
 				this.alertService.addSuccess('Updated canvas feed!');
 			},
@@ -241,7 +241,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 	updatePortalFeed() {
 		this.portalFeedUpdateLoading = true;
-		this.mymicds.feeds.addPortalQueue().subscribe(
+		this.mymicds.feeds.addPortalQueue(true).subscribe(
 			() => {
 				this.alertService.addSuccess('Updated portal feed!');
 			},

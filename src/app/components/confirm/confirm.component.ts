@@ -42,7 +42,7 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 					const hash = params.hash;
 
 					this.addSubscription(
-						this.mymicds.auth.confirm({ user, hash }).subscribe(
+						this.mymicds.auth.confirm({ user, hash }, true).subscribe(
 							() => {
 								this.ngZone.run(() => {
 									this.confirmResponse = true;

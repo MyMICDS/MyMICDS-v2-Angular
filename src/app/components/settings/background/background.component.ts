@@ -60,7 +60,7 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 
 	private uploadBackground(file: File) {
 		this.uploadingBackground = true;
-		this.mymicds.background.upload({ background: file }).subscribe(
+		this.mymicds.background.upload({ background: file }, true).subscribe(
 			() => {
 				this.ngZone.run(() => {
 					this.alertService.addSuccess('Uploaded background!');

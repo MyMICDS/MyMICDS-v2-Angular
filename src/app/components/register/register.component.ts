@@ -58,7 +58,7 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 	register() {
 		this.submitted = true;
 		this.addSubscription(
-			this.mymicds.auth.register(this.registerForm.value).subscribe(
+			this.mymicds.auth.register(this.registerForm.value, true).subscribe(
 				() => {
 					this.ngZone.run(() => {
 						this.registerResponse = true;

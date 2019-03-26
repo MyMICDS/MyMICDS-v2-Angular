@@ -18,7 +18,7 @@ export class LogoutComponent extends SubscriptionsComponent implements OnInit {
 
 	ngOnInit() {
 		this.addSubscription(
-			this.mymicds.auth.logout().subscribe(
+			this.mymicds.auth.logout(true).subscribe(
 				() => {},
 				() => {},
 				() => {

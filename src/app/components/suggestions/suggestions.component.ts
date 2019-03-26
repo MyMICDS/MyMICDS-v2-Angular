@@ -36,7 +36,7 @@ export class SuggestionsComponent extends SubscriptionsComponent implements OnIn
 	submitSuggestions() {
 		this.submitted = true;
 		this.addSubscription(
-			this.mymicds.suggestion.submit(this.suggestionsForm.value).subscribe(
+			this.mymicds.suggestion.submit(this.suggestionsForm.value, true).subscribe(
 				() => {
 					this.ngZone.run(() => {
 						this.suggestionResponse = true;
