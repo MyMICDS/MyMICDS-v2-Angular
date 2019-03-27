@@ -5,7 +5,9 @@
 
 export const environment = {
 	production: false,
-	backendURL: 'http://localhost:1420',
-	realtimeURL: 'http://localhost:1421',
+	// backendURL: 'http://localhost:1420',
+	// realtimeURL: 'http://localhost:1421',
+	backendURL: 'https://api.mymicds.net',
+	realtimeURL: 'https://io.mymicds.net',
 	recruitMessage: false
 };

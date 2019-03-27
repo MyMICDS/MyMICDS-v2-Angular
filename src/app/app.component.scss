@@ -22,28 +22,32 @@ mymicds-confetti {
 	bottom: 0;
 	z-index: 99999;
 	pointer-events: none;
+
+	&.fullscreen {
+		height: 100%;
+	}
 }
 
 @media screen and (min-width: 576px) {
-	.image-overlay-container {
+	.image-overlay-container:not(.fullscreen) {
 
 	}
 }
 
 @media screen and (min-width: 768px) {
-	.image-overlay-container {
+	.image-overlay-container:not(.fullscreen) {
 		width: 50%;
 	}
 }
 
 @media screen and (min-width: 992px) {
-	.image-overlay-container {
+	.image-overlay-container:not(.fullscreen) {
 		width: 33%;
 	}
 }
 
 @media screen and (min-width: 1200px) {
-	.image-overlay-container {
+	.image-overlay-container:not(.fullscreen) {
 
 	}
 }

@@ -3,6 +3,30 @@ import * as shuffle from 'lodash.shuffle';
 
 import { loadImage } from '../../common/utils';
 
+interface ImageData {
+	url: string;
+	duration: number;
+	loaded: boolean;
+}
+
+const imageRotation: ImageData[] = [
+	{
+		url: '/assets/gif-overlays/jack-bagel.gif',
+		duration: 6416,
+		loaded: false
+	},
+	{
+		url: '/assets/gif-overlays/progress.gif',
+		duration: 5000,
+		loaded: false
+	},
+	{
+		url: '/assets/gif-overlays/vroom.gif',
+		duration: 7000,
+		loaded: false
+	}
+];
+
 @Component({
 	selector: 'mymicds-image-overlay',
 	templateUrl: './image-overlay.component.html',
@@ -10,23 +34,7 @@ import { loadImage } from '../../common/utils';
 })
 export class ImageOverlayComponent implements OnInit, OnDestroy {
 
-	imageRotation: { url: string, duration: number, loaded: boolean }[] = [
-		{
-			url: '/assets/gif-overlays/jack-bagel.gif',
-			duration: 5000,
-			loaded: false
-		// },
-		// {
-		// 	url: 'http://www.downgraf.com/wp-content/uploads/2014/09/01-progress.gif',
-		// 	duration: 5000,
-		// 	loaded: false
-		// },
-		// {
-		// 	url: 'https://media3.giphy.com/media/Y5DLjUZysisyA/giphy.gif',
-		// 	duration: 5000,
-		// 	loaded: false
-		}
-	];
+	shuffledImageRotation: ImageData[] = imageRotation;
 
 	@ViewChild('imageContainer') imageContainer: ElementRef;
 
@@ -35,7 +43,7 @@ export class ImageOverlayComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		// Queue loading of images
-		for (const image of this.imageRotation) {
+		for (const image of this.shuffledImageRotation) {
 			loadImage(image.url).subscribe(() => {
 				image.loaded = true;
 				if (!this.imageTimeout) {
@@ -54,24 +62,25 @@ export class ImageOverlayComponent implements OnInit, OnDestroy {
 	playImage(i: number) {
 		// Shuffle at the beginning of each rotation
 		if (i === 0) {
-			this.imageRotation = shuffle(this.imageRotation);
+			console.log('reshuffle images');
+			this.shuffledImageRotation = shuffle(imageRotation);
 		}
 
-		console.log('play iamge', this.imageRotation[i].url);
-		const image = this.imageRotation[i];
+		const image = this.shuffledImageRotation[i];
 
 		if (!image.loaded) {
-			this.playImage(++i % this.imageRotation.length);
+			this.playImage(++i % this.shuffledImageRotation.length);
 		} else {
+			console.log('play image', image.url);
 			this.displayImage = image.url;
 			this.imageTimeout = setTimeout(() => {
-				this.playImage(++i % this.imageRotation.length);
+				this.playImage(++i % this.shuffledImageRotation.length);
 			}, image.duration);
 		}
 	}
 
 	shuffleRotation() {
-		this.imageRotation = shuffle(this.imageRotation);
+		this.shuffledImageRotation = shuffle(this.shuffledImageRotation);
 	}
 
 }
