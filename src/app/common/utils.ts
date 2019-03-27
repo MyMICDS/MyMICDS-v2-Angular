@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 /*
  * Capitalize every word of a string, offset will ignore the first n characters.
  */
@@ -213,3 +215,18 @@ export const months = [
 	'November',
 	'December'
 ];
+
+/**
+ * Preload an image by creating an HTMLImageElement. Returns this element in an observable.
+ */
+
+export function loadImage(url: string): Observable<HTMLImageElement> {
+	return new Observable(observer => {
+		const image = new Image();
+		image.src = url;
+		image.onload = () => {
+			observer.next(image);
+			observer.complete();
+		};
+	});
+}

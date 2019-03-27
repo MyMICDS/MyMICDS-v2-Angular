@@ -42,6 +42,7 @@ import { ConfirmComponent } from './components/confirm/confirm.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { HelpComponent } from './components/help/help.component';
+import { ImageOverlayComponent } from './components/image-overlay/image-overlay.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { LunchComponent } from './components/lunch/lunch.component';
@@ -127,6 +128,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		DailyBulletinComponent,
 		ForgotPasswordComponent,
 		HelpComponent,
+		ImageOverlayComponent,
 		LoginComponent,
 		LogoutComponent,
 		LunchComponent,

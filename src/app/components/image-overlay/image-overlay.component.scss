@@ -1,0 +1,14 @@
+.display-image-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.display-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border: 1px solid red;
+}

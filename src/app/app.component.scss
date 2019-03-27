@@ -15,6 +15,39 @@ mymicds-confetti {
 	z-index: -100;
 }
 
+.image-overlay-container {
+	width: 100%;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	z-index: 99999;
+	pointer-events: none;
+}
+
+@media screen and (min-width: 576px) {
+	.image-overlay-container {
+
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.image-overlay-container {
+		width: 50%;
+	}
+}
+
+@media screen and (min-width: 992px) {
+	.image-overlay-container {
+		width: 33%;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.image-overlay-container {
+
+	}
+}
+
 .prompt {
 	width: 100%;
 	height: 100%;
