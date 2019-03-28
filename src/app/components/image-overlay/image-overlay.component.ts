@@ -24,6 +24,11 @@ const imageRotation: ImageData[] = [
 		url: '/assets/gif-overlays/test-jump.gif',
 		duration: 4560,
 		loaded: false
+	},
+	{
+		url: '/assets/gif-overlays/logo-draw.gif',
+		duration: 16500,
+		loaded: false
 	}
 	// {
 	// 	url: '/assets/gif-overlays/progress.gif',
