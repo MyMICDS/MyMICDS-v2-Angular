@@ -16,15 +16,20 @@ const imageRotation: ImageData[] = [
 		loaded: false
 	},
 	{
-		url: '/assets/gif-overlays/progress.gif',
-		duration: 5000,
-		loaded: false
-	},
-	{
-		url: '/assets/gif-overlays/vroom.gif',
-		duration: 7000,
+		url: '/assets/gif-overlays/test-oj.gif',
+		duration: 5260,
 		loaded: false
 	}
+	// {
+	// 	url: '/assets/gif-overlays/progress.gif',
+	// 	duration: 5000,
+	// 	loaded: false
+	// },
+	// {
+	// 	url: '/assets/gif-overlays/vroom.gif',
+	// 	duration: 7000,
+	// 	loaded: false
+	// }
 ];
 
 @Component({
