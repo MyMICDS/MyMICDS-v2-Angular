@@ -12,12 +12,12 @@ interface ImageData {
 const imageRotation: ImageData[] = [
 	{
 		url: '/assets/gif-overlays/jack-bagel.gif',
-		duration: 6416,
+		duration: 7720,
 		loaded: false
 	},
 	{
 		url: '/assets/gif-overlays/test-oj.gif',
-		duration: 5260,
+		duration: 4920,
 		loaded: false
 	}
 	// {
