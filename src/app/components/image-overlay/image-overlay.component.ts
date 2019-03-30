@@ -29,6 +29,11 @@ const imageRotation: ImageData[] = [
 		url: '/assets/gif-overlays/logo-draw.gif',
 		duration: 16500,
 		loaded: false
+	},
+	{
+		url: '/assets/gif-overlays/Logo-Draw-Forever.webp',
+		duration: 16500,
+		loaded: false
 	}
 	// {
 	// 	url: '/assets/gif-overlays/progress.gif',

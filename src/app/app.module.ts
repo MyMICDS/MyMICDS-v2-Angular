@@ -17,6 +17,7 @@ const jwtHelper = new JwtHelper();
 import { AppComponent } from './app.component';
 import { AboutComponent } from './components/about/about.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { AlphaVideoComponent } from './components/alpha-video/alpha-video.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
 
@@ -108,6 +109,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		AppComponent,
 		AboutComponent,
 		AlertComponent,
+		AlphaVideoComponent,
 		HomeComponent,
 		ModuleOptionsComponent,
 		ModuleOptionComponent,
