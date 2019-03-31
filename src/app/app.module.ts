@@ -66,6 +66,7 @@ import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { SummerComponent } from './components/summer/summer.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
+import { VideoOverlayComponent } from './components/video-overlay/video-overlay.component';
 
 import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
 
@@ -151,6 +152,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		SuggestionsComponent,
 		SummerComponent,
 		QuotesComponent,
+		VideoOverlayComponent,
 
 		// Directives
 		BlurDirective,
