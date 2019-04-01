@@ -1,3 +1,7 @@
+.video-container {
+	pointer-events: none;
+}
+
 .video-container ::ng-deep canvas {
 	width: 100%;
 }
