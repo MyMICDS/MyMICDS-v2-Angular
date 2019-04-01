@@ -31,6 +31,7 @@ export class VideoOverlayComponent implements AfterViewInit {
 	seeThruVideo: HTMLVideoElement;
 	shuffledVideoRotation: VideoData[] = this.videos.map(url => ({ url, loaded: false }));
 
+	fallback = false;
 	loading = true;
 	setup = false;
 	currentIndex = 0;
@@ -54,6 +55,7 @@ export class VideoOverlayComponent implements AfterViewInit {
 
 		} else {
 			// Fallback to gif
+			this.fallback = true;
 		}
 
 	}
@@ -79,7 +81,6 @@ export class VideoOverlayComponent implements AfterViewInit {
 	}
 
 	playVideo(i: number) {
-		console.log('call play video function', i);
 		// Shuffle at the beginning of each rotation
 		if (i === 0) {
 			this.shuffledVideoRotation = shuffle(this.shuffledVideoRotation);
@@ -103,7 +104,6 @@ export class VideoOverlayComponent implements AfterViewInit {
 	}
 
 	loadVideo(url: string): Observable<string> {
-		console.log('trigger load video', url);
 		return new Observable(observer => {
 			fetch(url)
 				.then(response => {

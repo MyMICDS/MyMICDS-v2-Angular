@@ -1,5 +1,6 @@
-<div class="video-container" [hidden]="loading">
+<div class="video-container" [hidden]="loading || fallback">
 	<video #video autoplay playsinline muted>
 		<source *ngIf="currentVideo" [src]="currentVideo" type="video/webm">
 	</video>
 </div>
+<img *ngIf="fallback" class="fallback" src="/assets/video-overlays/Jack-Bagel-Fallback.gif">
