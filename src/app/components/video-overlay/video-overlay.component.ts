@@ -17,7 +17,8 @@ export class VideoOverlayComponent implements AfterViewInit {
 
 	videos = [
 		'/assets/video-overlays/Jack-Bagel.webm',
-		'/assets/video-overlays/Test-OJ.webm'
+		'/assets/video-overlays/Test-OJ.webm',
+		'/assets/video-overlays/Test-Jump.webm',
 	];
 
 	// @ViewChildren('video') video: QueryList<ElementRef>;
