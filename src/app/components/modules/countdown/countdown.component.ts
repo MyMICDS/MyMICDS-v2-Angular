@@ -205,7 +205,9 @@ export class CountdownComponent implements OnInit, OnDestroy {
 			}
 			this.daysLeft = this.calculateSchoolDays(moment(), this.displayCountdown);
 		} else {
-			this.daysLeft = -moment().diff(this.displayCountdown, 'days');
+			// Set display countdown to 3:15 so that it's not at midnight (0:00) and gives a date that we expect to be wrong
+			const targetDate = moment(this.displayCountdown).startOf('day').hour(15).minute(15);
+			this.daysLeft = targetDate.diff(moment(), 'days');
 		}
 		this.styleDaysLeft();
 		this.onResize();
