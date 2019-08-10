@@ -1,7 +1,25 @@
-import { MyMICDS, GetScheduleResponse, ScheduleBlock, ClassType, Block } from '@mymicds/sdk';
+import {
+  MyMICDS,
+  GetScheduleResponse,
+  ScheduleBlock,
+  ClassType,
+  Block
+} from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ViewChild,
+  ElementRef,
+  NgZone
+} from '@angular/core';
+import {
+  hexToRgb,
+  rainbowSafeWord,
+  rainbowCanvasGradient
+} from '../../../common/utils';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
@@ -15,8 +33,8 @@ declare const Chart: any;
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
-export class ProgressComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
-
+export class ProgressComponent extends SubscriptionsComponent
+  implements OnInit, OnDestroy {
   @ViewChild('moduleContainer') moduleContainer: ElementRef;
   // Used for collapsing date and if progress bar should be horizontal or vertical
   moduleHeight: number;
@@ -64,9 +82,9 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     super();
   }
 
-	/*
-	 * Configure progress bar
-	 */
+  /*
+   * Configure progress bar
+   */
 
   // Returns default data for progress bar
   defaultColors(): string[] {
@@ -102,11 +120,13 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
       }
     };
     onContainerResize();
-    this.resizeSensorModuleContainer = new ResizeSensor(this.moduleContainer.nativeElement, onContainerResize);
+    this.resizeSensorModuleContainer = new ResizeSensor(
+      this.moduleContainer.nativeElement,
+      onContainerResize
+    );
 
     // Get Progress Bar <canvas>
     this.ctx = document.getElementsByClassName('progress-chart')[0];
-
 
     // Add resize sensor so we know what to change font size to
     const onChartResize = () => {
@@ -124,7 +144,10 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     this.resizeSensorChart = new ResizeSensor(this.ctx, onChartResize);
 
     // Rainbow color top priority
-    this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
+    this.rainbow = rainbowCanvasGradient(
+      this.ctx.offsetWidth,
+      this.ctx.offsetHeight
+    );
 
     // Initialize Progress Bar
     this.progressBar = new Chart(this.ctx, {
@@ -132,11 +155,13 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
       data: {
         labels: this.defaultLabels(),
         durations: this.defaultDurations(),
-        datasets: [{
-          data: this.defaultData(),
-          backgroundColor: this.defaultColors(),
-          borderWidth: 0
-        }]
+        datasets: [
+          {
+            data: this.defaultData(),
+            backgroundColor: this.defaultColors(),
+            borderWidth: 0
+          }
+        ]
       },
       options: {
         responsive: true,
@@ -150,7 +175,11 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
         tooltips: {
           callbacks: {
             label: function(tooltipItem, data) {
-              return data.labels[tooltipItem.index] + ': ' + data.durations[tooltipItem.index];
+              return (
+                data.labels[tooltipItem.index] +
+                ': ' +
+                data.durations[tooltipItem.index]
+              );
             }
           }
         },
@@ -163,17 +192,21 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     this.timer = setInterval(() => {
       this.today = new Date();
       // Calculate rainbow gradient again in case module dimensions changed
-      this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
+      this.rainbow = rainbowCanvasGradient(
+        this.ctx.offsetWidth,
+        this.ctx.offsetHeight
+      );
       this.calculatePercentages();
     }, 1000);
 
     // Get today's schedule
     this.addSubscription(
-      this.mymicds.schedule.get({
-        year: this.today.getFullYear(),
-        month: this.today.getMonth() + 1,
-        day: this.today.getDate()
-      })
+      this.mymicds.schedule
+        .get({
+          year: this.today.getFullYear(),
+          month: this.today.getMonth() + 1,
+          day: this.today.getDate()
+        })
         .subscribe(({ schedule }) => {
           this.ngZone.run(() => {
             if (schedule) {
@@ -194,9 +227,9 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     this.progressBar.destroy();
   }
 
-	/*
-	 * Calculate schedule data and store to variables
-	 */
+  /*
+   * Calculate schedule data and store to variables
+   */
 
   calculatePercentages() {
     // Fallback if schedule is not set or no school
@@ -207,13 +240,15 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
       this.progressBar.data.labels = this.defaultLabels();
       this.progressBar.data.durations = this.defaultDurations();
 
-      this.linearProgress = [{
-        className: this.defaultLabels()[0],
-        percentage: this.defaultData()[0],
-        progressWidth: this.defaultData()[0],
-        color: this.defaultColors()[0],
-        current: false
-      }];
+      this.linearProgress = [
+        {
+          className: this.defaultLabels()[0],
+          percentage: this.defaultData()[0],
+          progressWidth: this.defaultData()[0],
+          color: this.defaultColors()[0],
+          current: false
+        }
+      ];
 
       this.progressBar.update();
       return;
@@ -223,7 +258,10 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     const nowTime = this.today.getTime();
 
     // End of School constant created for DRY
-    const schoolDayEnd315 = moment(this.today).startOf('day').hours(15).minutes(15);
+    const schoolDayEnd315 = moment(this.today)
+      .startOf('day')
+      .hours(15)
+      .minutes(15);
 
     // Clear linear progress
     this.linearProgress = [];
@@ -243,9 +281,12 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
       const currBlock = this.schedule.classes[i];
       const nextBlock = this.schedule.classes[i + 1];
 
-      console.log(this.schedule.classes[this.schedule.classes.length - 1].end !== schoolDayEnd315);
+      console.log(
+        this.schedule.classes[this.schedule.classes.length - 1].end !==
+          schoolDayEnd315
+      );
 
-      var breakObj = {
+      let breakObj = {
         class: {
           name: 'Break',
           teacher: null,
@@ -258,8 +299,12 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
         end: nextBlock.start
       };
 
-			// If there's a break as the last class of the day, make the break end at 3:15
-      if (this.schedule.classes[this.schedule.classes.length - 1].end !== schoolDayEnd315 && this.schedule.classes.length - 1 === i) {
+      // If there's a break as the last class of the day, make the break end at 3:15
+      if (
+        this.schedule.classes[this.schedule.classes.length - 1].end !==
+          schoolDayEnd315 &&
+        this.schedule.classes.length - 1 === i
+      ) {
         breakObj.end = schoolDayEnd315;
         breaks.push(breakObj);
       } else if (currBlock.end !== nextBlock.start) {
@@ -281,7 +326,9 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 
       if (typeof formattedSchedule[i].class.color === 'string') {
         // Check if rainbow color
-        if (formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord) {
+        if (
+          formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord
+        ) {
           formattedScheduleColors[i] = this.rainbow;
         } else {
           formattedScheduleColors[i] = formattedSchedule[i].class.color;
@@ -294,7 +341,6 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
       // const color = hexToRgb(formattedSchedule[i].class);
       console.log('schedule leftover', formattedSchedule[i]);
       // formattedScheduleColors[i] = `rgba(${color.join(', ')}, 0.8)`;
-
 
       // if (typeof formattedSchedule[i].class  && formattedSchedule[i].class.color) {
       //
@@ -369,7 +415,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
           percentage: +classPercent.toFixed(2),
           progressWidth: roundedPercent,
           color,
-          current: (0 < classPercent && classPercent < 100)
+          current: 0 < classPercent && classPercent < 100
         });
       }
 
@@ -399,16 +445,14 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     this.progressBar.data.durations = newDurations;
 
     this.progressBar.update();
-
   }
 
-	/*
-	 * Gets percentage of class completed between two date objects relative to the current time.
-	 * Will return 0 if class hasn't started yet or 100 of class has already finished.
-	 */
+  /*
+   * Gets percentage of class completed between two date objects relative to the current time.
+   * Will return 0 if class hasn't started yet or 100 of class has already finished.
+   */
 
   getPercent(start: moment.Moment, end: moment.Moment): number {
-
     const numerator = this.today.getTime() - start.valueOf();
     const denominator = end.valueOf() - start.valueOf();
 
@@ -423,12 +467,11 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     }
   }
 
-	/*
-	 * Calculates human-readable duration of class using the total length.
-	 */
+  /*
+   * Calculates human-readable duration of class using the total length.
+   */
 
   getDuration(classLength): string {
-
     const duration = moment.duration(classLength);
     let tooltip = '';
     let hasHours = false;
@@ -456,7 +499,6 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
     }
 
     return tooltip;
-
   }
 }
 
