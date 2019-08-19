@@ -151,7 +151,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			);
 			// Get Canvas events
 			this.addSubscription(
-				this.mymicds.canvas.getEvents().subscribe(
+				this.mymicds.canvas.getEvents(true).subscribe(
 					data => {
 						this.ngZone.run(() => {
 							this.canvasLoading = false;
@@ -221,7 +221,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 		// Get events from back-end
 		this.addSubscription(
-			this.mymicds.planner.getEvents().subscribe(
+			this.mymicds.planner.getEvents(true).subscribe(
 				({ events }) => {
 					this.ngZone.run(() => {
 						this.plannerLoading = false;

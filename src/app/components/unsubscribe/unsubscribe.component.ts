@@ -33,7 +33,7 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 					const hash = params.hash;
 					const type = queryParams.type ? queryParams.type.toUpperCase() : 'ALL';
 					this.addSubscription(
-						this.mymicds.notifications.unsubscribe({ user, hash, type }).subscribe(
+						this.mymicds.notifications.unsubscribe({ user, hash, type }, true).subscribe(
 							() => {
 								this.ngZone.run(() => {
 									this.unsubscribeResponse = true;

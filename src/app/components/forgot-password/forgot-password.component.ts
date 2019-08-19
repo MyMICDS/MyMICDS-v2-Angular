@@ -36,7 +36,7 @@ export class ForgotPasswordComponent extends SubscriptionsComponent implements O
 	forgotPassword() {
 		this.submitted = true;
 		this.addSubscription(
-			this.mymicds.auth.forgotPassword({ user: this.user }).subscribe(
+			this.mymicds.auth.forgotPassword({ user: this.user }, true).subscribe(
 				() => {
 					this.ngZone.run(() => {
 						this.forgotResponse = true;
