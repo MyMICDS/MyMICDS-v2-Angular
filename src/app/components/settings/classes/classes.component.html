@@ -36,15 +36,16 @@
 				<input class="form-control" placeholder="Last Name" name="teacherLastName" [value]="class.teacher.lastName" [(ngModel)]="class.teacher.lastName">
 			</td>
 			<td class="class-manage">
-				<button class="btn btn-info selected"
-					[class.active]="class._id === aliasClass?._id"
-					(click)="aliasClass = class; aliasModal.show()"
-					[disabled]="savingClasses || !class._id"
-					tooltip="Save the class before linking it!"
-					[isDisabled]="savingClasses || !class._id">
-					<i class="fa fa-link"></i>
-					Link
-				</button>
+				<div class="tooltip-container" >
+					<button class="btn btn-info selected"
+						[class.active]="class._id === aliasClass?._id"
+						(click)="aliasClass = class; aliasModal.show()"
+						[disabled]="savingClasses || !class._id"
+						tooltip="Save the class before linking it!">
+						<i class="fa fa-link"></i>
+						Link
+					</button>
+				</div>
 				<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="savingClasses || !classChanged(class._id) || !class._id">
 					<i class="fa fa-undo"></i>
 					Restore
