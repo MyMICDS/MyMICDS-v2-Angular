@@ -281,11 +281,6 @@ export class ProgressComponent extends SubscriptionsComponent
 			const currBlock = this.schedule.classes[i];
 			const nextBlock = this.schedule.classes[i + 1];
 
-			console.log(
-				this.schedule.classes[this.schedule.classes.length - 1].end !==
-					schoolDayEnd315
-			);
-
 			let breakObj = {
 				class: {
 					name: 'Break',
