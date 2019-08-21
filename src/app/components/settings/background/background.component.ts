@@ -58,7 +58,7 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 		this.uploadBackground(file);
 	}
 
-	private uploadBackground(file: File) {
+	uploadBackground(file: File) {
 		this.uploadingBackground = true;
 		this.mymicds.background.upload({ background: file }, true).subscribe(
 			() => {
