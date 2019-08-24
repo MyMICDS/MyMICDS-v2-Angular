@@ -16,7 +16,7 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 	// Weather object converted to metric
 	weatherMetric: GetWeatherResponse['weather'] = null;
 	@Input() metric = false;
-	@ViewChild('moduleContainer') containerEl: ElementRef;
+	@ViewChild('moduleContainer', { static: false }) containerEl: ElementRef;
 
 	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
 		super();

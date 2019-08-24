@@ -33,8 +33,8 @@ const colors = [
 })
 export class ConfettiComponent implements OnInit {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
-	@ViewChild('confetti') canvas: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	@ViewChild('confetti', { static: true }) canvas: ElementRef;
 	confetti: ConfettiContext;
 
 	constructor() { }

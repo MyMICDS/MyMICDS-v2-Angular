@@ -23,7 +23,7 @@ export enum COLOR {
 })
 export class StickynotesComponent extends SubscriptionsComponent implements OnInit {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	resizeSensorModuleContainer: ResizeSensor;
 

@@ -13,7 +13,7 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 })
 export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	moduleHeight: number;
 	resizeSensor: ResizeSensor;

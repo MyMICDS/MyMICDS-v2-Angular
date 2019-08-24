@@ -28,11 +28,11 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 	moduleHeight: number;
 	isHorizontal = true;
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	resizeSensor: ResizeSensor;
 
 	updateCurrentInterval: NodeJS.Timer;
-	@ViewChild('scheduleQueue') scheduleQueue: ElementRef;
+	@ViewChild('scheduleQueue', { static: true }) scheduleQueue: ElementRef;
 	@ViewChildren('displayBlock') displayBlocks: QueryList<ElementRef>;
 	current = moment();
 

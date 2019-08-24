@@ -17,7 +17,7 @@ import { AlertService } from '../../services/alert.service';
 })
 export class HomeComponent extends SubscriptionsComponent implements OnInit, AfterViewInit {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	moduleHeight: number;
 	resizeSensor: ResizeSensor;
@@ -39,7 +39,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	modules = config;
 
 	// Gridster component
-	@ViewChild('gridster') gridster: GridsterComponent;
+	@ViewChild('gridster', { static: false }) gridster: GridsterComponent;
 	@ViewChildren('gridItem') gridItems: QueryList<GridsterItemComponent>;
 	// Gridster options
 	gridsterOptions: IGridsterOptions = {

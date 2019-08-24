@@ -42,7 +42,7 @@ export enum COUNTDOWN_MODE {
 })
 export class CountdownComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	@ViewChildren(AngularFittextDirective) private fittexts: QueryList<AngularFittextDirective>;
 	resizeSensor: ResizeSensor;
 

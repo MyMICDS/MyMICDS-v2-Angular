@@ -35,7 +35,7 @@ declare const Chart: any;
 })
 export class ProgressComponent extends SubscriptionsComponent
 	implements OnInit, OnDestroy {
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	// Used for collapsing date and if progress bar should be horizontal or vertical
 	moduleHeight: number;
 	moduleWidth: number;

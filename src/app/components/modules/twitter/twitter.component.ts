@@ -18,7 +18,7 @@ export class TwitterComponent implements OnInit {
 		}
 	}
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	resizeSensor: ResizeSensor;
 
 	constructor() { }

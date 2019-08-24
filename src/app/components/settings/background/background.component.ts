@@ -13,7 +13,7 @@ import { BackgroundService } from '../../../services/background.service';
 })
 export class BackgroundComponent extends SubscriptionsComponent implements OnInit {
 
-	@ViewChild('uploadForm') uploadForm: ElementRef;
+	@ViewChild('uploadForm', { static: true }) uploadForm: ElementRef;
 
 	// Background Upload Form
 	hasDefaultBackground = true;
