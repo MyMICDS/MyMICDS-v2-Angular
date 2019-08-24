@@ -43,8 +43,8 @@
 		<ngx-gridster #gridster [options]="gridsterOptions">
 			<ngx-gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
-				[(x)]="module.column"
-				[(y)]="module.row"
+				[(x)]="module.column" [xSm]="module.column" [xMd]="module.column" [xLg]="module.column"
+				[(y)]="module.row" [ySm]="module.row" [yMd]="module.row" [yLg]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
 				[dragAndDrop]="editMode"
