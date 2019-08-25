@@ -1,33 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { SportsService } from '../../services/sports.service';
-import { AlertService } from '../../services/alert.service';
+import { MyMICDS, GetScoresResponse } from '@mymicds/sdk';
+
+import { Component, OnInit, NgZone } from '@angular/core';
+
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-sports',
 	templateUrl: './sports.component.html',
 	styleUrls: ['./sports.component.scss']
 })
-export class SportsComponent implements OnInit {
+export class SportsComponent extends SubscriptionsComponent implements OnInit {
 
-	constructor(private sportsService: SportsService, private alertService: AlertService) { }
-
-	sportsEvents = [];
-	sportsScores = [];
+	sportsEvents: GetScoresResponse['scores']['events'] = [];
+	sportsScores: GetScoresResponse['scores']['scores'] = [];
 	loadingScores: boolean;
+
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+		super();
+	}
 
 	ngOnInit() {
 		this.loadingScores = true;
-		this.sportsService.getScores().subscribe(
-			data => {
-				this.sportsEvents = data.events;
-				this.sportsScores = data.scores;
-				console.log(data.scores);
-				this.loadingScores = false;
-			},
-			err => {
-				this.alertService.addAlert('danger', 'Error getting sports data:', err);
-			}
-		)
+		this.addSubscription(
+			this.mymicds.sports.getScores().subscribe(({ scores }) => {
+				this.ngZone.run(() => {
+					this.sportsEvents = scores.events;
+					this.sportsScores = scores.scores;
+					console.log(scores.scores);
+					this.loadingScores = false;
+				});
+			})
+		);
 	}
 
 

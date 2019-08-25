@@ -1,19 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-// Even though we're not using the updating functionality in `useragent`,
-// Angular CLI yells at us if we don't have the optional dependencies installed
-// Because AoT/Webpack nonsense
-import * as useragent from 'useragent';
+import { MyMICDS } from '@mymicds/sdk';
 
+import { Component, OnInit, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { UAParser } from 'ua-parser-js';
+
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'mymicds-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends SubscriptionsComponent implements OnInit {
 
 	loginModel = {
 		user: '',
@@ -21,34 +20,38 @@ export class LoginComponent implements OnInit {
 		remember: true,
 	};
 
-	constructor(
-		private router: Router,
-		private alertService: AlertService,
-		private authService: AuthService
-	) { }
+	constructor(private mymicds: MyMICDS, private router: Router, private ngZone: NgZone, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if (this.authService.authSnapshot) {
+		if (this.mymicds.auth.isLoggedIn) {
 			this.router.navigate(['/home']);
 		}
 	}
 
 	login() {
-		const agent = useragent.parse(navigator.userAgent);
-		const jwtComment = `${agent.family}/${agent.os.family}`; // i.e. "Chrome/Linux"
+		const agent = new UAParser(navigator.userAgent);
+		const jwtComment = `${agent.getBrowser().name}/${agent.getOS().name}`; // i.e. "Chrome/Linux"
 
-		this.authService.login(this.loginModel.user, this.loginModel.password, jwtComment, this.loginModel.remember).subscribe(
-			loginRes => {
-				if (loginRes.success) {
-					this.router.navigateByUrl('/home');
-				} else {
-					this.alertService.addAlert('warning', 'Warning!', loginRes.message, 3);
-				}
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Login Error!', error);
-			}
+		console.log(jwtComment);
+
+		this.addSubscription(
+			this.mymicds.auth.login({
+				user: this.loginModel.user,
+				password: this.loginModel.password,
+				remember: this.loginModel.remember,
+				comment: jwtComment
+			}).subscribe(loginRes => {
+				this.ngZone.run(() => {
+					if (loginRes.success) {
+						this.router.navigate(['/home']);
+					} else {
+						this.alertService.addWarning(loginRes.message);
+					}
+				});
+			})
 		);
 	}
 

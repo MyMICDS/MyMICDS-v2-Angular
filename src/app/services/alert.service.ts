@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Alert, AlertType } from '../common/alert';
 import { contains } from '../common/utils';
-import { Subject } from 'rxjs/Subject';
-import { UUID } from 'angular2-uuid';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class AlertService {
@@ -9,41 +9,24 @@ export class AlertService {
 	private alertEmitSource = new Subject();
 	alertEmit$ = this.alertEmitSource.asObservable();
 
-	alertTypes = [
-		'info',
-		'success',
-		'warning',
-		'danger'
-	];
+	addError(message: string) {
+		this.addAlert(new Alert(AlertType.Error, message));
+	}
 
-	addAlert(type: string, title: string, content: string, expiresIn: number = -1) {
-		// Default alert type to 'info'
-		if (!contains(this.alertTypes, type)) {
-			type = 'info';
-		}
+	addWarning(message: string) {
+		this.addAlert(new Alert(AlertType.Warning, message, 5));
+	}
 
-		let alert: Alert = {
-			id: UUID.UUID(),
-			expiresIn,
-			type,
-			title,
-			content
-		};
+	addSuccess(message: string) {
+		this.addAlert(new Alert(AlertType.Success, message, 3));
+	}
 
-		// If error and we aren't already giving any advice to fix problems, append custom message
-		if (type === 'danger' && !alert.content.includes(' to fix any problems.')) {
-			alert.content += ' Try refreshing the page to fix any problems.';
-		}
+	addAnnouncement(message: string) {
+		this.addAlert(new Alert(AlertType.Info, message));
+	}
 
+	private addAlert(alert: Alert) {
 		this.alertEmitSource.next(alert);
 	}
 
-}
-
-export interface Alert {
-	id: string;
-	expiresIn?: number;
-	type: string;
-	title: string;
-	content: string;
 }

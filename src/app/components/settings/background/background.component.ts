@@ -1,7 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
 
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { AuthService } from '../../../services/auth.service';
 import { BackgroundService } from '../../../services/background.service';
 
 @Component({
@@ -9,9 +11,9 @@ import { BackgroundService } from '../../../services/background.service';
 	templateUrl: './background.component.html',
 	styleUrls: ['./background.component.scss']
 })
-export class BackgroundComponent implements OnDestroy {
+export class BackgroundComponent extends SubscriptionsComponent implements OnInit {
 
-	backgroundSubscription: any;
+	@ViewChild('uploadForm', { static: true }) uploadForm: ElementRef;
 
 	// Background Upload Form
 	hasDefaultBackground = true;
@@ -19,23 +21,22 @@ export class BackgroundComponent implements OnDestroy {
 	uploadingBackground = false;
 
 	constructor(
+		private mymicds: MyMICDS,
+		private ngZone: NgZone,
 		private alertService: AlertService,
-		private authService: AuthService,
-		private backgroundService: BackgroundService,
+		private backgroundService: BackgroundService
 	) {
-		this.backgroundSubscription = this.backgroundService.background$.subscribe(
-			background => {
-				this.hasDefaultBackground = background.hasDefault;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Background Error!', error);
-			}
-		);
+		super();
 	}
 
-	ngOnDestroy() {
-		// Unsubscribe to prevent memory leaks or something
-		this.backgroundSubscription.unsubscribe();
+	ngOnInit() {
+		this.addSubscription(
+			this.mymicds.background.$.subscribe(background => {
+				this.ngZone.run(() => {
+					this.hasDefaultBackground = background.hasDefault;
+				});
+			})
+		);
 	}
 
 	/*
@@ -46,46 +47,32 @@ export class BackgroundComponent implements OnDestroy {
 		this.fileSelected = true;
 	}
 
-	uploadBackground($event) {
-		this.uploadingBackground = true;
-
-		let fileInput: any = document.getElementById('upload-background');
-		let FileList: FileList = fileInput.files;
-		let file: File = FileList[0];
-
-		this.backgroundService.upload(file).subscribe(
-			() => {
-				this.uploadingBackground = false;
-				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
-			},
-			error => {
-				this.uploadingBackground = false;
-				this.alertService.addAlert('danger', 'Upload Background Error!', error);
-			}
-		);
-	}
-
 	deleteBackground() {
-		this.backgroundService.delete().subscribe(
-			() => {
-				this.alertService.addAlert('success', 'Success!', 'Deleted background!', 3);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Delete Background Error!', error);
-			}
-		);
+		this.mymicds.background.delete().subscribe(() => {
+			this.alertService.addSuccess('Deleted background!');
+		});
 	}
 
 	setTrianglify() {
+		const file = this.backgroundService.generateTrianglify();
+		this.uploadBackground(file);
+	}
+
+	uploadBackground(file: File) {
 		this.uploadingBackground = true;
-		this.backgroundService.setTrianglify().subscribe(
+		this.mymicds.background.upload({ background: file }, true).subscribe(
 			() => {
-				this.uploadingBackground = false;
-				this.alertService.addAlert('success', 'Success!', 'Uploaded background!', 3);
+				this.ngZone.run(() => {
+					this.alertService.addSuccess('Uploaded background!');
+				});
 			},
-			error => {
-				this.uploadingBackground = false;
-				this.alertService.addAlert('danger', 'Upload Background Error!', error);
+			() => {},
+			() => {
+				this.ngZone.run(() => {
+					this.uploadingBackground = false;
+					this.fileSelected = false;
+					this.uploadForm.nativeElement.reset();
+				});
 			}
 		);
 	}

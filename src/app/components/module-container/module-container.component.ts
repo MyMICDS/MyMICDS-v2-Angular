@@ -13,7 +13,7 @@ export class ModuleContainerComponent {
 
 	private currentInputs: { [key: string]: any };
 
-	@ViewChild('module', { read: ViewContainerRef }) dynamicModuleContainer: ViewContainerRef;
+	@ViewChild('module', { read: ViewContainerRef, static: true }) dynamicModuleContainer: ViewContainerRef;
 
 	@Input()
 	set type(type: string) {

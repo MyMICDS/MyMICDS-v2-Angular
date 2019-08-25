@@ -1,46 +1,65 @@
-import { Component, OnInit } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
+
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { typeOf } from '../../common/utils';
 
-import { AuthService } from '../../services/auth.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-confirm',
 	templateUrl: './confirm.component.html',
 	styleUrls: ['./confirm.component.scss']
 })
-export class ConfirmComponent implements OnInit {
+export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
 	typeOf = typeOf;
-	confirmResponse: any;
+	confirmResponse: boolean | string;
 
-	constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService) { }
+	constructor(
+		private mymicds: MyMICDS,
+		private router: Router,
+		private route: ActivatedRoute,
+		private ngZone: NgZone,
+		private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if (this.authService.authSnapshot) {
+		if (this.mymicds.auth.isLoggedIn) {
+			this.alertService.addSuccess('You are already logged in!');
 			this.router.navigate(['/home']);
 			return;
 		}
 
-		this.route.params.subscribe(
-			params => {
-				const user = params.user;
-				const hash = params.hash;
+		this.addSubscription(
+			this.route.params.subscribe(
+				params => {
+					const user = params.user;
+					const hash = params.hash;
 
-				this.authService.confirm(user, hash).subscribe(
-					() => {
-						this.confirmResponse = true;
-					},
-					error => {
-						this.confirmResponse = 'Invalid confirmation link!';
-					}
-				);
-			},
-			error => {
-				this.confirmResponse = '';
-			}
+					this.addSubscription(
+						this.mymicds.auth.confirm({ user, hash }, true).subscribe(
+							() => {
+								this.ngZone.run(() => {
+									this.confirmResponse = true;
+								});
+							},
+							() => {
+								this.ngZone.run(() => {
+									this.confirmResponse = 'Invalid confirmation link!';
+								});
+							}
+						)
+					);
+				},
+				() => {
+					this.confirmResponse = '';
+				}
+			)
 		);
 	}
 

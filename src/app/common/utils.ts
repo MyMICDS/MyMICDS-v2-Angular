@@ -24,7 +24,7 @@ export function capitalizeURL(str: string) {
  */
 
 export function isAlphabetic(str: string) {
-	return /^[a-zA-Z()\-]+$/.test(str);
+	return /^[a-zA-Z()\-]*$/.test(str);
 }
 
 /*
@@ -136,7 +136,7 @@ export function darkenColor(color: string, amt: number) {
 export function hexToRgb(hex: string) {
 	// Expand shorthand form (e.g. '03F') to full form (e.g. '0033FF')
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-	hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+	hex = hex.replace(shorthandRegex, function(_, r, g, b) {
 		return r + r + g + g + b + b;
 	});
 
@@ -213,3 +213,23 @@ export const months = [
 	'November',
 	'December'
 ];
+
+/**
+ * Get the ordinal suffic of a number (Ex. 1st, 2nd, 3rd)
+ * https://stackoverflow.com/a/13627586/4594858
+ */
+
+export function ordinalSuffix(i) {
+	const j = i % 10;
+	const k = i % 100;
+	if (j === 1 && k !== 11) {
+		return 'st';
+	}
+	if (j === 2 && k !== 12) {
+		return 'nd';
+	}
+	if (j === 3 && k !== 13) {
+		return 'rd';
+	}
+	return 'th';
+}

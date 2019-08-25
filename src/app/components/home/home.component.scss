@@ -62,9 +62,10 @@
 	.grid-container {
 		margin: -($blur-margin / 2);
 
-		gridster-item {
+		ngx-gridster-item {
 
 			mymicds-module-container {
+				height: 100%;
 				z-index: -1;
 			}
 
@@ -142,10 +143,6 @@
 					font-size: 2.5rem;
 					color: $sophisticated-white;
 				}
-			}
-
-			mymicds-module-container {
-				height: 100%;
 			}
 		}
 	}

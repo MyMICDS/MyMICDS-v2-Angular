@@ -2,7 +2,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './common/auth.guard';
 import { CanDeactivateGuard } from './common/canDeactivate.guard';
-import moment from 'moment';
+import * as moment from 'moment';
 
 import { capitalizeURL, months } from './common/utils';
 
@@ -13,6 +13,7 @@ import { DailyBulletinComponent } from './components/daily-bulletin/daily-bullet
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AboutComponent } from './components/about/about.component';
+import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
 import { HelpComponent } from './components/help/help.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
@@ -203,6 +204,10 @@ export const appRoutes: Routes = [
 	{
 		path: 'module-inspector',
 		component: ModuleInspectorComponent
+	},
+	{
+		path: 'alert-debug',
+		component: AlertDebugComponent
 	}
 ];
 

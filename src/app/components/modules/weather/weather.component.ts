@@ -1,42 +1,38 @@
-import { Component, Input, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { MyMICDS, GetWeatherResponse } from '@mymicds/sdk';
+
+import { Component, Input, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
-import { AlertService } from '../../../services/alert.service';
-import { WeatherService } from '../../../services/weather.service';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-weather',
 	templateUrl: './weather.component.html',
 	styleUrls: ['./weather.component.scss']
 })
-export class WeatherComponent implements OnInit, OnDestroy {
+export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 
-	weather: any = null;
+	weather: GetWeatherResponse['weather'] = null;
 	// Weather object converted to metric
-	weatherMetric: any = null;
-	subscription: any;
+	weatherMetric: GetWeatherResponse['weather'] = null;
 	@Input() metric = false;
-	@ViewChild('moduleContainer') containerEl: ElementRef;
+	@ViewChild('moduleContainer', { static: false }) containerEl: ElementRef;
 
-	constructor(private alertService: AlertService, private weatherService: WeatherService) { }
-
-	ngOnInit() {
-		ElementQueries.listen();
-		ElementQueries.init();
-		this.subscription = this.weatherService.getWeather().subscribe(
-			data => {
-				this.weather = data;
-				this.weatherMetric = this.convertToMetric(data);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Weather Error!', error);
-			}
-		);
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+		super();
 	}
 
-	ngOnDestroy() {
-		// Unsubscribe to prevent memory leaks or something
-		this.subscription.unsubscribe();
+	ngOnInit() {
+		ElementQueries.init();
+
+		this.addSubscription(
+			this.mymicds.weather.get().subscribe(({ weather }) => {
+				this.ngZone.run(() => {
+					this.weather = weather;
+					this.weatherMetric = this.convertToMetric(weather);
+				});
+			})
+		);
 	}
 
 	private convertToMetric(weather) {

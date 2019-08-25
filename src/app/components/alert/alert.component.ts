@@ -1,18 +1,54 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AlertService, Alert } from '../../services/alert.service';
+import { Component, OnInit } from '@angular/core';
+
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
+import { Alert } from '../../common/alert';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
 	selector: 'mymicds-alert',
 	templateUrl: './alert.component.html',
 	styleUrls: ['./alert.component.scss']
 })
-export class AlertComponent implements OnInit, OnDestroy {
+export class AlertComponent extends SubscriptionsComponent implements OnInit {
 
 	subscription: any;
 	alerts: Alert[] = [];
-	alertsDismissed = { };
+	alertsDismissed = {};
 
-	constructor(private alertService: AlertService) { }
+	constructor(private alertService: AlertService) {
+		super();
+	}
+
+	ngOnInit() {
+		// Subscribe to alerts service observable
+		this.addSubscription(
+			this.alertService.alertEmit$.subscribe((data: Alert) => {
+				// Check if there's another alert with same content
+				for (const alert of this.alerts) {
+					if (alert.equals(data)) {
+						alert.repeat++;
+						if (0 < data.expiresIn) {
+							clearTimeout(alert.timeout);
+							alert.timeout = setTimeout(() => {
+								this.dismiss(alert.id);
+							}, data.expiresIn * 1000);
+						}
+						return;
+					}
+				}
+
+				// If there's an expiration, dismiss it automatically
+				if (data.expiresIn && 0 < data.expiresIn) {
+					data.timeout = setTimeout(() => {
+						this.dismiss(data.id);
+					}, data.expiresIn * 1000);
+				}
+
+				// Append alert to beginning of array
+				this.alerts.unshift(data);
+			})
+		);
+	}
 
 	deleteAlert(id) {
 		this.alerts.forEach((value, index) => {
@@ -25,7 +61,7 @@ export class AlertComponent implements OnInit, OnDestroy {
 
 	dismiss(id) {
 		// How long CSS delete animation is in milliseconds
-		let animationTime = 200;
+		const animationTime = 200;
 
 		// Apply dismiss class to alert
 		this.alertsDismissed[id] = true;
@@ -34,28 +70,6 @@ export class AlertComponent implements OnInit, OnDestroy {
 		setTimeout(() => {
 			this.deleteAlert(id);
 		}, animationTime - 5);
-	}
-
-	ngOnInit() {
-		// Subscribe to alerts service observable
-		this.subscription = this.alertService.alertEmit$.subscribe(
-			(data: Alert) => {
-				// Append alert to beginning of array
-				this.alerts.unshift(data);
-
-				// If there's an expiration, dismiss it automatically
-				if (data.expiresIn && 0 < data.expiresIn) {
-					setTimeout(() => {
-						this.dismiss(data.id);
-					}, data.expiresIn * 1000);
-				}
-			}
-		);
-	}
-
-	ngOnDestroy() {
-		// Unsubscribe to prevent memory leaks or something
-		this.subscription.unsubscribe();
 	}
 
 }

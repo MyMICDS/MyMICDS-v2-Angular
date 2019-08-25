@@ -1,13 +1,13 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, ViewChildren, QueryList, Renderer2 } from '@angular/core';
-import { trigger, state, style } from '@angular/animations';
-import { Observable } from 'rxjs/Observable';
-import { AngularFittextDirective } from 'angular-fittext';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
-import moment from 'moment';
+import { MyMICDS, GetPortalDayRotationResponse, GetBreaksResponse } from '@mymicds/sdk';
 
-import { AlertService } from '../../../services/alert.service';
-import { PortalService } from '../../../services/portal.service';
-import { DatesService } from '../../../services/dates.service';
+import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, ViewChildren, QueryList, NgZone } from '@angular/core';
+import { trigger, state, style } from '@angular/animations';
+import { combineLatest } from 'rxjs';
+import { AngularFittextDirective } from 'angular-fittext';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import * as moment from 'moment';
+
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 export enum COUNTDOWN_MODE {
 	TIME_OFF = 'TIME_OFF',
@@ -40,12 +40,11 @@ export enum COUNTDOWN_MODE {
 		])
 	]
 })
-export class CountdownComponent implements OnInit, OnDestroy {
+export class CountdownComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
-	@ViewChildren(AngularFittextDirective)
-	private fittexts: QueryList<AngularFittextDirective>;
-	datesSubscription: any;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	@ViewChildren(AngularFittextDirective) private fittexts: QueryList<AngularFittextDirective>;
+	resizeSensor: ResizeSensor;
 
 	@Input()
 	get mode() {
@@ -98,10 +97,10 @@ export class CountdownComponent implements OnInit, OnDestroy {
 	private _countdownTo: Date;
 
 	countdownInterval: NodeJS.Timer;
-	dayRotation: number[][];
-	schoolStarts: Date;
-	schoolEnds: Date;
-	breaks: any;
+	dayRotation: GetPortalDayRotationResponse;
+	schoolStarts: moment.Moment;
+	schoolEnds: moment.Moment;
+	breaks: GetBreaksResponse;
 
 	displayLabel: string = null;
 	displayCountdown = null;
@@ -113,42 +112,37 @@ export class CountdownComponent implements OnInit, OnDestroy {
 
 	shaking: string;
 
-	constructor(
-		private alertService: AlertService,
-		private portalService: PortalService,
-		private datesService: DatesService,
-		private renderer: Renderer2) {}
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+		super();
+	}
 
 	ngOnInit() {
 		setTimeout(() => this.onResize());
-		new ResizeSensor(this.moduleContainer.nativeElement, () => this.onResize());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => this.onResize());
 
 		this.countdownInterval = setInterval(() => {
 			this.calculate();
 		}, 1000);
 
-		this.datesSubscription = Observable.combineLatest(
-			this.portalService.dayRotation(),
-			this.datesService.schoolStarts(),
-			this.datesService.schoolEnds(),
-			this.datesService.breaks()
-		).subscribe(
-			([days, schoolStarts, schoolEnds, breaks]) => {
-				this.dayRotation = days;
-				this.schoolStarts = schoolStarts;
-				this.schoolEnds = schoolEnds;
-				this.breaks = breaks;
-				this.calculate();
-				console.log('breaks', breaks);
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Countdown Dates Error!', error);
-			}
+		this.addSubscription(
+			combineLatest(
+				this.mymicds.portal.getDayRotation(),
+				this.mymicds.dates.schoolStarts(),
+				this.mymicds.dates.schoolEnds(),
+				this.mymicds.dates.getBreaks()
+			).subscribe(([days, schoolStarts, schoolEnds, breaks]) => {
+				this.ngZone.run(() => {
+					this.dayRotation = days;
+					this.schoolStarts = schoolStarts.date;
+					this.schoolEnds = schoolEnds.date;
+					this.breaks = breaks;
+					this.calculate();
+				});
+			})
 		);
 	}
 
 	ngOnDestroy() {
-		this.datesSubscription.unsubscribe();
 		clearInterval(this.countdownInterval);
 	}
 
@@ -168,24 +162,24 @@ export class CountdownComponent implements OnInit, OnDestroy {
 				this.displayCountdown = this.nextTimeOff(...Object.keys(this.breaks).map(k => this.breaks[k]));
 				this.displayLabel = 'Time off School';
 				break;
-				case COUNTDOWN_MODE.START:
-					this.displayCountdown = this.schoolStarts;
-					this.displayLabel = 'School Begins';
-					break;
+			case COUNTDOWN_MODE.START:
+				this.displayCountdown = this.schoolStarts;
+				this.displayLabel = 'School Begins';
+				break;
 			case COUNTDOWN_MODE.END:
 				this.displayCountdown = this.schoolEnds;
 				this.displayLabel = 'Summer Break';
 				break;
 			case COUNTDOWN_MODE.VACATION:
-				this.displayCountdown = this.nextTimeOff(this.breaks.vacations);
+				this.displayCountdown = this.nextTimeOff(this.breaks['vacations']);
 				this.displayLabel = 'Next Break';
 				break;
 			case COUNTDOWN_MODE.LONG_WEEKEND:
-				this.displayCountdown = this.nextTimeOff(this.breaks.longWeekends);
+				this.displayCountdown = this.nextTimeOff(this.breaks['longWeekends']);
 				this.displayLabel = 'Next Long Weekend';
 				break;
 			case COUNTDOWN_MODE.WEEKEND:
-				this.displayCountdown = this.nextTimeOff(this.breaks.weekends);
+				this.displayCountdown = this.nextTimeOff(this.breaks['weekends']);
 				this.displayLabel = 'Next Weekend';
 				break;
 			case COUNTDOWN_MODE.CUSTOM:
@@ -233,6 +227,9 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		const durations = breaks.reduce((acc, val) => acc.concat(val), []);
 		let closest = null;
 		for (const duration of durations) {
+			if (!duration) {
+				continue;
+			}
 			const start = moment(duration.start);
 			if (start.isSameOrAfter(moment())) {
 				if (closest === null || start.isBefore(closest)) {
@@ -240,7 +237,6 @@ export class CountdownComponent implements OnInit, OnDestroy {
 				}
 			}
 		}
-		console.log('closest', closest);
 		return closest;
 	}
 
@@ -255,10 +251,14 @@ export class CountdownComponent implements OnInit, OnDestroy {
 		while (pointer.isSameOrBefore(countdown)) {
 			pointer.add(1, 'day');
 
+			const pointerYear = pointer.year().toString();
+			const pointerMonth = (pointer.month() + 1).toString();
+			const pointerDate = pointer.date().toString();
+
 			// Check if current pointer exists in day rotation
-			if (this.dayRotation && this.dayRotation[pointer.year()]
-				&& this.dayRotation[pointer.year()][pointer.month() + 1]
-				&& this.dayRotation[pointer.year()][pointer.month() + 1][pointer.date()]) {
+			if (this.dayRotation && this.dayRotation[pointerYear]
+				&& this.dayRotation[pointerYear][pointerMonth]
+				&& this.dayRotation[pointerYear][pointerMonth][pointerDate]) {
 
 				// Check if pointer is current day
 				if (pointer.isSame(moment(), 'day')) {

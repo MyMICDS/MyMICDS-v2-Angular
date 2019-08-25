@@ -31,11 +31,13 @@
 			}
 		}
 
-		form {
-			.forgot-password {
-				float: right;
-				margin-bottom: 1rem;
-			}
+		.form-element {
+			margin-bottom: 0.5rem;
+		}
+
+		.forgot-password {
+			float: right;
+			margin-bottom: 1rem;
 		}
 	}
 }

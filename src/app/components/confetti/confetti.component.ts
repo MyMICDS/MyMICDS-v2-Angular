@@ -4,7 +4,7 @@
  */
 
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 // Math constants
 const PI = Math.PI;
@@ -33,8 +33,8 @@ const colors = [
 })
 export class ConfettiComponent implements OnInit {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
-	@ViewChild('confetti') canvas: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	@ViewChild('confetti', { static: true }) canvas: ElementRef;
 	confetti: ConfettiContext;
 
 	constructor() { }

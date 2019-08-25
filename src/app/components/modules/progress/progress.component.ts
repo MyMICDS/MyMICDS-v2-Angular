@@ -1,12 +1,30 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef } from '@angular/core';
-import { hexToRgb, rainbowSafeWord, rainbowCanvasGradient } from '../../../common/utils';
-import moment from 'moment';
-import { Observable } from 'rxjs/Observable';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import {
+	MyMICDS,
+	GetScheduleResponse,
+	ScheduleBlock,
+	ClassType,
+	Block
+} from '@mymicds/sdk';
 
-import { ScheduleService } from '../../../services/schedule.service';
-// import { SocketioService } from '../../../services/socketio.service';
+import {
+	Component,
+	OnInit,
+	OnDestroy,
+	Input,
+	ViewChild,
+	ElementRef,
+	NgZone
+} from '@angular/core';
+import {
+	hexToRgb,
+	rainbowSafeWord,
+	rainbowCanvasGradient
+} from '../../../common/utils';
+import * as moment from 'moment';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 declare const Chart: any;
 
@@ -15,25 +33,25 @@ declare const Chart: any;
 	templateUrl: './progress.component.html',
 	styleUrls: ['./progress.component.scss']
 })
-export class ProgressComponent implements OnInit, OnDestroy {
-
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+export class ProgressComponent extends SubscriptionsComponent
+	implements OnInit, OnDestroy {
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	// Used for collapsing date and if progress bar should be horizontal or vertical
 	moduleHeight: number;
 	moduleWidth: number;
+	resizeSensorModuleContainer: ResizeSensor;
+	resizeSensorChart: ResizeSensor;
 
 	@Input() showDate = true;
 
-	today: any = new Date();
-	scheduleSubscription: any;
-	schedule: any = null;
+	today: Date = new Date();
+	schedule: GetScheduleResponse['schedule'] = null;
 
 	progressType: ProgressType = ProgressType.circular;
 
 	// Circular Progress References
 	ctx: any;
 	progressBar: any;
-	@ViewChild('spinnyThingy') spinnyThingy: ElementRef;
 
 	// Font sizes for label and percentage in circular progress bar (in pixels)
 	classLabelFontSize: number;
@@ -45,7 +63,7 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		className: string;
 		percentage: number;
 		progressWidth: number;
-		color: string;
+		color: string | CanvasGradient;
 		current: boolean;
 	}[];
 
@@ -60,14 +78,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	// CanvasGradient object to use for rainbow color
 	rainbow: CanvasGradient;
 
-	// Socket.io
-	progressDayCtx: any;
-	socketioConnection: any;
-	progressDayClick: any;
-	progressDayUnclick: any;
-
-	// constructor(private socketioService: SocketioService) { }
-	constructor(private scheduleService: ScheduleService) { }
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+		super();
+	}
 
 	/*
 	 * Configure progress bar
@@ -88,7 +101,6 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		ElementQueries.listen();
 		ElementQueries.init();
 
 		// Detect when whole module resizes
@@ -108,11 +120,13 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			}
 		};
 		onContainerResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, onContainerResize);
+		this.resizeSensorModuleContainer = new ResizeSensor(
+			this.moduleContainer.nativeElement,
+			onContainerResize
+		);
 
 		// Get Progress Bar <canvas>
 		this.ctx = document.getElementsByClassName('progress-chart')[0];
-
 
 		// Add resize sensor so we know what to change font size to
 		const onChartResize = () => {
@@ -127,10 +141,13 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		};
 
 		onChartResize();
-		new ResizeSensor(this.ctx, onChartResize);
+		this.resizeSensorChart = new ResizeSensor(this.ctx, onChartResize);
 
 		// Rainbow color top priority
-		this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
+		this.rainbow = rainbowCanvasGradient(
+			this.ctx.offsetWidth,
+			this.ctx.offsetHeight
+		);
 
 		// Initialize Progress Bar
 		this.progressBar = new Chart(this.ctx, {
@@ -138,11 +155,13 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			data: {
 				labels: this.defaultLabels(),
 				durations: this.defaultDurations(),
-				datasets: [{
-					data: this.defaultData(),
-					backgroundColor: this.defaultColors(),
-					borderWidth: 0
-				}]
+				datasets: [
+					{
+						data: this.defaultData(),
+						backgroundColor: this.defaultColors(),
+						borderWidth: 0
+					}
+				]
 			},
 			options: {
 				responsive: true,
@@ -156,7 +175,11 @@ export class ProgressComponent implements OnInit, OnDestroy {
 				tooltips: {
 					callbacks: {
 						label: function(tooltipItem, data) {
-							return data.labels[tooltipItem.index] + ': ' + data.durations[tooltipItem.index];
+							return (
+								data.labels[tooltipItem.index] +
+								': ' +
+								data.durations[tooltipItem.index]
+							);
 						}
 					}
 				},
@@ -169,46 +192,32 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		this.timer = setInterval(() => {
 			this.today = new Date();
 			// Calculate rainbow gradient again in case module dimensions changed
-			this.rainbow = rainbowCanvasGradient(this.ctx.offsetWidth, this.ctx.offsetHeight);
+			this.rainbow = rainbowCanvasGradient(
+				this.ctx.offsetWidth,
+				this.ctx.offsetHeight
+			);
 			this.calculatePercentages();
 		}, 1000);
 
 		// Get today's schedule
-		this.scheduleSubscription = this.scheduleService
-			.get({
-				year: this.today.getFullYear(),
-				month: this.today.getMonth() + 1,
-				day: this.today.getDate()
-			})
-			.subscribe(schedule => {
-				this.schedule = schedule;
-				this.calculatePercentages();
-			});
-
-		// Socket.io service to spin the spinny
-		// this.progressDayCtx = document.getElementsByClassName('progress-day')[0];
-
-		// this.socketioConnection = this.socketioService.listen('progress label spin').subscribe(
-		// 	pressed => {
-		// 		pressed ? this.progressDayCtx.classList.add('rotate') : this.progressDayCtx.classList.remove('rotate');
-		// 	}
-		// );
-
-		this.progressDayClick = Observable.fromEvent(this.spinnyThingy.nativeElement, 'mousedown')
-			.debounceTime(100)
-			.subscribe(
-				e => {
-					// this.socketioService.emit('progress label click', true);
-				}
-			);
-
-		// this.progressDayUnclick = Observable.fromEvent(this.progressDayCtx, 'mouseup')
-		// 	.debounceTime(100)
-		// 	.subscribe(
-		// 		e => {
-		// 			this.socketioService.emit('progress label click', false);
-		// 		}
-		// 	);
+		this.addSubscription(
+			this.mymicds.schedule
+				.get({
+					year: this.today.getFullYear(),
+					month: this.today.getMonth() + 1,
+					day: this.today.getDate()
+				})
+				.subscribe(({ schedule }) => {
+					this.ngZone.run(() => {
+						if (schedule) {
+							this.schedule = schedule;
+						} else {
+							this.schedule = null;
+						}
+						this.calculatePercentages();
+					});
+				})
+		);
 	}
 
 	ngOnDestroy() {
@@ -216,10 +225,6 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		clearInterval(this.timer);
 		// Destroy Progress Bar Instance
 		this.progressBar.destroy();
-		// Unsubsciribe socket connection
-		// this.socketioConnection.unsubscribe();
-		this.progressDayClick.unsubscribe();
-		// this.progressDayUnclick.unsubscribe();
 	}
 
 	/*
@@ -235,13 +240,15 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			this.progressBar.data.labels = this.defaultLabels();
 			this.progressBar.data.durations = this.defaultDurations();
 
-			this.linearProgress = [{
-				className: this.defaultLabels()[0],
-				percentage: this.defaultData()[0],
-				progressWidth: this.defaultData()[0],
-				color: this.defaultColors()[0],
-				current: false
-			}];
+			this.linearProgress = [
+				{
+					className: this.defaultLabels()[0],
+					percentage: this.defaultData()[0],
+					progressWidth: this.defaultData()[0],
+					color: this.defaultColors()[0],
+					current: false
+				}
+			];
 
 			this.progressBar.update();
 			return;
@@ -249,6 +256,12 @@ export class ProgressComponent implements OnInit, OnDestroy {
 
 		// Define nowTime just to make things clearer
 		const nowTime = this.today.getTime();
+
+		// End of School constant created for DRY
+		const schoolDayEnd315 = moment(this.today)
+			.startOf('day')
+			.hours(15)
+			.minutes(15);
 
 		// Clear linear progress
 		this.linearProgress = [];
@@ -263,55 +276,92 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		let newCurrentClassPercent = null;
 
 		// Insert a 'break' period in between classes that aren't back-to-back
-		let breaks = [];
+		let breaks: ScheduleBlock[] = [];
 		for (let i = 0; i < this.schedule.classes.length - 1; i++) {
 			const currBlock = this.schedule.classes[i];
 			const nextBlock = this.schedule.classes[i + 1];
 
-			if (currBlock.end !== nextBlock.start) {
-				breaks.push({
-					class : 'Break',
-					start: currBlock.end,
-					end  : nextBlock.start,
-					color: 'rgba(0, 0, 0, 0.4)'
-				});
+			let breakObj = {
+				class: {
+					name: 'Break',
+					teacher: null,
+					type: ClassType.OTHER,
+					block: Block.OTHER,
+					color: 'rgba(0, 0, 0, 0.4)',
+					textDark: false
+				},
+				start: currBlock.end,
+				end: nextBlock.start
+			};
+
+			// If there's a break as the last class of the day, make the break end at 3:15
+			if (
+				this.schedule.classes[this.schedule.classes.length - 1].end !==
+					schoolDayEnd315 &&
+				this.schedule.classes.length - 1 === i
+			) {
+				breakObj.end = schoolDayEnd315;
+				breaks.push(breakObj);
+			} else if (currBlock.end !== nextBlock.start) {
+				breaks.push(breakObj);
 			}
 		}
 
 		// Combine classes and breaks array into one
 		const formattedSchedule = this.schedule.classes.concat(breaks);
+		const formattedScheduleColors: (string | CanvasGradient)[] = [];
 		// Sort classes by start time
 		formattedSchedule.sort(function(a, b) {
-			return a.start - b.start;
+			return a.start.valueOf() - b.start.valueOf();
 		});
 
 		// Generate colors for each class
 		for (let i = 0; i < formattedSchedule.length; i++) {
-			if (!formattedSchedule[i].color) {
+			// console.log('schedule', formattedSchedule[i]);
 
+			if (typeof formattedSchedule[i].class.color === 'string') {
 				// Check if rainbow color
-				if (formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord) {
-					formattedSchedule[i].color = this.rainbow;
-					continue;
+				if (
+					formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord
+				) {
+					formattedScheduleColors[i] = this.rainbow;
+				} else {
+					formattedScheduleColors[i] = formattedSchedule[i].class.color;
 				}
-
-				const color = hexToRgb(formattedSchedule[i].class.color);
-				formattedSchedule[i].color = 'rgba(' + color[0] + ', ' + color[1] + ', ' + color[2] + ', 0.8)';
+				continue;
 			}
+
+			// @TODO I think something's still wrong
+
+			// const color = hexToRgb(formattedSchedule[i].class);
+			console.log('schedule leftover', formattedSchedule[i]);
+			// formattedScheduleColors[i] = `rgba(${color.join(', ')}, 0.8)`;
+
+			// if (typeof formattedSchedule[i].class  && formattedSchedule[i].class.color) {
+			//
+			// 	// Check if rainbow color
+			// 	if (formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord) {
+			// 		formattedScheduleColors[i] = this.rainbow;
+			// 		continue;
+			// 	}
+			//
+			// 	const color = hexToRgb(formattedSchedule[i].class.color);
+			// 	formattedScheduleColors[i] = `rgba(${color.join(', ')}, 0.8)`;
+			// }
 		}
 
 		// Either end school at last block or 3:15pm
-		const schoolCap = moment(this.today).startOf('day').hours(15).minutes(15).toDate();
+		const schoolCap = schoolDayEnd315.toDate();
 
 		// Get first and last blocks
 		const classCount = formattedSchedule.length;
 		const firstBlock = formattedSchedule[0];
-		const lastBlock  = formattedSchedule[classCount - 1];
-		const schoolEnd  = Math.min(lastBlock.end.getTime(), schoolCap.getTime());
+		const lastBlock = formattedSchedule[classCount - 1];
+		const schoolEnd = Math.min(lastBlock.end.valueOf(), schoolCap.getTime());
 
 		// Get length and percentage of school day
-		const schoolLength  = schoolEnd - firstBlock.start.getTime();
-		const schoolPercent = this.getPercent(firstBlock.start, new Date(schoolEnd));
+		const schoolLength = schoolEnd - firstBlock.start.valueOf();
+		const schoolPercent = this.getPercent(firstBlock.start, moment(schoolEnd));
 
 		// Set school percentage variable to display inside the circle
 		this.schoolPercent = +schoolPercent.toFixed(2);
@@ -319,19 +369,22 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		// Loop through classes and calculate stuff
 		for (let i = 0; i < formattedSchedule.length; i++) {
 			const block = formattedSchedule[i];
+			const color = formattedScheduleColors[i];
 
-			if (schoolEnd <= block.start.getTime()) {
+			if (schoolEnd <= block.start.valueOf()) {
 				continue;
 			}
 
-			let blockName = block.class;
+			let blockName: string;
 			if (typeof block.class === 'object') {
 				blockName = block.class.name;
+			} else {
+				blockName = block.class;
 			}
 
 			// Get class percentage
 			// Thanks to Amaan for helping me figure out this algorithim back in v1
-			const classLength = block.end.getTime() - block.start.getTime();
+			const classLength = block.end.valueOf() - block.start.valueOf();
 			const classRatio = classLength / schoolLength;
 			const classPercent = this.getPercent(block.start, block.end);
 			const finalPercentage = classPercent * classRatio;
@@ -339,15 +392,15 @@ export class ProgressComponent implements OnInit, OnDestroy {
 			const roundedPercent = +finalPercentage.toFixed(2);
 
 			let classLeft: number = classLength;
-			if (block.start.getTime() <= nowTime && nowTime < block.end.getTime()) {
-				classLeft = nowTime - block.start.getTime();
+			if (block.start.valueOf() <= nowTime && nowTime < block.end.valueOf()) {
+				classLeft = nowTime - block.start.valueOf();
 			}
 
 			const classDuration = this.getDuration(classLeft);
 
 			// Add values to their respective array if data is more than 0
 			if (roundedPercent > 0) {
-				newColors.push(block.color);
+				newColors.push(color);
 				newData.push(roundedPercent);
 				newLabels.push(blockName);
 				newDurations.push(classDuration);
@@ -356,8 +409,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 					className: blockName,
 					percentage: +classPercent.toFixed(2),
 					progressWidth: roundedPercent,
-					color: block.color,
-					current: (0 < classPercent && classPercent < 100)
+					color,
+					current: 0 < classPercent && classPercent < 100
 				});
 			}
 
@@ -387,7 +440,6 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		this.progressBar.data.durations = newDurations;
 
 		this.progressBar.update();
-
 	}
 
 	/*
@@ -395,10 +447,9 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	 * Will return 0 if class hasn't started yet or 100 of class has already finished.
 	 */
 
-	getPercent(start, end): number {
-
-		const numerator = this.today.getTime() - start.getTime();
-		const denominator = end.getTime() - start.getTime();
+	getPercent(start: moment.Moment, end: moment.Moment): number {
+		const numerator = this.today.getTime() - start.valueOf();
+		const denominator = end.valueOf() - start.valueOf();
 
 		const answer = (numerator / denominator) * 100;
 
@@ -416,9 +467,8 @@ export class ProgressComponent implements OnInit, OnDestroy {
 	 */
 
 	getDuration(classLength): string {
-
 		const duration = moment.duration(classLength);
-		let tooltip  = '';
+		let tooltip = '';
 		let hasHours = false;
 
 		// If duration lasts longer than a minute
@@ -444,7 +494,6 @@ export class ProgressComponent implements OnInit, OnDestroy {
 		}
 
 		return tooltip;
-
 	}
 }
 

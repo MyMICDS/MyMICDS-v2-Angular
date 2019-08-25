@@ -1,9 +1,12 @@
-<textarea
-	[ngModel]="text"
-	(ngModelChange)="textChange.next($event)"
-	[style.background-color]="colorList[color]"
-	placeholder="Type your deepest darkest secrets here...">
-</textarea>
+<div #moduleContainer class="module-container" [class.square]="!fixedHeight" [style.height]="fixedHeight ? null : moduleWidth + 'px'">
+	<textarea
+		class="embed-responsive-item"
+		[ngModel]="text"
+		(ngModelChange)="textChange.next($event)"
+		[style.background-color]="colorList[color]"
+		placeholder="Type your deepest darkest secrets here...">
+	</textarea>
+</div>
 <!-- <a class="send-to-planner">
 	<i class="fa fa-calendar fa-2x">
 		<div>Send to Planner</div>

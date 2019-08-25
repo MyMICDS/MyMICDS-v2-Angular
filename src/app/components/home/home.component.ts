@@ -1,39 +1,36 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { MyMICDS, MyMICDSModule, MyMICDSModuleType } from '@mymicds/sdk';
+
+import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit, NgZone } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
 import { AlertService } from '../../services/alert.service';
-import { AuthService } from '../../services/auth.service';
-import { ModulesService, Module } from '../../services/modules.service';
-import { ScheduleService } from '../../services/schedule.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
 	selector: 'mymicds-home',
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
+export class HomeComponent extends SubscriptionsComponent implements OnInit, AfterViewInit {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	moduleHeight: number;
+	resizeSensor: ResizeSensor;
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
 	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
-
-	routeDataSubscription: any;
 	editMode = false;
 
-	moduleLayoutSubscription: any;
-	ogModuleLayout: Module[];
-	moduleLayout: Module[];
+	ogModuleLayout: MyMICDSModule[];
+	moduleLayout: MyMICDSModule[];
 
 	savingModuleLayout = false;
 
@@ -41,10 +38,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	moduleNames = Object.keys(config);
 	modules = config;
 
-	userSubscription: any;
-
 	// Gridster component
-	@ViewChild('gridster') gridster: GridsterComponent;
+	@ViewChild('gridster', { static: false }) gridster: GridsterComponent;
 	@ViewChildren('gridItem') gridItems: QueryList<GridsterItemComponent>;
 	// Gridster options
 	gridsterOptions: IGridsterOptions = {
@@ -79,76 +74,78 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	};
 
 	constructor(
+		public mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
-		private alertService: AlertService,
-		public authService: AuthService,
-		private modulesService: ModulesService,
-		private scheduleService: ScheduleService,
-		private userService: UserService
-	) { }
+		private ngZone: NgZone,
+		private alertService: AlertService
+	) {
+		super();
+	}
 
 	ngOnInit() {
 		const onResize = () => {
-			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
-			this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
+			this.ngZone.run(() => {
+				this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
+				this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
+			});
 		};
-		onResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, onResize);
+		setTimeout(() => onResize());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, onResize);
 
 		// Find out whether or not we're in edit mode
-		this.routeDataSubscription = this.route.data.subscribe(
-			data => {
+		this.addSubscription(
+			this.route.data.subscribe(data => {
 				this.editMode = !!data.edit;
 				this.gridsterOptions.dragAndDrop = this.editMode;
 				this.gridsterOptions.resizable = this.editMode;
 				this.gridsterOptions.shrink = !this.editMode;
-			}
+			})
 		);
 
 		// Check if user has set Portal and Canvas URL
-		this.userSubscription = this.userService.user$.subscribe(
-			user => {
-				if (!user) {
-					return;
-				}
-				console.log('user', user);
-
-				const lacks = [];
-
-				if (!user.portalURLClasses || !user.portalURLCalendar) {
-					lacks.push('Portal');
-				}
-				if (!user.canvasURL) {
-					lacks.push('Canvas');
-				}
-
-				// Engagement announcements
-				if (!this.announcement) {
-					if (this.userService.migrateToVeracross()) {
-						// tslint:disable-next-line:max-line-length
-						this.announcement = `Hey there! <strong>It appears you haven\'t migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
-					} else if (lacks.length > 0) {
-						// tslint:disable-next-line:max-line-length
-						this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
+		this.addSubscription(
+			this.mymicds.user.$.subscribe(user => {
+				this.ngZone.run(() => {
+					if (!user) {
+						return;
 					}
-				}
-			}
+					console.log('user', user);
+
+					const lacks = [];
+
+					if (!user.portalURLClasses || !user.portalURLCalendar) {
+						lacks.push('Portal');
+					}
+					if (!user.canvasURL) {
+						lacks.push('Canvas');
+					}
+
+					// Engagement announcements
+					if (!this.announcement) {
+						if (user.migrateToVeracross) {
+							// tslint:disable-next-line:max-line-length
+							this.announcement = `Hey there! <strong>It appears you haven\'t migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
+						} else if (lacks.length > 0) {
+							// tslint:disable-next-line:max-line-length
+							this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
+						}
+					}
+				});
+			})
 		);
+
 	}
 
 	ngAfterViewInit() {
 		// Get modules layout
-		this.moduleLayoutSubscription = this.modulesService.get()
-			.subscribe(modules => {
-				this.updateModuleLayout(modules);
-			});
-	}
-
-	ngOnDestroy() {
-		this.moduleLayoutSubscription.unsubscribe();
-		this.routeDataSubscription.unsubscribe();
-		this.userSubscription.unsubscribe();
+		this.addSubscription(
+			this.mymicds.modules.get().subscribe(({ modules }) => {
+				this.ngZone.run(() => {
+					this.updateModuleLayout(modules);
+				});
+			})
+		);
 	}
 
 	dismissAlert() {
@@ -177,7 +174,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		return JSON.stringify(this.ogModuleLayout) !== JSON.stringify(this.moduleLayout);
 	}
 
-	updateModuleLayout(modules: Module[]) {
+	updateModuleLayout(modules: MyMICDSModule[]) {
 		this.ogModuleLayout = JSON.parse(JSON.stringify(modules));
 		this.moduleLayout = modules;
 		// Recalculate responsive positions because sometimes it doesn't recalculate at certain widths
@@ -191,22 +188,25 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 	// Save current moduleLayout in the back-end
 	saveModules(saveModules = this.moduleLayout) {
 		this.savingModuleLayout = true;
-		this.modulesService.upsert(saveModules)
+		this.mymicds.modules.update({ modules: saveModules })
 			.subscribe(
-				modules => {
-					this.savingModuleLayout = false;
-					this.updateModuleLayout(modules);
-					this.alertService.addAlert('success', 'Success!', 'Successfully saved module layout!', 3);
+				({ modules }) => {
+					this.ngZone.run(() => {
+						this.savingModuleLayout = false;
+						this.updateModuleLayout(modules);
+						this.alertService.addSuccess('Successfully saved module layout!');
+					});
 				},
-				error => {
-					this.savingModuleLayout = false;
-					this.alertService.addAlert('danger', 'Save Modules Error!', error);
+				() => {
+					this.ngZone.run(() => {
+						this.savingModuleLayout = false;
+					});
 				}
 			);
 	}
 
 	// When the user drops a module label onto the grid
-	addModule(event: any, moduleName: string) {
+	addModule(event: any, moduleName: MyMICDSModuleType) {
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,
@@ -217,7 +217,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 		});
 	}
 
-	changeModuleOptions(module: Module, options: Options) {
+	changeModuleOptions(module: MyMICDSModule, options: Options) {
 		setTimeout(() => {
 			module.options = options;
 		}, 0);
@@ -246,6 +246,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
 		preview.style.width = `${size.width}px`;
 		preview.style.height = `${size.height}px`;
+	}
+
+	moduleOptionsIsEmpty(options: { [key: string]: any }) {
+		// console.log('see if empty', options);
+		return typeof options !== 'object' || options === undefined || options === null || Object.keys(options).length === 0;
 	}
 
 }

@@ -1,8 +1,10 @@
+<h3 class="title">Homepage Layout</h3>
+<button class="btn btn-info bottom-space" [routerLink]="['/home/edit']">Edit Homepage Layout</button>
 <h3 class="title">Change Background</h3>
-<form class="upload-background-form" (submit)="uploadBackground($event)">
+<form #uploadForm class="bottom-space" (submit)="uploadBackground(fileUpload.files[0])">
 	<div class="form-group">
 		<label for="upload-background">Upload Background</label>
-		<input id="upload-background" type="file" class="form-control-file" (change)="backgroundFileChange()" accept="image/png,image/jpeg">
+		<input #fileUpload id="upload-background" type="file" class="form-control-file" (change)="backgroundFileChange()" accept="image/png,image/jpeg">
 		<small class="form-text text-muted">All images must be school-appropriate. Any violent, graphic, or obscene images will be deleted.</small>
 	</div>
 	<button class="btn btn-info" [disabled]="!fileSelected || uploadingBackground">{{ uploadingBackground ? 'Uploading...' : 'Upload'}}</button>
@@ -12,5 +14,5 @@
 	<span class="text">or</span>
 	<span class="line"></span>
 </div>
-<button class="trianglify btn btn-info" (click)="setTrianglify()" [disabled]="uploadingBackground">Use Randomly Generated Triangle Art for Background</button>
+<button class="trianglify btn btn-info bottom-space" (click)="setTrianglify()" [disabled]="uploadingBackground">Use Randomly Generated Triangle Art for Background</button>
 <button class="btn btn-danger" (click)="deleteBackground()" [disabled]="hasDefaultBackground">Revert to Default Background</button>

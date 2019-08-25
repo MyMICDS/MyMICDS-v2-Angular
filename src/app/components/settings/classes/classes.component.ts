@@ -1,37 +1,33 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { MyMICDS, MyMICDSClass, Block, ClassType, GetClassesResponse } from '@mymicds/sdk';
+
+import { Component, OnInit, NgZone } from '@angular/core';
+import { empty as observableEmpty, combineLatest } from 'rxjs';
+import { defaultIfEmpty } from 'rxjs/operators';
 import { contains, capitalize } from '../../../common/utils';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { AliasService } from '../../../services/alias.service';
-import { CanvasService} from '../../../services/canvas.service';
-import { ClassesService, Class } from '../../../services/classes.service';
-import { PortalService } from '../../../services/portal.service';
 
 @Component({
 	selector: 'mymicds-classes',
 	templateUrl: './classes.component.html',
 	styleUrls: ['./classes.component.scss']
 })
-export class ClassesComponent implements OnInit, OnDestroy {
+export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	private capitalize = capitalize; // tslint:disable-line
+	capitalize = capitalize; // tslint:disable-line
 
-	getClassesSubscription: any;
 	// If saving classes, prevent user from adding/deleting classes so they don't break anything
 	savingClasses = false;
 	// List of classes to the database, these classes are binded to form values
-	classesList: Class[] = [];
+	classesList: GetClassesResponse['classes'] = [];
 	// Original array of classes from database to compare against new ones
-	ogClasses: Class[] = [];
+	ogClasses: GetClassesResponse['classes'] = [];
 	// Array of class ids to delete if user presses 'Save Changes'
 	deleteClassIds: string[] = [];
 
-	getCanvasClassesSubscription: any;
 	canvasClasses = [];
-
-	getPortalClassesSubscription: any;
 	portalClasses = [];
 
 	// Set Classes form
@@ -69,62 +65,49 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		'portal'
 	];
 
-	aliasClass: Class = null;
+	aliasClass: MyMICDSClass = null;
 
-	constructor(
-		private alertService: AlertService,
-		private aliasService: AliasService,
-		private canvasService: CanvasService,
-		private classesService: ClassesService,
-		private portalService: PortalService
-	) { }
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		// Get list of user's classes
-		this.getClassesSubscription = this.classesService.getClasses().subscribe(
-			classes => {
-				this.classesList = classes;
-				// Stringify and parse classes so it is a seperate array
-				this.ogClasses = JSON.parse(JSON.stringify(classes));
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Classes Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.classes.get().subscribe(classes => {
+				this.ngZone.run(() => {
+					this.classesList = classes.classes;
+					// Stringify and parse classes so it is a seperate array
+					this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
+				});
+			})
 		);
 
 		// Get Canvas classes
-		this.getCanvasClassesSubscription = this.canvasService.getClasses().subscribe(
-			data => {
-				if (data.hasURL) {
-					this.canvasClasses = data.classes;
-				} else {
-					this.canvasClasses = [];
-				}
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Canvas Classes Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.canvas.getClasses().subscribe(data => {
+				this.ngZone.run(() => {
+					if (data.hasURL) {
+						this.canvasClasses = data.classes;
+					} else {
+						this.canvasClasses = [];
+					}
+				});
+			})
 		);
 
 		// Get Canvas classes
-		this.getPortalClassesSubscription = this.portalService.getClasses().subscribe(
-			data => {
-				if (data.hasURL) {
-					this.portalClasses = data.classes;
-				} else {
-					this.portalClasses = [];
-				}
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Portal Classes Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.portal.getClasses().subscribe(data => {
+				this.ngZone.run(() => {
+					if (data.hasURL) {
+						this.portalClasses = data.classes;
+					} else {
+						this.portalClasses = [];
+					}
+				});
+			})
 		);
-	}
-
-	ngOnDestroy() {
-		this.getClassesSubscription.unsubscribe();
-		this.getCanvasClassesSubscription.unsubscribe();
-		this.getPortalClassesSubscription.unsubscribe();
 	}
 
 	/*
@@ -232,7 +215,7 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		this.savingClasses = true;
 
 		// Delete any old classes
-		let deleteObservables = this.deleteClassIds.map(id => this.classesService.deleteClass(id));
+		let deleteObservables = this.deleteClassIds.map(id => this.mymicds.classes.delete({ id }));
 
 		// Reset delete class ids
 		this.deleteClassIds = [];
@@ -240,13 +223,21 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		// Add any new classes
 		let saveObservables = this.classesList.map(scheduleClass => {
 			if (this.classChanged(scheduleClass._id)) {
-				return this.classesService.addClass(scheduleClass);
+				return this.mymicds.classes.add({
+					id: scheduleClass._id,
+					name: scheduleClass.name,
+					color: scheduleClass.color,
+					type: scheduleClass.type,
+					teacherPrefix: scheduleClass.teacher.prefix,
+					teacherFirstName: scheduleClass.teacher.firstName,
+					teacherLastName: scheduleClass.teacher.lastName
+				});
 			}
 		}).filter(Boolean); // Remove undefined
 
 		// Combine all of those observables into a MEGA OBSERVABLE
-		let deleteClasses$ = Observable.combineLatest(deleteObservables);
-		let saveClasses$ = Observable.combineLatest(saveObservables);
+		let deleteClasses$ = combineLatest(deleteObservables);
+		let saveClasses$ = combineLatest(saveObservables);
 
 		// Only append to MEGA OBSERVABLE if it's actually going to do anything
 		let MEGAObservableArray = [];
@@ -254,28 +245,28 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		if (deleteObservables.length > 0) {
 			MEGAObservableArray[0] = deleteClasses$;
 		} else {
-			MEGAObservableArray[0] = Observable.empty().defaultIfEmpty();
+			MEGAObservableArray[0] = observableEmpty().pipe(defaultIfEmpty());
 		}
 
 		if (saveObservables.length > 0) {
 			MEGAObservableArray[1] = saveClasses$;
 		} else {
-			MEGAObservableArray[1] = Observable.empty().defaultIfEmpty();
+			MEGAObservableArray[1] = observableEmpty().pipe(defaultIfEmpty());
 		}
 
-		let MEGAObservable$ = Observable.combineLatest(MEGAObservableArray);
+		let MEGAObservable$ = combineLatest(MEGAObservableArray);
 
-		MEGAObservable$.subscribe(
-			(data: any) => {
+		MEGAObservable$.subscribe((data: any) => {
+			this.ngZone.run(() => {
 				// Deleted class logic
 				if (data[0] && data[0].length > 0) {
-					this.alertService.addAlert('success', 'Success!', 'Deleted ' + data[0].length + ' classes.', 3);
+					this.alertService.addSuccess(`Deleted ${data[0].length} classes.`);
 				}
 
 				// Added class logic
 				let ids = data[1];
 				if (ids && ids.length > 0) {
-					this.alertService.addAlert('success', 'Success!', 'Saved ' + ids.length + ' classes.', 3);
+					this.alertService.addSuccess(`Saved ${ids.length} classes.`);
 
 					// Go through all classes without ids and insert their new ids
 					let idOffset = 0;
@@ -290,11 +281,8 @@ export class ClassesComponent implements OnInit, OnDestroy {
 
 				this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
 				this.savingClasses = false;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Save Class Error!', error);
-			}
-		);
+			});
+		});
 	}
 
 	// Adds a class to the bottom
@@ -304,14 +292,14 @@ export class ClassesComponent implements OnInit, OnDestroy {
 		this.classesList.push({
 			name: '',
 			color: color,
-			block: 'other',
-			type: 'other',
+			block: Block.OTHER,
+			type: ClassType.OTHER,
 			teacher: {
 				prefix: 'Mr.',
 				firstName: '',
 				lastName: ''
 			}
-		});
+		} as MyMICDSClass);
 	}
 
 	deleteClass(i: number) {

@@ -1,51 +1,58 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { MyMICDS } from '@mymicds/sdk';
+
+import { Component, OnInit, NgZone } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { combineLatest } from 'rxjs';
 import { typeOf } from '../../common/utils';
 
-import { AlertService } from '../../services/alert.service';
-import { NotificationsService } from '../../services/notifications.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-unsubscribe',
 	templateUrl: './unsubscribe.component.html',
 	styleUrls: ['./unsubscribe.component.scss']
 })
-export class UnsubscribeComponent implements OnInit {
+export class UnsubscribeComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
 	typeOf = typeOf;
 	unsubscribeResponse: boolean = null;
 
-	constructor(
-		private router: Router,
-		private route: ActivatedRoute,
-		private alertService: AlertService,
-		private notificationsService: NotificationsService
-	) { }
+	constructor(private mymicds: MyMICDS, private route: ActivatedRoute, private ngZone: NgZone) {
+		super();
+	}
 
 	ngOnInit() {
-		Observable.combineLatest(
-			this.route.params,
-			this.route.queryParams
-		).subscribe(
-			([params, queryParams]) => {
-				const user = params.user;
-				const hash = params.hash;
-				const type = queryParams.type ? queryParams.type.toUpperCase() : 'ALL';
-				this.notificationsService.unsubscribe(type, user, hash).subscribe(
-					() => {
-						this.unsubscribeResponse = true;
-					},
-					error => {
-						this.alertService.addAlert('danger', 'Unsubscribe Error!', error);
+		this.addSubscription(
+			combineLatest(
+				this.route.params,
+				this.route.queryParams
+			).subscribe(
+				([params, queryParams]) => {
+					const user = params.user;
+					const hash = params.hash;
+					const type = queryParams.type ? queryParams.type.toUpperCase() : 'ALL';
+					this.addSubscription(
+						this.mymicds.notifications.unsubscribe({ user, hash, type }, true).subscribe(
+							() => {
+								this.ngZone.run(() => {
+									this.unsubscribeResponse = true;
+								});
+							},
+							() => {
+								this.ngZone.run(() => {
+									this.unsubscribeResponse = false;
+								});
+							}
+						)
+					);
+				},
+				() => {
+					this.ngZone.run(() => {
 						this.unsubscribeResponse = false;
-					}
-				);
-			},
-			error => {
-				this.unsubscribeResponse = false;
-			}
+					});
+				}
+			)
 		);
 	}
 

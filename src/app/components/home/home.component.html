@@ -12,10 +12,10 @@
 <div *ngIf="editMode" class="manage-menu">
 	<div class="manage-buttons">
 		<button class="btn btn-success edit-button" (click)="exitEditMode()">Done</button>
-		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!authService.authSnapshot || !detectChanges() || savingModuleLayout">
+		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!mymicds.auth.isLoggedIn || !detectChanges() || savingModuleLayout">
 			{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
 		</button>
-		<button class="btn btn-danger" (click)="saveModules([])" [disabled]="!authService.authSnapshot">Reset Layout</button>
+		<button class="btn btn-danger" (click)="saveModules([])" [disabled]="!mymicds.auth.isLoggedIn">Reset Layout</button>
 	</div>
 	<p mymicds-blur--dark class="manage-help">
 		<i class="fa fa-info-circle"></i>
@@ -24,27 +24,27 @@
 </div>
 
 <div #moduleContainer class="container">
-	<div *ngIf="announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
+	<div *ngIf="!editMode && announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
-		<strong>Announcement:</strong>
+		<strong>Announcement: </strong>
 		<span [innerHTML]="announcement"></span>
 	</div>
 
 	<!-- If in edit mode and user isn't logged in -->
-	<div mymicds-blur *ngIf="editMode && !authService.authSnapshot" class="account-required">
+	<div mymicds-blur *ngIf="editMode && !mymicds.auth.isLoggedIn" class="account-required">
 		<p>Editing the homepage layout requires a MyMICDS Account!</p>
 		<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
 	</div>
 
 	<!-- Regular module grid -->
-	<div *ngIf="(editMode && authService.authSnapshot) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth)" class="grid-container">
-		<gridster #gridster [options]="gridsterOptions">
-			<gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
+	<div *ngIf="(editMode && mymicds.auth.isLoggedIn) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth)" class="grid-container">
+		<ngx-gridster #gridster [options]="gridsterOptions">
+			<ngx-gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
-				[(x)]="module.column"
-				[(y)]="module.row"
+				[(x)]="module.column" [xSm]="module.column" [xMd]="module.column" [xLg]="module.column"
+				[(y)]="module.row" [ySm]="module.row" [yMd]="module.row" [yLg]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
 				[dragAndDrop]="editMode"
@@ -55,7 +55,7 @@
 
 				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu" [class.popover-open]="modulePopoverBtn?.isOpen">
 					<button class="edit-module-delete" (click)="deleteModule(i)">&times;</button>
-					<button [hidden]="!module.options"
+					<button [hidden]="moduleOptionsIsEmpty(module.options)"
 						class="edit-module-config"
 						[popover]="configModuleTemplate"
 						#modulePopoverBtn="bs-popover"
@@ -80,8 +80,8 @@
 					<mymicds-module-options [type]="module.type" [options]="module.options" (optionsChange)="module.options = $event"></mymicds-module-options>
 				</ng-template>
 
-			</gridster-item>
-		</gridster>
+			</ngx-gridster-item>
+		</ngx-gridster>
 	</div>
 	<!-- Collapsed module grid -->
 	<div *ngIf="!editMode && moduleWidth < gridsterOptions.responsiveOptions[1].minWidth" class="collapsed-grid">
@@ -92,9 +92,9 @@
 			[fixedHeight]="false"></mymicds-module-container>
 	</div>
 </div>
-<div *ngIf="editMode && authService.authSnapshot" class="modules-menu" mymicds-blur--dark>
+<div *ngIf="editMode && mymicds.auth.isLoggedIn" class="modules-menu" mymicds-blur--dark>
 	<p>Drag a module onto the grid to add</p>
-	<div gridsterItemPrototype
+	<div ngxGridsterItemPrototype
 		*ngFor="let name of moduleNames"
 		class="drag-module"
 		[config]="{ helper: true }"

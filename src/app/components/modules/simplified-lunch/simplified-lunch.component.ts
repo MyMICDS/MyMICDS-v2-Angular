@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import moment from 'moment';
+import { MyMICDS } from '@mymicds/sdk';
+
+import { Component, OnInit, NgZone } from '@angular/core';
+import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { LunchService } from '../../../services/lunch.service';
-import { UserService } from '../../../services/user.service';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { UserService } from '../../../services/user.service';
 	templateUrl: './simplified-lunch.component.html',
 	styleUrls: ['./simplified-lunch.component.scss']
 })
-export class SimplifiedLunchComponent implements OnInit, OnDestroy {
+export class SimplifiedLunchComponent extends SubscriptionsComponent implements OnInit {
 
 	loading = true;
 	lunchDate = moment();
@@ -25,9 +26,9 @@ export class SimplifiedLunchComponent implements OnInit, OnDestroy {
 	];
 	school = this.schools[0];
 
-	userSubscription: any;
-
-	constructor(private alertService: AlertService, private lunchService: LunchService, private userService: UserService) {	}
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
+		super();
+	}
 
 	ngOnInit() {
 		ElementQueries.listen();
@@ -35,71 +36,66 @@ export class SimplifiedLunchComponent implements OnInit, OnDestroy {
 
 		this.getLunch(this.lunchDate);
 
-		this.userSubscription = this.userService.user$.subscribe(
-			data => {
-				if (!data) {
-					return;
-				}
-				this.school = data.school;
-			},
-			error => {
-				this.alertService.addAlert('warning', 'Warning!', 'We couldn\'t determine your grade. Automatically selected Upper School lunch.', 3);
-			}
+		this.addSubscription(
+			this.mymicds.user.$.subscribe(data => {
+				this.ngZone.run(() => {
+					if (!data) {
+						this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
+						return;
+					}
+					this.school = data.school;
+				});
+			})
 		);
-	}
-
-	ngOnDestroy() {
-		this.userSubscription.unsubscribe();
 	}
 
 	getLunch(getDate) {
 		// Display loading screen
 		this.loading = true;
 
-		if(getDate.day() === 0 || getDate.day() === 6){
+		if (getDate.day() === 0 || getDate.day() === 6) {
 			getDate.add(1, 'week');
 		}
 
-		this.lunchService.getLunch({
-			year : getDate.year(),
-			month: getDate.month() + 1,
-			day  : getDate.date()
-		}).subscribe(
-			lunch => {
-				// Stop loading
-				this.loading = false;
-				// Reset lunch array
-				this.lunch = [];
-				// Get dates for the week
-				let current = moment();
-				let dates = this.getDatesFromWeek(getDate);
+		this.addSubscription(
+			this.mymicds.lunch.get({
+				year : getDate.year(),
+				month: getDate.month() + 1,
+				day  : getDate.date()
+			}).subscribe(lunch => {
+				this.ngZone.run(() => {
+					// Stop loading
+					this.loading = false;
+					// Reset lunch array
+					this.lunch = [];
+					// Get dates for the week
+					let current = moment();
+					let dates = this.getDatesFromWeek(getDate);
 
-				let i = getDate.day();
+					let i = getDate.day();
 
-				if (i === 6 || i === 0) {
-					i = 0;
-				} else {
-					i--;
-				}
+					if (i === 6 || i === 0) {
+						i = 0;
+					} else {
+						i--;
+					}
 
-				let date = dates[i];
-				let lunchIndex = date.format('YYYY[-]MM[-]DD');
-				let dayLunch = lunch[lunchIndex] || { };
+					let date = dates[i];
+					let lunchIndex = date.format('YYYY[-]MM[-]DD');
+					let dayLunch = lunch[lunchIndex] || { };
 
-				this.lunch.push({
-					date: {
-						weekday: date.format('dddd'),
-						date: date.format('MMMM Do[,] YYYY'),
-						today: date.isSame(current, 'day')
-					},
-					lunch: dayLunch
+					this.lunch.push({
+						date: {
+							weekday: date.format('dddd'),
+							date: date.format('MMMM Do[,] YYYY'),
+							today: date.isSame(current, 'day')
+						},
+						lunch: dayLunch
+					});
+
+					this.todaysLunch = this.lunch[0];
 				});
-
-				this.todaysLunch = this.lunch[0];
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Lunch Error!', error);
-			}
+			})
 		);
 	}
 

@@ -1,29 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
+
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { isAlphabetic, typeOf } from '../../common/utils';
 
-import { AuthService} from '../../services/auth.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-forgot-password',
 	templateUrl: './forgot-password.component.html',
 	styleUrls: ['./forgot-password.component.scss']
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
 	isAlphabetic = isAlphabetic;
 	typeOf = typeOf;
 
 	submitted = false;
-	forgotResponse: any = null;
+	forgotResponse: boolean | string = null;
 	user: string;
 
-	constructor(private router: Router, private authService: AuthService) { }
+	constructor(private mymicds: MyMICDS, private router: Router, private ngZone: NgZone) {
+		super();
+	}
 
 	ngOnInit() {
 		// Check if user is already logged in
-		if (this.authService.authSnapshot) {
+		if (this.mymicds.auth.isLoggedIn) {
 			this.router.navigate(['/home']);
 			return;
 		}
@@ -31,13 +35,19 @@ export class ForgotPasswordComponent implements OnInit {
 
 	forgotPassword() {
 		this.submitted = true;
-		this.authService.forgotPassword(this.user).subscribe(
-			() => {
-				this.forgotResponse = true;
-			},
-			error => {
-				this.forgotResponse = error;
-			}
+		this.addSubscription(
+			this.mymicds.auth.forgotPassword({ user: this.user }, true).subscribe(
+				() => {
+					this.ngZone.run(() => {
+						this.forgotResponse = true;
+					});
+				},
+				error => {
+					this.ngZone.run(() => {
+						this.forgotResponse = error.message;
+					});
+				}
+			)
 		);
 	}
 

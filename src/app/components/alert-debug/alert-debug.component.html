@@ -1,0 +1,39 @@
+<div class="card col-3">
+	<div class="card-body">
+		<h5 class="card-title">Error</h5>
+		<form class="form-inline" (submit)="addError(danger.value)">
+			<input #danger class="form-control">
+			<button class="btn btn-danger">Submit</button>
+		</form>
+	</div>
+</div>
+
+<div class="card col-3">
+	<div class="card-body">
+		<h5 class="card-title">Warning</h5>
+		<form class="form-inline" (submit)="addWarning(warning.value)">
+			<input #warning class="form-control">
+			<button class="btn btn-warning">Submit</button>
+		</form>
+	</div>
+</div>
+
+<div class="card col-3">
+	<div class="card-body">
+		<h5 class="card-title">Success</h5>
+		<form class="form-inline" (submit)="addSuccess(success.value)">
+			<input #success class="form-control">
+			<button class="btn btn-success">Submit</button>
+		</form>
+	</div>
+</div>
+
+<div class="card col-3">
+	<div class="card-body">
+		<h5 class="card-title">Announcement</h5>
+		<form class="form-inline" (submit)="addAnnouncement(announcement.value)">
+			<input #announcement class="form-control">
+			<button class="btn btn-info">Submit</button>
+		</form>
+	</div>
+</div>

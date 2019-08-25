@@ -97,7 +97,7 @@
 							</span>
 						</button>
 						<div class="btn-group">
-							<button *ngIf="authService.authSnapshot" class="btn btn-danger" (click)="refreshCanvas()">
+							<button *ngIf="mymicds.auth.isLoggedIn" class="btn btn-danger" (click)="refreshCanvas()">
 								<span>
 									<i class="fa fa-refresh"></i>
 									Refresh Canvas
@@ -265,11 +265,11 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div *ngIf="!authService.authSnapshot" class="create-event-register">
+				<div *ngIf="!mymicds.auth.isLoggedIn" class="create-event-register">
 					<p>Using the planner requires a MyMICDS Account!</p>
 					<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
 				</div>
-				<form #createEventForm="ngForm" [hidden]="!authService.authSnapshot" novalidate>
+				<form #createEventForm="ngForm" [hidden]="!mymicds.auth.isLoggedIn" novalidate>
 					<fieldset class="form-group" [class.has-danger]="createEventTitle.dirty && !createEventTitle.valid">
 						<legend>Event Title</legend>
 						<input #createEventTitle="ngModel" class="form-control" [class.form-control-danger]="createEventTitle.dirty && !createEventTitle.valid" name="title" [(ngModel)]="createEventModel.title" placeholder="Title" required>
@@ -286,21 +286,26 @@
 							<option value="other" selected>Other</option>
 						</select>
 					</fieldset>
-					<div class="event-date">
-						<fieldset class="form-group">
-							<legend>Event Start</legend>
-							<datepicker name="start" [(ngModel)]="createEventModel.start" [showWeeks]="false"></datepicker>
-						</fieldset>
-						<fieldset class="form-group">
-							<legend>Event End</legend>
-							<datepicker name="end" [(ngModel)]="createEventModel.end" [showWeeks]="false"></datepicker>
-						</fieldset>
-					</div>
-					<p *ngIf="!consecutiveDates(createEventModel.start, createEventModel.end)" class="text-danger">Start and end dates must be consecutive!</p>
+					<fieldset class="form-group">
+						<legend>Event Date</legend>
+						<div class="event-date btn-group">
+							<input
+								#drpCreate="bsDaterangepicker"
+								bsDaterangepicker
+								[bsConfig]="daterangeOptions"
+								placement="top"
+								class="form-control"
+								name="dates"
+								[(ngModel)]="createEventModel.dates">
+							<button class="btn btn-secondary" (click)="drpCreate.toggle()">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						</div>
+					</fieldset>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" (click)="createEvent(); createEventModal.hide()" [disabled]="!createEventForm.valid || !consecutiveDates(createEventModel.start, createEventModel.end)">Create Event</button>
+				<button type="button" class="btn btn-primary" (click)="createEvent(); createEventModal.hide()" [disabled]="!createEventForm.valid">Create Event</button>
 			</div>
 		</div>
 	</div>
@@ -365,21 +370,26 @@
 							<option value="other" selected>Other</option>
 						</select>
 					</fieldset>
-					<div class="event-date">
-						<fieldset class="form-group">
-							<legend>Event Start</legend>
-							<datepicker name="start" [(ngModel)]="editEventModel.start" [showWeeks]="false"></datepicker>
-						</fieldset>
-						<fieldset class="form-group">
-							<legend>Event End</legend>
-							<datepicker name="end" [(ngModel)]="editEventModel.end" [showWeeks]="false"></datepicker>
-						</fieldset>
-					</div>
-					<p *ngIf="!consecutiveDates(editEventModel.start, editEventModel.end)" class="text-danger">Start and end dates must be consecutive!</p>
+					<fieldset class="form-group">
+						<legend>Event Date</legend>
+						<div class="event-date btn-group">
+							<input
+								#drpEdit="bsDaterangepicker"
+								bsDaterangepicker
+								[bsConfig]="daterangeOptions"
+								placement="top"
+								class="form-control"
+								name="dates"
+								[(ngModel)]="editEventModel.dates">
+							<button class="btn btn-secondary" (click)="drpEdit.toggle()">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</button>
+						</div>
+					</fieldset>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" (click)="editEvent(); editEventModal.hide()" [disabled]="!editEventForm.valid || !consecutiveDates(editEventModel.start, editEventModel.end)">Edit Event</button>
+				<button type="button" class="btn btn-primary" (click)="editEvent(); editEventModal.hide()" [disabled]="!editEventForm.valid">Edit Event</button>
 			</div>
 		</div>
 	</div>

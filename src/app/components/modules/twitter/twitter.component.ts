@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 @Component({
 	selector: 'mymicds-twitter',
@@ -18,7 +18,8 @@ export class TwitterComponent implements OnInit {
 		}
 	}
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	resizeSensor: ResizeSensor;
 
 	constructor() { }
 
@@ -28,7 +29,7 @@ export class TwitterComponent implements OnInit {
 			this.createTwitter();
 
 			let resizeTimeout = null;
-			new ResizeSensor(this.moduleContainer.nativeElement, () => {
+			this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => {
 				clearTimeout(resizeTimeout);
 				if (this.fixedHeight) {
 					resizeTimeout = setTimeout(() => {

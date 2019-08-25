@@ -1,29 +1,28 @@
-<nav class="navbar navbar-full navbar-inverse bg-inverse navbar-toggleable-md">
-	<a class="navbar-brand" [routerLink]="['/home']">
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+	<a class="navbar-brand" routerLink="/home">
 		<img src="/assets/logo/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
 		MyMICDS.net
 	</a>
-	<div class="navbar-nav mr-auto">
+	<div class="navbar-nav" [class.collapsed]="isCollapsed">
 		<ng-container *ngFor="let page of pages">
 			<a *ngIf="!page.auth || jwt"
 				#rla="routerLinkActive"
 				class="nav-item nav-link"
-				[class.collapse]="isCollapsed && !rla.isActive"
 				[routerLink]="[page.url]"
-				[routerLinkActive]="['active']"
+				[routerLinkActive]="'active'"
 				(click)="isCollapsed = !isCollapsed">
-
-				<i class="fa" [ngClass]="page.icon"></i> {{ page.name }}
-				<i *ngIf="rla.isActive" class="fa fa-caret-down"></i>
+				<i class="fa" [ngClass]="page.icon"></i>
+				{{ page.name }}
+				<i *ngIf="rla.isActive" class="collapse-dropdown-caret fa fa-caret-down"></i>
 			</a>
 		</ng-container>
 	</div>
-	<div *ngIf="!jwt" class="navbar-right">
-		<button class="btn btn-success" [routerLink]="['/login']">Login</button>
-		<button class="btn btn-primary" [routerLink]="['/register']">Register</button>
+	<div *ngIf="!jwt" class="logged-out">
+		<button class="btn btn-success" routerLink="/login">Login</button>
+		<button class="btn btn-primary" routerLink="/register">Register</button>
 	</div>
-	<div *ngIf="jwt" class="navbar-right">
-		<p class="logged-in-user text-muted"><span class="hide">Logged in as </span>{{ jwt.user }}</p>
-		<button class="btn btn-danger" [routerLink]="['/logout']">Logout</button>
+	<div *ngIf="jwt" class="logged-in">
+		<span class="logged-in-user navbar-text">Logged in as {{ jwt.user }}</span>
+		<button class="btn btn-danger" routerLink="/logout">Logout</button>
 	</div>
 </nav>

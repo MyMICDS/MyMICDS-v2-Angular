@@ -1,49 +1,45 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import { MyMICDS, GetSnowdayResponse } from '@mymicds/sdk';
 
-import { AlertService } from '../../../services/alert.service';
-import { SnowdayService } from '../../../services/snowday.service';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-snowday',
 	templateUrl: './snowday.component.html',
 	styleUrls: ['./snowday.component.scss']
 })
-export class SnowdayComponent implements OnInit, OnDestroy {
+export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	moduleHeight: number;
+	resizeSensor: ResizeSensor;
 
-	snowdayData: any = null;
-	subscription: any;
+	snowdayData: GetSnowdayResponse['data'] = null;
 
-	constructor(private alertService: AlertService, private snowdayService: SnowdayService) { }
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+		super();
+	}
 
 	ngOnInit() {
-		ElementQueries.listen();
 		ElementQueries.init();
 		const onResize = () => {
 			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
 			this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
 		};
 		onResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, onResize);
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, onResize);
 
-		this.subscription = this.snowdayService.calculate().subscribe(
-			data => {
-				this.snowdayData = data;
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Snowday Calculator Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.snowday.get().subscribe(({ data }) => {
+				this.ngZone.run(() => {
+					this.snowdayData = data;
+				});
+			})
 		);
-	}
-
-	ngOnDestroy() {
-		// Unsubscribe to prevent memory leaks or something
-		this.subscription.unsubscribe();
 	}
 
 }

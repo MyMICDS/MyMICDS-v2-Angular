@@ -1,17 +1,18 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
-import moment from 'moment';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import * as ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import { MyMICDS, GetScheduleResponse } from '@mymicds/sdk';
 
-import { AlertService } from '../../../services/alert.service';
-import { ScheduleService } from '../../../services/schedule.service';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, NgZone } from '@angular/core';
+import * as moment from 'moment';
+import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-simplified-schedule',
 	templateUrl: './simplified-schedule.component.html',
 	styleUrls: ['./simplified-schedule.component.scss']
 })
-export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
+export class SimplifiedScheduleComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
 
 	@Input()
 	get fixedHeight() {
@@ -27,10 +28,11 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 	moduleHeight: number;
 	isHorizontal = true;
 
-	@ViewChild('moduleContainer') moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	resizeSensor: ResizeSensor;
 
 	updateCurrentInterval: NodeJS.Timer;
-	@ViewChild('scheduleQueue') scheduleQueue: ElementRef;
+	@ViewChild('scheduleQueue', { static: true }) scheduleQueue: ElementRef;
 	@ViewChildren('displayBlock') displayBlocks: QueryList<ElementRef>;
 	current = moment();
 
@@ -39,28 +41,27 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 	// How many blocks to display
 	showNBlocks = 0;
 
-	private scheduleSubscription: any;
-	schedule: any = null;
+	schedule: GetScheduleResponse['schedule'] = null;
 	scheduleDate = moment();
 
-	constructor(private alertService: AlertService, private scheduleService: ScheduleService) { }
+	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+		super();
+	}
 
 	ngOnInit() {
-		ElementQueries.listen();
 		ElementQueries.init();
 
-		this.scheduleSubscription = this.scheduleService.get({
-			year : this.scheduleDate.year(),
-			month: this.scheduleDate.month() + 1,
-			day  : this.scheduleDate.date()
-		}).subscribe(
-			schedule => {
-				this.schedule = schedule;
-				setTimeout(() => this.calcBlockDisplay());
-			},
-			error => {
-				this.alertService.addAlert('danger', 'Get Schedule Error!', error);
-			}
+		this.addSubscription(
+			this.mymicds.schedule.get({
+				year : this.scheduleDate.year(),
+				month: this.scheduleDate.month() + 1,
+				day  : this.scheduleDate.date()
+			}).subscribe(schedule => {
+				this.ngZone.run(() => {
+					this.schedule = schedule.schedule;
+					setTimeout(() => this.calcBlockDisplay());
+				});
+			})
 		);
 
 		this.updateCurrentInterval = setInterval(() => {
@@ -74,12 +75,11 @@ export class SimplifiedScheduleComponent implements OnInit, OnDestroy {
 			this.calcBlockDisplay();
 		};
 		onModuleResize();
-		new ResizeSensor(this.moduleContainer.nativeElement, () => onModuleResize());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => onModuleResize());
 	}
 
 	ngOnDestroy() {
 		clearInterval(this.updateCurrentInterval);
-		this.scheduleSubscription.unsubscribe();
 	}
 
 	// Determine how many blocks to show in the queue (depending on how much physical space we have to work with)

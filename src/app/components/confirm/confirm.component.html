@@ -5,7 +5,7 @@
 	<div mymicds-blur *ngIf="confirmResponse === true" class="confirm-response">
 		<h1>Account Confirmed!</h1>
 		<i class="fa fa-check fa-5x"></i>
-		<p class="confirm-success">You may now <a routerLink="/login">log in.</a></p>
+		<button routerLink="/login" class="btn btn-lg btn-block btn-success">Login</button>
 	</div>
 	<div mymicds-blur *ngIf="confirmResponse && typeOf(confirmResponse) === 'string'" class="confirm-response">
 		<h1>{{confirmResponse}}</h1>
