@@ -1,5 +1,5 @@
 /* --------------------------
-  Main Styles
+	Main Styles
 --------------------------- */
 
 .module-container {
@@ -79,7 +79,7 @@
 	.progress-day-container {
 		flex-grow: 0;
 		flex-shrink: 1;
-
+		
 		text-align: center;
 
 		.progress-day {
@@ -91,6 +91,7 @@
 			&:active,
 			&.rotate {
 				transform: rotate(360deg);
+				transition: all 0.4s ease-in-out 0s;
 			}
 		}
 	}
