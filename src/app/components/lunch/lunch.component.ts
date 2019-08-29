@@ -1,4 +1,4 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { MyMICDS, School, SchoolLunch } from '@mymicds/sdk';
 
 import { Component, OnInit, NgZone } from '@angular/core';
 import * as moment from 'moment';
@@ -15,9 +15,9 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 
 	loading = true;
 	lunchDate = moment();
-	lunch = [];
+	lunch: DayLunch[] = [];
 
-	schools = [
+	schools: School[] = [
 		'upperschool',
 		'middleschool',
 		'lowerschool'
@@ -34,7 +34,9 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 			this.mymicds.user.$.subscribe(data => {
 				this.ngZone.run(() => {
 					if (!data) {
-						this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
+						if (data === null) {
+							this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
+						}
 						return;
 					}
 					this.school = data.school;
@@ -43,7 +45,7 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	changeSchool(school: string) {
+	changeSchool(school: School) {
 		this.school = school;
 	}
 
@@ -70,7 +72,7 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 	 * Query Lunch
 	 */
 
-	getLunch(getDate) {
+	getLunch(getDate: moment.Moment) {
 		this.loading = true;
 		this.addSubscription(
 			this.mymicds.lunch.get({
@@ -114,12 +116,12 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	getDatesFromWeek(date: moment.Moment): moment.Moment[] {
+	getDatesFromWeek(date: moment.Moment) {
 
 		// Get beginning of week
-		let weekday = moment(date).startOf('week').day('Monday');
+		const weekday = moment(date).startOf('week').day('Monday');
 
-		let dates = [];
+		const dates: moment.Moment[] = [];
 
 		for (let i = 0; i < 5; i++) {
 			dates.push(weekday.clone());
@@ -132,4 +134,13 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 	lunchClassMaker(classInput) {
 		return classInput.toLowerCase().replace(/ /, '-');
 	}
+}
+
+export interface DayLunch {
+	date: {
+		weekday: string,
+		date: string,
+		today: boolean
+	};
+	lunch: Record<School, SchoolLunch> | {};
 }

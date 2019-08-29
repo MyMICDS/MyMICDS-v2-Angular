@@ -1,11 +1,12 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { MyMICDS, School } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
+import { DayLunch } from '../../lunch/lunch.component';
 
 
 @Component({
@@ -16,15 +17,8 @@ import { AlertService } from '../../../services/alert.service';
 export class SimplifiedLunchComponent extends SubscriptionsComponent implements OnInit {
 
 	loading = true;
-	lunchDate = moment();
-	lunch = [];
-	todaysLunch = null;
-	schools = [
-		'upperschool',
-		'middleschool',
-		'lowerschool'
-	];
-	school = this.schools[0];
+	todaysLunch: DayLunch = null;
+	school: School = 'upperschool';
 
 	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
 		super();
@@ -34,13 +28,15 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 		ElementQueries.listen();
 		ElementQueries.init();
 
-		this.getLunch(this.lunchDate);
+		this.getLunch();
 
 		this.addSubscription(
 			this.mymicds.user.$.subscribe(data => {
 				this.ngZone.run(() => {
 					if (!data) {
-						this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
+						if (data === null) {
+							this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
+						}
 						return;
 					}
 					this.school = data.school;
@@ -49,11 +45,14 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 		);
 	}
 
-	getLunch(getDate) {
+	getLunch() {
 		// Display loading screen
 		this.loading = true;
 
-		if (getDate.day() === 0 || getDate.day() === 6) {
+		const getDate = moment();
+		const dayOfWeek = getDate.day();
+
+		if (dayOfWeek === 6) {
 			getDate.add(1, 'week');
 		}
 
@@ -62,59 +61,31 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 				year : getDate.year(),
 				month: getDate.month() + 1,
 				day  : getDate.date()
-			}).subscribe(lunch => {
+			}).subscribe(({ lunch }) => {
 				this.ngZone.run(() => {
 					// Stop loading
 					this.loading = false;
-					// Reset lunch array
-					this.lunch = [];
-					// Get dates for the week
-					let current = moment();
-					let dates = this.getDatesFromWeek(getDate);
 
-					let i = getDate.day();
-
-					if (i === 6 || i === 0) {
-						i = 0;
-					} else {
-						i--;
+					if (dayOfWeek === 6 || dayOfWeek === 0) {
+						getDate.day(1);
 					}
-
-					let date = dates[i];
-					let lunchIndex = date.format('YYYY[-]MM[-]DD');
+					let lunchIndex = getDate.format('YYYY[-]MM[-]DD');
 					let dayLunch = lunch[lunchIndex] || { };
 
-					this.lunch.push({
+					this.todaysLunch = {
 						date: {
-							weekday: date.format('dddd'),
-							date: date.format('MMMM Do[,] YYYY'),
-							today: date.isSame(current, 'day')
+							weekday: getDate.format('dddd'),
+							date: getDate.format('MMMM Do[,] YYYY'),
+							today: true
 						},
 						lunch: dayLunch
-					});
-
-					this.todaysLunch = this.lunch[0];
+					};
 				});
 			})
 		);
 	}
 
-	getDatesFromWeek(date: any): any[] {
-
-		// Get beginning of week
-		let weekday = moment(date).startOf('week').day('Monday');
-
-		let dates = [];
-
-		for (let i = 0; i < 5; i++) {
-			dates.push(weekday.clone());
-			weekday.add(1, 'day');
-		}
-
-		return dates;
-	}
-
-	lunchClassMaker(classInput) {
+	lunchClassMaker(classInput: string) {
 		return classInput.toLowerCase().replace(/ /, '-');
 	}
 

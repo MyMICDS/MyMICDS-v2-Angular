@@ -5,15 +5,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ValuesPipe implements PipeTransform {
 
-	transform(value: any, args?: any): Object[] {
+	transform(value: any, args?: any) {
 		if (typeof value !== 'object') {
 			return [];
 		}
 
 		let keys = Object.keys(value);
-		let data = [];
+		let data: Array<{ key: string, value: any }> = [];
 
-		keys.forEach((key: any) => {
+		keys.forEach(key => {
 			let values = value[key];
 			data.push({
 				key,

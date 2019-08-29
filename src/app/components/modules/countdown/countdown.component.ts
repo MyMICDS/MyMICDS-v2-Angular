@@ -97,10 +97,10 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 	private _countdownTo: Date;
 
 	countdownInterval: NodeJS.Timer;
-	dayRotation: GetPortalDayRotationResponse;
+	dayRotation: GetPortalDayRotationResponse['days'];
 	schoolStarts: moment.Moment;
 	schoolEnds: moment.Moment;
-	breaks: GetBreaksResponse;
+	breaks: GetBreaksResponse['breaks'];
 
 	displayLabel: string = null;
 	displayCountdown = null;
@@ -132,10 +132,10 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 				this.mymicds.dates.getBreaks()
 			).subscribe(([days, schoolStarts, schoolEnds, breaks]) => {
 				this.ngZone.run(() => {
-					this.dayRotation = days;
+					this.dayRotation = days.days;
 					this.schoolStarts = schoolStarts.date;
 					this.schoolEnds = schoolEnds.date;
-					this.breaks = breaks;
+					this.breaks = breaks.breaks;
 					this.calculate();
 				});
 			})
@@ -171,15 +171,15 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 				this.displayLabel = 'Summer Break';
 				break;
 			case COUNTDOWN_MODE.VACATION:
-				this.displayCountdown = this.nextTimeOff(this.breaks['vacations']);
+				this.displayCountdown = this.nextTimeOff(this.breaks.vacations);
 				this.displayLabel = 'Next Break';
 				break;
 			case COUNTDOWN_MODE.LONG_WEEKEND:
-				this.displayCountdown = this.nextTimeOff(this.breaks['longWeekends']);
+				this.displayCountdown = this.nextTimeOff(this.breaks.longWeekends);
 				this.displayLabel = 'Next Long Weekend';
 				break;
 			case COUNTDOWN_MODE.WEEKEND:
-				this.displayCountdown = this.nextTimeOff(this.breaks['weekends']);
+				this.displayCountdown = this.nextTimeOff(this.breaks.weekends);
 				this.displayLabel = 'Next Weekend';
 				break;
 			case COUNTDOWN_MODE.CUSTOM:

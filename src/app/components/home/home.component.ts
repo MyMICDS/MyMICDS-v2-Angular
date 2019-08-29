@@ -110,7 +110,6 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 					if (!user) {
 						return;
 					}
-					console.log('user', user);
 
 					const lacks = [];
 
