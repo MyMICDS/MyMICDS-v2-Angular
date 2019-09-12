@@ -24,7 +24,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = '';
+	announcement = 'We hope you\'re all having a great start to the year! To help get to know us better, our new Head of School, Mr. Rainey, is hosting a series of pancake brunches for MICDS students. <strong>Upper Schoolers can register for their event <a href="https://www.eventbrite.com/e/pancakes-with-the-raineys-registration-71414140617">here.</a></strong>';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 	editMode = false;
