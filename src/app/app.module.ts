@@ -5,9 +5,17 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { routing, appRoutingProviders } from './app.routing';
+import { appRoutingProviders, routing } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
-import { BsDatepickerModule, ModalModule, PopoverModule, TooltipModule } from 'ngx-bootstrap';
+import {
+	BsDatepickerModule,
+	BsDropdownModule,
+	DatepickerModule,
+	ModalModule,
+	PopoverModule,
+	TimepickerModule,
+	TooltipModule
+} from 'ngx-bootstrap';
 import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
 import { AngularFittextModule } from 'angular-fittext';
@@ -70,17 +78,16 @@ import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directiv
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
-// import { RealtimeService } from './services/realtime.service';
-
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
 import { GradePipePipe } from './pipes/grade-pipe.pipe';
 import { RoundPipe } from './pipes/round.pipe';
-import { SafeHtmlPipe, SafeScriptPipe, SafeStylePipe, SafeUrlPipe, SafeResourceUrlPipe } from './pipes/safe.pipe';
+import { SafeHtmlPipe, SafeResourceUrlPipe, SafeScriptPipe, SafeStylePipe, SafeUrlPipe } from './pipes/safe.pipe';
 import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
+// import { RealtimeService } from './services/realtime.service';
 
 // RxJS 6 Zone.js Fix
 // import 'zone.js/dist/zone-patch-rxjs';
@@ -160,10 +167,13 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		routing,
 		ColorPickerModule,
 		BsDatepickerModule.forRoot(),
+		BsDropdownModule.forRoot(), // dep for DatetimePopup
+		DatepickerModule.forRoot(), // ditto
+		TimepickerModule.forRoot(), // ditto
+		DatetimePopupModule.forRoot(),
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
 		TooltipModule.forRoot(),
-		DatetimePopupModule,
 		GridsterModule.forRoot(),
 		BrowserAnimationsModule,
 		AngularFittextModule,
