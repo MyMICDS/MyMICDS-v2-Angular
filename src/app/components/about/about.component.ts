@@ -42,25 +42,11 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 
 	activeDevelopers: Developer[] = [
 		{
-			firstName: 'Michael',
-			lastName : 'Gira',
-			gradYear : 2019,
-			title    : 'Creator and Lead Developer',
-			image    : 'assets/developers/michaels-ugly-face-new-new.jpg'
-		},
-		{
 			firstName: 'Nick',
 			lastName : 'Clifford',
 			gradYear : 2020,
 			title    : 'System Administrations',
 			image    : 'assets/developers/nicks-ugly-face-new-new.jpg'
-		},
-		{
-			firstName: 'Jack',
-			lastName : 'Cai',
-			gradYear : 2019,
-			title    : 'Full Stack Developer',
-			image    : 'assets/developers/jacks-ugly-face-new-new.jpg'
 		},
 		{
 			firstName: 'Sam',
@@ -89,6 +75,20 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 	];
 
 	alumni: Developer[] = [
+		{
+			firstName: 'Michael',
+			lastName: 'Gira',
+			gradYear: 2019,
+			title: 'Creator and Lead Developer',
+			image: 'assets/developers/michaels-ugly-face-new-new.jpg'
+		},
+		{
+			firstName: 'Jack',
+			lastName: 'Cai',
+			gradYear: 2019,
+			title: 'Full Stack Developer',
+			image: 'assets/developers/jacks-ugly-face-new-new.jpg'
+		},
 		{
 			firstName: 'Alex',
 			lastName : 'Donovan',
