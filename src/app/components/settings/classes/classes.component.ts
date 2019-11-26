@@ -227,6 +227,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 					id: scheduleClass._id,
 					name: scheduleClass.name,
 					color: scheduleClass.color,
+					block: scheduleClass.block,
 					type: scheduleClass.type,
 					teacherPrefix: scheduleClass.teacher.prefix,
 					teacherFirstName: scheduleClass.teacher.firstName,
