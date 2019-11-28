@@ -66,7 +66,11 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 					this.alertService.addSuccess('Uploaded background!');
 				});
 			},
-			() => {},
+			() => {
+				this.ngZone.run(() => {
+					this.uploadingBackground = false;
+				});
+			},
 			() => {
 				this.ngZone.run(() => {
 					this.uploadingBackground = false;

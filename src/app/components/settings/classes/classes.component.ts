@@ -1,9 +1,9 @@
-import { MyMICDS, MyMICDSClass, Block, ClassType, GetClassesResponse } from '@mymicds/sdk';
+import { Block, ClassType, GetClassesResponse, MyMICDS, MyMICDSClass } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
-import { empty as observableEmpty, combineLatest } from 'rxjs';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { combineLatest } from 'rxjs';
 import { defaultIfEmpty } from 'rxjs/operators';
-import { contains, capitalize } from '../../../common/utils';
+import { capitalize, contains } from '../../../common/utils';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
@@ -114,6 +114,8 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 	 * Set Classes
 	 */
 
+	// TODO: Clean up some of these for loops into standard Array methods
+
 	// Detect if index of class experienced any changes
 	classChanged(id: string) {
 		// If class id is empty, then it's a new class and therefore cannot be changed
@@ -215,7 +217,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		this.savingClasses = true;
 
 		// Delete any old classes
-		let deleteObservables = this.deleteClassIds.map(id => this.mymicds.classes.delete({ id }));
+		let deleteObservables = this.deleteClassIds.map(id => this.mymicds.classes.delete({ id }, true));
 
 		// Reset delete class ids
 		this.deleteClassIds = [];
@@ -232,49 +234,32 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 					teacherPrefix: scheduleClass.teacher.prefix,
 					teacherFirstName: scheduleClass.teacher.firstName,
 					teacherLastName: scheduleClass.teacher.lastName
-				});
+				}, true);
 			}
 		}).filter(Boolean); // Remove undefined
 
 		// Combine all of those observables into a MEGA OBSERVABLE
-		let deleteClasses$ = combineLatest(deleteObservables);
-		let saveClasses$ = combineLatest(saveObservables);
+		let deleteClasses$ = combineLatest(deleteObservables).pipe(defaultIfEmpty());
+		let saveClasses$ = combineLatest(saveObservables).pipe(defaultIfEmpty());
+		let MEGAObservable$ = combineLatest([deleteClasses$, saveClasses$]);
 
-		// Only append to MEGA OBSERVABLE if it's actually going to do anything
-		let MEGAObservableArray = [];
-
-		if (deleteObservables.length > 0) {
-			MEGAObservableArray[0] = deleteClasses$;
-		} else {
-			MEGAObservableArray[0] = observableEmpty().pipe(defaultIfEmpty());
-		}
-
-		if (saveObservables.length > 0) {
-			MEGAObservableArray[1] = saveClasses$;
-		} else {
-			MEGAObservableArray[1] = observableEmpty().pipe(defaultIfEmpty());
-		}
-
-		let MEGAObservable$ = combineLatest(MEGAObservableArray);
-
-		MEGAObservable$.subscribe((data: any) => {
+		MEGAObservable$.subscribe(([deleted, saved]) => {
 			this.ngZone.run(() => {
 				// Deleted class logic
-				if (data[0] && data[0].length > 0) {
-					this.alertService.addSuccess(`Deleted ${data[0].length} classes.`);
+				if (deleted && deleted.length > 0) {
+					this.alertService.addSuccess(`Deleted ${deleted.length} classes.`);
 				}
 
 				// Added class logic
-				let ids = data[1];
-				if (ids && ids.length > 0) {
-					this.alertService.addSuccess(`Saved ${ids.length} classes.`);
+				if (saved && saved.length > 0) {
+					this.alertService.addSuccess(`Saved ${saved.length} classes.`);
 
 					// Go through all classes without ids and insert their new ids
 					let idOffset = 0;
 					for (let currentClass of this.classesList) {
 						if (!currentClass._id) {
 							// Assign this new class the next id in the array
-							currentClass._id = ids[idOffset++];
+							currentClass._id = saved[idOffset++].id;
 						}
 					}
 
@@ -283,13 +268,17 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 				this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
 				this.savingClasses = false;
 			});
+		}, () => {
+			this.ngZone.run(() => {
+				this.savingClasses = false;
+			})
 		});
 	}
 
 	// Adds a class to the bottom
 	addClass() {
 		// Generate random color
-		let color = '#000000'.replace(/0/g,function(){ return (~~(Math.random()*16)).toString(16); }); // tslint:disable-line
+		let color = '#000000'.replace(/0/g, () => (~~(Math.random() * 16)).toString(16)); // tslint:disable-line
 		this.classesList.push({
 			name: '',
 			color: color,
