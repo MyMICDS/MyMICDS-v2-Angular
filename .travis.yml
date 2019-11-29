@@ -7,6 +7,7 @@ addons:
 
 before_install:
   - openssl aes-256-cbc -K $encrypted_f339be35999a_key -iv $encrypted_f339be35999a_iv -in .travis/id_rsa.enc -out .travis/id_rsa -d
-  - npm install
+  - npm ci
+  - cp src/styles/_config.example.scss src/styles/_config.scss
 script: npm run build
 after_success: "[[ $TRAVIS_BRANCH == \"master\" && $TRAVIS_PULL_REQUEST == \"false\" ]] && .travis/deploy.sh"
