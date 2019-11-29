@@ -1,6 +1,12 @@
 language: node_js
-node_js:
-- 'node'
+node_js: node
+
+addons:
+  ssh_known_hosts:
+    secure: "PW/+pEbIlcp1ny5w2zd6wEOJienGL/vBrbWSXwtONJoavtX2opfD3ejW6LX5N+3mzQUcKNvtC++aOEa4nEj8eKwOJSwfERwkx/SmlT90+76vr3VJ5ShrgE53BAyp/Zyf/6xF1pEbpwO2QnW7/y1o3oU8Q6I9RS0BQy0Bi/d+Ccv9J3rqhF13yO4nulQIslFjdA7Aup5+0Igptzjlsiezci1RsXagpJqytArZtbqv+Sj6BpXYtTZ5+mc9JbKNLJHV1cgHfbMgqzgXr30of1EwySJkVOuPbhJXUgUUo58vCtn4mT37prmQP4Ylqb2ha3O+k5O4gXbB9KBNE8haugg92o7W6lt5T5c+xLbOPsS+NaQUnYynQJHMmPy4vQH7dMhpy/r01iItA399Eu7nBSDJeTqxGLWTcp0/oJDhy653re63DK5JNOePQxG6gUHv/Qfdjv0JRfmJUX89JONxiULDW0HCSkYhTJ4I5KhvW46Yjewa5xHDD0cqKeopB9hSK7iqJkd7DN3rmsKmMfq1FklirGOJGzDsZvXQdB0KWCfRMOQ2cT5BKG06LP7KGiYNLsli+kbL/ORX2OTqFoEAVLYdBpjLdvz1ZkdzoZghOIYzzu1M8WoaVaG/73iMX/U/cEPBwclwxFYUpkmjpYPmktac/SotWjlaCu2Oq5dqSkNHQ5k="
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_f339be35999a_key -iv $encrypted_f339be35999a_iv -in .travis/id_rsa.enc -out .travis/id_rsa -d
+  - npm install
 script: npm run build
-after_success:
-- sh .travis/deploy.sh 45.56.70.141 /home/apps/MyMICDS/MyMICDS-v2-angular-test-deploy
+after_success: "[[ $TRAVIS_BRANCH == \"master\" && $TRAVIS_PULL_REQUEST == \"false\" ]] && .travis/deploy.sh"

@@ -1,17 +1,21 @@
-eval "$(ssh-agent -s)" #start the ssh agent
-chmod 600 .travis/id_rsa # this key should have push access
+#!/bin/bash
+
+eval "$(ssh-agent -s)"
+chmod 600 .travis/id_rsa
 ssh-add .travis/id_rsa
-IP=$1
-if [ -z `ssh-keygen -F $IP` ]; then
-  ssh-keyscan -H $IP >> ~/.ssh/known_hosts
-fi
 
-DEPLOY_DIR=$2
-git config --global push.default matching
-git remote add deploy git@45.56.70.141:$DEPLOY_DIR
-git push deploy master
-
-ssh apps@45.56.70.141 << EOF
+ssh apps@$IP -p $PORT <<EOF
   cd $DEPLOY_DIR
+  git pull
   npm install
+  ng build --prod
+
+  # Make backup of current production stuff
+  TIMESTAMP=\$(date --rfc-3339=seconds)
+  mkdir /home/apps/MyMICDS/production-backups/"\$TIMESTAMP"
+  cp -R /var/www/mymicds/mymicds-angular/* /home/apps/MyMICDS/production-backups/"\$TIMESTAMP"
+
+  # Copy new compiled files into production
+  rm -rf /var/www/mymicds/mymicds-angular/*
+  cp -R /home/apps/MyMICDS/MyMICDS-v2-Angular/dist/mymicds-v2-angular/* /var/www/mymicds/mymicds-angular
 EOF
