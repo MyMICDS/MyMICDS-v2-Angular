@@ -17,5 +17,5 @@ ssh apps@$IP -p $PORT <<EOF
 
   # Copy new compiled files into production
   rm -rf /var/www/mymicds/mymicds-angular/*
-  cp -R /home/apps/MyMICDS/MyMICDS-v2-Angular/dist/mymicds-v2-angular/* /var/www/mymicds/mymicds-angular
+  cp -R $DEPLOY_DIR/dist/mymicds-v2-angular/* /var/www/mymicds/mymicds-angular
 EOF
