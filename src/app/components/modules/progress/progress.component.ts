@@ -1,25 +1,7 @@
-import {
-	MyMICDS,
-	GetScheduleResponse,
-	ScheduleBlock,
-	ClassType,
-	Block
-} from '@mymicds/sdk';
+import { Block, ClassType, GetScheduleResponse, MyMICDS, ScheduleBlock } from '@mymicds/sdk';
 
-import {
-	Component,
-	OnInit,
-	OnDestroy,
-	Input,
-	ViewChild,
-	ElementRef,
-	NgZone
-} from '@angular/core';
-import {
-	hexToRgb,
-	rainbowSafeWord,
-	rainbowCanvasGradient
-} from '../../../common/utils';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { rainbowCanvasGradient, rainbowSafeWord } from '../../../common/utils';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
@@ -78,7 +60,7 @@ export class ProgressComponent extends SubscriptionsComponent
 	// CanvasGradient object to use for rainbow color
 	rainbow: CanvasGradient;
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 
@@ -208,14 +190,12 @@ export class ProgressComponent extends SubscriptionsComponent
 					day: this.today.getDate()
 				})
 				.subscribe(({ schedule }) => {
-					this.ngZone.run(() => {
-						if (schedule) {
-							this.schedule = schedule;
-						} else {
-							this.schedule = null;
-						}
-						this.calculatePercentages();
-					});
+					if (schedule) {
+						this.schedule = schedule;
+					} else {
+						this.schedule = null;
+					}
+					this.calculatePercentages();
 				})
 		);
 	}

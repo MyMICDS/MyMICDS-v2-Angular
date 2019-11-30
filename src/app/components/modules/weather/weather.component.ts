@@ -1,6 +1,6 @@
-import { MyMICDS, GetWeatherResponse } from '@mymicds/sdk';
+import { GetWeatherResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, Input, OnInit, ElementRef, ViewChild, NgZone } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
@@ -18,7 +18,7 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 	@Input() metric = false;
 	@ViewChild('moduleContainer', { static: false }) containerEl: ElementRef;
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 
@@ -27,10 +27,8 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 
 		this.addSubscription(
 			this.mymicds.weather.get().subscribe(({ weather }) => {
-				this.ngZone.run(() => {
-					this.weather = weather;
-					this.weatherMetric = this.convertToMetric(weather);
-				});
+				this.weather = weather;
+				this.weatherMetric = this.convertToMetric(weather);
 			})
 		);
 	}

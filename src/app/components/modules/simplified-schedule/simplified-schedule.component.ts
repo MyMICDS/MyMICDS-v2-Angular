@@ -1,6 +1,6 @@
-import { MyMICDS, GetScheduleResponse } from '@mymicds/sdk';
+import { GetScheduleResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, ViewChildren, QueryList, NgZone } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
@@ -44,7 +44,7 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 	schedule: GetScheduleResponse['schedule'] = null;
 	scheduleDate = moment();
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 
@@ -57,10 +57,8 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 				month: this.scheduleDate.month() + 1,
 				day  : this.scheduleDate.date()
 			}).subscribe(schedule => {
-				this.ngZone.run(() => {
-					this.schedule = schedule.schedule;
-					setTimeout(() => this.calcBlockDisplay());
-				});
+				this.schedule = schedule.schedule;
+				setTimeout(() => this.calcBlockDisplay());
 			})
 		);
 
