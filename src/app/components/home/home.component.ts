@@ -1,7 +1,7 @@
 import { MyMICDS, MyMICDSModule, MyMICDSModuleType } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList, AfterViewInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
@@ -77,7 +77,6 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		public mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
-		private ngZone: NgZone,
 		private alertService: AlertService
 	) {
 		super();
@@ -85,10 +84,8 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	ngOnInit() {
 		const onResize = () => {
-			this.ngZone.run(() => {
-				this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
-				this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
-			});
+			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
+			this.moduleHeight = this.moduleContainer.nativeElement.clientHeight;
 		};
 		setTimeout(() => onResize());
 		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, onResize);
@@ -106,31 +103,29 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		// Check if user has set Portal and Canvas URL
 		this.addSubscription(
 			this.mymicds.user.$.subscribe(user => {
-				this.ngZone.run(() => {
-					if (!user) {
-						return;
-					}
+				if (!user) {
+					return;
+				}
 
-					const lacks = [];
+				const lacks = [];
 
-					if (!user.portalURLClasses || !user.portalURLCalendar) {
-						lacks.push('Portal');
-					}
-					if (!user.canvasURL) {
-						lacks.push('Canvas');
-					}
+				if (!user.portalURLClasses || !user.portalURLCalendar) {
+					lacks.push('Portal');
+				}
+				if (!user.canvasURL) {
+					lacks.push('Canvas');
+				}
 
-					// Engagement announcements
-					if (!this.announcement) {
-						if (user.migrateToVeracross) {
-							// tslint:disable-next-line:max-line-length
-							this.announcement = `Hey there! <strong>It appears you haven\'t migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
-						} else if (lacks.length > 0) {
-							// tslint:disable-next-line:max-line-length
-							this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
-						}
+				// Engagement announcements
+				if (!this.announcement) {
+					if (user.migrateToVeracross) {
+						// tslint:disable-next-line:max-line-length
+						this.announcement = `Hey there! <strong>It appears you haven\'t migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
+					} else if (lacks.length > 0) {
+						// tslint:disable-next-line:max-line-length
+						this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
 					}
-				});
+				}
 			})
 		);
 
@@ -140,9 +135,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		// Get modules layout
 		this.addSubscription(
 			this.mymicds.modules.get().subscribe(({ modules }) => {
-				this.ngZone.run(() => {
-					this.updateModuleLayout(modules);
-				});
+				this.updateModuleLayout(modules);
 			})
 		);
 	}
@@ -190,16 +183,12 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 		this.mymicds.modules.update({ modules: saveModules })
 			.subscribe(
 				({ modules }) => {
-					this.ngZone.run(() => {
-						this.savingModuleLayout = false;
-						this.updateModuleLayout(modules);
-						this.alertService.addSuccess('Successfully saved module layout!');
-					});
+					this.savingModuleLayout = false;
+					this.updateModuleLayout(modules);
+					this.alertService.addSuccess('Successfully saved module layout!');
 				},
 				() => {
-					this.ngZone.run(() => {
-						this.savingModuleLayout = false;
-					});
+					this.savingModuleLayout = false;
 				}
 			);
 	}

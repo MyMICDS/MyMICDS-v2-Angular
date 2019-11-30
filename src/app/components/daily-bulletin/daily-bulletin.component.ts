@@ -1,7 +1,7 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { contains } from '../../common/utils';
 
@@ -25,7 +25,7 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 	parse = false;
 	parsedBulletin: any;
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private router: Router, private route: ActivatedRoute) {
+	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute) {
 		super();
 	}
 
@@ -34,24 +34,22 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 
 		this.addSubscription(
 			this.mymicds.dailyBulletin.getList().subscribe(bulletinsData => {
-				this.ngZone.run(() => {
-					this.loading = false;
-					this.bulletinBaseURL = bulletinsData.baseURL;
-					this.bulletins = bulletinsData.bulletins;
+				this.loading = false;
+				this.bulletinBaseURL = bulletinsData.baseURL;
+				this.bulletins = bulletinsData.bulletins;
 
-					// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
-					const params = this.route.snapshot.params;
-					if (params.bulletin && contains(this.bulletins, params.bulletin)) {
-						this.bulletinIndex = this.bulletins.indexOf(params.bulletin);
-					}
+				// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
+				const params = this.route.snapshot.params;
+				if (params.bulletin && contains(this.bulletins, params.bulletin)) {
+					this.bulletinIndex = this.bulletins.indexOf(params.bulletin);
+				}
 
-					this.setBulletin(this.bulletinIndex, !params.bulletin);
+				this.setBulletin(this.bulletinIndex, !params.bulletin);
 
-					// Possibly parse
-					if (this.parse) {
-						this.getParsedBulletin();
-					}
-				});
+				// Possibly parse
+				if (this.parse) {
+					this.getParsedBulletin();
+				}
 			})
 		);
 	}

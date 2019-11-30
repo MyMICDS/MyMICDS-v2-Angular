@@ -1,7 +1,7 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -22,7 +22,6 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 		private mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
-		private ngZone: NgZone,
 		private alertService: AlertService) {
 		super();
 	}
@@ -44,14 +43,10 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 					this.addSubscription(
 						this.mymicds.auth.confirm({ user, hash }, true).subscribe(
 							() => {
-								this.ngZone.run(() => {
-									this.confirmResponse = true;
-								});
+								this.confirmResponse = true;
 							},
 							() => {
-								this.ngZone.run(() => {
-									this.confirmResponse = 'Invalid confirmation link!';
-								});
+								this.confirmResponse = 'Invalid confirmation link!';
 							}
 						)
 					);
