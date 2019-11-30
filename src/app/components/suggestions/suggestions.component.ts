@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { typeOf } from '../../common/utils';
 
@@ -22,7 +22,7 @@ export class SuggestionsComponent extends SubscriptionsComponent implements OnIn
 
 	suggestionsForm: FormGroup;
 
-	constructor(private mymicds: MyMICDS, private fb: FormBuilder, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS, private fb: FormBuilder) {
 		super();
 	}
 
@@ -38,14 +38,10 @@ export class SuggestionsComponent extends SubscriptionsComponent implements OnIn
 		this.addSubscription(
 			this.mymicds.suggestion.submit(this.suggestionsForm.value, true).subscribe(
 				() => {
-					this.ngZone.run(() => {
-						this.suggestionResponse = true;
-					});
+					this.suggestionResponse = true;
 				},
 				err => {
-					this.ngZone.run(() => {
-						this.suggestionResponse = err;
-					});
+					this.suggestionResponse = err;
 				}
 			)
 		);

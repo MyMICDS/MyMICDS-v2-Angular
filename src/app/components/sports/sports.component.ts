@@ -1,6 +1,6 @@
-import { MyMICDS, GetScoresResponse } from '@mymicds/sdk';
+import { GetScoresResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
@@ -15,7 +15,7 @@ export class SportsComponent extends SubscriptionsComponent implements OnInit {
 	sportsScores: GetScoresResponse['scores']['scores'] = [];
 	loadingScores: boolean;
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 
@@ -23,12 +23,10 @@ export class SportsComponent extends SubscriptionsComponent implements OnInit {
 		this.loadingScores = true;
 		this.addSubscription(
 			this.mymicds.sports.getScores().subscribe(({ scores }) => {
-				this.ngZone.run(() => {
-					this.sportsEvents = scores.events;
-					this.sportsScores = scores.scores;
-					console.log(scores.scores);
-					this.loadingScores = false;
-				});
+				this.sportsEvents = scores.events;
+				this.sportsScores = scores.scores;
+				console.log(scores.scores);
+				this.loadingScores = false
 			})
 		);
 	}
