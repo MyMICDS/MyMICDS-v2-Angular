@@ -1,7 +1,7 @@
-import { MyMICDS, GetPortalDayRotationResponse, GetBreaksResponse } from '@mymicds/sdk';
+import { GetBreaksResponse, GetPortalDayRotationResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy, Input, ElementRef, ViewChild, ViewChildren, QueryList, NgZone } from '@angular/core';
-import { trigger, state, style } from '@angular/animations';
+import { Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { state, style, trigger } from '@angular/animations';
 import { combineLatest } from 'rxjs';
 import { AngularFittextDirective } from 'angular-fittext';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
@@ -112,7 +112,7 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 
 	shaking: string;
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 
@@ -131,13 +131,11 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 				this.mymicds.dates.schoolEnds(),
 				this.mymicds.dates.getBreaks()
 			).subscribe(([days, schoolStarts, schoolEnds, breaks]) => {
-				this.ngZone.run(() => {
-					this.dayRotation = days.days;
-					this.schoolStarts = schoolStarts.date;
-					this.schoolEnds = schoolEnds.date;
-					this.breaks = breaks.breaks;
-					this.calculate();
-				});
+				this.dayRotation = days.days;
+				this.schoolStarts = schoolStarts.date;
+				this.schoolEnds = schoolEnds.date;
+				this.breaks = breaks.breaks;
+				this.calculate();
 			})
 		);
 	}

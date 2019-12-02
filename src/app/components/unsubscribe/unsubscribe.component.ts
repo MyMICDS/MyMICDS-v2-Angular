@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { typeOf } from '../../common/utils';
@@ -18,7 +18,7 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 	typeOf = typeOf;
 	unsubscribeResponse: boolean = null;
 
-	constructor(private mymicds: MyMICDS, private route: ActivatedRoute, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS, private route: ActivatedRoute) {
 		super();
 	}
 
@@ -35,22 +35,16 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 					this.addSubscription(
 						this.mymicds.notifications.unsubscribe({ user, hash, type }, true).subscribe(
 							() => {
-								this.ngZone.run(() => {
-									this.unsubscribeResponse = true;
-								});
+								this.unsubscribeResponse = true;
 							},
 							() => {
-								this.ngZone.run(() => {
-									this.unsubscribeResponse = false;
-								});
+								this.unsubscribeResponse = false;
 							}
 						)
 					);
 				},
 				() => {
-					this.ngZone.run(() => {
-						this.unsubscribeResponse = false;
-					});
+					this.unsubscribeResponse = false;
 				}
 			)
 		);

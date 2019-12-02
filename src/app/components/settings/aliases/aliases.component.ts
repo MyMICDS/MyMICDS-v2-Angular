@@ -1,6 +1,6 @@
-import { MyMICDS, MyMICDSClass, ListAliasesResponse, AliasType } from '@mymicds/sdk';
+import { AliasType, ListAliasesResponse, MyMICDS, MyMICDSClass } from '@mymicds/sdk';
 
-import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { contains } from '../../../common/utils';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
@@ -24,7 +24,7 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 
 	aliases: ListAliasesResponse['aliases'];
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
 		super();
 	}
 
@@ -32,9 +32,7 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 		// Get Aliases
 		this.addSubscription(
 			this.mymicds.alias.list().subscribe(({ aliases }) => {
-				this.ngZone.run(() => {
-					this.aliases = aliases;
-				});
+				this.aliases = aliases;
 			})
 		);
 	}
@@ -80,18 +78,16 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 					classString: className,
 					classId: this.class._id
 				}).subscribe(({ id }) => {
-					this.ngZone.run(() => {
-						this.alertService.addSuccess(`Linked ${this.type} class from this MyMICDS class!`);
+					this.alertService.addSuccess(`Linked ${this.type} class from this MyMICDS class!`);
 
-						// Add alias to aliases array
-						this.aliases[this.type].push({
-							_id: id,
-							// User is not necessary
-							user: null,
-							type: this.type,
-							classNative: this.class._id,
-							classRemote: className
-						});
+					// Add alias to aliases array
+					this.aliases[this.type].push({
+						_id: id,
+						// User is not necessary
+						user: null,
+						type: this.type,
+						classNative: this.class._id,
+						classRemote: className
 					});
 				})
 			);
@@ -104,16 +100,14 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 					type: this.type,
 					id: aliasId
 				}).subscribe(() => {
-					this.ngZone.run(() => {
-						this.alertService.addSuccess(`Unlinked ${this.type} class from this MyMICDS class!`);
+					this.alertService.addSuccess(`Unlinked ${this.type} class from this MyMICDS class!`);
 
-						// Remove alias from aliases array
-						for (let i = 0; i < this.aliases[this.type].length; i++) {
-							if (this.aliases[this.type][i]._id === aliasId) {
-								this.aliases[this.type].splice(i, 1);
-							}
+					// Remove alias from aliases array
+					for (let i = 0; i < this.aliases[this.type].length; i++) {
+						if (this.aliases[this.type][i]._id === aliasId) {
+							this.aliases[this.type].splice(i, 1);
 						}
-					});
+					}
 				})
 			);
 		}

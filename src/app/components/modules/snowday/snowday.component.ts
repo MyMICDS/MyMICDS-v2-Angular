@@ -1,6 +1,6 @@
-import { MyMICDS, GetSnowdayResponse } from '@mymicds/sdk';
+import { GetSnowdayResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
@@ -20,7 +20,7 @@ export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 
 	snowdayData: GetSnowdayResponse['data'] = null;
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 
@@ -35,9 +35,7 @@ export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 
 		this.addSubscription(
 			this.mymicds.snowday.get().subscribe(({ data }) => {
-				this.ngZone.run(() => {
-					this.snowdayData = data;
-				});
+				this.snowdayData = data;
 			})
 		);
 	}

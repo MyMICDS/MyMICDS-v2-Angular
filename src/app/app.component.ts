@@ -1,7 +1,7 @@
-import { MyMICDS, Action } from '@mymicds/sdk';
+import { Action, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewContainerRef, NgZone } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { defaultTitleFunction } from './app.routing';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -35,7 +35,6 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 		private route: ActivatedRoute,
 		private titleService: Title,
 		private viewContainerRef: ViewContainerRef,
-		private ngZone: NgZone,
 		private alertService: AlertService
 	) {
 		super();
@@ -76,29 +75,27 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 		// Error handling for MyMICDS SDK
 		this.addSubscription(
 			this.mymicds.errors.subscribe(error => {
-				this.ngZone.run(() => {
-					if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action)) {
-						this.router.navigate(['/login']);
-					}
+				if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action)) {
+					this.router.navigate(['/login']);
+				}
 
-					switch (error.action) {
-						case Action.LOGIN_EXPIRED:
+				switch (error.action) {
+					case Action.LOGIN_EXPIRED:
 						this.alertService.addWarning('Login expired! Please log in again.');
 						break;
 
-						case Action.NOT_LOGGED_IN:
+					case Action.NOT_LOGGED_IN:
 						this.alertService.addWarning('You are not logged in! You must be logged in access to this.');
 						break;
 
-						case Action.UNAUTHORIZED:
+					case Action.UNAUTHORIZED:
 						this.alertService.addWarning('Not so fast! You don\'t have access to this.');
 						break;
 
-						default:
+					default:
 						this.alertService.addError(error.message);
 						break;
-					}
-				});
+				}
 			})
 		);
 
