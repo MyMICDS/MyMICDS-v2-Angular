@@ -26,6 +26,7 @@ import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.compo
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
+import { CampusComponent } from './components/campus/campus.component';
 
 /**
  * Title functions
@@ -208,6 +209,10 @@ export const appRoutes: Routes = [
 	{
 		path: 'alert-debug',
 		component: AlertDebugComponent
+	},
+	{
+		path: 'campus',
+		component: CampusComponent
 	}
 ];
 
