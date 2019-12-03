@@ -10,7 +10,7 @@
 			<p id='csclink'>
 			Do you want to get involved in your community? Do you want to volunteer at a variety of organizations around St. Louis? Visit this website to learn about all the different opportunities for MICDS Students!</p>
 				<br />
-				<slideshow [imageUrls]="imageUrls"></slideshow>
+				<slideshow #slideshow [imageUrls]="imageUrls" (onClick)='testEvent($event)' [height] ='height' [autoPlay] = 'autoPlay'></slideshow>
 				<p><a href='https://micdscsc.wixsite.com/opportunities' target='_blank'>Community Service Committee Website</a></p>
 		</div>
 	</div>
