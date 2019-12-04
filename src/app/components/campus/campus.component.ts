@@ -1,16 +1,15 @@
-
-
 import { Component, OnInit } from '@angular/core';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
-import { IImage} from './modules/slideshow/IImage';
+import { IImage} from 'ng-simple-slideshow';
 
 @Component({
 	selector: 'mymicds-campus',
 	templateUrl: './campus.component.html',
 	styleUrls: ['./campus.component.scss']
 })
+
 export class CampusComponent extends SubscriptionsComponent implements OnInit {
 	imageUrls: (string | IImage)[] = [
 		{
@@ -39,6 +38,7 @@ export class CampusComponent extends SubscriptionsComponent implements OnInit {
 			href: 'https://micdscsc.wixsite.com/opportunities/post/5-pizza-places-you-must-know'
 		}
 	];
+
 	// While some of these options are not used in the element, it is used elsewhere
 	height = '500px';
 	autoPlay = true;
