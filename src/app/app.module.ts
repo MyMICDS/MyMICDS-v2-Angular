@@ -28,6 +28,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
 import { HomeComponent } from './components/home/home.component';
+import { CampusComponent } from './components/campus/campus.component';
 
 import { ModuleOptionsComponent } from './components/module-options/module-options.component';
 import { ModuleContainerComponent } from './components/module-container/module-container.component';
@@ -87,8 +88,8 @@ import { SafeHtmlPipe, SafeResourceUrlPipe, SafeScriptPipe, SafeStylePipe, SafeU
 import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
+import { SlideshowModule } from 'ng-simple-slideshow';
 // import { RealtimeService } from './services/realtime.service';
-
 // RxJS 6 Zone.js Fix
 // import 'zone.js/dist/zone-patch-rxjs';
 
@@ -104,6 +105,7 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		ModuleOptionComponent,
 		ModuleContainerComponent,
 		BookmarksComponent,
+		CampusComponent,
 		CountdownComponent,
 		ProgressComponent,
 		ScheduleComponent,
@@ -178,7 +180,8 @@ import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 		BrowserAnimationsModule,
 		AngularFittextModule,
 		IconPickerModule,
-		PdfViewerModule
+		PdfViewerModule,
+		SlideshowModule
 	],
 	providers: [
 		{

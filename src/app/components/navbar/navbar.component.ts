@@ -46,6 +46,11 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 			url: '/about',
 			name: 'About',
 			icon: 'fa-info'
+		},
+		{
+			url: '/campus',
+			name: 'Campus Life',
+			icon: 'fa-graduation-cap'
 		}
 	];
 

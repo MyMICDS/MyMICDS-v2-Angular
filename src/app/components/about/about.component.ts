@@ -59,11 +59,11 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 
 	notableMentions: Developer[] = [
 		{
-			firstName: 'Sebastian',
+			firstName: 'Sebastian "Seabass"',
 			lastName : 'Neumann',
 			gradYear : 2021,
-			title    : 'Front-End Developer',
-			image    : 'assets/developers/sebastians-ugly-face.jpg'
+			title    : 'Full Stack Developer',
+			image    : 'assets/developers/sebastians-ugly-face-new.jpg'
 		},
 		{
 			firstName: 'Tanay',
