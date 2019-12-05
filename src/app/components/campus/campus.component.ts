@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
+import { IImage } from 'ng-simple-slideshow';
 
-import { IImage} from 'ng-simple-slideshow';
-
+// tslint:disable:max-line-length
 @Component({
 	selector: 'mymicds-campus',
 	templateUrl: './campus.component.html',
 	styleUrls: ['./campus.component.scss']
 })
-
-export class CampusComponent extends SubscriptionsComponent implements OnInit {
-	imageUrls: (string | IImage)[] = [
+export class CampusComponent implements OnInit {
+	imageUrls: IImage[] = [
 		{
 			url: 'https://static.wixstatic.com/media/2ef4cb_56cbdb743abe4f3db18cf3dc0429e893~mv2.jpg/v1/fill/w_826,h_582,al_c,q_90/2ef4cb_56cbdb743abe4f3db18cf3dc0429e893~mv2.jpg',
 			caption: 'Best Buddies Celebrate Thanksgiving',
