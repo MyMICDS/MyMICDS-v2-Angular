@@ -1,33 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 
-<<<<<<< HEAD
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 import { IImage} from 'ng-simple-slideshow';
 
-=======
 import { IImage } from 'ng-simple-slideshow';
 
 // tslint:disable:max-line-length
->>>>>>> a58b05efa8fd79ec6da865ac7db195c990111c26
 @Component({
 	selector: 'mymicds-campus',
 	templateUrl: './campus.component.html',
 	styleUrls: ['./campus.component.scss']
 })
-<<<<<<< HEAD
 
-export class CampusComponent extends SubscriptionsComponent implements OnInit {
-	imageUrls: (string | IImage)[] = [
-		{
-			url: 'https://static.wixstatic.com/media/2ef4cb_0f3f8793dfa1468c9893dd6d86795d27~mv2_d_4032_3024_s_4_2.jpg/v1/fill/w_740,h_555,al_c,q_90,usm_0.66_1.00_0.01/2ef4cb_0f3f8793dfa1468c9893dd6d86795d27~mv2_d_4032_3024_s_4_2.webp',
-			caption: 'MICDS Best Buddies Go Bowling!',
-			href: 'https://micdscsc.wixsite.com/opportunities/post/micds-best-buddies-goes-bowling'
-		},
-=======
 export class CampusComponent implements OnInit {
 	imageUrls: IImage[] = [
->>>>>>> a58b05efa8fd79ec6da865ac7db195c990111c26
+		{
+			url: 'https://static.wixstatic.com/media/2ef4cb_0f3f8793dfa1468c9893dd6d86795d27~mv2_d_4032_3024_s_4_2.jpg/v1/fill/w_740,h_555,al_c,q_90,usm_0.66_1.00_0.01/2ef4cb_0f3f8793dfa1468c9893dd6d86795d27~mv2_d_4032_3024_s_4_2.webp',
+			caption: 'MICDS Best Buddies Goes Bowling!',
+			href: 'https://micdscsc.wixsite.com/opportunities/post/micds-best-buddies-goes-bowling'
+		},
 		{
 			url: 'https://static.wixstatic.com/media/2ef4cb_56cbdb743abe4f3db18cf3dc0429e893~mv2.jpg/v1/fill/w_826,h_582,al_c,q_90/2ef4cb_56cbdb743abe4f3db18cf3dc0429e893~mv2.jpg',
 			caption: 'Best Buddies Celebrate Thanksgiving',
