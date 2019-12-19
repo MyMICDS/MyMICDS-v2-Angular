@@ -1,6 +1,6 @@
-import { MyMICDS, GetUserInfoResponse, ChangeUserInfoParameters } from '@mymicds/sdk';
+import { ChangeUserInfoParameters, GetUserInfoResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
@@ -26,7 +26,7 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 
 	userInfo: GetUserInfoResponse = null;
 
-	constructor(private mymicds: MyMICDS, private formBuilder: FormBuilder, private ngZone: NgZone, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private formBuilder: FormBuilder, private alertService: AlertService) {
 		super();
 	}
 
@@ -34,30 +34,26 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 		// Get basic info
 		this.addSubscription(
 			this.mymicds.user.$.subscribe(data => {
-				this.ngZone.run(() => {
-					this.userInfo = data;
+				this.userInfo = data;
 
-					if (!this.userInfo) {
-						return;
-					}
+				if (!this.userInfo) {
+					return;
+				}
 
-					// Prefill user data in forms
-					this.infoForm = this.formBuilder.group({
-						firstName: [this.userInfo.firstName, Validators.required],
-						lastName: [this.userInfo.lastName, Validators.required],
-						gradYear: [this.userInfo.gradYear],
-						teacher: [this.userInfo.gradYear === null]
-					}, { validator: confirmGrade('gradYear', 'teacher') });
-				});
+				// Prefill user data in forms
+				this.infoForm = this.formBuilder.group({
+					firstName: [this.userInfo.firstName, Validators.required],
+					lastName: [this.userInfo.lastName, Validators.required],
+					gradYear: [this.userInfo.gradYear],
+					teacher: [this.userInfo.gradYear === null]
+				}, { validator: confirmGrade('gradYear', 'teacher') });
 			})
 		);
 
 		// Get graduation year range
 		this.addSubscription(
 			this.mymicds.user.getGradeRange().subscribe(gradeRange => {
-				this.ngZone.run(() => {
-					this.gradeRange = gradeRange.gradYears;
-				});
+				this.gradeRange = gradeRange.gradYears;
 			})
 		);
 	}

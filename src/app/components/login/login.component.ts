@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UAParser } from 'ua-parser-js';
 
@@ -20,7 +20,7 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 		remember: true,
 	};
 
-	constructor(private mymicds: MyMICDS, private router: Router, private ngZone: NgZone, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private router: Router, private alertService: AlertService) {
 		super();
 	}
 
@@ -44,13 +44,11 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 				remember: this.loginModel.remember,
 				comment: jwtComment
 			}).subscribe(loginRes => {
-				this.ngZone.run(() => {
-					if (loginRes.success) {
-						this.router.navigate(['/home']);
-					} else {
-						this.alertService.addWarning(loginRes.message);
-					}
-				});
+				if (loginRes.success) {
+					this.router.navigate(['/home']);
+				} else {
+					this.alertService.addWarning(loginRes.message);
+				}
 			})
 		);
 	}

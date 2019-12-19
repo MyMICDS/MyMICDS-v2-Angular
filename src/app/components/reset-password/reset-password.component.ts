@@ -1,7 +1,7 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { confirmPassword } from '../../common/form-validation';
 import { typeOf } from '../../common/utils';
@@ -33,8 +33,7 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 		private mymicds: MyMICDS,
 		private router: Router,
 		private formBuilder: FormBuilder,
-		private route: ActivatedRoute,
-		private ngZone: NgZone
+		private route: ActivatedRoute
 	) {
 		super();
 	}
@@ -49,15 +48,11 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 		this.addSubscription(
 			this.route.params.subscribe(
 				params => {
-					this.ngZone.run(() => {
-						this.user = params.user;
-						this.hash = params.hash;
-					});
+					this.user = params.user;
+					this.hash = params.hash;
 				},
 				() => {
-					this.ngZone.run(() => {
-						this.resetResponse = 'There was a problem getting the URL variables!';
-					});
+					this.resetResponse = 'There was a problem getting the URL variables!';
 				}
 			)
 		);
@@ -72,14 +67,10 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 				hash: this.hash
 			}).subscribe(
 				() => {
-					this.ngZone.run(() => {
-						this.resetResponse = true;
-					});
+					this.resetResponse = true;
 				},
 				error => {
-					this.ngZone.run(() => {
-						this.resetResponse = error.message;
-					});
+					this.resetResponse = error.message;
 				}
 			)
 		);

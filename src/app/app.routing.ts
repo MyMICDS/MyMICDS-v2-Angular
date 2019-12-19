@@ -158,7 +158,8 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: 'logout',
-		component: LogoutComponent
+		component: LogoutComponent,
+		canActivate: [AuthGuard]
 	},
 	{
 		path: 'register',

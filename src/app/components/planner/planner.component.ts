@@ -1,12 +1,12 @@
-import { MyMICDS, MyMICDSClass, AddPlannerEventParameters, PlannerEvent, GetPortalDayRotationResponse } from '@mymicds/sdk';
+import { AddPlannerEventParameters, GetPortalDayRotationResponse, MyMICDS, MyMICDSClass, PlannerEvent } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, fromEvent } from 'rxjs';
-import { tap, filter, map, switchMap } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { fromEvent, Subject } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import { contains, darkenColor, rainbowSafeWord, rainbowCSSGradient } from '../../common/utils';
+import { contains, darkenColor, rainbowCSSGradient, rainbowSafeWord } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
@@ -19,7 +19,7 @@ import { AlertService } from '../../services/alert.service';
 export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	public darkenColor = darkenColor; // tslint:disable-line
+	public darkenColor = darkenColor;
 
 	weekdays = [
 		'Sunday',
@@ -105,7 +105,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		public mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
-		private ngZone: NgZone,
 		private alertService: AlertService
 	) {
 		super();
@@ -132,9 +131,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		// Get day rotation
 		this.addSubscription(
 			this.mymicds.portal.getDayRotation().subscribe(({ days }) => {
-				this.ngZone.run(() => {
-					this.days = days;
-				});
+				this.days = days;
 			})
 		);
 
@@ -144,27 +141,21 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			// Get list of classes for when user inserts their own event
 			this.addSubscription(
 				this.mymicds.classes.get().subscribe(({ classes }) => {
-					this.ngZone.run(() => {
-						this.classes = classes;
-					});
+					this.classes = classes;
 				})
 			);
 			// Get Canvas events
 			this.addSubscription(
 				this.mymicds.canvas.getEvents(true).subscribe(
 					data => {
-						this.ngZone.run(() => {
-							this.canvasLoading = false;
-							if (data.hasURL) {
-								this.canvasEvents = data.events;
-								this.updatePlannerEvents();
-							}
-						});
+						this.canvasLoading = false;
+						if (data.hasURL) {
+							this.canvasEvents = data.events;
+							this.updatePlannerEvents();
+						}
 					},
 					() => {
-						this.ngZone.run(() => {
-							this.canvasLoading = false;
-						});
+						this.canvasLoading = false;
 					}
 				)
 			);
@@ -177,20 +168,16 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 					switchMap(() => this.mymicds.canvas.getEvents())
 				).subscribe(
 					data => {
-						this.ngZone.run(() => {
-							this.canvasLoading = false
-							if (data.hasURL) {
-								this.canvasEvents = data.events;
-							} else {
-								this.canvasEvents = [];
-							}
-							this.updatePlannerEvents();
-						});
+						this.canvasLoading = false;
+						if (data.hasURL) {
+							this.canvasEvents = data.events;
+						} else {
+							this.canvasEvents = [];
+						}
+						this.updatePlannerEvents();
 					},
 					() => {
-						this.ngZone.run(() => {
-							this.canvasLoading = false;
-						});
+						this.canvasLoading = false;
 					}
 				)
 			);
@@ -223,15 +210,11 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.addSubscription(
 			this.mymicds.planner.getEvents(true).subscribe(
 				({ events }) => {
-					this.ngZone.run(() => {
-						this.plannerLoading = false;
-						this.updatePlannerEvents(events);
-					});
+					this.plannerLoading = false;
+					this.updatePlannerEvents(events);
 				},
 				() => {
-					this.ngZone.run(() => {
-						this.plannerLoading = false;
-					});
+					this.plannerLoading = false;
 				}
 			)
 		);
@@ -506,10 +489,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.addSubscription(
 			this.mymicds.planner.addEvent(this.formatEventData(this.createEventModel))
 				.subscribe(({ events }) => {
-					this.ngZone.run(() => {
-						this.alertService.addSuccess('Added event to planner!');
-						this.updatePlannerEvents(events);
-					});
+					this.alertService.addSuccess('Added event to planner!');
+					this.updatePlannerEvents(events);
 				})
 		);
 	}
@@ -561,10 +542,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.addSubscription(
 			this.mymicds.planner.addEvent(this.formatEventData(this.editEventModel))
 				.subscribe(({ events }) => {
-					this.ngZone.run(() => {
-						this.alertService.addSuccess('Edited event in planner!');
-						this.updatePlannerEvents(events);
-					});
+					this.alertService.addSuccess('Edited event in planner!');
+					this.updatePlannerEvents(events);
 				})
 		);
 	}
@@ -578,16 +557,14 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		event.stopPropagation();
 		if (confirm('Are you sure you wanna delete this event from the planner?')) {
 			this.mymicds.planner.deleteEvent({ id }).subscribe(() => {
-				this.ngZone.run(() => {
-					this.alertService.addSuccess('Deleted event from planner!');
-					// Delete planner event from array
-					for (let i = 0; i < this.plannerEvents.length; i++) {
-						if (this.plannerEvents[i]._id === id) {
-							this.plannerEvents.splice(i--, 1);
-						}
+				this.alertService.addSuccess('Deleted event from planner!');
+				// Delete planner event from array
+				for (let i = 0; i < this.plannerEvents.length; i++) {
+					if (this.plannerEvents[i]._id === id) {
+						this.plannerEvents.splice(i--, 1);
 					}
-					this.updatePlannerEvents();
-				});
+				}
+				this.updatePlannerEvents();
 			})
 		}
 	}
@@ -628,8 +605,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 				selectionEvents.item(i).scrollIntoView({ behavior: 'smooth' });
 				// shine the element
 				break;
-			};
-		};
+			}
+		}
 	}
 
 	// Close the side bar from a button

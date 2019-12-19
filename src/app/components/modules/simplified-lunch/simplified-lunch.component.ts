@@ -1,6 +1,6 @@
 import { MyMICDS, School } from '@mymicds/sdk';
 
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import * as ElementQueries from 'css-element-queries/src/ElementQueries';
 
@@ -20,7 +20,7 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 	todaysLunch: DayLunch = null;
 	school: School = 'upperschool';
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
 		super();
 	}
 
@@ -32,15 +32,13 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 
 		this.addSubscription(
 			this.mymicds.user.$.subscribe(data => {
-				this.ngZone.run(() => {
-					if (!data) {
-						if (data === null) {
-							this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
-						}
-						return;
+				if (!data) {
+					if (data === null) {
+						this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
 					}
-					this.school = data.school;
-				});
+					return;
+				}
+				this.school = data.school;
 			})
 		);
 	}
@@ -62,25 +60,23 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 				month: getDate.month() + 1,
 				day  : getDate.date()
 			}).subscribe(({ lunch }) => {
-				this.ngZone.run(() => {
-					// Stop loading
-					this.loading = false;
+				// Stop loading
+				this.loading = false;
 
-					if (dayOfWeek === 6 || dayOfWeek === 0) {
-						getDate.day(1);
-					}
-					let lunchIndex = getDate.format('YYYY[-]MM[-]DD');
-					let dayLunch = lunch[lunchIndex] || { };
+				if (dayOfWeek === 6 || dayOfWeek === 0) {
+					getDate.day(1);
+				}
+				let lunchIndex = getDate.format('YYYY[-]MM[-]DD');
+				let dayLunch = lunch[lunchIndex] || { };
 
-					this.todaysLunch = {
-						date: {
-							weekday: getDate.format('dddd'),
-							date: getDate.format('MMMM Do[,] YYYY'),
-							today: true
-						},
-						lunch: dayLunch
-					};
-				});
+				this.todaysLunch = {
+					date: {
+						weekday: getDate.format('dddd'),
+						date: getDate.format('MMMM Do[,] YYYY'),
+						today: true
+					},
+					lunch: dayLunch
+				};
 			})
 		);
 	}

@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
 import { debounceTime } from 'rxjs/operators';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
@@ -42,9 +42,7 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 			this._moduleId = id;
 			this.addSubscription(
 				this.mymicds.stickyNotes.get({ moduleId: id }).subscribe(data => {
-					this.ngZone.run(() => {
-						this.text = data.text;
-					});
+					this.text = data.text;
 				})
 			);
 		}
@@ -63,7 +61,7 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 	};
 	@Input() color;
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 

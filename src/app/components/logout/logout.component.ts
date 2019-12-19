@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -12,7 +12,7 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 })
 export class LogoutComponent extends SubscriptionsComponent implements OnInit {
 
-	constructor(private mymicds: MyMICDS, private router: Router, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS, private router: Router) {
 		super();
 	}
 
@@ -22,9 +22,7 @@ export class LogoutComponent extends SubscriptionsComponent implements OnInit {
 				() => {},
 				() => {},
 				() => {
-					this.ngZone.run(() => {
-						this.router.navigate(['/home']);
-					});
+					this.router.navigate(['/home']);
 				}
 			)
 		);

@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
@@ -22,7 +22,6 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 
 	constructor(
 		private mymicds: MyMICDS,
-		private ngZone: NgZone,
 		private alertService: AlertService,
 		private backgroundService: BackgroundService
 	) {
@@ -32,9 +31,7 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 	ngOnInit() {
 		this.addSubscription(
 			this.mymicds.background.$.subscribe(background => {
-				this.ngZone.run(() => {
-					this.hasDefaultBackground = background.hasDefault;
-				});
+				this.hasDefaultBackground = background.hasDefault;
 			})
 		);
 	}
@@ -62,17 +59,15 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 		this.uploadingBackground = true;
 		this.mymicds.background.upload({ background: file }, true).subscribe(
 			() => {
-				this.ngZone.run(() => {
-					this.alertService.addSuccess('Uploaded background!');
-				});
+				this.alertService.addSuccess('Uploaded background!');
 			},
-			() => {},
 			() => {
-				this.ngZone.run(() => {
-					this.uploadingBackground = false;
-					this.fileSelected = false;
-					this.uploadForm.nativeElement.reset();
-				});
+				this.uploadingBackground = false;
+			},
+			() => {
+				this.uploadingBackground = false;
+				this.fileSelected = false;
+				this.uploadForm.nativeElement.reset();
 			}
 		);
 	}

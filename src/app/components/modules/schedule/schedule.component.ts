@@ -1,6 +1,6 @@
-import { MyMICDS, GetScheduleResponse } from '@mymicds/sdk';
+import { GetScheduleResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, OnDestroy, Input, ViewChild, ElementRef, NgZone } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs/Rx';
 import { debounceTime } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -48,7 +48,7 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 
 	changeSchedule$ = new Subject<void>();
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 
@@ -102,17 +102,15 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 			month: date.month() + 1,
 			day  : date.date()
 		}).subscribe(({ schedule }) => {
-			this.ngZone.run(() => {
-				this.viewSchedule = schedule;
+			this.viewSchedule = schedule;
 
-				if (date.isSame(this.current, 'day')) {
-					this.currentSchedule = schedule;
-				}
+			if (date.isSame(this.current, 'day')) {
+				this.currentSchedule = schedule;
+			}
 
-				setTimeout(() => {
-					this.resizeTable();
-				}, 0);
-			});
+			setTimeout(() => {
+				this.resizeTable();
+			}, 0);
 		});
 	}
 

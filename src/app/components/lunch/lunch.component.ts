@@ -1,6 +1,6 @@
 import { MyMICDS, School, SchoolLunch } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -24,7 +24,7 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 	];
 	school = this.schools[0];
 
-	constructor(private mymicds: MyMICDS, private ngZone: NgZone, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
 		super();
 	}
 
@@ -32,15 +32,13 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 		this.currentWeek();
 		this.addSubscription(
 			this.mymicds.user.$.subscribe(data => {
-				this.ngZone.run(() => {
-					if (!data) {
-						if (data === null) {
-							this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
-						}
-						return;
+				if (!data) {
+					if (data === null) {
+						this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
 					}
-					this.school = data.school;
-				});
+					return;
+				}
+				this.school = data.school;
 			})
 		);
 	}
@@ -80,38 +78,36 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 				month: getDate.month() + 1,
 				day  : getDate.date()
 			}).subscribe(({ lunch }) => {
-				this.ngZone.run(() => {
-					this.loading = false;
-					this.lunch = [];
+				this.loading = false;
+				this.lunch = [];
 
-					// Get dates for the week
-					const current = moment();
-					const dates = this.getDatesFromWeek(getDate);
+				// Get dates for the week
+				const current = moment();
+				const dates = this.getDatesFromWeek(getDate);
 
-					for (const date of dates) {
-						const lunchIndex = date.format('YYYY[-]MM[-]DD');
-						const dayLunch = lunch[lunchIndex] || {};
+				for (const date of dates) {
+					const lunchIndex = date.format('YYYY[-]MM[-]DD');
+					const dayLunch = lunch[lunchIndex] || {};
 
-						this.lunch.push({
-							date: {
-								weekday: date.format('dddd'),
-								date: date.format('MMMM Do[,] YYYY'),
-								today: date.isSame(current, 'day')
-							},
-							lunch: dayLunch
-						});
+					this.lunch.push({
+						date: {
+							weekday: date.format('dddd'),
+							date: date.format('MMMM Do[,] YYYY'),
+							today: date.isSame(current, 'day')
+						},
+						lunch: dayLunch
+					});
+				}
+
+				// Scroll to current day (particularly for mobile)
+				for (let i = 0; i < this.lunch.length; i++) {
+					if (this.lunch[i].date.today) {
+						setTimeout(() => {
+							const todayEl = document.getElementsByClassName('lunch-day').item(i);
+							todayEl.scrollIntoView({ behavior: 'smooth' });
+						}, 0);
 					}
-
-					// Scroll to current day (particularly for mobile)
-					for (let i = 0; i < this.lunch.length; i++) {
-						if (this.lunch[i].date.today) {
-							setTimeout(() => {
-								const todayEl = document.getElementsByClassName('lunch-day').item(i);
-								todayEl.scrollIntoView({ behavior: 'smooth' });
-							}, 0);
-						}
-					}
-				});
+				}
 			})
 		);
 	}

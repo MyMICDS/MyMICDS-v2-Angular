@@ -1,6 +1,6 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, NgZone } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { confirmRegister } from '../../common/form-validation';
@@ -34,7 +34,7 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 	submitted = false;
 	registerResponse: any = null;
 
-	constructor(private mymicds: MyMICDS, private router: Router, private formBuilder: FormBuilder, private ngZone: NgZone) {
+	constructor(private mymicds: MyMICDS, private router: Router, private formBuilder: FormBuilder) {
 		super();
 	}
 
@@ -48,9 +48,7 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 
 		this.addSubscription(
 			this.mymicds.user.getGradeRange().subscribe(data => {
-				this.ngZone.run(() => {
-					this.gradeRange = data.gradYears;
-				});
+				this.gradeRange = data.gradYears;
 			})
 		);
 	}
@@ -60,14 +58,10 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 		this.addSubscription(
 			this.mymicds.auth.register(this.registerForm.value, true).subscribe(
 				() => {
-					this.ngZone.run(() => {
-						this.registerResponse = true;
-					});
+					this.registerResponse = true;
 				},
 				error => {
-					this.ngZone.run(() => {
-						this.registerResponse = error.message;
-					});
+					this.registerResponse = error.message;
 				}
 			)
 		);
