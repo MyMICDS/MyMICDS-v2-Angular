@@ -1,4 +1,4 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { MyMICDS, Scope } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -31,9 +31,9 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 				([params, queryParams]) => {
 					const user = params.user;
 					const hash = params.hash;
-					const type = queryParams.type ? queryParams.type.toUpperCase() : 'ALL';
+					const scopes = queryParams.type ? queryParams.type.toUpperCase() as Scope : Scope.ALL;
 					this.addSubscription(
-						this.mymicds.notifications.unsubscribe({ user, hash, type }, true).subscribe(
+						this.mymicds.notifications.unsubscribe({ user, hash, scopes }, true).subscribe(
 							() => {
 								this.unsubscribeResponse = true;
 							},
