@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
-
 import { IImage} from 'ng-simple-slideshow';
 
-import { IImage } from 'ng-simple-slideshow';
 
 // tslint:disable:max-line-length
 @Component({
