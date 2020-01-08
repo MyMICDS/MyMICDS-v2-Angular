@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-
-import { IImage} from 'ng-simple-slideshow';
-
+import { IImage } from 'ng-simple-slideshow';
 
 // tslint:disable:max-line-length
+
 @Component({
 	selector: 'mymicds-campus',
 	templateUrl: './campus.component.html',
 	styleUrls: ['./campus.component.scss']
 })
-
 export class CampusComponent implements OnInit {
 	imageUrls: IImage[] = [
 		{
