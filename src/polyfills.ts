@@ -82,5 +82,5 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 import 'smoothscroll-polyfill';
 
 // Initialize css-element-queries
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import { ElementQueries } from 'css-element-queries';
 ElementQueries.listen();

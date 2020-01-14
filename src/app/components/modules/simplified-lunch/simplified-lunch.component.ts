@@ -2,7 +2,7 @@ import { MyMICDS, School } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import { ElementQueries } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';

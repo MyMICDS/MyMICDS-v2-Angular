@@ -1,9 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as interact from 'interactjs';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
+import interact from 'interactjs';
 
 @Component({
 	selector: 'mymicds-module-inspector',
@@ -56,7 +55,7 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 
 	private updateURLTimeout: NodeJS.Timer;
 
-	moduleInteractable: interact.Interactable;
+	moduleInteractable: Interact.Interactable;
 
 	constructor(private router: Router, private route: ActivatedRoute) { }
 

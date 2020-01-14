@@ -1,7 +1,7 @@
 import { GetWeatherResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
+import { ElementQueries } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 

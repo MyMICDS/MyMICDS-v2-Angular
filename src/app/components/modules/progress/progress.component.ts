@@ -3,8 +3,7 @@ import { Block, ClassType, GetScheduleResponse, MyMICDS, ScheduleBlock } from '@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { rainbowCanvasGradient, rainbowSafeWord } from '../../../common/utils';
 import * as moment from 'moment-timezone';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
