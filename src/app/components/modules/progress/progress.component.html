@@ -1,12 +1,12 @@
 <div #moduleContainer class="module-container">
 	<div [hidden]="!showDate || (progressType === 'circular' && moduleHeight < 320)" class="today">
 		<div class="date">
-			<h2 class="date-full">{{ today | date:'EEEE, MMMM d, y' }}</h2>
-			<h2 class="date-full short">{{ today | date:'EEE, MMM d, y' }}</h2>
-			<h3 class="date-numbered">{{ today | date:'dd.MM.yyyy' }}</h3>
+			<h2 class="date-full">{{ today | date:'EEEE, MMMM d, y':'CST' }}</h2>
+			<h2 class="date-full short">{{ today | date:'EEE, MMM d, y':'CST' }}</h2>
+			<h3 class="date-numbered">{{ today | date:'dd.MM.yyyy':'CST' }}</h3>
 		</div>
 		<div class="day">
-			<h2 class="time">{{ today | date:'h:mm:ss' }}</h2>
+			<h2 class="time">{{ today | date:'h:mm:ss':'CST' }}</h2>
 			<h3 class="day-rotation">{{ schedule?.day | dayRotation }}</h3>
 		</div>
 	</div>
