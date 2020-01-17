@@ -235,6 +235,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 		// Define nowTime just to make things clearer
 		const nowTime = this.today.getTime();
+
 		// End of School constant created for DRY, specify that it is 3:15 PM CST
 		const schoolDayEnd315 = moment.tz(this.today, 'America/Chicago')
 			.startOf('day')
