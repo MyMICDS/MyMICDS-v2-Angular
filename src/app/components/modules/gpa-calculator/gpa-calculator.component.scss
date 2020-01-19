@@ -1,14 +1,30 @@
+.module-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
 table {
-  width: 100%;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 
   th.letter-grade {
-    text-align: center;
+    text-align: right;
+    width: 100%;
+    padding-right: 4rem;
   }
 
   td {
     white-space: nowrap;
-    padding: 0.5rem;
+    padding: 0.35rem;
+    width: 100%;
+
+    a {
+      margin-top: .25rem;
+      margin-bottom: .25rem;
+    }
 
     select.form-control {
       width: inherit;
@@ -23,21 +39,14 @@ table {
     }
     &.letter-grade {
       input {
-        width: 8rem;
+        width: 7rem;
       }
+      min-width: 9rem;
     }
   }
 }
 
-.button-wrapper {
-  display: block;
-  height: auto;
-  width: auto;
-  * {
-    display: inline-block;
-  }
-  h2 {
-    float: right;
-    margin-right: 0.25rem;
-  }
+.gpa-display {
+  color: white;
+  text-align: center;
 }

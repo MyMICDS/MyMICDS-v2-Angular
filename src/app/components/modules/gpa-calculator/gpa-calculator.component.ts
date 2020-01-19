@@ -1,4 +1,4 @@
-import { MyMICDS, GetClassesResponse } from '@mymicds/sdk';
+import { MyMICDS } from '@mymicds/sdk';
 import {
 	Component,
 	ElementRef,
@@ -16,8 +16,7 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 export class GpaCalculatorComponent extends SubscriptionsComponent
 	implements OnInit, OnDestroy {
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
-	displayClassesArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-	classes: GetClassesResponse = null;
+	displayClassesArray = ['A Period', 'B Period', 'C Period', 'D Period', 'E Period', 'F Period', 'G Period'];
 	// MICDS grading scale starts at F, goes to A. Mappings retreived from guidebook
 	letterGradesArray = [
 		'N/A',
@@ -36,78 +35,69 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 	];
 
 	calculationMappings = {
-		A: 4.0,
+		'A': 4.0,
 		'A-': 3.67,
 		'B+': 3.33,
-		B: 3.0,
+		'B': 3.0,
 		'B-': 2.67,
 		'C+': 2.33,
-		C: 2.0,
+		'C': 2.0,
 		'C-': 1.67,
 		'D+': 1.33,
-		D: 1.0,
+		'D': 1.0,
 		'D-': 0.67,
-		F: 0.0
+		'F': 0.0
 	};
 
-	inputGrades = ['', '', '', '', '', '', ''];
-	hasClickedCalculationButton = false;
+	dropdownGradeInputs = ['N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'];
+	showOutput = false;
 	calculationOutputDisplayString = 'Something\'s Broken';
 
-	constructor(private myMicds: MyMICDS) {
+	constructor(private mymicds: MyMICDS) {
 		super();
 	}
 
 	ngOnInit() {
 		// create display list of classes, if there's not an alias just call it A, B etc...
-		this.myMicds.classes.get().subscribe(response => {
-			this.classes = response;
+		this.mymicds.classes.get().subscribe(response => {
 			for (const periodIndex in this.displayClassesArray) {
 				if (this.displayClassesArray[periodIndex] !== undefined) {
-					for (const classIndex in this.classes.classes) {
+					for (const schoolClass of response.classes) {
 						if (
-							this.displayClassesArray[periodIndex].toLowerCase() ===
-							this.classes.classes[classIndex].block
+							this.displayClassesArray[periodIndex][0].toLowerCase() ===
+							schoolClass.block
 						) {
-							this.displayClassesArray[periodIndex] = this.classes.classes[
-								classIndex
-							].name;
+							this.displayClassesArray[periodIndex] = schoolClass.name;
 						}
 					}
 				}
 			}
 		});
-		// initialize the dropdowns with 'N/A'
-		for (const inputGradeIndex in this.inputGrades) {
-			if (this.inputGrades[inputGradeIndex].length === 0) {
-				this.inputGrades[inputGradeIndex] = 'N/A';
-			}
-		}
 	}
 
 	ngOnDestroy() {
-		this.hasClickedCalculationButton = false;
+		this.showOutput = false;
 	}
 
 	calculateGpa() {
 		let calculatedGpa = 0.0;
 		let numberOfInputs = 0;
 		let gradeTotal = 0.0;
-		for (const inputGradeIndex in this.inputGrades) {
+		for (const inputGrade of this.dropdownGradeInputs) {
 			if (
-				this.inputGrades[inputGradeIndex].length !== 0 &&
-				this.inputGrades[inputGradeIndex] !== 'N/A'
+				inputGrade.length !== 0 &&
+				inputGrade !== 'N/A'
 			) {
 				numberOfInputs++;
 				gradeTotal += this.calculationMappings[
-					this.inputGrades[inputGradeIndex]
+					inputGrade
 				];
 			}
 		}
 		calculatedGpa = gradeTotal / numberOfInputs;
 		if (numberOfInputs > 0) {
-			this.hasClickedCalculationButton = true;
-			if (calculatedGpa === 4.0) {
+			this.showOutput = true;
+			if (calculatedGpa > 3.99) {
 				this.calculationOutputDisplayString = '🎉4.0🎉';
 			} else {
 				this.calculationOutputDisplayString =

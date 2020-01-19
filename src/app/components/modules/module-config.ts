@@ -18,6 +18,7 @@ import { WeatherComponent } from './weather/weather.component';
 export const moduleComponents: any[] = [
 	BookmarksComponent,
 	CountdownComponent,
+	GpaCalculatorComponent,
 	ProgressComponent,
 	ScheduleComponent,
 	SimplifiedLunchComponent,
@@ -25,8 +26,7 @@ export const moduleComponents: any[] = [
 	SnowdayComponent,
 	StickynotesComponent,
 	TwitterComponent,
-	WeatherComponent,
-	GpaCalculatorComponent
+	WeatherComponent
 ];
 
 export const config: Config = {
@@ -128,7 +128,7 @@ export const config: Config = {
 	},
 	gpaCalculator: {
 		displayName: 'GPA Calculator',
-		icon: 'fa-tasks',
+		icon: 'fa-check-square-o',
 		component: GpaCalculatorComponent,
 		defaultHeight: 2,
 		defaultWidth: 2

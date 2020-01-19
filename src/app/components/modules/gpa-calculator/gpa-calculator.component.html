@@ -1,7 +1,4 @@
 <div #moduleContainer class="module-container">
-  <!-- <div *ngFor="let class of displayClassesArray">
-    <h1>{{class}}</h1>
-  </div> -->
   <table class="table">
     <thead class="thead-light">
       <tr>
@@ -10,13 +7,16 @@
       </tr>
     </thead>
     <tbody>
+
+
+
       <tr *ngFor="let class of displayClassesArray; let i = index">
         <td class="class-name">{{ class }}</td>
         <td class="letter-grade">
           <select
             class="form-control"
             name="grade"
-            [(ngModel)]="inputGrades[i]"
+            [(ngModel)]="dropdownGradeInputs[i]"
           >
             <option *ngFor="let grade of letterGradesArray" [value]="grade">{{
               grade
@@ -24,19 +24,20 @@
           </select>
         </td>
       </tr>
+      <tr>
+        <td class="class-name"><a
+          type="button"
+          class="btn btn-success"
+          (click)="calculateGpa()"
+        >
+          Calculate GPA
+        </a></td>
+        <td class="letter-grade">    <h2 *ngIf="showOutput" class="gpa-display">
+              {{ calculationOutputDisplayString }}
+            </h2></td>
+      </tr>
+
     </tbody>
   </table>
-  <div class="button-wrapper">
-    <a
-      type="button"
-      class="btn btn-success"
-      (click)="calculateGpa()"
-      tooltip="We never save your grades"
-    >
-      Calculate GPA
-    </a>
-    <h2 *ngIf="hasClickedCalculationButton" class="gpa-display">
-      {{ calculationOutputDisplayString }}
-    </h2>
-  </div>
+  <p class="disclaimer" *ngIf="!showOutput"><strong>MyMICDS.net does not store your grades in our database. All the calculation is done in your browser.</strong></p>
 </div>
