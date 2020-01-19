@@ -1,5 +1,25 @@
 <div #moduleContainer class="module-container">
-  <div *ngFor="let class of displayClassesArray">
+  <!-- <div *ngFor="let class of displayClassesArray">
     <h1>{{class}}</h1>
-  </div>
+  </div> -->
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th class="class-name">Class</th>
+        <th class="letter-grade">Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let class of displayClassesArray; let i = index">
+        <td class="class-name">{{ class }}</td>
+        <td class="letter-grade" >
+          <select class="form-control" name="grade">
+            <option *ngFor="let grade of letterGradesArray" [value]="grade">{{ grade }}</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <a type="button" class="btn btn-primary mb-3">Hello</a>
+  <h6>*We never save or record your grades.</h6>
 </div>
