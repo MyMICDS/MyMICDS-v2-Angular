@@ -1,0 +1,45 @@
+table {
+	width: 100%;
+	margin-bottom: .5rem;
+
+  th.letter-grade {
+    text-align: center;
+  }
+
+	td {
+		white-space: nowrap;
+    padding: .5rem;
+
+
+		select.form-control {
+			width: inherit;
+      margin-left: auto;
+      margin-right: auto;
+		}
+
+		&.class-name {
+      color: white;
+      vertical-align: middle;
+      line-height: normal;
+		}
+    &.letter-grade {
+      input {
+        width: 8rem;
+      }
+    }
+
+	}
+}
+
+.button-wrapper {
+  display: block;
+  height: auto;
+  width: auto;
+  * {
+    display: inline-block;
+  }
+  h2 {
+    float: right;
+    margin-right: .25rem;
+  }
+}

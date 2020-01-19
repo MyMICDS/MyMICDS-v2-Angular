@@ -1,23 +1,6 @@
 import { MyMICDS, GetClassesResponse } from '@mymicds/sdk';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
-enum LetterGrade { // MICDS grading scale starts at F, goes to A.
-	A = 'A',
-	A_MINUS = 'A-',
-	B_PLUS  = 'B+',
-	B = 'B',
-	B_MINUS = 'B-',
-	C_PLUS = 'C+',
-	C = 'C',
-	C_MINUS = 'C-',
-	D_PLUS = 'D+',
-	D = 'D',
-	D_MINUS = 'D-',
-	F = 'F',
-	NA = 'N/A'
-}
-
-
 
 @Component({
 	selector: 'mymicds-gpa-calculator',
@@ -29,21 +12,12 @@ export class GpaCalculatorComponent extends SubscriptionsComponent implements On
   @ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	displayClassesArray = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 	classes: GetClassesResponse = null;
-	letterGradesArray = ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F', 'N/A'];
-	thing = null
-	classTypes = [
-		'art',
-		'english',
-		'history',
-		'math',
-		'science',
-		'spanish',
-		'latin',
-		'mandarin',
-		'german',
-		'french',
-		'other'
-	];
+	// MICDS grading scale starts at F, goes to A.
+	letterGradesArray = ['N/A', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'];
+	inputGrades = ['', '', '', '', '', '', ''];
+	hasClickedCalculationButton = false;
+	calculationOutputDisplayString = 'Something\'s Broken';
+	calculationMappings = {'A': 4.0, 'A-': 3.67, 'B+': 3.33, 'B': 3.0, 'B-': 2.67, 'C+': 2.33, 'C': 2.0, 'C-': 1.67, 'D+': 1.33, 'D': 1.0, 'D-': 0.67, 'F': 0.0 };
 	constructor(private myMicds: MyMICDS) {
 		super();
 	}
@@ -63,12 +37,37 @@ export class GpaCalculatorComponent extends SubscriptionsComponent implements On
 		 		}
 	 	}
 		});
-
+		for (const inputGradeIndex in this.inputGrades) {
+			if (this.inputGrades[inputGradeIndex].length === 0) {
+			this.inputGrades[inputGradeIndex] = 'N/A'; }
+		}
 	}
 
   ngOnDestroy() {
-
+		this.hasClickedCalculationButton = false;
   }
+
+	calculateGpa() {
+		let calculatedGpa = 0.0;
+		let numberOfInputs = 0;
+		let gradeTotal = 0.0;
+		for (const inputGradeIndex in this.inputGrades) {
+			if (this.inputGrades[inputGradeIndex].length !== 0 && this.inputGrades[inputGradeIndex] !== 'N/A') {
+				numberOfInputs ++;
+				gradeTotal += this.calculationMappings[this.inputGrades[inputGradeIndex]];
+		}
+		}
+		calculatedGpa = gradeTotal / numberOfInputs;
+		if (numberOfInputs > 0) {
+		this.hasClickedCalculationButton = true;
+		if (calculatedGpa === 4.0) {
+			this.calculationOutputDisplayString = '🎉4.0🎉'
+		} else {
+			this.calculationOutputDisplayString = Math.round(calculatedGpa * 100) / 100;
+		}
+
+	}
+	}
 
 
 
