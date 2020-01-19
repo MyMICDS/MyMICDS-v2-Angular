@@ -2,6 +2,7 @@ import { OptionsConfig } from './module-options';
 
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.component';
+import { GpaCalculatorComponent } from './gpa-calculator/gpa-calculator.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
@@ -11,11 +12,13 @@ import { StickynotesComponent, COLOR } from './stickynotes/stickynotes.component
 import { TwitterComponent } from './twitter/twitter.component';
 import { WeatherComponent } from './weather/weather.component';
 
+
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
 export const moduleComponents: any[] = [
 	BookmarksComponent,
 	CountdownComponent,
+	GpaCalculatorComponent,
 	ProgressComponent,
 	ScheduleComponent,
 	SimplifiedLunchComponent,
@@ -122,6 +125,13 @@ export const config: Config = {
 				}
 			}
 		}
+	},
+	gpaCalculator: {
+		displayName: 'GPA Calculator',
+		icon: 'fa-check-square-o',
+		component: GpaCalculatorComponent,
+		defaultHeight: 2,
+		defaultWidth: 2
 	},
 	progress: {
 		displayName: 'Progress',

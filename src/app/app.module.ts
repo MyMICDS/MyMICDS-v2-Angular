@@ -38,6 +38,7 @@ import { moduleComponents } from './components/modules/module-config';
 
 import { BookmarksComponent } from './components/modules/bookmarks/bookmarks.component';
 import { CountdownComponent } from './components/modules/countdown/countdown.component';
+import { GpaCalculatorComponent } from './components/modules/gpa-calculator/gpa-calculator.component';
 import { ProgressComponent } from './components/modules/progress/progress.component';
 import { ScheduleComponent } from './components/modules/schedule/schedule.component';
 import { SimplifiedScheduleComponent } from './components/modules/simplified-schedule/simplified-schedule.component';
@@ -107,6 +108,7 @@ import { SlideshowModule } from 'ng-simple-slideshow';
 		BookmarksComponent,
 		CampusComponent,
 		CountdownComponent,
+		GpaCalculatorComponent,
 		ProgressComponent,
 		ScheduleComponent,
 		SimplifiedLunchComponent,
