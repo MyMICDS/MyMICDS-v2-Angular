@@ -68,15 +68,17 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 	ngOnInit() {
 		// create display list of classes, if there's not an alias just call it A, B etc...
 		this.mymicds.classes.get().subscribe(response => {
-			for (const periodIndex in this.displayClassesArray) {
-				if (this.displayClassesArray[periodIndex] !== undefined) {
-					for (const schoolClass of response.classes) {
-						if (
-							this.displayClassesArray[periodIndex][0].toLowerCase() ===
-							schoolClass.block
-						) {
-							this.displayClassesArray[periodIndex] = schoolClass.name;
-						}
+			for (
+				let periodIndex = 0;
+				periodIndex < this.displayClassesArray.length;
+				periodIndex++
+			) {
+				for (const schoolClass of response.classes) {
+					if (
+						this.displayClassesArray[periodIndex][0].toLowerCase() ===
+						schoolClass.block
+					) {
+						this.displayClassesArray[periodIndex] = schoolClass.name;
 					}
 				}
 			}
