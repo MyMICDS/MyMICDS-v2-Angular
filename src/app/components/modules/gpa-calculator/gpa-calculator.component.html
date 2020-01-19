@@ -12,18 +12,31 @@
     <tbody>
       <tr *ngFor="let class of displayClassesArray; let i = index">
         <td class="class-name">{{ class }}</td>
-        <td class="letter-grade" >
-          <select class="form-control" name="grade" [(ngModel)]="inputGrades[i]">
-            <option *ngFor="let grade of letterGradesArray" [value]="grade">{{ grade }}</option>
+        <td class="letter-grade">
+          <select
+            class="form-control"
+            name="grade"
+            [(ngModel)]="inputGrades[i]"
+          >
+            <option *ngFor="let grade of letterGradesArray" [value]="grade">{{
+              grade
+            }}</option>
           </select>
         </td>
       </tr>
     </tbody>
   </table>
   <div class="button-wrapper">
-    <a type="button" class="btn btn-success" (click)="calculateGpa()" tooltip="We never save your grades">
+    <a
+      type="button"
+      class="btn btn-success"
+      (click)="calculateGpa()"
+      tooltip="We never save your grades"
+    >
       Calculate GPA
     </a>
-    <h2 *ngIf="hasClickedCalculationButton" class="gpa-display">{{calculationOutputDisplayString}}</h2>
+    <h2 *ngIf="hasClickedCalculationButton" class="gpa-display">
+      {{ calculationOutputDisplayString }}
+    </h2>
   </div>
 </div>
