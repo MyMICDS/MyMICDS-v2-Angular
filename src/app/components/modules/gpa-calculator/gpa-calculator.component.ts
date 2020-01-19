@@ -111,7 +111,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 				this.calculationOutputDisplayString = '🎉4.0🎉';
 			} else {
 				this.calculationOutputDisplayString =
-					Math.round(calculatedGpa * 100) / 100;
+					(Math.round(calculatedGpa * 100) / 100) + '';
 			}
 		}
 	}
