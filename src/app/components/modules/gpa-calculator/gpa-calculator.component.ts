@@ -16,7 +16,15 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 export class GpaCalculatorComponent extends SubscriptionsComponent
 	implements OnInit, OnDestroy {
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
-	displayClassesArray = ['A Period', 'B Period', 'C Period', 'D Period', 'E Period', 'F Period', 'G Period'];
+	displayClassesArray = [
+		'A Period',
+		'B Period',
+		'C Period',
+		'D Period',
+		'E Period',
+		'F Period',
+		'G Period'
+	];
 	// MICDS grading scale starts at F, goes to A. Mappings retreived from guidebook
 	letterGradesArray = [
 		'N/A',
@@ -84,14 +92,9 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 		let numberOfInputs = 0;
 		let gradeTotal = 0.0;
 		for (const inputGrade of this.dropdownGradeInputs) {
-			if (
-				inputGrade.length !== 0 &&
-				inputGrade !== 'N/A'
-			) {
+			if (inputGrade.length !== 0 && inputGrade !== 'N/A') {
 				numberOfInputs++;
-				gradeTotal += this.calculationMappings[
-					inputGrade
-				];
+				gradeTotal += this.calculationMappings[inputGrade];
 			}
 		}
 		calculatedGpa = gradeTotal / numberOfInputs;
@@ -101,7 +104,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 				this.calculationOutputDisplayString = '🎉4.0🎉';
 			} else {
 				this.calculationOutputDisplayString =
-					(Math.round(calculatedGpa * 100) / 100) + '';
+					Math.round(calculatedGpa * 100) / 100 + '';
 			}
 		}
 	}
