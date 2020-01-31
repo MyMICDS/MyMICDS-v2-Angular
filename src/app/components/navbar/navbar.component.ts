@@ -52,11 +52,6 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 			name: 'About',
 			icon: 'fa-info'
 		},
-		{
-			url: '/campus',
-			name: 'Campus Life',
-			icon: 'fa-graduation-cap'
-		}
 	];
 
 	constructor(public mymicds: MyMICDS, private router: Router) {
