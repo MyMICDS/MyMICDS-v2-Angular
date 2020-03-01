@@ -2,9 +2,8 @@ import { Block, ClassType, GetScheduleResponse, MyMICDS, ScheduleBlock } from '@
 
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { rainbowCanvasGradient, rainbowSafeWord } from '../../../common/utils';
-import * as moment from 'moment';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import * as moment from 'moment-timezone';
+import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
@@ -237,8 +236,8 @@ export class ProgressComponent extends SubscriptionsComponent
 		// Define nowTime just to make things clearer
 		const nowTime = this.today.getTime();
 
-		// End of School constant created for DRY
-		const schoolDayEnd315 = moment(this.today)
+		// End of School constant created for DRY, specify that it is 3:15 PM CST
+		const schoolDayEnd315 = moment.tz(this.today, 'America/Chicago')
 			.startOf('day')
 			.hours(15)
 			.minutes(15);

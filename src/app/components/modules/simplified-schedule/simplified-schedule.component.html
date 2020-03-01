@@ -7,7 +7,7 @@
 			Special Schedule
 		</ng-container>
 		<ng-container *ngIf="!schedule?.day">
-			{{ scheduleDate.toDate() | date:'MMMM d' }}
+			{{ scheduleDate.toDate() | date:'MMMM d':'CST' }}
 		</ng-container>
 	</h1>
 	<h3>Upcoming Classes</h3>
@@ -29,11 +29,10 @@
 			class="schedule"
 			[style.flex-direction]="isHorizontal ? 'row' : 'column'"
 			[style.height]="isHorizontal ? '' : '100%'">
-
-			<ng-container *ngFor="let block of schedule?.classes; let i = index">
+				<ng-container *ngFor="let block of schedule?.classes; let i = index">
 				<div #displayBlock class="block" [hidden]="startIndex > i || i >= (startIndex + showNBlocks)">
 					<h3>{{ block.class?.name }}</h3>
-					<div>{{ block.start | date:'shortTime' }} - {{ block.end | date:'shortTime' }}</div>
+					<div>{{ block.start | date:'shortTime':'CST' }} - {{ block.end | date:'shortTime':'CST' }}</div>
 				</div>
 			</ng-container>
 		</div>

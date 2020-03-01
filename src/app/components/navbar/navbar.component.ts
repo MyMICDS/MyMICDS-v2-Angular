@@ -51,7 +51,7 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 			url: '/about',
 			name: 'About',
 			icon: 'fa-info'
-		},
+		}
 	];
 
 	constructor(public mymicds: MyMICDS, private router: Router) {

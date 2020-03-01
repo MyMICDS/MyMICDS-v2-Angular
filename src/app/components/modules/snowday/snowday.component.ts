@@ -1,8 +1,7 @@
 import { GetSnowdayResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as ElementQueries from 'css-element-queries/src/ElementQueries';
-import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 

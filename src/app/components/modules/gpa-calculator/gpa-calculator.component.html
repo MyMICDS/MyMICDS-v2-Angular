@@ -1,0 +1,44 @@
+<div #moduleContainer class="module-container">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th class="class-name">Class</th>
+        <th class="letter-grade">Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let class of displayClassesArray; let i = index">
+        <td class="class-name">{{ class }}</td>
+        <td class="letter-grade">
+          <select
+            class="form-control"
+            name="grade"
+            [(ngModel)]="dropdownGradeInputs[i]"
+          >
+            <option *ngFor="let grade of letterGradesArray" [value]="grade">{{
+              grade
+            }}</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td class="class-name">
+          <a type="button" class="btn btn-success" (click)="calculateGpa()">
+            Calculate GPA
+          </a>
+        </td>
+        <td class="letter-grade">
+          <h2 *ngIf="showOutput" class="gpa-display">
+            {{ calculationOutputDisplayString }}
+          </h2>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="disclaimer" *ngIf="!showOutput">
+    <strong
+      >MyMICDS.net does not store your grades in our database. All the
+      calculation is done in your browser.</strong
+    >
+  </p>
+</div>
