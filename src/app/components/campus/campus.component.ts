@@ -8,6 +8,7 @@ import { IImage } from 'ng-simple-slideshow';
 	templateUrl: './campus.component.html',
 	styleUrls: ['./campus.component.scss']
 })
+
 export class CampusComponent implements OnInit {
 	imageUrls: IImage[] = [
 		{
