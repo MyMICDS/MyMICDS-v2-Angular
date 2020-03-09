@@ -15,7 +15,7 @@
 					</button>
 
 					<button mymicds-blur class="current-month" (click)="currentMonth()">
-						{{ calendarMonth.toDate() | date:'MMMM y':'CST' }}
+						{{ calendarMonth.toDate() | date:'MMMM y':'America/Chicago' }}
 					</button>
 
 					<button mymicds-blur class="next-month" (click)="nextMonth()">
@@ -83,7 +83,7 @@
 					<h1>
 						<span *ngIf="selectionDate === null">Coming Up</span>
 					</h1>
-						<span *ngIf="selectionDate !== null" class="date-display">{{ selectionDate.toDate() | date:'MMMM d, y':'CST' }}</span>
+						<span *ngIf="selectionDate !== null" class="date-display">{{ selectionDate.toDate() | date:'MMMM d, y':'America/Chicago' }}</span>
 
 					<h3 *ngIf="selectionDate !== null && days[selectionDate.year()] && days[selectionDate.year()][selectionDate.month() + 1] && days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()]">
 						Day {{ days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()] }}
@@ -125,7 +125,7 @@
 									Day {{ days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()] }}
 								</small>
 							</h3>
-							<h3 class="date">{{ day.date.object.toDate() | date:'dd.MM.yy':'CST' }}</h3>
+							<h3 class="date">{{ day.date.object.toDate() | date:'dd.MM.yy':'America/Chicago' }}</h3>
 						</div>
 						<div class="coming-up-events">
 							<!-- List of events -->

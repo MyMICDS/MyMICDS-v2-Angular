@@ -9,7 +9,7 @@
 		<div class="snowday-days" [class.vertical]="moduleHeight > moduleWidth">
 			<div *ngFor="let day of snowdayData | values" class="snowday-day">
 				<div class="snowday-date">
-					{{ day.key | date:'EEEE, MMMM d':'CST' }}
+					{{ day.key | date:'EEEE, MMMM d':'America/Chicago' }}
 				</div>
 				<div class="snowday-percent" *ngIf="day.value.chance > 0">
 					{{ day.value.chance | round }}%
