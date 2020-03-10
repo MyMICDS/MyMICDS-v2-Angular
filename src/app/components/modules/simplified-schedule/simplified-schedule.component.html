@@ -7,7 +7,7 @@
 			Special Schedule
 		</ng-container>
 		<ng-container *ngIf="!schedule?.day">
-			{{ scheduleDate.toDate() | date:'MMMM d':'America/Chicago' }}
+			{{ scheduleDate.toDate() | momentDate:'MMMM d':'America/Chicago' }}
 		</ng-container>
 	</h1>
 	<h3>Upcoming Classes</h3>
@@ -32,7 +32,7 @@
 				<ng-container *ngFor="let block of schedule?.classes; let i = index">
 				<div #displayBlock class="block" [hidden]="startIndex > i || i >= (startIndex + showNBlocks)">
 					<h3>{{ block.class?.name }}</h3>
-					<div>{{ block.start | date:'shortTime':'America/Chicago' }} - {{ block.end | date:'shortTime':'America/Chicago' }}</div>
+					<div>{{ block.start | momentDate:'shortTime':'America/Chicago' }} - {{ block.end | momentDate:'shortTime':'America/Chicago' }}</div>
 				</div>
 			</ng-container>
 		</div>

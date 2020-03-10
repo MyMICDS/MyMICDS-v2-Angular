@@ -11,8 +11,8 @@
 			</button>
 
 			<button mymicds-blur class="current-bulletin" (click)="currentBulletin()">
-				<span>{{ bulletinDate.toDate() | date:'EEEE':'America/Chicago' }}</span>
-				<span>{{ bulletinDate.toDate() | date:'MMM d, y':'America/Chicago' }}</span>
+				<span>{{ bulletinDate.toDate() | momentDate:'EEEE':'America/Chicago' }}</span>
+				<span>{{ bulletinDate.toDate() | momentDate:'MMM d, y':'America/Chicago' }}</span>
 			</button>
 
 			<button mymicds-blur class="next-bulletin" routerLink="/daily-bulletin" (click)="nextBulletin()" [disabled]="bulletinIndex === 0">

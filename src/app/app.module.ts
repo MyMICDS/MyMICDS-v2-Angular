@@ -90,6 +90,7 @@ import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 import { SlideshowModule } from 'ng-simple-slideshow';
+import { MomentDatePipe } from './pipes/moment-date.pipe';
 // import { RealtimeService } from './services/realtime.service';
 // RxJS 6 Zone.js Fix
 // import 'zone.js/dist/zone-patch-rxjs';
@@ -154,6 +155,7 @@ import { SlideshowModule } from 'ng-simple-slideshow';
 		CompassDirectionPipe,
 		DayRotationPipe,
 		GradePipePipe,
+		MomentDatePipe,
 		RoundPipe,
 		SafeHtmlPipe,
 		SafeScriptPipe,

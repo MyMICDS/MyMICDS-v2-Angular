@@ -8,7 +8,7 @@
 
 		<button class="current-day" (click)="currentDay()">
 			<span *ngIf="viewSchedule?.day">Day {{ viewSchedule.day }}</span>
-			<span>{{ scheduleDate.toDate() | date:'EEEE, MMM d':'America/Chicago' }}</span>
+			<span>{{ scheduleDate.toDate() | momentDate:'EEEE, MMM d':'America/Chicago' }}</span>
 			<span *ngIf="viewSchedule?.special">Special Schedule</span>
 		</button>
 
@@ -37,8 +37,8 @@
 			</thead>
 			<tbody>
 				<tr *ngFor="let block of viewSchedule?.classes" [class.current]="block.start.isSameOrBefore(current) && current.isBefore(block.end)">
-					<td #start class="start" >{{ block.start | date:'shortTime':'America/Chicago' }}</td>
-					<td #end class="end">{{ block.end | date:'shortTime':'America/Chicago' }}</td>
+					<td #start class="start" >{{ block.start | momentDate:'shortTime':'America/Chicago' }}</td>
+					<td #end class="end">{{ block.end | momentDate:'shortTime':'America/Chicago' }}</td>
 					<td class="class-name">{{ block.class.name }}</td>
 				</tr>
 			</tbody>
