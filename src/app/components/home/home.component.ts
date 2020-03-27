@@ -24,7 +24,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length
-	announcement = '';
+	announcement = 'With remote learning starting, class schedules are a little mixed up. In order for us to give you the most accurate information we can, <strong>please make sure you have your Portal calendar saved.</strong> Check the <a class="alert-link" href="/settings">settings</a> page for more information.';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 	editMode = false;
