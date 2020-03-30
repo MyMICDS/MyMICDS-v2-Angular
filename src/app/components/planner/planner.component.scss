@@ -273,7 +273,7 @@
 					.sidebar-buttons {
 						display: flex;
 						flex-direction: column;
-						margin: 1rem auto 0.5rem;
+						margin: 0.5rem auto 0.5rem;
 
 						.sidebar-coming-up {
 							margin-bottom: 0.5rem;
@@ -641,11 +641,33 @@
 					}
 
 					.coming-up {
-						top: 8rem;
+						top: 8.5rem;
 					}
 
 					.day-selection {
-						top: 14rem;
+						top: 14.5rem;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+@media screen and (min-width:250px) and (max-width:543px) {
+	.planner-interface {
+		.planner-container {
+			.calendar-container {
+				.sidebar {
+
+					margin-left: inherit;
+
+					.coming-up {
+						top: 9.5em;
+					}
+
+					.day-selection{
+						top: 15em;
 					}
 				}
 			}
