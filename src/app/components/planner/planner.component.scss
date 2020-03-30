@@ -386,8 +386,6 @@
 				}
 
 				.coming-up {
-					top: 6em;
-
 					.coming-up-day {
 
 						.coming-up-due {
@@ -451,7 +449,26 @@
 	}
 }
 
-@media screen and (min-width:544px) {
+@media only screen and (min-width:240px) {
+	.planner-interface {
+		.planner-container {
+			.calendar-container {
+				.sidebar {
+
+					.coming-up {
+						top: 10.5rem;
+					}
+
+					.day-selection {
+						top: 14.5rem;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (min-width:544px) {
 	.planner-interface {
 		// Add padding instead of margin so clicking the bottom will also deselect the day
 		padding: 2rem 0 6rem 0;
@@ -537,6 +554,15 @@
 							}
 						}
 					}
+
+					.coming-up {
+						top: 7.5rem;
+					}
+
+					.day-selection {
+						top: 13rem;
+					}
+
 				}
 			}
 		}
@@ -645,29 +671,7 @@
 					}
 
 					.day-selection {
-						top: 14.5rem;
-					}
-				}
-			}
-		}
-	}
-}
-
-
-@media screen and (min-width:250px) and (max-width:543px) {
-	.planner-interface {
-		.planner-container {
-			.calendar-container {
-				.sidebar {
-
-					margin-left: inherit;
-
-					.coming-up {
-						top: 9.5em;
-					}
-
-					.day-selection{
-						top: 15.5em;
+						top: 14rem;
 					}
 				}
 			}
