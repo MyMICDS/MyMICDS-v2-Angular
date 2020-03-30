@@ -80,9 +80,9 @@
 
 			<div mymicds-blur--dark class="sidebar" [class.sidebar-collapsed]="sidebarCollapsed">
 				<div class="sidebar-header" [style.text-align]="selectionDate === null ? 'left' : 'inherit'">
-					<h1>
+					<h2>
 						<span *ngIf="selectionDate === null">Coming Up</span>
-					</h1>
+					</h2>
 						<span *ngIf="selectionDate !== null" class="date-display">{{ selectionDate.toDate() | momentDate:'MMMM d, y':'America/Chicago' }}</span>
 
 					<h3 *ngIf="selectionDate !== null && days[selectionDate.year()] && days[selectionDate.year()][selectionDate.month() + 1] && days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()]">
