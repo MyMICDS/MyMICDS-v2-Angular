@@ -255,8 +255,8 @@
 
 				.sidebar-header {
 					padding: 0 0.5rem;
-
 					text-align: center;
+					display: block;
 
 					&.coming-up {
 						text-align: left;
@@ -287,7 +287,7 @@
 
 				.coming-up,
 				.day-selection {
-					position: absolute;
+					position: relative;
 					left: 0.5em;
 					right: 0.5em;
 					bottom: 0.5em;
@@ -386,7 +386,7 @@
 				}
 
 				.coming-up {
-					top: 6em;
+					top: 0.5em;
 
 					.coming-up-day {
 
@@ -412,7 +412,7 @@
 				}
 
 				.day-selection {
-					top: 14rem;
+					top: 2rem;
 				}
 			}
 		}
@@ -621,7 +621,7 @@
 					}
 
 					.coming-up, .day-selection {
-						position: absolute;
+						position: relative;
 						left: 0.5rem;
 						right: 0.5rem;
 						bottom: 0.5rem;
@@ -641,11 +641,11 @@
 					}
 
 					.coming-up {
-						top: 8rem;
+						top: 2rem;
 					}
 
 					.day-selection {
-						top: 14rem;
+						top: 2rem;
 					}
 				}
 			}

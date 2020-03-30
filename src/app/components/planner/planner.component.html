@@ -97,13 +97,13 @@
 							</span>
 						</button>
 						<div class="btn-group">
-							<button *ngIf="mymicds.auth.isLoggedIn" class="btn btn-danger p-md-3 p-1 " (click)="refreshCanvas()">
+							<button *ngIf="mymicds.auth.isLoggedIn" class="btn btn-danger" (click)="refreshCanvas()">
 								<span>
 									<i class="fa fa-refresh"></i>
 									Refresh Canvas
 								</span>
 							</button>
-							<button class="btn btn-info p-md-3 p-1" (click)="resetCreateEventForm(); createEventModal.show()">
+							<button class="btn btn-info" (click)="resetCreateEventForm(); createEventModal.show()">
 								<span>
 									<i class="fa fa-plus"></i>
 									Create Event
@@ -114,7 +114,7 @@
 				</div>
 				<div class="sidebar-close" (click)="sidebarClose()"><i class="fa fa-times"></i></div>
 				<!-- View events coming up if no day is selected -->
-				<div *ngIf="selectionDate === null" class="coming-up mt-sm-3 pt-md-3 mt-5 pt-4">
+				<div *ngIf="selectionDate === null" class="coming-up">
 					<!-- Loop through each day that contains events coming up -->
 					<div *ngFor="let day of comingUp" class="coming-up-day">
 						<!-- Display date -->
