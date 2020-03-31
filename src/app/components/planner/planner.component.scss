@@ -273,7 +273,7 @@
 					.sidebar-buttons {
 						display: flex;
 						flex-direction: column;
-						margin: 1rem auto 0.5rem;
+						margin: 0.5rem auto 0.5rem;
 
 						.sidebar-coming-up {
 							margin-bottom: 0.5rem;
@@ -386,8 +386,6 @@
 				}
 
 				.coming-up {
-					top: 6em;
-
 					.coming-up-day {
 
 						.coming-up-due {
@@ -451,7 +449,26 @@
 	}
 }
 
-@media screen and (min-width:544px) {
+@media only screen and (min-width:240px) {
+	.planner-interface {
+		.planner-container {
+			.calendar-container {
+				.sidebar {
+
+					.coming-up {
+						top: 8rem;
+					}
+
+					.day-selection {
+						top: 13rem;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (min-width:544px) {
 	.planner-interface {
 		// Add padding instead of margin so clicking the bottom will also deselect the day
 		padding: 2rem 0 6rem 0;
@@ -537,6 +554,15 @@
 							}
 						}
 					}
+
+					.coming-up {
+						top: 7.5rem;
+					}
+
+					.day-selection {
+						top: 13rem;
+					}
+
 				}
 			}
 		}
@@ -641,7 +667,7 @@
 					}
 
 					.coming-up {
-						top: 8rem;
+						top: 7.3rem;
 					}
 
 					.day-selection {
