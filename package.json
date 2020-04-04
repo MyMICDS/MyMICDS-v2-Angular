@@ -73,6 +73,7 @@
     "socket.io-client": "^2.1.0",
     "trianglify": "^2.0.0",
     "ts-helpers": "^1.1.1",
+    "tslib": "^1.11.1",
     "ua-parser-js": "^0.7.19",
     "yamlparser": "0.0.2",
     "zone.js": "~0.9.1"
@@ -88,7 +89,7 @@
     "@types/node": "~8.9.4",
     "@types/trianglify": "^1.2.0",
     "@types/ua-parser-js": "^0.7.32",
-    "codelyzer": "~4.5.0",
+    "codelyzer": "^5.2.2",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
     "karma": "^1.5.0",
