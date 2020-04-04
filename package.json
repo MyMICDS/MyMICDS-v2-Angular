@@ -9,8 +9,7 @@
     "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ngcc"
+    "e2e": "ng e2e"
   },
   "repository": {
     "type": "git",
