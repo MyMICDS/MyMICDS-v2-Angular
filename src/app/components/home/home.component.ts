@@ -39,7 +39,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	modules = config;
 
 	// Gridster component
-	@ViewChild('gridster', { static: false }) gridster: GridsterComponent;
+	@ViewChild('gridster') gridster: GridsterComponent;
 	@ViewChildren('gridItem') gridItems: QueryList<GridsterItemComponent>;
 	// Gridster options
 	gridsterOptions: IGridsterOptions = {
