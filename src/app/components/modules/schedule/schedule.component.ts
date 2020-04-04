@@ -30,13 +30,13 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 
 	@ViewChild('schedule', { static: true }) scheduleTable: ElementRef;
 	tableWidth: number = null;
-	@ViewChild('start', { static: false }) startCell: ElementRef;
+	@ViewChild('start') startCell: ElementRef;
 	startWidth: number = null;
-	@ViewChild('end', { static: false }) endCell: ElementRef;
+	@ViewChild('end') endCell: ElementRef;
 	endWidth: number = null;
 
 	updateCurrentInterval: NodeJS.Timer;
-	@ViewChild('collapsedSchedule', { static: false }) collapsedSchedule: ElementRef;
+	@ViewChild('collapsedSchedule') collapsedSchedule: ElementRef;
 	current = moment();
 	currentSchedule: GetScheduleResponse['schedule'] = null;
 	// How many classes to display when schedule is collapsed

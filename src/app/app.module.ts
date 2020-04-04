@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { appRoutingProviders, routing } from './app.routing';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import {
-	BsDatepickerModule,
 	BsDropdownModule,
 	DatepickerModule,
 	ModalModule,
@@ -16,6 +15,7 @@ import {
 	TimepickerModule,
 	TooltipModule
 } from 'ngx-bootstrap';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
 import { GridsterModule } from 'angular2gridster';
 import { AngularFittextModule } from 'angular-fittext';
