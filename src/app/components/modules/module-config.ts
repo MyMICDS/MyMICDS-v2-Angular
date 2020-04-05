@@ -156,7 +156,7 @@ export const config: Config = {
 	},
 	simplifiedLunch: {
 		displayName: 'Lunch',
-		icon: 'fa-cutlery',
+		icon: 'fa-utensils',
 		component: SimplifiedLunchComponent,
 		defaultHeight: 2,
 		defaultWidth: 2
