@@ -18,5 +18,3 @@ Folder
 ```
 
 ## Error `errno: -4048 code: 'EPERM' syscall: 'unlink'`
-
-## Error

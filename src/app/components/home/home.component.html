@@ -2,7 +2,7 @@
 	<div class="manage-menu">
 		<div class="manage-buttons">
 			<a mymicds-blur class="edit" routerLink="/home/edit">
-				<i class="fa fa-pencil-square-o"></i>
+				<i class="fas fa-edit"></i>
 				Edit
 			</a>
 		</div>
@@ -18,7 +18,7 @@
 		<button class="btn btn-danger" (click)="saveModules([])" [disabled]="!mymicds.auth.isLoggedIn">Reset Layout</button>
 	</div>
 	<p mymicds-blur--dark class="manage-help">
-		<i class="fa fa-info-circle"></i>
+		<i class="fas fa-info-circle"></i>
 		Drag, drop, and resize modules on the grid to your liking!
 	</p>
 </div>
@@ -63,15 +63,15 @@
 						container="body"
 						placement="bottom">
 
-						<i class="fa fa-cog"></i>
+						<i class="fas fa-cog"></i>
 						Configure
 					</button>
 					<div class="edit-module-resize">
 						<!-- Resize Me! -->
-						<i class="fa fa-expand fa-flip-horizontal"></i>
+						<i class="fas fa-expand fa-flip-horizontal"></i>
 					</div>
 					<div class="edit-module-drag">
-						<i class="fa fa-arrows"></i>
+						<i class="fas fa-arrows-alt"></i>
 						Drag Me!
 					</div>
 				</div>

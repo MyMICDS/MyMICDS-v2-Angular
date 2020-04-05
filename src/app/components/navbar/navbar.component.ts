@@ -24,7 +24,7 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		{
 			url: '/lunch',
 			name: 'Lunch',
-			icon: 'fa-cutlery'
+			icon: 'fa-utensils'
 		},
 		{
 			url: '/planner',
@@ -39,7 +39,7 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		{
 			url: '/settings',
 			name: 'Settings',
-			icon: 'fa-gear',
+			icon: 'fa-cog',
 			auth: true
 		},
 		{

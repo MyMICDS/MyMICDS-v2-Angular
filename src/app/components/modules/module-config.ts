@@ -56,7 +56,7 @@ export const config: Config = {
 	},
 	countdown: {
 		displayName: 'Countdown',
-		icon: 'fa-clock-o',
+		icon: 'fa-clock',
 		component: CountdownComponent,
 		defaultHeight: 1,
 		defaultWidth: 2,
@@ -128,7 +128,7 @@ export const config: Config = {
 	},
 	gpaCalculator: {
 		displayName: 'GPA Calculator',
-		icon: 'fa-check-square-o',
+		icon: 'fa-check-square',
 		component: GpaCalculatorComponent,
 		defaultHeight: 2,
 		defaultWidth: 2
@@ -156,7 +156,7 @@ export const config: Config = {
 	},
 	simplifiedLunch: {
 		displayName: 'Lunch',
-		icon: 'fa-cutlery',
+		icon: 'fa-utensils',
 		component: SimplifiedLunchComponent,
 		defaultHeight: 2,
 		defaultWidth: 2
@@ -170,14 +170,14 @@ export const config: Config = {
 	},
 	snowday: {
 		displayName: 'Snowday',
-		icon: 'fa-snowflake-o',
+		icon: 'fa-snowflake',
 		component: SnowdayComponent,
 		defaultHeight: 1,
 		defaultWidth: 2
 	},
 	stickynotes: {
 		displayName: 'Sticky Notes',
-		icon: 'fa-sticky-note-o',
+		icon: 'fa-sticky-note',
 		component: StickynotesComponent,
 		defaultHeight: 2,
 		defaultWidth: 2,
@@ -219,7 +219,7 @@ export const config: Config = {
 	},
 	twitter: {
 		displayName: 'Twitter',
-		icon: 'fa-twitter',
+		icon: 'fab fa-twitter',
 		component: TwitterComponent,
 		defaultHeight: 2,
 		defaultWidth: 1,
