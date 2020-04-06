@@ -1,4 +1,11 @@
-import { AddPlannerEventParameters, GetPortalDayRotationResponse, MyMICDS, MyMICDSClass, PlannerEvent } from '@mymicds/sdk';
+import {
+	AddPlannerEventParameters,
+	CanvasEvent,
+	GetPortalDayRotationResponse,
+	MyMICDS,
+	MyMICDSClass,
+	PlannerEvent
+} from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -58,7 +65,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	// Array of Planner events
 	plannerEvents: PlannerEvent[] = [];
 	// Array of Canvas events
-	canvasEvents: PlannerEvent[] = [];
+	canvasEvents: CanvasEvent[] = [];
 	// List of classes the user has
 	classes: MyMICDSClass[] = [];
 
@@ -100,6 +107,15 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		classId: 'other',
 		dates: [new Date(), new Date()]
 	};
+
+	get canvasRefreshTime() {
+		if (this.canvasEvents.length === 0) {
+			return null;
+		}
+
+		// They should all refresh at the same time so it doesn't matter which one you choose
+		return this.canvasEvents[0].createdAt;
+	}
 
 	constructor(
 		public mymicds: MyMICDS,

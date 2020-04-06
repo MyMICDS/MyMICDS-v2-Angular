@@ -80,10 +80,12 @@
 
 			<div mymicds-blur--dark class="sidebar" [class.sidebar-collapsed]="sidebarCollapsed">
 				<div class="sidebar-header" [style.text-align]="selectionDate === null ? 'left' : 'inherit'">
-					<h2>
-						<span *ngIf="selectionDate === null">Coming Up</span>
-					</h2>
+					<div class="title-area">
+						<h2 *ngIf="selectionDate === null">Coming Up</h2>
 						<span *ngIf="selectionDate !== null" class="date-display">{{ selectionDate.toDate() | momentDate:'MMMM d, y':'America/Chicago' }}</span>
+
+						<span *ngIf="canvasRefreshTime">Last Refreshed: {{ canvasRefreshTime.toDate() | momentDate:'MMM d, h:mm a':'America/Chicago' }}</span>
+					</div>
 
 					<h3 *ngIf="selectionDate !== null && days[selectionDate.year()] && days[selectionDate.year()][selectionDate.month() + 1] && days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()]">
 						Day {{ days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()] }}
