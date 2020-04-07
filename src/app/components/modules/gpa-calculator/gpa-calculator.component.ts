@@ -57,9 +57,9 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 		'F': 0.0
 	};
 
-	dropdownGradeInputs: string[] = ['N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'];
+	dropdownGradeInputs = ['N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'];
 	showOutput = false;
-	displayString  = 'Something\'s Broken';
+	displayString  = 'seeing this mean\'s something went wrong';
 	currentCalc = 0;
 	validInputs = 0;
 
