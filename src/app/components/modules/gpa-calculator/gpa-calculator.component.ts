@@ -25,7 +25,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 		'F Period',
 		'G Period'
 	];
-	// MICDS grading scale starts at F, goes to A. Mappings retreived from guidebook
+	// MICDS grading scale starts at F, goes to A. Mappings were retreived from guidebook
 	letterGradesArray = [
 		'N/A',
 		'A',
@@ -59,7 +59,9 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 
 	dropdownGradeInputs = ['N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'];
 	showOutput = false;
-	calculationOutputDisplayString = 'Something\'s Broken';
+	displayString  = 'Something went wrong!';
+	currentCalc = 0;
+	validInputs = 0;
 
 	constructor(private mymicds: MyMICDS) {
 		super();
@@ -89,27 +91,31 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 		this.showOutput = false;
 	}
 
-	calculateGpa() {
-		let calculatedGpa = 0.0;
-		let numberOfInputs = 0;
+	onSelectionChange() {
 		let gradeTotal = 0.0;
+		this.validInputs = 0;
+
 		for (const inputGrade of this.dropdownGradeInputs) {
-			if (inputGrade.length !== 0 && inputGrade !== 'N/A') {
-				numberOfInputs++;
+			if (inputGrade !== 'N/A') {
+				this.validInputs++;
 				gradeTotal += this.calculationMappings[inputGrade];
 			}
 		}
-		calculatedGpa = gradeTotal / numberOfInputs;
-		if (numberOfInputs > 0) {
-			this.showOutput = true;
-			if (calculatedGpa > 3.99) {
-				this.calculationOutputDisplayString = '🎉4.0🎉';
-			} else {
-				this.calculationOutputDisplayString =
-					Math.round(calculatedGpa * 100) / 100 + '';
-			}
-		} else {
-			this.showOutput = false;
+
+		// round calc to two decimal places
+		this.currentCalc = Math.round((gradeTotal / this.validInputs) * 100) / 100;
+
+		if (this.displayString.substr(this.displayString.length - 1) !== '*') {
+			this.displayString += '*';
 		}
 	}
+
+	calculateGpa() {
+		// display the GPA, if it's 4.0, have a party
+		this.displayString = (this.currentCalc > 3.99) ? '🎉4.0🎉' : this.currentCalc + '';
+
+		// only show if there is at least 1 valid input (Not N/A).
+		this.showOutput = (this.validInputs > 0);
+	}
+
 }

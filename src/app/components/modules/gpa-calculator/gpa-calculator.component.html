@@ -14,6 +14,7 @@
             class="form-control"
             name="grade"
             [(ngModel)]="dropdownGradeInputs[i]"
+            (ngModelChange)="onSelectionChange()"
           >
             <option *ngFor="let grade of letterGradesArray" [value]="grade">{{
               grade
@@ -29,7 +30,7 @@
         </td>
         <td class="letter-grade">
           <h2 *ngIf="showOutput" class="gpa-display">
-            {{ calculationOutputDisplayString }}
+            {{ displayString }}
           </h2>
         </td>
       </tr>
