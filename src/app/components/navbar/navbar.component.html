@@ -11,9 +11,9 @@
 				[routerLink]="[page.url]"
 				[routerLinkActive]="'active'"
 				(click)="isCollapsed = !isCollapsed">
-				<i class="fa" [ngClass]="page.icon"></i>
+				<fa-icon [icon]="page.icon"></fa-icon>
 				{{ page.name }}
-				<i *ngIf="rla.isActive" class="collapse-dropdown-caret fas fa-caret-down"></i>
+				<fa-icon *ngIf="rla.isActive" class="collapse-dropdown-caret" [icon]="['fas','caret-down']"></fa-icon>
 			</a>
 		</ng-container>
 	</div>

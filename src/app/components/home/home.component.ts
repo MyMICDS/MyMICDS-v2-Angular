@@ -10,6 +10,8 @@ import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
 import { AlertService } from '../../services/alert.service';
 
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+
 @Component({
 	selector: 'mymicds-home',
 	templateUrl: './home.component.html',
@@ -21,6 +23,8 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	moduleWidth: number;
 	moduleHeight: number;
 	resizeSensor: ResizeSensor;
+
+	faTwitter = faTwitter;
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	// tslint:disable-next-line:max-line-length

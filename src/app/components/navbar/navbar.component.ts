@@ -19,38 +19,38 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		{
 			url: '/home',
 			name: 'Home',
-			icon: 'fa-home'
+			icon: 'home'
 		},
 		{
 			url: '/lunch',
 			name: 'Lunch',
-			icon: 'fa-utensils'
+			icon: 'utensils'
 		},
 		{
 			url: '/planner',
 			name: 'Planner',
-			icon: 'fa-calendar'
+			icon: 'calendar'
 		},
 		{
 			url: '/daily-bulletin',
 			name: 'Daily Bulletin',
-			icon: 'fa-bullhorn'
+			icon: 'bullhorn'
 		},
 		{
 			url: '/settings',
 			name: 'Settings',
-			icon: 'fa-cog',
+			icon: 'cog',
 			auth: true
 		},
 		{
 			url: '/campus',
 			name: 'Campus Life',
-			icon: 'fa-graduation-cap'
+			icon: 'graduation-cap'
 		},
 		{
 			url: '/about',
 			name: 'About',
-			icon: 'fa-info'
+			icon: 'info'
 		}
 	];
 

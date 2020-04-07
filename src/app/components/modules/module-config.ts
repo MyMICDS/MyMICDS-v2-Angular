@@ -12,6 +12,8 @@ import { StickynotesComponent, COLOR } from './stickynotes/stickynotes.component
 import { TwitterComponent } from './twitter/twitter.component';
 import { WeatherComponent } from './weather/weather.component';
 
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
@@ -32,7 +34,7 @@ export const moduleComponents: any[] = [
 export const config: Config = {
 	bookmarks: {
 		displayName: 'Bookmarks',
-		icon: 'fa-bookmark',
+		icon: 'bookmark',
 		component: BookmarksComponent,
 		defaultHeight: 1,
 		defaultWidth: 1,
@@ -45,7 +47,7 @@ export const config: Config = {
 			icon: {
 				label: 'Icon',
 				type: 'ICON',
-				default: 'fa-bookmark'
+				default: 'bookmark'
 			},
 			url: {
 				label: 'URL',
@@ -56,7 +58,7 @@ export const config: Config = {
 	},
 	countdown: {
 		displayName: 'Countdown',
-		icon: 'fa-clock',
+		icon: 'clock',
 		component: CountdownComponent,
 		defaultHeight: 1,
 		defaultWidth: 2,
@@ -128,14 +130,14 @@ export const config: Config = {
 	},
 	gpaCalculator: {
 		displayName: 'GPA Calculator',
-		icon: 'fa-check-square',
+		icon: 'check-square',
 		component: GpaCalculatorComponent,
 		defaultHeight: 2,
 		defaultWidth: 2
 	},
 	progress: {
 		displayName: 'Progress',
-		icon: 'fa-tasks',
+		icon: 'tasks',
 		component: ProgressComponent,
 		defaultHeight: 3,
 		defaultWidth: 4,
@@ -149,35 +151,35 @@ export const config: Config = {
 	},
 	schedule: {
 		displayName: 'Schedule',
-		icon: 'fa-calendar',
+		icon: 'calendar',
 		component: ScheduleComponent,
 		defaultHeight: 2,
 		defaultWidth: 2
 	},
 	simplifiedLunch: {
 		displayName: 'Lunch',
-		icon: 'fa-utensils',
+		icon: 'utensils',
 		component: SimplifiedLunchComponent,
 		defaultHeight: 2,
 		defaultWidth: 2
 	},
 	simplifiedSchedule: {
 		displayName: 'Simplified Schedule',
-		icon: 'fa-calendar',
+		icon: 'calendar',
 		component: SimplifiedScheduleComponent,
 		defaultHeight: 1,
 		defaultWidth: 2
 	},
 	snowday: {
 		displayName: 'Snowday',
-		icon: 'fa-snowflake',
+		icon: 'snowflake',
 		component: SnowdayComponent,
 		defaultHeight: 1,
 		defaultWidth: 2
 	},
 	stickynotes: {
 		displayName: 'Sticky Notes',
-		icon: 'fa-sticky-note',
+		icon: 'sticky-note',
 		component: StickynotesComponent,
 		defaultHeight: 2,
 		defaultWidth: 2,
@@ -219,7 +221,7 @@ export const config: Config = {
 	},
 	twitter: {
 		displayName: 'Twitter',
-		icon: 'fab fa-twitter',
+		icon: faTwitter, // iconDefiniton used since it's in a different icon pack
 		component: TwitterComponent,
 		defaultHeight: 2,
 		defaultWidth: 1,
@@ -227,7 +229,7 @@ export const config: Config = {
 	},
 	weather: {
 		displayName: 'Weather',
-		icon: 'fa-cloud',
+		icon: 'cloud',
 		component: WeatherComponent,
 		defaultHeight: 2,
 		defaultWidth: 2,
@@ -265,7 +267,7 @@ export interface Config {
 
 export interface ModuleConfig {
 	displayName: string;
-	icon: string;
+	icon: string | IconDefinition;
 	component: any;
 	defaultHeight: number;
 	defaultWidth: number;
