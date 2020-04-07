@@ -31,12 +31,10 @@
               "node_modules/bootstrap/scss/bootstrap.scss",
               "node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
               "node_modules/animate.css/animate.css",
-              "src/assets/font-awesome/scss/fontawesome.scss",
               "src/assets/weather-icons/css/weather-icons.css",
               "src/assets/weather-icons/css/weather-icons-wind.css"
             ],
             "scripts": [
-              "src/assets/font-awesome/js/all.js",
               "node_modules/css-element-queries/src/ResizeSensor.js",
               "node_modules/css-element-queries/src/ElementQueries.js",
               "node_modules/moment/min/moment.min.js", // Required for Chart.js

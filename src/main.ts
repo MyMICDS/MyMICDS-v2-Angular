@@ -25,7 +25,7 @@ if (environment.recruitMessage) {
                \\/__/
 
 I see you looking at the code ( ͡° ͜ʖ ͡°) Don't bother Angular is unreadable after it is compiled.
-But you know what you should do? Join the MyMICDS Development Team.
+But you know what you should do? Please join the MyMICDS Development Team. We really need people. Please join... Please.
 Fill out this form https://goo.gl/forms/wirh6A3Jnr or email support@mymicds.net. More information at the About Page!
 
 `);

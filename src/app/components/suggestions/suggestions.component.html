@@ -25,13 +25,13 @@
 	<div mymicds-blur *ngIf="submitted && suggestionResponse === true" class="suggestions-response">
 		<h1>Success!</h1>
 		<p>The MyMICDS Development Team is working on it. We'll try to send you a follow-up email.</p>
-		<i class="fas fa-check fa-5x"></i>
+		<fa-icon [icon]="check" size="5x"></fa-icon>
 		<p>Thanks for helping improve the site!</p>
 	</div>
 	<!-- Failure Response -->
 	<div mymicds-blur *ngIf="submitted && typeOf(suggestionResponse) === 'string'" class="suggestions-response">
 		<h1>{{suggestionResponse}}</h1>
-		<i class="fas fa-times fa-5x"></i>
+		<fa-icon [icon]="times" size="5x"></fa-icon>
 		<p><a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error keeps happening.</p>
 	</div>
 </div>

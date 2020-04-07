@@ -31,7 +31,10 @@ export const config: Config = {
 	// (Same order as in the `moduleComponents` array)
 	weather: {
 		displayName: 'Weather',
-		icon: 'fa-cloud',
+		// Look at font-awesome icons for icon names.
+		// If the icon does not come from the Solid-Icon pack,
+		// you'll need to do some tinkering like the twitter icon
+		icon: 'cloud',
 		component: WeatherComponent,
 		defaultHeight: 2,
 		defaultWidth: 2,

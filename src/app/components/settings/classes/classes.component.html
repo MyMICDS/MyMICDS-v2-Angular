@@ -42,16 +42,16 @@
 						(click)="aliasClass = class; aliasModal.show()"
 						[disabled]="savingClasses || !class._id"
 						tooltip="Save the class before linking it!">
-						<i class="fas fa-link"></i>
+						<fa-icon [icon]="link"></fa-icon>
 						Link
 					</button>
 				</div>
 				<button class="btn btn-warning" (click)="restoreClass(class._id)" [disabled]="savingClasses || !classChanged(class._id) || !class._id">
-					<i class="fas fa-undo"></i>
+					<fa-icon [icon]="undo"></fa-icon>
 					Restore
 				</button>
 				<button class="btn btn-danger" (click)="deleteClass(i)" [disabled]="savingClasses">
-					<i class="fas fa-times"></i>
+					<fa-icon [icon]="times"></fa-icon>
 					Delete
 				</button>
 			</td>

@@ -4,12 +4,12 @@
 	</div>
 	<div mymicds-blur *ngIf="confirmResponse === true" class="confirm-response">
 		<h1>Account Confirmed!</h1>
-		<i class="fas fa-check fa-5x"></i>
+		<fa-icon icon="check" class="fa-5x"></fa-icon>
 		<button routerLink="/login" class="btn btn-lg btn-block btn-success">Login</button>
 	</div>
 	<div mymicds-blur *ngIf="confirmResponse && typeOf(confirmResponse) === 'string'" class="confirm-response">
 		<h1>{{confirmResponse}}</h1>
-		<i class="fas fa-times fa-5x"></i>
+				<fa-icon icon="times" class="fa-5x"></fa-icon>
 		<p>Make sure you use the most recent email. If this continues, try registering again. Contact support if this keeps happening.</p>
 	</div>
 </div>
