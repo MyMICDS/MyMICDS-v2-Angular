@@ -262,6 +262,13 @@
 						text-align: left;
 					}
 
+					.title-area {
+						display: flex;
+						justify-content: space-between;
+						flex-wrap: wrap;
+						padding-right: 1.5em;
+					}
+
 					h1 {
 						font-weight: 300;
 					}
@@ -454,13 +461,12 @@
 		.planner-container {
 			.calendar-container {
 				.sidebar {
-
 					.coming-up {
-						top: 8rem;
+						top: 9rem;
 					}
 
 					.day-selection {
-						top: 13rem;
+						top: 14rem;
 					}
 				}
 			}
@@ -538,6 +544,7 @@
 
 					.coming-up,
 					.day-selection {
+
 						.event {
 
 							.event-content {
@@ -556,11 +563,11 @@
 					}
 
 					.coming-up {
-						top: 7.5rem;
+						top: 7rem;
 					}
 
 					.day-selection {
-						top: 13rem;
+						top: 12rem;
 					}
 
 				}
@@ -646,12 +653,19 @@
 						display: none;
 					}
 
+					.sidebar-header {
+						.title-area {
+							padding: 0;
+						}
+					}
+
 					.coming-up, .day-selection {
 						position: absolute;
 						left: 0.5rem;
 						right: 0.5rem;
 						bottom: 0.5rem;
 						overflow: auto;
+
 						.event {
 							.event-content {
 								&:hover {
@@ -667,7 +681,25 @@
 					}
 
 					.coming-up {
-						top: 7.3rem;
+						top: 9rem;
+					}
+
+					.day-selection {
+						top: 14rem;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width:1560px) {
+	.planner-interface {
+		.planner-container {
+			.calendar-container {
+				.sidebar {
+					.coming-up {
+						top: 7.5rem;
 					}
 
 					.day-selection {
