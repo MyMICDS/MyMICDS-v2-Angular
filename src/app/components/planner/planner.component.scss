@@ -266,6 +266,7 @@
 						display: flex;
 						justify-content: space-between;
 						flex-wrap: wrap;
+						padding-right: 1.5em;
 					}
 
 					h1 {
@@ -650,6 +651,12 @@
 
 					.sidebar-close {
 						display: none;
+					}
+
+					.sidebar-header {
+						.title-area {
+							padding: 0;
+						}
 					}
 
 					.coming-up, .day-selection {
