@@ -5,7 +5,7 @@
 		<div class="bulletin-navigation">
 			<button mymicds-blur class="previous-bulletin" routerLink="/daily-bulletin" (click)="previousBulletin()" [disabled]="bulletinIndex === bulletins.length - 1">
 				<span>
-					<fa-icon [icon]="['fas','angle-left']"></fa-icon>
+					<fa-icon icon="angle-left"></fa-icon>
 					Previous
 				</span>
 			</button>
@@ -18,7 +18,7 @@
 			<button mymicds-blur class="next-bulletin" routerLink="/daily-bulletin" (click)="nextBulletin()" [disabled]="bulletinIndex === 0">
 				<span>
 					Next
-				 <fa-icon [icon]="['fas','angle-right']"></fa-icon>
+				 <fa-icon icon="angle-right"></fa-icon>
 				</span>
 			</button>
 		</div>
