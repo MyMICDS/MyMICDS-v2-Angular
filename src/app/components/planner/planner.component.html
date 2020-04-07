@@ -92,27 +92,27 @@
 					<div class="sidebar-buttons">
 						<button *ngIf="selectionDate !== null" class="sidebar-coming-up btn btn-warning" (click)="deselectDay()">
 							<span>
-								<fa-icon [icon]="['fas','undo']"></fa-icon>
+								<fa-icon [icon]="undo"></fa-icon>
 								Coming Up
 							</span>
 						</button>
 						<div class="btn-group">
 							<button *ngIf="mymicds.auth.isLoggedIn" class="btn btn-danger" (click)="refreshCanvas()">
 								<span>
-									<fa-icon [icon]="['fas','sync']"></fa-icon>
+									<fa-icon [icon]="sync"></fa-icon>
 									Refresh Canvas
 								</span>
 							</button>
 							<button class="btn btn-info" (click)="resetCreateEventForm(); createEventModal.show()">
 								<span>
-									<fa-icon [icon]="['fas','plus']"></fa-icon>
+									<fa-icon [icon]="plus"></fa-icon>
 									Create Event
 								</span>
 							</button>
 						</div>
 					</div>
 				</div>
-				<div class="sidebar-close" (click)="sidebarClose()"><fa-icon [icon]="['fas','undo']"></fa-icon></div>
+				<div class="sidebar-close" (click)="sidebarClose()"><fa-icon [icon]="undo"></fa-icon></div>
 				<!-- View events coming up if no day is selected -->
 				<div *ngIf="selectionDate === null" class="coming-up">
 					<!-- Loop through each day that contains events coming up -->
@@ -149,15 +149,15 @@
 										</button>
 										<!-- Edit -->
 										<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event._id, $event); editEventModal.show()" [disabled]="event?.canvas">
-											<fa-icon [icon]="['fas','edit']"></fa-icon>
+											<fa-icon [icon]="edit"></fa-icon>
 										</button>
 										<!-- Delete -->
 										<button class="btn btn-danger btn-sm" (click)="deleteEvent(event._id, $event)" [disabled]="event?.canvas">
-											<fa-icon [icon]="['fas','times']"></fa-icon>
+											<fa-icon [icon]="times"></fa-icon>
 										</button>
 										<!-- Cross Out -->
 										<button class="btn btn-success btn-sm" (click)="crossoutEvent(event._id, $event)">
-											<fa-icon [icon]="['fas','strikethrough']"></fa-icon>
+											<fa-icon [icon]="strikethrough"></fa-icon>
 										</button>
 									</div>
 									<!-- Event Title -->
@@ -214,15 +214,15 @@
 									</button>
 									<!-- Edit -->
 									<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()" [disabled]="event.data?.canvas">
-										<fa-icon [icon]="['fas','edit']"></fa-icon>
+										<fa-icon [icon]="edit"></fa-icon>
 									</button>
 									<!-- Delete -->
 									<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)" [disabled]="event.data?.canvas">
-										<fa-icon [icon]="['fas','times']"></fa-icon>
+										<fa-icon [icon]="times"></fa-icon>
 									</button>
 									<!-- Cross Out -->
 									<button class="btn btn-success btn-sm" (click)="crossoutEvent(event.data._id, $event)">
-										<fa-icon [icon]="['fas','strikethrough']"></fa-icon>
+										<fa-icon [icon]="strikethrough"></fa-icon>
 									</button>
 								</div>
 								<!-- Event Title -->
@@ -298,7 +298,7 @@
 								name="dates"
 								[(ngModel)]="createEventModel.dates">
 							<button class="btn btn-secondary" (click)="drpCreate.toggle()">
-								<fa-icon [icon]="['fas','calendar']"></fa-icon>
+								<fa-icon [icon]="calendar"></fa-icon>
 							</button>
 						</div>
 					</fieldset>
@@ -382,7 +382,7 @@
 								name="dates"
 								[(ngModel)]="editEventModel.dates">
 							<button class="btn btn-secondary" (click)="drpEdit.toggle()">
-								<fa-icon [icon]="['fas','calendar']"></fa-icon>
+								<fa-icon [icon]="calendar"></fa-icon>
 							</button>
 						</div>
 					</fieldset>

@@ -4,12 +4,12 @@
 	</div>
 	<div mymicds-blur *ngIf="unsubscribeResponse === true" class="unsubscribe-response">
 		<h1>Sorry to bother you!</h1>
-		<fa-icon [icon]="['fas','check']" size="5x"></fa-icon>
+		<fa-icon [icon]="check" size="5x"></fa-icon>
 		<p class="unsubscribe-success">You will no longer receive these types of emails.</p>
 	</div>
 	<div mymicds-blur *ngIf="unsubscribeResponse === false" class="unsubscribe-response">
 		<h1>Uh oh.</h1>
-		<fa-icon [icon]="['fas','times']" size="5x"></fa-icon>
+		<fa-icon [icon]="times" size="5x"></fa-icon>
 		<p>There was an error unsubscribing. Try clicking the unsubscribe link again. Contact support if this keeps happening.</p>
 	</div>
 </div>

@@ -7,13 +7,13 @@
 	<div mymicds-blur *ngIf="submitted && registerResponse === true" class="register-response">
 		<h1>Confirmation Email Sent!</h1>
 		<p>Please wait a few minutes for the email to come through. If it isn't in your inbox, check your spam.</p>
-		<fa-icon [icon]="['fas','check']" size="5x"></fa-icon>
+		<fa-icon [icon]="check" size="5x"></fa-icon>
 		<a class="gmail btn btn-lg btn-block btn-info" href="https://mail.google.com">Take me to Gmail</a>
 	</div>
 	<!-- Failure Response -->
 	<div mymicds-blur *ngIf="submitted && typeOf(registerResponse) === 'string'" class="register-response">
 		<h1>{{registerResponse}}</h1>
-		<fa-icon [icon]="['fas','times']" size="5x"></fa-icon>
+		<fa-icon [icon]="times" size="5x"></fa-icon>
 		<p><a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error keeps happening.</p>
 	</div>
 </div>
