@@ -30,14 +30,14 @@
 
 <div *ngIf="fixedHeight" class="fixed-height module-container-container" [style.width]="moduleWidth + 'px'" [style.height]="moduleHeight + 'px'">
 	<div class="resize-icon">
-		<fa-icon [icon]="expand" flip="horizontal"></fa-icon>
+		<fa-icon icon="expand" flip="horizontal"></fa-icon>
 	</div>
 	<mymicds-module-container [type]="selectedModuleType" [inputs]="moduleOptions" [fixedHeight]="true"></mymicds-module-container>
 </div>
 
 <div *ngIf="!fixedHeight" class="module-container-container" [style.width]="moduleWidth + 'px'">
 	<div class="resize-icon">
-		<fa-icon [icon]="expand" flip="horizontal"></fa-icon>
+		<fa-icon icon="expand" flip="horizontal"></fa-icon>
 	</div>
 	<mymicds-module-container [type]="selectedModuleType" [inputs]="moduleOptions" [fixedHeight]="false"></mymicds-module-container>
 </div>
