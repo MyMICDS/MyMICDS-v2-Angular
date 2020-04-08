@@ -17,7 +17,7 @@ import { DayLunch } from '../../lunch/lunch.component';
 export class SimplifiedLunchComponent extends SubscriptionsComponent implements OnInit {
 
 	loading = true;
-	todaysLunch: DayLunch = null;
+	todaysLunch: DayLunch | null = null;
 	school: School = 'upperschool';
 
 	constructor(private mymicds: MyMICDS, private alertService: AlertService) {

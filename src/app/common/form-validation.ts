@@ -3,8 +3,10 @@
  * @TODO Find out a better way and remove this clustertruck
  */
 
-export function confirmRegister(passwordParams: string[], gradeParams: string[]) {
-	return (group: any): {[key: string]: any} => {
+import { FormGroup, ValidatorFn } from '@angular/forms';
+
+export function confirmRegister(passwordParams: string[], gradeParams: string[]): ValidatorFn {
+	return group => {
 
 		let passwordResponse = confirmPassword(passwordParams[0], passwordParams[1])(group);
 		let gradeResponse = confirmGrade(gradeParams[0], gradeParams[1])(group);
@@ -28,14 +30,16 @@ export function confirmRegister(passwordParams: string[], gradeParams: string[])
  * Validates if input matches password
  */
 
-export function confirmPassword(passwordKey: string, confirmPasswordKey: string) {
-	return (group: any): {[key: string]: any} => {
-		let password = group.controls[passwordKey];
-		let confirmPassword = group.controls[confirmPasswordKey];
+export function confirmPassword(passwordKey: string, confirmPasswordKey: string): ValidatorFn {
+	return group => {
+		let password = (group as FormGroup).controls[passwordKey];
+		let confirmation = (group as FormGroup).controls[confirmPasswordKey];
 
-		if (password.value !== confirmPassword.value) {
+		if (password.value !== confirmation.value) {
 			return { mismatchedPasswords: true };
 		}
+
+		return null;
 	};
 }
 
@@ -43,13 +47,15 @@ export function confirmPassword(passwordKey: string, confirmPasswordKey: string)
  * Makes sure either teacher checkbox is selected or a graduation year is choosen
  */
 
-export function confirmGrade(gradYearKey: string, teacherKey: string) {
-	return (group: any): {[key: string]: any} => {
-		let gradYear = group.controls[gradYearKey];
-		let teacher = group.controls[teacherKey];
+export function confirmGrade(gradYearKey: string, teacherKey: string): ValidatorFn {
+	return group => {
+		let gradYear = (group as FormGroup).controls[gradYearKey];
+		let teacher = (group as FormGroup).controls[teacherKey];
 
 		if (!teacher.value && !gradYear.value) {
 			return { invalidGrade: true };
 		}
+
+		return null;
 	};
 }

@@ -6,8 +6,17 @@ import * as moment from 'moment-timezone';
 import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
+import ChartJS from 'chart.js';
 
-declare const Chart: any;
+declare const Chart: typeof ChartJS;
+
+declare global {
+	namespace Chart {
+		interface ChartData {
+			durations?: string[];
+		}
+	}
+}
 
 @Component({
 	selector: 'mymicds-progress',
@@ -26,12 +35,12 @@ export class ProgressComponent extends SubscriptionsComponent
 	@Input() showDate = true;
 
 	today: Date = new Date();
-	schedule: GetScheduleResponse['schedule'] = null;
+	schedule: GetScheduleResponse['schedule'] | null = null;
 
 	progressType: ProgressType = ProgressType.circular;
 
 	// Circular Progress References
-	ctx: any;
+	ctx: HTMLCanvasElement;
 	progressBar: any;
 
 	// Font sizes for label and percentage in circular progress bar (in pixels)
@@ -49,9 +58,9 @@ export class ProgressComponent extends SubscriptionsComponent
 	}[];
 
 	// Current Class Label
-	currentClass: string = null;
-	currentClassPercent: number = null;
-	schoolPercent: number = null;
+	currentClass: string | null = null;
+	currentClassPercent: number | null = null;
+	schoolPercent: number | null = null;
 
 	// Start / destroy interval that calculates percentages
 	timer: any;
@@ -107,7 +116,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		);
 
 		// Get Progress Bar <canvas>
-		this.ctx = document.getElementsByClassName('progress-chart')[0];
+		this.ctx = document.getElementsByClassName('progress-chart')[0] as HTMLCanvasElement;
 
 		// Add resize sensor so we know what to change font size to
 		const onChartResize = () => {
@@ -155,11 +164,11 @@ export class ProgressComponent extends SubscriptionsComponent
 				},
 				tooltips: {
 					callbacks: {
-						label: function(tooltipItem, data) {
+						label(tooltipItem, data) {
 							return (
-								data.labels[tooltipItem.index] +
+								data.labels[tooltipItem!.index!] +
 								': ' +
-								data.durations[tooltipItem.index]
+								data.durations[tooltipItem!.index!]
 							);
 						}
 					}
@@ -263,7 +272,7 @@ export class ProgressComponent extends SubscriptionsComponent
 			let breakObj = {
 				class: {
 					name: 'Break',
-					teacher: null,
+					teacher: { prefix: '', firstName: '', lastName: '' },
 					type: ClassType.OTHER,
 					block: Block.OTHER,
 					color: 'rgba(0, 0, 0, 0.4)',
@@ -445,7 +454,7 @@ export class ProgressComponent extends SubscriptionsComponent
 	 * Calculates human-readable duration of class using the total length.
 	 */
 
-	getDuration(classLength): string {
+	getDuration(classLength: number): string {
 		const duration = moment.duration(classLength);
 		let tooltip = '';
 		let hasHours = false;

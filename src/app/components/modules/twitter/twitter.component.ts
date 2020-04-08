@@ -28,9 +28,9 @@ export class TwitterComponent implements OnInit {
 		(window as any).twttr.ready(() => {
 			this.createTwitter();
 
-			let resizeTimeout = null;
+			let resizeTimeout: NodeJS.Timeout | null = null;
 			this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => {
-				clearTimeout(resizeTimeout);
+				if (resizeTimeout) { clearTimeout(resizeTimeout); }
 				if (this.fixedHeight) {
 					resizeTimeout = setTimeout(() => {
 						this.deleteTwitter();
@@ -68,16 +68,16 @@ export class TwitterComponent implements OnInit {
 
 	private loadTwitter() {
 		(window as any).twttr = (function(d, s, id) {
-			let js, fjs = d.getElementsByTagName(s)[0],
+			let js: HTMLScriptElement, fjs = d.getElementsByTagName(s)[0],
 				t = (window as any).twttr || {};
 			if (d.getElementById(id)) { return t; }
-			js = d.createElement(s);
+			js = d.createElement(s) as HTMLScriptElement;
 			js.id = id;
 			js.src = 'https://platform.twitter.com/widgets.js';
-			fjs.parentNode.insertBefore(js, fjs);
+			fjs.parentNode!.insertBefore(js, fjs);
 
 			t._e = [];
-			t.ready = function(f) {
+			t.ready = function(f: any) {
 				t._e.push(f);
 			};
 

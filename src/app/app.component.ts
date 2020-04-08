@@ -75,7 +75,7 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 		// Error handling for MyMICDS SDK
 		this.addSubscription(
 			this.mymicds.errors.subscribe(error => {
-				if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action)) {
+				if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action!)) {
 					this.router.navigate(['/login']);
 				}
 

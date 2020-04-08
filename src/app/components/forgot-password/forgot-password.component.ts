@@ -18,7 +18,7 @@ export class ForgotPasswordComponent extends SubscriptionsComponent implements O
 	typeOf = typeOf;
 
 	submitted = false;
-	forgotResponse: boolean | string = null;
+	forgotResponse: boolean | string | null = null;
 	user: string;
 
 	constructor(private mymicds: MyMICDS, private router: Router) {

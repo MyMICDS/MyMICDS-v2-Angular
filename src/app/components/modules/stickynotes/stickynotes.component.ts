@@ -37,7 +37,7 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 	private _fixedHeight: boolean;
 
 	private _moduleId: string;
-	@Input() set moduleId(id) {
+	@Input() set moduleId(id: string) {
 		if (this._moduleId !== id) {
 			this._moduleId = id;
 			this.addSubscription(
@@ -59,7 +59,7 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 		PINK: '#f59dba',
 		ORANGE: '#fbac4b'
 	};
-	@Input() color;
+	@Input() color: COLOR;
 
 	constructor(private mymicds: MyMICDS) {
 		super();

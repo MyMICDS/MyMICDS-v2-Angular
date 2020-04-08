@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
+type LetterGrades = 'A' | 'A-' | 'B+' | 'B' | 'B-' | 'C+' | 'C' | 'C-' | 'D+' | 'D' | 'D-' | 'F';
+
 @Component({
 	selector: 'mymicds-gpa-calculator',
 	templateUrl: './gpa-calculator.component.html',
@@ -98,7 +100,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 		for (const inputGrade of this.dropdownGradeInputs) {
 			if (inputGrade !== 'N/A') {
 				this.validInputs++;
-				gradeTotal += this.calculationMappings[inputGrade];
+				gradeTotal += this.calculationMappings[inputGrade as LetterGrades];
 			}
 		}
 

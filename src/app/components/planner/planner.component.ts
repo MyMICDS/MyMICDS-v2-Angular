@@ -18,6 +18,13 @@ import { contains, darkenColor, rainbowCSSGradient, rainbowSafeWord } from '../.
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
 
+type DailyEvents = Array<{
+	inside: { included: boolean, continueLeft: boolean, continueRight: boolean },
+	data: PlannerEvent
+}>;
+
+type EventsInput = Omit<AddPlannerEventParameters, 'start' | 'end'> & { dates: [Date, Date] };
+
 @Component({
 	selector: 'mymicds-planner',
 	templateUrl: './planner.component.html',
@@ -73,12 +80,12 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	calendarMonth: moment.Moment;
 
 	// Date selected in the calendar
-	selectionDate: moment.Moment = null;
+	selectionDate: moment.Moment | null = null;
 
 	// Array dividing events into days
 	formattedMonth: any = null;
 	// Events that are ending within 7 days
-	comingUp: any[] = null;
+	comingUp: any[] | null = null;
 
 
 	// List of events to show up in selection
@@ -89,7 +96,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	};
 
 	// Create Events form
-	createEventModel = {
+	createEventModel: EventsInput = {
 		title: '',
 		desc: '',
 		classId: 'other',
@@ -100,7 +107,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	viewEventObject: any = null;
 
 	// Edit Events form
-	editEventModel = {
+	editEventModel: EventsInput = {
 		id: '',
 		title: '',
 		desc: '',
@@ -254,7 +261,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Returns the object of a specific event. You must call getEvents() first!
 	// Returns null if id isn't valid
-	getEvent(id) {
+	getEvent(id: string) {
 		for (let i = 0; i < this.events.length; i++) {
 			let event = this.events[i];
 			if (event._id === id) { return event; }
@@ -263,8 +270,12 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	// Returns an array of events organized for the calendar
-	formatMonth(date, events: PlannerEvent[]) {
-		let formattedMonth = [];
+	formatMonth(date: moment.Moment, events: PlannerEvent[]) {
+		let formattedMonth: Array<{
+			date: moment.Moment,
+			today: boolean,
+			events: DailyEvents
+		}>[] = [];
 		let today = moment();
 		let iterationDate = this.beginOfPlanner(date);
 		let weeksInPlanner = this.weeksInPlanner(date);
@@ -323,7 +334,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			// If any events, add day to formattedWeek
 			if (validEvents.length > 0) {
 				let weekdayDate = comingDay.clone();
-				let weekdayDisplay = weekdayDate.calendar(null, {
+				let weekdayDisplay = weekdayDate.calendar(undefined, {
 					sameDay: '[Today]',
 					nextDay: '[Tomorrow]',
 					nextWeek: 'dddd',
@@ -346,7 +357,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	// Lists all the events for a given day
-	eventsForDay(date, events: PlannerEvent[]) {
+	eventsForDay(date: moment.Moment, events: PlannerEvent[]) {
 		let dayEvents = [];
 		// Loop through events and see if any are included for this specific day
 		for (let i = 0; i < events.length; i++) {
@@ -393,7 +404,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	// Determine if an event falls into a specific date.
-	dayInsideEvent(date, event: PlannerEvent) {
+	dayInsideEvent(date: moment.Moment, event: PlannerEvent) {
 		let eventStart = moment(event.start);
 		let eventEnd = moment(event.end);
 
@@ -418,17 +429,17 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	// Returns the moment date object for beginning of planner
-	beginOfPlanner(date): any {
+	beginOfPlanner(date: moment.Moment): any {
 		return date.clone().startOf('month').day(0);
 	}
 
 	// Returns the moment date object for beginning of planner
-	endOfPlanner(date): any {
+	endOfPlanner(date: moment.Moment): any {
 		return date.clone().endOf('month').day(6);
 	}
 
 	// Returns the number of weeks included in a month
-	weeksInPlanner(date) {
+	weeksInPlanner(date: moment.Moment) {
 		let beginDate = this.beginOfPlanner(date);
 		let endDate = this.endOfPlanner(date);
 		return endDate.diff(beginDate, 'weeks') + 1;
@@ -460,7 +471,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	 * Select Day
 	 */
 
-	selectDay(date: any, event?) {
+	// TODO: These types are from inferred usage. Why are non-moment objects being passed in?
+	selectDay(date: number | moment.Moment | null, event?: Event) {
 
 		// Make sure it's a valid moment.js object
 		if (!moment.isMoment(date)) {
@@ -534,11 +546,11 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	 * Edit PlannerEvent
 	 */
 
-	viewEditEventModal(id: string, event: any) {
+	viewEditEventModal(id: string, event: Event) {
 		// Make sure it doesn't trigger the viewEvent()
 		event.stopPropagation();
 
-		let eventObj = this.getEvent(id);
+		let eventObj = this.getEvent(id)!;
 
 		let classId = 'other';
 		if (eventObj.class) {
@@ -585,7 +597,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		}
 	}
 
-	private formatEventData(eventModel): AddPlannerEventParameters {
+	private formatEventData(eventModel: EventsInput): AddPlannerEventParameters {
 		const eventParams: any = Object.assign({}, eventModel);
 		eventParams.start = moment(eventModel.dates[0]);
 		eventParams.end = moment(eventModel.dates[1]);
@@ -593,7 +605,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	// Crossout PlannerEvent
-	crossoutEvent(id: string, event: any) {
+	crossoutEvent(id: string, event: Event) {
 		event.stopPropagation();
 		for (let i = 0; i < this.events.length; i++) {
 			if (this.events[i]._id === id) {
@@ -618,7 +630,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		let selectionEvents = document.getElementsByClassName('selection-event');
 		for (let i = 0; i < this.selectionEvents.length; i++) {
 			if (this.selectionEvents[i].data._id === id) {
-				selectionEvents.item(i).scrollIntoView({ behavior: 'smooth' });
+				selectionEvents.item(i)!.scrollIntoView({ behavior: 'smooth' });
 				// shine the element
 				break;
 			}

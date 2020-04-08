@@ -25,7 +25,7 @@ export class ModuleOptionsComponent {
 		// Fall back to default options if none are provided
 		this.options = {};
 	}
-	private _type: string = null;
+	private _type: string;
 
 	@Input()
 	get options() {
@@ -47,7 +47,7 @@ export class ModuleOptionsComponent {
 
 	valueChanged() {
 		// Loop through all options and only emit ones valid
-		const validOptions = {};
+		const validOptions: Options = {};
 		for (const optionKey of Object.keys(this.options)) {
 			if (contains(this.optionKeys, optionKey)) {
 				validOptions[optionKey] = this.options[optionKey];

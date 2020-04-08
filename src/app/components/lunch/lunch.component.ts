@@ -103,7 +103,7 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 				for (let i = 0; i < this.lunch.length; i++) {
 					if (this.lunch[i].date.today) {
 						setTimeout(() => {
-							const todayEl = document.getElementsByClassName('lunch-day').item(i);
+							const todayEl = document.getElementsByClassName('lunch-day').item(i)!;
 							todayEl.scrollIntoView({ behavior: 'smooth' });
 						}, 0);
 					}
@@ -127,7 +127,7 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 		return dates;
 	}
 
-	lunchClassMaker(classInput) {
+	lunchClassMaker(classInput: string) {
 		return classInput.toLowerCase().replace(/ /, '-');
 	}
 }

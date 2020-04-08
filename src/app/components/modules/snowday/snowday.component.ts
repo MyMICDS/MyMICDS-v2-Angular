@@ -17,7 +17,7 @@ export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 	moduleHeight: number;
 	resizeSensor: ResizeSensor;
 
-	snowdayData: GetSnowdayResponse['data'] = null;
+	snowdayData: GetSnowdayResponse['data'] | null = null;
 
 	constructor(private mymicds: MyMICDS) {
 		super();

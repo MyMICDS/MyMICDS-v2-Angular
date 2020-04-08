@@ -29,21 +29,21 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 	resizeSensor: ResizeSensor;
 
 	@ViewChild('schedule', { static: true }) scheduleTable: ElementRef;
-	tableWidth: number = null;
+	tableWidth: number | null = null;
 	@ViewChild('start') startCell: ElementRef;
-	startWidth: number = null;
+	startWidth: number | null = null;
 	@ViewChild('end') endCell: ElementRef;
-	endWidth: number = null;
+	endWidth: number | null = null;
 
 	updateCurrentInterval: NodeJS.Timer;
 	@ViewChild('collapsedSchedule') collapsedSchedule: ElementRef;
 	current = moment();
-	currentSchedule: GetScheduleResponse['schedule'] = null;
+	currentSchedule: GetScheduleResponse['schedule'] | null = null;
 	// How many classes to display when schedule is collapsed
 	showNCurrent = 1;
 
 	scheduleDate = moment();
-	viewSchedule: GetScheduleResponse['schedule'] = null;
+	viewSchedule: GetScheduleResponse['schedule'] | null = null;
 
 	changeSchedule$ = new Subject<void>();
 

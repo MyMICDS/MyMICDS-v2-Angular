@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 @Injectable()
 export class AlertService {
 
-	private alertEmitSource = new Subject();
+	private alertEmitSource = new Subject<Alert>();
 	alertEmit$ = this.alertEmitSource.asObservable();
 
 	addError(message: string) {
