@@ -7,8 +7,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let class of displayClassesArray; let i = index">
-        <td class="class-name">{{ class }}</td>
+      <tr *ngFor="let class of displayObjects; let i = index">
+        <td class="class-name">{{ class.name }}</td>
         <td class="letter-grade">
           <select
             class="form-control"
