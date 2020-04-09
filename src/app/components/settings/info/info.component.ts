@@ -24,7 +24,7 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 		teacher: ['']
 	}, { validator: confirmGrade('gradYear', 'teacher') });
 
-	userInfo: GetUserInfoResponse = null;
+	userInfo: GetUserInfoResponse | null = null;
 
 	constructor(private mymicds: MyMICDS, private formBuilder: FormBuilder, private alertService: AlertService) {
 		super();
@@ -34,7 +34,7 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 		// Get basic info
 		this.addSubscription(
 			this.mymicds.user.$.subscribe(data => {
-				this.userInfo = data;
+				this.userInfo = data!;
 
 				if (!this.userInfo) {
 					return;
@@ -61,10 +61,10 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 	valueChanged(): boolean {
 
 		// Find out if grade changed
-		let userInfoIsTeacher = (this.userInfo.gradYear === null);
+		let userInfoIsTeacher = (this.userInfo!.gradYear === null);
 		let infoFormIsTeacher = this.infoForm.controls.teacher.value;
 
-		let userInfoGradYear = this.userInfo.gradYear;
+		let userInfoGradYear = this.userInfo!.gradYear;
 		let infoFormGradYear = !infoFormIsTeacher ? parseInt(this.infoForm.controls.gradYear.value, 10) : null;
 
 		let gradeChanged = false;
@@ -78,8 +78,8 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 		}
 
 		return gradeChanged
-			|| (this.userInfo.firstName !== this.infoForm.controls.firstName.value)
-			|| (this.userInfo.lastName !== this.infoForm.controls.lastName.value);
+			|| (this.userInfo!.firstName !== this.infoForm.controls.firstName.value)
+			|| (this.userInfo!.lastName !== this.infoForm.controls.lastName.value);
 	}
 
 	/*
@@ -98,14 +98,14 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 	changeInfo() {
 		// Create new info object
 		let newInfo: ChangeUserInfoParameters = {};
-		['firstName', 'lastName', 'gradYear', 'teacher'].forEach(key => {
+		(['firstName', 'lastName', 'gradYear', 'teacher'] as Array<keyof ChangeUserInfoParameters>).forEach(key => {
 			newInfo[key] = this.infoForm.controls[key].value;
 		});
 
 		// Set new values to the userInfo
-		this.userInfo.firstName = newInfo.firstName;
-		this.userInfo.lastName = newInfo.lastName;
-		this.userInfo.gradYear = !newInfo.teacher ? newInfo.gradYear : null;
+		this.userInfo!.firstName = newInfo.firstName!;
+		this.userInfo!.lastName = newInfo.lastName!;
+		this.userInfo!.gradYear = !newInfo.teacher ? newInfo.gradYear! : null;
 
 		this.mymicds.user.changeInfo(newInfo).subscribe(() => {
 			this.alertService.addSuccess('Info change successful!');

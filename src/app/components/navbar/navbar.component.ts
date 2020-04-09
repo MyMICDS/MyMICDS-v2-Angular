@@ -69,7 +69,7 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 		// Keep track if user's auth state for login/logout buttons
 		this.addSubscription(
 			this.mymicds.auth.$.subscribe(jwt => {
-				this.jwt = jwt;
+				this.jwt = jwt!;
 			})
 		);
 	}

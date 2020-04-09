@@ -53,7 +53,7 @@ export class ModuleOptionComponent {
 		}
 	}
 
-	changeDate(date) {
+	changeDate(date: Date) {
 		this.value = date;
 		this.valueChange.emit(this.value);
 	}

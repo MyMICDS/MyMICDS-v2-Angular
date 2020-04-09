@@ -69,8 +69,8 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	// When the user either checks or unchecks the box
-	aliasChange(event, className: string) {
-		if (event.target.checked) {
+	aliasChange(event: Event, className: string) {
+		if ((event.target as HTMLInputElement).checked) {
 			// Add alias
 			this.addSubscription(
 				this.mymicds.alias.add({
@@ -84,7 +84,7 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 					this.aliases[this.type].push({
 						_id: id,
 						// User is not necessary
-						user: null,
+						user: '',
 						type: this.type,
 						classNative: this.class._id,
 						classRemote: className
@@ -93,7 +93,7 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 			);
 		} else {
 			// Delete alias
-			const aliasObject = this.aliasClassObject(className);
+			const aliasObject = this.aliasClassObject(className)!;
 			const aliasId = aliasObject._id;
 			this.addSubscription(
 				this.mymicds.alias.delete({

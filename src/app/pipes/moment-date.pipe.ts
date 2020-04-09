@@ -12,7 +12,7 @@ export class MomentDatePipe extends DatePipe implements PipeTransform {
 		value: string | Date,
 		format: string,
 		timezone: string
-	): string {
+	) {
 		const timezoneOffset = moment(value).tz(timezone).format('Z');
 		return super.transform(value, format, timezoneOffset);
 	}
