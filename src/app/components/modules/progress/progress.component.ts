@@ -41,7 +41,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 	// Circular Progress References
 	ctx: HTMLCanvasElement;
-	progressBar: any;
+	progressBar: ChartJS;
 
 	// Font sizes for label and percentage in circular progress bar (in pixels)
 	classLabelFontSize: number;
@@ -63,7 +63,7 @@ export class ProgressComponent extends SubscriptionsComponent
 	schoolPercent: number | null = null;
 
 	// Start / destroy interval that calculates percentages
-	timer: any;
+	timer: NodeJS.Timeout;
 
 	// CanvasGradient object to use for rainbow color
 	rainbow: CanvasGradient;
@@ -223,8 +223,8 @@ export class ProgressComponent extends SubscriptionsComponent
 		// Fallback if schedule is not set or no school
 		if (!this.schedule || this.schedule.classes.length === 0) {
 			// Just set default parameters
-			this.progressBar.data.datasets[0].backgroundColor = this.defaultColors();
-			this.progressBar.data.datasets[0].data = this.defaultData();
+			this.progressBar.data.datasets![0].backgroundColor = this.defaultColors();
+			this.progressBar.data.datasets![0].data = this.defaultData();
 			this.progressBar.data.labels = this.defaultLabels();
 			this.progressBar.data.durations = this.defaultDurations();
 
@@ -255,7 +255,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		this.linearProgress = [];
 
 		// Create a new array and later assign to progress bar
-		const newColors: any[] = [];
+		const newColors: Array<string | CanvasGradient> = [];
 		const newData: number[] = [];
 		const newLabels: string[] = [];
 		const newDurations: string[] = [];
@@ -297,7 +297,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 		// Combine classes and breaks array into one
 		const formattedSchedule = this.schedule.classes.concat(breaks);
-		const formattedScheduleColors: (string | CanvasGradient)[] = [];
+		const formattedScheduleColors: Array<string | CanvasGradient> = [];
 		// Sort classes by start time
 		formattedSchedule.sort(function(a, b) {
 			return a.start.valueOf() - b.start.valueOf();
@@ -422,8 +422,8 @@ export class ProgressComponent extends SubscriptionsComponent
 		this.currentClassPercent = newCurrentClassPercent;
 
 		// Assign new arrays to progress bar data
-		this.progressBar.data.datasets[0].backgroundColor = newColors;
-		this.progressBar.data.datasets[0].data = newData;
+		this.progressBar.data.datasets![0].backgroundColor = newColors;
+		this.progressBar.data.datasets![0].data = newData;
 		this.progressBar.data.labels = newLabels;
 		this.progressBar.data.durations = newDurations;
 

@@ -10,7 +10,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 export class SettingsComponent extends SubscriptionsComponent implements OnInit {
 
 	username: string | null = null;
-	authSubscription: any;
 
 	constructor(private mymicds: MyMICDS) {
 		super();
@@ -18,7 +17,7 @@ export class SettingsComponent extends SubscriptionsComponent implements OnInit 
 
 	ngOnInit() {
 		this.addSubscription(
-			this.authSubscription = this.mymicds.auth.$.subscribe(data => {
+			this.mymicds.auth.$.subscribe(data => {
 				this.username = data!.user;
 			})
 		);

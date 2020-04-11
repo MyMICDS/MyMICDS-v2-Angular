@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { Options, OptionConfig, OptionValue } from '../../modules/module-options';
+import { IDatetimePopupButtonOptions } from 'ngx-bootstrap-datetime-popup';
 
 @Component({
 	selector: 'mymicds-module-option',
@@ -39,9 +40,9 @@ export class ModuleOptionComponent {
 
 	// Date picker stuff
 	showPicker = false;
-	clearButton: any = { show: false };
-	nowButton: any = { show: true, label: 'Today', cssClass: 'btn btn-info' };
-	closeButton: any = { show: true, label: 'Enter', cssClass: 'btn btn-primary' };
+	clearButton: IDatetimePopupButtonOptions = { show: false, label: '', cssClass: '' };
+	nowButton: IDatetimePopupButtonOptions = { show: true, label: 'Today', cssClass: 'btn btn-info' };
+	closeButton: IDatetimePopupButtonOptions = { show: true, label: 'Enter', cssClass: 'btn btn-primary' };
 
 	constructor() {
 		this.valueChange.pipe(debounceTime(50));

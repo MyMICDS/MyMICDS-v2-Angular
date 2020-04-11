@@ -14,7 +14,7 @@ import { confirmPassword } from '../../../common/form-validation';
 })
 export class ChangePasswordComponent extends SubscriptionsComponent {
 
-	passwordForm: any = this.formBuilder.group({
+	passwordForm = this.formBuilder.group({
 		oldPassword: ['', Validators.required],
 		newPassword: ['', Validators.required],
 		confirmPassword: ['', Validators.required]

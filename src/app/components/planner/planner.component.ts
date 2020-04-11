@@ -23,6 +23,20 @@ type DailyEvents = Array<{
 	data: PlannerEvent
 }>;
 
+type WeekFormat = Array<{
+	date: {
+		object: moment.Moment,
+		display: string
+	},
+	events: PlannerEvent[]
+}>;
+
+type MonthFormat = Array<{
+	date: moment.Moment,
+	today: boolean,
+	events: DailyEvents
+}>[];
+
 type EventsInput = Omit<AddPlannerEventParameters, 'start' | 'end'> & { dates: [Date, Date] };
 
 @Component({
@@ -83,13 +97,13 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	selectionDate: moment.Moment | null = null;
 
 	// Array dividing events into days
-	formattedMonth: any = null;
+	formattedMonth: MonthFormat | null = null;
 	// Events that are ending within 7 days
-	comingUp: any[] | null = null;
+	comingUp: WeekFormat | null = null;
 
 
 	// List of events to show up in selection
-	selectionEvents: any[] = [];
+	selectionEvents: DailyEvents = [];
 
 	daterangeOptions: Partial<BsDatepickerConfig> = {
 		containerClass: 'theme-red'
@@ -104,7 +118,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	};
 
 	// Object of event to view
-	viewEventObject: any = null;
+	viewEventObject: PlannerEvent | null = null;
 
 	// Edit Events form
 	editEventModel: EventsInput = {
@@ -271,11 +285,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Returns an array of events organized for the calendar
 	formatMonth(date: moment.Moment, events: PlannerEvent[]) {
-		let formattedMonth: Array<{
-			date: moment.Moment,
-			today: boolean,
-			events: DailyEvents
-		}>[] = [];
+		let formattedMonth: MonthFormat = [];
 		let today = moment();
 		let iterationDate = this.beginOfPlanner(date);
 		let weeksInPlanner = this.weeksInPlanner(date);
@@ -309,7 +319,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	formatWeek(events: PlannerEvent[]) {
-		let formattedWeek = [];
+		let formattedWeek: WeekFormat = [];
 		// How many days ahead to include
 		let daysForward = 7;
 		// What day to start
@@ -358,7 +368,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Lists all the events for a given day
 	eventsForDay(date: moment.Moment, events: PlannerEvent[]) {
-		let dayEvents = [];
+		let dayEvents: DailyEvents = [];
 		// Loop through events and see if any are included for this specific day
 		for (let i = 0; i < events.length; i++) {
 			let event = events[i];
@@ -429,12 +439,12 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	// Returns the moment date object for beginning of planner
-	beginOfPlanner(date: moment.Moment): any {
+	beginOfPlanner(date: moment.Moment) {
 		return date.clone().startOf('month').day(0);
 	}
 
 	// Returns the moment date object for beginning of planner
-	endOfPlanner(date: moment.Moment): any {
+	endOfPlanner(date: moment.Moment) {
 		return date.clone().endOf('month').day(6);
 	}
 
@@ -580,7 +590,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	 * Delete PlannerEvent
 	 */
 
-	deleteEvent(id: string, event: any) {
+	deleteEvent(id: string, event: Event) {
 		// Make sure it doesn't trigger the viewEvent()
 		event.stopPropagation();
 		if (confirm('Are you sure you wanna delete this event from the planner?')) {

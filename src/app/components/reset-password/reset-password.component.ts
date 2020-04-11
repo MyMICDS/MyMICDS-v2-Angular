@@ -19,12 +19,12 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 	typeOf = typeOf;
 
 	submitted = false;
-	resetResponse: any = null;
+	resetResponse: boolean | string | null = null;
 
 	user: string;
 	hash: string;
 
-	resetForm: any = this.formBuilder.group({
+	resetForm = this.formBuilder.group({
 		password: ['', Validators.required],
 		confirmPassword: ['', Validators.required]
 	}, { validator: confirmPassword('password', 'confirmPassword') });

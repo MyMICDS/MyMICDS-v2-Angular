@@ -1,4 +1,4 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { GetStatsResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
@@ -121,7 +121,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 		}
 	];
 
-	stats: any = null;
+	stats: GetStatsResponse['stats'] | null = null;
 
 	// Converting graduation years to actual grades
 	gradeRange: number[];
@@ -261,7 +261,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	gradYearToGradeString(gradYear: any): string {
+	gradYearToGradeString(gradYear: string | number): string {
 		let gradeNumber: number;
 		for (let i = 0; i < this.gradeRange.length; i++) {
 			if (gradYear === 'teacher') {

@@ -11,7 +11,6 @@ import { AlertService } from '../../services/alert.service';
 })
 export class AlertComponent extends SubscriptionsComponent implements OnInit {
 
-	subscription: any;
 	alerts: Alert[] = [];
 	// TODO: TypeScript doesn't like symbols as index types, maybe replace with ES6 Map?
 	alertsDismissed: any = {};
