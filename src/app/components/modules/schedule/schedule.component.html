@@ -7,7 +7,7 @@
 		</button>
 
 		<button class="current-day" (click)="currentDay()">
-			<span *ngIf="viewSchedule?.day">Day {{ viewSchedule.day }}</span>
+			<span *ngIf="viewSchedule?.day">Day {{ viewSchedule?.day }}</span>
 			<span>{{ scheduleDate.toDate() | momentDate:'EEEE, MMM d':'America/Chicago' }}</span>
 			<span *ngIf="viewSchedule?.special">Special Schedule</span>
 		</button>
@@ -26,13 +26,13 @@
 		<p>There are no classes!</p>
 	</div>
 	<!-- Table to view schedule -->
-	<div #schedule class="table-container" [hidden]="viewSchedule?.classes?.length <= 0">
+	<div #schedule class="table-container" [hidden]="viewSchedule?.classes?.length! <= 0">
 		<table class="table">
 			<thead class="thead-light">
 				<tr>
 					<th class="start" [style.width]="startWidth + 'px'">Start</th>
 					<th class="end" [style.width]="endWidth + 'px'">End</th>
-					<th class="class-name" [style.width]="(tableWidth - startWidth - endWidth) + 'px'">Class</th>
+					<th class="class-name" [style.width]="(tableWidth! - startWidth! - endWidth!) + 'px'">Class</th>
 				</tr>
 			</thead>
 			<tbody>

@@ -9,7 +9,7 @@ import moment from 'moment-timezone';
 })
 export class MomentDatePipe extends DatePipe implements PipeTransform {
 	transform(
-		value: string | Date,
+		value: string | Date | moment.Moment,
 		format: string,
 		timezone: string
 	) {
