@@ -328,7 +328,7 @@
 				</button>
 			</div>
 			<div *ngIf="viewEventObject?.desc?.length > 0" class="modal-body" [innerHTML]="viewEventObject?.desc"></div>
-			<div class="modal-footer" *ngIf="!viewEventObject?.canvas || viewEventObject?.link" [style.border-top]="viewEventObject?.desc?.length > 0 ? '' : 'none'">
+			<div class="modal-footer" *ngIf="!$any(viewEventObject)?.canvas || viewEventObject?.link" [style.border-top]="viewEventObject?.desc?.length > 0 ? '' : 'none'">
 				<!-- Button to x -->
 				<button class="btn btn-success" (click)="crossoutEvent(viewEventObject._id, $event)">
 					{{ viewEventObject?.checked ? 'Mark as Incomplete' : 'Mark as Completed' }}
