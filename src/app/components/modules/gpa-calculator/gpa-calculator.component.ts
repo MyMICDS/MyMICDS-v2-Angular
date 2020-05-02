@@ -18,15 +18,17 @@ type LetterGrades = 'A' | 'A-' | 'B+' | 'B' | 'B-' | 'C+' | 'C' | 'C-' | 'D+' | 
 export class GpaCalculatorComponent extends SubscriptionsComponent
 	implements OnInit, OnDestroy {
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
-	displayClassesArray = [
-		'A Period',
-		'B Period',
-		'C Period',
-		'D Period',
-		'E Period',
-		'F Period',
-		'G Period'
+
+	displayObjects = [
+		{block: 'a', name: 'A Period'},
+		{block: 'b', name: 'B Period'},
+		{block: 'c', name: 'C Period'},
+		{block: 'd', name: 'D Period'},
+		{block: 'e', name: 'E Period'},
+		{block: 'f', name: 'F Period'},
+		{block: 'g', name: 'G Period'}
 	];
+
 	// MICDS grading scale starts at F, goes to A. Mappings were retreived from guidebook
 	letterGradesArray = [
 		'N/A',
@@ -72,20 +74,16 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 	ngOnInit() {
 		// create display list of classes, if there's not an alias just call it A, B etc...
 		this.mymicds.classes.get().subscribe(response => {
-			for (
-				let periodIndex = 0;
-				periodIndex < this.displayClassesArray.length;
-				periodIndex++
-			) {
-				for (const schoolClass of response.classes) {
-					if (
-						this.displayClassesArray[periodIndex][0].toLowerCase() ===
-						schoolClass.block
-					) {
-						this.displayClassesArray[periodIndex] = schoolClass.name;
+			for (const schoolClass of response.classes) {
+					for (const displayObject of this.displayObjects) {
+
+						// if the block/class has an alias name, use the alias name
+						if (displayObject.block === schoolClass.block) {
+							let displayIndex = this.displayObjects.findIndex(x => x.block === displayObject.block);
+							this.displayObjects[displayIndex].name = schoolClass.name;
+						}
 					}
 				}
-			}
 		});
 	}
 
