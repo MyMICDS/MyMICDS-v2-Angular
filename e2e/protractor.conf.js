@@ -9,7 +9,7 @@ exports.config = {
 		'**/*.e2e-spec.ts'
 	],
 	capabilities: {
-		'browserName': 'chrome'
+		browserName: 'chrome'
 	},
 	SELENIUM_PROMISE_MANAGER: false,
 	directConnect: true,
@@ -18,15 +18,15 @@ exports.config = {
 	jasmineNodeOpts: {
 		showColors: true,
 		defaultTimeoutInterval: 30000,
-		print: function() {}
+		print() { }
 	},
 	useAllAngular2AppRoots: true,
-	beforeLaunch: function() {
+	beforeLaunch() {
 		require('ts-node').register({
 			project: 'e2e/tsconfig.json'
 		});
 	},
-	onPrepare: function() {
+	async onPrepare() {
 		jasmine.getEnv().addReporter(new SpecReporter());
 	}
 };

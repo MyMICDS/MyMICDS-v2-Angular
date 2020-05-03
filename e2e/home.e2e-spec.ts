@@ -2,18 +2,19 @@ import { HomePage } from './page-objects/home.po';
 import { by, element } from 'protractor';
 
 describe('Home', () => {
-	let home: HomePage;
+	let page: HomePage;
 
 	beforeAll(() => {
-		home = new HomePage();
+		page = new HomePage();
 	});
 
 	beforeEach(async () => {
-		await home.navigateTo();
+		await page.navigateTo();
 	});
 
-	it('works', async () => {
-		const component = element(by.tagName('mymicds-home'));
-		expect(await component.isPresent());
+	it('loads default modules', async () => {
+		for (const module of ['progress', 'schedule', 'weather']) {
+			expect(await element(by.tagName(`mymicds-${module}`)).isPresent());
+		}
 	});
 });
