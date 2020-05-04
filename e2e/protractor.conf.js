@@ -28,5 +28,8 @@ exports.config = {
 	},
 	async onPrepare() {
 		jasmine.getEnv().addReporter(new SpecReporter());
+		// TODO: This feels super hacky, but it's the only way I can get it to work
+		// noinspection ES6ModulesDependencies
+		await browser.waitForAngularEnabled(false);
 	}
 };
