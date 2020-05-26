@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SummerComponent implements OnInit {
 
-	@Input() showSummer;
+	@Input() showSummer: boolean;
 	@Output() showSummerChange = new EventEmitter<boolean>();
 
 	constructor() { }

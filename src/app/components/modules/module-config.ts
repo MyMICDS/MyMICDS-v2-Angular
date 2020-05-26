@@ -1,4 +1,4 @@
-import { OptionsConfig } from './module-options';
+import { OptionsConfig, OptionValue } from './module-options';
 
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.component';
@@ -254,7 +254,7 @@ export function getDefaultOptions(moduleName: string) {
 		return {};
 	}
 
-	const options = {};
+	const options: { [option: string]: OptionValue } = {};
 	for (const optionKey of Object.keys(optionsConfig)) {
 		options[optionKey] = optionsConfig[optionKey].default;
 	}

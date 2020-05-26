@@ -6,8 +6,17 @@ import * as moment from 'moment-timezone';
 import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
+import ChartJS from 'chart.js';
 
-declare const Chart: any;
+declare const Chart: typeof ChartJS;
+
+declare global {
+	namespace Chart {
+		interface ChartData {
+			durations?: string[];
+		}
+	}
+}
 
 @Component({
 	selector: 'mymicds-progress',
@@ -26,13 +35,13 @@ export class ProgressComponent extends SubscriptionsComponent
 	@Input() showDate = true;
 
 	today: Date = new Date();
-	schedule: GetScheduleResponse['schedule'] = null;
+	schedule: GetScheduleResponse['schedule'] | null = null;
 
 	progressType: ProgressType = ProgressType.circular;
 
 	// Circular Progress References
-	ctx: any;
-	progressBar: any;
+	ctx: HTMLCanvasElement;
+	progressBar: ChartJS;
 
 	// Font sizes for label and percentage in circular progress bar (in pixels)
 	classLabelFontSize: number;
@@ -49,12 +58,12 @@ export class ProgressComponent extends SubscriptionsComponent
 	}[];
 
 	// Current Class Label
-	currentClass: string = null;
-	currentClassPercent: number = null;
-	schoolPercent: number = null;
+	currentClass: string | null = null;
+	currentClassPercent: number | null = null;
+	schoolPercent: number | null = null;
 
 	// Start / destroy interval that calculates percentages
-	timer: any;
+	timer: NodeJS.Timeout;
 
 	// CanvasGradient object to use for rainbow color
 	rainbow: CanvasGradient;
@@ -107,7 +116,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		);
 
 		// Get Progress Bar <canvas>
-		this.ctx = document.getElementsByClassName('progress-chart')[0];
+		this.ctx = document.getElementsByClassName('progress-chart')[0] as HTMLCanvasElement;
 
 		// Add resize sensor so we know what to change font size to
 		const onChartResize = () => {
@@ -155,11 +164,11 @@ export class ProgressComponent extends SubscriptionsComponent
 				},
 				tooltips: {
 					callbacks: {
-						label: function(tooltipItem, data) {
+						label(tooltipItem, data) {
 							return (
-								data.labels[tooltipItem.index] +
+								data.labels[tooltipItem!.index!] +
 								': ' +
-								data.durations[tooltipItem.index]
+								data.durations[tooltipItem!.index!]
 							);
 						}
 					}
@@ -214,8 +223,8 @@ export class ProgressComponent extends SubscriptionsComponent
 		// Fallback if schedule is not set or no school
 		if (!this.schedule || this.schedule.classes.length === 0) {
 			// Just set default parameters
-			this.progressBar.data.datasets[0].backgroundColor = this.defaultColors();
-			this.progressBar.data.datasets[0].data = this.defaultData();
+			this.progressBar.data.datasets![0].backgroundColor = this.defaultColors();
+			this.progressBar.data.datasets![0].data = this.defaultData();
 			this.progressBar.data.labels = this.defaultLabels();
 			this.progressBar.data.durations = this.defaultDurations();
 
@@ -246,7 +255,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		this.linearProgress = [];
 
 		// Create a new array and later assign to progress bar
-		const newColors: any[] = [];
+		const newColors: Array<string | CanvasGradient> = [];
 		const newData: number[] = [];
 		const newLabels: string[] = [];
 		const newDurations: string[] = [];
@@ -263,7 +272,7 @@ export class ProgressComponent extends SubscriptionsComponent
 			let breakObj = {
 				class: {
 					name: 'Break',
-					teacher: null,
+					teacher: { prefix: '', firstName: '', lastName: '' },
 					type: ClassType.OTHER,
 					block: Block.OTHER,
 					color: 'rgba(0, 0, 0, 0.4)',
@@ -288,7 +297,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 		// Combine classes and breaks array into one
 		const formattedSchedule = this.schedule.classes.concat(breaks);
-		const formattedScheduleColors: (string | CanvasGradient)[] = [];
+		const formattedScheduleColors: Array<string | CanvasGradient> = [];
 		// Sort classes by start time
 		formattedSchedule.sort(function(a, b) {
 			return a.start.valueOf() - b.start.valueOf();
@@ -413,8 +422,8 @@ export class ProgressComponent extends SubscriptionsComponent
 		this.currentClassPercent = newCurrentClassPercent;
 
 		// Assign new arrays to progress bar data
-		this.progressBar.data.datasets[0].backgroundColor = newColors;
-		this.progressBar.data.datasets[0].data = newData;
+		this.progressBar.data.datasets![0].backgroundColor = newColors;
+		this.progressBar.data.datasets![0].data = newData;
 		this.progressBar.data.labels = newLabels;
 		this.progressBar.data.durations = newDurations;
 
@@ -445,7 +454,7 @@ export class ProgressComponent extends SubscriptionsComponent
 	 * Calculates human-readable duration of class using the total length.
 	 */
 
-	getDuration(classLength): string {
+	getDuration(classLength: number): string {
 		const duration = moment.duration(classLength);
 		let tooltip = '';
 		let hasHours = false;

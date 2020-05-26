@@ -1,7 +1,7 @@
-import { Block, ClassType, GetClassesResponse, MyMICDS, MyMICDSClass } from '@mymicds/sdk';
+import { AddClassResponse, Block, ClassType, GetClassesResponse, MyMICDS, MyMICDSClass } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { defaultIfEmpty } from 'rxjs/operators';
 import { capitalize, contains } from '../../../common/utils';
 
@@ -27,8 +27,8 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 	// Array of class ids to delete if user presses 'Save Changes'
 	deleteClassIds: string[] = [];
 
-	canvasClasses = [];
-	portalClasses = [];
+	canvasClasses: string[] = [];
+	portalClasses: string[] = [];
 
 	// Set Classes form
 	classBlocks = [
@@ -65,7 +65,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		'portal'
 	];
 
-	aliasClass: MyMICDSClass = null;
+	aliasClass: MyMICDSClass | null = null;
 
 	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
 		super();
@@ -238,7 +238,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 					teacherLastName: scheduleClass.teacher.lastName
 				}, true);
 			}
-		}).filter(Boolean); // Remove undefined
+		}).filter(Boolean) as Observable<AddClassResponse>[]; // Remove undefined
 
 		// Combine all of those observables into a MEGA OBSERVABLE
 		let deleteClasses$ = combineLatest(deleteObservables).pipe(defaultIfEmpty());

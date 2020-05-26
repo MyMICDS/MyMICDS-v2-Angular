@@ -16,7 +16,7 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 
 	// We need to include this to use in HTML
 	typeOf = typeOf;
-	unsubscribeResponse: boolean = null;
+	unsubscribeResponse: boolean | null = null;
 
 	constructor(private mymicds: MyMICDS, private route: ActivatedRoute) {
 		super();

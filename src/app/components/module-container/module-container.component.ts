@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { config, ModuleConfig } from '../modules/module-config';
 
 @Component({
@@ -7,9 +7,9 @@ import { config, ModuleConfig } from '../modules/module-config';
 	styleUrls: ['./module-container.component.scss']
 })
 export class ModuleContainerComponent {
-	private currentModuleRef = null;
-	private currentModuleType: string = null;
-	currentModuleConfig: ModuleConfig = null;
+	private currentModuleRef: ComponentRef<any> | null = null;
+	private currentModuleType: string | null = null;
+	currentModuleConfig: ModuleConfig | null = null;
 
 	private currentInputs: { [key: string]: any };
 
@@ -34,7 +34,7 @@ export class ModuleContainerComponent {
 
 		// Assign inputs to the injected component
 		if (this.currentInputs) {
-			Object.assign(this.currentModuleRef.instance, this.inputs);
+			Object.assign(this.currentModuleRef!.instance, this.inputs);
 		}
 
 		this.currentModuleType = type;

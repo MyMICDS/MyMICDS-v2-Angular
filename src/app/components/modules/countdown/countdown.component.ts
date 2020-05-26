@@ -1,4 +1,4 @@
-import { GetBreaksResponse, GetPortalDayRotationResponse, MyMICDS } from '@mymicds/sdk';
+import { DateRange, GetBreaksResponse, GetPortalDayRotationResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { state, style, trigger } from '@angular/animations';
@@ -102,8 +102,8 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 	schoolEnds: moment.Moment;
 	breaks: GetBreaksResponse['breaks'];
 
-	displayLabel: string = null;
-	displayCountdown = null;
+	displayLabel: string | null = null;
+	displayCountdown: moment.Moment | Date | null = null;
 	finished = false;
 	daysLeft: number;
 	// hoursLeft: number;
@@ -157,7 +157,7 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 		}
 		switch (this.mode) {
 			case COUNTDOWN_MODE.TIME_OFF:
-				this.displayCountdown = this.nextTimeOff(...Object.keys(this.breaks).map(k => this.breaks[k]));
+				this.displayCountdown = this.nextTimeOff(...Object.keys(this.breaks).map(k => this.breaks[k as keyof GetBreaksResponse['breaks']]));
 				this.displayLabel = 'Time off School';
 				break;
 			case COUNTDOWN_MODE.START:
@@ -221,7 +221,7 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 		}
 	}
 
-	nextTimeOff(...breaks) {
+	nextTimeOff(...breaks: DateRange[][]) {
 		const durations = breaks.reduce((acc, val) => acc.concat(val), []);
 		let closest = null;
 		for (const duration of durations) {
@@ -239,7 +239,7 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 	}
 
 	// Calculates amount of school days from moment object to moment object (inclusive)
-	calculateSchoolDays(fromDate, toDate) {
+	calculateSchoolDays(fromDate: moment.Moment | Date, toDate: moment.Moment | Date) {
 		// Subtract 1 day because we add it back in the loop
 		const pointer = moment(fromDate).subtract(1, 'day');
 		const countdown = moment(toDate);

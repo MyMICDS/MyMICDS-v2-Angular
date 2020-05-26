@@ -1,7 +1,8 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { GetStatsResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import ChartJS from 'chart.js';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
@@ -30,7 +31,15 @@ interface Developer {
 }
 
 declare const prisma: any;
-declare const Chart: any;
+declare const Chart: typeof ChartJS;
+
+declare global {
+	namespace Chart {
+		interface ChartOptions {
+			aspectRatio?: number;
+		}
+	}
+}
 
 @Component({
 	selector: 'mymicds-about',
@@ -112,21 +121,21 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 		}
 	];
 
-	stats: any = null;
+	stats: GetStatsResponse['stats'] | null = null;
 
 	// Converting graduation years to actual grades
 	gradeRange: number[];
 	gradeNames: string[] = [];
 
 	// Line Chart for registered users over time
-	lineCtx;
-	lineChart;
+	lineCtx: HTMLCanvasElement;
+	lineChart: ChartJS;
 	lineDataSets: Object[] = [];
 	lineData: Object[] = [];
 
 	// Pie Chart for percentage of users visited today
-	pieCtx;
-	pieChart;
+	pieCtx: HTMLCanvasElement;
+	pieChart: ChartJS;
 	pieData: number[] = [];
 	pieDataSets: Object[] = [];
 	pieBgColors: string[] = [];
@@ -214,7 +223,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				// Initialize Charts
 				setTimeout(() => {
 					// Initialize Line Chart
-					this.lineCtx = document.getElementById('registerCountChart');
+					this.lineCtx = document.getElementById('registerCountChart') as HTMLCanvasElement;
 					this.lineChart = new Chart(this.lineCtx, {
 						type: 'line',
 						data: {
@@ -235,7 +244,8 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 					});
 
 					// Initialize Pie Chart
-					this.pieCtx = document.getElementById('visitedTodayChart');
+					this.pieCtx = document.getElementById('visitedTodayChart') as HTMLCanvasElement;
+					// @ts-ignore
 					this.pieChart = new Chart(this.pieCtx, {
 						type: 'pie',
 						data: {
@@ -251,7 +261,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	gradYearToGradeString(gradYear: any): string {
+	gradYearToGradeString(gradYear: string | number): string {
 		let gradeNumber: number;
 		for (let i = 0; i < this.gradeRange.length; i++) {
 			if (gradYear === 'teacher') {

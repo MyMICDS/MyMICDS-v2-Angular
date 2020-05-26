@@ -40,7 +40,7 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 	// How many blocks to display
 	showNBlocks = 0;
 
-	schedule: GetScheduleResponse['schedule'] = null;
+	schedule: GetScheduleResponse['schedule'] | null = null;
 	scheduleDate = moment();
 
 	constructor(private mymicds: MyMICDS) {
@@ -111,7 +111,7 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 			const block = blocks[i];
 
 			// Check if class has already passed
-			if (this.current.isAfter(this.schedule.classes[i].end)) {
+			if (this.current.isAfter(this.schedule!.classes[i].end)) {
 				this.startIndex = i + 1;
 				continue;
 			}

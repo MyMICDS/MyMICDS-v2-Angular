@@ -39,7 +39,7 @@
 	</div>
 
 	<!-- Regular module grid -->
-	<div *ngIf="(editMode && mymicds.auth.isLoggedIn) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions[1].minWidth)" class="grid-container">
+	<div *ngIf="(editMode && mymicds.auth.isLoggedIn) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions![1].minWidth!)" class="grid-container">
 		<ngx-gridster #gridster [options]="gridsterOptions">
 			<ngx-gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
@@ -84,7 +84,7 @@
 		</ngx-gridster>
 	</div>
 	<!-- Collapsed module grid -->
-	<div *ngIf="!editMode && moduleWidth < gridsterOptions.responsiveOptions[1].minWidth" class="collapsed-grid">
+	<div *ngIf="!editMode && moduleWidth < gridsterOptions.responsiveOptions![1].minWidth!" class="collapsed-grid">
 		<mymicds-module-container *ngFor="let module of moduleLayout"
 			[type]="module.type"
 			[inputs]="module.options"

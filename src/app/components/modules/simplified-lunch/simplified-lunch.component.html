@@ -11,18 +11,18 @@
 			<div mymicds-blur class="lunch-day text-center">
 				<!-- Lunch Date -->
 				<div class="lunch-date">
-					<h3 class="date-weekday">{{ todaysLunch.date.weekday }}</h3>
-					<h5 class="date-date text-muted">{{ todaysLunch.date.date }}</h5>
+					<h3 class="date-weekday">{{ todaysLunch!.date.weekday }}</h3>
+					<h5 class="date-date text-muted">{{ todaysLunch!.date.date }}</h5>
 				</div>
 				<!-- Lunch Menu -->
 				<div class="lunch-menu">
 					<!-- Displays if no Lunch -->
-					<div *ngIf="!todaysLunch.lunch[school]" class="no-lunch">
+					<div *ngIf="!todaysLunch!.lunch[school]" class="no-lunch">
 						<p>No Lunch Today</p>
 					</div>
 					<!-- Loop through menu and display lists -->
-					<div *ngIf="todaysLunch.lunch[school]" class="lunch">
-						<div *ngFor="let data of todaysLunch.lunch[school].categories | values" class="lunch-category">
+					<div *ngIf="todaysLunch!.lunch[school]" class="lunch">
+						<div *ngFor="let data of todaysLunch!.lunch[school].categories | values" class="lunch-category">
 							<div *ngIf="data.key.includes('Entree')" class="main-entree">
 								<h3>{{ data.key }}</h3>
 								<ul>

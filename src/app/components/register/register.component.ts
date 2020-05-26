@@ -32,7 +32,7 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 	gradeRange: number[];
 
 	submitted = false;
-	registerResponse: any = null;
+	registerResponse: boolean | string | null = null;
 
 	constructor(private mymicds: MyMICDS, private router: Router, private formBuilder: FormBuilder) {
 		super();

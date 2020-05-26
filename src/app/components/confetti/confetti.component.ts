@@ -42,6 +42,7 @@ export class ConfettiComponent implements OnInit {
 	ngOnInit() {
 		this.confetti = new ConfettiContext(this.canvas.nativeElement);
 		this.confetti.start();
+		// tslint:disable-next-line:no-unused-expression
 		new ResizeSensor(this.moduleContainer.nativeElement, () => this.confetti.resize());
 	}
 
@@ -49,39 +50,39 @@ export class ConfettiComponent implements OnInit {
 
 class Vector2 {
 
-	static Lerp(_vec0, _vec1, _t) {
+	static Lerp(_vec0: Vector2, _vec1: Vector2, _t: number) {
 		return new Vector2((_vec1.x - _vec0.x) * _t + _vec0.x, (_vec1.y - _vec0.y) * _t + _vec0.y);
 	}
 
-	static Distance(_vec0, _vec1) {
+	static Distance(_vec0: Vector2, _vec1: Vector2) {
 		return sqrt(Vector2.SqrDistance(_vec0, _vec1));
 	}
 
-	static SqrDistance(_vec0, _vec1) {
+	static SqrDistance(_vec0: Vector2, _vec1: Vector2) {
 		let x = _vec0.x - _vec1.x;
 		let y = _vec0.y - _vec1.y;
 		// return (x * x + y * y + z * z);
 		return (x * x + y * y);
 	}
 
-	static Scale(_vec0, _vec1) {
+	static Scale(_vec0: Vector2, _vec1: Vector2) {
 		return new Vector2(_vec0.x * _vec1.x, _vec0.y * _vec1.y);
 	}
 
-	static Min(_vec0, _vec1) {
+	static Min(_vec0: Vector2, _vec1: Vector2) {
 		return new Vector2(Math.min(_vec0.x, _vec1.x), Math.min(_vec0.y, _vec1.y));
 	}
 
-	static Max(_vec0, _vec1) {
+	static Max(_vec0: Vector2, _vec1: Vector2) {
 		return new Vector2(Math.max(_vec0.x, _vec1.x), Math.max(_vec0.y, _vec1.y));
 	}
 
-	static ClampMagnitude(_vec0, _len) {
-		let vecNorm = _vec0.Normalized;
+	static ClampMagnitude(_vec0: Vector2, _len: number) {
+		let vecNorm = _vec0.Normalized();
 		return new Vector2(vecNorm.x * _len, vecNorm.y * _len);
 	}
 
-	static Sub(_vec0, _vec1) {
+	static Sub(_vec0: Vector2, _vec1: Vector2) {
 		// return new Vector2(_vec0.x - _vec1.x, _vec0.y - _vec1.y, _vec0.z - _vec1.z);
 		return new Vector2(_vec0.x - _vec1.x, _vec0.y - _vec1.y);
 	}
@@ -96,22 +97,22 @@ class Vector2 {
 		return this.x * this.x + this.y * this.y;
 	}
 
-	Add(_vec) {
+	Add(_vec: Vector2) {
 		this.x += _vec.x;
 		this.y += _vec.y;
 	}
 
-	Sub(_vec) {
+	Sub(_vec: Vector2) {
 		this.x -= _vec.x;
 		this.y -= _vec.y;
 	}
 
-	Div(_f) {
+	Div(_f: number) {
 		this.x /= _f;
 		this.y /= _f;
 	}
 
-	Mul(_f) {
+	Mul(_f: number) {
 		this.x *= _f;
 		this.y *= _f;
 	}
@@ -141,15 +142,15 @@ class EulerMass {
 	force = new Vector2(0, 0);
 	velocity = new Vector2(0, 0);
 
-	constructor(x, y, private mass, private drag) {
+	constructor(x: number, y: number, private mass: number, private drag: number) {
 		this.position = new Vector2(x, y);
 	}
 
-	AddForce(_f) {
+	AddForce(_f: Vector2) {
 		this.force.Add(_f);
 	}
 
-	Integrate(_dt) {
+	Integrate(_dt: number) {
 		let acc = this.CurrentForce(this.position);
 		acc.Div(this.mass);
 		let posDelta = new Vector2(this.velocity.x, this.velocity.y);
@@ -160,7 +161,7 @@ class EulerMass {
 		this.force = new Vector2(0, 0);
 	}
 
-	CurrentForce(_pos) {
+	CurrentForce(_pos: Vector2) {
 		let totalForce = new Vector2(this.force.x, this.force.y);
 		let speed = this.velocity.Length();
 		let dragVel = new Vector2(this.velocity.x, this.velocity.y);
@@ -189,7 +190,7 @@ class ConfettiPaper {
 	frontColor: string;
 	backColor: string;
 
-	constructor(x, y) {
+	constructor(x: number, y: number) {
 		this.pos = new Vector2(x, y);
 
 		const ci = round(random() * (colors.length - 1));
@@ -203,7 +204,7 @@ class ConfettiPaper {
 		}
 	}
 
-	Update(_dt) {
+	Update(_dt: number) {
 		this.time += _dt;
 		this.rotation += this.rotationSpeed * _dt;
 		this.cosA = cos(DEG_TO_RAD * this.rotation);
@@ -215,7 +216,7 @@ class ConfettiPaper {
 		}
 	}
 
-	Draw(_g) {
+	Draw(_g: CanvasRenderingContext2D) {
 		if (this.cosA > 0) {
 			_g.fillStyle = this.frontColor;
 		} else {
@@ -236,7 +237,7 @@ class ConfettiRibbon {
 
 	static bounds = new Vector2(0, 0);
 
-	particles = [];
+	particles: EulerMass[] = [];
 	frontColor: string;
 	backColor: string;
 	xOff: number;
@@ -249,7 +250,16 @@ class ConfettiRibbon {
 	oscillationDistance = (random() * 40 + 40);
 	ySpeed = (random() * 40 + 80);
 
-	constructor(x, y, private particleCount, private particleDist, thickness, angle, private particleMass, private particleDrag) {
+	constructor(
+		x: number,
+		y: number,
+		private particleCount: number,
+		private particleDist: number,
+		thickness: number,
+		angle: number,
+		private particleMass: number,
+		private particleDrag: number
+	) {
 		const ci = round(random() * (colors.length - 1));
 		this.frontColor = colors[ci][0];
 		this.backColor = colors[ci][1];
@@ -265,7 +275,7 @@ class ConfettiRibbon {
 		}
 	}
 
-	Update(_dt) {
+	Update(_dt: number) {
 		let i = 0;
 		this.time += _dt * this.oscillationSpeed;
 		this.position.y += this.ySpeed * _dt;
@@ -315,7 +325,7 @@ class ConfettiRibbon {
 		}
 	}
 
-	Draw(_g) {
+	Draw(_g: CanvasRenderingContext2D) {
 		for (let i = 0; i < this.particleCount - 1; i++) {
 			let p0 = new Vector2(this.particles[i].position.x + this.xOff, this.particles[i].position.y + this.yOff);
 			let p1 = new Vector2(this.particles[i + 1].position.x + this.xOff, this.particles[i + 1].position.y + this.yOff);
@@ -376,7 +386,7 @@ class ConfettiRibbon {
 		}
 	}
 
-	Side(x1, y1, x2, y2, x3, y3) {
+	Side(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) {
 		return ((x1 - x2) * (y3 - y2) - (y1 - y2) * (x3 - x2));
 	}
 }
@@ -410,7 +420,7 @@ class ConfettiContext {
 		this.canvasHeight = this.canvasParent.offsetHeight;
 		this.canvas.width = this.canvasWidth * retina;
 		this.canvas.height = this.canvasHeight * retina;
-		this.context = canvas.getContext('2d');
+		this.context = canvas.getContext('2d')!;
 
 		ConfettiRibbon.bounds = new Vector2(this.canvasWidth, this.canvasHeight);
 		for (let i = 0; i < confettiRibbonCount; i++) {

@@ -1,6 +1,12 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
+declare global {
+	interface Window {
+		twttr: any;
+	}
+}
+
 @Component({
 	selector: 'mymicds-twitter',
 	templateUrl: './twitter.component.html',
@@ -25,12 +31,12 @@ export class TwitterComponent implements OnInit {
 
 	ngOnInit() {
 		this.loadTwitter();
-		(window as any).twttr.ready(() => {
+		window.twttr.ready(() => {
 			this.createTwitter();
 
-			let resizeTimeout = null;
+			let resizeTimeout: NodeJS.Timeout | null = null;
 			this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => {
-				clearTimeout(resizeTimeout);
+				if (resizeTimeout) { clearTimeout(resizeTimeout); }
 				if (this.fixedHeight) {
 					resizeTimeout = setTimeout(() => {
 						this.deleteTwitter();
@@ -42,7 +48,7 @@ export class TwitterComponent implements OnInit {
 	}
 
 	private createTwitter(height: number = this.moduleHeight) {
-		(window as any).twttr.widgets.createTimeline(
+		window.twttr.widgets.createTimeline(
 			{
 				sourceType: 'list',
 				ownerScreenName: 'MyMICDS',
@@ -67,17 +73,17 @@ export class TwitterComponent implements OnInit {
 	}
 
 	private loadTwitter() {
-		(window as any).twttr = (function(d, s, id) {
-			let js, fjs = d.getElementsByTagName(s)[0],
-				t = (window as any).twttr || {};
+		window.twttr = (function(d, s, id) {
+			let js: HTMLScriptElement, fjs = d.getElementsByTagName(s)[0],
+				t = window.twttr || {};
 			if (d.getElementById(id)) { return t; }
-			js = d.createElement(s);
+			js = d.createElement(s) as HTMLScriptElement;
 			js.id = id;
 			js.src = 'https://platform.twitter.com/widgets.js';
-			fjs.parentNode.insertBefore(js, fjs);
+			fjs.parentNode!.insertBefore(js, fjs);
 
 			t._e = [];
-			t.ready = function(f) {
+			t.ready = function(f: any) {
 				t._e.push(f);
 			};
 

@@ -1,4 +1,4 @@
-import { GetWeatherResponse, MyMICDS } from '@mymicds/sdk';
+import { MyMICDS, Weather } from '@mymicds/sdk';
 
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ElementQueries } from 'css-element-queries';
@@ -12,9 +12,9 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 })
 export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 
-	weather: GetWeatherResponse['weather'] = null;
+	weather: Weather | null = null;
 	// Weather object converted to metric
-	weatherMetric: GetWeatherResponse['weather'] = null;
+	weatherMetric: Weather | null = null;
 	@Input() metric = false;
 	@ViewChild('moduleContainer') containerEl: ElementRef;
 
@@ -33,7 +33,7 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	private convertToMetric(weather) {
+	private convertToMetric(weather: Weather) {
 		const metric = JSON.parse(JSON.stringify(weather));
 		metric.currently.windSpeed = this.convertWindspeed(weather.currently.windSpeed);
 		metric.currently.temperature = this.convertTemperature(weather.currently.temperature);

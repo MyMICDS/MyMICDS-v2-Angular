@@ -39,7 +39,7 @@ export function typeOf(something: any) {
  * Returns whether a value is in an array
  */
 
-export function contains(haystack, needle) {
+export function contains<T>(haystack: T[], needle: T) {
 	if (!Array.isArray(haystack)) {
 		return false;
 	}
@@ -176,7 +176,7 @@ export const rainbowSafeWord = '#C01025';
 
 export function rainbowCanvasGradient(width: number, height: number): CanvasGradient {
 	const gradient = document.createElement('canvas')
-		.getContext('2d')
+		.getContext('2d')!
 		.createLinearGradient(0, 0, width, height);
 
 	for (let i = 0; i < rainbowGradientColors.length; i++) {
@@ -219,7 +219,7 @@ export const months = [
  * https://stackoverflow.com/a/13627586/4594858
  */
 
-export function ordinalSuffix(i) {
+export function ordinalSuffix(i: number) {
 	const j = i % 10;
 	const k = i % 100;
 	if (j === 1 && k !== 11) {

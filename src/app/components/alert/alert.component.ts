@@ -11,9 +11,9 @@ import { AlertService } from '../../services/alert.service';
 })
 export class AlertComponent extends SubscriptionsComponent implements OnInit {
 
-	subscription: any;
 	alerts: Alert[] = [];
-	alertsDismissed = {};
+	// TODO: TypeScript doesn't like symbols as index types, maybe replace with ES6 Map?
+	alertsDismissed: any = {};
 
 	constructor(private alertService: AlertService) {
 		super();
@@ -22,13 +22,13 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 	ngOnInit() {
 		// Subscribe to alerts service observable
 		this.addSubscription(
-			this.alertService.alertEmit$.subscribe((data: Alert) => {
+			this.alertService.alertEmit$.subscribe(data => {
 				// Check if there's another alert with same content
 				for (const alert of this.alerts) {
 					if (alert.equals(data)) {
 						alert.repeat++;
 						if (0 < data.expiresIn) {
-							clearTimeout(alert.timeout);
+							if (alert.timeout) { clearTimeout(alert.timeout); }
 							alert.timeout = setTimeout(() => {
 								this.dismiss(alert.id);
 							}, data.expiresIn * 1000);
@@ -50,7 +50,7 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	deleteAlert(id) {
+	deleteAlert(id: symbol) {
 		this.alerts.forEach((value, index) => {
 			// Delete if id matches
 			if (value.id === id) {
@@ -59,7 +59,7 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 		});
 	}
 
-	dismiss(id) {
+	dismiss(id: symbol) {
 		// How long CSS delete animation is in milliseconds
 		const animationTime = 200;
 
