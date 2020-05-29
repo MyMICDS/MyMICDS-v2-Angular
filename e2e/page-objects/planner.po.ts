@@ -5,29 +5,54 @@ export class PlannerPage {
     await browser.get('/planner')
   }
 
+  get showNewEventModal() {
+    return element.all(by.buttonText("Create Event")).first();
+  }
+
   get eventTitle() {
-    return element(by.model('createEventModel.title'))
+    return element(by.css('input[name="title"]'));
   }
 
   get eventDescription() {
-    return element(by.model('createEventModel.desc'))
+    return element(by.css('textarea[name="desc"]'));
   }
 
   //school class, NOT programming class
   get eventClass() {
-    return element(by.model('createEventModel.classId'))
+    return element.all(by.css('select[name="classId"] > option'));
   }
 
   get eventDate() {
-    return element(by.model('createEventModel.dates'))
+    return element(by.css('input[name="dates"]'));
   }
 
   get submitNewEvent() {
-    return element(by.buttonText("Create Event"))
+    return element.all(by.buttonText("Create Event")).last();
   }
 
   async createCustomEvent(title: string, desc: string) {
-    // add date parameter
+
+    // set the date selector
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    var dd : string | number, mm : string | number;
+
+    dd = day < 10 ? '0' + day : day
+    mm = month < 10 ? '0' + month : month
+
+    var dateString = mm+'/'+dd+'/'+yyyy;
+    await this.eventDate.sendKeys(dateString + " - " + dateString)
+
     // for class id select first option
+    await this.eventClass.first().click();
+
+    // set the title and toString
+    await this.eventTitle.sendKeys(title);
+    await this.eventDescription.sendKeys(desc)
+
+    //submit
+    await this.submitNewEvent.click()
   }
 }
