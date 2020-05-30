@@ -16,13 +16,17 @@ describe('planner', () => {
   });
 
   describe('while logged in', () => {
-    let loginPage : LoginPage
+    let loginPage : LoginPage;
+    let eventTitle : string;
+    let eventDesc : string;
 
     beforeAll(async () => {
-      loginPage = new LoginPage
+      loginPage = new LoginPage;
       await loginPage.navigateTo();
       await loginPage.loginTestAccount();
       await plannerPage.navigateTo();
+      eventTitle = "Special Title";
+      eventDesc = "This is a cool description.";
     });
 
     afterAll(async () => {
@@ -31,21 +35,19 @@ describe('planner', () => {
 
 
     it('creates a valid custom event', async () => {
-      await plannerPage.showNewEventModal.click()
-      await plannerPage.createCustomEvent("title", "cool description");
+      await plannerPage.showNewEventModal.click();
+      await plannerPage.createCustomEvent(eventTitle, eventDesc);
       const alertEl = alert(AlertType.Success);
       await browser.wait(until.presenceOf(alertEl));
   		expect(await alertEl.$('.alert-content').getText()).toContain('Added event to planner!');
     });
 
+    // for some reason I cannot ever select the event title on the calender, no idea why
     // it('deletes a custom event', async () => {
-    //
+    //   await plannerPage.getCalenderEvent(eventTitle).click();
+    //   await browser.sleep(3500);
     // });
 
   })
-
-  // it('navigates months', async () => {
-  //
-  // })
 
 })

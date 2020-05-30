@@ -30,6 +30,12 @@ export class PlannerPage {
     return element.all(by.buttonText("Create Event")).last();
   }
 
+  getCalenderEvent(eventTitle: string) {
+    // getting event div by finding parent div with title child
+    return element(by.css('.event-title')).element(by.cssContainingText('div',eventTitle))
+      //.element(by.xpath('..'));
+  }
+
   async createCustomEvent(title: string, desc: string) {
 
     // set the date selector
