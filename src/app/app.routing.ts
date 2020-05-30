@@ -190,10 +190,6 @@ export const appRoutes: Routes = [
 		component: QuotesComponent
 	},
 	{
-		path: 'module-inspector',
-		component: ModuleInspectorComponent
-	},
-	{
 		path: 'alert-debug',
 		component: AlertDebugComponent
 	},

@@ -6,8 +6,8 @@ import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angu
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-import { config, getDefaultOptions } from '../modules/module-config';
-import { Options } from '../modules/module-options';
+import { config, getDefaultOptions } from '../../shared/modules/module-config';
+import { Options } from '../../shared/modules/module-options';
 import { AlertService } from '../../services/alert.service';
 
 @Component({

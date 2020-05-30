@@ -6,7 +6,7 @@ import { ElementQueries } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
-import { DayLunch } from '../../lunch/lunch.component';
+import { DayLunch } from '../../../common/day-lunch';
 
 
 @Component({

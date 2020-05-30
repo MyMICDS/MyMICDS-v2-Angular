@@ -2,6 +2,7 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from "./home/home.component";
+import { SharedModule } from '../shared/shared.module';
 
 const homeRoutes: Routes = [
   {
@@ -16,6 +17,13 @@ const homeRoutes: Routes = [
 				component: HomeComponent,
 				data: { edit: true }
 			}
+
+
+      // ,
+      // {
+      //   path: 'module-inspector',
+      //   component: ModuleInspectorComponent
+      // }
 		]
 	}
 ];
