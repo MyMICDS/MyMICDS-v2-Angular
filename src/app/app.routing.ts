@@ -6,7 +6,6 @@ import * as moment from 'moment';
 
 import { capitalizeURL, months } from './common/utils';
 
-import { HomeComponent } from './components/home/home.component';
 import { LunchComponent } from './components/lunch/lunch.component';
 import { PlannerComponent } from './components/planner/planner.component';
 import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
@@ -17,7 +16,6 @@ import { AlertDebugComponent } from './components/alert-debug/alert-debug.compon
 import { HelpComponent } from './components/help/help.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
-import { ModuleInspectorComponent } from './components/module-inspector/module-inspector.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';

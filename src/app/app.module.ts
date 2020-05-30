@@ -27,26 +27,7 @@ import { AboutComponent } from './components/about/about.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
 import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
-import { HomeComponent } from './components/home/home.component';
 import { CampusComponent } from './components/campus/campus.component';
-
-import { ModuleOptionsComponent } from './components/module-options/module-options.component';
-import { ModuleContainerComponent } from './components/module-container/module-container.component';
-import { ModuleOptionComponent } from './components/module-options/module-option/module-option.component';
-
-import { moduleComponents } from './components/modules/module-config';
-
-import { BookmarksComponent } from './components/modules/bookmarks/bookmarks.component';
-import { CountdownComponent } from './components/modules/countdown/countdown.component';
-import { GpaCalculatorComponent } from './components/modules/gpa-calculator/gpa-calculator.component';
-import { ProgressComponent } from './components/modules/progress/progress.component';
-import { ScheduleComponent } from './components/modules/schedule/schedule.component';
-import { SimplifiedScheduleComponent } from './components/modules/simplified-schedule/simplified-schedule.component';
-import { SnowdayComponent } from './components/modules/snowday/snowday.component';
-import { StickynotesComponent } from './components/modules/stickynotes/stickynotes.component';
-import { SimplifiedLunchComponent } from './components/modules/simplified-lunch/simplified-lunch.component';
-import { TwitterComponent } from './components/modules/twitter/twitter.component';
-import { WeatherComponent } from './components/modules/weather/weather.component';
 
 import { ConfettiComponent } from './components/confetti/confetti.component';
 import { ConfirmComponent } from './components/confirm/confirm.component';
@@ -56,7 +37,6 @@ import { HelpComponent } from './components/help/help.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { LunchComponent } from './components/lunch/lunch.component';
-import { ModuleInspectorComponent } from './components/module-inspector/module-inspector.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { PlannerComponent } from './components/planner/planner.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -95,11 +75,10 @@ import { MomentDatePipe } from './pipes/moment-date.pipe';
 // RxJS 6 Zone.js Fix
 // import 'zone.js/dist/zone-patch-rxjs';
 
-// Font Awesome
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
+// newly created modules
+import { HomeModule } from './home/home.module';
+import { SharedModule } from './shared/shared.module';
+
 
 @NgModule({
 	declarations: [
@@ -108,22 +87,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 		AboutComponent,
 		AlertComponent,
 		AlertDebugComponent,
-		HomeComponent,
-		ModuleOptionsComponent,
-		ModuleOptionComponent,
-		ModuleContainerComponent,
-		BookmarksComponent,
 		CampusComponent,
-		CountdownComponent,
-		GpaCalculatorComponent,
-		ProgressComponent,
-		ScheduleComponent,
-		SimplifiedLunchComponent,
-		SimplifiedScheduleComponent,
-		SnowdayComponent,
-		StickynotesComponent,
-		TwitterComponent,
-		WeatherComponent,
 		BulletinArchivesComponent,
 		ConfettiComponent,
 		ConfirmComponent,
@@ -133,7 +97,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 		LoginComponent,
 		LogoutComponent,
 		LunchComponent,
-		ModuleInspectorComponent,
 		NavbarComponent,
 		PlannerComponent,
 		RegisterComponent,
@@ -192,7 +155,8 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 		IconPickerModule,
 		PdfViewerModule,
 		SlideshowModule,
-		FontAwesomeModule
+		HomeModule,
+		SharedModule
 	],
 	providers: [
 		{
@@ -207,11 +171,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 		// RealtimeService,
 	],
 	bootstrap: [AppComponent],
-	entryComponents: moduleComponents
+
 })
 export class AppModule {
-	constructor(library: FaIconLibrary) {
-		// Add an icon to the library for convenient access in other components
-		library.addIconPacks(fas, far, fab);
-	}
 }
