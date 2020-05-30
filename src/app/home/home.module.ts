@@ -5,10 +5,6 @@ import { MyMICDS, MyMICDSModule, MyMICDSModuleType } from '@mymicds/sdk';
 
 import { HomeComponent } from "./home/home.component";
 
-import { ModuleOptionsComponent } from './module-options/module-options.component';
-import { ModuleContainerComponent } from './module-container/module-container.component';
-import { ModuleOptionComponent } from './module-options/module-option/module-option.component';
-
 import { moduleComponents } from './modules/module-config';
 
 import { BookmarksComponent } from './modules/bookmarks/bookmarks.component';
@@ -23,14 +19,13 @@ import { SimplifiedLunchComponent } from './modules/simplified-lunch/simplified-
 import { TwitterComponent } from './modules/twitter/twitter.component';
 import { WeatherComponent } from './modules/weather/weather.component';
 
+import { SharedModule } from '../shared/shared.module';
+import { HomeRoutingModule } from './home.routing';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    ModuleOptionComponent,
-    ModuleContainerComponent,
     moduleComponents,
-    ModuleOptionsComponent,
     BookmarksComponent,
     CountdownComponent,
     GpaCalculatorComponent,
@@ -44,7 +39,9 @@ import { WeatherComponent } from './modules/weather/weather.component';
     WeatherComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    HomeRoutingModule,
+    SharedModule
   ],
   entryComponents: moduleComponents
 })

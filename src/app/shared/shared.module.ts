@@ -6,8 +6,16 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
+import { ModuleOptionsComponent } from './module-options/module-options.component';
+import { ModuleContainerComponent } from './module-container/module-container.component';
+import { ModuleOptionComponent } from './module-options/module-option/module-option.component';
+
 @NgModule({
-  declarations: [],
+  declarations: [
+    ModuleOptionsComponent,
+    ModuleContainerComponent,
+    ModuleOptionComponent
+  ],
   imports: [
     CommonModule,
     FontAwesomeModule

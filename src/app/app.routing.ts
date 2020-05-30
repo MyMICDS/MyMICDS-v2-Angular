@@ -26,6 +26,8 @@ import { SuggestionsComponent } from './components/suggestions/suggestions.compo
 import { QuotesComponent } from './components/quotes/quotes.component';
 import { CampusComponent } from './components/campus/campus.component';
 
+import { HomeModule } from './home/home.module';
+
 /**
  * Title functions
  * We MUST separate them and export them otherwise Angular can't resolve it statically or something
@@ -69,20 +71,6 @@ export const appRoutes: Routes = [
 		path: '',
 		redirectTo: '/home',
 		pathMatch: 'full'
-	},
-	{
-		path: 'home',
-		children: [
-			{
-				path: '',
-				component: HomeComponent
-			},
-			{
-				path: 'edit',
-				component: HomeComponent,
-				data: { edit: true }
-			}
-		]
 	},
 	{
 		path: 'lunch',
