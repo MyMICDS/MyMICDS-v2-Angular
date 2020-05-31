@@ -27,6 +27,7 @@ import { QuotesComponent } from './components/quotes/quotes.component';
 import { CampusComponent } from './components/campus/campus.component';
 
 import { HomeModule } from './home/home.module';
+import { SharedModule } from './shared/shared.module';
 
 /**
  * Title functions

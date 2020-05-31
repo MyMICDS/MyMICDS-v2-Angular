@@ -60,17 +60,7 @@ import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directiv
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
-import { CapitalizePipe } from './pipes/capitalize.pipe';
-import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
-import { DayRotationPipe } from './pipes/day-rotation.pipe';
-import { GradePipePipe } from './pipes/grade-pipe.pipe';
-import { RoundPipe } from './pipes/round.pipe';
-import { SafeHtmlPipe, SafeResourceUrlPipe, SafeScriptPipe, SafeStylePipe, SafeUrlPipe } from './pipes/safe.pipe';
-import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
-import { ValuesPipe } from './pipes/values.pipe';
-import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 import { SlideshowModule } from 'ng-simple-slideshow';
-import { MomentDatePipe } from './pipes/moment-date.pipe';
 // import { RealtimeService } from './services/realtime.service';
 // RxJS 6 Zone.js Fix
 // import 'zone.js/dist/zone-patch-rxjs';
@@ -122,22 +112,6 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 		BlurDirective,
 		DarkBlurDirective,
 		WhiteBlurDirective,
-
-		// Pipes
-		CapitalizePipe,
-		CompassDirectionPipe,
-		DayRotationPipe,
-		GradePipePipe,
-		MomentDatePipe,
-		RoundPipe,
-		SafeHtmlPipe,
-		SafeScriptPipe,
-		SafeStylePipe,
-		SafeUrlPipe,
-		SafeResourceUrlPipe,
-		SchoolPercentagePipe,
-		ValuesPipe,
-		WeatherIconPipe
 	],
 	imports: [
 		BrowserModule,
