@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { ModuleOptionsComponent } from './module-options/module-options.component';
 import { ModuleContainerComponent } from './module-container/module-container.component';
@@ -46,11 +47,13 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
   ],
   imports: [
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule
   ],
   entryComponents: moduleComponents,
   exports: [
     ModuleInspectorComponent,
+    ModuleContainerComponent
   ]
 })
 export class SharedModule {
