@@ -2,18 +2,10 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './common/auth.guard';
 import { CanDeactivateGuard } from './common/canDeactivate.guard';
-import * as moment from 'moment';
 
-import { capitalizeURL, months } from './common/utils';
+import { capitalizeURL } from './common/utils';
 
-import { LunchComponent } from './components/lunch/lunch.component';
-import { PlannerComponent } from './components/planner/planner.component';
-import { DailyBulletinComponent } from './components/daily-bulletin/daily-bulletin.component';
-import { BulletinArchivesComponent } from './components/bulletin-archives/bulletin-archives.component';
-import { SettingsComponent } from './components/settings/settings.component';
-import { AboutComponent } from './components/about/about.component';
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
-import { HelpComponent } from './components/help/help.component';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -24,10 +16,6 @@ import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.compo
 import { SportsComponent } from './components/sports/sports.component';
 import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
-import { CampusComponent } from './components/campus/campus.component';
-
-import { HomeModule } from './home/home.module';
-import { SharedModule } from './shared/shared.module';
 
 /**
  * Title functions
@@ -36,16 +24,6 @@ import { SharedModule } from './shared/shared.module';
 
 export function defaultTitleFunction(url: string) {
 	return `MyMICDS - ${capitalizeURL(url)}`;
-}
-
-export function plannerTitle(url: string) {
-	const parts = url.split('/');
-	const date = moment();
-	// Use moment.js's .year and .month methods to take advantage of overflowing (Ex. month of -1 is December of previous year)
-	// (This is same strategy used to determine date of planner component, so title will always be synced)
-	date.year(Number(parts[2]));
-	date.month(Number(parts[3]) - 1);
-	return `MyMICDS - Planner - ${months[date.month()]} ${date.year()}`;
 }
 
 export function confirmTitle(url: string) {
@@ -72,72 +50,6 @@ export const appRoutes: Routes = [
 		path: '',
 		redirectTo: '/home',
 		pathMatch: 'full'
-	},
-	{
-		path: 'lunch',
-		component: LunchComponent
-	},
-	{
-		path: 'planner',
-		children: [
-			{
-				path: '',
-				component: PlannerComponent
-			},
-			{
-				path: ':year/:month',
-				component: PlannerComponent,
-				data: {
-					title: plannerTitle
-				}
-			}
-		]
-	},
-	{
-		path: 'daily-bulletin',
-		children: [
-			{
-				path: '',
-				component: DailyBulletinComponent
-			},
-			{
-				path: 'archives',
-				component: BulletinArchivesComponent
-			},
-			{
-				path: 'parse',
-				children: [
-					{
-						path: '',
-						component: DailyBulletinComponent,
-						data: { parse: true }
-					},
-					{
-						path: ':bulletin',
-						component: DailyBulletinComponent,
-						data: { parse: true }
-					}
-				]
-			},
-			{
-				path: ':bulletin',
-				component: DailyBulletinComponent
-			}
-		]
-	},
-	{
-		path: 'settings',
-		component: SettingsComponent,
-		canActivate: [AuthGuard],
-		canDeactivate: [CanDeactivateGuard]
-	},
-	{
-		path: 'about',
-		component: AboutComponent
-	},
-	{
-		path: 'help',
-		component: HelpComponent
 	},
 	{
 		path: 'login',
@@ -193,10 +105,6 @@ export const appRoutes: Routes = [
 	{
 		path: 'alert-debug',
 		component: AlertDebugComponent
-	},
-	{
-		path: 'campus',
-		component: CampusComponent
 	}
 ];
 
