@@ -51,7 +51,6 @@ import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directiv
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
-import { SlideshowModule } from 'ng-simple-slideshow';
 // import { RealtimeService } from './services/realtime.service';
 // RxJS 6 Zone.js Fix
 // import 'zone.js/dist/zone-patch-rxjs';
@@ -109,7 +108,6 @@ import { SettingsModule } from './settings/settings.module';
 		AngularFittextModule,
 		IconPickerModule,
 		PdfViewerModule,
-		SlideshowModule,
 		HomeModule,
 		SharedModule,
 		FontAwesomeModule,

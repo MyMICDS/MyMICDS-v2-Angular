@@ -1,6 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+
 import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.component';
 import { BulletinArchivesComponent } from './bulletin-archives/bulletin-archives.component';
 
@@ -15,7 +21,14 @@ import { DailybulletinRoutingModule } from './daily-bulletin.routing';
   imports: [
     CommonModule,
     SharedModule,
-    DailybulletinRoutingModule
+    DailybulletinRoutingModule,
+    FontAwesomeModule,
+    BsDatepickerModule
   ]
 })
-export class DailyBulletinModule { }
+export class DailyBulletinModule {
+  constructor(library: FaIconLibrary) {
+    // Add an icon to the library for convenient access in other components
+    library.addIconPacks(fas, far, fab);
+  }
+}
