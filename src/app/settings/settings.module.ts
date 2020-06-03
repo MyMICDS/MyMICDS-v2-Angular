@@ -4,23 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';;
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
-
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import {
-	BsDropdownModule,
-	DatepickerModule,
-	ModalModule,
-	PopoverModule,
-	TimepickerModule,
-	TooltipModule
-} from 'ngx-bootstrap';
-
-import { SettingsComponent } from './settings/settings.component';
-import { HelpComponent } from './help/help.component';
+import { ModalModule } from 'ngx-bootstrap';
+import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 
 import { AliasesComponent } from './settings/aliases/aliases.component';
 import { BackgroundComponent } from './settings/background/background.component';
@@ -28,7 +17,12 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 import { ClassesComponent } from './settings/classes/classes.component';
 import { InfoComponent } from './settings/info/info.component';
 import { UrlComponent } from './settings/url/url.component';
+import { SettingsComponent } from './settings/settings.component';
+import { HelpComponent } from './help/help.component';
+import { AlertService } from '../services/alert.service';
+import { BackgroundService } from '../services/background.service';
 
+import { SettingsRoutingModule } from './settings.routing';
 import { SharedModule } from '../shared/shared.module';
 
 
@@ -48,17 +42,18 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     FormsModule,
     BrowserModule,
-    BsDatepickerModule,
+		ColorPickerModule,
     FontAwesomeModule,
-    BsDropdownModule,
-  	DatepickerModule,
-  	ModalModule,
-  	PopoverModule,
-  	TimepickerModule,
-  	TooltipModule,
+		ModalModule.forRoot(),
 		ReactiveFormsModule,
-		RouterModule
-  ]
+		RouterModule,
+		SettingsRoutingModule
+  ],
+	providers: [
+		AlertService,
+		BackgroundService,
+		ColorPickerService
+	]
 })
 export class SettingsModule {
   constructor(library: FaIconLibrary) {

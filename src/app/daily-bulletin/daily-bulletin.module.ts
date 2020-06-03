@@ -6,6 +6,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.component';
 import { BulletinArchivesComponent } from './bulletin-archives/bulletin-archives.component';
@@ -23,7 +24,8 @@ import { DailybulletinRoutingModule } from './daily-bulletin.routing';
     SharedModule,
     DailybulletinRoutingModule,
     FontAwesomeModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+    PdfViewerModule
   ]
 })
 export class DailyBulletinModule {

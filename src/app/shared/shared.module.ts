@@ -1,27 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserModule} from '@angular/platform-browser';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { DatetimePopupModule } from 'ngx-bootstrap-datetime-popup';
-import { GridsterModule } from 'angular2gridster';
 import { AngularFittextModule } from 'angular-fittext';
 import { IconPickerModule } from 'ngx-icon-picker';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import {
-	BsDropdownModule,
-	DatepickerModule,
-	ModalModule,
-	PopoverModule,
-	TimepickerModule,
-	TooltipModule
-} from 'ngx-bootstrap';
-
+	import {
+		ModalModule,
+		PopoverModule,
+		TooltipModule
+	} from 'ngx-bootstrap';
 
 import { BookmarksComponent } from './modules/bookmarks/bookmarks.component';
 import { CountdownComponent } from './modules/countdown/countdown.component';
@@ -40,7 +32,10 @@ import { ModuleOptionsComponent } from './module-options/module-options.componen
 import { ModuleContainerComponent } from './module-container/module-container.component';
 import { ModuleOptionComponent } from './module-options/module-option/module-option.component';
 import { ModuleInspectorComponent } from './module-inspector/module-inspector.component';
-import { moduleComponents, config } from './modules/module-config';
+import { moduleComponents } from './modules/module-config';
+import { BlurDirective,
+	DarkBlurDirective,
+	WhiteBlurDirective } from './directives/blur.directive';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
@@ -89,26 +84,24 @@ import { SharedRoutingModule } from './shared.routing' ;
     SafeResourceUrlPipe,
     SchoolPercentagePipe,
     ValuesPipe,
-    WeatherIconPipe
+    WeatherIconPipe,
+
+		//Directives
+		BlurDirective,
+		DarkBlurDirective,
+		WhiteBlurDirective
   ],
   imports: [
     CommonModule,
     FontAwesomeModule,
     FormsModule,
     SharedRoutingModule,
-    BsDatepickerModule.forRoot(),
-    BsDropdownModule.forRoot(), // dep for DatetimePopup
-    DatepickerModule.forRoot(), // ditto
-    TimepickerModule.forRoot(), // ditto
-    DatetimePopupModule.forRoot(),
-    ModalModule.forRoot(),
-    PopoverModule.forRoot(),
-    TooltipModule.forRoot(),
-    GridsterModule.forRoot(),
     BrowserModule,
     AngularFittextModule,
     IconPickerModule,
-    PdfViewerModule
+		TooltipModule.forRoot(),
+		ModalModule.forRoot(),
+		PopoverModule.forRoot()
   ],
   entryComponents: moduleComponents,
   exports: [
@@ -128,7 +121,10 @@ import { SharedRoutingModule } from './shared.routing' ;
     SchoolPercentagePipe,
     ValuesPipe,
     WeatherIconPipe,
-    NavbarComponent
+    NavbarComponent,
+		BlurDirective,
+		DarkBlurDirective,
+		WhiteBlurDirective
   ]
 })
 export class SharedModule {

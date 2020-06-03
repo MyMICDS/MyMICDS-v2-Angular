@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TooltipModule } from 'ngx-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { GridsterModule } from 'angular2gridster';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -11,8 +12,6 @@ import { HomeComponent } from "./home/home.component";
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home.routing';
 
-
-
 @NgModule({
   declarations: [
     HomeComponent,
@@ -20,7 +19,8 @@ import { HomeRoutingModule } from './home.routing';
   imports: [
     CommonModule,
     FontAwesomeModule,
-    GridsterModule,
+    GridsterModule.forRoot(),
+    TooltipModule.forRoot(),
     HomeRoutingModule,
     SharedModule
   ]

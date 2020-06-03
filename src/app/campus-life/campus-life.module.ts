@@ -7,14 +7,6 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import {
-	BsDropdownModule,
-	DatepickerModule,
-	ModalModule,
-	PopoverModule,
-	TimepickerModule,
-	TooltipModule
-} from 'ngx-bootstrap';
 import { SlideshowModule } from 'ng-simple-slideshow';
 
 import { CampusComponent } from './campus/campus.component';
@@ -33,12 +25,6 @@ import { CampusLifeRoutingModule } from './campus-life.routing';
     FontAwesomeModule,
     FormsModule,
     BrowserModule,
-    BsDropdownModule.forRoot(),
-    DatepickerModule.forRoot(),
-    ModalModule.forRoot(),
-    PopoverModule.forRoot(),
-    TimepickerModule.forRoot(),
-    TooltipModule.forRoot(),
     SlideshowModule
   ]
 })
