@@ -19,15 +19,7 @@ import { AppComponent } from './app.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
 import { ConfettiComponent } from './components/confetti/confetti.component';
-import { ConfirmComponent } from './components/confirm/confirm.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { LoginComponent } from './components/login/login.component';
-import { LogoutComponent } from './components/logout/logout.component';
-import { RegisterComponent } from './components/register/register.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { UnsubscribeComponent } from './components/unsubscribe/unsubscribe.component';
 import { SportsComponent } from './components/sports/sports.component';
-import { SuggestionsComponent } from './components/suggestions/suggestions.component';
 import { SummerComponent } from './components/summer/summer.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
@@ -47,6 +39,11 @@ import { LunchModule } from './lunch/lunch.module';
 import { PlannerModule } from './planner/planner.module';
 import { SettingsModule } from './settings/settings.module';
 
+import { AuthenticationModule } from './authentication/authentication.module';
+import { UnsubscribeModule } from './unsubscribe/unsubscribe.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
+import { ConfirmModule } from './confirm/confirm.module';
+
 @NgModule({
 	declarations: [
 		// Components
@@ -54,15 +51,7 @@ import { SettingsModule } from './settings/settings.module';
 		AlertComponent,
 		AlertDebugComponent,
 		ConfettiComponent,
-		ConfirmComponent,
-		ForgotPasswordComponent,
-		LoginComponent,
-		LogoutComponent,
-		RegisterComponent,
-		ResetPasswordComponent,
-		UnsubscribeComponent,
 		SportsComponent,
-		SuggestionsComponent,
 		SummerComponent,
 		QuotesComponent
 	],
@@ -88,7 +77,11 @@ import { SettingsModule } from './settings/settings.module';
 		DailyBulletinModule,
 		LunchModule,
 		PlannerModule,
-		SettingsModule
+		SettingsModule,
+		AuthenticationModule,
+		UnsubscribeModule,
+		ResetPasswordModule,
+		ConfirmModule
 	],
 	providers: [
 		{

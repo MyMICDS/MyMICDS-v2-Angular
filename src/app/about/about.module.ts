@@ -7,13 +7,15 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import { AboutComponent } from './about/about.component';
+import { SuggestionsComponent } from './suggestions/suggestions.component';
 
 import { SharedModule } from '../shared/shared.module';
 import { AboutRoutingModule } from './about.routing';
 
 @NgModule({
   declarations: [
-    AboutComponent
+    AboutComponent,
+    SuggestionsComponent
   ],
   imports: [
     CommonModule,

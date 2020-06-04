@@ -2,7 +2,7 @@
 
 import { MyMICDS } from '@mymicds/sdk';
 import { Directive, ElementRef, OnInit } from '@angular/core';
-import { SubscriptionsComponent } from '../common/subscriptions-component';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Directive({
 	selector: '[mymicds-blur]' // tslint:disable-line

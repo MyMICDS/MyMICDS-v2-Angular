@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ConfirmComponent } from './confirm/confirm.component';
 
+import { SharedModule } from '../shared/shared.module';
+import { ConfirmRoutingModule } from './confirm.routing';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    ConfirmComponent
+  ],
   imports: [
-    CommonModule
+    CommonModule,
+    ConfirmRoutingModule,
+    SharedModule
   ]
 })
 export class ConfirmModule { }
