@@ -1,13 +1,10 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ModuleInspectorComponent } from './module-inspector/module-inspector.component';
+
 
 const sharedRoutes: Routes = [
-  {
-    path: 'module-inspector',
-    component: ModuleInspectorComponent
-	}
+
 ];
 
 //taken from angular.io

@@ -2,6 +2,7 @@ import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from "./home/home.component";
+import { ModuleInspectorComponent } from './module-inspector/module-inspector.component';
 
 const homeRoutes: Routes = [
   {
@@ -17,7 +18,11 @@ const homeRoutes: Routes = [
 				data: { edit: true }
 			}
 		]
-	}
+	},
+  {
+    path: 'module-inspector',
+    component: ModuleInspectorComponent
+  }
 ];
 
 @NgModule({

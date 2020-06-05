@@ -37,6 +37,15 @@ export const appRoutes: Routes = [
 	{
 		path: 'alert-debug',
 		component: AlertDebugComponent
+	},
+	{
+		path: 'about',
+		loadChildren: () => import("./about/about.module").then(m => m.AboutModule)
+	},
+	{
+		path: 'suggestions',
+		loadChildren: () => import("./about/about.module").then(m => m.AboutModule),
+		canActivate: [AuthGuard]
 	}
 ];
 

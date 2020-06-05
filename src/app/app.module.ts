@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { appRoutingProviders, routing } from './app.routing';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {

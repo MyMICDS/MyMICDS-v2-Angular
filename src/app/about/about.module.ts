@@ -21,7 +21,7 @@ import { AboutRoutingModule } from './about.routing';
     CommonModule,
     SharedModule,
     AboutRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ]
 })
 export class AboutModule {
