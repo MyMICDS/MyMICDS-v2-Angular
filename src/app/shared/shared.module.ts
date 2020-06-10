@@ -21,65 +21,67 @@ import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 import { MomentDatePipe } from './pipes/moment-date.pipe';
-
+import { ModuleContainerComponent } from './module-container/module-container.component';
 import { SharedRoutingModule } from './shared.routing' ;
 
 @NgModule({
-  declarations: [
-    NavbarComponent,
+	declarations: [
+		NavbarComponent,
+		ModuleContainerComponent,
 
-    // Pipes
-    CapitalizePipe,
-    CompassDirectionPipe,
-    DayRotationPipe,
-    GradePipePipe,
-    MomentDatePipe,
-    RoundPipe,
-    SafeHtmlPipe,
-    SafeScriptPipe,
-    SafeStylePipe,
-    SafeUrlPipe,
-    SafeResourceUrlPipe,
-    SchoolPercentagePipe,
-    ValuesPipe,
-    WeatherIconPipe,
+		// Pipes
+		CapitalizePipe,
+		CompassDirectionPipe,
+		DayRotationPipe,
+		GradePipePipe,
+		MomentDatePipe,
+		RoundPipe,
+		SafeHtmlPipe,
+		SafeScriptPipe,
+		SafeStylePipe,
+		SafeUrlPipe,
+		SafeResourceUrlPipe,
+		SchoolPercentagePipe,
+		ValuesPipe,
+		WeatherIconPipe,
 
-		//Directives
+		// Directives
 		BlurDirective,
 		DarkBlurDirective,
 		WhiteBlurDirective
-  ],
-  imports: [
-    CommonModule,
-    FontAwesomeModule,
+	],
+	imports: [
+		CommonModule,
+		FontAwesomeModule,
 		// FormsModule,
 		// BrowserModule,
-    SharedRoutingModule,
-  ],
-  exports: [
-    CapitalizePipe,
-    CompassDirectionPipe,
-    DayRotationPipe,
-    GradePipePipe,
-    MomentDatePipe,
-    RoundPipe,
-    SafeHtmlPipe,
-    SafeScriptPipe,
-    SafeStylePipe,
-    SafeUrlPipe,
-    SafeResourceUrlPipe,
-    SchoolPercentagePipe,
-    ValuesPipe,
-    WeatherIconPipe,
-    NavbarComponent,
+		SharedRoutingModule,
+	],
+	exports: [
+		CapitalizePipe,
+		CompassDirectionPipe,
+		DayRotationPipe,
+		GradePipePipe,
+		MomentDatePipe,
+		RoundPipe,
+		SafeHtmlPipe,
+		SafeScriptPipe,
+		SafeStylePipe,
+		SafeUrlPipe,
+		SafeResourceUrlPipe,
+		SchoolPercentagePipe,
+		ValuesPipe,
+		WeatherIconPipe,
+		NavbarComponent,
 		BlurDirective,
 		DarkBlurDirective,
-		WhiteBlurDirective
-  ]
+		WhiteBlurDirective,
+		ModuleContainerComponent
+	]
 })
 export class SharedModule {
-  constructor(library: FaIconLibrary) {
-    // Add an icon to the library for convenient access in other components
-    library.addIconPacks(fas, far, fab);
-  }
+	constructor(library: FaIconLibrary) {
+		// Add an icon to the library for convenient access in other components
+		library.addIconPacks(fas, far, fab);
+	}
 }

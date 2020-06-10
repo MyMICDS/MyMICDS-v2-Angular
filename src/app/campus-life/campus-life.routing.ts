@@ -4,18 +4,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { CampusComponent } from './campus/campus.component';
 
 const homeRoutes: Routes = [
-  {
-    path: 'campus',
-    component: CampusComponent
-  }
+	{
+		path: '',
+		component: CampusComponent
+	}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(homeRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(homeRoutes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class CampusLifeRoutingModule { }

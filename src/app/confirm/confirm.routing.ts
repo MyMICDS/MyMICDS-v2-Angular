@@ -9,21 +9,21 @@ export function confirmTitle(url: string) {
 }
 
 const routes: Routes = [
-  {
-    path: 'confirm/:user/:hash',
-    component: ConfirmComponent,
-    data: {
-      title: confirmTitle
-    }
-  }
+	{
+		path: 'confirm/:user/:hash',
+		component: ConfirmComponent,
+		data: {
+			title: confirmTitle
+		}
+	}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(routes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class ConfirmRoutingModule { }

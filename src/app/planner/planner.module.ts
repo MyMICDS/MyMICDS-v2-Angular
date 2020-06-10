@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
 import { PlannerComponent } from './planner/planner.component';
 
@@ -24,32 +23,31 @@ import { SharedModule } from '../shared/shared.module';
 import { PlannerRoutingModule } from './planner.routing';
 
 @NgModule({
-  declarations: [
-    PlannerComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    PlannerRoutingModule,
-    FormsModule,
-    BrowserModule,
-    ColorPickerModule,
-    FontAwesomeModule,
-    BsDropdownModule.forRoot(),
-    DatepickerModule.forRoot(),
-    ModalModule.forRoot(),
-    PopoverModule.forRoot(),
-    TimepickerModule.forRoot(),
-    TooltipModule.forRoot(),
-    BsDatepickerModule.forRoot()
-  ],
-  providers: [
-    ColorPickerService
-  ]
+	declarations: [
+		PlannerComponent
+	],
+	imports: [
+		CommonModule,
+		SharedModule,
+		PlannerRoutingModule,
+		FormsModule,
+		ColorPickerModule,
+		FontAwesomeModule,
+		BsDropdownModule.forRoot(),
+		DatepickerModule.forRoot(),
+		ModalModule.forRoot(),
+		PopoverModule.forRoot(),
+		TimepickerModule.forRoot(),
+		TooltipModule.forRoot(),
+		BsDatepickerModule.forRoot()
+	],
+	providers: [
+		ColorPickerService
+	]
 })
 export class PlannerModule {
-  constructor(library: FaIconLibrary) {
-    // Add an icon to the library for convenient access in other components
-    library.addIconPacks(fas, far, fab);
-  }
+	constructor(library: FaIconLibrary) {
+		// Add an icon to the library for convenient access in other components
+		library.addIconPacks(fas, far, fab);
+	}
 }

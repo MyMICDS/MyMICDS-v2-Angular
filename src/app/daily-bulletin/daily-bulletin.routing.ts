@@ -5,7 +5,7 @@ import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.componen
 import { BulletinArchivesComponent } from './bulletin-archives/bulletin-archives.component';
 
 const dailyBulletinRoutes: Routes = [
-  {
+	{
 		path: 'daily-bulletin',
 		children: [
 			{
@@ -40,11 +40,11 @@ const dailyBulletinRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(dailyBulletinRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(dailyBulletinRoutes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class DailybulletinRoutingModule { }

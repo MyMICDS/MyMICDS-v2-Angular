@@ -9,21 +9,21 @@ export function resetPasswordTitle(url: string) {
 }
 
 const routes: Routes = [
-  {
-    path: 'reset-password/:user/:hash',
-    component: ResetPasswordComponent,
-    data: {
-      title: resetPasswordTitle
-    }
-  },
+	{
+		path: 'reset-password/:user/:hash',
+		component: ResetPasswordComponent,
+		data: {
+			title: resetPasswordTitle
+		}
+	},
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(routes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class ResetPasswordRoutingModule { }

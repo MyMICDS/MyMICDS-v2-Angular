@@ -15,22 +15,22 @@ import { SharedModule } from '../shared/shared.module';
 import { DailybulletinRoutingModule } from './daily-bulletin.routing';
 
 @NgModule({
-  declarations: [
-    DailyBulletinComponent,
-    BulletinArchivesComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    DailybulletinRoutingModule,
-    FontAwesomeModule,
-    BsDatepickerModule,
-    PdfViewerModule
-  ]
+	declarations: [
+		DailyBulletinComponent,
+		BulletinArchivesComponent
+	],
+	imports: [
+		CommonModule,
+		SharedModule,
+		DailybulletinRoutingModule,
+		FontAwesomeModule,
+		BsDatepickerModule,
+		PdfViewerModule
+	]
 })
 export class DailyBulletinModule {
-  constructor(library: FaIconLibrary) {
-    // Add an icon to the library for convenient access in other components
-    library.addIconPacks(fas, far, fab);
-  }
+	constructor(library: FaIconLibrary) {
+		// Add an icon to the library for convenient access in other components
+		library.addIconPacks(fas, far, fab);
+	}
 }

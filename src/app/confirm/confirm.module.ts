@@ -7,13 +7,13 @@ import { SharedModule } from '../shared/shared.module';
 import { ConfirmRoutingModule } from './confirm.routing';
 
 @NgModule({
-  declarations: [
-    ConfirmComponent
-  ],
-  imports: [
-    CommonModule,
-    ConfirmRoutingModule,
-    SharedModule
-  ]
+	declarations: [
+		ConfirmComponent
+	],
+	imports: [
+		CommonModule,
+		ConfirmRoutingModule,
+		SharedModule
+	]
 })
 export class ConfirmModule { }

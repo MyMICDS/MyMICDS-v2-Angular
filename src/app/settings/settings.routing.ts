@@ -14,24 +14,24 @@ import { HelpComponent } from './help/help.component';
 // import { UrlComponent } from './settings/url/url.component';
 
 const settingsRoutes: Routes = [
-  {
-    path: 'settings',
-    component: SettingsComponent,
-    canActivate: [AuthGuard],
-    canDeactivate: [CanDeactivateGuard]
-  },
-  {
-    path: 'help',
-    component: HelpComponent
-  },
+	{
+		path: 'settings',
+		component: SettingsComponent,
+		canActivate: [AuthGuard],
+		canDeactivate: [CanDeactivateGuard]
+	},
+	{
+		path: 'help',
+		component: HelpComponent
+	},
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(settingsRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(settingsRoutes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class SettingsRoutingModule { }

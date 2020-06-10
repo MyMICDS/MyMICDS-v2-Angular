@@ -4,18 +4,18 @@ import { RouterModule, Routes } from '@angular/router';
 import { LunchComponent } from './lunch/lunch.component';
 
 const lunchRoutes: Routes = [
-  {
-    path: 'lunch',
-    component: LunchComponent
-  }
+	{
+		path: '',
+		component: LunchComponent
+	}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(lunchRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(lunchRoutes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class LunchRoutingModule { }

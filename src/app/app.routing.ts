@@ -24,34 +24,47 @@ export const appRoutes: Routes = [
 	{
 		path: '',
 		redirectTo: '/home',
-		pathMatch: 'full'
+		pathMatch: 'full',
 	},
 	{
 		path: 'sports',
-		component: SportsComponent
+		component: SportsComponent,
 	},
 	{
 		path: 'quote',
-		component: QuotesComponent
+		component: QuotesComponent,
 	},
 	{
 		path: 'alert-debug',
-		component: AlertDebugComponent
+		component: AlertDebugComponent,
 	},
 	{
 		path: 'about',
-		loadChildren: () => import("./about/about.module").then(m => m.AboutModule)
+		loadChildren: () =>
+			import('./about/about.module').then((m) => m.AboutModule)
 	},
 	{
-		path: 'suggestions',
-		loadChildren: () => import("./about/about.module").then(m => m.AboutModule),
-		canActivate: [AuthGuard]
+		path: 'campus',
+		loadChildren: () =>
+			import('./campus-life/campus-life.module').then((m) => m.CampusLifeModule)
+	},
+	{
+		path: 'home',
+		loadChildren: () =>
+			import('./home/home.module').then((m) => m.HomeModule)
+	},
+	{
+		path: 'planner',
+		loadChildren: () =>
+			import('./planner/planner.module').then((m) => m.PlannerModule)
+	},
+	{
+		path: 'lunch',
+		loadChildren: () =>
+			import('./lunch/lunch.module').then((m) => m.LunchModule)
 	}
 ];
 
-export const appRoutingProviders: any[] = [
-	AuthGuard,
-	CanDeactivateGuard
-];
+export const appRoutingProviders: any[] = [AuthGuard, CanDeactivateGuard];
 
 export const routing = RouterModule.forRoot(appRoutes);

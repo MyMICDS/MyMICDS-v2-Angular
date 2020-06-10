@@ -17,30 +17,25 @@ export function plannerTitle(url: string) {
 }
 
 const plannerRoutes: Routes = [
-  {
-		path: 'planner',
-		children: [
-			{
-				path: '',
-				component: PlannerComponent
-			},
-			{
-				path: ':year/:month',
-				component: PlannerComponent,
-				data: {
-					title: plannerTitle
-				}
-			}
-		]
+	{
+		path: '',
+		component: PlannerComponent
+	},
+	{
+		path: ':year/:month',
+		component: PlannerComponent,
+		data: {
+			title: plannerTitle
+		}
 	}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(plannerRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(plannerRoutes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class PlannerRoutingModule { }

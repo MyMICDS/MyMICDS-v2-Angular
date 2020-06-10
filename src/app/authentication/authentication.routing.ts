@@ -9,7 +9,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { RegisterComponent } from './register/register.component';
 
 const authRoutes: Routes = [
-  {
+	{
 		path: 'login',
 		component: LoginComponent
 	},
@@ -22,18 +22,18 @@ const authRoutes: Routes = [
 		path: 'register',
 		component: RegisterComponent
 	},
-  {
-    path: 'forgot-password',
-    component: ForgotPasswordComponent
-  }
+	{
+		path: 'forgot-password',
+		component: ForgotPasswordComponent
+	}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(authRoutes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(authRoutes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class AuthenticationRoutingModule { }

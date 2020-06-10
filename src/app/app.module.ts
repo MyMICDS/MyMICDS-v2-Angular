@@ -15,6 +15,10 @@ import {
 } from 'ngx-bootstrap';
 import { AngularFittextModule } from 'angular-fittext';
 import { IconPickerModule } from 'ngx-icon-picker';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import { AppComponent } from './app.component';
 import { AlertComponent } from './components/alert/alert.component';
@@ -32,12 +36,12 @@ import { BackgroundService } from './services/background.service';
 
 // newly created modules
 import { SharedModule } from './shared/shared.module';
-import { HomeModule } from './home/home.module';
-import { AboutModule } from './about/about.module';
-import { CampusLifeModule } from './campus-life/campus-life.module';
+// import { HomeModule } from './home/home.module';
+// import { AboutModule } from './about/about.module';
+// import { CampusLifeModule } from './campus-life/campus-life.module';
 import { DailyBulletinModule } from './daily-bulletin/daily-bulletin.module';
-import { LunchModule } from './lunch/lunch.module';
-import { PlannerModule } from './planner/planner.module';
+// import { LunchModule } from './lunch/lunch.module';
+// import { PlannerModule } from './planner/planner.module';
 import { SettingsModule } from './settings/settings.module';
 
 import { AuthenticationModule } from './authentication/authentication.module';
@@ -62,27 +66,28 @@ import { ConfirmModule } from './confirm/confirm.module';
 		ReactiveFormsModule,
 		routing,
 		ColorPickerModule,
-//		BsDropdownModule.forRoot(), // dep for DatetimePopup
-//		DatepickerModule.forRoot(), // ditto
-//		TimepickerModule.forRoot(), // ditto
+// 		BsDropdownModule.forRoot(), // dep for DatetimePopup
+// 		DatepickerModule.forRoot(), // ditto
+// 		TimepickerModule.forRoot(), // ditto
 		TooltipModule.forRoot(),
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
 		BrowserAnimationsModule,
 		AngularFittextModule,
 		IconPickerModule,
-		HomeModule,
+		// HomeModule,
 		SharedModule,
-		AboutModule,
-		CampusLifeModule,
+		// AboutModule,
+		// CampusLifeModule,
 		DailyBulletinModule,
-		LunchModule,
-		PlannerModule,
+		// LunchModule,
+		// PlannerModule,
 		SettingsModule,
 		AuthenticationModule,
 		UnsubscribeModule,
 		ResetPasswordModule,
-		ConfirmModule
+		ConfirmModule,
+		FontAwesomeModule
 	],
 	providers: [
 		{
@@ -98,4 +103,9 @@ import { ConfirmModule } from './confirm/confirm.module';
 	bootstrap: [AppComponent],
 
 })
-export class AppModule { }
+export class AppModule {
+	constructor(library: FaIconLibrary) {
+		// Add an icon to the library for convenient access in other components
+		library.addIconPacks(fas, far, fab);
+	}
+}

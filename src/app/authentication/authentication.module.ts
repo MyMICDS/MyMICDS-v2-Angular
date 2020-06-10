@@ -17,21 +17,21 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthenticationRoutingModule } from './authentication.routing';
 
 @NgModule({
-  declarations: [
-    ForgotPasswordComponent,
-    LoginComponent,
-    LogoutComponent,
-    RegisterComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    AuthenticationRoutingModule,
-    ModalModule.forRoot(),
-    PopoverModule.forRoot(),
-    TooltipModule.forRoot(),
-    ReactiveFormsModule,
-    SharedModule
-  ]
+	declarations: [
+		ForgotPasswordComponent,
+		LoginComponent,
+		LogoutComponent,
+		RegisterComponent
+	],
+	imports: [
+		CommonModule,
+		FormsModule,
+		AuthenticationRoutingModule,
+		ModalModule.forRoot(),
+		PopoverModule.forRoot(),
+		TooltipModule.forRoot(),
+		ReactiveFormsModule,
+		SharedModule
+	]
 })
 export class AuthenticationModule { }
