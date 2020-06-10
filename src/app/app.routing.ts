@@ -62,6 +62,16 @@ export const appRoutes: Routes = [
 		path: 'lunch',
 		loadChildren: () =>
 			import('./lunch/lunch.module').then((m) => m.LunchModule)
+	},
+	{
+		path: 'reset-password',
+		loadChildren: () =>
+			import('./reset-password/reset-password.module').then((m) => m.ResetPasswordModule)
+	},
+	{
+		path: 'confirm',
+		loadChildren: () =>
+			import('./confirm/confirm.module').then((m) => m.ConfirmModule)
 	}
 ];
 

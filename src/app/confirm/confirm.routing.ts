@@ -10,7 +10,7 @@ export function confirmTitle(url: string) {
 
 const routes: Routes = [
 	{
-		path: 'confirm/:user/:hash',
+		path: ':user/:hash',
 		component: ConfirmComponent,
 		data: {
 			title: confirmTitle

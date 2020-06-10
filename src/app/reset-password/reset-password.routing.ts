@@ -10,7 +10,7 @@ export function resetPasswordTitle(url: string) {
 
 const routes: Routes = [
 	{
-		path: 'reset-password/:user/:hash',
+		path: ':user/:hash',
 		component: ResetPasswordComponent,
 		data: {
 			title: resetPasswordTitle

@@ -46,8 +46,8 @@ import { SettingsModule } from './settings/settings.module';
 
 import { AuthenticationModule } from './authentication/authentication.module';
 import { UnsubscribeModule } from './unsubscribe/unsubscribe.module';
-import { ResetPasswordModule } from './reset-password/reset-password.module';
-import { ConfirmModule } from './confirm/confirm.module';
+// import { ResetPasswordModule } from './reset-password/reset-password.module';
+// import { ConfirmModule } from './confirm/confirm.module';
 
 @NgModule({
 	declarations: [
@@ -85,8 +85,8 @@ import { ConfirmModule } from './confirm/confirm.module';
 		SettingsModule,
 		AuthenticationModule,
 		UnsubscribeModule,
-		ResetPasswordModule,
-		ConfirmModule,
+		// ResetPasswordModule,
+		// ConfirmModule,
 		FontAwesomeModule
 	],
 	providers: [
