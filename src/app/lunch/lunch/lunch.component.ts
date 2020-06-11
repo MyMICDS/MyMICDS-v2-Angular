@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
 
+import { DayLunch } from '../../common/day-lunch'
+
 @Component({
 	selector: 'mymicds-lunch',
 	templateUrl: './lunch.component.html',
@@ -130,13 +132,4 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 	lunchClassMaker(classInput: string) {
 		return classInput.toLowerCase().replace(/ /, '-');
 	}
-}
-
-export interface DayLunch {
-	date: {
-		weekday: string,
-		date: string,
-		today: boolean
-	};
-	lunch: Record<School, SchoolLunch> | {};
 }

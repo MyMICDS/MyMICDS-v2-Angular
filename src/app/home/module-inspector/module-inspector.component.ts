@@ -112,7 +112,7 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		// Add timeout so inspector doesn't lag out when resizing
 		clearTimeout(this.updateURLTimeout);
 		this.updateURLTimeout = setTimeout(() => {
-			this.router.navigate(['/module-inspector'], {
+			this.router.navigate(['/home/module-inspector'], {
 				queryParams: {
 					type: this.selectedModuleType,
 					width: this.moduleWidth,
