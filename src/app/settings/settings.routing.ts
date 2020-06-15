@@ -15,7 +15,7 @@ import { HelpComponent } from './help/help.component';
 
 const settingsRoutes: Routes = [
 	{
-		path: 'settings',
+		path: '',
 		component: SettingsComponent,
 		canActivate: [AuthGuard],
 		canDeactivate: [CanDeactivateGuard]

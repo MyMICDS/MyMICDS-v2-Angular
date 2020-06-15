@@ -72,6 +72,16 @@ export const appRoutes: Routes = [
 		path: 'confirm',
 		loadChildren: () =>
 			import('./confirm/confirm.module').then((m) => m.ConfirmModule)
+	},
+	{
+		path: 'settings',
+		loadChildren: () =>
+			import('./settings/settings.module').then((m) => m.SettingsModule)
+	},
+	{
+		path: 'unsubscribe',
+		loadChildren: () =>
+			import('./unsubscribe/unsubscribe.module').then((m) => m.UnsubscribeModule)
 	}
 ];
 

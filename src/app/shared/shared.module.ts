@@ -53,8 +53,6 @@ import { SharedRoutingModule } from './shared.routing' ;
 	imports: [
 		CommonModule,
 		FontAwesomeModule,
-		// FormsModule,
-		// BrowserModule,
 		SharedRoutingModule,
 	],
 	exports: [

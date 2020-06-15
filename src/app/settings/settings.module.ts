@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';;
-import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -27,28 +26,27 @@ import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  declarations: [
-    HelpComponent,
-    SettingsComponent,
-    InfoComponent,
-    ClassesComponent,
-    ChangePasswordComponent,
-    BackgroundComponent,
-    AliasesComponent,
-    UrlComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    FormsModule,
-    BrowserModule,
+	declarations: [
+		HelpComponent,
+		SettingsComponent,
+		InfoComponent,
+		ClassesComponent,
+		ChangePasswordComponent,
+		BackgroundComponent,
+		AliasesComponent,
+		UrlComponent
+	],
+	imports: [
+		CommonModule,
+		SharedModule,
+		FormsModule,
 		ColorPickerModule,
-    FontAwesomeModule,
+		FontAwesomeModule,
 		ModalModule.forRoot(),
 		ReactiveFormsModule,
 		RouterModule,
 		SettingsRoutingModule
-  ],
+	],
 	providers: [
 		AlertService,
 		BackgroundService,
@@ -56,8 +54,8 @@ import { SharedModule } from '../shared/shared.module';
 	]
 })
 export class SettingsModule {
-  constructor(library: FaIconLibrary) {
-    // Add an icon to the library for convenient access in other components
-    library.addIconPacks(fas, far, fab);
-  }
+	constructor(library: FaIconLibrary) {
+		// Add an icon to the library for convenient access in other components
+		library.addIconPacks(fas, far, fab);
+	}
 }

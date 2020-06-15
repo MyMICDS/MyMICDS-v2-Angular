@@ -9,21 +9,21 @@ export function unsubscribeTitle(url: string) {
 }
 
 const routes: Routes = [
-  {
-    path: 'unsubscribe/:user/:hash',
-    component: UnsubscribeComponent,
-    data: {
-      title: unsubscribeTitle
-    }
-  }
+	{
+		path: ':user/:hash',
+		component: UnsubscribeComponent,
+		data: {
+			title: unsubscribeTitle
+		}
+	}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
+	imports: [
+		RouterModule.forChild(routes)
+	],
+	exports: [
+		RouterModule
+	]
 })
 export class UnsubscribeRoutingModule { }

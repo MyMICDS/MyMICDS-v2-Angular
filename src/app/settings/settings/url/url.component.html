@@ -43,7 +43,7 @@
 <p class="form-text text-muted">
 	Submit your Portal URLs to integrate your schedule into the site.
 	<br>
-	<a routerLink="/help">Find out how to get your Portal URL.</a>
+	<a routerLink="/settings/help">Find out how to get your Portal URL.</a>
 </p>
 <ng-container *ngIf="userInfo?.portalURLClasses || userInfo?.portalURLCalendar">
 	<button class="btn btn-danger" (click)="updatePortalFeed()" [disabled]="portalFeedUpdateLoading">
@@ -78,7 +78,7 @@
 <p class="form-text text-muted">
 	Submit your Canvas URL to integrate your homework assignments into our digital planner.
 	<br>
-	<a routerLink="/help">Find out how to get your Canvas URL.</a>
+	<a routerLink="/settings/help">Find out how to get your Canvas URL.</a>
 </p>
 <ng-container *ngIf="userInfo?.canvasURL">
 	<button class="btn btn-danger" (click)="updateCanvasFeed()" [disabled]="canvasFeedUpdateLoading">
