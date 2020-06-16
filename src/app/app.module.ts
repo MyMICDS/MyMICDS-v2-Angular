@@ -42,10 +42,10 @@ import { SharedModule } from './shared/shared.module';
 import { DailyBulletinModule } from './daily-bulletin/daily-bulletin.module';
 // import { LunchModule } from './lunch/lunch.module';
 // import { PlannerModule } from './planner/planner.module';
-import { SettingsModule } from './settings/settings.module';
+// import { SettingsModule } from './settings/settings.module';
 
 import { AuthenticationModule } from './authentication/authentication.module';
-import { UnsubscribeModule } from './unsubscribe/unsubscribe.module';
+// import { UnsubscribeModule } from './unsubscribe/unsubscribe.module';
 // import { ResetPasswordModule } from './reset-password/reset-password.module';
 // import { ConfirmModule } from './confirm/confirm.module';
 
@@ -82,9 +82,9 @@ import { UnsubscribeModule } from './unsubscribe/unsubscribe.module';
 		DailyBulletinModule,
 		// LunchModule,
 		// PlannerModule,
-		SettingsModule,
+		// SettingsModule,
 		AuthenticationModule,
-		UnsubscribeModule,
+		// UnsubscribeModule,
 		// ResetPasswordModule,
 		// ConfirmModule,
 		FontAwesomeModule
