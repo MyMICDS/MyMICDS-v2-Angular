@@ -15,7 +15,14 @@ ssh apps@$IP -p $PORT <<EOF
   mkdir /home/apps/MyMICDS/production-backups/"\$TIMESTAMP"
   cp -R /var/www/mymicds/mymicds-angular/* /home/apps/MyMICDS/production-backups/"\$TIMESTAMP"
 
+  BUILD_DIR=$DEPLOY_DIR/dist/mymicds-v2-angular
+  # Check for a successful build
+  if [ ! -d "\$BUILD_DIR" ]; then
+    echo "Build failed, exiting"
+    exit 1
+  fi
+
   # Copy new compiled files into production
   rm -rf /var/www/mymicds/mymicds-angular/*
-  cp -R $DEPLOY_DIR/dist/mymicds-v2-angular/* /var/www/mymicds/mymicds-angular
+  cp -R \$BUILD_DIR/* /var/www/mymicds/mymicds-angular
 EOF
