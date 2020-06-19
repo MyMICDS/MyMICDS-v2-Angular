@@ -6,36 +6,31 @@ import { BulletinArchivesComponent } from './bulletin-archives/bulletin-archives
 
 const dailyBulletinRoutes: Routes = [
 	{
-		path: 'daily-bulletin',
+		path: '',
+		component: DailyBulletinComponent
+	},
+	{
+		path: 'archives',
+		component: BulletinArchivesComponent
+	},
+	{
+		path: 'parse',
 		children: [
 			{
 				path: '',
-				component: DailyBulletinComponent
-			},
-			{
-				path: 'archives',
-				component: BulletinArchivesComponent
-			},
-			{
-				path: 'parse',
-				children: [
-					{
-						path: '',
-						component: DailyBulletinComponent,
-						data: { parse: true }
-					},
-					{
-						path: ':bulletin',
-						component: DailyBulletinComponent,
-						data: { parse: true }
-					}
-				]
+				component: DailyBulletinComponent,
+				data: { parse: true }
 			},
 			{
 				path: ':bulletin',
-				component: DailyBulletinComponent
+				component: DailyBulletinComponent,
+				data: { parse: true }
 			}
 		]
+	},
+	{
+		path: ':bulletin',
+		component: DailyBulletinComponent
 	}
 ];
 
