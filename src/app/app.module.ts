@@ -39,7 +39,7 @@ import { SharedModule } from './shared/shared.module';
 // import { HomeModule } from './home/home.module';
 // import { AboutModule } from './about/about.module';
 // import { CampusLifeModule } from './campus-life/campus-life.module';
-import { DailyBulletinModule } from './daily-bulletin/daily-bulletin.module';
+// import { DailyBulletinModule } from './daily-bulletin/daily-bulletin.module';
 // import { LunchModule } from './lunch/lunch.module';
 // import { PlannerModule } from './planner/planner.module';
 // import { SettingsModule } from './settings/settings.module';
@@ -79,7 +79,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		SharedModule,
 		// AboutModule,
 		// CampusLifeModule,
-		DailyBulletinModule,
+		// DailyBulletinModule,
 		// LunchModule,
 		// PlannerModule,
 		// SettingsModule,

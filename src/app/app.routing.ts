@@ -82,6 +82,11 @@ export const appRoutes: Routes = [
 		path: 'unsubscribe',
 		loadChildren: () =>
 			import('./unsubscribe/unsubscribe.module').then((m) => m.UnsubscribeModule)
+	},
+	{
+		path: 'daily-bulletin',
+		loadChildren: () =>
+			import('./daily-bulletin/daily-bulletin.module').then((m) => m.DailyBulletinModule)
 	}
 ];
 
