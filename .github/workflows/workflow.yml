@@ -28,7 +28,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/migrate-actions'
 
     runs-on: ubuntu-latest
-    needs: test
+    needs: build
 
     steps:
       - uses: actions/checkout@v2
