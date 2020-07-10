@@ -1,3 +1,3 @@
 #!/bin/bash
 
-openssl aes-256-cbc -K $encrypted_f339be35999a_key -iv $encrypted_f339be35999a_iv -in .travis/id_rsa.enc -out .travis/id_rsa -d
+openssl aes-256-cbc -K $FILE_DECRYPT_KEY -iv $FILE_DECRYPT_IV -in .github/secrets/id_rsa.enc -out .github/secrets/id_rsa -d
