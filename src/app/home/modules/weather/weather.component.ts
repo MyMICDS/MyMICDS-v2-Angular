@@ -52,4 +52,9 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 		return (mh * 1.609344).toPrecision(2);
 	}
 
+	// TODO finish
+	private convertDirection(deg: number) {
+		return deg;
+	}
+
 }
