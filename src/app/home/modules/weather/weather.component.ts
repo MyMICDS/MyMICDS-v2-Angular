@@ -39,7 +39,7 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 			temperatureLow: this.convertTemperature(weather.temperatureLow),
 			temperatureHigh: this.convertTemperature(weather.temperatureHigh),
 			humidity: weather.humidity,
-			percipitationChance: weather.percipitationChance,
+			precipitationChance: weather.precipitationChance,
 			windSpeed: this.convertWindspeed(weather.windSpeed),
 			windDir: weather.windDir,
 			weatherIcon: weather.weatherIcon

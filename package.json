@@ -55,7 +55,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
-    "@mymicds/sdk": "^1.10.0",
+    "@mymicds/sdk": "^1.11.0",
     "angular-fittext": "^2.1.1",
     "angular2gridster": "^8.1.0",
     "animate.css": "^3.6.1",
