@@ -7,7 +7,7 @@ export class WeatherIconPipe implements PipeTransform {
 
 	transform(value: string, args?: any): any {
 		let icons: { [icon: string]: string } = {
-			// From forecast.io docuemtnation
+			// from Open Weather Documentation
 			'01d': 'wi-day-sunny',
 			'02d': 'wi-day-cloudy',
 			'03d': 'wi-cloud',
@@ -25,7 +25,9 @@ export class WeatherIconPipe implements PipeTransform {
 			'10n': 'wi-night-rain',
 			'11n': 'wi-storm-showers',
 			'13n': 'wi-snow',
-			'50n': 'wi-fog'
+			'50n': 'wi-fog',
+			// default fallback in case no icon is sent
+			'default': 'wi-day-sunny'
 		};
 
 		return icons[value] || icons['default'];
