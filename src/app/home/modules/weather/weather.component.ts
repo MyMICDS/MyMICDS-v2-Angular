@@ -34,22 +34,27 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	private convertToMetric(weather: Weather) {
-		const metric = JSON.parse(JSON.stringify(weather));
-		metric.currently.windSpeed = this.convertWindspeed(weather.currently.windSpeed);
-		metric.currently.temperature = this.convertTemperature(weather.currently.temperature);
-		metric.daily.data[0].temperatureMax = this.convertTemperature(weather.daily.data[0].temperatureMax);
-		metric.daily.data[0].temperatureMin = this.convertTemperature(weather.daily.data[0].temperatureMin);
+		let metric: Weather = {
+			temperature: this.convertTemperature(weather.temperature),
+			temperatureLow: this.convertTemperature(weather.temperatureLow),
+			temperatureHigh: this.convertTemperature(weather.temperatureHigh),
+			humidity: weather.humidity,
+			precipitationChance: weather.precipitationChance,
+			windSpeed: this.convertWindspeed(weather.windSpeed),
+			windDir: weather.windDir,
+			weatherIcon: weather.weatherIcon
+		}
 		return metric;
 	}
 
 	// Converts fahrenheight to celsius
 	private convertTemperature(f: number) {
-		return ((f - 32) / 1.8).toPrecision(2);
+		return Number(((f - 32) / 1.8).toPrecision(2));
 	}
 
 	// Converts from miles per hour to kilometers per hour
 	private convertWindspeed(mh: number) {
-		return (mh * 1.609344).toPrecision(2);
+		return Number((mh * 1.609344).toPrecision(2));
 	}
 
 }

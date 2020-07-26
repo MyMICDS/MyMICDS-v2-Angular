@@ -238,7 +238,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 					teacherLastName: scheduleClass.teacher.lastName
 				}, true);
 			}
-		}).filter(Boolean) as Observable<AddClassResponse>[]; // Remove undefined
+		}).filter(Boolean) as unknown as Observable<AddClassResponse>[];
 
 		// Combine all of those observables into a MEGA OBSERVABLE
 		let deleteClasses$ = combineLatest(deleteObservables).pipe(defaultIfEmpty());

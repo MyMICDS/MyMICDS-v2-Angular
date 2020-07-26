@@ -36,6 +36,8 @@ import { BackgroundService } from './services/background.service';
 
 // newly created modules
 import { SharedModule } from './shared/shared.module';
+import { AuthenticationModule } from './authentication/authentication.module';
+// The Modules below are commented due to lazy loading
 // import { HomeModule } from './home/home.module';
 // import { AboutModule } from './about/about.module';
 // import { CampusLifeModule } from './campus-life/campus-life.module';
@@ -43,8 +45,6 @@ import { SharedModule } from './shared/shared.module';
 // import { LunchModule } from './lunch/lunch.module';
 // import { PlannerModule } from './planner/planner.module';
 // import { SettingsModule } from './settings/settings.module';
-
-import { AuthenticationModule } from './authentication/authentication.module';
 // import { UnsubscribeModule } from './unsubscribe/unsubscribe.module';
 // import { ResetPasswordModule } from './reset-password/reset-password.module';
 // import { ConfirmModule } from './confirm/confirm.module';
@@ -66,28 +66,18 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		ReactiveFormsModule,
 		routing,
 		ColorPickerModule,
-// 		BsDropdownModule.forRoot(), // dep for DatetimePopup
-// 		DatepickerModule.forRoot(), // ditto
-// 		TimepickerModule.forRoot(), // ditto
 		TooltipModule.forRoot(),
 		ModalModule.forRoot(),
 		PopoverModule.forRoot(),
 		BrowserAnimationsModule,
 		AngularFittextModule,
 		IconPickerModule,
-		// HomeModule,
 		SharedModule,
-		// AboutModule,
-		// CampusLifeModule,
-		// DailyBulletinModule,
-		// LunchModule,
-		// PlannerModule,
-		// SettingsModule,
 		AuthenticationModule,
-		// UnsubscribeModule,
-		// ResetPasswordModule,
-		// ConfirmModule,
 		FontAwesomeModule
+		// 		BsDropdownModule.forRoot(), // dep for DatetimePopup
+		// 		DatepickerModule.forRoot(), // ditto
+		// 		TimepickerModule.forRoot(), // ditto
 	],
 	providers: [
 		{
