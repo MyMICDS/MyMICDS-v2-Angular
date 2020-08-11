@@ -1,7 +1,8 @@
 <div class="module-container">
 
 	<div *ngIf="!weather" class="weather-loading">
-		<p>Loading weather data...<p>
+		<p>Loading weather data...
+		<p>
 	</div>
 
 	<div *ngIf="weather" class="weather">
@@ -46,7 +47,9 @@
 		<div class="wind">
 			<i class="wi wi-wind from-{{weather.windDir}}-deg"></i>
 			<div class="wind-vector">
-				<div class="wind-magnitude">Wind <span class="wind-speed">{{ metric ? weatherMetric.windSpeed : weather.windSpeed }}</span> {{ metric ? 'kilometers' : 'miles' }}/hour</div>
+				<div class="wind-magnitude">Wind <span
+						class="wind-speed">{{ metric ? weatherMetric.windSpeed : weather.windSpeed }}</span>
+					{{ metric ? 'kilometers' : 'miles' }}/hour</div>
 				<div class="wind-direction">From {{ weather.windDir | compassDirection }}</div>
 			</div>
 		</div>
@@ -54,7 +57,7 @@
 
 	<div class="powered-by-container">
 		<a class="powered-by">
-			<img src="/assets/other/openweather-logo.png">
+			<img src="/assets/other/openweather-logo.webp" async>
 		</a>
 	</div>
 </div>
