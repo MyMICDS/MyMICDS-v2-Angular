@@ -24,7 +24,6 @@ import { AppComponent } from './app.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
 import { ConfettiComponent } from './components/confetti/confetti.component';
-import { SportsComponent } from './components/sports/sports.component';
 import { SummerComponent } from './components/summer/summer.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
@@ -56,7 +55,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		AlertComponent,
 		AlertDebugComponent,
 		ConfettiComponent,
-		SportsComponent,
 		SummerComponent,
 		QuotesComponent
 	],
