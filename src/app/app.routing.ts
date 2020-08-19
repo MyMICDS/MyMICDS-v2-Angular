@@ -5,7 +5,6 @@ import { CanDeactivateGuard } from './common/canDeactivate.guard';
 import { capitalizeURL } from './common/utils';
 
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
-import { SportsComponent } from './components/sports/sports.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
 
 /**
@@ -24,10 +23,6 @@ export const appRoutes: Routes = [
 		path: '',
 		redirectTo: '/home',
 		pathMatch: 'full',
-	},
-	{
-		path: 'sports',
-		component: SportsComponent,
 	},
 	{
 		path: 'quote',
