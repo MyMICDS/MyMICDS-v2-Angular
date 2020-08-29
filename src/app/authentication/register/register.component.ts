@@ -16,11 +16,10 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 export class RegisterComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	public isAlphabetic = isAlphabetic; // tslint:disable-line
 	public typeOf = typeOf; // tslint:disable-line
 
 	registerForm = this.formBuilder.group({
-		user: ['', Validators.required],
+		user: ['', [Validators.required, Validators.pattern(/^[a-z-]+$/)]],
 		password: ['', Validators.required],
 		confirmPassword: ['', Validators.required],
 		firstName: ['', Validators.required],
