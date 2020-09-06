@@ -27,7 +27,7 @@ interface Developer {
 	lastName: string;
 	gradYear: number;
 	title: string;
-	image: string;
+	image?: string;
 }
 
 declare const prisma: any;
@@ -52,72 +52,63 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 	activeDevelopers: Developer[] = [
 		{
 			firstName: 'Nick',
-			lastName : 'Clifford',
-			gradYear : 2020,
-			title    : 'System Administrations',
-			image    : 'assets/developers/nicks-ugly-face-new-new.jpg'
+			lastName: 'Clifford',
+			gradYear: 2020,
+			title: 'System Administrations',
+			image: 'assets/developers/nicks-ugly-face-new-new.jpg'
+		},
+		{
+			firstName: 'Sebastian "Seabass"',
+			lastName: 'Neumann',
+			gradYear: 2021,
+			title: 'Full Stack Developer',
+			image: 'assets/developers/sebastians-ugly-face-new.jpg'
 		},
 		{
 			firstName: 'Sam',
-			lastName : 'Baumohl',
-			gradYear : 2022,
-			title    : 'Full Stack Developer',
-			image    : 'assets/developers/sams-always-ugly-face.jpg'
-		}
-	];
-
-	notableMentions: Developer[] = [
-		{
-			firstName: 'Sebastian "Seabass"',
-			lastName : 'Neumann',
-			gradYear : 2021,
-			title    : 'Full Stack Developer',
-			image    : 'assets/developers/sebastians-ugly-face-new.jpg'
-		},
-		{
-			firstName: 'Tanay',
-			lastName : 'Chandak',
-			gradYear : 2020,
-			title    : 'Front-End Developer',
-			image    : 'assets/developers/tanays-ugly-face.jpg'
+			lastName: 'Baumohl',
+			gradYear: 2022,
+			title: 'Full Stack Developer',
+			image: 'assets/developers/sams-always-ugly-face.jpg'
 		}
 	];
 
 	alumni: Developer[] = [
 		{
+			firstName: 'Tanay',
+			lastName: 'Chandak',
+			gradYear: 2020,
+			title: 'Front-End Developer'
+		},
+		{
 			firstName: 'Michael',
 			lastName: 'Gira',
 			gradYear: 2019,
-			title: 'Creator and Lead Developer',
-			image: 'assets/developers/michaels-ugly-face-new-new.jpg'
+			title: 'Creator and Lead Developer'
 		},
 		{
 			firstName: 'Jack',
 			lastName: 'Cai',
 			gradYear: 2019,
-			title: 'Full Stack Developer',
-			image: 'assets/developers/jacks-ugly-face-new-new.jpg'
+			title: 'Full Stack Developer'
 		},
 		{
 			firstName: 'Alex',
-			lastName : 'Donovan',
-			gradYear : 2018,
-			title    : 'Full Stack Developer',
-			image    : 'assets/developers/alexds-ugly-face.jpg'
+			lastName: 'Donovan',
+			gradYear: 2018,
+			title: 'Full Stack Developer'
 		},
 		{
 			firstName: 'Bob',
-			lastName : 'Sforza',
-			gradYear : 2017,
-			title    : 'Full Stack Developer',
-			image    : 'assets/developers/bobs-ugly-face-new-new.jpg'
+			lastName: 'Sforza',
+			gradYear: 2017,
+			title: 'Full Stack Developer'
 		},
 		{
 			firstName: 'Sidd',
-			lastName : 'Mehta',
-			gradYear : 2017,
-			title    : 'Back-End Developer',
-			image    : 'assets/developers/sidds-ugly-face.jpg'
+			lastName: 'Mehta',
+			gradYear: 2017,
+			title: 'Back-End Developer'
 		}
 	];
 
@@ -168,7 +159,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 					let dates = Object.keys(this.stats.registered.gradYears[gradYear]);
 
 					// Sort the dates people registered at
-					let mappedDates = dates.map(function(date, i) {
+					let mappedDates = dates.map(function (date, i) {
 						return {
 							index: i,
 							value: new Date(date).valueOf()
@@ -177,16 +168,16 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 					mappedDates.sort((a, b) => {
 						return a.value - b.value;
 					});
-					let sortedDates = mappedDates.map(function(el) {
+					let sortedDates = mappedDates.map(function (el) {
 						return dates[el.index];
 					});
 
 					// Loop through sorted dates and add up total accounts
-					for (let i = 0 ; i < sortedDates.length; i++) {
+					for (let i = 0; i < sortedDates.length; i++) {
 						let accountNumber = this.stats.registered.gradYears[gradYear][sortedDates[i]];
 						accountSum += accountNumber;
 						let registerCountDate = moment(sortedDates[i]);
-						this.lineData.push({x: registerCountDate, y: accountSum});
+						this.lineData.push({ x: registerCountDate, y: accountSum });
 					}
 
 					let gradeString = this.gradYearToGradeString(gradYear);
