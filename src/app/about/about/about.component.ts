@@ -55,7 +55,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 			lastName: 'Clifford',
 			gradYear: 2020,
 			title: 'System Administrations',
-			image: 'assets/developers/nicks-ugly-face-new-new.jpg'
+			image: 'assets/developers/nicks-ugliest-face.jpg'
 		},
 		{
 			firstName: 'Sebastian "Seabass"',
@@ -69,7 +69,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 			lastName: 'Baumohl',
 			gradYear: 2022,
 			title: 'Full Stack Developer',
-			image: 'assets/developers/sams-always-ugly-face.jpg'
+			image: 'assets/developers/sams-ugly-face.jpg'
 		}
 	];
 
