@@ -4,6 +4,20 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';
+import * as Sentry from '@sentry/angular';
+import { Integrations } from '@sentry/tracing';
+
+Sentry.init({
+	dsn: 'https://5b482947b3f44153a674e6f676d9cdf8@o355493.ingest.sentry.io/5551465',
+	autoSessionTracking: true,
+	integrations: [
+		new Integrations.BrowserTracing({
+			tracingOrigins: ['localhost', 'https://mymicds.net'],
+			routingInstrumentation: Sentry.routingInstrumentation,
+		}),
+	],
+	tracesSampleRate: 1.0,
+});
 
 if (environment.production) {
 	enableProdMode();

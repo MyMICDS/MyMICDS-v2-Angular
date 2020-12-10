@@ -1,10 +1,11 @@
 import { MyMICDS } from '@mymicds/sdk';
 import { MyMICDSFactory } from './common/mymicds-sdk';
 
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { appRoutingProviders, routing } from './app.routing';
 import { ColorPickerModule } from 'ngx-color-picker';
@@ -19,6 +20,8 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+
+import * as Sentry from '@sentry/angular';
 
 import { AppComponent } from './app.component';
 import { AlertComponent } from './components/alert/alert.component';
@@ -85,8 +88,25 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		appRoutingProviders,
 		Title,
 		AlertService,
-		BackgroundService
+		BackgroundService,
 		// RealtimeService,
+		// Sentry stuff for better traces
+		{
+			provide: ErrorHandler,
+			useValue: Sentry.createErrorHandler({
+				showDialog: true,
+			}),
+		},
+		{
+			provide: Sentry.TraceService,
+			deps: [Router],
+		},
+		{
+			provide: APP_INITIALIZER,
+			useFactory: () => () => {},
+			deps: [Sentry.TraceService],
+			multi: true,
+		},
 	],
 	bootstrap: [AppComponent],
 
