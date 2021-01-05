@@ -19,6 +19,7 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AlertComponent } from './components/alert/alert.component';
@@ -36,21 +37,10 @@ import { BackgroundService } from './services/background.service';
 // newly created modules
 import { SharedModule } from './shared/shared.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-// The Modules below are commented due to lazy loading
-// import { HomeModule } from './home/home.module';
-// import { AboutModule } from './about/about.module';
-// import { CampusLifeModule } from './campus-life/campus-life.module';
-// import { DailyBulletinModule } from './daily-bulletin/daily-bulletin.module';
-// import { LunchModule } from './lunch/lunch.module';
-// import { PlannerModule } from './planner/planner.module';
-// import { SettingsModule } from './settings/settings.module';
-// import { UnsubscribeModule } from './unsubscribe/unsubscribe.module';
-// import { ResetPasswordModule } from './reset-password/reset-password.module';
-// import { ConfirmModule } from './confirm/confirm.module';
+
 
 @NgModule({
 	declarations: [
-		// Components
 		AppComponent,
 		AlertComponent,
 		AlertDebugComponent,
@@ -72,10 +62,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		IconPickerModule,
 		SharedModule,
 		AuthenticationModule,
-		FontAwesomeModule
-		// 		BsDropdownModule.forRoot(), // dep for DatetimePopup
-		// 		DatepickerModule.forRoot(), // ditto
-		// 		TimepickerModule.forRoot(), // ditto
+		FontAwesomeModule,
+		NgbModule
 	],
 	providers: [
 		{
@@ -86,7 +74,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		Title,
 		AlertService,
 		BackgroundService
-		// RealtimeService,
 	],
 	bootstrap: [AppComponent],
 

@@ -26,6 +26,7 @@
 				</button>
 			</span>
 		</div>
+		<input [value]="value" type="text" ngbDatepicker #d="ngbDatepicker"/>
 		<datetime-popup [value]="value" (valueChange)="changeDate($event)"
 			[(showPopup)]="showPicker"
 			[showDate]="true"

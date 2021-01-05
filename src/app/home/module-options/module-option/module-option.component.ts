@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { Options, OptionConfig, OptionValue } from '../../modules/module-options';
 // import { IDatetimePopupButtonOptions } from 'ngx-bootstrap-datetime-popup';
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
 	selector: 'mymicds-module-option',
