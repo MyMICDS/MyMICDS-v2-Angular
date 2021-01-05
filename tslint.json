@@ -15,7 +15,10 @@
 			true,
 			"tabs"
 		],
-		"label-position": true,
+    "label-position": true,
+    "deprecation": {
+      "severity": "warning"
+    },
 		"label-undefined": true,
 		"max-line-length": [
 			true,
@@ -48,10 +51,8 @@
 		"no-string-literal": false,
 		"no-switch-case-fall-through": true,
 		"no-trailing-whitespace": true,
-		"no-unused-expression": true,
-		"no-unused-variable": true,
-		"no-unreachable": true,
-		"no-use-before-declare": true,
+    "no-unused-expression": true,
+    "no-unreachable": true,
 		"no-var-keyword": true,
 		"object-literal-sort-keys": false,
 		"one-line": [
