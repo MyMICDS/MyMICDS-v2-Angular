@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { Options, OptionConfig, OptionValue } from '../../modules/module-options';
-import { IDatetimePopupButtonOptions } from 'ngx-bootstrap-datetime-popup';
+// import { IDatetimePopupButtonOptions } from 'ngx-bootstrap-datetime-popup';
 
 @Component({
 	selector: 'mymicds-module-option',
@@ -81,4 +81,15 @@ export class ModuleOptionComponent {
 		this.valueChange.emit(this.value);
 	}
 
+}
+
+interface IDatetimePopupButtonOptions {
+    // should the button be shown
+    show: boolean
+
+    // What text label should it be given
+    label: string
+
+    // css classes to be used, default is 'btn btn-sm btn-secondary'
+    cssClass: string
 }

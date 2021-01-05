@@ -2,10 +2,10 @@
  * Class that will unsubscribe from all observables in a `subscriptions` array
  */
 
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, Directive } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-// TODO: Add Angular decorator.
+@Directive()
 export class SubscriptionsComponent implements OnDestroy {
 
 	private subscriptions: Subscription[] = [];
