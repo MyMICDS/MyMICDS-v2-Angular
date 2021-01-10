@@ -7,11 +7,6 @@ import { GridsterModule } from 'angular2gridster';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import {
-	ModalModule,
-	PopoverModule,
-	TooltipModule
-} from 'ngx-bootstrap';
 import { AngularFittextModule } from 'angular-fittext';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -62,10 +57,6 @@ import { HomeRoutingModule } from './home.routing';
 		CommonModule,
 		FontAwesomeModule,
 		GridsterModule.forRoot(),
-		TooltipModule.forRoot(),
-		ModalModule.forRoot(),
-		PopoverModule.forRoot(),
-		TooltipModule.forRoot(),
 		HomeRoutingModule,
 		SharedModule,
 		FormsModule,
