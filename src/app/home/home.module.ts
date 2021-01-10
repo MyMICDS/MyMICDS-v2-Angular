@@ -13,6 +13,7 @@ import {
 	TooltipModule
 } from 'ngx-bootstrap';
 import { AngularFittextModule } from 'angular-fittext';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BookmarksComponent } from './modules/bookmarks/bookmarks.component';
 import { CountdownComponent } from './modules/countdown/countdown.component';
@@ -35,6 +36,7 @@ import { moduleComponents } from './modules/module-config';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home.routing';
+
 
 @NgModule({
 	declarations: [
@@ -67,7 +69,8 @@ import { HomeRoutingModule } from './home.routing';
 		HomeRoutingModule,
 		SharedModule,
 		FormsModule,
-		AngularFittextModule
+		AngularFittextModule,
+		NgbModule
 	],
 	exports: [
 		ModuleInspectorComponent,

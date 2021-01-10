@@ -1,13 +1,44 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Injectable } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { Options, OptionConfig, OptionValue } from '../../modules/module-options';
-// import { IDatetimePopupButtonOptions } from 'ngx-bootstrap-datetime-popup';
-import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
+
+@Injectable()
+export class CustomDateAdapter extends NgbDateAdapter<Date> {
+
+  fromModel(value: Date): NgbDateStruct | null {
+    if (value) {
+      return {
+        day: value.getUTCDate(),
+        month: value.getUTCMonth() + 1,
+        year: value.getUTCFullYear()
+      };
+    }
+    return null;
+  }
+
+  toModel(date: NgbDateStruct | null): Date | null {
+	if (date) {
+		const newDate = new Date();
+		newDate.setUTCFullYear(date.year);
+		newDate.setUTCMonth(date.month - 1);
+		newDate.setUTCDate(date.day);
+		newDate.setUTCHours(6);
+		newDate.setUTCMinutes(0);
+		return newDate;
+	}
+    return null;
+  }
+}
+
 
 @Component({
 	selector: 'mymicds-module-option',
 	templateUrl: './module-option.component.html',
-	styleUrls: ['./module-option.component.scss']
+	styleUrls: ['./module-option.component.scss'],
+	providers: [
+		{provide: NgbDateAdapter, useClass: CustomDateAdapter}
+	]
 })
 export class ModuleOptionComponent {
 
@@ -40,23 +71,12 @@ export class ModuleOptionComponent {
 	select = false;
 
 	// Date picker stuff
-	showPicker = false;
-	clearButton: IDatetimePopupButtonOptions = { show: false, label: '', cssClass: '' };
-	nowButton: IDatetimePopupButtonOptions = { show: true, label: 'Today', cssClass: 'btn btn-info' };
-	closeButton: IDatetimePopupButtonOptions = { show: true, label: 'Enter', cssClass: 'btn btn-primary' };
 
-	constructor() {
+	constructor(private dateAdapter: NgbDateAdapter<Date>) {
 		this.valueChange.pipe(debounceTime(50));
 	}
 
-	onTogglePicker() {
-		if (this.showPicker === false) {
-			this.showPicker = true;
-		}
-	}
-
 	changeDate(date: Date) {
-		this.value = date;
 		this.valueChange.emit(this.value);
 	}
 
@@ -74,23 +94,4 @@ export class ModuleOptionComponent {
 			this.show = true;
 		}
 	}
-
-	changeIcon(icon: string) {
-		// Get rid of the 'fa ' at the beginning
-		const split = icon.split(' ');
-		this.value = split[split.length - 1];
-		this.valueChange.emit(this.value);
-	}
-
-}
-
-interface IDatetimePopupButtonOptions {
-    // should the button be shown
-    show: boolean
-
-    // What text label should it be given
-    label: string
-
-    // css classes to be used, default is 'btn btn-sm btn-secondary'
-    cssClass: string
 }

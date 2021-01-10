@@ -19,7 +19,6 @@ import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontaweso
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AlertComponent } from './components/alert/alert.component';
@@ -62,8 +61,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		IconPickerModule,
 		SharedModule,
 		AuthenticationModule,
-		FontAwesomeModule,
-		NgbModule
+		FontAwesomeModule
 	],
 	providers: [
 		{
