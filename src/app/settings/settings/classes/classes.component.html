@@ -39,7 +39,7 @@
 				<div class="tooltip-container" >
 					<button class="btn btn-info selected"
 						[class.active]="class._id === aliasClass?._id"
-						(click)="aliasClass = class; aliasModal.show()"
+						(click)="aliasClass = class; open(aliasesmodal)"
 						[disabled]="savingClasses || !class._id"
 						tooltip="Save the class before linking it!">
 						<fa-icon icon="link"></fa-icon>
@@ -59,28 +59,24 @@
 	</tbody>
 </table>
 
-<div bsModal #aliasModal="bs-modal" class="modal fade" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title pull-left">Link Classes for <strong>{{ aliasClass?.name }}</strong></h4>
-				<button type="button" class="close pull-right" aria-label="Close" (click)="aliasModal.hide()">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="aliases-portal">
-					<h4>Portal Classes</h4>
-					<mymicds-aliases type="portal" [externalClasses]="portalClasses" [class]="aliasClass"></mymicds-aliases>
-				</div>
-				<div class="aliases-canvas">
-					<h4>Canvas Classes</h4>
-					<mymicds-aliases type="canvas" [externalClasses]="canvasClasses" [class]="aliasClass"></mymicds-aliases>
-				</div>
-			</div>
+<ng-template #aliasesmodal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title pull-left">Link Classes for <strong>{{ aliasClass?.name }}</strong></h4>
+		<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<div class="aliases-portal">
+			<h4>Portal Classes</h4>
+			<mymicds-aliases type="portal" [externalClasses]="portalClasses" [class]="aliasClass"></mymicds-aliases>
+		</div>
+		<div class="aliases-canvas">
+			<h4>Canvas Classes</h4>
+			<mymicds-aliases type="canvas" [externalClasses]="canvasClasses" [class]="aliasClass"></mymicds-aliases>
 		</div>
 	</div>
-</div>
+</ng-template>
 
 <button class="save-classes btn btn-info" (click)="saveClasses()" [disabled]="savingClasses || (!anyClassChanged() && !anyClassAdded() && !anyClassDeleted())">
 	{{ savingClasses ? 'Saving Classes...' : 'Save Changes' }}
