@@ -7,13 +7,20 @@ import { NgbDateStruct, NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
 export class CustomDateAdapter extends NgbDateAdapter<Date> {
 
   fromModel(value: Date): NgbDateStruct | null {
-    if (value) {
+    if (value instanceof Date) { // when switching from ngx-bootstrap to ng-bootstrap in 1/11/2020, value might be a string, this is a safeguard.
       return {
         day: value.getUTCDate(),
         month: value.getUTCMonth() + 1,
         year: value.getUTCFullYear()
       };
-    }
+    } else if (typeof value == "string") {
+		const stringDate = new Date(value);
+		return {
+			day: stringDate.getUTCDate(),
+			month: stringDate.getUTCMonth() + 1,
+			year: stringDate.getUTCFullYear()
+		  };
+	}
     return null;
   }
 
