@@ -101,4 +101,11 @@ export class ModuleOptionComponent {
 			this.show = true;
 		}
 	}
+	
+	changeIcon(icon: string) {
+		// Get rid of the 'fa ' at the beginning
+		const split = icon.split(' ');
+		this.value = split[split.length - 1];
+		this.valueChange.emit(this.value);
+	}
 }
