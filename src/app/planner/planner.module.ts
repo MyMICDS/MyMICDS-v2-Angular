@@ -6,7 +6,6 @@ import { PlannerComponent } from './planner/planner.component';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import {
 	BsDropdownModule,
@@ -44,6 +43,6 @@ import { PlannerRoutingModule } from './planner.routing';
 export class PlannerModule {
 	constructor(library: FaIconLibrary) {
 		// Add an icon to the library for convenient access in other components
-		library.addIconPacks(fas, far, fab);
+		library.addIconPacks(fas, fab);
 	}
 }
