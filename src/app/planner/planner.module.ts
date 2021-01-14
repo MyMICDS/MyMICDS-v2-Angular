@@ -12,9 +12,7 @@ import {
 	BsDropdownModule,
 	DatepickerModule,
 	ModalModule,
-	PopoverModule,
-	TimepickerModule,
-	TooltipModule
+	TimepickerModule
 } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -36,9 +34,7 @@ import { PlannerRoutingModule } from './planner.routing';
 		BsDropdownModule.forRoot(),
 		DatepickerModule.forRoot(),
 		ModalModule.forRoot(),
-		PopoverModule.forRoot(),
 		TimepickerModule.forRoot(),
-		TooltipModule.forRoot(),
 		BsDatepickerModule.forRoot()
 	],
 	providers: [

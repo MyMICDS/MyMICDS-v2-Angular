@@ -8,11 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { appRoutingProviders, routing } from './app.routing';
 import { ColorPickerModule } from 'ngx-color-picker';
-import {
-	ModalModule,
-	PopoverModule,
-	TooltipModule
-} from 'ngx-bootstrap';
+
 import { AngularFittextModule } from 'angular-fittext';
 import { IconPickerModule } from 'ngx-icon-picker';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
@@ -30,8 +26,6 @@ import { QuotesComponent } from './components/quotes/quotes.component';
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
 // import { RealtimeService } from './services/realtime.service';
-// RxJS 6 Zone.js Fix
-// import 'zone.js/dist/zone-patch-rxjs';
 
 // newly created modules
 import { SharedModule } from './shared/shared.module';
@@ -53,9 +47,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		ReactiveFormsModule,
 		routing,
 		ColorPickerModule,
-		TooltipModule.forRoot(),
-		ModalModule.forRoot(),
-		PopoverModule.forRoot(),
 		BrowserAnimationsModule,
 		AngularFittextModule,
 		IconPickerModule,

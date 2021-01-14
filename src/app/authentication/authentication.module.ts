@@ -2,11 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 
-import {
-	ModalModule,
-	PopoverModule,
-	TooltipModule
-} from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap';
 
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
@@ -28,8 +24,6 @@ import { AuthenticationRoutingModule } from './authentication.routing';
 		FormsModule,
 		AuthenticationRoutingModule,
 		ModalModule.forRoot(),
-		PopoverModule.forRoot(),
-		TooltipModule.forRoot(),
 		ReactiveFormsModule,
 		SharedModule
 	]
