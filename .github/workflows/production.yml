@@ -27,7 +27,7 @@ jobs:
           name: maps
           path: |
             dist/mymicds-v2-angular/*.js
-            dist/mymicds-v2-angular/*.js.map
+            dist/mymicds-v2-angular/*.map
       - name: Save production build
         uses: actions/upload-artifact@v2
         with:
