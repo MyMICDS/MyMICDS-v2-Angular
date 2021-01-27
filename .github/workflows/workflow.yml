@@ -18,9 +18,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Create configs
-        run: cp src/styles/_config.example.scss src/styles/_config.scss
+        run: cp .github/secrets/_config.prod.scss src/styles/_config.scss
       - name: Build in production mode
         run: npm run build:prod
+      - name: Save maps
+        uses: actions/upload-artifact@v2
+        with:
+          name: maps
+          path: dist/mymicds-v2-angular/*.map
+      - name: Save production build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: |
+            dist/mymicds-v2-angular
+            !dist/mymicds-v2-angular/*.map
 
   deploy:
     # even though the workflow should only run if we're on master in the first place,
@@ -37,12 +49,13 @@ jobs:
         env:
           FILE_DECRYPT_KEY: ${{ secrets.FILE_DECRYPT_KEY }}
           FILE_DECRYPT_IV: ${{ secrets.FILE_DECRYPT_IV }}
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
       - name: Deploy to remote server
         run: ./.github/scripts/deploy.sh
         env:
           IP: ${{ secrets.DEPLOY_SSH_IP }}
           PORT: ${{ secrets.DEPLOY_SSH_PORT }}
-          DEPLOY_DIR: ${{ secrets.DEPLOY_DIR }}
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
@@ -51,3 +64,4 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
+          sourcemaps: maps
