@@ -1,14 +1,13 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "outDir": "../out-tsc/app",
     "types": ["node"],
-    "strictPropertyInitialization": false /* turning this off for now, cause Angular makes this kind of a pain */
   },
   "files": [
     "main.ts",
-    "polyfills.ts"
+    "polyfills.ts",
+    "typings.d.ts"
   ],
   "include": [
     "src/**/*.d.ts"
