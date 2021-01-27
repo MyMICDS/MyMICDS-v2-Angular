@@ -19,4 +19,4 @@ ssh apps@$IP -p $PORT <<EOF
 EOF
 
 # copy over new build
-scp -P $PORT build/* apps@$IP:/var/www/mymicds/mymicds-angular
+scp -r -P $PORT build/* apps@$IP:/var/www/mymicds/mymicds-angular
