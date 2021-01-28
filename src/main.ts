@@ -6,6 +6,7 @@ import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';
 import * as Sentry from '@sentry/angular';
 import { Integrations } from '@sentry/tracing';
+import { release } from './release';
 
 Sentry.init({
 	dsn: 'https://5b482947b3f44153a674e6f676d9cdf8@o355493.ingest.sentry.io/5551465',
@@ -17,6 +18,7 @@ Sentry.init({
 		}),
 	],
 	tracesSampleRate: 1.0,
+	release: release
 });
 
 if (environment.production) {

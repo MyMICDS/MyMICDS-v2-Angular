@@ -19,6 +19,8 @@ jobs:
         run: npm ci
       - name: Create configs
         run: cp .github/secrets/_config.prod.scss src/styles/_config.scss
+      - name: Save git hash
+        run: echo "export const release = '$GITHUB_SHA';" > src/release.ts
       - name: Build in production mode
         run: npm run build:prod
       - name: Save maps
@@ -63,3 +65,4 @@ jobs:
         with:
           environment: production
           sourcemaps: maps
+          url_prefix: https://mymicds.net/

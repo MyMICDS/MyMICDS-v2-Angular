@@ -5,6 +5,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { defaultTitleFunction } from './app.routing';
 import { filter, map, switchMap } from 'rxjs/operators';
+import * as Sentry from '@sentry/angular';
 
 import { SubscriptionsComponent } from './common/subscriptions-component';
 import { AlertService } from './services/alert.service';
@@ -95,6 +96,15 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 					default:
 						this.alertService.addError(error.message);
 						break;
+				}
+			})
+		);
+
+		// Add user context for Sentry
+		this.addSubscription(
+			this.mymicds.auth.$.subscribe(jwt => {
+				if (jwt) {
+					Sentry.setUser({ username: jwt.user });
 				}
 			})
 		);
