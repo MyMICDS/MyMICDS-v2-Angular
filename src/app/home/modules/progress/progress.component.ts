@@ -3,12 +3,10 @@ import { Block, ClassType, GetScheduleResponse, MyMICDS, ScheduleBlock } from '@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { rainbowCanvasGradient, rainbowSafeWord } from '../../../common/utils';
 import * as moment from 'moment-timezone';
+import Chart from 'chart.js';
 import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
-import ChartJS from 'chart.js';
-
-declare const Chart: typeof ChartJS;
 
 declare global {
 	namespace Chart {
@@ -41,7 +39,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 	// Circular Progress References
 	ctx: HTMLCanvasElement;
-	progressBar: ChartJS;
+	progressBar: Chart;
 
 	// Font sizes for label and percentage in circular progress bar (in pixels)
 	classLabelFontSize: number;
