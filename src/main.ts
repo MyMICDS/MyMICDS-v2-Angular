@@ -18,7 +18,11 @@ Sentry.init({
 		}),
 	],
 	tracesSampleRate: 1.0,
-	release: release
+	enabled: environment.production,
+	release: release,
+	// Known issues with SPAs, safe to ignore for now
+	// https://twittercommunity.com/t/timeline-widget-not-destroyed-on-single-page-application-page-change-spa/84023/11
+	denyUrls: [/twitter\.com/]
 });
 
 if (environment.production) {

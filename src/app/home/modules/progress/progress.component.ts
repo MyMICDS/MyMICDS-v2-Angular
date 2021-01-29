@@ -164,9 +164,9 @@ export class ProgressComponent extends SubscriptionsComponent
 					callbacks: {
 						label(tooltipItem, data) {
 							return (
-								data.labels[tooltipItem!.index!] +
+								data.labels![tooltipItem!.index!] +
 								': ' +
-								data.durations[tooltipItem!.index!]
+								data.durations![tooltipItem!.index!]
 							);
 						}
 					}
