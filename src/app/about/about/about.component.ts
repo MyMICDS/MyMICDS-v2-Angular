@@ -2,25 +2,10 @@ import { GetStatsResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import ChartJS from 'chart.js';
+import prisma from 'prisma';
+import Chart from 'chart.js';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
-
-// import prisma from 'prisma';
-// function prisma(str) {
-// 	var hash = 0;
-// 	for (var i = 0; i < str.length; i++) {
-// 		hash = str.charCodeAt(i) + ((hash << 5) - hash);
-// 	}
-// 	var colour = '#';
-// 	for (var i = 0; i < 3; i++) {
-// 		var value = (hash >> (i * 12)) & 0xFF;
-// 		colour += ('00' + value.toString(16)).substr(-2);
-// 	}
-// 	return {
-// 		hex: colour
-// 	};
-// }
 
 interface Developer {
 	firstName: string;
@@ -29,9 +14,6 @@ interface Developer {
 	title: string;
 	image?: string;
 }
-
-declare const prisma: any;
-declare const Chart: typeof ChartJS;
 
 declare global {
 	namespace Chart {
@@ -120,13 +102,13 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 
 	// Line Chart for registered users over time
 	lineCtx: HTMLCanvasElement;
-	lineChart: ChartJS;
+	lineChart: Chart;
 	lineDataSets: Object[] = [];
 	lineData: Object[] = [];
 
 	// Pie Chart for percentage of users visited today
 	pieCtx: HTMLCanvasElement;
-	pieChart: ChartJS;
+	pieChart: Chart;
 	pieData: number[] = [];
 	pieDataSets: Object[] = [];
 	pieBgColors: string[] = [];

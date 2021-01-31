@@ -7,7 +7,7 @@ import {
 	PlannerEvent
 } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -104,6 +104,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// List of events to show up in selection
 	selectionEvents: DailyEvents = [];
+	@ViewChildren('selectionEvent') eventEls: QueryList<ElementRef>;
 
 	daterangeOptions: Partial<BsDatepickerConfig> = {
 		containerClass: 'theme-red'
@@ -637,10 +638,9 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Click event in the calendar grid
 	selectDayEvent(id: string) {
-		let selectionEvents = document.getElementsByClassName('selection-event');
 		for (let i = 0; i < this.selectionEvents.length; i++) {
 			if (this.selectionEvents[i].data._id === id) {
-				selectionEvents.item(i)!.scrollIntoView({ behavior: 'smooth' });
+				this.eventEls.toArray()[i].nativeElement.scrollIntoView({ behavior: 'smooth' });
 				// shine the element
 				break;
 			}

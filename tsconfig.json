@@ -17,6 +17,8 @@
       "es2018",
       "dom"
     ],
-    "strict": true
+    "strict": true,
+    "strictPropertyInitialization": false, /* turning this off for now, cause Angular makes this kind of a pain */
+    "allowSyntheticDefaultImports": true
   }
 }

@@ -25,7 +25,7 @@
 				<span class="school-done" [style.font-size]="schoolDoneFontSize + 'px'">Not in Session.</span>
 			</div>
 			<div class="circular-container">
-				<canvas class="progress-chart"></canvas>
+				<canvas #progressCanvas class="progress-chart"></canvas>
 			</div>
 		</div>
 		<div [hidden]="progressType !== 'linear'"
