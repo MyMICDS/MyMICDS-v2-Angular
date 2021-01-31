@@ -38,7 +38,7 @@ export class ProgressComponent extends SubscriptionsComponent
 	progressType: ProgressType = ProgressType.circular;
 
 	// Circular Progress References
-	ctx: HTMLCanvasElement;
+	@ViewChild('progressCanvas', { static: true }) canvasRef: ElementRef<HTMLCanvasElement>;
 	progressBar: Chart;
 
 	// Font sizes for label and percentage in circular progress bar (in pixels)
@@ -113,13 +113,12 @@ export class ProgressComponent extends SubscriptionsComponent
 			onContainerResize
 		);
 
-		// Get Progress Bar <canvas>
-		this.ctx = document.getElementsByClassName('progress-chart')[0] as HTMLCanvasElement;
+		const canvasEl = this.canvasRef.nativeElement;
 
 		// Add resize sensor so we know what to change font size to
 		const onChartResize = () => {
 			// Calculate chart diameter
-			const diameter = Math.min(this.ctx.clientWidth, this.ctx.clientHeight);
+			const diameter = Math.min(canvasEl.clientWidth, canvasEl.clientHeight);
 
 			const percentSize = Math.max(diameter * (1 / 6), 60);
 
@@ -129,16 +128,16 @@ export class ProgressComponent extends SubscriptionsComponent
 		};
 
 		onChartResize();
-		this.resizeSensorChart = new ResizeSensor(this.ctx, onChartResize);
+		this.resizeSensorChart = new ResizeSensor(canvasEl, onChartResize);
 
 		// Rainbow color top priority
 		this.rainbow = rainbowCanvasGradient(
-			this.ctx.offsetWidth,
-			this.ctx.offsetHeight
+			canvasEl.offsetWidth,
+			canvasEl.offsetHeight
 		);
 
 		// Initialize Progress Bar
-		this.progressBar = new Chart(this.ctx, {
+		this.progressBar = new Chart(canvasEl, {
 			type: 'doughnut',
 			data: {
 				labels: this.defaultLabels(),
@@ -164,9 +163,9 @@ export class ProgressComponent extends SubscriptionsComponent
 					callbacks: {
 						label(tooltipItem, data) {
 							return (
-								data.labels[tooltipItem!.index!] +
+								data.labels![tooltipItem!.index!] +
 								': ' +
-								data.durations[tooltipItem!.index!]
+								data.durations![tooltipItem!.index!]
 							);
 						}
 					}
@@ -181,8 +180,8 @@ export class ProgressComponent extends SubscriptionsComponent
 			this.today = new Date();
 			// Calculate rainbow gradient again in case module dimensions changed
 			this.rainbow = rainbowCanvasGradient(
-				this.ctx.offsetWidth,
-				this.ctx.offsetHeight
+				canvasEl.offsetWidth,
+				canvasEl.offsetHeight
 			);
 			this.calculatePercentages();
 		}, 1000);

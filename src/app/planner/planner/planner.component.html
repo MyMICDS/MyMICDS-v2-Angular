@@ -196,7 +196,7 @@
 					<!-- Loop through events for that specific date -->
 					<div *ngIf="selectionEvents.length > 0" class="selection-events">
 						<!-- List of events -->
-						<div *ngFor="let event of selectionEvents" class="event selection-event" (click)="viewEvent(event.data._id); viewEventModal.show()">
+						<div *ngFor="let event of selectionEvents" #selectionEvent class="event selection-event" (click)="viewEvent(event.data._id); viewEventModal.show()">
 							<!-- Class info for each event -->
 							<div class="event-class">
 								<h4 class="event-class-name">{{ event.data.class?.name }}</h4>
