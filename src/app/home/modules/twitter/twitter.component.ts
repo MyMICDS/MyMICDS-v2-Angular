@@ -16,6 +16,9 @@ export class TwitterComponent implements OnInit {
 
 	@Input() fixedHeight: boolean;
 
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	resizeSensor: ResizeSensor;
+
 	get moduleHeight(): number {
 		if (this.fixedHeight) {
 			return this.moduleContainer.nativeElement.clientHeight;
@@ -23,9 +26,6 @@ export class TwitterComponent implements OnInit {
 			return 420;
 		}
 	}
-
-	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
-	resizeSensor: ResizeSensor;
 
 	constructor() { }
 

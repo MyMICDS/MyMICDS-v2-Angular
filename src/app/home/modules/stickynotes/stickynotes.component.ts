@@ -22,31 +22,14 @@ export enum COLOR {
 	styleUrls: ['./stickynotes.component.scss']
 })
 export class StickynotesComponent extends SubscriptionsComponent implements OnInit {
+;
 
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	resizeSensorModuleContainer: ResizeSensor;
-
-	@Input()
-	get fixedHeight() {
-		return this._fixedHeight;
-	}
-	set fixedHeight(fixed: boolean) {
-		this._fixedHeight = fixed;
-	}
 	private _fixedHeight: boolean;
 
 	private _moduleId: string;
-	@Input() set moduleId(id: string) {
-		if (this._moduleId !== id) {
-			this._moduleId = id;
-			this.addSubscription(
-				this.mymicds.stickyNotes.get({ moduleId: id }).subscribe(data => {
-					this.text = data.text;
-				})
-			);
-		}
-	};
 
 	text: string;
 	textChange: Subject<string> = new Subject();
@@ -61,6 +44,23 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 	};
 	@Input() color: COLOR;
 
+	@Input()
+	get fixedHeight() {
+		return this._fixedHeight;
+	}
+	set fixedHeight(fixed: boolean) {
+		this._fixedHeight = fixed;
+	}
+	@Input() set moduleId(id: string) {
+		if (this._moduleId !== id) {
+			this._moduleId = id;
+			this.addSubscription(
+				this.mymicds.stickyNotes.get({ moduleId: id }).subscribe(data => {
+					this.text = data.text;
+				})
+			);
+		}
+	}
 	constructor(private mymicds: MyMICDS) {
 		super();
 	}

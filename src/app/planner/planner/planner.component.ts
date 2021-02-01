@@ -70,19 +70,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	// Keep track of day rotations
 	days: GetPortalDayRotationResponse['days'] = {};
 
-	// Array of total events
-	get events(): PlannerEvent[] {
-		return this.plannerEvents.concat(this.canvasEvents)
-			.map(event => {
-				// Check if it should be rainbow color
-				if (event.class && event.class.color && event.class.color.toUpperCase() === rainbowSafeWord) {
-					event.class.color = rainbowCSSGradient();
-					event.class.textDark = true;
-				}
-				return event;
-			});
-	}
-
 	// Array of Planner events
 	plannerEvents: PlannerEvent[] = [];
 	// Array of Canvas events
@@ -129,6 +116,19 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		classId: 'other',
 		dates: [new Date(), new Date()]
 	};
+
+	// Array of total events
+	get events(): PlannerEvent[] {
+		return this.plannerEvents.concat(this.canvasEvents)
+			.map(event => {
+				// Check if it should be rainbow color
+				if (event.class && event.class.color && event.class.color.toUpperCase() === rainbowSafeWord) {
+					event.class.color = rainbowCSSGradient();
+					event.class.textDark = true;
+				}
+				return event;
+			});
+	}
 
 	get canvasRefreshTime() {
 		if (this.canvasEvents.length === 0) {

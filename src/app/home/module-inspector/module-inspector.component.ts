@@ -13,6 +13,16 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 
 	moduleNames = Object.keys(config);
 	modules = config;
+	private _selectedModuleType = this.moduleNames[0];
+
+	moduleOptions: Options = getDefaultOptions(this.selectedModuleType);
+	private _moduleWidth = 1000;
+	private _moduleHeight = 500;
+	private _fixedHeight = true;
+
+	private updateURLTimeout: NodeJS.Timer;
+
+	moduleInteractable: Interact.Interactable;
 
 	get selectedModuleType() {
 		return this._selectedModuleType;
@@ -21,9 +31,6 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		this._selectedModuleType = value;
 		this.updateURL();
 	}
-	private _selectedModuleType = this.moduleNames[0];
-
-	moduleOptions: Options = getDefaultOptions(this.selectedModuleType);
 
 	// Dimensions of the module (in pixels)
 	get moduleWidth() {
@@ -33,7 +40,6 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		this._moduleWidth = value;
 		this.updateURL();
 	}
-	private _moduleWidth = 1000;
 
 	get moduleHeight() {
 		return this._moduleHeight;
@@ -42,7 +48,6 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		this._moduleHeight = value;
 		this.updateURL();
 	}
-	private _moduleHeight = 500;
 
 	get fixedHeight() {
 		return this._fixedHeight;
@@ -51,11 +56,6 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		this._fixedHeight = value;
 		this.updateURL();
 	}
-	private _fixedHeight = true;
-
-	private updateURLTimeout: NodeJS.Timer;
-
-	moduleInteractable: Interact.Interactable;
 
 	constructor(private router: Router, private route: ActivatedRoute) { }
 

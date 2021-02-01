@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 
-import { ModalModule } from 'ngx-bootstrap';
-
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
@@ -23,7 +21,6 @@ import { AuthenticationRoutingModule } from './authentication.routing';
 		CommonModule,
 		FormsModule,
 		AuthenticationRoutingModule,
-		ModalModule.forRoot(),
 		ReactiveFormsModule,
 		SharedModule
 	]

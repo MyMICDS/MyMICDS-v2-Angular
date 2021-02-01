@@ -12,15 +12,6 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 	styleUrls: ['./simplified-schedule.component.scss']
 })
 export class SimplifiedScheduleComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
-
-	@Input()
-	get fixedHeight() {
-		return this._fixedHeight;
-	}
-	set fixedHeight(fixed: boolean) {
-		this._fixedHeight = fixed;
-		this.calcBlockDisplay();
-	}
 	private _fixedHeight: boolean;
 
 	moduleWidth: number;
@@ -42,6 +33,15 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 
 	schedule: GetScheduleResponse['schedule'] | null = null;
 	scheduleDate = moment();
+
+	@Input()
+	get fixedHeight() {
+		return this._fixedHeight;
+	}
+	set fixedHeight(fixed: boolean) {
+		this._fixedHeight = fixed;
+		this.calcBlockDisplay();
+	}
 
 	constructor(private mymicds: MyMICDS) {
 		super();
