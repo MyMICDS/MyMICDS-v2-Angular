@@ -27,6 +27,7 @@ import { QuotesComponent } from './components/quotes/quotes.component';
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
+import { GlobalErrorHandler } from "./services/global-error-handler.service";
 // import { RealtimeService } from './services/realtime.service';
 
 // newly created modules
@@ -69,9 +70,13 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		// Sentry stuff for better traces
 		{
 			provide: ErrorHandler,
+			useValue: GlobalErrorHandler,
+		},
+		{
+			provide: ErrorHandler,
 			useValue: Sentry.createErrorHandler({
 				showDialog: true,
-			}),
+			})
 		},
 		{
 			provide: Sentry.TraceService,
