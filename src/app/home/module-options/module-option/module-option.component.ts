@@ -1,7 +1,9 @@
-import { Component, Input, Output, EventEmitter, Injectable } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { Options, OptionConfig, OptionValue } from '../../modules/module-options';
 
+import { IconDefinition } from '@fortawesome/fontawesome-common-types';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -21,6 +23,10 @@ export class ModuleOptionComponent {
 
 	show = true;
 	select = false;
+
+	// Needed to access icon library in template
+	fas = fas;
+	iconSearchValue = '';
 
 	@Input()
 	get config() {
@@ -68,11 +74,8 @@ export class ModuleOptionComponent {
 	}
 
 	// Icon stuff
-	changeIcon(icon: string) {
-		// Get rid of the 'fa ' at the beginning
-		const split = icon.split('fa-');
-		console.log(split);
-		this.value = split[split.length - 1];
-		this.valueChange.emit(this.value);
+	changeIcon({ iconName }: IconDefinition) {
+		this.value = iconName;
+		this.valueChange.emit(iconName);
 	}
 }

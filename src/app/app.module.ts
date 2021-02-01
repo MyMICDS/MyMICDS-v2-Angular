@@ -11,7 +11,6 @@ import { appRoutingProviders, routing } from './app.routing';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import { AngularFittextModule } from 'angular-fittext';
-import { IconPickerModule } from 'ngx-icon-picker';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
@@ -52,7 +51,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		ColorPickerModule,
 		BrowserAnimationsModule,
 		AngularFittextModule,
-		IconPickerModule,
 		SharedModule,
 		AuthenticationModule,
 		FontAwesomeModule

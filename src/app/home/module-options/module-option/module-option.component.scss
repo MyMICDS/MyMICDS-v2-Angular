@@ -1,3 +1,31 @@
 p {
 	margin-bottom: 0;
 }
+
+.icon-dropdown {
+	padding: 0;
+
+	input {
+		font-family: 'FontAwesome', 'Open Sans', sans-serif;
+	}
+}
+
+.icon-scroll {
+	padding: 1%;
+
+	max-height: 20rem;
+	overflow-y: auto;
+
+	button {
+		margin: 1%;
+	}
+
+	&:empty {
+		padding: 2.5%;
+
+		&::before {
+			color: gray;
+			content: 'No icons matched your search.'
+		}
+	}
+}

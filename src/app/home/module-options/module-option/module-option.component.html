@@ -30,13 +30,20 @@
 	</ng-container>
 
 	<!-- Icon -->
-	<div *ngIf="config.type === 'ICON'">
-		<!-- <input
-		[iconPicker]="value"
-		[ipIconPack]="['fa5']"
-		[ipPosition]="bottom"
-		(iconPickerSelect)="changeIcon($event)"/>
-		<fa-icon [icon]="value"></fa-icon>  -->
+	<div *ngIf="config.type === 'ICON'" ngbDropdown #iconDrop="ngbDropdown">
+		<input class="form-control" ngbDropdownAnchor [(ngModel)]="value" (focus)="iconDrop.open()">
+		<div class="icon-dropdown" ngbDropdownMenu>
+			<input class="form-control" placeholder="&#xf002; Search" [(ngModel)]="iconSearchValue" />
+			<div class="dropdown-divider"></div>
+			<div class="icon-scroll">
+				<ng-container *ngFor="let icon of fas | keyvalue">
+					<button *ngIf="icon.value.iconName.includes(iconSearchValue)" class="btn btn-light" type="button"
+							(click)="changeIcon(icon.value); iconDrop.close()">
+						<fa-icon [icon]="icon.value" [fixedWidth]="true"></fa-icon>
+					</button>
+				</ng-container>
+			</div>
+		</div>
 	</div>
 
 	<!-- Enum -->
