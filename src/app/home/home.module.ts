@@ -8,6 +8,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { AngularFittextModule } from 'angular-fittext';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { IconPickerModule } from 'ngx-icon-picker';
 
 import { BookmarksComponent } from './modules/bookmarks/bookmarks.component';
 import { CountdownComponent } from './modules/countdown/countdown.component';
@@ -56,6 +57,7 @@ import { HomeRoutingModule } from './home.routing';
 		CommonModule,
 		FontAwesomeModule,
 		GridsterModule.forRoot(),
+		IconPickerModule,
 		HomeRoutingModule,
 		SharedModule,
 		FormsModule,

@@ -20,7 +20,7 @@
 	<ng-container *ngIf="config.type === 'Date'">
 		<div class="input-group">
 			<input class="form-control" placeholder="yyyy-mm-dd" (dateSelect)="changeDate($event)"
-				   name="d" #c2="ngModel" [(ngModel)]="value" ngbDatepicker #d="ngbDatepicker">
+				   name="d" [(ngModel)]="value" ngbDatepicker #d="ngbDatepicker">
 			<div class="input-group-append">
 			  <button class="btn btn-secondary calendar" (click)="d.toggle()" type="button">
 				  <fa-icon icon="calendar"></fa-icon>
@@ -30,14 +30,14 @@
 	</ng-container>
 
 	<!-- Icon -->
-	<button *ngIf="config.type === 'ICON'"
-		class="btn btn-secondary"
+	<div *ngIf="config.type === 'ICON'">
+		<input
 		[iconPicker]="value"
-		ipIconPack="fa"
-		ipPosition="bottom"
-		(iconPickerSelect)="changeIcon($event)">
-		<i class="fa" [ngClass]="value" aria-hidden="true"></i>
-	</button>
+		[ipIconPack]="['fa5']"
+		[ipPosition]="bottom"
+		[ipDivSearchStyleClass]="icon-dark"
+		(iconPickerSelect)="changeIcon($event)"/>
+	</div>
 
 	<!-- Enum -->
 	<select *ngIf="select" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">

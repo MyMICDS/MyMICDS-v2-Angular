@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter, Injectable } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
 import { Options, OptionConfig, OptionValue } from '../../modules/module-options';
+
+import { Icon } from "ngx-icon-picker"
 import { NgbDateStruct, NgbDateAdapter } from "@ng-bootstrap/ng-bootstrap";
 
 @Injectable()
@@ -101,10 +103,12 @@ export class ModuleOptionComponent {
 			this.show = true;
 		}
 	}
-	
+
+	// Icon stuff
 	changeIcon(icon: string) {
 		// Get rid of the 'fa ' at the beginning
-		const split = icon.split(' ');
+		const split = icon.split('fa-');
+		console.log(split);
 		this.value = split[split.length - 1];
 		this.valueChange.emit(this.value);
 	}
