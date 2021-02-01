@@ -53,7 +53,6 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		'spanish',
 		'latin',
 		'mandarin',
-		'german',
 		'french',
 		'other'
 	];
