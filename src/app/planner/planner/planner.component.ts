@@ -13,6 +13,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import { contains, darkenColor, rainbowCSSGradient, rainbowSafeWord } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';

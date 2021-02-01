@@ -15,6 +15,9 @@ import {
 } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 import { SharedModule } from '../shared/shared.module';
 
 import { PlannerRoutingModule } from './planner.routing';
@@ -30,6 +33,7 @@ import { PlannerRoutingModule } from './planner.routing';
 		FormsModule,
 		ColorPickerModule,
 		FontAwesomeModule,
+		NgbModule,
 		BsDropdownModule.forRoot(),
 		DatepickerModule.forRoot(),
 		ModalModule.forRoot(),
