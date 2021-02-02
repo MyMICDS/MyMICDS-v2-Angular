@@ -290,19 +290,31 @@
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Date</legend>
+						<!-- https://ng-bootstrap.github.io/#/components/datepicker/examples#range-popup -->
 						<div class="event-date btn-group">
 							<input
-								#drpCreate="bsDaterangepicker"
-								bsDaterangepicker
-								[bsConfig]="daterangeOptions"
-								placement="top"
+								ngbDatepicker
+								#drpCreate="ngbDatepicker"
+								[autoClose]="'outside'"
 								class="form-control"
 								name="dates"
-								[(ngModel)]="createEventModel.dates">
+								[displayMonths]="2"
+								[dayTemplate]="t"
+								(dateSelect)="onSelectDateRange($event)">
 							<button class="btn btn-secondary" (click)="drpCreate.toggle()">
 								<fa-icon icon="calendar"></fa-icon>
 							</button>
 						</div>
+						<ng-template #t let-date let-focused="focused">
+							<span class="custom-day"
+								  [class.focused]="focused"
+								  [class.range]="isRange(date)"
+								  [class.faded]="isHovered(date) || isInside(date)"
+								  (mouseenter)="hoveredDate = date"
+								  (mouseleave)="hoveredDate = null">
+							  {{ date.day }}
+							</span>
+						  </ng-template>
 					</fieldset>
 				</form>
 			</div>

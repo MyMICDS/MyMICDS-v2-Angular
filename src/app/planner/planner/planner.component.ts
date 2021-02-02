@@ -13,7 +13,7 @@ import { fromEvent, Subject } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import * as moment from 'moment';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-import {NgbDate, NgbCalendar, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDate, NgbCalendar, NgbDateParserFormatter, NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import { contains, darkenColor, rainbowCSSGradient, rainbowSafeWord } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -43,7 +43,10 @@ type EventsInput = Omit<AddPlannerEventParameters, 'start' | 'end'> & { dates: [
 @Component({
 	selector: 'mymicds-planner',
 	templateUrl: './planner.component.html',
-	styleUrls: ['./planner.component.scss']
+	styleUrls: ['./planner.component.scss'],
+	providers: [
+		{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}
+	]
 })
 export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
@@ -144,7 +147,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		public mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
-		private alertService: AlertService
+		private alertService: AlertService,
+		private dateAdapter: NgbDateAdapter<Date>
 	) {
 		super();
 	}
@@ -652,4 +656,35 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	sidebarClose() {
 		this.sidebarCollapsed = true;
 	}
+
+	// modal date range selection 
+	hoveredDate: NgbDate | null = null;
+
+	fromDate: NgbDate;
+	toDate: NgbDate | null = null;
+
+	onSelectDateRange(date: NgbDate) {
+		if (!this.fromDate && !this.toDate) {
+		  this.fromDate = date;
+		} else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+		  this.toDate = date;
+		  this.createEventModel.dates = [this.dateAdapter.toModel(this.fromDate)!!, this.dateAdapter.toModel(this.toDate)!!];
+		} else {
+		  this.toDate = null;
+		  this.fromDate = date;
+		}
+	  }
+	
+	isHovered(date: NgbDate) {
+		return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+	}
+	
+	isInside(date: NgbDate) {
+		return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+	}
+	
+	isRange(date: NgbDate) {
+		return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+	}
+
 }
