@@ -148,7 +148,9 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		private router: Router,
 		private route: ActivatedRoute,
 		private alertService: AlertService,
-		private dateAdapter: NgbDateAdapter<Date>
+		private formatter: NgbDateParserFormatter,
+		private dateAdapter: NgbDateAdapter<Date>,
+		private calendar: NgbCalendar
 	) {
 		super();
 	}
@@ -657,34 +659,41 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.sidebarCollapsed = true;
 	}
 
-	// modal date range selection 
+	// modal date range selection
+
 	hoveredDate: NgbDate | null = null;
 
-	fromDate: NgbDate;
-	toDate: NgbDate | null = null;
+	fromDate: NgbDate | null;
+	toDate: NgbDate | null;
 
-	onSelectDateRange(date: NgbDate) {
+	onDateSelection(date: NgbDate) {
 		if (!this.fromDate && !this.toDate) {
 		  this.fromDate = date;
-		} else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+		} else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
 		  this.toDate = date;
-		  this.createEventModel.dates = [this.dateAdapter.toModel(this.fromDate)!!, this.dateAdapter.toModel(this.toDate)!!];
+		  this.createEventModel.dates = [this.dateAdapter.toModel(this.fromDate)!!, this.dateAdapter.toModel(this.toDate)!!]
+		  console.log(this.createEventModel.dates)
 		} else {
 		  this.toDate = null;
 		  this.fromDate = date;
 		}
 	  }
 	
-	isHovered(date: NgbDate) {
+	  isHovered(date: NgbDate) {
 		return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
-	}
+	  }
 	
-	isInside(date: NgbDate) {
+	  isInside(date: NgbDate) {
 		return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-	}
+	  }
 	
-	isRange(date: NgbDate) {
+	  isRange(date: NgbDate) {
 		return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
-	}
+	  }
+	
+	  validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
+		const parsed = this.formatter.parse(input);
+		return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
+	  }
 
 }
