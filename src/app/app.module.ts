@@ -68,7 +68,9 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		// Sentry stuff for better traces, which is implemented in a custom error handler
 		{
 			provide: ErrorHandler,
-			useValue: GlobalErrorHandler,
+			useValue: Sentry.createErrorHandler({
+				showDialog: true,
+			})
 		},
 		{
 			provide: Sentry.TraceService,
