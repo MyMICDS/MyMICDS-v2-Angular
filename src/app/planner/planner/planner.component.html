@@ -293,7 +293,8 @@
 						<div class="event-date btn-group">
 							<div class="form-group hidden">
 								<div class="input-group">
-								  <input name="datepicker"
+									<!-- this is disgusting and needs a TODO fix -->
+									<input name="datepicker"
 										 class="form-control"
 										 ngbDatepicker
 										 #datepicker="ngbDatepicker"
@@ -304,14 +305,14 @@
 										 outsideDays="hidden"
 										 [startDate]="fromDate!"
 										 tabindex="-1">
-								  <ng-template #t let-date let-focused="focused">
+									<ng-template #t let-date let-focused="focused">
 									<span class="custom-day"
-										  [class.focused]="focused"
-										  [class.range]="isRange(date)"
-										  [class.faded]="isHovered(date) || isInside(date)"
-										  (mouseenter)="hoveredDate = date"
-										  (mouseleave)="hoveredDate = null">
-									  {{ date.day }}
+										[class.focused]="focused"
+										[class.range]="isRange(date)"
+										[class.faded]="isHovered(date) || isInside(date)"
+										(mouseenter)="hoveredDate = date"
+										(mouseleave)="hoveredDate = null">
+										{{ date.day }}
 									</span>
 								  </ng-template>
 								</div>
@@ -415,6 +416,7 @@
 						<div class="event-date btn-group">
 							<div class="form-group hidden">
 								<div class="input-group">
+									<!-- this is disgusting and needs a TODO fix -->
 								  <input name="editdatepicker"
 										 class="form-control"
 										 ngbDatepicker
