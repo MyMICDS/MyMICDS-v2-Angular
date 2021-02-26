@@ -12,7 +12,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import * as moment from 'moment';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import {NgbDate, NgbCalendar, NgbDateParserFormatter, NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import { contains, darkenColor, rainbowCSSGradient, rainbowSafeWord } from '../../common/utils';
 
@@ -97,10 +96,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	selectionEvents: DailyEvents = [];
 	@ViewChildren('selectionEvent') eventEls: QueryList<ElementRef>;
 
-	daterangeOptions: Partial<BsDatepickerConfig> = {
-		containerClass: 'theme-red'
-	};
-
 	// Create Events form
 	createEventModel: EventsInput = {
 		title: '',
@@ -148,7 +143,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		private router: Router,
 		private route: ActivatedRoute,
 		private alertService: AlertService,
-		private formatter: NgbDateParserFormatter,
+		public formatter: NgbDateParserFormatter,
 		private dateAdapter: NgbDateAdapter<Date>,
 		private calendar: NgbCalendar
 	) {
