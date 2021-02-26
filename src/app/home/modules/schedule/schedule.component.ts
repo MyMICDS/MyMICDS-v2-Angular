@@ -1,7 +1,7 @@
 import { GetScheduleResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import * as moment from 'moment';
 import { ElementQueries, ResizeSensor } from 'css-element-queries';
@@ -15,14 +15,6 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 	styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
-
-	@Input()
-	get fixedHeight() {
-		return this._fixedHeight;
-	}
-	set fixedHeight(fixed: boolean) {
-		this._fixedHeight = fixed;
-	}
 	private _fixedHeight: boolean;
 
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
@@ -46,6 +38,14 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 	viewSchedule: GetScheduleResponse['schedule'] | null = null;
 
 	changeSchedule$ = new Subject<void>();
+
+	@Input()
+	get fixedHeight() {
+		return this._fixedHeight;
+	}
+	set fixedHeight(fixed: boolean) {
+		this._fixedHeight = fixed;
+	}
 
 	constructor(private mymicds: MyMICDS) {
 		super();

@@ -9,6 +9,14 @@ import { OptionsConfig, Options } from '../modules/module-options';
 	styleUrls: ['./module-options.component.scss']
 })
 export class ModuleOptionsComponent {
+	private _type: string;
+	private _options: Options = {};
+
+	@Output() optionsChange = new EventEmitter<Options>();
+
+	optionKeys: string[];
+	optionsConfig: OptionsConfig;
+	validOptions: Options;
 
 	@Input()
 	get type() {
@@ -25,7 +33,6 @@ export class ModuleOptionsComponent {
 		// Fall back to default options if none are provided
 		this.options = {};
 	}
-	private _type: string;
 
 	@Input()
 	get options() {
@@ -35,13 +42,6 @@ export class ModuleOptionsComponent {
 		// Instead of replacing options, just override default options
 		this._options = Object.assign({}, getDefaultOptions(this.type), this.options, newOptions);
 	}
-	private _options: Options = {};
-
-	@Output() optionsChange = new EventEmitter<Options>();
-
-	optionKeys: string[];
-	optionsConfig: OptionsConfig;
-	validOptions: Options;
 
 	constructor() { }
 

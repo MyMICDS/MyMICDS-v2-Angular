@@ -39,10 +39,13 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 
 	// Returns the MyMICDS class object of the remote class name
 	aliasClassObject(className: string) {
-		for (let alias of this.aliases[this.type]) {
-			if (className === alias.classRemote) {
-				return alias;
+		if (this.aliases) {
+			for (let alias of this.aliases[this.type]) {
+				if (className === alias.classRemote) {
+					return alias;
+				}
 			}
+
 		}
 
 		return null;

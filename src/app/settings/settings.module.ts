@@ -5,10 +5,9 @@ import { RouterModule } from '@angular/router';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import { ModalModule } from 'ngx-bootstrap';
 import { ColorPickerModule, ColorPickerService } from 'ngx-color-picker';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AliasesComponent } from './settings/aliases/aliases.component';
 import { BackgroundComponent } from './settings/background/background.component';
@@ -42,10 +41,10 @@ import { SharedModule } from '../shared/shared.module';
 		FormsModule,
 		ColorPickerModule,
 		FontAwesomeModule,
-		ModalModule.forRoot(),
 		ReactiveFormsModule,
 		RouterModule,
-		SettingsRoutingModule
+		SettingsRoutingModule,
+		NgbModule
 	],
 	providers: [
 		AlertService,
@@ -56,6 +55,6 @@ import { SharedModule } from '../shared/shared.module';
 export class SettingsModule {
 	constructor(library: FaIconLibrary) {
 		// Add an icon to the library for convenient access in other components
-		library.addIconPacks(fas, far, fab);
+		library.addIconPacks(fas, fab);
 	}
 }

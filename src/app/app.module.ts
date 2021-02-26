@@ -9,16 +9,10 @@ import { Router } from '@angular/router';
 
 import { appRoutingProviders, routing } from './app.routing';
 import { ColorPickerModule } from 'ngx-color-picker';
-import {
-	ModalModule,
-	PopoverModule,
-	TooltipModule
-} from 'ngx-bootstrap';
+
 import { AngularFittextModule } from 'angular-fittext';
-import { IconPickerModule } from 'ngx-icon-picker';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import * as Sentry from '@sentry/angular';
@@ -32,28 +26,16 @@ import { QuotesComponent } from './components/quotes/quotes.component';
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
+import { GlobalErrorHandler } from './services/global-error-handler.service';
 // import { RealtimeService } from './services/realtime.service';
-// RxJS 6 Zone.js Fix
-// import 'zone.js/dist/zone-patch-rxjs';
 
 // newly created modules
 import { SharedModule } from './shared/shared.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-// The Modules below are commented due to lazy loading
-// import { HomeModule } from './home/home.module';
-// import { AboutModule } from './about/about.module';
-// import { CampusLifeModule } from './campus-life/campus-life.module';
-// import { DailyBulletinModule } from './daily-bulletin/daily-bulletin.module';
-// import { LunchModule } from './lunch/lunch.module';
-// import { PlannerModule } from './planner/planner.module';
-// import { SettingsModule } from './settings/settings.module';
-// import { UnsubscribeModule } from './unsubscribe/unsubscribe.module';
-// import { ResetPasswordModule } from './reset-password/reset-password.module';
-// import { ConfirmModule } from './confirm/confirm.module';
+
 
 @NgModule({
 	declarations: [
-		// Components
 		AppComponent,
 		AlertComponent,
 		AlertDebugComponent,
@@ -67,18 +49,11 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		ReactiveFormsModule,
 		routing,
 		ColorPickerModule,
-		TooltipModule.forRoot(),
-		ModalModule.forRoot(),
-		PopoverModule.forRoot(),
 		BrowserAnimationsModule,
 		AngularFittextModule,
-		IconPickerModule,
 		SharedModule,
 		AuthenticationModule,
 		FontAwesomeModule
-		// 		BsDropdownModule.forRoot(), // dep for DatetimePopup
-		// 		DatepickerModule.forRoot(), // ditto
-		// 		TimepickerModule.forRoot(), // ditto
 	],
 	providers: [
 		{
@@ -90,12 +65,10 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		AlertService,
 		BackgroundService,
 		// RealtimeService,
-		// Sentry stuff for better traces
+		// Sentry stuff for better traces, which is implemented in a custom error handler
 		{
 			provide: ErrorHandler,
-			useValue: Sentry.createErrorHandler({
-				showDialog: true,
-			}),
+			useValue: GlobalErrorHandler,
 		},
 		{
 			provide: Sentry.TraceService,
@@ -114,6 +87,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 export class AppModule {
 	constructor(library: FaIconLibrary) {
 		// Add an icon to the library for convenient access in other components
-		library.addIconPacks(fas, far, fab);
+		library.addIconPacks(fas, fab);
 	}
 }

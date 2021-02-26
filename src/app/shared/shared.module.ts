@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import { NavbarComponent } from './navbar/navbar.component';
@@ -80,6 +79,6 @@ import { SharedRoutingModule } from './shared.routing' ;
 export class SharedModule {
 	constructor(library: FaIconLibrary) {
 		// Add an icon to the library for convenient access in other components
-		library.addIconPacks(fas, far, fab);
+		library.addIconPacks(fas, fab);
 	}
 }

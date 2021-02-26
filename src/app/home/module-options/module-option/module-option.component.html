@@ -19,32 +19,32 @@
 	<!-- Date -->
 	<ng-container *ngIf="config.type === 'Date'">
 		<div class="input-group">
-			<input class="form-control" [(ngModel)]="value">
-			<span class="input-group-btn">
-				<button class="btn btn-secondary" (click)="onTogglePicker()">
-					<fa-icon icon="calendar"></fa-icon>
-				</button>
-			</span>
-		</div>
-		<datetime-popup [value]="value" (valueChange)="changeDate($event)"
-			[(showPopup)]="showPicker"
-			[showDate]="true"
-			[showTime]="true"
-			[clearButton]="clearButton"
-			[nowButton]="nowButton"
-			[closeButton]="closeButton">
-		</datetime-popup>
+			<input class="form-control" placeholder="yyyy-mm-dd" (dateSelect)="changeDate($event)"
+				   name="d" [(ngModel)]="value" ngbDatepicker #d="ngbDatepicker">
+			<div class="input-group-append">
+			  <button class="btn btn-secondary calendar" (click)="d.toggle()" type="button">
+				  <fa-icon icon="calendar"></fa-icon>
+			  </button>
+			</div>
+		  </div>
 	</ng-container>
 
 	<!-- Icon -->
-	<button *ngIf="config.type === 'ICON'"
-		class="btn btn-secondary"
-		[iconPicker]="value"
-		ipIconPack="fa"
-		ipPosition="bottom"
-		(iconPickerSelect)="changeIcon($event)">
-		<i class="fa" [ngClass]="value" aria-hidden="true"></i>
-	</button>
+	<div *ngIf="config.type === 'ICON'" ngbDropdown #iconDrop="ngbDropdown">
+		<input class="form-control" ngbDropdownAnchor [(ngModel)]="value" (focus)="iconDrop.open()">
+		<div class="icon-dropdown" ngbDropdownMenu>
+			<input class="form-control" placeholder="&#xf002; Search" [(ngModel)]="iconSearchValue" />
+			<div class="dropdown-divider"></div>
+			<div class="icon-scroll">
+				<ng-container *ngFor="let icon of fas | keyvalue">
+					<button *ngIf="icon.value.iconName.includes(iconSearchValue)" class="btn btn-light" type="button"
+							(click)="changeIcon(icon.value); iconDrop.close()">
+						<fa-icon [icon]="icon.value" [fixedWidth]="true"></fa-icon>
+					</button>
+				</ng-container>
+			</div>
+		</div>
+	</div>
 
 	<!-- Enum -->
 	<select *ngIf="select" class="form-control" [ngModel]="value" (ngModelChange)="valueChange.emit($event)">

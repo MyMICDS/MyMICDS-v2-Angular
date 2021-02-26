@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { fromEvent, Subject } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import * as moment from 'moment';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import {NgbDate, NgbCalendar, NgbDateParserFormatter, NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import { contains, darkenColor, rainbowCSSGradient, rainbowSafeWord } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -42,7 +42,10 @@ type EventsInput = Omit<AddPlannerEventParameters, 'start' | 'end'> & { dates: [
 @Component({
 	selector: 'mymicds-planner',
 	templateUrl: './planner.component.html',
-	styleUrls: ['./planner.component.scss']
+	styleUrls: ['./planner.component.scss'],
+	providers: [
+		{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}
+	]
 })
 export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
@@ -70,19 +73,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	// Keep track of day rotations
 	days: GetPortalDayRotationResponse['days'] = {};
 
-	// Array of total events
-	get events(): PlannerEvent[] {
-		return this.plannerEvents.concat(this.canvasEvents)
-			.map(event => {
-				// Check if it should be rainbow color
-				if (event.class && event.class.color && event.class.color.toUpperCase() === rainbowSafeWord) {
-					event.class.color = rainbowCSSGradient();
-					event.class.textDark = true;
-				}
-				return event;
-			});
-	}
-
 	// Array of Planner events
 	plannerEvents: PlannerEvent[] = [];
 	// Array of Canvas events
@@ -106,10 +96,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	selectionEvents: DailyEvents = [];
 	@ViewChildren('selectionEvent') eventEls: QueryList<ElementRef>;
 
-	daterangeOptions: Partial<BsDatepickerConfig> = {
-		containerClass: 'theme-red'
-	};
-
 	// Create Events form
 	createEventModel: EventsInput = {
 		title: '',
@@ -130,6 +116,26 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		dates: [new Date(), new Date()]
 	};
 
+	// modal date range selection
+
+	hoveredDate: NgbDate | null = null;
+
+	fromDate: NgbDate | null;
+	toDate: NgbDate | null;
+
+	// Array of total events
+	get events(): PlannerEvent[] {
+		return this.plannerEvents.concat(this.canvasEvents)
+			.map(event => {
+				// Check if it should be rainbow color
+				if (event.class && event.class.color && event.class.color.toUpperCase() === rainbowSafeWord) {
+					event.class.color = rainbowCSSGradient();
+					event.class.textDark = true;
+				}
+				return event;
+			});
+	}
+
 	get canvasRefreshTime() {
 		if (this.canvasEvents.length === 0) {
 			return null;
@@ -143,7 +149,10 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		public mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
-		private alertService: AlertService
+		private alertService: AlertService,
+		public formatter: NgbDateParserFormatter,
+		private dateAdapter: NgbDateAdapter<Date>,
+		private calendar: NgbCalendar
 	) {
 		super();
 	}
@@ -651,4 +660,34 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	sidebarClose() {
 		this.sidebarCollapsed = true;
 	}
+
+	onDateSelection(date: NgbDate) {
+		if (!this.fromDate && !this.toDate) {
+		  this.fromDate = date;
+		} else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
+		  this.toDate = date;
+		  this.createEventModel.dates = [this.dateAdapter.toModel(this.fromDate)!, this.dateAdapter.toModel(this.toDate)!]
+		} else {
+		  this.toDate = null;
+		  this.fromDate = date;
+		}
+	  }
+
+	  isHovered(date: NgbDate) {
+		return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+	  }
+
+	  isInside(date: NgbDate) {
+		return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+	  }
+
+	  isRange(date: NgbDate) {
+		return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+	  }
+
+	  validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
+		const parsed = this.formatter.parse(input);
+		return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
+	  }
+
 }

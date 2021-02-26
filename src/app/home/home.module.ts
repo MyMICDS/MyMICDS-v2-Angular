@@ -5,14 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { GridsterModule } from 'angular2gridster';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import {
-	ModalModule,
-	PopoverModule,
-	TooltipModule
-} from 'ngx-bootstrap';
 import { AngularFittextModule } from 'angular-fittext';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BookmarksComponent } from './modules/bookmarks/bookmarks.component';
 import { CountdownComponent } from './modules/countdown/countdown.component';
@@ -35,6 +30,7 @@ import { moduleComponents } from './modules/module-config';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home.routing';
+
 
 @NgModule({
 	declarations: [
@@ -60,14 +56,11 @@ import { HomeRoutingModule } from './home.routing';
 		CommonModule,
 		FontAwesomeModule,
 		GridsterModule.forRoot(),
-		TooltipModule.forRoot(),
-		ModalModule.forRoot(),
-		PopoverModule.forRoot(),
-		TooltipModule.forRoot(),
 		HomeRoutingModule,
 		SharedModule,
 		FormsModule,
-		AngularFittextModule
+		AngularFittextModule,
+		NgbModule
 	],
 	exports: [
 		ModuleInspectorComponent,
@@ -76,6 +69,6 @@ import { HomeRoutingModule } from './home.routing';
 export class HomeModule {
 	constructor(library: FaIconLibrary) {
 		// Add an icon to the library for convenient access in other components
-		library.addIconPacks(fas, far, fab);
+		library.addIconPacks(fas, fab);
 	}
 }

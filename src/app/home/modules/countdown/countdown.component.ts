@@ -45,55 +45,10 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	@ViewChildren(AngularFittextDirective) private fittexts: QueryList<AngularFittextDirective>;
 	resizeSensor: ResizeSensor;
-
-	@Input()
-	get mode() {
-		return this._mode;
-	}
-	set mode(newValue: string) {
-		this._mode = newValue;
-		this.calculate();
-	}
 	private _mode: string;
-
-	@Input()
-	get shake() {
-		return this._shake;
-	}
-	set shake(newValue: boolean) {
-		this._shake = newValue;
-		this.styleDaysLeft();
-	}
 	private _shake: boolean;
-
-	@Input()
-	get schoolDays() {
-		return this._schoolDays;
-	}
-	set schoolDays(newValue: boolean) {
-		this._schoolDays = newValue;
-		this.calculate();
-	}
 	private _schoolDays: boolean;
-
-	@Input()
-	get eventLabel() {
-		return this._eventLabel;
-	}
-	set eventLabel(newValue: string) {
-		this._eventLabel = newValue;
-		this.calculate();
-	}
 	private _eventLabel: string;
-
-	@Input()
-	get countdownTo() {
-		return this._countdownTo;
-	}
-	set countdownTo(newValue: Date) {
-		this._countdownTo = newValue;
-		this.calculate();
-	}
 	private _countdownTo: Date;
 
 	countdownInterval: NodeJS.Timer;
@@ -111,6 +66,51 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 	// secondsLeft: number;
 
 	shaking: string;
+
+	@Input()
+	get mode() {
+		return this._mode;
+	}
+	set mode(newValue: string) {
+		this._mode = newValue;
+		this.calculate();
+	}
+
+	@Input()
+	get shake() {
+		return this._shake;
+	}
+	set shake(newValue: boolean) {
+		this._shake = newValue;
+		this.styleDaysLeft();
+	}
+
+	@Input()
+	get schoolDays() {
+		return this._schoolDays;
+	}
+	set schoolDays(newValue: boolean) {
+		this._schoolDays = newValue;
+		this.calculate();
+	}
+
+	@Input()
+	get eventLabel() {
+		return this._eventLabel;
+	}
+	set eventLabel(newValue: string) {
+		this._eventLabel = newValue;
+		this.calculate();
+	}
+
+	@Input()
+	get countdownTo() {
+		return this._countdownTo;
+	}
+	set countdownTo(newValue: Date) {
+		this._countdownTo = newValue;
+		this.calculate();
+	}
 
 	constructor(private mymicds: MyMICDS) {
 		super();

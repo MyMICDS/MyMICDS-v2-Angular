@@ -128,7 +128,6 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 				}
 			})
 		);
-
 	}
 
 	ngAfterViewInit() {

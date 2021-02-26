@@ -5,6 +5,8 @@ import { combineLatest, Observable } from 'rxjs';
 import { defaultIfEmpty } from 'rxjs/operators';
 import { capitalize, contains } from '../../../common/utils';
 
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
 
@@ -51,7 +53,6 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		'spanish',
 		'latin',
 		'mandarin',
-		'german',
 		'french',
 		'other'
 	];
@@ -67,9 +68,13 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 	aliasClass: MyMICDSClass | null = null;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
+	constructor(private mymicds: MyMICDS, private alertService: AlertService, private modalService: NgbModal) {
 		super();
 	}
+
+	open(content: any) { // any Any is bad, but .open() takes an any argument, so... Sorry, Nick
+		this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
+	  }
 
 	ngOnInit() {
 		// Get list of user's classes
