@@ -9,11 +9,11 @@ import moment from 'moment-timezone';
 })
 export class MomentDatePipe extends DatePipe implements PipeTransform {
 	transform(
-		value: string | Date | moment.Moment,
+		value: moment.MomentInput,
 		format: string,
 		timezone: string
 	) {
-		const timezoneOffset = moment(value).tz(timezone).format('Z');
-		return super.transform(value, format, timezoneOffset);
+		const momentObj = moment(value).tz(timezone);
+		return super.transform(momentObj.toDate(), format, momentObj.format('Z'));
 	}
 }
