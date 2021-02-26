@@ -672,7 +672,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		} else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
 		  this.toDate = date;
 		  this.createEventModel.dates = [this.dateAdapter.toModel(this.fromDate)!!, this.dateAdapter.toModel(this.toDate)!!]
-		  console.log(this.createEventModel.dates)
 		} else {
 		  this.toDate = null;
 		  this.fromDate = date;
