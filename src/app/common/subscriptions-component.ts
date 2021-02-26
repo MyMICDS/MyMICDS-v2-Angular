@@ -2,16 +2,16 @@
  * Class that will unsubscribe from all observables in a `subscriptions` array
  */
 
-import { OnDestroy, Directive } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Subscription, SubscriptionLike } from 'rxjs';
 
-@Directive()
-export class SubscriptionsComponent implements OnDestroy {
+@Injectable()
+export abstract class SubscriptionsComponent implements OnDestroy {
 
-	private subscriptions: Subscription[] = [];
+	private subscriptions: SubscriptionLike[] = [];
 
-	constructor() {
-		// Even if ngOnDestory gets overriden by the child component, we can still unsubscribe from observables
+	protected constructor() {
+		// Even if ngOnDestroy gets overridden by the child component, we can still unsubscribe from observables
 		// (https://stacksandfoundations.wordpress.com/2016/06/24/using-class-inheritance-to-hook-to-angular2-component-lifecycle/)
 		const childDestroy = this.ngOnDestroy.bind(this);
 		this.ngOnDestroy = () => {
@@ -24,16 +24,13 @@ export class SubscriptionsComponent implements OnDestroy {
 
 	ngOnDestroy() {}
 
-	// Add any because Angualr complains if using MyMICDS observables which extend other classes
-	addSubscription(subscription: Subscription | any) {
+	addSubscription(subscription: SubscriptionLike) {
 		this.subscriptions.push(subscription);
 	}
 
 	private unsubscribeObservables() {
 		for (const subscription of this.subscriptions) {
-			if (subscription && subscription.unsubscribe) {
-				subscription.unsubscribe();
-			}
+			subscription.unsubscribe();
 		}
 	}
 
