@@ -42,15 +42,15 @@
     "zlib": false
   },
   "dependencies": {
-    "@angular/animations": "10.2.4",
-    "@angular/common": "10.2.4",
-    "@angular/compiler": "10.2.4",
-    "@angular/core": "10.2.4",
-    "@angular/forms": "10.2.4",
-    "@angular/localize": "10.2.4",
-    "@angular/platform-browser": "10.2.4",
-    "@angular/platform-browser-dynamic": "10.2.4",
-    "@angular/router": "10.2.4",
+    "@angular/animations": "11.2.3",
+    "@angular/common": "11.2.3",
+    "@angular/compiler": "11.2.3",
+    "@angular/core": "11.2.3",
+    "@angular/forms": "11.2.3",
+    "@angular/localize": "11.2.3",
+    "@angular/platform-browser": "11.2.3",
+    "@angular/platform-browser-dynamic": "11.2.3",
+    "@angular/router": "11.2.3",
     "@fortawesome/angular-fontawesome": "^0.6.1",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-brands-svg-icons": "^5.13.0",
@@ -85,22 +85,21 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.1002.1",
-    "@angular/cli": "~10.2.1",
-    "@angular/compiler-cli": "~10.2.4",
-    "@angular/language-service": "~10.2.4",
-    "@angular/localize": "^10.2.4",
+    "@angular-devkit/build-angular": "~0.1102.2",
+    "@angular/cli": "~11.2.2",
+    "@angular/compiler-cli": "~11.2.3",
+    "@angular/language-service": "~11.2.3",
     "@types/chart.js": "^2.9.30",
-    "@types/jasmine": "^2.5.43",
+    "@types/jasmine": "~3.6.0",
     "@types/moment": "^2.13.0",
     "@types/moment-timezone": "^0.5.12",
     "@types/node": "^12.11.1",
     "@types/trianglify": "^1.2.0",
     "@types/ua-parser-js": "^0.7.32",
-    "codelyzer": "^5.1.2",
-    "jasmine-core": "~3.5.0",
+    "codelyzer": "^6.0.0",
+    "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~5.0.0",
+    "karma": "~6.1.1",
     "karma-chrome-launcher": "~3.1.0",
     "karma-cli": "~1.0.1",
     "karma-coverage-istanbul-reporter": "~3.0.2",
@@ -111,5 +110,8 @@
     "tslint": "~6.1.0",
     "typescript": "~4.0.5"
   },
-  "main": "karma.conf.js"
+  "main": "karma.conf.js",
+  "resolutions": {
+    "webpack": "^5.0.0"
+  }
 }
