@@ -1,12 +1,14 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import * as Sentry from '@sentry/angular';
 
-const sentryErrorHandler = Sentry.createErrorHandler({
-    showDialog: true,
-})
+
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
+    // sentryErrorHandler = Sentry.createErrorHandler({
+    //     showDialog: true,
+    // })
+
     handleError(error: Error) {
         const chunkFailedMessage = /Loading chunk [\d]+ failed/;
         if (chunkFailedMessage.test(error.message)) {
@@ -15,6 +17,6 @@ export class GlobalErrorHandler implements ErrorHandler {
 
         }
 
-        sentryErrorHandler.handleError(error);
+        // this.sentryErrorHandler.handleError(error); TODO FIX
     }
 }
