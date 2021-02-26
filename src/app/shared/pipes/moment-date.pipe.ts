@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import moment from 'moment-timezone';
 
@@ -7,7 +7,14 @@ import moment from 'moment-timezone';
 @Pipe({
 	name: 'momentDate'
 })
-export class MomentDatePipe extends DatePipe implements PipeTransform {
+export class MomentDatePipe extends DatePipe {
+	// For some reason, TS doesn't allow this implementation unless you explicitly specify the overloads
+	transform(value: null, format: string, timezone: string): null;
+	transform(
+		value: moment.MomentInput,
+		format: string,
+		timezone: string
+	): string | null;
 	transform(
 		value: moment.MomentInput,
 		format: string,
