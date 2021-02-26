@@ -65,16 +65,10 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		AlertService,
 		BackgroundService,
 		// RealtimeService,
-		// Sentry stuff for better traces
+		// Sentry stuff for better traces, which is implemented in a custom error handler
 		{
 			provide: ErrorHandler,
 			useValue: GlobalErrorHandler,
-		},
-		{
-			provide: ErrorHandler,
-			useValue: Sentry.createErrorHandler({
-				showDialog: true,
-			})
 		},
 		{
 			provide: Sentry.TraceService,

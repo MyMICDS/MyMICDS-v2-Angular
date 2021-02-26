@@ -116,6 +116,13 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		dates: [new Date(), new Date()]
 	};
 
+	// modal date range selection
+
+	hoveredDate: NgbDate | null = null;
+
+	fromDate: NgbDate | null;
+	toDate: NgbDate | null;
+
 	// Array of total events
 	get events(): PlannerEvent[] {
 		return this.plannerEvents.concat(this.canvasEvents)
@@ -654,13 +661,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.sidebarCollapsed = true;
 	}
 
-	// modal date range selection
-
-	hoveredDate: NgbDate | null = null;
-
-	fromDate: NgbDate | null;
-	toDate: NgbDate | null;
-
 	onDateSelection(date: NgbDate) {
 		if (!this.fromDate && !this.toDate) {
 		  this.fromDate = date;
@@ -672,19 +672,19 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		  this.fromDate = date;
 		}
 	  }
-	
+
 	  isHovered(date: NgbDate) {
 		return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
 	  }
-	
+
 	  isInside(date: NgbDate) {
 		return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
 	  }
-	
+
 	  isRange(date: NgbDate) {
 		return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
 	  }
-	
+
 	  validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
 		const parsed = this.formatter.parse(input);
 		return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
