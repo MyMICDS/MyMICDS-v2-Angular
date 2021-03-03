@@ -32,6 +32,8 @@ import { GlobalErrorHandler } from './services/global-error-handler.service';
 // newly created modules
 import { SharedModule } from './shared/shared.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -53,7 +55,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
 		AngularFittextModule,
 		SharedModule,
 		AuthenticationModule,
-		FontAwesomeModule
+		FontAwesomeModule,
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [
 		{
