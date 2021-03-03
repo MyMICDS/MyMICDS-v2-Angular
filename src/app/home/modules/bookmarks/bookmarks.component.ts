@@ -14,6 +14,9 @@ export class BookmarksComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit() {
+		if (this.icon.includes('fa-')) { // FIX for people who still have FA 4 icons in their settings
+			this.icon = 'bookmark'
+		}
 	}
 
 }
