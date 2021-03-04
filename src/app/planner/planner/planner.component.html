@@ -179,7 +179,7 @@
 							</button>
 							<button
 								class="btn btn-info"
-								(click)="resetCreateEventForm(); createEventModal.show()"
+								(click)="resetCreateEventForm(); openModal(createEventModal)"
 							>
 								<span>
 									<fa-icon icon="plus"></fa-icon>
@@ -229,7 +229,7 @@
 							<div
 								*ngFor="let event of day.events"
 								class="event"
-								(click)="viewEvent(event._id); viewEventModal.show()"
+								(click)="viewEvent(event._id); openModal(viewEventModal)"
 							>
 								<!-- Class info for each event -->
 								<div class="event-class">
@@ -262,7 +262,7 @@
 											class="btn btn-warning btn-sm"
 											(click)="
 												viewEditEventModal(event._id, $event);
-												editEventModal.show()
+												openModal(editEventModal)
 											"
 											[disabled]="event?.canvas"
 										>
@@ -337,7 +337,7 @@
 							*ngFor="let event of selectionEvents"
 							#selectionEvent
 							class="event selection-event"
-							(click)="viewEvent(event.data._id); viewEventModal.show()"
+							(click)="viewEvent(event.data._id); openModal(viewEventModal)"
 						>
 							<!-- Class info for each event -->
 							<div class="event-class">
@@ -370,7 +370,7 @@
 										class="btn btn-warning btn-sm"
 										(click)="
 											viewEditEventModal(event.data._id, $event);
-											editEventModal.show()
+											openModal(editEventModal)
 										"
 										[disabled]="event.data?.canvas"
 									>
@@ -437,7 +437,7 @@
 </div>
 
 <!-- Modal for creating events -->
-<div bsModal #createEventModal="bs-modal" class="create-event-modal modal fade" tabindex="-1">
+<ng-template #createEventModal let-modal class="create-event-modal modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -445,7 +445,7 @@
 				<button
 					type="button"
 					class="close pull-right"
-					(click)="createEventModal.hide()"
+					(click)="modal.dismiss()"
 					aria-label="Close"
 				>
 					<span aria-hidden="true">&times;</span>
@@ -589,7 +589,7 @@
 				<button
 					type="button"
 					class="btn btn-primary"
-					(click)="createEvent(); createEventModal.hide()"
+					(click)="createEvent(); modal.dismiss()"
 					[disabled]="!createEventForm.valid"
 				>
 					Create Event
@@ -597,10 +597,10 @@
 			</div>
 		</div>
 	</div>
-</div>
+</ng-template>
 
 <!-- Modal for viewing events -->
-<div bsModal #viewEventModal="bs-modal" class="view-event-modal modal fade" tabindex="-1">
+<ng-template #viewEventModal let-modal class="view-event-modal modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -614,7 +614,7 @@
 				<button
 					type="button"
 					class="close pull-right"
-					(click)="viewEventModal.hide()"
+					(click)="modal.dismiss()"
 					aria-label="Close"
 				>
 					<span aria-hidden="true">&times;</span>
@@ -657,9 +657,9 @@
 					*ngIf="!viewEventObject?.canvas"
 					class="btn btn-warning"
 					(click)="
-						viewEventModal.hide();
+						modal.dismiss();
 						viewEditEventModal(viewEventObject._id, $event);
-						editEventModal.show()
+						openModal(editEventModal)
 					"
 				>
 					Edit
@@ -667,17 +667,17 @@
 				<button
 					*ngIf="!viewEventObject?.canvas"
 					class="btn btn-danger"
-					(click)="deleteEvent(viewEventObject._id, $event); viewEventModal.hide()"
+					(click)="deleteEvent(viewEventObject._id, $event); modal.dismiss()"
 				>
 					Delete
 				</button>
 			</div>
 		</div>
 	</div>
-</div>
+</ng-template>
 
 <!-- Modal for editing events -->
-<div bsModal #editEventModal="bs-modal" class="edit-event-modal modal fade" tabindex="-1">
+<ng-template #editEventModal let-modal class="edit-event-modal modal fade" tabindex="-1">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -685,7 +685,7 @@
 				<button
 					type="button"
 					class="close pull-right"
-					(click)="editEventModal.hide()"
+					(click)="modal.dismiss()"
 					aria-label="Close"
 				>
 					<span aria-hidden="true">&times;</span>
@@ -825,7 +825,7 @@
 				<button
 					type="button"
 					class="btn btn-primary"
-					(click)="editEvent(); editEventModal.hide()"
+					(click)="editEvent(); modal.dismiss()"
 					[disabled]="!editEventForm.valid"
 				>
 					Edit Event
@@ -833,4 +833,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</ng-template>

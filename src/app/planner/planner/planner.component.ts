@@ -17,7 +17,8 @@ import {
 	NgbDate,
 	NgbDateAdapter,
 	NgbDateNativeAdapter,
-	NgbDateParserFormatter
+	NgbDateParserFormatter,
+	NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 
@@ -124,7 +125,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		private alertService: AlertService,
 		public formatter: NgbDateParserFormatter,
 		private dateAdapter: NgbDateAdapter<Date>,
-		private calendar: NgbCalendar
+		private calendar: NgbCalendar,
+		private modalService: NgbModal
 	) {
 		super();
 	}
@@ -732,5 +734,9 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		return parsed && this.calendar.isValid(NgbDate.from(parsed))
 			? NgbDate.from(parsed)
 			: currentValue;
+	}
+
+	openModal(content: any) {
+		this.modalService.open(content);
 	}
 }

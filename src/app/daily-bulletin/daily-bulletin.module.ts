@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +19,6 @@ import { SharedModule } from '../shared/shared.module';
 		SharedModule,
 		DailybulletinRoutingModule,
 		FontAwesomeModule,
-		BsDatepickerModule,
 		PdfViewerModule
 	]
 })
