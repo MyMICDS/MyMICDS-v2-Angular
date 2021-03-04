@@ -23,7 +23,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	resizeSensor: ResizeSensor;
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
-	// tslint:disable-next-line:max-line-length
+	// eslint-disable-next-line max-len
 	announcement = 'With remote learning, class schedules are a little mixed up. In order for us to give you the most accurate information we can, <strong>please make sure you have your Portal calendar saved.</strong> Check the <a class="alert-link" href="/settings">settings</a> page for more information.';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
@@ -119,10 +119,10 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 				// Engagement announcements
 				if (!this.announcement) {
 					if (user.migrateToVeracross) {
-						// tslint:disable-next-line:max-line-length
+						// eslint-disable-next-line max-len
 						this.announcement = `Hey there! <strong>It appears you haven\'t migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
 					} else if (lacks.length > 0) {
-						// tslint:disable-next-line:max-line-length
+						// eslint-disable-next-line max-len
 						this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
 					}
 				}
@@ -152,7 +152,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	exitEditMode() {
 		if (this.detectChanges()) {
-			// tslint:disable-next-line:max-line-length
+			// eslint-disable-next-line max-len
 			if (!confirm('It looks like you have some unsaved changes. Are you sure you want to quit without saving your layout or module options?')) {
 				return;
 			}

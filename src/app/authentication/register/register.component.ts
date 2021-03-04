@@ -16,7 +16,7 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 export class RegisterComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	public typeOf = typeOf; // tslint:disable-line
+	public typeOf = typeOf; // eslint-disable-line
 
 	registerForm = this.formBuilder.group({
 		user: ['', [Validators.required, Validators.pattern(/^[a-z-]+$/)]],

@@ -1,11 +1,11 @@
-/* tslint:disable:max-line-length */
+/* eslint-disable max-len */
 
 import { MyMICDS } from '@mymicds/sdk';
 import { Directive, ElementRef, OnInit } from '@angular/core';
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Directive({
-	selector: '[mymicds-blur]' // tslint:disable-line
+	selector: '[mymicds-blur]' // eslint-disable-line
 })
 export class BlurDirective extends SubscriptionsComponent implements OnInit {
 
@@ -28,7 +28,7 @@ export class BlurDirective extends SubscriptionsComponent implements OnInit {
 }
 
 @Directive({
-	selector: '[mymicds-blur--dark]' // tslint:disable-line
+	selector: '[mymicds-blur--dark]' // eslint-disable-line
 })
 export class DarkBlurDirective extends SubscriptionsComponent implements OnInit {
 
@@ -52,7 +52,7 @@ export class DarkBlurDirective extends SubscriptionsComponent implements OnInit 
 }
 
 @Directive({
-	selector: '[mymicds-blur--white]' // tslint:disable-line
+	selector: '[mymicds-blur--white]' // eslint-disable-line
 })
 export class WhiteBlurDirective extends SubscriptionsComponent implements OnInit {
 

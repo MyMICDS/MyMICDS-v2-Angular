@@ -18,7 +18,7 @@ import { AlertService } from '../../../services/alert.service';
 export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 	// We need to include this to use in HTML
-	capitalize = capitalize; // tslint:disable-line
+	capitalize = capitalize; // eslint-disable-line
 
 	// If saving classes, prevent user from adding/deleting classes so they don't break anything
 	savingClasses = false;
@@ -281,7 +281,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 	// Adds a class to the bottom
 	addClass() {
 		// Generate random color
-		let color = '#000000'.replace(/0/g, () => (~~(Math.random() * 16)).toString(16)); // tslint:disable-line
+		let color = '#000000'.replace(/0/g, () => (~~(Math.random() * 16)).toString(16)); // eslint-disable-line
 		this.classesList.push({
 			name: '',
 			color: color,

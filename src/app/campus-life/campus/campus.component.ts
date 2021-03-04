@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IImage } from 'ng-simple-slideshow';
 
-// tslint:disable:max-line-length
+/* eslint-disable max-len */
 
 @Component({
 	selector: 'mymicds-campus',

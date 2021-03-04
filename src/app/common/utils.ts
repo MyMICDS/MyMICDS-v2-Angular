@@ -84,7 +84,7 @@ export function isEqual(a: any, b: any) {
  * Does it work? Yes.
  */
 
-/* tslint:disable:no-bitwise */
+/* eslint-disable no-bitwise */
 export function darkenColor(color: string, amt: number) {
 
 	if (typeof color !== 'string') {
@@ -127,7 +127,7 @@ export function darkenColor(color: string, amt: number) {
 	return (usePound ? '#' : '') + String('000000' + (g | (b << 8) | (r << 16)).toString(16)).slice(-6);
 
 }
-/* tslint:enable:no-bitwise */
+/* eslint-enable no-bitwise */
 
 /*
  * Converts a hex color to an array of RGB values
