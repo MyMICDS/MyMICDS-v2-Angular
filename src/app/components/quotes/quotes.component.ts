@@ -1,5 +1,5 @@
-import { MyMICDS } from '@mymicds/sdk';
 import { Component, OnInit } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({

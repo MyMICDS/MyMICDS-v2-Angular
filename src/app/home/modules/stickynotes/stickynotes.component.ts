@@ -1,8 +1,8 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';

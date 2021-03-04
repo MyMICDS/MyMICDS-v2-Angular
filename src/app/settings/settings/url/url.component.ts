@@ -1,11 +1,11 @@
 import { GetUserInfoResponse, MyMICDS } from '@mymicds/sdk';
 
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { fromEvent } from 'rxjs';
 import { debounceTime, filter, switchMap } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
 
-import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-url',
@@ -210,7 +210,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 		this.mymicds.canvas.setURL({ url: this.canvasURL! }, true).subscribe(
 			data => {
 				this.canvasValid = data.valid === true;
-				this.canvasResponse = data.valid === true ? 'Valid!' : (data.valid as string);
+				this.canvasResponse = data.valid === true ? 'Valid!' : (data.valid );
 				if (data.valid === true) {
 					this.userInfo!.canvasURL = data.url;
 					this.canvasURL = data.url;

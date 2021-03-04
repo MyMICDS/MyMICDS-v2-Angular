@@ -1,10 +1,10 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
 import { confirmRegister } from '../../common/form-validation';
+import { FormBuilder, Validators } from '@angular/forms';
 import { isAlphabetic, typeOf } from '../../common/utils';
+import { Router } from '@angular/router';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 

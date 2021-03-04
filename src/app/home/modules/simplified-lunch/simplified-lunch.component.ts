@@ -1,12 +1,12 @@
 import { MyMICDS, School } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
 import { ElementQueries } from 'css-element-queries';
+import * as moment from 'moment';
 
-import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
 import { DayLunch } from '../../../common/day-lunch';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-simplified-lunch',
@@ -68,8 +68,8 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 					if (dayOfWeek === 6 || dayOfWeek === 0) {
 						getDate.day(1);
 					}
-					let lunchIndex = getDate.format('YYYY[-]MM[-]DD');
-					let dayLunch = lunch[lunchIndex] || {};
+					const lunchIndex = getDate.format('YYYY[-]MM[-]DD');
+					const dayLunch = lunch[lunchIndex] || {};
 
 					this.todaysLunch = {
 						date: {

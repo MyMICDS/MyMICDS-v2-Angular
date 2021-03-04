@@ -1,5 +1,6 @@
 import { MyMICDS, MyMICDSModule, MyMICDSModuleType } from '@mymicds/sdk';
 
+import { ActivatedRoute, Router } from '@angular/router';
 import {
 	AfterViewInit,
 	Component,
@@ -9,14 +10,13 @@ import {
 	ViewChild,
 	ViewChildren
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
+import { AlertService } from '../../services/alert.service';
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
-import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-home',
@@ -153,7 +153,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	dismissAlert() {
 		// How long CSS delete animation is in milliseconds
-		let animationTime = 200;
+		const animationTime = 200;
 		this.dismissAnnouncement = true;
 
 		// Wait until animation is done before actually removing from array

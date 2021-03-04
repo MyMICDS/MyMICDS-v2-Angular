@@ -1,5 +1,7 @@
 import { DateRange, GetBreaksResponse, GetPortalDayRotationResponse, MyMICDS } from '@mymicds/sdk';
 
+import { AngularFittextDirective } from 'angular-fittext';
+import { combineLatest } from 'rxjs';
 import {
 	Component,
 	ElementRef,
@@ -11,10 +13,8 @@ import {
 	ViewChildren
 } from '@angular/core';
 import { state, style, trigger } from '@angular/animations';
-import { combineLatest } from 'rxjs';
-import { AngularFittextDirective } from 'angular-fittext';
-import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 import * as moment from 'moment';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
@@ -213,9 +213,9 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 		if (this.displayCountdown === null || moment().isAfter(this.displayCountdown)) {
 			this.finished = true;
 			return;
-		} else {
+		} 
 			this.finished = false;
-		}
+		
 
 		if (this.schoolDays) {
 			if (!this.dayRotation) {

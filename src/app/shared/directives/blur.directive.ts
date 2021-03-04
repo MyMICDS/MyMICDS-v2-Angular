@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
-import { MyMICDS } from '@mymicds/sdk';
 import { Directive, ElementRef, OnInit } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Directive({

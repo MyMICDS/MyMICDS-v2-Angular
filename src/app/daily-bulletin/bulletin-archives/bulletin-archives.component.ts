@@ -27,7 +27,7 @@ export class BulletinArchivesComponent extends SubscriptionsComponent implements
 
 				// Loop through all the bulletins to get the display date
 				for (let i = 0; i < this.bulletins.length; i++) {
-					let date = moment(this.bulletins[i]);
+					const date = moment(this.bulletins[i]);
 					this.bulletinDateDisplays[i] = date.format('dddd, MMMM Do, YYYY');
 				}
 			})

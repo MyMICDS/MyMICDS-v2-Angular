@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
 import interact from 'interactjs';

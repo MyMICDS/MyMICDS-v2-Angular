@@ -3,9 +3,9 @@ import { MyMICDS } from '@mymicds/sdk';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
 import { confirmPassword } from '../../../common/form-validation';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-change-password',

@@ -9,11 +9,11 @@ export class ValuesPipe implements PipeTransform {
 			return [];
 		}
 
-		let keys = Object.keys(value);
-		let data: Array<{ key: string; value: any }> = [];
+		const keys = Object.keys(value);
+		const data: Array<{ key: string; value: any }> = [];
 
 		keys.forEach(key => {
-			let values = value[key];
+			const values = value[key];
 			data.push({
 				key,
 				value: values

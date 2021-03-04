@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Pipe, PipeTransform } from '@angular/core';
 
 /*
  * Bypasses Angular 2's sanitization to display things like URLs for iframes.

@@ -7,22 +7,22 @@ import {
 	PlannerEvent
 } from '@mymicds/sdk';
 
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { fromEvent, Subject } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
-import * as moment from 'moment';
-import {
-	NgbDate,
-	NgbCalendar,
-	NgbDateParserFormatter,
-	NgbDateAdapter,
-	NgbDateNativeAdapter
-} from '@ng-bootstrap/ng-bootstrap';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { contains, darkenColor, rainbowCSSGradient, rainbowSafeWord } from '../../common/utils';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import {
+	NgbCalendar,
+	NgbDate,
+	NgbDateAdapter,
+	NgbDateNativeAdapter,
+	NgbDateParserFormatter
+} from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 type DailyEvents = Array<{
 	inside: { included: boolean; continueLeft: boolean; continueRight: boolean };
@@ -286,7 +286,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	// Returns null if id isn't valid
 	getEvent(id: string) {
 		for (let i = 0; i < this.events.length; i++) {
-			let event = this.events[i];
+			const event = this.events[i];
 			if (event._id === id) {
 				return event;
 			}
@@ -296,10 +296,10 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Returns an array of events organized for the calendar
 	formatMonth(date: moment.Moment, events: PlannerEvent[]) {
-		let formattedMonth: MonthFormat = [];
-		let today = moment();
-		let iterationDate = this.beginOfPlanner(date);
-		let weeksInPlanner = this.weeksInPlanner(date);
+		const formattedMonth: MonthFormat = [];
+		const today = moment();
+		const iterationDate = this.beginOfPlanner(date);
+		const weeksInPlanner = this.weeksInPlanner(date);
 
 		// Add week
 		for (let i = 0; i < weeksInPlanner; i++) {
@@ -308,7 +308,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			// Loop through days in week
 			for (let j = 0; j < this.weekdays.length; j++) {
 				// Get events for this iteration date
-				let dayEvents = this.eventsForDay(iterationDate, events);
+				const dayEvents = this.eventsForDay(iterationDate, events);
 
 				formattedMonth[i][j] = {
 					date: iterationDate.clone(),
@@ -329,20 +329,20 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	formatWeek(events: PlannerEvent[]) {
-		let formattedWeek: WeekFormat = [];
+		const formattedWeek: WeekFormat = [];
 		// How many days ahead to include
-		let daysForward = 7;
+		const daysForward = 7;
 		// What day to start
-		let comingDay = moment();
+		const comingDay = moment();
 
 		// Loop through each day within the next week
 		for (let i = 0; i < daysForward; i++) {
 			comingDay.add(1, 'day');
-			let validEvents = [];
+			const validEvents = [];
 
 			// Loop through events
 			for (let j = 0; j < events.length; j++) {
-				let event = events[j];
+				const event = events[j];
 
 				// Check if event ends on this day
 				if (comingDay.isSame(event.end, 'day')) {
@@ -353,8 +353,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 			// If any events, add day to formattedWeek
 			if (validEvents.length > 0) {
-				let weekdayDate = comingDay.clone();
-				let weekdayDisplay = weekdayDate.calendar(undefined, {
+				const weekdayDate = comingDay.clone();
+				const weekdayDisplay = weekdayDate.calendar(undefined, {
 					sameDay: '[Today]',
 					nextDay: '[Tomorrow]',
 					nextWeek: 'dddd',
@@ -378,11 +378,11 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Lists all the events for a given day
 	eventsForDay(date: moment.Moment, events: PlannerEvent[]) {
-		let dayEvents: DailyEvents = [];
+		const dayEvents: DailyEvents = [];
 		// Loop through events and see if any are included for this specific day
 		for (let i = 0; i < events.length; i++) {
-			let event = events[i];
-			let inside = this.dayInsideEvent(date, event);
+			const event = events[i];
+			const inside = this.dayInsideEvent(date, event);
 
 			// If event is included in the day, add to dayEvents array!
 			if (inside.included) {
@@ -444,10 +444,10 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Determine if an event falls into a specific date.
 	dayInsideEvent(date: moment.Moment, event: PlannerEvent) {
-		let eventStart = moment(event.start);
-		let eventEnd = moment(event.end);
+		const eventStart = moment(event.start);
+		const eventEnd = moment(event.end);
 
-		let included =
+		const included =
 			date.isBetween(eventStart, eventEnd, 'day') ||
 			date.isSame(eventStart, 'day') ||
 			date.isSame(eventEnd, 'day');
@@ -482,8 +482,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Returns the number of weeks included in a month
 	weeksInPlanner(date: moment.Moment) {
-		let beginDate = this.beginOfPlanner(date);
-		let endDate = this.endOfPlanner(date);
+		const beginDate = this.beginOfPlanner(date);
+		const endDate = this.endOfPlanner(date);
 		return endDate.diff(beginDate, 'weeks') + 1;
 	}
 
@@ -589,9 +589,9 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 		if (start.isSame(end, 'day')) {
 			return start.format('MMM D, Y');
-		} else {
+		} 
 			return `${start.format('MMM D, Y')} - ${end.format('MMM D, Y')}`;
-		}
+		
 	}
 
 	/*
@@ -602,7 +602,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		// Make sure it doesn't trigger the viewEvent()
 		event.stopPropagation();
 
-		let eventObj = this.getEvent(id)!;
+		const eventObj = this.getEvent(id)!;
 
 		let classId = 'other';
 		if (eventObj.class) {
@@ -613,7 +613,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			id: eventObj._id,
 			title: eventObj.title,
 			desc: eventObj.desc,
-			classId: classId,
+			classId,
 			dates: [moment(eventObj.start).toDate(), moment(eventObj.end).toDate()]
 		};
 	}

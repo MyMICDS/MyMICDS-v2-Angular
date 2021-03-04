@@ -1,12 +1,12 @@
 import './polyfills.ts';
 
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from './app/app.module';
 import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
-import { AppModule } from './app/app.module';
-import * as Sentry from '@sentry/angular';
 import { Integrations } from '@sentry/tracing';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { release } from './release';
+import * as Sentry from '@sentry/angular';
 
 Sentry.init({
 	dsn: 'https://5b482947b3f44153a674e6f676d9cdf8@o355493.ingest.sentry.io/5551465',
@@ -19,7 +19,7 @@ Sentry.init({
 	],
 	tracesSampleRate: 1.0,
 	enabled: environment.production,
-	release: release,
+	release,
 	// Known issues with SPAs, safe to ignore for now
 	// https://twittercommunity.com/t/timeline-widget-not-destroyed-on-single-page-application-page-change-spa/84023/11
 	denyUrls: [/twitter\.com/]

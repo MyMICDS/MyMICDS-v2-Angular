@@ -3,9 +3,9 @@ import { ChangeUserInfoParameters, GetUserInfoResponse, MyMICDS } from '@mymicds
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 
-import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
 import { confirmGrade } from '../../../common/form-validation';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-info',
@@ -69,11 +69,11 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 
 	valueChanged(): boolean {
 		// Find out if grade changed
-		let userInfoIsTeacher = this.userInfo!.gradYear === null;
-		let infoFormIsTeacher = this.infoForm.controls.teacher.value;
+		const userInfoIsTeacher = this.userInfo!.gradYear === null;
+		const infoFormIsTeacher = this.infoForm.controls.teacher.value;
 
-		let userInfoGradYear = this.userInfo!.gradYear;
-		let infoFormGradYear = !infoFormIsTeacher
+		const userInfoGradYear = this.userInfo!.gradYear;
+		const infoFormGradYear = !infoFormIsTeacher
 			? parseInt(this.infoForm.controls.gradYear.value, 10)
 			: null;
 
@@ -109,7 +109,7 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 
 	changeInfo() {
 		// Create new info object
-		let newInfo: ChangeUserInfoParameters = {};
+		const newInfo: ChangeUserInfoParameters = {};
 		(['firstName', 'lastName', 'gradYear', 'teacher'] as Array<
 			keyof ChangeUserInfoParameters
 		>).forEach(key => {

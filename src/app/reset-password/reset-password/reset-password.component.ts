@@ -1,9 +1,9 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { confirmPassword } from '../../common/form-validation';
+import { FormBuilder, Validators } from '@angular/forms';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';

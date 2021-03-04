@@ -1,8 +1,8 @@
 import { MyMICDS, Scope } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';

@@ -2,8 +2,8 @@ import { GetStatsResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import prisma from 'prisma';
 import Chart from 'chart.js';
+import prisma from 'prisma';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
@@ -132,14 +132,14 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				this.stats = data.stats;
 
 				// Loop through grades to insert into line chart
-				for (let gradYear of Object.keys(this.stats.registered.gradYears)) {
+				for (const gradYear of Object.keys(this.stats.registered.gradYears)) {
 					// Keep track of total users at each point in time
 					let accountSum = 0;
 					this.lineData = [];
-					let dates = Object.keys(this.stats.registered.gradYears[gradYear]);
+					const dates = Object.keys(this.stats.registered.gradYears[gradYear]);
 
 					// Sort the dates people registered at
-					let mappedDates = dates.map(function (date, i) {
+					const mappedDates = dates.map((date, i) => {
 						return {
 							index: i,
 							value: new Date(date).valueOf()
@@ -148,21 +148,21 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 					mappedDates.sort((a, b) => {
 						return a.value - b.value;
 					});
-					let sortedDates = mappedDates.map(function (el) {
+					const sortedDates = mappedDates.map((el) => {
 						return dates[el.index];
 					});
 
 					// Loop through sorted dates and add up total accounts
 					for (let i = 0; i < sortedDates.length; i++) {
-						let accountNumber = this.stats.registered.gradYears[gradYear][
+						const accountNumber = this.stats.registered.gradYears[gradYear][
 							sortedDates[i]
 						];
 						accountSum += accountNumber;
-						let registerCountDate = moment(sortedDates[i]);
+						const registerCountDate = moment(sortedDates[i]);
 						this.lineData.push({ x: registerCountDate, y: accountSum });
 					}
 
-					let gradeString = this.gradYearToGradeString(gradYear);
+					const gradeString = this.gradYearToGradeString(gradYear);
 
 					// Push data to line chart
 					this.lineDataSets.push({
@@ -179,9 +179,9 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				}
 
 				// Process data for pie chart
-				for (let gradYear of Object.keys(this.stats.visitedToday.gradYears)) {
+				for (const gradYear of Object.keys(this.stats.visitedToday.gradYears)) {
 					this.pieData.push(this.stats.visitedToday.gradYears[gradYear]);
-					let gradeString = this.gradYearToGradeString(gradYear);
+					const gradeString = this.gradYearToGradeString(gradYear);
 					this.gradeNames.push(gradeString);
 					this.pieBgColors.push(prisma(gradeString).hex);
 				}

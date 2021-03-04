@@ -1,14 +1,14 @@
 import { OptionsConfig, OptionValue } from './module-options';
 
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
-import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.component';
+import { COLOR, StickynotesComponent } from './stickynotes/stickynotes.component';
+import { COUNTDOWN_MODE, CountdownComponent } from './countdown/countdown.component';
 import { GpaCalculatorComponent } from './gpa-calculator/gpa-calculator.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { SimplifiedLunchComponent } from './simplified-lunch/simplified-lunch.component';
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
-import { StickynotesComponent, COLOR } from './stickynotes/stickynotes.component';
 import { TwitterComponent } from './twitter/twitter.component';
 import { WeatherComponent } from './weather/weather.component';
 

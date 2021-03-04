@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { SlideshowModule } from 'ng-simple-slideshow';
 
 import { CampusComponent } from './campus/campus.component';
 
-import { SharedModule } from '../shared/shared.module';
 import { CampusLifeRoutingModule } from './campus-life.routing';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
 	declarations: [CampusComponent],

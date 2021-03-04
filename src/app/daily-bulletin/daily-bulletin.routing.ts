@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.component';
 import { BulletinArchivesComponent } from './bulletin-archives/bulletin-archives.component';
+import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.component';
 
 const dailyBulletinRoutes: Routes = [
 	{

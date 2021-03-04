@@ -7,15 +7,15 @@ import {
 	MyMICDSClass
 } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { defaultIfEmpty } from 'rxjs/operators';
 import { capitalize, contains } from '../../../common/utils';
+import { combineLatest, Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { defaultIfEmpty } from 'rxjs/operators';
 
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-classes',
@@ -119,7 +119,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 		// Find class in class list
 		let currentClass = null;
-		for (let scheduleClass of this.classesList) {
+		for (const scheduleClass of this.classesList) {
 			if (id === scheduleClass._id) {
 				currentClass = scheduleClass;
 				break;
@@ -131,7 +131,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 		// Find original class
 		let ogClass = null;
-		for (let ogScheduleClass of this.ogClasses) {
+		for (const ogScheduleClass of this.ogClasses) {
 			if (id === ogScheduleClass._id) {
 				ogClass = ogScheduleClass;
 				break;
@@ -155,7 +155,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 	// Detect of any class has changed
 	anyClassChanged() {
 		let anyChanged = false;
-		for (let scheduleClass of this.classesList) {
+		for (const scheduleClass of this.classesList) {
 			if (this.classChanged(scheduleClass._id)) {
 				anyChanged = true;
 				break;
@@ -166,10 +166,10 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 	// Detects if a class was added
 	anyClassAdded() {
-		let ogIds = this.ogClasses.map(ogClass => ogClass._id);
+		const ogIds = this.ogClasses.map(ogClass => ogClass._id);
 		let anyAdded = false;
 
-		for (let scheduleClass of this.classesList) {
+		for (const scheduleClass of this.classesList) {
 			// Check if there's an id that's in the table that isn't in the original
 			if (!contains(ogIds, scheduleClass._id)) {
 				anyAdded = true;
@@ -181,10 +181,10 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 	// Detects if a class was deleted
 	anyClassDeleted() {
-		let ids = this.classesList.map(scheduleClass => scheduleClass._id);
+		const ids = this.classesList.map(scheduleClass => scheduleClass._id);
 		let anyDeleted = false;
 
-		for (let ogClass of this.ogClasses) {
+		for (const ogClass of this.ogClasses) {
 			// Check if there's an id that's in the original that isn't in the table
 			if (!contains(ids, ogClass._id)) {
 				anyDeleted = true;
@@ -198,7 +198,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 	restoreClass(id: string) {
 		// Find original class
 		let ogClass = null;
-		for (let ogScheduleClass of this.ogClasses) {
+		for (const ogScheduleClass of this.ogClasses) {
 			if (id === ogScheduleClass._id) {
 				ogClass = JSON.parse(JSON.stringify(ogScheduleClass));
 				break;
@@ -221,7 +221,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		this.savingClasses = true;
 
 		// Delete any old classes
-		let deleteObservables = this.deleteClassIds.map(id =>
+		const deleteObservables = this.deleteClassIds.map(id =>
 			this.mymicds.classes.delete({ id }, true)
 		);
 
@@ -229,7 +229,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		this.deleteClassIds = [];
 
 		// Add any new classes
-		let saveObservables = (this.classesList
+		const saveObservables = (this.classesList
 			.map(scheduleClass => {
 				if (this.classChanged(scheduleClass._id)) {
 					return this.mymicds.classes.add(
@@ -250,9 +250,9 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 			.filter(Boolean) as unknown) as Observable<AddClassResponse>[];
 
 		// Combine all of those observables into a MEGA OBSERVABLE
-		let deleteClasses$ = combineLatest(deleteObservables).pipe(defaultIfEmpty());
-		let saveClasses$ = combineLatest(saveObservables).pipe(defaultIfEmpty());
-		let MEGAObservable$ = combineLatest([deleteClasses$, saveClasses$]);
+		const deleteClasses$ = combineLatest(deleteObservables).pipe(defaultIfEmpty());
+		const saveClasses$ = combineLatest(saveObservables).pipe(defaultIfEmpty());
+		const MEGAObservable$ = combineLatest([deleteClasses$, saveClasses$]);
 
 		MEGAObservable$.subscribe(
 			([deleted, saved]) => {
@@ -267,7 +267,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 
 					// Go through all classes without ids and insert their new ids
 					let idOffset = 0;
-					for (let currentClass of this.classesList) {
+					for (const currentClass of this.classesList) {
 						if (!currentClass._id) {
 							// Assign this new class the next id in the array
 							currentClass._id = saved[idOffset++].id;
@@ -290,7 +290,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		let color = '#000000'.replace(/0/g, () => (~~(Math.random() * 16)).toString(16)); // eslint-disable-line
 		this.classesList.push({
 			name: '',
-			color: color,
+			color,
 			block: Block.OTHER,
 			type: ClassType.OTHER,
 			teacher: {
@@ -302,7 +302,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	deleteClass(i: number) {
-		let id = this.classesList[i]._id;
+		const id = this.classesList[i]._id;
 		this.classesList.splice(i, 1);
 
 		// If id is exists, push to array of deleted classes

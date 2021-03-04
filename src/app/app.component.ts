@@ -1,14 +1,14 @@
 import { Action, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { defaultTitleFunction } from './app.routing';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 import * as Sentry from '@sentry/angular';
 
-import { SubscriptionsComponent } from './common/subscriptions-component';
 import { AlertService } from './services/alert.service';
+import { SubscriptionsComponent } from './common/subscriptions-component';
 
 declare const ga: any;
 

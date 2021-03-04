@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { capitalize } from '../../common/utils';
+import { Pipe, PipeTransform } from '@angular/core';
 
 /*
  * Capitalize a string

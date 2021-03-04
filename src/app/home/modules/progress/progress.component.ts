@@ -1,10 +1,10 @@
 import { Block, ClassType, GetScheduleResponse, MyMICDS, ScheduleBlock } from '@mymicds/sdk';
 
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ElementQueries, ResizeSensor } from 'css-element-queries';
 import { rainbowCanvasGradient, rainbowSafeWord } from '../../../common/utils';
 import * as moment from 'moment-timezone';
 import Chart from 'chart.js';
-import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
@@ -159,9 +159,9 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 					callbacks: {
 						label(tooltipItem, data) {
 							return (
-								data.labels![tooltipItem!.index!] +
+								data.labels![tooltipItem.index!] +
 								': ' +
-								data.durations![tooltipItem!.index!]
+								data.durations![tooltipItem.index!]
 							);
 						}
 					}
@@ -255,12 +255,12 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		let newCurrentClassPercent = null;
 
 		// Insert a 'break' period in between classes that aren't back-to-back
-		let breaks: ScheduleBlock[] = [];
+		const breaks: ScheduleBlock[] = [];
 		for (let i = 0; i < this.schedule.classes.length - 1; i++) {
 			const currBlock = this.schedule.classes[i];
 			const nextBlock = this.schedule.classes[i + 1];
 
-			let breakObj = {
+			const breakObj = {
 				class: {
 					name: 'Break',
 					teacher: { prefix: '', firstName: '', lastName: '' },
@@ -289,7 +289,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 		const formattedSchedule = this.schedule.classes.concat(breaks);
 		const formattedScheduleColors: Array<string | CanvasGradient> = [];
 		// Sort classes by start time
-		formattedSchedule.sort(function (a, b) {
+		formattedSchedule.sort((a, b) => {
 			return a.start.valueOf() - b.start.valueOf();
 		});
 
@@ -433,9 +433,9 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 			return answer;
 		} else if (answer < 0) {
 			return 0;
-		} else {
+		} 
 			return 100;
-		}
+		
 	}
 
 	/*

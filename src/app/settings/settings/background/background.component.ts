@@ -2,9 +2,9 @@ import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
-import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
 import { BackgroundService } from '../../../services/background.service';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-background',

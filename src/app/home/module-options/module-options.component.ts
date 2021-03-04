@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { contains } from '../../common/utils';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { config, getDefaultOptions } from '../modules/module-config';
-import { OptionsConfig, Options } from '../modules/module-options';
+import { contains } from '../../common/utils';
+import { Options, OptionsConfig } from '../modules/module-options';
 
 @Component({
 	selector: 'mymicds-module-options',

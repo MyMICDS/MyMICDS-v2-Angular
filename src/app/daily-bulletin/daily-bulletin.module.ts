@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
-import { fab } from '@fortawesome/free-brands-svg-icons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
-import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.component';
 import { BulletinArchivesComponent } from './bulletin-archives/bulletin-archives.component';
+import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.component';
 
-import { SharedModule } from '../shared/shared.module';
 import { DailybulletinRoutingModule } from './daily-bulletin.routing';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
 	declarations: [DailyBulletinComponent, BulletinArchivesComponent],

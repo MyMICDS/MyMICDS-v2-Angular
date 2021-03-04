@@ -1,8 +1,8 @@
 import { MyMICDS } from '@mymicds/sdk';
 
+import { AlertService } from '../services/alert.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertService } from '../services/alert.service';
 
 @Injectable()
 export class AuthGuard {

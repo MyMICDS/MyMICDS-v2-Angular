@@ -1,5 +1,5 @@
-import { MyMICDS } from '@mymicds/sdk';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MyMICDS } from '@mymicds/sdk';
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 type LetterGrades = 'A' | 'A-' | 'B+' | 'B' | 'B-' | 'C+' | 'C' | 'C-' | 'D+' | 'D' | 'D-' | 'F';
@@ -58,7 +58,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent implements On
 				for (const displayObject of this.displayObjects) {
 					// if the block/class has an alias name, use the alias name
 					if (displayObject.block === schoolClass.block) {
-						let displayIndex = this.displayObjects.findIndex(
+						const displayIndex = this.displayObjects.findIndex(
 							x => x.block === displayObject.block
 						);
 						this.displayObjects[displayIndex].name = schoolClass.name;

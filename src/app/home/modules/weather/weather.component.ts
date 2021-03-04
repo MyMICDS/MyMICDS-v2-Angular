@@ -33,7 +33,7 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	private convertToMetric(weather: Weather) {
-		let metric: Weather = {
+		const metric: Weather = {
 			temperature: this.convertTemperature(weather.temperature),
 			temperatureLow: this.convertTemperature(weather.temperatureLow),
 			temperatureHigh: this.convertTemperature(weather.temperatureHigh),

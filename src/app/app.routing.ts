@@ -1,6 +1,6 @@
-import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './common/auth.guard';
 import { CanDeactivateGuard } from './common/canDeactivate.guard';
+import { RouterModule, Routes } from '@angular/router';
 
 import { capitalizeURL } from './common/utils';
 

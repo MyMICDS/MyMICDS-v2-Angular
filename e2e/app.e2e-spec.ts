@@ -1,6 +1,6 @@
 import { MymicdsV2AngularNewPage } from './app.po';
 
-describe('mymicds-v2-angular-new App', function() {
+describe('mymicds-v2-angular-new App', () => {
   let page: MymicdsV2AngularNewPage;
 
   beforeEach(() => {

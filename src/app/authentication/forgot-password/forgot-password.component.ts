@@ -1,8 +1,8 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { isAlphabetic, typeOf } from '../../common/utils';
+import { Router } from '@angular/router';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 

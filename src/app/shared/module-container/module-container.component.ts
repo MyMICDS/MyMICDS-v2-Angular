@@ -1,10 +1,10 @@
 import {
 	Component,
+	ComponentFactoryResolver,
+	ComponentRef,
 	Input,
 	ViewChild,
-	ViewContainerRef,
-	ComponentFactoryResolver,
-	ComponentRef
+	ViewContainerRef
 } from '@angular/core';
 import { config, ModuleConfig } from '../../home/modules/module-config';
 

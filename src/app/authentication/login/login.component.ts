@@ -4,8 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UAParser } from 'ua-parser-js';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-login',

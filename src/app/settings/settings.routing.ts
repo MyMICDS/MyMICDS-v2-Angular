@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../common/auth.guard';
 import { CanDeactivateGuard } from '../common/canDeactivate.guard';
 
-import { SettingsComponent } from './settings/settings.component';
 import { HelpComponent } from './help/help.component';
+import { SettingsComponent } from './settings/settings.component';
 // import { AliasesComponent } from './settings/aliases/aliases.component';
 // import { BackgroundComponent } from './settings/background/background.component';
 // import { ChangePasswordComponent } from './settings/change-password/change-password.component';

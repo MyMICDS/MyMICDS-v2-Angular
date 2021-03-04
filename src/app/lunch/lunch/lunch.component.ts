@@ -3,8 +3,8 @@ import { MyMICDS, School, SchoolLunch } from '@mymicds/sdk';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 import { DayLunch } from '../../common/day-lunch';
 

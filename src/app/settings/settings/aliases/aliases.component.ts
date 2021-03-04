@@ -3,8 +3,8 @@ import { AliasType, ListAliasesResponse, MyMICDS, MyMICDSClass } from '@mymicds/
 import { Component, Input, OnInit } from '@angular/core';
 import { contains } from '../../../common/utils';
 
-import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-aliases',
@@ -39,7 +39,7 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 	// Returns the MyMICDS class object of the remote class name
 	aliasClassObject(className: string) {
 		if (this.aliases) {
-			for (let alias of this.aliases[this.type]) {
+			for (const alias of this.aliases[this.type]) {
 				if (className === alias.classRemote) {
 					return alias;
 				}

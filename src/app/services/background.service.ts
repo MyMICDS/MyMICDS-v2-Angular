@@ -19,13 +19,13 @@ export class BackgroundService {
 
 	private dataURItoBlob(dataURI: string) {
 		// convert base64 data component to raw binary data held in a string
-		let byteString = atob(dataURI.split(',')[1]);
+		const byteString = atob(dataURI.split(',')[1]);
 
 		// separate out the mime component
 		const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
 
 		// write the bytes of the string to a typed array
-		let ia = new Uint8Array(byteString.length);
+		const ia = new Uint8Array(byteString.length);
 		for (let i = 0; i < byteString.length; i++) {
 			ia[i] = byteString.charCodeAt(i);
 		}

@@ -1,11 +1,11 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { typeOf } from '../../common/utils';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-confirm',

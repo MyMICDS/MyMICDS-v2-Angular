@@ -10,8 +10,8 @@ import {
 	ViewChild,
 	ViewChildren
 } from '@angular/core';
-import * as moment from 'moment';
 import { ElementQueries, ResizeSensor } from 'css-element-queries';
+import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 

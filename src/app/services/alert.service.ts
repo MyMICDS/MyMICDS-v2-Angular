@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
 import { Alert, AlertType } from '../common/alert';
 import { contains } from '../common/utils';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor/globals';
+import { browser, by, element } from 'protractor/globals';
 
 export class MymicdsV2AngularNewPage {
   navigateTo() {

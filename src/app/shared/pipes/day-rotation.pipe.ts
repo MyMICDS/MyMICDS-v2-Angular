@@ -11,8 +11,8 @@ export class DayRotationPipe implements PipeTransform {
 	transform(value: any, args?: any): any {
 		if (value) {
 			return 'Day ' + value;
-		} else {
+		} 
 			return 'No School';
-		}
+		
 	}
 }

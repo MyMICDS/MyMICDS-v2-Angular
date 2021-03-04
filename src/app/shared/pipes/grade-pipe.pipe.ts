@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ordinalSuffix } from '../../common/utils';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
 	name: 'gradePipe'

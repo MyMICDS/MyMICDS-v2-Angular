@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import * as moment from 'moment';
 import { months } from '../common/utils';
+import * as moment from 'moment';
 
 import { PlannerComponent } from './planner/planner.component';
 

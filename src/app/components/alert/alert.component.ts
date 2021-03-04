@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { Alert } from '../../common/alert';
 import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-alert',

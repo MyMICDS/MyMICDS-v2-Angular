@@ -1,10 +1,10 @@
 import { GetScheduleResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import * as moment from 'moment';
 import { ElementQueries, ResizeSensor } from 'css-element-queries';
+import { Subject } from 'rxjs';
+import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 

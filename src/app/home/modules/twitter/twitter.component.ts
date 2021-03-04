@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 declare global {
@@ -21,9 +21,9 @@ export class TwitterComponent implements OnInit {
 	get moduleHeight(): number {
 		if (this.fixedHeight) {
 			return this.moduleContainer.nativeElement.clientHeight;
-		} else {
+		} 
 			return 420;
-		}
+		
 	}
 
 	constructor() {}
@@ -75,9 +75,9 @@ export class TwitterComponent implements OnInit {
 
 	private loadTwitter() {
 		window.twttr = (function (d, s, id) {
-			let js: HTMLScriptElement,
-				fjs = d.getElementsByTagName(s)[0],
-				t = window.twttr || {};
+			let js: HTMLScriptElement;
+				const fjs = d.getElementsByTagName(s)[0];
+				const t = window.twttr || {};
 			if (d.getElementById(id)) {
 				return t;
 			}
