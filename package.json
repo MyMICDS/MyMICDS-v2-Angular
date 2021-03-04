@@ -42,11 +42,6 @@
     "vm": false,
     "zlib": false
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  },
   "dependencies": {
     "@angular/animations": "11.2.3",
     "@angular/common": "11.2.3",
