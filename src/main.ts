@@ -14,8 +14,8 @@ Sentry.init({
 	integrations: [
 		new Integrations.BrowserTracing({
 			tracingOrigins: ['localhost', 'https://mymicds.net'],
-			routingInstrumentation: Sentry.routingInstrumentation,
-		}),
+			routingInstrumentation: Sentry.routingInstrumentation
+		})
 	],
 	tracesSampleRate: 1.0,
 	enabled: environment.production,
@@ -32,7 +32,6 @@ if (environment.production) {
 void platformBrowserDynamic().bootstrapModule(AppModule);
 
 if (environment.recruitMessage) {
-	/* eslint-disable @typescript-eslint/indent */
 	console.log(`
                           ______   ____     ____    ____                        __
  /'\\_/\`\\          /'\\_/\`\\/\\__  _\\ /\\  _\`\\  /\\  _\`\\ /\\  _\`\\                     /\\ \\__
@@ -49,5 +48,4 @@ But you know what you should do? Please join the MyMICDS Development Team. We re
 Fill out this form https://goo.gl/forms/wirh6A3Jnr or email support@mymicds.net. More information at the About Page!
 
 `);
-	/* eslint-enable @typescript-eslint/indent */
 }

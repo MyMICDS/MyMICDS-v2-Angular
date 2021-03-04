@@ -132,10 +132,8 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 				// Engagement announcements
 				if (!this.announcement) {
 					if (user.migrateToVeracross) {
-						// eslint-disable-next-line max-len
 						this.announcement = `Hey there! <strong>It appears you haven't migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
 					} else if (lacks.length > 0) {
-						// eslint-disable-next-line max-len
 						this.announcement = `Hey there! <strong>It appears you haven't integrated your ${lacks.join(
 							' or '
 						)} ${
@@ -169,7 +167,6 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	exitEditMode() {
 		if (this.detectChanges()) {
-			// eslint-disable-next-line max-len
 			if (
 				!confirm(
 					'It looks like you have some unsaved changes. Are you sure you want to quit without saving your layout or module options?'

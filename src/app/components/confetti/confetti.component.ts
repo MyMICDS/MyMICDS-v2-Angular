@@ -38,7 +38,6 @@ export class ConfettiComponent implements OnInit {
 	ngOnInit() {
 		this.confetti = new ConfettiContext(this.canvas.nativeElement);
 		this.confetti.start();
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 		new ResizeSensor(this.moduleContainer.nativeElement, () => this.confetti.resize());
 	}
 }
