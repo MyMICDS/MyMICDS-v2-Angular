@@ -40,3 +40,6 @@ Thumbs.db
 
 # MyMICDS Config
 _config.scss
+
+# Husky hooks
+/.husky
