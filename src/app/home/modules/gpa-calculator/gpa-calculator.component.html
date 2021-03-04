@@ -4,6 +4,7 @@
       <tr>
         <th class="class-name">Class</th>
         <th class="letter-grade">Grade</th>
+        <th>Weighted?</th>
       </tr>
     </thead>
     <tbody>
@@ -21,6 +22,9 @@
             }}</option>
           </select>
         </td>
+        <td class="weighted-checkbox">
+          <input type="checkbox" (change)="onWeightedCheck(i, $event.target.checked)">
+        </td>
       </tr>
       <tr>
         <td class="class-name">
@@ -33,6 +37,7 @@
             {{ displayString }}
           </h2>
         </td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -40,6 +45,6 @@
     <strong
       >MyMICDS.net does not store your grades in our database. All the
       calculation is done in your browser.</strong
-    >
+    > To calculate an unweighted GPA, don't select any class as weighted.
   </p>
 </div>
