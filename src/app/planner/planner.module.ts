@@ -4,8 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { PlannerComponent } from './planner/planner.component';
 
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { BsDropdownModule, DatepickerModule, ModalModule, TimepickerModule } from 'ngx-bootstrap';
+import { BsDatepickerModule, DatepickerModule } from 'ngx-bootstrap/datepicker';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
