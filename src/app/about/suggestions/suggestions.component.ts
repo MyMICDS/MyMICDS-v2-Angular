@@ -12,7 +12,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./suggestions.component.scss']
 })
 export class SuggestionsComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	typeOf = typeOf;
 
@@ -51,5 +50,4 @@ export class SuggestionsComponent extends SubscriptionsComponent implements OnIn
 		this.submitted = false;
 		this.suggestionResponse = null;
 	}
-
 }

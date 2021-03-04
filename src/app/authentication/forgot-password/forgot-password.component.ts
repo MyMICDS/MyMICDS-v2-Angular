@@ -12,7 +12,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	isAlphabetic = isAlphabetic;
 	typeOf = typeOf;
@@ -51,5 +50,4 @@ export class ForgotPasswordComponent extends SubscriptionsComponent implements O
 		this.submitted = false;
 		this.forgotResponse = null;
 	}
-
 }

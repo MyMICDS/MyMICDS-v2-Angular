@@ -8,7 +8,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent extends SubscriptionsComponent implements OnInit {
-
 	username: string | null = null;
 
 	constructor(private mymicds: MyMICDS) {
@@ -22,5 +21,4 @@ export class SettingsComponent extends SubscriptionsComponent implements OnInit 
 			})
 		);
 	}
-
 }

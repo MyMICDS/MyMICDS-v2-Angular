@@ -6,7 +6,7 @@
 	</div>
 	<div *ngIf="!loading" class="lunch-container">
 		<!-- Actual Lunch -->
-		<div class="lunch-week" routerLink='/lunch'>
+		<div class="lunch-week" routerLink="/lunch">
 			<!-- Loop through Weekdays -->
 			<div mymicds-blur class="lunch-day text-center">
 				<!-- Lunch Date -->
@@ -22,17 +22,30 @@
 					</div>
 					<!-- Loop through menu and display lists -->
 					<div *ngIf="todaysLunch!.lunch[school]" class="lunch">
-						<div *ngFor="let data of todaysLunch!.lunch[school].categories | values" class="lunch-category">
+						<div
+							*ngFor="let data of todaysLunch!.lunch[school].categories | values"
+							class="lunch-category"
+						>
 							<div *ngIf="data.key.includes('Entree')" class="main-entree">
 								<h3>{{ data.key }}</h3>
 								<ul>
-									<li *ngFor="let item of data.value" [ngClass]="lunchClassMaker(data.key)">{{ item }}</li>
+									<li
+										*ngFor="let item of data.value"
+										[ngClass]="lunchClassMaker(data.key)"
+									>
+										{{ item }}
+									</li>
 								</ul>
 							</div>
 							<div *ngIf="!data.key.includes('Entree')" class="not-main-entree">
 								<h3 class="main-entree-key">{{ data.key }}</h3>
 								<ul>
-									<li *ngFor="let item of data.value" [ngClass]="lunchClassMaker(data.key)">{{ item }}</li>
+									<li
+										*ngFor="let item of data.value"
+										[ngClass]="lunchClassMaker(data.key)"
+									>
+										{{ item }}
+									</li>
 								</ul>
 							</div>
 						</div>

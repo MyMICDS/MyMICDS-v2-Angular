@@ -7,11 +7,9 @@ import { AlertService } from '../../services/alert.service';
 	styleUrls: ['./alert-debug.component.scss']
 })
 export class AlertDebugComponent implements OnInit {
+	constructor(private alertService: AlertService) {}
 
-	constructor(private alertService: AlertService) { }
-
-	ngOnInit() {
-	}
+	ngOnInit() {}
 
 	addError(message: string) {
 		this.alertService.addError(message);
@@ -28,5 +26,4 @@ export class AlertDebugComponent implements OnInit {
 	addAnnouncement(message: string) {
 		this.alertService.addAnnouncement(message);
 	}
-
 }

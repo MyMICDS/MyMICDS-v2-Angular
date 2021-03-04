@@ -13,7 +13,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./daily-bulletin.component.scss']
 })
 export class DailyBulletinComponent extends SubscriptionsComponent implements OnInit {
-
 	loading = true;
 
 	bulletins: string[] = [];

@@ -12,7 +12,6 @@ import { BackgroundService } from '../../../services/background.service';
 	styleUrls: ['./background.component.scss']
 })
 export class BackgroundComponent extends SubscriptionsComponent implements OnInit {
-
 	@ViewChild('uploadForm', { static: true }) uploadForm: ElementRef;
 
 	// Background Upload Form
@@ -71,5 +70,4 @@ export class BackgroundComponent extends SubscriptionsComponent implements OnIni
 			}
 		);
 	}
-
 }

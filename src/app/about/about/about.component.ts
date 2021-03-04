@@ -28,9 +28,7 @@ declare global {
 	templateUrl: './about.component.html',
 	styleUrls: ['./about.component.scss']
 })
-
 export class AboutComponent extends SubscriptionsComponent implements OnInit {
-
 	activeDevelopers: Developer[] = [
 		{
 			firstName: 'Nick',
@@ -156,7 +154,9 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 
 					// Loop through sorted dates and add up total accounts
 					for (let i = 0; i < sortedDates.length; i++) {
-						let accountNumber = this.stats.registered.gradYears[gradYear][sortedDates[i]];
+						let accountNumber = this.stats.registered.gradYears[gradYear][
+							sortedDates[i]
+						];
 						accountSum += accountNumber;
 						let registerCountDate = moment(sortedDates[i]);
 						this.lineData.push({ x: registerCountDate, y: accountSum });
@@ -174,7 +174,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 						pointHoverBackgroundColor: '#fff',
 						pointHoverRadius: 5,
 						pointHoverBorderWidth: 2,
-						pointHitRadius: 10,
+						pointHitRadius: 10
 					});
 				}
 
@@ -196,7 +196,9 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				// Initialize Charts
 				setTimeout(() => {
 					// Initialize Line Chart
-					this.lineCtx = document.getElementById('registerCountChart') as HTMLCanvasElement;
+					this.lineCtx = document.getElementById(
+						'registerCountChart'
+					) as HTMLCanvasElement;
 					this.lineChart = new Chart(this.lineCtx, {
 						type: 'line',
 						data: {
@@ -204,14 +206,16 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 						},
 						options: {
 							scales: {
-								xAxes: [{
-									type: 'time',
-									time: {
-										displayFormats: {
-											quarter: 'MMM YYYY'
+								xAxes: [
+									{
+										type: 'time',
+										time: {
+											displayFormats: {
+												quarter: 'MMM YYYY'
+											}
 										}
 									}
-								}]
+								]
 							}
 						}
 					});
@@ -246,5 +250,4 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 		}
 		return 'Graduated' + ' (' + gradYear + ')';
 	}
-
 }

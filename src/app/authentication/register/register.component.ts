@@ -14,31 +14,36 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	public typeOf = typeOf; // eslint-disable-line
 
-	registerForm = this.formBuilder.group({
-		user: ['', [Validators.required, Validators.pattern(/^[a-z-]+$/)]],
-		password: ['', Validators.required],
-		confirmPassword: ['', Validators.required],
-		firstName: ['', Validators.required],
-		lastName: ['', Validators.required],
-		gradYear: [null],
-		teacher: [false]
-	}, { validator: confirmRegister(['password', 'confirmPassword'], ['gradYear', 'teacher']) });
+	registerForm = this.formBuilder.group(
+		{
+			user: ['', [Validators.required, Validators.pattern(/^[a-z-]+$/)]],
+			password: ['', Validators.required],
+			confirmPassword: ['', Validators.required],
+			firstName: ['', Validators.required],
+			lastName: ['', Validators.required],
+			gradYear: [null],
+			teacher: [false]
+		},
+		{ validator: confirmRegister(['password', 'confirmPassword'], ['gradYear', 'teacher']) }
+	);
 
 	gradeRange: number[];
 
 	submitted = false;
 	registerResponse: boolean | string | null = null;
 
-	constructor(private mymicds: MyMICDS, private router: Router, private formBuilder: FormBuilder) {
+	constructor(
+		private mymicds: MyMICDS,
+		private router: Router,
+		private formBuilder: FormBuilder
+	) {
 		super();
 	}
 
 	ngOnInit() {
-
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
 			this.router.navigate(['/home']);
@@ -70,5 +75,4 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 		this.submitted = false;
 		this.registerResponse = null;
 	}
-
 }

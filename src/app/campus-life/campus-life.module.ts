@@ -13,9 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 import { CampusLifeRoutingModule } from './campus-life.routing';
 
 @NgModule({
-	declarations: [
-		CampusComponent
-	],
+	declarations: [CampusComponent],
 	imports: [
 		CommonModule,
 		SharedModule,

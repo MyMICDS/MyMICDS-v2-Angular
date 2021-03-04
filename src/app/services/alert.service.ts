@@ -5,7 +5,6 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class AlertService {
-
 	private alertEmitSource = new Subject<Alert>();
 	alertEmit$ = this.alertEmitSource.asObservable();
 
@@ -28,5 +27,4 @@ export class AlertService {
 	private addAlert(alert: Alert) {
 		this.alertEmitSource.next(alert);
 	}
-
 }

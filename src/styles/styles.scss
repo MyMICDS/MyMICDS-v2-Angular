@@ -10,7 +10,8 @@
 	font-family: 'Open Sans', sans-serif;
 }
 
-html, body {
+html,
+body {
 	height: 100%;
 }
 
@@ -37,7 +38,8 @@ button {
 }
 
 [mymicds-blur--white] {
-	background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url($background-url--blur);
+	background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+		url($background-url--blur);
 	background-size: cover;
 	background-attachment: fixed;
 }
@@ -70,7 +72,6 @@ button {
 	left: $blur-margin / 2;
 
 	.gridster-item-resizable-handler {
-
 		&.handle-s,
 		&.handle-n,
 		&.handle-se,

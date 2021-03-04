@@ -13,14 +13,17 @@ import { AlertService } from '../../services/alert.service';
 	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent extends SubscriptionsComponent implements OnInit {
-
 	loginModel = {
 		user: '',
 		password: '',
-		remember: true,
+		remember: true
 	};
 
-	constructor(private mymicds: MyMICDS, private router: Router, private alertService: AlertService) {
+	constructor(
+		private mymicds: MyMICDS,
+		private router: Router,
+		private alertService: AlertService
+	) {
 		super();
 	}
 
@@ -38,19 +41,20 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 		console.log(jwtComment);
 
 		this.addSubscription(
-			this.mymicds.auth.login({
-				user: this.loginModel.user,
-				password: this.loginModel.password,
-				remember: this.loginModel.remember,
-				comment: jwtComment
-			}).subscribe(loginRes => {
-				if (loginRes.success) {
-					this.router.navigate(['/home']);
-				} else {
-					this.alertService.addWarning(loginRes.message);
-				}
-			})
+			this.mymicds.auth
+				.login({
+					user: this.loginModel.user,
+					password: this.loginModel.password,
+					remember: this.loginModel.remember,
+					comment: jwtComment
+				})
+				.subscribe(loginRes => {
+					if (loginRes.success) {
+						this.router.navigate(['/home']);
+					} else {
+						this.alertService.addWarning(loginRes.message);
+					}
+				})
 		);
 	}
-
 }

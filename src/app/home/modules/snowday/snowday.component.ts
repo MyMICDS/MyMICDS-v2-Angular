@@ -11,7 +11,6 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 	styleUrls: ['./snowday.component.scss']
 })
 export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
-
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	moduleHeight: number;
@@ -38,5 +37,4 @@ export class SnowdayComponent extends SubscriptionsComponent implements OnInit {
 			})
 		);
 	}
-
 }

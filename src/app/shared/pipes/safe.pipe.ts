@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 	name: 'safeHtml'
 })
 export class SafeHtmlPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustHtml(value);
@@ -22,7 +22,7 @@ export class SafeHtmlPipe implements PipeTransform {
 	name: 'safeScript'
 })
 export class SafeScriptPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustScript(value);
@@ -33,7 +33,7 @@ export class SafeScriptPipe implements PipeTransform {
 	name: 'safeStyle'
 })
 export class SafeStylePipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustStyle(value);
@@ -44,7 +44,7 @@ export class SafeStylePipe implements PipeTransform {
 	name: 'safeUrl'
 })
 export class SafeUrlPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustUrl(value);
@@ -55,7 +55,7 @@ export class SafeUrlPipe implements PipeTransform {
 	name: 'safeResourceUrl'
 })
 export class SafeResourceUrlPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
 	transform(value: any) {
 		return this.sanitizer.bypassSecurityTrustResourceUrl(value);

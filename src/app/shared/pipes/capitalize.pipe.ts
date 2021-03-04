@@ -9,9 +9,7 @@ import { capitalize } from '../../common/utils';
 	name: 'capitalize'
 })
 export class CapitalizePipe implements PipeTransform {
-
 	transform(value: string): string {
 		return capitalize(value);
 	}
-
 }

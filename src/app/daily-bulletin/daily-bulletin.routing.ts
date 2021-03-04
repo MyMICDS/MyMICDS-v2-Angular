@@ -1,4 +1,4 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.component';
@@ -35,11 +35,7 @@ const dailyBulletinRoutes: Routes = [
 ];
 
 @NgModule({
-	imports: [
-		RouterModule.forChild(dailyBulletinRoutes)
-	],
-	exports: [
-		RouterModule
-	]
+	imports: [RouterModule.forChild(dailyBulletinRoutes)],
+	exports: [RouterModule]
 })
-export class DailybulletinRoutingModule { }
+export class DailybulletinRoutingModule {}

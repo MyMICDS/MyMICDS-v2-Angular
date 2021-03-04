@@ -43,7 +43,7 @@ export class ModuleOptionsComponent {
 		this._options = Object.assign({}, getDefaultOptions(this.type), this.options, newOptions);
 	}
 
-	constructor() { }
+	constructor() {}
 
 	valueChanged() {
 		// Loop through all options and only emit ones valid
@@ -57,5 +57,4 @@ export class ModuleOptionsComponent {
 		this.validOptions = validOptions;
 		this.optionsChange.emit(validOptions);
 	}
-
 }

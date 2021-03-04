@@ -12,16 +12,8 @@ import { SharedModule } from '../shared/shared.module';
 import { AboutRoutingModule } from './about.routing';
 
 @NgModule({
-	declarations: [
-		AboutComponent,
-		SuggestionsComponent
-	],
-	imports: [
-		CommonModule,
-		SharedModule,
-		AboutRoutingModule,
-		FontAwesomeModule,
-	]
+	declarations: [AboutComponent, SuggestionsComponent],
+	imports: [CommonModule, SharedModule, AboutRoutingModule, FontAwesomeModule]
 })
 export class AboutModule {
 	constructor(library: FaIconLibrary) {

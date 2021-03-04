@@ -11,11 +11,10 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent extends SubscriptionsComponent implements OnInit {
-
 	isCollapsed = true;
 	jwt: JWT;
 
-	pages: { url: string, name: string, icon: string, auth?: boolean }[] = [
+	pages: { url: string; name: string; icon: string; auth?: boolean }[] = [
 		{
 			url: '/home',
 			name: 'Home',
@@ -73,5 +72,4 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 			})
 		);
 	}
-
 }

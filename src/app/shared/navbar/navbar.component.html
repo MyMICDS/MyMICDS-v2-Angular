@@ -1,19 +1,31 @@
 <nav class="navbar navbar-expand navbar-dark bg-dark">
 	<a class="navbar-brand" routerLink="/home">
-		<img src="/assets/logo/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+		<img
+			src="/assets/logo/logo.svg"
+			width="30"
+			height="30"
+			class="d-inline-block align-top"
+			alt=""
+		/>
 		MyMICDS.net
 	</a>
 	<div class="navbar-nav" [class.collapsed]="isCollapsed">
 		<ng-container *ngFor="let page of pages">
-			<a *ngIf="!page.auth || jwt"
+			<a
+				*ngIf="!page.auth || jwt"
 				#rla="routerLinkActive"
 				class="nav-item nav-link"
 				[routerLink]="[page.url]"
 				[routerLinkActive]="'active'"
-				(click)="isCollapsed = !isCollapsed">
+				(click)="isCollapsed = !isCollapsed"
+			>
 				<fa-icon [icon]="page.icon"></fa-icon>
 				{{ page.name }}
-				<fa-icon *ngIf="rla.isActive" class="collapse-dropdown-caret" [icon]="['fas','caret-down']"></fa-icon>
+				<fa-icon
+					*ngIf="rla.isActive"
+					class="collapse-dropdown-caret"
+					[icon]="['fas', 'caret-down']"
+				></fa-icon>
 			</a>
 		</ng-container>
 	</div>

@@ -8,9 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 	name: 'round'
 })
 export class RoundPipe implements PipeTransform {
-
 	transform(value: number, places = 2): number {
 		return +value.toFixed(places);
 	}
-
 }

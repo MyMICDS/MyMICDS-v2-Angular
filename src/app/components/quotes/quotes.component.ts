@@ -8,17 +8,16 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./quotes.component.scss']
 })
 export class QuotesComponent extends SubscriptionsComponent implements OnInit {
-
 	quote = 'Getting quote...';
 	author = 'Getting author...';
 
 	constructor(private mymicds: MyMICDS) {
 		super();
-	};
+	}
 
 	ngOnInit() {
 		this.addSubscription(
-			this.mymicds.quotes.get().subscribe((result) => {
+			this.mymicds.quotes.get().subscribe(result => {
 				this.quote = '"' + result.quote.quote + '"';
 				this.author = '- ' + result.quote.author;
 			})

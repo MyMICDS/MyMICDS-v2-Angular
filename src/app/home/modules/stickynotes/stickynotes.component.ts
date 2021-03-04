@@ -22,8 +22,6 @@ export enum COLOR {
 	styleUrls: ['./stickynotes.component.scss']
 })
 export class StickynotesComponent extends SubscriptionsComponent implements OnInit {
-;
-
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	resizeSensorModuleContainer: ResizeSensor;
@@ -71,19 +69,21 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 			this.moduleWidth = this.moduleContainer.nativeElement.clientWidth;
 		};
 		onModuleResize();
-		this.resizeSensorModuleContainer = new ResizeSensor(this.moduleContainer.nativeElement, onModuleResize);
+		this.resizeSensorModuleContainer = new ResizeSensor(
+			this.moduleContainer.nativeElement,
+			onModuleResize
+		);
 
 		this.addSubscription(
-			this.textChange.pipe(debounceTime(1000)).subscribe(
-				text => {
-					console.log('submitted');
-					this.mymicds.stickyNotes.add({ moduleId: this._moduleId, text }).subscribe(success => {
+			this.textChange.pipe(debounceTime(1000)).subscribe(text => {
+				console.log('submitted');
+				this.mymicds.stickyNotes
+					.add({ moduleId: this._moduleId, text })
+					.subscribe(success => {
 						// @todo Have feedback when stickynote is saved
 						console.log(success);
 					});
-				}
-			)
+			})
 		);
 	}
-
 }

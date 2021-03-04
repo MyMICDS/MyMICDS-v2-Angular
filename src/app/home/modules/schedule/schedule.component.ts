@@ -8,7 +8,6 @@ import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
-
 @Component({
 	selector: 'mymicds-schedule',
 	templateUrl: './schedule.component.html',
@@ -61,12 +60,12 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 		}, 1000);
 
 		this.resizeTable();
-		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => this.resizeTable());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () =>
+			this.resizeTable()
+		);
 
 		this.addSubscription(
-			this.changeSchedule$.pipe(
-				debounceTime(300)
-			).subscribe(() => {
+			this.changeSchedule$.pipe(debounceTime(300)).subscribe(() => {
 				this.getSchedule();
 			})
 		);
@@ -96,28 +95,31 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 
 	getSchedule() {
 		const date = this.scheduleDate.clone();
-		this.mymicds.schedule.get({
-			year : date.year(),
-			month: date.month() + 1,
-			day  : date.date()
-		}).subscribe(({ schedule }) => {
-			this.viewSchedule = schedule;
+		this.mymicds.schedule
+			.get({
+				year: date.year(),
+				month: date.month() + 1,
+				day: date.date()
+			})
+			.subscribe(({ schedule }) => {
+				this.viewSchedule = schedule;
 
-			if (date.isSame(this.current, 'day')) {
-				this.currentSchedule = schedule;
-			}
+				if (date.isSame(this.current, 'day')) {
+					this.currentSchedule = schedule;
+				}
 
-			setTimeout(() => {
-				this.resizeTable();
-			}, 0);
-		});
+				setTimeout(() => {
+					this.resizeTable();
+				}, 0);
+			});
 	}
 
 	resizeTable() {
 		// Set table height
 		this.tableWidth = this.scheduleTable.nativeElement.clientWidth;
 		const tableHeight = this.scheduleTable.nativeElement.clientHeight;
-		const theadHeight = this.scheduleTable.nativeElement.getElementsByTagName('thead')[0].clientHeight;
+		const theadHeight = this.scheduleTable.nativeElement.getElementsByTagName('thead')[0]
+			.clientHeight;
 		const tbody = this.scheduleTable.nativeElement.getElementsByTagName('tbody')[0];
 		tbody.style.height = `${tableHeight - theadHeight}px`;
 
@@ -128,5 +130,4 @@ export class ScheduleComponent extends SubscriptionsComponent implements OnInit,
 			this.endWidth = this.endCell.nativeElement.clientWidth;
 		}
 	}
-
 }

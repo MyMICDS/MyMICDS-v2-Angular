@@ -8,7 +8,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 	name: 'schoolPercentage'
 })
 export class SchoolPercentagePipe implements PipeTransform {
-
 	transform(value: number, args?: any): any {
 		if (0 < value && value < 100) {
 			return 'School Day is ' + value + '% Complete!';
@@ -16,5 +15,4 @@ export class SchoolPercentagePipe implements PipeTransform {
 			return 'School is not in Session!';
 		}
 	}
-
 }

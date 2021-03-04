@@ -5,7 +5,7 @@
 	height: 100%;
 
 	&[max-width~='500px'] {
-		.not-main-entree{
+		.not-main-entree {
 			display: none;
 		}
 
@@ -25,11 +25,11 @@
 	}
 
 	&[max-height~='300px'] {
-		.lunch-date{
+		.lunch-date {
 			display: none;
 		}
 
-		.lunch-category{
+		.lunch-category {
 			padding-top: 0rem;
 		}
 	}
@@ -136,15 +136,15 @@
 							}
 
 							&.pizza-station:before {
-								content: '🍕'
+								content: '🍕';
 							}
 
 							&.soup:before {
-								content: '🍲'
+								content: '🍲';
 							}
 
 							&.dessert:before {
-								content: '🍩'
+								content: '🍩';
 							}
 						}
 					}

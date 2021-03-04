@@ -11,7 +11,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./bulletin-archives.component.scss']
 })
 export class BulletinArchivesComponent extends SubscriptionsComponent implements OnInit {
-
 	bulletins: string[];
 	bulletinDateDisplays: string[] = [];
 	baseURL: string;
@@ -34,5 +33,4 @@ export class BulletinArchivesComponent extends SubscriptionsComponent implements
 			})
 		);
 	}
-
 }

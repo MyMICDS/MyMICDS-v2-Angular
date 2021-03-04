@@ -13,20 +13,26 @@ import { confirmGrade } from '../../../common/form-validation';
 	styleUrls: ['./info.component.scss']
 })
 export class InfoComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
-
 	// Array of graduation years
 	gradeRange: number[];
 
-	infoForm = this.formBuilder.group({
-		firstName: ['', Validators.required],
-		lastName: ['', Validators.required],
-		gradYear: [''],
-		teacher: ['']
-	}, { validator: confirmGrade('gradYear', 'teacher') });
+	infoForm = this.formBuilder.group(
+		{
+			firstName: ['', Validators.required],
+			lastName: ['', Validators.required],
+			gradYear: [''],
+			teacher: ['']
+		},
+		{ validator: confirmGrade('gradYear', 'teacher') }
+	);
 
 	userInfo: GetUserInfoResponse | null = null;
 
-	constructor(private mymicds: MyMICDS, private formBuilder: FormBuilder, private alertService: AlertService) {
+	constructor(
+		private mymicds: MyMICDS,
+		private formBuilder: FormBuilder,
+		private alertService: AlertService
+	) {
 		super();
 	}
 
@@ -41,12 +47,15 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 				}
 
 				// Prefill user data in forms
-				this.infoForm = this.formBuilder.group({
-					firstName: [this.userInfo.firstName, Validators.required],
-					lastName: [this.userInfo.lastName, Validators.required],
-					gradYear: [this.userInfo.gradYear],
-					teacher: [this.userInfo.gradYear === null]
-				}, { validator: confirmGrade('gradYear', 'teacher') });
+				this.infoForm = this.formBuilder.group(
+					{
+						firstName: [this.userInfo.firstName, Validators.required],
+						lastName: [this.userInfo.lastName, Validators.required],
+						gradYear: [this.userInfo.gradYear],
+						teacher: [this.userInfo.gradYear === null]
+					},
+					{ validator: confirmGrade('gradYear', 'teacher') }
+				);
 			})
 		);
 
@@ -59,13 +68,14 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 	}
 
 	valueChanged(): boolean {
-
 		// Find out if grade changed
-		let userInfoIsTeacher = (this.userInfo!.gradYear === null);
+		let userInfoIsTeacher = this.userInfo!.gradYear === null;
 		let infoFormIsTeacher = this.infoForm.controls.teacher.value;
 
 		let userInfoGradYear = this.userInfo!.gradYear;
-		let infoFormGradYear = !infoFormIsTeacher ? parseInt(this.infoForm.controls.gradYear.value, 10) : null;
+		let infoFormGradYear = !infoFormIsTeacher
+			? parseInt(this.infoForm.controls.gradYear.value, 10)
+			: null;
 
 		let gradeChanged = false;
 
@@ -77,9 +87,11 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 			gradeChanged = true;
 		}
 
-		return gradeChanged
-			|| (this.userInfo!.firstName !== this.infoForm.controls.firstName.value)
-			|| (this.userInfo!.lastName !== this.infoForm.controls.lastName.value);
+		return (
+			gradeChanged ||
+			this.userInfo!.firstName !== this.infoForm.controls.firstName.value ||
+			this.userInfo!.lastName !== this.infoForm.controls.lastName.value
+		);
 	}
 
 	/*
@@ -98,7 +110,9 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 	changeInfo() {
 		// Create new info object
 		let newInfo: ChangeUserInfoParameters = {};
-		(['firstName', 'lastName', 'gradYear', 'teacher'] as Array<keyof ChangeUserInfoParameters>).forEach(key => {
+		(['firstName', 'lastName', 'gradYear', 'teacher'] as Array<
+			keyof ChangeUserInfoParameters
+		>).forEach(key => {
 			newInfo[key] = this.infoForm.controls[key].value;
 		});
 
@@ -111,5 +125,4 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 			this.alertService.addSuccess('Info change successful!');
 		});
 	}
-
 }

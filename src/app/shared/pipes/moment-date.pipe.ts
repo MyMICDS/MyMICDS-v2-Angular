@@ -10,16 +10,8 @@ import moment from 'moment-timezone';
 export class MomentDatePipe extends DatePipe {
 	// For some reason, TS doesn't allow this implementation unless you explicitly specify the overloads
 	transform(value: null, format: string, timezone: string): null;
-	transform(
-		value: moment.MomentInput,
-		format: string,
-		timezone: string
-	): string | null;
-	transform(
-		value: moment.MomentInput,
-		format: string,
-		timezone: string
-	) {
+	transform(value: moment.MomentInput, format: string, timezone: string): string | null;
+	transform(value: moment.MomentInput, format: string, timezone: string) {
 		const momentObj = moment(value).tz(timezone);
 		return super.transform(momentObj.toDate(), format, momentObj.format('Z'));
 	}

@@ -1,50 +1,51 @@
 <div #moduleContainer class="module-container">
-  <table class="table">
-    <thead class="thead-light">
-      <tr>
-        <th class="class-name">Class</th>
-        <th class="letter-grade">Grade</th>
-        <th>Weighted?</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let class of displayObjects; let i = index">
-        <td class="class-name">{{ class.name }}</td>
-        <td class="letter-grade">
-          <select
-            class="form-control"
-            name="grade"
-            [(ngModel)]="dropdownGradeInputs[i]"
-            (ngModelChange)="onSelectionChange()"
-          >
-            <option *ngFor="let grade of letterGradesArray" [value]="grade">{{
-              grade
-            }}</option>
-          </select>
-        </td>
-        <td class="weighted-checkbox">
-          <input type="checkbox" (change)="onWeightedCheck(i, $event.target.checked)">
-        </td>
-      </tr>
-      <tr>
-        <td class="class-name">
-          <a type="button" class="btn btn-success" (click)="calculateGpa()">
-            Calculate GPA
-          </a>
-        </td>
-        <td class="letter-grade">
-          <h2 *ngIf="showOutput" class="gpa-display">
-            {{ displayString }}
-          </h2>
-        </td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <p class="disclaimer" *ngIf="!showOutput">
-    <strong
-      >MyMICDS.net does not store your grades in our database. All the
-      calculation is done in your browser.</strong
-    > To calculate an unweighted GPA, don't select any class as weighted.
-  </p>
+	<table class="table">
+		<thead class="thead-light">
+			<tr>
+				<th class="class-name">Class</th>
+				<th class="letter-grade">Grade</th>
+				<th>Weighted?</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let class of displayObjects; let i = index">
+				<td class="class-name">{{ class.name }}</td>
+				<td class="letter-grade">
+					<select
+						class="form-control"
+						name="grade"
+						[(ngModel)]="dropdownGradeInputs[i]"
+						(ngModelChange)="onSelectionChange()"
+					>
+						<option *ngFor="let grade of letterGradesArray" [value]="grade">
+							{{ grade }}
+						</option>
+					</select>
+				</td>
+				<td class="weighted-checkbox">
+					<input type="checkbox" (change)="onWeightedCheck(i, $event.target.checked)" />
+				</td>
+			</tr>
+			<tr>
+				<td class="class-name">
+					<a type="button" class="btn btn-success" (click)="calculateGpa()">
+						Calculate GPA
+					</a>
+				</td>
+				<td class="letter-grade">
+					<h2 *ngIf="showOutput" class="gpa-display">
+						{{ displayString }}
+					</h2>
+				</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	<p class="disclaimer" *ngIf="!showOutput">
+		<strong
+			>MyMICDS.net does not store your grades in our database. All the calculation is done in
+			your browser.</strong
+		>
+		To calculate an unweighted GPA, don't select any class as weighted.
+	</p>
 </div>

@@ -11,7 +11,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent extends SubscriptionsComponent implements OnInit {
-
 	constructor(private mymicds: MyMICDS, private router: Router) {
 		super();
 	}
@@ -27,5 +26,4 @@ export class LogoutComponent extends SubscriptionsComponent implements OnInit {
 			)
 		);
 	}
-
 }

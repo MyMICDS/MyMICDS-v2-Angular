@@ -7,7 +7,6 @@ import { Subscription, SubscriptionLike } from 'rxjs';
 
 @Injectable()
 export abstract class SubscriptionsComponent implements OnDestroy {
-
 	private subscriptions: SubscriptionLike[] = [];
 
 	protected constructor() {
@@ -33,5 +32,4 @@ export abstract class SubscriptionsComponent implements OnDestroy {
 			subscription.unsubscribe();
 		}
 	}
-
 }

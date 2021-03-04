@@ -7,15 +7,16 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
 
 export function confirmRegister(passwordParams: string[], gradeParams: string[]): ValidatorFn {
 	return group => {
-
 		let passwordResponse = confirmPassword(passwordParams[0], passwordParams[1])(group);
 		let gradeResponse = confirmGrade(gradeParams[0], gradeParams[1])(group);
 
 		// If both are null, return success
-		if (!passwordResponse && !gradeResponse)  { return null; }
+		if (!passwordResponse && !gradeResponse) {
+			return null;
+		}
 
 		// At least one is an object with a key. If not null, append to response object.
-		let response = { };
+		let response = {};
 		if (passwordResponse) {
 			response = Object.assign(response, passwordResponse);
 		}

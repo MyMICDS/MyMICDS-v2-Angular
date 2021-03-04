@@ -31,7 +31,6 @@ import { HomeComponent } from './home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home.routing';
 
-
 @NgModule({
 	declarations: [
 		HomeComponent,
@@ -49,7 +48,7 @@ import { HomeRoutingModule } from './home.routing';
 		SimplifiedLunchComponent,
 		TwitterComponent,
 		WeatherComponent,
-		ModuleInspectorComponent,
+		ModuleInspectorComponent
 	],
 	entryComponents: moduleComponents,
 	imports: [
@@ -62,9 +61,7 @@ import { HomeRoutingModule } from './home.routing';
 		AngularFittextModule,
 		NgbModule
 	],
-	exports: [
-		ModuleInspectorComponent,
-	]
+	exports: [ModuleInspectorComponent]
 })
 export class HomeModule {
 	constructor(library: FaIconLibrary) {

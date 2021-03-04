@@ -5,48 +5,48 @@
 }
 
 table {
-  margin-bottom: 0.4rem;
-  overflow: auto;
-  display: flex;
-  flex-direction: column;
+	margin-bottom: 0.4rem;
+	overflow: auto;
+	display: flex;
+	flex-direction: column;
 
-  th.letter-grade {
-    text-align: right;
-    width: 100%;
-    padding-right: 4rem;
-  }
+	th.letter-grade {
+		text-align: right;
+		width: 100%;
+		padding-right: 4rem;
+	}
 
-  td {
-    white-space: nowrap;
-    padding: 0.35rem;
-    width: 100%;
+	td {
+		white-space: nowrap;
+		padding: 0.35rem;
+		width: 100%;
 
-    a {
-      margin-top: .25rem;
-      margin-bottom: .25rem;
-    }
+		a {
+			margin-top: 0.25rem;
+			margin-bottom: 0.25rem;
+		}
 
-    select.form-control {
-      width: inherit;
-      margin-left: auto;
-      margin-right: auto;
-    }
+		select.form-control {
+			width: inherit;
+			margin-left: auto;
+			margin-right: auto;
+		}
 
-    &.class-name {
-      color: white;
-      vertical-align: middle;
-      line-height: normal;
-    }
-    &.letter-grade {
-      input {
-        width: 7rem;
-      }
-      min-width: 9rem;
-    }
-  }
+		&.class-name {
+			color: white;
+			vertical-align: middle;
+			line-height: normal;
+		}
+		&.letter-grade {
+			input {
+				width: 7rem;
+			}
+			min-width: 9rem;
+		}
+	}
 }
 
 .gpa-display {
-  color: white;
-  text-align: center;
+	color: white;
+	text-align: center;
 }

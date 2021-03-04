@@ -6,22 +6,26 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import { NavbarComponent } from './navbar/navbar.component';
-import { BlurDirective,
-	DarkBlurDirective,
-	WhiteBlurDirective } from './directives/blur.directive';
+import { BlurDirective, DarkBlurDirective, WhiteBlurDirective } from './directives/blur.directive';
 
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { CompassDirectionPipe } from './pipes/compass-direction.pipe';
 import { DayRotationPipe } from './pipes/day-rotation.pipe';
 import { GradePipePipe } from './pipes/grade-pipe.pipe';
 import { RoundPipe } from './pipes/round.pipe';
-import { SafeHtmlPipe, SafeResourceUrlPipe, SafeScriptPipe, SafeStylePipe, SafeUrlPipe } from './pipes/safe.pipe';
+import {
+	SafeHtmlPipe,
+	SafeResourceUrlPipe,
+	SafeScriptPipe,
+	SafeStylePipe,
+	SafeUrlPipe
+} from './pipes/safe.pipe';
 import { SchoolPercentagePipe } from './pipes/school-percentage.pipe';
 import { ValuesPipe } from './pipes/values.pipe';
 import { WeatherIconPipe } from './pipes/weather-icon.pipe';
 import { MomentDatePipe } from './pipes/moment-date.pipe';
 import { ModuleContainerComponent } from './module-container/module-container.component';
-import { SharedRoutingModule } from './shared.routing' ;
+import { SharedRoutingModule } from './shared.routing';
 
 @NgModule({
 	declarations: [
@@ -49,11 +53,7 @@ import { SharedRoutingModule } from './shared.routing' ;
 		DarkBlurDirective,
 		WhiteBlurDirective
 	],
-	imports: [
-		CommonModule,
-		FontAwesomeModule,
-		SharedRoutingModule,
-	],
+	imports: [CommonModule, FontAwesomeModule, SharedRoutingModule],
 	exports: [
 		CapitalizePipe,
 		CompassDirectionPipe,

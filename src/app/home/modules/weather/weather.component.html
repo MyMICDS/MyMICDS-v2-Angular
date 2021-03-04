@@ -1,8 +1,7 @@
 <div class="module-container">
-
 	<div *ngIf="!weather" class="weather-loading">
-		<p>Loading weather data...
-		<p>
+		<p>Loading weather data...</p>
+		<p></p>
 	</div>
 
 	<div *ngIf="weather" class="weather">
@@ -19,14 +18,16 @@
 				<div class="temp-range">
 					<div class="temp-high">
 						<span class="temp-range-label">High</span>
-						{{ metric ? weatherMetric.temperatureHigh : weather.temperatureHigh }}{{ metric ? '&deg;C' : '&deg;F' }}
+						{{ metric ? weatherMetric.temperatureHigh : weather.temperatureHigh
+						}}{{ metric ? '&deg;C' : '&deg;F' }}
 					</div>
 
 					<span class="temp-spacer"></span>
 
 					<div class="temp-low">
 						<span class="temp-range-label">Low</span>
-						{{ metric ? weatherMetric.temperatureLow : weather.temperatureLow }}{{ metric ? '&deg;C' : '&deg;F' }}
+						{{ metric ? weatherMetric.temperatureLow : weather.temperatureLow
+						}}{{ metric ? '&deg;C' : '&deg;F' }}
 					</div>
 				</div>
 			</div>
@@ -40,16 +41,20 @@
 
 			<div class="precipitation">
 				<span class="weather-label">Precipitation Chance</span>
-				{{ (weather.precipitationChance * 100) | round }}%
+				{{ weather.precipitationChance * 100 | round }}%
 			</div>
 		</div>
 
 		<div class="wind">
-			<i class="wi wi-wind from-{{weather.windDir}}-deg"></i>
+			<i class="wi wi-wind from-{{ weather.windDir }}-deg"></i>
 			<div class="wind-vector">
-				<div class="wind-magnitude">Wind <span
-						class="wind-speed">{{ metric ? weatherMetric.windSpeed : weather.windSpeed }}</span>
-					{{ metric ? 'kilometers' : 'miles' }}/hour</div>
+				<div class="wind-magnitude">
+					Wind
+					<span class="wind-speed">{{
+						metric ? weatherMetric.windSpeed : weather.windSpeed
+					}}</span>
+					{{ metric ? 'kilometers' : 'miles' }}/hour
+				</div>
 				<div class="wind-direction">From {{ weather.windDir | compassDirection }}</div>
 			</div>
 		</div>
@@ -57,7 +62,7 @@
 
 	<div class="powered-by-container">
 		<a class="powered-by">
-			<img src="/assets/other/openweather-logo.webp" async>
+			<img src="/assets/other/openweather-logo.webp" async />
 		</a>
 	</div>
 </div>

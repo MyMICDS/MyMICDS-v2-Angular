@@ -13,7 +13,6 @@ declare global {
 	styleUrls: ['./twitter.component.scss']
 })
 export class TwitterComponent implements OnInit {
-
 	@Input() fixedHeight: boolean;
 
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
@@ -27,7 +26,7 @@ export class TwitterComponent implements OnInit {
 		}
 	}
 
-	constructor() { }
+	constructor() {}
 
 	ngOnInit() {
 		this.loadTwitter();
@@ -36,7 +35,9 @@ export class TwitterComponent implements OnInit {
 
 			let resizeTimeout: NodeJS.Timeout | null = null;
 			this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => {
-				if (resizeTimeout) { clearTimeout(resizeTimeout); }
+				if (resizeTimeout) {
+					clearTimeout(resizeTimeout);
+				}
 				if (this.fixedHeight) {
 					resizeTimeout = setTimeout(() => {
 						this.deleteTwitter();
@@ -73,22 +74,24 @@ export class TwitterComponent implements OnInit {
 	}
 
 	private loadTwitter() {
-		window.twttr = (function(d, s, id) {
-			let js: HTMLScriptElement, fjs = d.getElementsByTagName(s)[0],
+		window.twttr = (function (d, s, id) {
+			let js: HTMLScriptElement,
+				fjs = d.getElementsByTagName(s)[0],
 				t = window.twttr || {};
-			if (d.getElementById(id)) { return t; }
+			if (d.getElementById(id)) {
+				return t;
+			}
 			js = d.createElement(s) as HTMLScriptElement;
 			js.id = id;
 			js.src = 'https://platform.twitter.com/widgets.js';
 			fjs.parentNode!.insertBefore(js, fjs);
 
 			t._e = [];
-			t.ready = function(f: any) {
+			t.ready = function (f: any) {
 				t._e.push(f);
 			};
 
 			return t;
-		}(document, 'script', 'twitter-wjs'));
+		})(document, 'script', 'twitter-wjs');
 	}
-
 }

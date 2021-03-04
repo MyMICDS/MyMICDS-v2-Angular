@@ -1,6 +1,15 @@
 import { GetScheduleResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+	Component,
+	ElementRef,
+	Input,
+	OnDestroy,
+	OnInit,
+	QueryList,
+	ViewChild,
+	ViewChildren
+} from '@angular/core';
 import * as moment from 'moment';
 import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
@@ -11,7 +20,9 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 	templateUrl: './simplified-schedule.component.html',
 	styleUrls: ['./simplified-schedule.component.scss']
 })
-export class SimplifiedScheduleComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
+export class SimplifiedScheduleComponent
+	extends SubscriptionsComponent
+	implements OnInit, OnDestroy {
 	private _fixedHeight: boolean;
 
 	moduleWidth: number;
@@ -51,14 +62,16 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 		ElementQueries.init();
 
 		this.addSubscription(
-			this.mymicds.schedule.get({
-				year : this.scheduleDate.year(),
-				month: this.scheduleDate.month() + 1,
-				day  : this.scheduleDate.date()
-			}).subscribe(schedule => {
-				this.schedule = schedule.schedule;
-				setTimeout(() => this.calcBlockDisplay());
-			})
+			this.mymicds.schedule
+				.get({
+					year: this.scheduleDate.year(),
+					month: this.scheduleDate.month() + 1,
+					day: this.scheduleDate.date()
+				})
+				.subscribe(schedule => {
+					this.schedule = schedule.schedule;
+					setTimeout(() => this.calcBlockDisplay());
+				})
 		);
 
 		this.updateCurrentInterval = setInterval(() => {
@@ -72,7 +85,9 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 			this.calcBlockDisplay();
 		};
 		onModuleResize();
-		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => onModuleResize());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () =>
+			onModuleResize()
+		);
 	}
 
 	ngOnDestroy() {
@@ -81,10 +96,9 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 
 	// Determine how many blocks to show in the queue (depending on how much physical space we have to work with)
 	calcBlockDisplay() {
-
 		this.startIndex = 0;
 		this.showNBlocks = 0;
-		this.isHorizontal = this.fixedHeight && (this.moduleWidth >= this.moduleHeight);
+		this.isHorizontal = this.fixedHeight && this.moduleWidth >= this.moduleHeight;
 
 		// If blocks aren't rendered in the DOM, don't worry about it fam
 		if (!this.displayBlocks) {
@@ -163,13 +177,18 @@ export class SimplifiedScheduleComponent extends SubscriptionsComponent implemen
 
 		// Account for margin and padding
 		const computedStyles = window.getComputedStyle(elem, null);
-		dimensions.width += parseFloat(computedStyles.marginLeft) + parseFloat(computedStyles.marginRight)
-			+ parseFloat(computedStyles.paddingLeft) + parseFloat(computedStyles.paddingRight);
-		dimensions.height += parseFloat(computedStyles.marginTop) + parseFloat(computedStyles.marginBottom)
-			+ parseFloat(computedStyles.paddingTop) + parseFloat(computedStyles.paddingBottom);
+		dimensions.width +=
+			parseFloat(computedStyles.marginLeft) +
+			parseFloat(computedStyles.marginRight) +
+			parseFloat(computedStyles.paddingLeft) +
+			parseFloat(computedStyles.paddingRight);
+		dimensions.height +=
+			parseFloat(computedStyles.marginTop) +
+			parseFloat(computedStyles.marginBottom) +
+			parseFloat(computedStyles.paddingTop) +
+			parseFloat(computedStyles.paddingBottom);
 
 		clone.remove();
 		return dimensions;
 	}
-
 }

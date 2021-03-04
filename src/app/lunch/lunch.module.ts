@@ -12,15 +12,8 @@ import { SharedModule } from '../shared/shared.module';
 import { LunchRoutingModule } from './lunch.routing';
 
 @NgModule({
-	declarations: [
-		LunchComponent
-	],
-	imports: [
-		CommonModule,
-		SharedModule,
-		LunchRoutingModule,
-		FontAwesomeModule
-	]
+	declarations: [LunchComponent],
+	imports: [CommonModule, SharedModule, LunchRoutingModule, FontAwesomeModule]
 })
 export class LunchModule {
 	constructor(library: FaIconLibrary) {

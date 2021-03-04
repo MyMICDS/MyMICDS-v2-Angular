@@ -166,7 +166,7 @@
 
 							.event {
 								flex: 0 0 1rem;
-								position:relative;
+								position: relative;
 								height: 1rem;
 
 								margin-bottom: 0.25rem;
@@ -207,15 +207,15 @@
 								}
 
 								.svg-cross {
-									position:absolute;
-									top:0;
-									left:0;
-									right:0;
-									bottom:0;
+									position: absolute;
+									top: 0;
+									left: 0;
+									right: 0;
+									bottom: 0;
 									height: 100%;
 									width: 100%;
 									fill-opacity: 0;
-									stroke:#FF0000;
+									stroke: #ff0000;
 									stroke-width: 50;
 									stroke-dasharray: 3220;
 									stroke-dashoffset: 3220;
@@ -272,7 +272,7 @@
 					h1 {
 						font-weight: 300;
 					}
-					.date-display{
+					.date-display {
 						font-weight: 300;
 						font-size: 2.5rem;
 					}
@@ -358,15 +358,15 @@
 							}
 
 							.svg-cross {
-								position:absolute;
-								top:0;
-								left:0;
-								right:0;
-								bottom:0;
+								position: absolute;
+								top: 0;
+								left: 0;
+								right: 0;
+								bottom: 0;
 								height: 100%;
 								width: 100%;
 								fill-opacity: 0;
-								stroke:#FF0000;
+								stroke: #ff0000;
 								stroke-width: 50;
 								stroke-dasharray: 3220;
 								stroke-dashoffset: 3220;
@@ -394,7 +394,6 @@
 
 				.coming-up {
 					.coming-up-day {
-
 						.coming-up-due {
 							margin-bottom: 0.5rem;
 							padding-top: 1rem;
@@ -438,25 +437,23 @@
 }
 
 /* Media queries */
-@media screen and (max-width:1475px) {
+@media screen and (max-width: 1475px) {
 	.planner-interface {
 		.planner-container {
 			.calendar-container {
-				.sidebar{
-					.sidebar-header{
-						.date-display{
+				.sidebar {
+					.sidebar-header {
+						.date-display {
 							font-size: 1.5rem;
 						}
 					}
-
 				}
-
 			}
 		}
 	}
 }
 
-@media only screen and (min-width:240px) {
+@media only screen and (min-width: 240px) {
 	.planner-interface {
 		.planner-container {
 			.calendar-container {
@@ -474,7 +471,7 @@
 	}
 }
 
-@media only screen and (min-width:544px) {
+@media only screen and (min-width: 544px) {
 	.planner-interface {
 		// Add padding instead of margin so clicking the bottom will also deselect the day
 		padding: 2rem 0 6rem 0;
@@ -495,7 +492,6 @@
 					}
 
 					.calendar-grid {
-
 						.calendar-weekdays {
 							.weekday {
 								display: inline-block;
@@ -506,7 +502,6 @@
 						}
 
 						.calendar-week {
-
 							.calendar-weekday {
 								min-height: 8rem;
 								display: inline-block;
@@ -544,11 +539,8 @@
 
 					.coming-up,
 					.day-selection {
-
 						.event {
-
 							.event-content {
-
 								&:hover {
 									.event-manage {
 										opacity: 1;
@@ -569,14 +561,13 @@
 					.day-selection {
 						top: 12rem;
 					}
-
 				}
 			}
 		}
 	}
 }
 
-@media screen and (min-width:992px) {
+@media screen and (min-width: 992px) {
 	.planner-interface {
 		.planner-container {
 			.calendar-container {
@@ -593,7 +584,8 @@
 								// Shorten the weekdays into their abbrieviations
 								width: calc(100% / 7);
 								margin: 0;
-								&:nth-child(2), &:nth-child(4) {
+								&:nth-child(2),
+								&:nth-child(4) {
 									width: calc(100% / 7);
 								}
 								&:nth-child(3) {
@@ -609,13 +601,12 @@
 						}
 						.calendar-week {
 							.calendar-weekday {
-
 								.calendar-weekday-header .calendar-weekday-day-rotation {
 									display: block;
 								}
 
 								.event {
-									position:relative;
+									position: relative;
 									height: inherit;
 
 									margin-bottom: 0.25rem;
@@ -659,7 +650,8 @@
 						}
 					}
 
-					.coming-up, .day-selection {
+					.coming-up,
+					.day-selection {
 						position: absolute;
 						left: 0.5rem;
 						right: 0.5rem;
@@ -693,7 +685,7 @@
 	}
 }
 
-@media screen and (min-width:1560px) {
+@media screen and (min-width: 1560px) {
 	.planner-interface {
 		.planner-container {
 			.calendar-container {
@@ -716,21 +708,22 @@
 	margin: 0;
 	border: none;
 	padding: 0;
-  }
-  .custom-day {
+}
+.custom-day {
 	text-align: center;
 	padding: 0.185rem 0.25rem;
 	display: inline-block;
 	height: 2rem;
 	width: 2rem;
-  }
-  .custom-day.focused {
+}
+.custom-day.focused {
 	background-color: #e6e6e6;
-  }
-  .custom-day.range, .custom-day:hover {
+}
+.custom-day.range,
+.custom-day:hover {
 	background-color: rgb(2, 117, 216);
 	color: white;
-  }
-  .custom-day.faded {
+}
+.custom-day.faded {
 	background-color: rgba(2, 117, 216, 0.5);
-  }
+}

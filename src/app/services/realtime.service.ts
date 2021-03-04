@@ -6,7 +6,6 @@ import * as io from 'socket.io-client';
 
 @Injectable()
 export class RealtimeService {
-
 	private socket;
 
 	constructor() {

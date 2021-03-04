@@ -3,8 +3,7 @@ import Trianglify from 'trianglify';
 
 @Injectable()
 export class BackgroundService {
-
-	constructor() { }
+	constructor() {}
 
 	generateTrianglify() {
 		const bgURI = Trianglify({
@@ -33,5 +32,4 @@ export class BackgroundService {
 
 		return new Blob([ia], { type: mimeString });
 	}
-
 }

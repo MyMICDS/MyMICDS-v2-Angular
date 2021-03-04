@@ -13,7 +13,6 @@ import { AlertService } from '../../services/alert.service';
 	styleUrls: ['./confirm.component.scss']
 })
 export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	typeOf = typeOf;
 	confirmResponse: boolean | string;
@@ -22,7 +21,8 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 		private mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
-		private alertService: AlertService) {
+		private alertService: AlertService
+	) {
 		super();
 	}
 
@@ -57,5 +57,4 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 			)
 		);
 	}
-
 }

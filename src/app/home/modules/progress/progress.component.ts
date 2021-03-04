@@ -21,8 +21,7 @@ declare global {
 	templateUrl: './progress.component.html',
 	styleUrls: ['./progress.component.scss']
 })
-export class ProgressComponent extends SubscriptionsComponent
-	implements OnInit, OnDestroy {
+export class ProgressComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	// Used for collapsing date and if progress bar should be horizontal or vertical
 	moduleHeight: number;
@@ -131,10 +130,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		this.resizeSensorChart = new ResizeSensor(canvasEl, onChartResize);
 
 		// Rainbow color top priority
-		this.rainbow = rainbowCanvasGradient(
-			canvasEl.offsetWidth,
-			canvasEl.offsetHeight
-		);
+		this.rainbow = rainbowCanvasGradient(canvasEl.offsetWidth, canvasEl.offsetHeight);
 
 		// Initialize Progress Bar
 		this.progressBar = new Chart(canvasEl, {
@@ -179,10 +175,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		this.timer = setInterval(() => {
 			this.today = new Date();
 			// Calculate rainbow gradient again in case module dimensions changed
-			this.rainbow = rainbowCanvasGradient(
-				canvasEl.offsetWidth,
-				canvasEl.offsetHeight
-			);
+			this.rainbow = rainbowCanvasGradient(canvasEl.offsetWidth, canvasEl.offsetHeight);
 			this.calculatePercentages();
 		}, 1000);
 
@@ -243,7 +236,8 @@ export class ProgressComponent extends SubscriptionsComponent
 		const nowTime = this.today.getTime();
 
 		// End of School constant created for DRY, specify that it is 3:15 PM Central Time
-		const schoolDayEnd315 = moment.tz(this.today, 'America/Chicago')
+		const schoolDayEnd315 = moment
+			.tz(this.today, 'America/Chicago')
 			.startOf('day')
 			.hours(15)
 			.minutes(15);
@@ -281,8 +275,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 			// If there's a break as the last class of the day, make the break end at 3:15
 			if (
-				this.schedule.classes[this.schedule.classes.length - 1].end !==
-					schoolDayEnd315 &&
+				this.schedule.classes[this.schedule.classes.length - 1].end !== schoolDayEnd315 &&
 				this.schedule.classes.length - 1 === i
 			) {
 				breakObj.end = schoolDayEnd315;
@@ -296,7 +289,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		const formattedSchedule = this.schedule.classes.concat(breaks);
 		const formattedScheduleColors: Array<string | CanvasGradient> = [];
 		// Sort classes by start time
-		formattedSchedule.sort(function(a, b) {
+		formattedSchedule.sort(function (a, b) {
 			return a.start.valueOf() - b.start.valueOf();
 		});
 
@@ -306,9 +299,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 			if (typeof formattedSchedule[i].class.color === 'string') {
 				// Check if rainbow color
-				if (
-					formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord
-				) {
+				if (formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord) {
 					formattedScheduleColors[i] = this.rainbow;
 				} else {
 					formattedScheduleColors[i] = formattedSchedule[i].class.color;

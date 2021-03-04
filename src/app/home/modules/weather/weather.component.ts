@@ -11,7 +11,6 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 	styleUrls: ['./weather.component.scss']
 })
 export class WeatherComponent extends SubscriptionsComponent implements OnInit {
-
 	weather: Weather | null = null;
 	// Weather object converted to metric
 	weatherMetric: Weather | null = null;
@@ -43,7 +42,7 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 			windSpeed: this.convertWindspeed(weather.windSpeed),
 			windDir: weather.windDir,
 			weatherIcon: weather.weatherIcon
-		}
+		};
 		return metric;
 	}
 
@@ -56,5 +55,4 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 	private convertWindspeed(mh: number) {
 		return Number((mh * 1.609344).toPrecision(2));
 	}
-
 }

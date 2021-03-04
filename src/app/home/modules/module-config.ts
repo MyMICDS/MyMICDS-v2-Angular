@@ -5,7 +5,7 @@ import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.compon
 import { GpaCalculatorComponent } from './gpa-calculator/gpa-calculator.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
+import { SimplifiedLunchComponent } from './simplified-lunch/simplified-lunch.component';
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
 import { StickynotesComponent, COLOR } from './stickynotes/stickynotes.component';
@@ -108,7 +108,7 @@ export const config: Config = {
 						}
 					]
 				},
-				default: COUNTDOWN_MODE.END,
+				default: COUNTDOWN_MODE.END
 			},
 			eventLabel: {
 				label: 'Label',

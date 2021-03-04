@@ -2,19 +2,19 @@
 	<!-- Day navigation bar -->
 	<div class="day-navigation">
 		<button class="previous-day" (click)="previousDay()">
-			<fa-icon [icon]="['fas','angle-left']"></fa-icon>
+			<fa-icon [icon]="['fas', 'angle-left']"></fa-icon>
 			<span>Previous Day</span>
 		</button>
 
 		<button class="current-day" (click)="currentDay()">
 			<span *ngIf="viewSchedule?.day">Day {{ viewSchedule?.day }}</span>
-			<span>{{ scheduleDate.toDate() | momentDate:'EEEE, MMM d':'America/Chicago' }}</span>
+			<span>{{ scheduleDate.toDate() | momentDate: 'EEEE, MMM d':'America/Chicago' }}</span>
 			<span *ngIf="viewSchedule?.special">Special Schedule</span>
 		</button>
 
 		<button class="next-day" (click)="nextDay()">
 			<span>Next Day</span>
-			<fa-icon [icon]="['fas','angle-right']"></fa-icon>
+			<fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
 		</button>
 	</div>
 	<!-- Loading -->
@@ -32,13 +32,27 @@
 				<tr>
 					<th class="start" [style.width]="startWidth + 'px'">Start</th>
 					<th class="end" [style.width]="endWidth + 'px'">End</th>
-					<th class="class-name" [style.width]="(tableWidth! - startWidth! - endWidth!) + 'px'">Class</th>
+					<th
+						class="class-name"
+						[style.width]="tableWidth! - startWidth! - endWidth! + 'px'"
+					>
+						Class
+					</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let block of viewSchedule?.classes" [class.current]="block.start.isSameOrBefore(current) && current.isBefore(block.end)">
-					<td #start class="start" >{{ block.start | momentDate:'shortTime':'America/Chicago' }}</td>
-					<td #end class="end">{{ block.end | momentDate:'shortTime':'America/Chicago' }}</td>
+				<tr
+					*ngFor="let block of viewSchedule?.classes"
+					[class.current]="
+						block.start.isSameOrBefore(current) && current.isBefore(block.end)
+					"
+				>
+					<td #start class="start">
+						{{ block.start | momentDate: 'shortTime':'America/Chicago' }}
+					</td>
+					<td #end class="end">
+						{{ block.end | momentDate: 'shortTime':'America/Chicago' }}
+					</td>
 					<td class="class-name">{{ block.class.name }}</td>
 				</tr>
 			</tbody>

@@ -1,11 +1,18 @@
-import { AddClassResponse, Block, ClassType, GetClassesResponse, MyMICDS, MyMICDSClass } from '@mymicds/sdk';
+import {
+	AddClassResponse,
+	Block,
+	ClassType,
+	GetClassesResponse,
+	MyMICDS,
+	MyMICDSClass
+} from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { defaultIfEmpty } from 'rxjs/operators';
 import { capitalize, contains } from '../../../common/utils';
 
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
@@ -16,7 +23,6 @@ import { AlertService } from '../../../services/alert.service';
 	styleUrls: ['./classes.component.scss']
 })
 export class ClassesComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	capitalize = capitalize; // eslint-disable-line
 
@@ -33,17 +39,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 	portalClasses: string[] = [];
 
 	// Set Classes form
-	classBlocks = [
-		'a',
-		'b',
-		'c',
-		'd',
-		'e',
-		'f',
-		'g',
-		'sport',
-		'other'
-	];
+	classBlocks = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'sport', 'other'];
 	classTypes = [
 		'art',
 		'english',
@@ -56,25 +52,24 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		'french',
 		'other'
 	];
-	teacherPrefixes = [
-		'Mr.',
-		'Ms.'
-	];
+	teacherPrefixes = ['Mr.', 'Ms.'];
 
-	aliasTypes = [
-		'canvas',
-		'portal'
-	];
+	aliasTypes = ['canvas', 'portal'];
 
 	aliasClass: MyMICDSClass | null = null;
 
-	constructor(private mymicds: MyMICDS, private alertService: AlertService, private modalService: NgbModal) {
+	constructor(
+		private mymicds: MyMICDS,
+		private alertService: AlertService,
+		private modalService: NgbModal
+	) {
 		super();
 	}
 
-	open(content: any) { // any Any is bad, but .open() takes an any argument, so... Sorry, Nick
-		this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
-	  }
+	open(content: any) {
+		// any Any is bad, but .open() takes an any argument, so... Sorry, Nick
+		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+	}
 
 	ngOnInit() {
 		// Get list of user's classes
@@ -146,13 +141,15 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 			return true;
 		}
 
-		return currentClass.name !== ogClass.name
-			|| currentClass.color !== ogClass.color
-			|| currentClass.block !== ogClass.block
-			|| currentClass.type !== ogClass.type
-			|| currentClass.teacher.prefix !== ogClass.teacher.prefix
-			|| currentClass.teacher.firstName !== ogClass.teacher.firstName
-			|| currentClass.teacher.lastName !== ogClass.teacher.lastName;
+		return (
+			currentClass.name !== ogClass.name ||
+			currentClass.color !== ogClass.color ||
+			currentClass.block !== ogClass.block ||
+			currentClass.type !== ogClass.type ||
+			currentClass.teacher.prefix !== ogClass.teacher.prefix ||
+			currentClass.teacher.firstName !== ogClass.teacher.firstName ||
+			currentClass.teacher.lastName !== ogClass.teacher.lastName
+		);
 	}
 
 	// Detect of any class has changed
@@ -224,58 +221,67 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		this.savingClasses = true;
 
 		// Delete any old classes
-		let deleteObservables = this.deleteClassIds.map(id => this.mymicds.classes.delete({ id }, true));
+		let deleteObservables = this.deleteClassIds.map(id =>
+			this.mymicds.classes.delete({ id }, true)
+		);
 
 		// Reset delete class ids
 		this.deleteClassIds = [];
 
 		// Add any new classes
-		let saveObservables = this.classesList.map(scheduleClass => {
-			if (this.classChanged(scheduleClass._id)) {
-				return this.mymicds.classes.add({
-					id: scheduleClass._id,
-					name: scheduleClass.name,
-					color: scheduleClass.color,
-					block: scheduleClass.block,
-					type: scheduleClass.type,
-					teacherPrefix: scheduleClass.teacher.prefix,
-					teacherFirstName: scheduleClass.teacher.firstName,
-					teacherLastName: scheduleClass.teacher.lastName
-				}, true);
-			}
-		}).filter(Boolean) as unknown as Observable<AddClassResponse>[];
+		let saveObservables = (this.classesList
+			.map(scheduleClass => {
+				if (this.classChanged(scheduleClass._id)) {
+					return this.mymicds.classes.add(
+						{
+							id: scheduleClass._id,
+							name: scheduleClass.name,
+							color: scheduleClass.color,
+							block: scheduleClass.block,
+							type: scheduleClass.type,
+							teacherPrefix: scheduleClass.teacher.prefix,
+							teacherFirstName: scheduleClass.teacher.firstName,
+							teacherLastName: scheduleClass.teacher.lastName
+						},
+						true
+					);
+				}
+			})
+			.filter(Boolean) as unknown) as Observable<AddClassResponse>[];
 
 		// Combine all of those observables into a MEGA OBSERVABLE
 		let deleteClasses$ = combineLatest(deleteObservables).pipe(defaultIfEmpty());
 		let saveClasses$ = combineLatest(saveObservables).pipe(defaultIfEmpty());
 		let MEGAObservable$ = combineLatest([deleteClasses$, saveClasses$]);
 
-		MEGAObservable$.subscribe(([deleted, saved]) => {
-			// Deleted class logic
-			if (deleted && deleted.length > 0) {
-				this.alertService.addSuccess(`Deleted ${deleted.length} classes.`);
-			}
+		MEGAObservable$.subscribe(
+			([deleted, saved]) => {
+				// Deleted class logic
+				if (deleted && deleted.length > 0) {
+					this.alertService.addSuccess(`Deleted ${deleted.length} classes.`);
+				}
 
-			// Added class logic
-			if (saved && saved.length > 0) {
-				this.alertService.addSuccess(`Saved ${saved.length} classes.`);
+				// Added class logic
+				if (saved && saved.length > 0) {
+					this.alertService.addSuccess(`Saved ${saved.length} classes.`);
 
-				// Go through all classes without ids and insert their new ids
-				let idOffset = 0;
-				for (let currentClass of this.classesList) {
-					if (!currentClass._id) {
-						// Assign this new class the next id in the array
-						currentClass._id = saved[idOffset++].id;
+					// Go through all classes without ids and insert their new ids
+					let idOffset = 0;
+					for (let currentClass of this.classesList) {
+						if (!currentClass._id) {
+							// Assign this new class the next id in the array
+							currentClass._id = saved[idOffset++].id;
+						}
 					}
 				}
 
+				this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
+				this.savingClasses = false;
+			},
+			() => {
+				this.savingClasses = false;
 			}
-
-			this.ogClasses = JSON.parse(JSON.stringify(this.classesList));
-			this.savingClasses = false;
-		}, () => {
-			this.savingClasses = false;
-		});
+		);
 	}
 
 	// Adds a class to the bottom
@@ -304,5 +310,4 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 			this.deleteClassIds.push(id);
 		}
 	}
-
 }

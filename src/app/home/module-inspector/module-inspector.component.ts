@@ -10,7 +10,6 @@ import interact from 'interactjs';
 	styleUrls: ['./module-inspector.component.scss']
 })
 export class ModuleInspectorComponent implements OnInit, OnDestroy {
-
 	moduleNames = Object.keys(config);
 	modules = config;
 	private _selectedModuleType = this.moduleNames[0];
@@ -57,10 +56,9 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		this.updateURL();
 	}
 
-	constructor(private router: Router, private route: ActivatedRoute) { }
+	constructor(private router: Router, private route: ActivatedRoute) {}
 
 	ngOnInit() {
-
 		// See if there's URL parameters
 		const params = this.route.snapshot.queryParams;
 		if (params.type) {
@@ -122,5 +120,4 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 			});
 		}, 500);
 	}
-
 }

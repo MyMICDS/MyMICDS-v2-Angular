@@ -3,41 +3,64 @@
 	<div class="inspector-options">
 		<div class="inspector-option">
 			<h6>Module</h6>
-			<select class="custom-select" [(ngModel)]="selectedModuleType" (ngModelChange)="setDefaultOptions($event)">
-				<option *ngFor="let module of moduleNames" [value]="module">{{ modules[module].displayName }}</option>
+			<select
+				class="custom-select"
+				[(ngModel)]="selectedModuleType"
+				(ngModelChange)="setDefaultOptions($event)"
+			>
+				<option *ngFor="let module of moduleNames" [value]="module">
+					{{ modules[module].displayName }}
+				</option>
 			</select>
 		</div>
 		<div class="inspector-option">
 			<h6>Width</h6>
-			<input class="form-control" [(ngModel)]="moduleWidth">
+			<input class="form-control" [(ngModel)]="moduleWidth" />
 		</div>
 		<div class="inspector-option">
 			<h6>Height</h6>
-			<input class="form-control" [(ngModel)]="moduleHeight">
+			<input class="form-control" [(ngModel)]="moduleHeight" />
 		</div>
 		<div class="inspector-option">
 			<h6>Module Options</h6>
 			<div class="form-check">
 				<label class="form-check-label">
-					<input type="checkbox" class="form-check-input" [(ngModel)]="fixedHeight">
+					<input type="checkbox" class="form-check-input" [(ngModel)]="fixedHeight" />
 					Fixed Height
 				</label>
 			</div>
-			<mymicds-module-options [type]="selectedModuleType" [(options)]="moduleOptions" (optionsChange)="updateOptions($event)"></mymicds-module-options>
+			<mymicds-module-options
+				[type]="selectedModuleType"
+				[(options)]="moduleOptions"
+				(optionsChange)="updateOptions($event)"
+			></mymicds-module-options>
 		</div>
 	</div>
 </div>
 
-<div *ngIf="fixedHeight" class="fixed-height module-container-container" [style.width]="moduleWidth + 'px'" [style.height]="moduleHeight + 'px'">
+<div
+	*ngIf="fixedHeight"
+	class="fixed-height module-container-container"
+	[style.width]="moduleWidth + 'px'"
+	[style.height]="moduleHeight + 'px'"
+>
 	<div class="resize-icon">
 		<fa-icon icon="expand" flip="horizontal"></fa-icon>
 	</div>
-	<mymicds-module-container [type]="selectedModuleType" [inputs]="moduleOptions" [fixedHeight]="true"></mymicds-module-container>
+	<mymicds-module-container
+		[type]="selectedModuleType"
+		[inputs]="moduleOptions"
+		[fixedHeight]="true"
+	></mymicds-module-container>
 </div>
 
 <div *ngIf="!fixedHeight" class="module-container-container" [style.width]="moduleWidth + 'px'">
 	<div class="resize-icon">
 		<fa-icon icon="expand" flip="horizontal"></fa-icon>
 	</div>
-	<mymicds-module-container [type]="selectedModuleType" [inputs]="moduleOptions" [fixedHeight]="false"></mymicds-module-container>
+	<mymicds-module-container
+		[type]="selectedModuleType"
+		[inputs]="moduleOptions"
+		[fixedHeight]="false"
+	></mymicds-module-container>
 </div>

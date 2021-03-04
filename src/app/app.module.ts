@@ -34,7 +34,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -71,22 +70,21 @@ import { environment } from '../environments/environment';
 		{
 			provide: ErrorHandler,
 			useValue: Sentry.createErrorHandler({
-				showDialog: true,
+				showDialog: true
 			})
 		},
 		{
 			provide: Sentry.TraceService,
-			deps: [Router],
+			deps: [Router]
 		},
 		{
 			provide: APP_INITIALIZER,
 			useFactory: () => () => {},
 			deps: [Sentry.TraceService],
-			multi: true,
-		},
+			multi: true
+		}
 	],
-	bootstrap: [AppComponent],
-
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 	constructor(library: FaIconLibrary) {

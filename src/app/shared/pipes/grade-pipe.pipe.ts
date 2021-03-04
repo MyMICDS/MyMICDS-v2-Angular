@@ -5,16 +5,14 @@ import { ordinalSuffix } from '../../common/utils';
 	name: 'gradePipe'
 })
 export class GradePipePipe implements PipeTransform {
-
 	transform(value: number, args?: any): any {
 		switch (value) {
 			case -1:
-			return 'SK';
+				return 'SK';
 			case 0:
-			return 'JK';
+				return 'JK';
 			default:
-			return `${value}${ordinalSuffix(value)} Grade`
+				return `${value}${ordinalSuffix(value)} Grade`;
 		}
 	}
-
 }

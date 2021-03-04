@@ -6,14 +6,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 	styleUrls: ['./summer.component.scss']
 })
 export class SummerComponent implements OnInit {
-
 	@Input() showSummer: boolean;
 	@Output() showSummerChange = new EventEmitter<boolean>();
 
-	constructor() { }
+	constructor() {}
 
-	ngOnInit() {
-	}
+	ngOnInit() {}
 
 	continue() {
 		console.log('click!');
@@ -21,5 +19,4 @@ export class SummerComponent implements OnInit {
 		this.showSummerChange.emit(false);
 		sessionStorage.setItem('shownSummer', 'true');
 	}
-
 }

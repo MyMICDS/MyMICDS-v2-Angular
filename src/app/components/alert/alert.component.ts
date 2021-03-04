@@ -10,7 +10,6 @@ import { AlertService } from '../../services/alert.service';
 	styleUrls: ['./alert.component.scss']
 })
 export class AlertComponent extends SubscriptionsComponent implements OnInit {
-
 	alerts: Alert[] = [];
 	// TODO: TypeScript doesn't like symbols as index types, maybe replace with ES6 Map?
 	alertsDismissed: any = {};
@@ -28,7 +27,9 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 					if (alert.equals(data)) {
 						alert.repeat++;
 						if (0 < data.expiresIn) {
-							if (alert.timeout) { clearTimeout(alert.timeout); }
+							if (alert.timeout) {
+								clearTimeout(alert.timeout);
+							}
 							alert.timeout = setTimeout(() => {
 								this.dismiss(alert.id);
 							}, data.expiresIn * 1000);
@@ -71,5 +72,4 @@ export class AlertComponent extends SubscriptionsComponent implements OnInit {
 			this.deleteAlert(id);
 		}, animationTime - 5);
 	}
-
 }

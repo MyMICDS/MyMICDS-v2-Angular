@@ -12,7 +12,6 @@ import { AlertService } from '../../../services/alert.service';
 	styleUrls: ['./aliases.component.scss']
 })
 export class AliasesComponent extends SubscriptionsComponent implements OnInit {
-
 	// For template
 	contains = contains;
 	AliasType = AliasType;
@@ -45,7 +44,6 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 					return alias;
 				}
 			}
-
 		}
 
 		return null;
@@ -56,7 +54,9 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 		// Look if class name is in alias
 		const aliasClassObject = this.aliasClassObject(className);
 		// If class name is not in alias, default to enabled
-		if (!aliasClassObject) { return false; }
+		if (!aliasClassObject) {
+			return false;
+		}
 		// If class name is in alias, check whether the it is for this class or another
 		return this.class._id === aliasClassObject.classNative;
 	}
@@ -66,7 +66,9 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 		// Look if class name is in alias
 		const aliasClassObject = this.aliasClassObject(className);
 		// If class name is not in alias, default to enabled
-		if (!aliasClassObject) { return false; }
+		if (!aliasClassObject) {
+			return false;
+		}
 		// If class name is in alias, check whether the it is for this class or another
 		return this.class._id !== aliasClassObject.classNative;
 	}
@@ -76,44 +78,51 @@ export class AliasesComponent extends SubscriptionsComponent implements OnInit {
 		if ((event.target as HTMLInputElement).checked) {
 			// Add alias
 			this.addSubscription(
-				this.mymicds.alias.add({
-					type: this.type,
-					classString: className,
-					classId: this.class._id
-				}).subscribe(({ id }) => {
-					this.alertService.addSuccess(`Linked ${this.type} class from this MyMICDS class!`);
-
-					// Add alias to aliases array
-					this.aliases[this.type].push({
-						_id: id,
-						// User is not necessary
-						user: '',
+				this.mymicds.alias
+					.add({
 						type: this.type,
-						classNative: this.class._id,
-						classRemote: className
-					});
-				})
+						classString: className,
+						classId: this.class._id
+					})
+					.subscribe(({ id }) => {
+						this.alertService.addSuccess(
+							`Linked ${this.type} class from this MyMICDS class!`
+						);
+
+						// Add alias to aliases array
+						this.aliases[this.type].push({
+							_id: id,
+							// User is not necessary
+							user: '',
+							type: this.type,
+							classNative: this.class._id,
+							classRemote: className
+						});
+					})
 			);
 		} else {
 			// Delete alias
 			const aliasObject = this.aliasClassObject(className)!;
 			const aliasId = aliasObject._id;
 			this.addSubscription(
-				this.mymicds.alias.delete({
-					type: this.type,
-					id: aliasId
-				}).subscribe(() => {
-					this.alertService.addSuccess(`Unlinked ${this.type} class from this MyMICDS class!`);
+				this.mymicds.alias
+					.delete({
+						type: this.type,
+						id: aliasId
+					})
+					.subscribe(() => {
+						this.alertService.addSuccess(
+							`Unlinked ${this.type} class from this MyMICDS class!`
+						);
 
-					// Remove alias from aliases array
-					for (let i = 0; i < this.aliases[this.type].length; i++) {
-						if (this.aliases[this.type][i]._id === aliasId) {
-							this.aliases[this.type].splice(i, 1);
+						// Remove alias from aliases array
+						for (let i = 0; i < this.aliases[this.type].length; i++) {
+							if (this.aliases[this.type][i]._id === aliasId) {
+								this.aliases[this.type].splice(i, 1);
+							}
 						}
-					}
-				})
+					})
 			);
 		}
 	}
-
 }

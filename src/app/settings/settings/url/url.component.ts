@@ -13,7 +13,6 @@ import { AlertService } from '../../../services/alert.service';
 	styleUrls: ['./url.component.scss']
 })
 export class UrlComponent extends SubscriptionsComponent implements OnInit, AfterViewInit {
-
 	userInfo: GetUserInfoResponse | null = null;
 
 	// Canvas URL Form
@@ -72,9 +71,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 		);
 	}
 
-
 	ngAfterViewInit() {
-
 		/*
 		 * @TODO
 		 * This is, yet again, one of those things that I can't get to work no matter what I try.
@@ -85,7 +82,6 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 		 */
 
 		const interval = setInterval(() => {
-
 			// Get URL inputs
 			const portalClassesInput = document.getElementById('portal-classes-url');
 			const portalCalendarInput = document.getElementById('portal-calendar-url');
@@ -99,48 +95,66 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 			// Subscribe to Portal and Canvas URL inputs to test URL
 			this.addSubscription(
-				fromEvent(portalClassesInput, 'keyup').pipe(
-					filter(() => (this.portalClassesURL && this.portalClassesURL.length > 0) as boolean),
-					debounceTime(250),
-					switchMap(() => {
-						this.portalClassesValid = null;
-						this.portalClassesResponse = 'Validating...';
-						return this.mymicds.portal.testClassesURL({ url: this.portalClassesURL! });
+				fromEvent(portalClassesInput, 'keyup')
+					.pipe(
+						filter(
+							() =>
+								(this.portalClassesURL &&
+									this.portalClassesURL.length > 0) as boolean
+						),
+						debounceTime(250),
+						switchMap(() => {
+							this.portalClassesValid = null;
+							this.portalClassesResponse = 'Validating...';
+							return this.mymicds.portal.testClassesURL({
+								url: this.portalClassesURL!
+							});
+						})
+					)
+					.subscribe(data => {
+						this.portalClassesValid = data.valid === true;
+						this.portalClassesResponse = data.valid === true ? 'Valid!' : data.valid;
 					})
-				).subscribe(data => {
-					this.portalClassesValid = (data.valid === true);
-					this.portalClassesResponse = (data.valid === true) ? 'Valid!' : data.valid;
-				})
 			);
 
 			this.addSubscription(
-				fromEvent(portalCalendarInput, 'keyup').pipe(
-					filter(() => (this.portalCalendarURL && this.portalCalendarURL.length > 0) as boolean),
-					debounceTime(250),
-					switchMap(() => {
-						this.portalCalendarValid = null;
-						this.portalCalendarResponse = 'Validating...';
-						return this.mymicds.portal.testCalendarURL({ url: this.portalCalendarURL! });
-					}),
-				).subscribe(data => {
-					this.portalCalendarValid = (data.valid === true);
-					this.portalCalendarResponse = (data.valid === true) ? 'Valid!' : data.valid;
-				})
+				fromEvent(portalCalendarInput, 'keyup')
+					.pipe(
+						filter(
+							() =>
+								(this.portalCalendarURL &&
+									this.portalCalendarURL.length > 0) as boolean
+						),
+						debounceTime(250),
+						switchMap(() => {
+							this.portalCalendarValid = null;
+							this.portalCalendarResponse = 'Validating...';
+							return this.mymicds.portal.testCalendarURL({
+								url: this.portalCalendarURL!
+							});
+						})
+					)
+					.subscribe(data => {
+						this.portalCalendarValid = data.valid === true;
+						this.portalCalendarResponse = data.valid === true ? 'Valid!' : data.valid;
+					})
 			);
 
 			this.addSubscription(
-				fromEvent(canvasInput, 'keyup').pipe(
-					filter(() => (this.canvasURL && this.canvasURL.length > 0) as boolean),
-					debounceTime(250),
-					switchMap(() => {
-						this.canvasValid = null;
-						this.canvasResponse = 'Validating...';
-						return this.mymicds.canvas.testURL({ url: this.canvasURL! });
+				fromEvent(canvasInput, 'keyup')
+					.pipe(
+						filter(() => (this.canvasURL && this.canvasURL.length > 0) as boolean),
+						debounceTime(250),
+						switchMap(() => {
+							this.canvasValid = null;
+							this.canvasResponse = 'Validating...';
+							return this.mymicds.canvas.testURL({ url: this.canvasURL! });
+						})
+					)
+					.subscribe(data => {
+						this.canvasValid = data.valid === true;
+						this.canvasResponse = data.valid === true ? 'Valid!' : data.valid;
 					})
-				).subscribe(data => {
-					this.canvasValid = (data.valid === true);
-					this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid
-				})
 			);
 		}, 1);
 	}
@@ -153,8 +167,8 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 		this.portalClassesSaving = true;
 		this.mymicds.portal.setClassesURL({ url: this.portalClassesURL! }, true).subscribe(
 			data => {
-				this.portalClassesValid = (data.valid === true);
-				this.portalClassesResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				this.portalClassesValid = data.valid === true;
+				this.portalClassesResponse = data.valid === true ? 'Valid!' : data.valid;
 				if (data.valid === true) {
 					this.userInfo!.portalURLClasses = data.url;
 					this.portalClassesURL = data.url;
@@ -163,8 +177,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 					this.alertService.addWarning(`Change Portal URL Warning: ${data.valid}`);
 				}
 			},
-			() => {
-			},
+			() => {},
 			() => {
 				this.portalClassesSaving = false;
 			}
@@ -175,8 +188,8 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 		this.portalCalendarSaving = true;
 		this.mymicds.portal.setCalendarURL({ url: this.portalCalendarURL! }, true).subscribe(
 			data => {
-				this.portalCalendarValid = (data.valid === true);
-				this.portalCalendarResponse = (data.valid === true) ? 'Valid!' : data.valid;
+				this.portalCalendarValid = data.valid === true;
+				this.portalCalendarResponse = data.valid === true ? 'Valid!' : data.valid;
 				if (data.valid === true) {
 					this.userInfo!.portalURLCalendar = data.url;
 					this.portalCalendarURL = data.url;
@@ -185,8 +198,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 					this.alertService.addWarning(`Change Portal URL Warning: ${data.valid}`);
 				}
 			},
-			() => {
-			},
+			() => {},
 			() => {
 				this.portalCalendarSaving = false;
 			}
@@ -197,8 +209,8 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 		this.canvasSaving = true;
 		this.mymicds.canvas.setURL({ url: this.canvasURL! }, true).subscribe(
 			data => {
-				this.canvasValid = (data.valid === true);
-				this.canvasResponse = (data.valid === true) ? 'Valid!' : data.valid as string;
+				this.canvasValid = data.valid === true;
+				this.canvasResponse = data.valid === true ? 'Valid!' : (data.valid as string);
 				if (data.valid === true) {
 					this.userInfo!.canvasURL = data.url;
 					this.canvasURL = data.url;
@@ -207,8 +219,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 					this.alertService.addWarning(`Change Canvas URL Warning: ${data.valid}`);
 				}
 			},
-			() => {
-			},
+			() => {},
 			() => {
 				this.canvasSaving = false;
 			}
@@ -221,8 +232,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 			() => {
 				this.alertService.addSuccess('Updated canvas feed!');
 			},
-			() => {
-			},
+			() => {},
 			() => {
 				this.canvasFeedUpdateLoading = false;
 			}
@@ -235,12 +245,10 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 			() => {
 				this.alertService.addSuccess('Updated portal feed!');
 			},
-			() => {
-			},
+			() => {},
 			() => {
 				this.portalFeedUpdateLoading = false;
 			}
 		);
 	}
-
 }

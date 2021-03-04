@@ -4,7 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 	name: 'weatherIcon'
 })
 export class WeatherIconPipe implements PipeTransform {
-
 	transform(value: string, args?: any): any {
 		let icons: { [icon: string]: string } = {
 			// from Open Weather Documentation
@@ -27,10 +26,9 @@ export class WeatherIconPipe implements PipeTransform {
 			'13n': 'wi-snow',
 			'50n': 'wi-fog',
 			// default fallback in case no icon is sent
-			'default': 'wi-day-sunny'
+			default: 'wi-day-sunny'
 		};
 
 		return icons[value] || icons['default'];
 	}
-
 }

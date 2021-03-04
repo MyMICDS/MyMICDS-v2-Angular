@@ -10,7 +10,7 @@
 	text-decoration: none;
 
 	transition-duration: 200ms;
-	transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 
 	&:hover {
 		transform: scale(1.1);
@@ -26,7 +26,7 @@
 
 	.fa {
 		margin-bottom: 1rem;
-		font-size: 4.20rem;
+		font-size: 4.2rem;
 	}
 
 	.label {

@@ -13,7 +13,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./unsubscribe.component.scss']
 })
 export class UnsubscribeComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	typeOf = typeOf;
 	unsubscribeResponse: boolean | null = null;
@@ -24,23 +23,24 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 
 	ngOnInit() {
 		this.addSubscription(
-			combineLatest(
-				this.route.params,
-				this.route.queryParams
-			).subscribe(
+			combineLatest(this.route.params, this.route.queryParams).subscribe(
 				([params, queryParams]) => {
 					const user = params.user;
 					const hash = params.hash;
-					const scopes = queryParams.type ? queryParams.type.toUpperCase() as Scope : Scope.ALL;
+					const scopes = queryParams.type
+						? (queryParams.type.toUpperCase() as Scope)
+						: Scope.ALL;
 					this.addSubscription(
-						this.mymicds.notifications.unsubscribe({ user, hash, scopes }, true).subscribe(
-							() => {
-								this.unsubscribeResponse = true;
-							},
-							() => {
-								this.unsubscribeResponse = false;
-							}
-						)
+						this.mymicds.notifications
+							.unsubscribe({ user, hash, scopes }, true)
+							.subscribe(
+								() => {
+									this.unsubscribeResponse = true;
+								},
+								() => {
+									this.unsubscribeResponse = false;
+								}
+							)
 					);
 				},
 				() => {
@@ -49,5 +49,4 @@ export class UnsubscribeComponent extends SubscriptionsComponent implements OnIn
 			)
 		);
 	}
-
 }

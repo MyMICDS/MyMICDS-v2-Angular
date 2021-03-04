@@ -7,13 +7,7 @@ import { UnsubscribeRoutingModule } from './unsubscribe.routing';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-	declarations: [
-		UnsubscribeComponent
-	],
-	imports: [
-		CommonModule,
-		UnsubscribeRoutingModule,
-		SharedModule
-	]
+	declarations: [UnsubscribeComponent],
+	imports: [CommonModule, UnsubscribeRoutingModule, SharedModule]
 })
-export class UnsubscribeModule { }
+export class UnsubscribeModule {}

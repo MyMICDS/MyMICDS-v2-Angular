@@ -14,10 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 import { DailybulletinRoutingModule } from './daily-bulletin.routing';
 
 @NgModule({
-	declarations: [
-		DailyBulletinComponent,
-		BulletinArchivesComponent
-	],
+	declarations: [DailyBulletinComponent, BulletinArchivesComponent],
 	imports: [
 		CommonModule,
 		SharedModule,

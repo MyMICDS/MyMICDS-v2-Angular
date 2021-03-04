@@ -10,9 +10,7 @@ import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap
 	selector: 'mymicds-module-option',
 	templateUrl: './module-option.component.html',
 	styleUrls: ['./module-option.component.scss'],
-	providers: [
-		{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}
-	]
+	providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class ModuleOptionComponent {
 	private _config: OptionConfig;
@@ -34,7 +32,8 @@ export class ModuleOptionComponent {
 	}
 	set config(newValue: OptionConfig) {
 		this._config = newValue;
-		this.select = (typeof this.config.type === 'object' && typeof this.config.type.name !== 'undefined');
+		this.select =
+			typeof this.config.type === 'object' && typeof this.config.type.name !== 'undefined';
 		this.checkIfShow();
 	}
 

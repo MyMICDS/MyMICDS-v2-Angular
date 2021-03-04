@@ -23,7 +23,6 @@ import { BackgroundService } from '../services/background.service';
 import { SettingsRoutingModule } from './settings.routing';
 import { SharedModule } from '../shared/shared.module';
 
-
 @NgModule({
 	declarations: [
 		HelpComponent,
@@ -46,11 +45,7 @@ import { SharedModule } from '../shared/shared.module';
 		SettingsRoutingModule,
 		NgbModule
 	],
-	providers: [
-		AlertService,
-		BackgroundService,
-		ColorPickerService
-	]
+	providers: [AlertService, BackgroundService, ColorPickerService]
 })
 export class SettingsModule {
 	constructor(library: FaIconLibrary) {

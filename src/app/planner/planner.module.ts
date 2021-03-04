@@ -7,25 +7,17 @@ import { PlannerComponent } from './planner/planner.component';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import {
-	BsDropdownModule,
-	DatepickerModule,
-	ModalModule,
-	TimepickerModule
-} from 'ngx-bootstrap';
+import { BsDropdownModule, DatepickerModule, ModalModule, TimepickerModule } from 'ngx-bootstrap';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
 
 import { SharedModule } from '../shared/shared.module';
 
 import { PlannerRoutingModule } from './planner.routing';
 
 @NgModule({
-	declarations: [
-		PlannerComponent
-	],
+	declarations: [PlannerComponent],
 	imports: [
 		CommonModule,
 		SharedModule,
@@ -40,9 +32,7 @@ import { PlannerRoutingModule } from './planner.routing';
 		TimepickerModule.forRoot(),
 		BsDatepickerModule.forRoot()
 	],
-	providers: [
-		ColorPickerService
-	]
+	providers: [ColorPickerService]
 })
 export class PlannerModule {
 	constructor(library: FaIconLibrary) {
