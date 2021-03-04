@@ -26,7 +26,6 @@ import { QuotesComponent } from './components/quotes/quotes.component';
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
-import { GlobalErrorHandler } from './services/global-error-handler.service';
 // import { RealtimeService } from './services/realtime.service';
 
 // newly created modules

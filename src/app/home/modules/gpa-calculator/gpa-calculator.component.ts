@@ -62,6 +62,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 	};
 
 	dropdownGradeInputs = ['N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A'];
+	weightedGradeCheckbox = [false, false, false, false, false, false, false];
 	showOutput = false;
 	displayString  = 'Something went wrong!';
 	currentCalc = 0;
@@ -95,10 +96,14 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 		let gradeTotal = 0.0;
 		this.validInputs = 0;
 
-		for (const inputGrade of this.dropdownGradeInputs) {
+		for (let index = 0; index < this.dropdownGradeInputs.length; index ++){
+			const inputGrade = this.dropdownGradeInputs[index];
+			const isWeighted = this.weightedGradeCheckbox[index] && inputGrade != 'F';
+
 			if (inputGrade !== 'N/A') {
 				this.validInputs++;
 				gradeTotal += this.calculationMappings[inputGrade as LetterGrades];
+				gradeTotal += isWeighted ? 0.5 : 0; // Weighted Grades are worth .5 per class
 			}
 		}
 
@@ -110,9 +115,13 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 		}
 	}
 
+	onWeightedCheck(rowIndex: number, checkStatus: boolean) {
+		this.weightedGradeCheckbox[rowIndex] = checkStatus;
+	}
+
 	calculateGpa() {
-		// display the GPA, if it's 4.0, have a party
-		this.displayString = (this.currentCalc > 3.99) ? '🎉4.0🎉' : this.currentCalc + '';
+		// display the GPA
+		this.displayString = this.currentCalc.toString();
 
 		// only show if there is at least 1 valid input (Not N/A).
 		this.showOutput = (this.validInputs > 0);
