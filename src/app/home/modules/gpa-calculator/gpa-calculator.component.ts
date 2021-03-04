@@ -83,11 +83,13 @@ export class GpaCalculatorComponent extends SubscriptionsComponent implements On
 			if (inputGrade !== 'N/A') {
 				this.validInputs++;
 				gradeTotal += this.calculationMappings[inputGrade as LetterGrades];
-				gradeTotal += isWeighted ? 0.5 : 0; // Weighted Grades are worth .5 per class
+
+				// Weighted grades are worth .5 per class.
+				gradeTotal += isWeighted ? 0.5 : 0;
 			}
 		}
 
-		// round calc to two decimal places
+		// Round to two decimal places.
 		this.currentCalc = Math.round((gradeTotal / this.validInputs) * 100) / 100;
 
 		if (this.displayString.substr(this.displayString.length - 1) !== '*') {
@@ -97,6 +99,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent implements On
 
 	onWeightedCheck(rowIndex: number, checkStatus: boolean) {
 		this.weightedGradeCheckbox[rowIndex] = checkStatus;
+		this.onSelectionChange();
 	}
 
 	calculateGpa() {

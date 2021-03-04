@@ -13,7 +13,7 @@ table {
 	th.letter-grade {
 		text-align: right;
 		width: 100%;
-		padding-right: 4rem;
+		padding-right: 4.5rem;
 	}
 
 	td {
@@ -36,12 +36,23 @@ table {
 			color: white;
 			vertical-align: middle;
 			line-height: normal;
+			width: 50%;
 		}
+
 		&.letter-grade {
 			input {
-				width: 7rem;
+				width: 6rem;
 			}
-			min-width: 9rem;
+			min-width: 10rem;
+			padding-right: 1rem;
+		}
+
+		&.weighted-checkbox {
+			padding-left: 2rem;
+			padding-right: 2rem;
+			input {
+				vertical-align: middle;
+			}
 		}
 	}
 }
