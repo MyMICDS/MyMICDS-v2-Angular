@@ -121,7 +121,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent
 
 	calculateGpa() {
 		// display the GPA
-		this.displayString = this.currentCalc + '';
+		this.displayString = this.currentCalc.toString();
 
 		// only show if there is at least 1 valid input (Not N/A).
 		this.showOutput = (this.validInputs > 0);
