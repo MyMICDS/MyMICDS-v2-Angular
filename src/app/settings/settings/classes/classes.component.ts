@@ -1,18 +1,11 @@
-import {
-	AddClassResponse,
-	Block,
-	ClassType,
-	GetClassesResponse,
-	MyMICDS,
-	MyMICDSClass
-} from '@mymicds/sdk';
+import { AddClassResponse, Block, ClassType, GetClassesResponse, MyMICDS, MyMICDSClass } from '@mymicds/sdk';
 
 import { capitalize, contains } from '../../../common/utils';
 import { combineLatest, Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { defaultIfEmpty } from 'rxjs/operators';
 
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AlertService } from '../../../services/alert.service';
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
@@ -66,8 +59,7 @@ export class ClassesComponent extends SubscriptionsComponent implements OnInit {
 		super();
 	}
 
-	open(content: any) {
-		// any Any is bad, but .open() takes an any argument, so... Sorry, Nick
+	open(content: TemplateRef<unknown>) {
 		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
 	}
 

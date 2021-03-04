@@ -62,14 +62,15 @@ export enum COUNTDOWN_MODE {
 	]
 })
 export class CountdownComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
-	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	@ViewChildren(AngularFittextDirective) private fittexts: QueryList<AngularFittextDirective>;
-	resizeSensor: ResizeSensor;
 	private _mode: string;
 	private _shake: boolean;
 	private _schoolDays: boolean;
 	private _eventLabel: string;
 	private _countdownTo: Date;
+
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	resizeSensor: ResizeSensor;
 
 	countdownInterval: NodeJS.Timer;
 	dayRotation: GetPortalDayRotationResponse['days'];
@@ -213,9 +214,9 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 		if (this.displayCountdown === null || moment().isAfter(this.displayCountdown)) {
 			this.finished = true;
 			return;
-		} 
+		}
 			this.finished = false;
-		
+
 
 		if (this.schoolDays) {
 			if (!this.dayRotation) {

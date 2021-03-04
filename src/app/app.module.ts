@@ -79,6 +79,7 @@ import { SharedModule } from './shared/shared.module';
 		},
 		{
 			provide: APP_INITIALIZER,
+			// eslint-disable-next-line @typescript-eslint/no-empty-function
 			useFactory: () => () => {},
 			deps: [Sentry.TraceService],
 			multi: true

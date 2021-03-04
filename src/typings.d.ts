@@ -2,6 +2,7 @@
 // https://github.com/typings/typings
 // https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let System: any;
 
 declare module 'prisma';

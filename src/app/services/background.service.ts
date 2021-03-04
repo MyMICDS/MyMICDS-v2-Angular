@@ -3,20 +3,6 @@ import Trianglify from 'trianglify';
 
 @Injectable()
 export class BackgroundService {
-	constructor() {}
-
-	generateTrianglify() {
-		const bgURI = Trianglify({
-			width: 1920,
-			height: 1080,
-			cell_size: Math.random() * 275 + 15,
-			variance: Math.random()
-		}).png();
-
-		const bgBlob = this.dataURItoBlob(bgURI);
-		return new File([bgBlob], 'trianglify', { type: 'image/png' });
-	}
-
 	private dataURItoBlob(dataURI: string) {
 		// convert base64 data component to raw binary data held in a string
 		const byteString = atob(dataURI.split(',')[1]);
@@ -31,5 +17,17 @@ export class BackgroundService {
 		}
 
 		return new Blob([ia], { type: mimeString });
+	}
+
+	generateTrianglify() {
+		const bgURI = Trianglify({
+			width: 1920,
+			height: 1080,
+			cell_size: Math.random() * 275 + 15,
+			variance: Math.random()
+		}).png();
+
+		const bgBlob = this.dataURItoBlob(bgURI);
+		return new File([bgBlob], 'trianglify', { type: 'image/png' });
 	}
 }

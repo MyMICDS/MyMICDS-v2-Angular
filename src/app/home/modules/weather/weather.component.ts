@@ -21,17 +21,6 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 		super();
 	}
 
-	ngOnInit() {
-		ElementQueries.init();
-
-		this.addSubscription(
-			this.mymicds.weather.get().subscribe(({ weather }) => {
-				this.weather = weather;
-				this.weatherMetric = this.convertToMetric(weather);
-			})
-		);
-	}
-
 	private convertToMetric(weather: Weather) {
 		const metric: Weather = {
 			temperature: this.convertTemperature(weather.temperature),
@@ -54,5 +43,16 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 	// Converts from miles per hour to kilometers per hour
 	private convertWindspeed(mh: number) {
 		return Number((mh * 1.609344).toPrecision(2));
+	}
+
+	ngOnInit() {
+		ElementQueries.init();
+
+		this.addSubscription(
+			this.mymicds.weather.get().subscribe(({ weather }) => {
+				this.weather = weather;
+				this.weatherMetric = this.convertToMetric(weather);
+			})
+		);
 	}
 }

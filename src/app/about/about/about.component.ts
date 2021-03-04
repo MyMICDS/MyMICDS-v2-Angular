@@ -101,14 +101,14 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 	// Line Chart for registered users over time
 	lineCtx: HTMLCanvasElement;
 	lineChart: Chart;
-	lineDataSets: Object[] = [];
-	lineData: Object[] = [];
+	lineDataSets: Chart.ChartDataSets[] = [];
+	lineData: Chart.ChartPoint[] = [];
 
 	// Pie Chart for percentage of users visited today
 	pieCtx: HTMLCanvasElement;
 	pieChart: Chart;
 	pieData: number[] = [];
-	pieDataSets: Object[] = [];
+	pieDataSets: Chart.ChartDataSets[] = [];
 	pieBgColors: string[] = [];
 
 	viewingVisits = false;
@@ -222,7 +222,6 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 
 					// Initialize Pie Chart
 					this.pieCtx = document.getElementById('visitedTodayChart') as HTMLCanvasElement;
-					// @ts-ignore
 					this.pieChart = new Chart(this.pieCtx, {
 						type: 'pie',
 						data: {
@@ -245,9 +244,9 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				return 'Teacher';
 			} else if (this.gradeRange[i] === Number(gradYear)) {
 				gradeNumber = 12 - i;
-				return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
+				return `Grade ${gradeNumber} (${gradYear})`;
 			}
 		}
-		return 'Graduated' + ' (' + gradYear + ')';
+		return `Graduated (${gradYear})`;
 	}
 }

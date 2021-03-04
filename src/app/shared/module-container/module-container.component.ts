@@ -1,11 +1,4 @@
-import {
-	Component,
-	ComponentFactoryResolver,
-	ComponentRef,
-	Input,
-	ViewChild,
-	ViewContainerRef
-} from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { config, ModuleConfig } from '../../home/modules/module-config';
 
 @Component({
@@ -14,11 +7,11 @@ import { config, ModuleConfig } from '../../home/modules/module-config';
 	styleUrls: ['./module-container.component.scss']
 })
 export class ModuleContainerComponent {
-	private currentModuleRef: ComponentRef<any> | null = null;
+	private currentModuleRef: ComponentRef<unknown> | null = null;
 	private currentModuleType: string | null = null;
-	currentModuleConfig: ModuleConfig | null = null;
+	private currentInputs: { [key: string]: unknown };
 
-	private currentInputs: { [key: string]: any };
+	currentModuleConfig: ModuleConfig | null = null;
 
 	@ViewChild('module', { read: ViewContainerRef, static: true })
 	dynamicModuleContainer: ViewContainerRef;
@@ -51,7 +44,7 @@ export class ModuleContainerComponent {
 	}
 
 	@Input()
-	set inputs(inputs: { [key: string]: any }) {
+	set inputs(inputs: { [key: string]: unknown }) {
 		if (this.currentModuleRef) {
 			Object.assign(this.currentModuleRef.instance, inputs);
 		}

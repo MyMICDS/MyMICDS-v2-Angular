@@ -1,15 +1,13 @@
 import { AlertService } from '../../services/alert.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
 	selector: 'app-alert-debug',
 	templateUrl: './alert-debug.component.html',
 	styleUrls: ['./alert-debug.component.scss']
 })
-export class AlertDebugComponent implements OnInit {
+export class AlertDebugComponent {
 	constructor(private alertService: AlertService) {}
-
-	ngOnInit() {}
 
 	addError(message: string) {
 		this.alertService.addError(message);

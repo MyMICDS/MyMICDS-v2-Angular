@@ -18,7 +18,7 @@ export class AuthGuard {
 		}
 
 		// If not logged in, redirect to login page
-		this.router.navigate(['/login']);
+		void this.router.navigate(['/login']);
 		this.alertService.addWarning("You are not logged in! You don't have access to this page.");
 		return false;
 	}

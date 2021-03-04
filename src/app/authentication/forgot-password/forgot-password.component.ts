@@ -27,8 +27,7 @@ export class ForgotPasswordComponent extends SubscriptionsComponent implements O
 	ngOnInit() {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
-			this.router.navigate(['/home']);
-			return;
+			void this.router.navigate(['/home']);
 		}
 	}
 

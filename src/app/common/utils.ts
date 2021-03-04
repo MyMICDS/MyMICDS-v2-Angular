@@ -14,7 +14,7 @@ export function capitalize(str: string) {
  */
 
 export function capitalizeURL(str: string) {
-	return str.split(/-|\//).map(capitalize).join(' ');
+	return str.split(/[-/]/).map(capitalize).join(' ');
 }
 
 /*
@@ -22,14 +22,14 @@ export function capitalizeURL(str: string) {
  */
 
 export function isAlphabetic(str: string) {
-	return /^[a-zA-Z()\-]*$/.test(str);
+	return /^[a-zA-Z()-]*$/.test(str);
 }
 
 /*
  * Returns the type of something
  */
 
-export function typeOf(something: any) {
+export function typeOf(something: unknown) {
 	return typeof something;
 }
 
@@ -48,7 +48,7 @@ export function contains<T>(haystack: T[], needle: T) {
  * Determines if two objects are equal to each other
  */
 
-export function isEqual(a: any, b: any) {
+export function isEqual(a: Record<string, unknown>, b: Record<string, unknown>) {
 	if (typeof a !== 'object') {
 		return null;
 	}
@@ -87,7 +87,7 @@ export function isEqual(a: any, b: any) {
  */
 
 /* eslint-disable no-bitwise */
-export function darkenColor(color: string, amt: number) {
+export function darkenColor(color: string | null, amt: number) {
 	if (typeof color !== 'string') {
 		color = '#7F7F7F';
 	}
@@ -138,7 +138,7 @@ export function darkenColor(color: string, amt: number) {
 export function hexToRgb(hex: string) {
 	// Expand shorthand form (e.g. '03F') to full form (e.g. '0033FF')
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-	hex = hex.replace(shorthandRegex, (_, r, g, b) => {
+	hex = hex.replace(shorthandRegex, (_, r: string, g: string, b: string) => {
 		return r + r + g + g + b + b;
 	});
 
@@ -216,7 +216,7 @@ export const months = [
 ];
 
 /**
- * Get the ordinal suffic of a number (Ex. 1st, 2nd, 3rd)
+ * Get the ordinal suffix of a number (Ex. 1st, 2nd, 3rd)
  * https://stackoverflow.com/a/13627586/4594858
  */
 

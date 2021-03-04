@@ -1,3 +1,4 @@
+/* eslint-disable */
 import './polyfills.ts';
 
 import 'zone.js/dist/async-test';

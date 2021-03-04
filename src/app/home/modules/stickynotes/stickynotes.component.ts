@@ -22,13 +22,12 @@ export enum COLOR {
 	styleUrls: ['./stickynotes.component.scss']
 })
 export class StickynotesComponent extends SubscriptionsComponent implements OnInit {
+	private _fixedHeight: boolean;
+	private _moduleId: string;
+
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	resizeSensorModuleContainer: ResizeSensor;
-	private _fixedHeight: boolean;
-
-	private _moduleId: string;
-
 	text: string;
 	textChange: Subject<string> = new Subject();
 
@@ -42,13 +41,19 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 	};
 	@Input() color: COLOR;
 
+	constructor(private mymicds: MyMICDS) {
+		super();
+	}
+
 	@Input()
 	get fixedHeight() {
 		return this._fixedHeight;
 	}
+
 	set fixedHeight(fixed: boolean) {
 		this._fixedHeight = fixed;
 	}
+
 	@Input() set moduleId(id: string) {
 		if (this._moduleId !== id) {
 			this._moduleId = id;
@@ -58,9 +63,6 @@ export class StickynotesComponent extends SubscriptionsComponent implements OnIn
 				})
 			);
 		}
-	}
-	constructor(private mymicds: MyMICDS) {
-		super();
 	}
 
 	ngOnInit() {

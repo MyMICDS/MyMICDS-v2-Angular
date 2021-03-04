@@ -11,8 +11,6 @@ export class BookmarksComponent implements OnInit {
 	@Input() icon: string;
 	@Input() url: string;
 
-	constructor() {}
-
 	ngOnInit() {
 		// Check for legacy FA4 icons
 		if (this.icon.includes('fa-')) {

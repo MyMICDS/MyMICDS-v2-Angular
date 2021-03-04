@@ -1,4 +1,4 @@
-import { MyMICDS, School, SchoolLunch } from '@mymicds/sdk';
+import { MyMICDS, School } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';

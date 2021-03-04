@@ -3,7 +3,7 @@
  */
 
 import { Injectable, OnDestroy } from '@angular/core';
-import { Subscription, SubscriptionLike } from 'rxjs';
+import { SubscriptionLike } from 'rxjs';
 
 @Injectable()
 export abstract class SubscriptionsComponent implements OnDestroy {
@@ -21,15 +21,16 @@ export abstract class SubscriptionsComponent implements OnDestroy {
 		};
 	}
 
-	ngOnDestroy() {}
-
-	addSubscription(subscription: SubscriptionLike) {
-		this.subscriptions.push(subscription);
-	}
-
 	private unsubscribeObservables() {
 		for (const subscription of this.subscriptions) {
 			subscription.unsubscribe();
 		}
+	}
+
+	// eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method,@typescript-eslint/no-empty-function
+	ngOnDestroy() {}
+
+	addSubscription(subscription: SubscriptionLike) {
+		this.subscriptions.push(subscription);
 	}
 }

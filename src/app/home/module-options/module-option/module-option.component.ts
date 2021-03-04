@@ -53,7 +53,7 @@ export class ModuleOptionComponent {
 		this.valueChange.pipe(debounceTime(50));
 	}
 
-	changeDate(date: Date) {
+	changeDate() {
 		this.valueChange.emit(this.value);
 	}
 

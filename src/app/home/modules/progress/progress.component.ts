@@ -158,11 +158,9 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 				tooltips: {
 					callbacks: {
 						label(tooltipItem, data) {
-							return (
-								data.labels![tooltipItem.index!] +
-								': ' +
+							return `${data.labels![tooltipItem.index!] as string}: ${
 								data.durations![tooltipItem.index!]
-							);
+							}`;
 						}
 					}
 				},
@@ -433,9 +431,8 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 			return answer;
 		} else if (answer < 0) {
 			return 0;
-		} 
-			return 100;
-		
+		}
+		return 100;
 	}
 
 	/*
@@ -452,7 +449,7 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 			if (duration.hours() > 0) {
 				hasHours = true;
 
-				tooltip += duration.hours() + ' hr';
+				tooltip += `${duration.hours()} hr`;
 			}
 
 			if (duration.minutes() > 0) {
@@ -462,11 +459,11 @@ export class ProgressComponent extends SubscriptionsComponent implements OnInit,
 					tooltip += ' ';
 				}
 
-				tooltip += duration.minutes() + ' min';
+				tooltip += `${duration.minutes()} min`;
 			}
 		} else {
 			// Do not add the seconds field unless the duration is shorter than a minute
-			tooltip += duration.seconds() + ' sec';
+			tooltip += `${duration.seconds()} sec`;
 		}
 
 		return tooltip;

@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IImage } from 'ng-simple-slideshow';
-
-/* eslint-disable max-len */
 
 @Component({
 	selector: 'mymicds-campus',
 	templateUrl: './campus.component.html',
 	styleUrls: ['./campus.component.scss']
 })
-export class CampusComponent implements OnInit {
+export class CampusComponent {
 	imageUrls: IImage[] = [
 		{
 			url:
@@ -60,6 +58,4 @@ export class CampusComponent implements OnInit {
 	showCaptions = true;
 	captionColor = '#FFF';
 	noLoop = false;
-
-	ngOnInit() {}
 }

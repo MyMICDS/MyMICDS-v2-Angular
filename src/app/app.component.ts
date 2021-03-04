@@ -10,8 +10,6 @@ import * as Sentry from '@sentry/angular';
 import { AlertService } from './services/alert.service';
 import { SubscriptionsComponent } from './common/subscriptions-component';
 
-declare const ga: any;
-
 @Component({
 	selector: 'mymicds-app',
 	templateUrl: './app.component.html',
@@ -80,7 +78,7 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 						error.action!
 					)
 				) {
-					this.router.navigate(['/login']);
+					void this.router.navigate(['/login']);
 				}
 
 				switch (error.action) {

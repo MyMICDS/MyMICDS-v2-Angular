@@ -16,7 +16,7 @@ export class SuggestionsComponent extends SubscriptionsComponent implements OnIn
 	typeOf = typeOf;
 
 	submitted = false;
-	suggestionResponse: any = null;
+	suggestionResponse: unknown = null;
 	user: string;
 
 	suggestionsForm: FormGroup;

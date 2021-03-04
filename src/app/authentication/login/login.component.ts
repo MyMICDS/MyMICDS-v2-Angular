@@ -30,15 +30,24 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 	ngOnInit() {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
-			this.router.navigate(['/home']);
+			void this.router.navigate(['/home']);
 		}
 	}
 
 	login() {
 		const agent = new UAParser(navigator.userAgent);
-		const jwtComment = `${agent.getBrowser().name}/${agent.getOS().name}`; // i.e. "Chrome/Linux"
+		const commentArr: string[] = [];
+		const browser = agent.getBrowser().name;
+		const os = agent.getOS().name;
 
-		console.log(jwtComment);
+		if (browser) {
+			commentArr.push(browser);
+		}
+		if (os) {
+			commentArr.push(os);
+		}
+
+		const jwtComment = commentArr.join('/'); // i.e. "Firefox", "Mac OS", "Chrome/Linux"
 
 		this.addSubscription(
 			this.mymicds.auth
@@ -50,7 +59,7 @@ export class LoginComponent extends SubscriptionsComponent implements OnInit {
 				})
 				.subscribe(loginRes => {
 					if (loginRes.success) {
-						this.router.navigate(['/home']);
+						void this.router.navigate(['/home']);
 					} else {
 						this.alertService.addWarning(loginRes.message);
 					}

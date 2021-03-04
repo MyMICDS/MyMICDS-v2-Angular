@@ -22,7 +22,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent implements On
 		{ block: 'g', name: 'G Period' }
 	];
 
-	// MICDS grading scale starts at F, goes to A. Mappings were retreived from guidebook
+	// MICDS grading scale starts at F, goes to A. Mappings were retrieved from guidebook
 	letterGradesArray = ['N/A', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F'];
 
 	calculationMappings = {
@@ -78,7 +78,7 @@ export class GpaCalculatorComponent extends SubscriptionsComponent implements On
 
 		for (let index = 0; index < this.dropdownGradeInputs.length; index++) {
 			const inputGrade = this.dropdownGradeInputs[index];
-			const isWeighted = this.weightedGradeCheckbox[index] && inputGrade != 'F';
+			const isWeighted = this.weightedGradeCheckbox[index] && inputGrade !== 'F';
 
 			if (inputGrade !== 'N/A') {
 				this.validInputs++;

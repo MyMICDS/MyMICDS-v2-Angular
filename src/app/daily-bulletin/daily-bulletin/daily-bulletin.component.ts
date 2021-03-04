@@ -22,7 +22,7 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 	bulletinIndex = 0;
 
 	parse = false;
-	parsedBulletin: any;
+	// parsedBulletin: any;
 
 	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute) {
 		super();
@@ -61,8 +61,7 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 		if (!clearURL) {
 			navURL += `/${this.bulletins[index]}`;
 		}
-		this.router.navigate([navURL]);
-		// this.ngZone.run(() => this.router.navigate([navURL])).then();
+		void this.router.navigate([navURL]);
 
 		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.pdf';
 		this.bulletinDate = moment(this.bulletins[index]);

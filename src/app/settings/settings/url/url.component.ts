@@ -165,8 +165,8 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 
 	changePortalClassesURL() {
 		this.portalClassesSaving = true;
-		this.mymicds.portal.setClassesURL({ url: this.portalClassesURL! }, true).subscribe(
-			data => {
+		this.mymicds.portal.setClassesURL({ url: this.portalClassesURL! }, true).subscribe({
+			next: data => {
 				this.portalClassesValid = data.valid === true;
 				this.portalClassesResponse = data.valid === true ? 'Valid!' : data.valid;
 				if (data.valid === true) {
@@ -177,17 +177,16 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 					this.alertService.addWarning(`Change Portal URL Warning: ${data.valid}`);
 				}
 			},
-			() => {},
-			() => {
+			complete: () => {
 				this.portalClassesSaving = false;
 			}
-		);
+		});
 	}
 
 	changePortalCalendarURL() {
 		this.portalCalendarSaving = true;
-		this.mymicds.portal.setCalendarURL({ url: this.portalCalendarURL! }, true).subscribe(
-			data => {
+		this.mymicds.portal.setCalendarURL({ url: this.portalCalendarURL! }, true).subscribe({
+			next: data => {
 				this.portalCalendarValid = data.valid === true;
 				this.portalCalendarResponse = data.valid === true ? 'Valid!' : data.valid;
 				if (data.valid === true) {
@@ -198,19 +197,18 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 					this.alertService.addWarning(`Change Portal URL Warning: ${data.valid}`);
 				}
 			},
-			() => {},
-			() => {
+			complete: () => {
 				this.portalCalendarSaving = false;
 			}
-		);
+		});
 	}
 
 	changeCanvasURL() {
 		this.canvasSaving = true;
-		this.mymicds.canvas.setURL({ url: this.canvasURL! }, true).subscribe(
-			data => {
+		this.mymicds.canvas.setURL({ url: this.canvasURL! }, true).subscribe({
+			next: data => {
 				this.canvasValid = data.valid === true;
-				this.canvasResponse = data.valid === true ? 'Valid!' : (data.valid );
+				this.canvasResponse = data.valid === true ? 'Valid!' : data.valid;
 				if (data.valid === true) {
 					this.userInfo!.canvasURL = data.url;
 					this.canvasURL = data.url;
@@ -219,36 +217,33 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 					this.alertService.addWarning(`Change Canvas URL Warning: ${data.valid}`);
 				}
 			},
-			() => {},
-			() => {
+			complete: () => {
 				this.canvasSaving = false;
 			}
-		);
+		});
 	}
 
 	updateCanvasFeed() {
 		this.canvasFeedUpdateLoading = true;
-		this.mymicds.feeds.updateCanvasCache(true).subscribe(
-			() => {
+		this.mymicds.feeds.updateCanvasCache(true).subscribe({
+			next: () => {
 				this.alertService.addSuccess('Updated canvas feed!');
 			},
-			() => {},
-			() => {
+			complete: () => {
 				this.canvasFeedUpdateLoading = false;
 			}
-		);
+		});
 	}
 
 	updatePortalFeed() {
 		this.portalFeedUpdateLoading = true;
-		this.mymicds.feeds.addPortalQueue(true).subscribe(
-			() => {
+		this.mymicds.feeds.addPortalQueue(true).subscribe({
+			next: () => {
 				this.alertService.addSuccess('Updated portal feed!');
 			},
-			() => {},
-			() => {
+			complete: () => {
 				this.portalFeedUpdateLoading = false;
 			}
-		);
+		});
 	}
 }

@@ -117,6 +117,18 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	fromDate: NgbDate | null;
 	toDate: NgbDate | null;
 
+	constructor(
+		public mymicds: MyMICDS,
+		private router: Router,
+		private route: ActivatedRoute,
+		private alertService: AlertService,
+		public formatter: NgbDateParserFormatter,
+		private dateAdapter: NgbDateAdapter<Date>,
+		private calendar: NgbCalendar
+	) {
+		super();
+	}
+
 	// Array of total events
 	get events(): PlannerEvent[] {
 		return this.plannerEvents.concat(this.canvasEvents).map(event => {
@@ -142,16 +154,23 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		return this.canvasEvents[0].createdAt;
 	}
 
-	constructor(
-		public mymicds: MyMICDS,
-		private router: Router,
-		private route: ActivatedRoute,
-		private alertService: AlertService,
-		public formatter: NgbDateParserFormatter,
-		private dateAdapter: NgbDateAdapter<Date>,
-		private calendar: NgbCalendar
-	) {
-		super();
+	private updatePlannerEvents(plannerEvents = this.plannerEvents) {
+		this.plannerEvents = plannerEvents;
+		// Format events to be displayed on planner
+		this.formattedMonth = this.formatMonth(this.calendarMonth, this.events);
+
+		if (this.selectionDate) {
+			this.selectionEvents = this.eventsForDay(this.selectionDate, this.events);
+		}
+
+		this.comingUp = this.formatWeek(this.events);
+	}
+
+	private formatEventData(eventModel: EventsInput) {
+		const eventParams: AddPlannerEventParameters = Object.assign({}, eventModel);
+		eventParams.start = moment(eventModel.dates[0]);
+		eventParams.end = moment(eventModel.dates[1]);
+		return eventParams;
 	}
 
 	ngOnInit() {
@@ -235,12 +254,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.addSubscription(
 			fromEvent(document, 'click')
 				.pipe(
-					map((event: any) => {
-						if (event.target.className.split) {
-							return event.target.className.split(' ');
-						}
-						return [];
-					}),
+					map(event => (event.target as HTMLElement).className.split(' ')),
 					filter((className: string[]) => contains(className, 'planner-interface'))
 				)
 				.subscribe(() => {
@@ -266,23 +280,12 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
+	// Returns the object of a specific event. You must call getEvents() first!
+
 	refreshCanvas() {
 		this.triggerCanvasRefresh.next();
 	}
 
-	private updatePlannerEvents(plannerEvents = this.plannerEvents) {
-		this.plannerEvents = plannerEvents;
-		// Format events to be displayed on planner
-		this.formattedMonth = this.formatMonth(this.calendarMonth, this.events);
-
-		if (this.selectionDate) {
-			this.selectionEvents = this.eventsForDay(this.selectionDate, this.events);
-		}
-
-		this.comingUp = this.formatWeek(this.events);
-	}
-
-	// Returns the object of a specific event. You must call getEvents() first!
 	// Returns null if id isn't valid
 	getEvent(id: string) {
 		for (let i = 0; i < this.events.length; i++) {
@@ -480,6 +483,10 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		return date.clone().endOf('month').day(6);
 	}
 
+	/*
+	 * Calendar Navigation
+	 */
+
 	// Returns the number of weeks included in a month
 	weeksInPlanner(date: moment.Moment) {
 		const beginDate = this.beginOfPlanner(date);
@@ -487,13 +494,9 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		return endDate.diff(beginDate, 'weeks') + 1;
 	}
 
-	/*
-	 * Calendar Navigation
-	 */
-
 	previousMonth() {
 		this.calendarMonth.subtract(1, 'months');
-		this.router.navigate([
+		void this.router.navigate([
 			'/planner',
 			this.calendarMonth.year(),
 			this.calendarMonth.month() + 1
@@ -503,23 +506,23 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	currentMonth() {
 		this.calendarMonth = moment();
-		this.router.navigate(['/planner']);
-		this.updatePlannerEvents();
-	}
-
-	nextMonth() {
-		this.calendarMonth.add(1, 'months');
-		this.router.navigate([
-			'/planner',
-			this.calendarMonth.year(),
-			this.calendarMonth.month() + 1
-		]);
+		void this.router.navigate(['/planner']);
 		this.updatePlannerEvents();
 	}
 
 	/*
 	 * Select Day
 	 */
+
+	nextMonth() {
+		this.calendarMonth.add(1, 'months');
+		void this.router.navigate([
+			'/planner',
+			this.calendarMonth.year(),
+			this.calendarMonth.month() + 1
+		]);
+		this.updatePlannerEvents();
+	}
 
 	// TODO: These types are from inferred usage. Why are non-moment objects being passed in?
 	selectDay(date: number | moment.Moment | null, event?: Event) {
@@ -542,13 +545,13 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.selectionEvents = this.eventsForDay(this.selectionDate, this.events);
 	}
 
-	deselectDay() {
-		this.selectionDate = null;
-	}
-
 	/*
 	 * Create PlannerEvent
 	 */
+
+	deselectDay() {
+		this.selectionDate = null;
+	}
 
 	resetCreateEventForm() {
 		this.createEventModel = {
@@ -564,6 +567,10 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		}
 	}
 
+	/*
+	 * View PlannerEvent
+	 */
+
 	createEvent() {
 		this.addSubscription(
 			this.mymicds.planner
@@ -575,13 +582,13 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	/*
-	 * View PlannerEvent
-	 */
-
 	viewEvent(id: string) {
 		this.viewEventObject = this.getEvent(id);
 	}
+
+	/*
+	 * Edit PlannerEvent
+	 */
 
 	formatEventDate(start: moment.Moment, end: moment.Moment) {
 		start = moment(start);
@@ -589,14 +596,9 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 		if (start.isSame(end, 'day')) {
 			return start.format('MMM D, Y');
-		} 
-			return `${start.format('MMM D, Y')} - ${end.format('MMM D, Y')}`;
-		
+		}
+		return `${start.format('MMM D, Y')} - ${end.format('MMM D, Y')}`;
 	}
-
-	/*
-	 * Edit PlannerEvent
-	 */
 
 	viewEditEventModal(id: string, event: Event) {
 		// Make sure it doesn't trigger the viewEvent()
@@ -618,6 +620,10 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		};
 	}
 
+	/*
+	 * Delete PlannerEvent
+	 */
+
 	editEvent() {
 		this.addSubscription(
 			this.mymicds.planner
@@ -628,10 +634,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 				})
 		);
 	}
-
-	/*
-	 * Delete PlannerEvent
-	 */
 
 	deleteEvent(id: string, event: Event) {
 		// Make sure it doesn't trigger the viewEvent()
@@ -648,13 +650,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 				this.updatePlannerEvents();
 			});
 		}
-	}
-
-	private formatEventData(eventModel: EventsInput): AddPlannerEventParameters {
-		const eventParams: any = Object.assign({}, eventModel);
-		eventParams.start = moment(eventModel.dates[0]);
-		eventParams.end = moment(eventModel.dates[1]);
-		return eventParams;
 	}
 
 	// Crossout PlannerEvent

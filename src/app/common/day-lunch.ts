@@ -1,4 +1,4 @@
-import { MyMICDS, School, SchoolLunch } from '@mymicds/sdk';
+import { School, SchoolLunch } from '@mymicds/sdk';
 
 export interface DayLunch {
 	date: {
@@ -6,5 +6,5 @@ export interface DayLunch {
 		date: string;
 		today: boolean;
 	};
-	lunch: Record<School, SchoolLunch> | {};
+	lunch: Record<School, SchoolLunch> | Record<string, never>;
 }

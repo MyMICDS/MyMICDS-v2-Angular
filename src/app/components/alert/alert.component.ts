@@ -12,6 +12,7 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 export class AlertComponent extends SubscriptionsComponent implements OnInit {
 	alerts: Alert[] = [];
 	// TODO: TypeScript doesn't like symbols as index types, maybe replace with ES6 Map?
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	alertsDismissed: any = {};
 
 	constructor(private alertService: AlertService) {

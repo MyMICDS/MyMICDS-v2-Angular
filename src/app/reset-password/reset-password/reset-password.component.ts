@@ -43,7 +43,7 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 	ngOnInit() {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
-			this.router.navigate(['/home']);
+			void this.router.navigate(['/home']);
 			return;
 		}
 

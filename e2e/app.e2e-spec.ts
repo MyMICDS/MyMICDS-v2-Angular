@@ -8,7 +8,7 @@ describe('mymicds-v2-angular-new App', () => {
   });
 
   it('should display message saying app works', () => {
-    page.navigateTo();
+    void page.navigateTo();
     expect(page.getParagraphText()).toEqual('app works!');
   });
 });

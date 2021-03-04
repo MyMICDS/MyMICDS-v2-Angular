@@ -17,13 +17,11 @@ export class LogoutComponent extends SubscriptionsComponent implements OnInit {
 
 	ngOnInit() {
 		this.addSubscription(
-			this.mymicds.auth.logout(true).subscribe(
-				() => {},
-				() => {},
-				() => {
-					this.router.navigate(['/home']);
+			this.mymicds.auth.logout(true).subscribe({
+				complete: () => {
+					void this.router.navigate(['/home']);
 				}
-			)
+			})
 		);
 	}
 }

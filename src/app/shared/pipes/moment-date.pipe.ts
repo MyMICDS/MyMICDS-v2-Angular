@@ -7,7 +7,7 @@ import moment from 'moment-timezone';
 @Pipe({
 	name: 'momentDate'
 })
-export class MomentDatePipe implements PipeTransform extends DatePipe {
+export class MomentDatePipe extends DatePipe implements PipeTransform {
 	// For some reason, TS doesn't allow this implementation unless you explicitly specify the overloads
 	transform(value: null, format: string, timezone: string): null;
 	transform(value: moment.MomentInput, format: string, timezone: string): string | null;

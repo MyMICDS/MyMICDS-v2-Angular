@@ -8,11 +8,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 	name: 'dayRotation'
 })
 export class DayRotationPipe implements PipeTransform {
-	transform(value: any, args?: any): any {
+	transform(value: number) {
 		if (value) {
-			return 'Day ' + value;
-		} 
-			return 'No School';
-		
+			return `Day ${value}`;
+		}
+		return 'No School';
 	}
 }

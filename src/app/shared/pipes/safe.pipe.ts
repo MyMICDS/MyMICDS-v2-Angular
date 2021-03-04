@@ -13,7 +13,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SafeHtmlPipe implements PipeTransform {
 	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustHtml(value);
 	}
 }
@@ -24,7 +24,7 @@ export class SafeHtmlPipe implements PipeTransform {
 export class SafeScriptPipe implements PipeTransform {
 	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustScript(value);
 	}
 }
@@ -35,7 +35,7 @@ export class SafeScriptPipe implements PipeTransform {
 export class SafeStylePipe implements PipeTransform {
 	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustStyle(value);
 	}
 }
@@ -46,7 +46,7 @@ export class SafeStylePipe implements PipeTransform {
 export class SafeUrlPipe implements PipeTransform {
 	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustUrl(value);
 	}
 }
@@ -57,7 +57,7 @@ export class SafeUrlPipe implements PipeTransform {
 export class SafeResourceUrlPipe implements PipeTransform {
 	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustResourceUrl(value);
 	}
 }

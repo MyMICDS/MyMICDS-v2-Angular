@@ -45,17 +45,56 @@ export class SimplifiedScheduleComponent
 	schedule: GetScheduleResponse['schedule'] | null = null;
 	scheduleDate = moment();
 
+	constructor(private mymicds: MyMICDS) {
+		super();
+	}
+
 	@Input()
 	get fixedHeight() {
 		return this._fixedHeight;
 	}
+
 	set fixedHeight(fixed: boolean) {
 		this._fixedHeight = fixed;
 		this.calcBlockDisplay();
 	}
 
-	constructor(private mymicds: MyMICDS) {
-		super();
+	// Get pixel dimensions of an HTML element if it wasn't constrained at all
+	private getActualDimensions(elem: HTMLElement, maxWidth?: number) {
+		const clone: HTMLElement = elem.cloneNode(true) as HTMLElement;
+
+		// Add custom styles and hide it in the corner
+		clone.style.position = 'absolute';
+		clone.style.display = 'block';
+		clone.style.visibility = 'hidden';
+		clone.style.zIndex = '-9999';
+		clone.removeAttribute('hidden');
+		document.body.appendChild(clone);
+
+		if (maxWidth) {
+			clone.style.maxWidth = `${maxWidth}px`;
+		}
+
+		const dimensions = {
+			width: clone.offsetWidth,
+			height: clone.offsetHeight
+		};
+
+		// Account for margin and padding
+		const computedStyles = window.getComputedStyle(elem, null);
+		dimensions.width +=
+			parseFloat(computedStyles.marginLeft) +
+			parseFloat(computedStyles.marginRight) +
+			parseFloat(computedStyles.paddingLeft) +
+			parseFloat(computedStyles.paddingRight);
+		dimensions.height +=
+			parseFloat(computedStyles.marginTop) +
+			parseFloat(computedStyles.marginBottom) +
+			parseFloat(computedStyles.paddingTop) +
+			parseFloat(computedStyles.paddingBottom);
+
+		clone.remove();
+		return dimensions;
 	}
 
 	ngOnInit() {
@@ -152,43 +191,5 @@ export class SimplifiedScheduleComponent
 		if (!this.fixedHeight) {
 			this.showNBlocks = 3;
 		}
-	}
-
-	// Get pixel dimensions of an HTML element if it wasn't constrained at all
-	private getActualDimensions(elem: HTMLElement, maxWidth?: number) {
-		const clone: HTMLElement = elem.cloneNode(true) as HTMLElement;
-
-		// Add custom styles and hide it in the corner
-		clone.style.position = 'absolute';
-		clone.style.display = 'block';
-		clone.style.visibility = 'hidden';
-		clone.style.zIndex = '-9999';
-		clone.removeAttribute('hidden');
-		document.body.appendChild(clone);
-
-		if (maxWidth) {
-			clone.style.maxWidth = `${maxWidth}px`;
-		}
-
-		const dimensions = {
-			width: clone.offsetWidth,
-			height: clone.offsetHeight
-		};
-
-		// Account for margin and padding
-		const computedStyles = window.getComputedStyle(elem, null);
-		dimensions.width +=
-			parseFloat(computedStyles.marginLeft) +
-			parseFloat(computedStyles.marginRight) +
-			parseFloat(computedStyles.paddingLeft) +
-			parseFloat(computedStyles.paddingRight);
-		dimensions.height +=
-			parseFloat(computedStyles.marginTop) +
-			parseFloat(computedStyles.marginBottom) +
-			parseFloat(computedStyles.paddingTop) +
-			parseFloat(computedStyles.paddingBottom);
-
-		clone.remove();
-		return dimensions;
 	}
 }

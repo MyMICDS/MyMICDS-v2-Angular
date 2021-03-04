@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 	name: 'gradePipe'
 })
 export class GradePipePipe implements PipeTransform {
-	transform(value: number, args?: any): any {
+	transform(value: number) {
 		switch (value) {
 			case -1:
 				return 'SK';

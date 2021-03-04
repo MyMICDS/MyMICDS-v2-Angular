@@ -35,8 +35,6 @@ export class ConfettiComponent implements OnInit {
 	@ViewChild('confetti', { static: true }) canvas: ElementRef;
 	confetti: ConfettiContext;
 
-	constructor() {}
-
 	ngOnInit() {
 		this.confetti = new ConfettiContext(this.canvas.nativeElement);
 		this.confetti.start();
@@ -146,7 +144,7 @@ class EulerMass {
 	}
 
 	Integrate(_dt: number) {
-		const acc = this.CurrentForce(this.position);
+		const acc = this.CurrentForce();
 		acc.Div(this.mass);
 		const posDelta = new Vector2(this.velocity.x, this.velocity.y);
 		posDelta.Mul(_dt);
@@ -156,7 +154,7 @@ class EulerMass {
 		this.force = new Vector2(0, 0);
 	}
 
-	CurrentForce(_pos: Vector2) {
+	CurrentForce() {
 		const totalForce = new Vector2(this.force.x, this.force.y);
 		const speed = this.velocity.Length();
 		const dragVel = new Vector2(this.velocity.x, this.velocity.y);
@@ -178,7 +176,7 @@ class ConfettiPaper {
 	oscillationSpeed = random() * 1.5 + 0.5;
 	xSpeed = 40.0;
 	ySpeed = random() * 60 + 50.0;
-	corners = [];
+	corners: Vector2[] = [];
 	time = random();
 	frontColor: string;
 	backColor: string;

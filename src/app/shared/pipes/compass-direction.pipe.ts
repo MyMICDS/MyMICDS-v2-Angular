@@ -8,7 +8,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 	name: 'compassDirection'
 })
 export class CompassDirectionPipe implements PipeTransform {
-	transform(value: number, args?: any): any {
+	transform(value: number) {
 		const directions = [
 			'North',
 			'North Northeast',

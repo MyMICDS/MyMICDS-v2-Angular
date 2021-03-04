@@ -30,7 +30,7 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
 			this.alertService.addSuccess('You are already logged in!');
-			this.router.navigate(['/home']);
+			void this.router.navigate(['/home']);
 			return;
 		}
 

@@ -3,8 +3,8 @@ import { MyMICDS } from '@mymicds/sdk';
 import { Component, OnInit } from '@angular/core';
 import { confirmRegister } from '../../common/form-validation';
 import { FormBuilder, Validators } from '@angular/forms';
-import { isAlphabetic, typeOf } from '../../common/utils';
 import { Router } from '@angular/router';
+import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
@@ -15,7 +15,7 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 })
 export class RegisterComponent extends SubscriptionsComponent implements OnInit {
 	// We need to include this to use in HTML
-	public typeOf = typeOf; // eslint-disable-line
+	public typeOf = typeOf;
 
 	registerForm = this.formBuilder.group(
 		{
@@ -46,7 +46,7 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 	ngOnInit() {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
-			this.router.navigate(['/home']);
+			void this.router.navigate(['/home']);
 			return;
 		}
 

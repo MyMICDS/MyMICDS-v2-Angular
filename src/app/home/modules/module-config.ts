@@ -14,10 +14,11 @@ import { WeatherComponent } from './weather/weather.component';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
+import { Type } from '@angular/core';
 
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
-export const moduleComponents: any[] = [
+export const moduleComponents = [
 	BookmarksComponent,
 	CountdownComponent,
 	GpaCalculatorComponent,
@@ -221,7 +222,7 @@ export const config: Config = {
 	},
 	twitter: {
 		displayName: 'Twitter',
-		icon: faTwitter, // iconDefiniton used since it's in a different icon pack
+		icon: faTwitter, // iconDefinition used since it's in a different icon pack
 		component: TwitterComponent,
 		defaultHeight: 2,
 		defaultWidth: 1,
@@ -268,7 +269,7 @@ export interface Config {
 export interface ModuleConfig {
 	displayName: string;
 	icon: string | IconDefinition;
-	component: any;
+	component: Type<unknown>;
 	defaultHeight: number;
 	defaultWidth: number;
 	background?: string;
