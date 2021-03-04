@@ -1,9 +1,7 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const sharedRoutes: Routes = [
-
-];
+const sharedRoutes: Routes = [];
 
 //  taken from angular.io
 //  Only call RouterModule.forRoot in the root AppRouting (or the AppModule if
@@ -11,11 +9,7 @@ const sharedRoutes: Routes = [
 //  must call the RouterModule.forChild method to register additional routes.
 
 @NgModule({
-	imports: [
-		RouterModule.forChild(sharedRoutes)
-	],
-	exports: [
-		RouterModule
-	]
+	imports: [RouterModule.forChild(sharedRoutes)],
+	exports: [RouterModule]
 })
-export class SharedRoutingModule { }
+export class SharedRoutingModule {}

@@ -7,15 +7,16 @@ import { FormGroup, ValidatorFn } from '@angular/forms';
 
 export function confirmRegister(passwordParams: string[], gradeParams: string[]): ValidatorFn {
 	return group => {
-
-		let passwordResponse = confirmPassword(passwordParams[0], passwordParams[1])(group);
-		let gradeResponse = confirmGrade(gradeParams[0], gradeParams[1])(group);
+		const passwordResponse = confirmPassword(passwordParams[0], passwordParams[1])(group);
+		const gradeResponse = confirmGrade(gradeParams[0], gradeParams[1])(group);
 
 		// If both are null, return success
-		if (!passwordResponse && !gradeResponse)  { return null; }
+		if (!passwordResponse && !gradeResponse) {
+			return null;
+		}
 
 		// At least one is an object with a key. If not null, append to response object.
-		let response = { };
+		let response = {};
 		if (passwordResponse) {
 			response = Object.assign(response, passwordResponse);
 		}
@@ -32,8 +33,8 @@ export function confirmRegister(passwordParams: string[], gradeParams: string[])
 
 export function confirmPassword(passwordKey: string, confirmPasswordKey: string): ValidatorFn {
 	return group => {
-		let password = (group as FormGroup).controls[passwordKey];
-		let confirmation = (group as FormGroup).controls[confirmPasswordKey];
+		const password = (group as FormGroup).controls[passwordKey];
+		const confirmation = (group as FormGroup).controls[confirmPasswordKey];
 
 		if (password.value !== confirmation.value) {
 			return { mismatchedPasswords: true };
@@ -49,8 +50,8 @@ export function confirmPassword(passwordKey: string, confirmPasswordKey: string)
 
 export function confirmGrade(gradYearKey: string, teacherKey: string): ValidatorFn {
 	return group => {
-		let gradYear = (group as FormGroup).controls[gradYearKey];
-		let teacher = (group as FormGroup).controls[teacherKey];
+		const gradYear = (group as FormGroup).controls[gradYearKey];
+		const teacher = (group as FormGroup).controls[teacherKey];
 
 		if (!teacher.value && !gradYear.value) {
 			return { invalidGrade: true };

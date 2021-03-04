@@ -6,7 +6,7 @@ export interface OptionConfig {
 	label?: string;
 	type: OptionType;
 	default: OptionValue;
-	showIf?: { [variable: string]: any };
+	showIf?: Options;
 }
 
 export interface Options {
@@ -23,5 +23,5 @@ export interface OptionEnum {
 
 export interface OptionEnumValue {
 	name: string;
-	value: any;
+	value: unknown;
 }

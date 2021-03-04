@@ -1,4 +1,4 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../common/auth.guard';
@@ -29,11 +29,7 @@ const authRoutes: Routes = [
 ];
 
 @NgModule({
-	imports: [
-		RouterModule.forChild(authRoutes)
-	],
-	exports: [
-		RouterModule
-	]
+	imports: [RouterModule.forChild(authRoutes)],
+	exports: [RouterModule]
 })
-export class AuthenticationRoutingModule { }
+export class AuthenticationRoutingModule {}

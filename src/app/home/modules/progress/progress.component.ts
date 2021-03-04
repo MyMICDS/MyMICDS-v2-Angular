@@ -1,10 +1,10 @@
 import { Block, ClassType, GetScheduleResponse, MyMICDS, ScheduleBlock } from '@mymicds/sdk';
 
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ElementQueries, ResizeSensor } from 'css-element-queries';
 import { rainbowCanvasGradient, rainbowSafeWord } from '../../../common/utils';
 import * as moment from 'moment-timezone';
 import Chart from 'chart.js';
-import { ElementQueries, ResizeSensor } from 'css-element-queries';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
@@ -21,8 +21,7 @@ declare global {
 	templateUrl: './progress.component.html',
 	styleUrls: ['./progress.component.scss']
 })
-export class ProgressComponent extends SubscriptionsComponent
-	implements OnInit, OnDestroy {
+export class ProgressComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	// Used for collapsing date and if progress bar should be horizontal or vertical
 	moduleHeight: number;
@@ -131,10 +130,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		this.resizeSensorChart = new ResizeSensor(canvasEl, onChartResize);
 
 		// Rainbow color top priority
-		this.rainbow = rainbowCanvasGradient(
-			canvasEl.offsetWidth,
-			canvasEl.offsetHeight
-		);
+		this.rainbow = rainbowCanvasGradient(canvasEl.offsetWidth, canvasEl.offsetHeight);
 
 		// Initialize Progress Bar
 		this.progressBar = new Chart(canvasEl, {
@@ -162,11 +158,9 @@ export class ProgressComponent extends SubscriptionsComponent
 				tooltips: {
 					callbacks: {
 						label(tooltipItem, data) {
-							return (
-								data.labels![tooltipItem!.index!] +
-								': ' +
-								data.durations![tooltipItem!.index!]
-							);
+							return `${data.labels![tooltipItem.index!] as string}: ${
+								data.durations![tooltipItem.index!]
+							}`;
 						}
 					}
 				},
@@ -179,10 +173,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		this.timer = setInterval(() => {
 			this.today = new Date();
 			// Calculate rainbow gradient again in case module dimensions changed
-			this.rainbow = rainbowCanvasGradient(
-				canvasEl.offsetWidth,
-				canvasEl.offsetHeight
-			);
+			this.rainbow = rainbowCanvasGradient(canvasEl.offsetWidth, canvasEl.offsetHeight);
 			this.calculatePercentages();
 		}, 1000);
 
@@ -243,7 +234,8 @@ export class ProgressComponent extends SubscriptionsComponent
 		const nowTime = this.today.getTime();
 
 		// End of School constant created for DRY, specify that it is 3:15 PM Central Time
-		const schoolDayEnd315 = moment.tz(this.today, 'America/Chicago')
+		const schoolDayEnd315 = moment
+			.tz(this.today, 'America/Chicago')
 			.startOf('day')
 			.hours(15)
 			.minutes(15);
@@ -261,12 +253,12 @@ export class ProgressComponent extends SubscriptionsComponent
 		let newCurrentClassPercent = null;
 
 		// Insert a 'break' period in between classes that aren't back-to-back
-		let breaks: ScheduleBlock[] = [];
+		const breaks: ScheduleBlock[] = [];
 		for (let i = 0; i < this.schedule.classes.length - 1; i++) {
 			const currBlock = this.schedule.classes[i];
 			const nextBlock = this.schedule.classes[i + 1];
 
-			let breakObj = {
+			const breakObj = {
 				class: {
 					name: 'Break',
 					teacher: { prefix: '', firstName: '', lastName: '' },
@@ -281,8 +273,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 			// If there's a break as the last class of the day, make the break end at 3:15
 			if (
-				this.schedule.classes[this.schedule.classes.length - 1].end !==
-					schoolDayEnd315 &&
+				this.schedule.classes[this.schedule.classes.length - 1].end !== schoolDayEnd315 &&
 				this.schedule.classes.length - 1 === i
 			) {
 				breakObj.end = schoolDayEnd315;
@@ -296,7 +287,7 @@ export class ProgressComponent extends SubscriptionsComponent
 		const formattedSchedule = this.schedule.classes.concat(breaks);
 		const formattedScheduleColors: Array<string | CanvasGradient> = [];
 		// Sort classes by start time
-		formattedSchedule.sort(function(a, b) {
+		formattedSchedule.sort((a, b) => {
 			return a.start.valueOf() - b.start.valueOf();
 		});
 
@@ -306,9 +297,7 @@ export class ProgressComponent extends SubscriptionsComponent
 
 			if (typeof formattedSchedule[i].class.color === 'string') {
 				// Check if rainbow color
-				if (
-					formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord
-				) {
+				if (formattedSchedule[i].class.color.toUpperCase() === rainbowSafeWord) {
 					formattedScheduleColors[i] = this.rainbow;
 				} else {
 					formattedScheduleColors[i] = formattedSchedule[i].class.color;
@@ -442,9 +431,8 @@ export class ProgressComponent extends SubscriptionsComponent
 			return answer;
 		} else if (answer < 0) {
 			return 0;
-		} else {
-			return 100;
 		}
+		return 100;
 	}
 
 	/*
@@ -461,7 +449,7 @@ export class ProgressComponent extends SubscriptionsComponent
 			if (duration.hours() > 0) {
 				hasHours = true;
 
-				tooltip += duration.hours() + ' hr';
+				tooltip += `${duration.hours()} hr`;
 			}
 
 			if (duration.minutes() > 0) {
@@ -471,11 +459,11 @@ export class ProgressComponent extends SubscriptionsComponent
 					tooltip += ' ';
 				}
 
-				tooltip += duration.minutes() + ' min';
+				tooltip += `${duration.minutes()} min`;
 			}
 		} else {
 			// Do not add the seconds field unless the duration is shorter than a minute
-			tooltip += duration.seconds() + ' sec';
+			tooltip += `${duration.seconds()} sec`;
 		}
 
 		return tooltip;

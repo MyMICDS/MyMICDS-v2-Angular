@@ -9,19 +9,19 @@
 				<div class="month-navigation">
 					<button mymicds-blur class="previous-month" (click)="previousMonth()">
 						<span>
-							<fa-icon [icon]="['fas','angle-left']"></fa-icon>
+							<fa-icon [icon]="['fas', 'angle-left']"></fa-icon>
 							Previous Month
 						</span>
 					</button>
 
 					<button mymicds-blur class="current-month" (click)="currentMonth()">
-						{{ calendarMonth.toDate() | momentDate:'MMMM y':'America/Chicago' }}
+						{{ calendarMonth.toDate() | momentDate: 'MMMM y':'America/Chicago' }}
 					</button>
 
 					<button mymicds-blur class="next-month" (click)="nextMonth()">
 						<span>
 							Next Month
-							<fa-icon [icon]="['fas','angle-right']"></fa-icon>
+							<fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
 						</span>
 					</button>
 				</div>
@@ -36,32 +36,70 @@
 						</div>
 					</div>
 					<div *ngFor="let week of formattedMonth" class="calendar-week">
-						<div *ngFor="let day of week" class="calendar-weekday" (click)="selectDay(day?.date, $event)">
+						<div
+							*ngFor="let day of week"
+							class="calendar-weekday"
+							(click)="selectDay(day?.date, $event)"
+						>
 							<div class="calendar-weekday-header">
 								<div class="calendar-weekday-date" [class.today]="day?.today">
 									{{ day?.date.date() }}
 								</div>
-								<div *ngIf="days[day?.date.year()] && days[day?.date.year()][day?.date.month() + 1] && days[day?.date.year()][day?.date.month() + 1][day?.date.date()]"
-									class="calendar-weekday-day-rotation">
-									Day {{ days[day?.date.year()][day?.date.month() + 1][day?.date.date()] }}
+								<div
+									*ngIf="
+										days[day?.date.year()] &&
+										days[day?.date.year()][day?.date.month() + 1] &&
+										days[day?.date.year()][day?.date.month() + 1][
+											day?.date.date()
+										]
+									"
+									class="calendar-weekday-day-rotation"
+								>
+									Day
+									{{
+										days[day?.date.year()][day?.date.month() + 1][
+											day?.date.date()
+										]
+									}}
 								</div>
 							</div>
-							<div *ngFor="let event of day?.events" class="event" (click)="selectDayEvent(event?.data?._id)"
-								[class.text-dark] = "event?.data.class?.textDark"
+							<div
+								*ngFor="let event of day?.events"
+								class="event"
+								(click)="selectDayEvent(event?.data?._id)"
+								[class.text-dark]="event?.data.class?.textDark"
 								[class.continue-left]="event?.inside.continueLeft"
 								[class.continue-right]="event?.inside.continueRight"
 								[style.background]="event?.data.class?.color || '#7F7F7F'"
-								[style.border-right-color]="darkenColor(event?.data.class?.color, -20)"
-								[style.border-bottom-color]="darkenColor(event?.data.class?.color, -20)">
-
+								[style.border-right-color]="
+									darkenColor(event?.data.class?.color, -20)
+								"
+								[style.border-bottom-color]="
+									darkenColor(event?.data.class?.color, -20)
+								"
+							>
 								<div class="event-title">{{ event?.data.title }}</div>
 								<div class="event-desc">{{ event?.data.descPlaintext }}</div>
 
 								<!--red cross-->
-								<svg [class.crossed]="event?.data?.checked"
-								class="svg-cross" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								viewBox="0 0 960 560" style="enable-background:new 0 0 960 560" xml:space="preserve" preserveAspectRatio="none">
-									<path fill="#f00" class="path" d="M491.4,268.7c-14.7-8.5-28.7-16.6-42.7-24.6c-65.1-37.1-131.8-70.7-199.8-101.4c-46.6-21-93.7-41.1-140.3-62.2
+								<svg
+									[class.crossed]="event?.data?.checked"
+									class="svg-cross"
+									version="1.1"
+									id="Layer_1"
+									xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink"
+									x="0px"
+									y="0px"
+									viewBox="0 0 960 560"
+									style="enable-background: new 0 0 960 560"
+									xml:space="preserve"
+									preserveAspectRatio="none"
+								>
+									<path
+										fill="#f00"
+										class="path"
+										d="M491.4,268.7c-14.7-8.5-28.7-16.6-42.7-24.6c-65.1-37.1-131.8-70.7-199.8-101.4c-46.6-21-93.7-41.1-140.3-62.2
 										c-12.2-5.5-24-12.6-35.2-20.3c-4.5-3.1-7.7-9.2-10.3-14.6c-2.6-5.5,0.2-9.7,5.9-10.5c8.5-1.3,16.8,0.4,24.3,4.4
 										c33.6,17.6,68.2,32.8,102.8,48c48.8,21.5,97.3,43.8,144.8,68.3c58.9,30.4,116.6,63.3,174.8,95.3c3.7,2,6,1,9-0.6
 										c49.5-25.9,98.8-52.4,148.7-77.3c33.1-16.5,68.2-27.8,104.3-34.2c15.2-2.7,30.7-3.5,46.2-0.1c6.4,1.4,12.9,2.5,19.4,3.4
@@ -70,7 +108,8 @@
 										C718.4,386,756.3,417.6,795,448c12.7,10,25.1,20.3,37.6,30.5c2.7,2.2,6.5,4.4,4,8.9c-2.5,4.4-5.9,2.3-9.2,0.7
 										c-36.6-18-70.9-40.4-104.6-63.9c-42.9-30-85.3-60.9-128.3-90.8c-21.5-14.9-44-28.2-65.9-42.3c-3.2-2-5.7-2.3-9.1-0.4
 										C406.6,354.3,294,418.6,184.7,489c-1.9,1.2-4.3,2.3-6.4,2.3c-4.5,0.1-6.8-4.9-4.3-8.9c1.1-1.6,2.7-3,4.3-4.1
-										c53.3-38.1,105.9-77.3,160.1-113.9c45.6-30.8,93-58.6,139.6-87.6C482.2,274.3,486.4,271.8,491.4,268.7z"/>
+										c53.3-38.1,105.9-77.3,160.1-113.9c45.6-30.8,93-58.6,139.6-87.6C482.2,274.3,486.4,271.8,491.4,268.7z"
+									/>
 								</svg>
 							</div>
 						</div>
@@ -79,33 +118,69 @@
 			</div>
 
 			<div mymicds-blur--dark class="sidebar" [class.sidebar-collapsed]="sidebarCollapsed">
-				<div class="sidebar-header" [style.text-align]="selectionDate === null ? 'left' : 'inherit'">
+				<div
+					class="sidebar-header"
+					[style.text-align]="selectionDate === null ? 'left' : 'inherit'"
+				>
 					<div class="title-area">
 						<h2 *ngIf="selectionDate === null">Coming Up</h2>
-						<span *ngIf="selectionDate !== null" class="date-display">{{ selectionDate.toDate() | momentDate:'MMMM d, y':'America/Chicago' }}</span>
+						<span *ngIf="selectionDate !== null" class="date-display">{{
+							selectionDate.toDate() | momentDate: 'MMMM d, y':'America/Chicago'
+						}}</span>
 
-						<span *ngIf="canvasRefreshTime">Last Refreshed: {{ canvasRefreshTime.toDate() | momentDate:'MMM d, h:mm a':'America/Chicago' }}</span>
+						<span *ngIf="canvasRefreshTime"
+							>Last Refreshed:
+							{{
+								canvasRefreshTime.toDate()
+									| momentDate: 'MMM d, h:mm a':'America/Chicago'
+							}}</span
+						>
 					</div>
 
-					<h3 *ngIf="selectionDate !== null && days[selectionDate.year()] && days[selectionDate.year()][selectionDate.month() + 1] && days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()]">
-						Day {{ days[selectionDate.year()][selectionDate.month() + 1][selectionDate.date()] }}
+					<h3
+						*ngIf="
+							selectionDate !== null &&
+							days[selectionDate.year()] &&
+							days[selectionDate.year()][selectionDate.month() + 1] &&
+							days[selectionDate.year()][selectionDate.month() + 1][
+								selectionDate.date()
+							]
+						"
+					>
+						Day
+						{{
+							days[selectionDate.year()][selectionDate.month() + 1][
+								selectionDate.date()
+							]
+						}}
 					</h3>
 					<!-- Create Event and Coming Up button at the top -->
 					<div class="sidebar-buttons">
-						<button *ngIf="selectionDate !== null" class="sidebar-coming-up btn btn-warning" (click)="deselectDay()">
+						<button
+							*ngIf="selectionDate !== null"
+							class="sidebar-coming-up btn btn-warning"
+							(click)="deselectDay()"
+						>
 							<span>
 								<fa-icon icon="undo"></fa-icon>
 								Coming Up
 							</span>
 						</button>
 						<div class="btn-group">
-							<button *ngIf="mymicds.auth.isLoggedIn" class="btn btn-danger" (click)="refreshCanvas()">
+							<button
+								*ngIf="mymicds.auth.isLoggedIn"
+								class="btn btn-danger"
+								(click)="refreshCanvas()"
+							>
 								<span>
 									<fa-icon icon="sync"></fa-icon>
 									Refresh Canvas
 								</span>
 							</button>
-							<button class="btn btn-info" (click)="resetCreateEventForm(); createEventModal.show()">
+							<button
+								class="btn btn-info"
+								(click)="resetCreateEventForm(); createEventModal.show()"
+							>
 								<span>
 									<fa-icon icon="plus"></fa-icon>
 									Create Event
@@ -114,7 +189,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="sidebar-close" (click)="sidebarClose()"><fa-icon icon="undo"></fa-icon></div>
+				<div class="sidebar-close" (click)="sidebarClose()">
+					<fa-icon icon="undo"></fa-icon>
+				</div>
 				<!-- View events coming up if no day is selected -->
 				<div *ngIf="selectionDate === null" class="coming-up">
 					<!-- Loop through each day that contains events coming up -->
@@ -123,26 +200,57 @@
 						<div class="coming-up-due">
 							<h3 class="due">
 								Due {{ day.date.display }}
-								<small *ngIf="days[day.date.object.year()] && days[day.date.object.year()][day.date.object.month() + 1] && days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()]">
-									Day {{ days[day.date.object.year()][day.date.object.month() + 1][day.date.object.date()] }}
+								<small
+									*ngIf="
+										days[day.date.object.year()] &&
+										days[day.date.object.year()][day.date.object.month() + 1] &&
+										days[day.date.object.year()][day.date.object.month() + 1][
+											day.date.object.date()
+										]
+									"
+								>
+									Day
+									{{
+										days[day.date.object.year()][day.date.object.month() + 1][
+											day.date.object.date()
+										]
+									}}
 								</small>
 							</h3>
-							<h3 class="date">{{ day.date.object.toDate() | momentDate:'dd.MM.yy':'America/Chicago' }}</h3>
+							<h3 class="date">
+								{{
+									day.date.object.toDate()
+										| momentDate: 'dd.MM.yy':'America/Chicago'
+								}}
+							</h3>
 						</div>
 						<div class="coming-up-events">
 							<!-- List of events -->
-							<div *ngFor="let event of day.events" class="event" (click)="viewEvent(event._id); viewEventModal.show()">
+							<div
+								*ngFor="let event of day.events"
+								class="event"
+								(click)="viewEvent(event._id); viewEventModal.show()"
+							>
 								<!-- Class info for each event -->
 								<div class="event-class">
 									<h4 class="event-class-name">{{ event.class?.name }}</h4>
-									<h5 class="event-class-teacher">{{ event.class?.teacher?.firstName || '' }} {{ event.class?.teacher?.lastName || '' }}</h5>
+									<h5 class="event-class-teacher">
+										{{ event.class?.teacher?.firstName || '' }}
+										{{ event.class?.teacher?.lastName || '' }}
+									</h5>
 								</div>
 								<!-- Actual box with event -->
-								<div class="event-content"
-									[class.text-dark] = "event?.class?.textDark"
+								<div
+									class="event-content"
+									[class.text-dark]="event?.class?.textDark"
 									[style.background]="event.class?.color || '#7F7F7F'"
-									[style.border-right-color]="darkenColor(event.class?.color, -20)"
-									[style.border-bottom-color]="darkenColor(event.class?.color, -20)">
+									[style.border-right-color]="
+										darkenColor(event.class?.color, -20)
+									"
+									[style.border-bottom-color]="
+										darkenColor(event.class?.color, -20)
+									"
+								>
 									<!-- Manage and Manipulate Event -->
 									<div class="event-manage btn-group">
 										<!-- View -->
@@ -150,15 +258,29 @@
 											<fa-icon icon="ellipsis-h"></fa-icon>
 										</button>
 										<!-- Edit -->
-										<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event._id, $event); editEventModal.show()" [disabled]="event?.canvas">
+										<button
+											class="btn btn-warning btn-sm"
+											(click)="
+												viewEditEventModal(event._id, $event);
+												editEventModal.show()
+											"
+											[disabled]="event?.canvas"
+										>
 											<fa-icon icon="edit"></fa-icon>
 										</button>
 										<!-- Delete -->
-										<button class="btn btn-danger btn-sm" (click)="deleteEvent(event._id, $event)" [disabled]="event?.canvas">
+										<button
+											class="btn btn-danger btn-sm"
+											(click)="deleteEvent(event._id, $event)"
+											[disabled]="event?.canvas"
+										>
 											<fa-icon icon="times"></fa-icon>
 										</button>
 										<!-- Cross Out -->
-										<button class="btn btn-success btn-sm" (click)="crossoutEvent(event._id, $event)">
+										<button
+											class="btn btn-success btn-sm"
+											(click)="crossoutEvent(event._id, $event)"
+										>
 											<fa-icon icon="strikethrough"></fa-icon>
 										</button>
 									</div>
@@ -168,10 +290,24 @@
 									<div class="event-desc" [innerHTML]="event.desc"></div>
 
 									<!-- Extremely sophisticated svg red cross -->
-									<svg [class.cross-animated]="event?.checked"
-									class="svg-cross" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-									viewBox="0 0 960 560" style="enable-background:new 0 0 960 560" xml:space="preserve" preserveAspectRatio="none">
-										<path fill="#f00" class="path" d="M491.4,268.7c-14.7-8.5-28.7-16.6-42.7-24.6c-65.1-37.1-131.8-70.7-199.8-101.4c-46.6-21-93.7-41.1-140.3-62.2
+									<svg
+										[class.cross-animated]="event?.checked"
+										class="svg-cross"
+										version="1.1"
+										id="Layer_1"
+										xmlns="http://www.w3.org/2000/svg"
+										xmlns:xlink="http://www.w3.org/1999/xlink"
+										x="0px"
+										y="0px"
+										viewBox="0 0 960 560"
+										style="enable-background: new 0 0 960 560"
+										xml:space="preserve"
+										preserveAspectRatio="none"
+									>
+										<path
+											fill="#f00"
+											class="path"
+											d="M491.4,268.7c-14.7-8.5-28.7-16.6-42.7-24.6c-65.1-37.1-131.8-70.7-199.8-101.4c-46.6-21-93.7-41.1-140.3-62.2
 											c-12.2-5.5-24-12.6-35.2-20.3c-4.5-3.1-7.7-9.2-10.3-14.6c-2.6-5.5,0.2-9.7,5.9-10.5c8.5-1.3,16.8,0.4,24.3,4.4
 											c33.6,17.6,68.2,32.8,102.8,48c48.8,21.5,97.3,43.8,144.8,68.3c58.9,30.4,116.6,63.3,174.8,95.3c3.7,2,6,1,9-0.6
 											c49.5-25.9,98.8-52.4,148.7-77.3c33.1-16.5,68.2-27.8,104.3-34.2c15.2-2.7,30.7-3.5,46.2-0.1c6.4,1.4,12.9,2.5,19.4,3.4
@@ -180,7 +316,8 @@
 											C718.4,386,756.3,417.6,795,448c12.7,10,25.1,20.3,37.6,30.5c2.7,2.2,6.5,4.4,4,8.9c-2.5,4.4-5.9,2.3-9.2,0.7
 											c-36.6-18-70.9-40.4-104.6-63.9c-42.9-30-85.3-60.9-128.3-90.8c-21.5-14.9-44-28.2-65.9-42.3c-3.2-2-5.7-2.3-9.1-0.4
 											C406.6,354.3,294,418.6,184.7,489c-1.9,1.2-4.3,2.3-6.4,2.3c-4.5,0.1-6.8-4.9-4.3-8.9c1.1-1.6,2.7-3,4.3-4.1
-											c53.3-38.1,105.9-77.3,160.1-113.9c45.6-30.8,93-58.6,139.6-87.6C482.2,274.3,486.4,271.8,491.4,268.7z"/>
+											c53.3-38.1,105.9-77.3,160.1-113.9c45.6-30.8,93-58.6,139.6-87.6C482.2,274.3,486.4,271.8,491.4,268.7z"
+										/>
 									</svg>
 								</div>
 							</div>
@@ -196,34 +333,62 @@
 					<!-- Loop through events for that specific date -->
 					<div *ngIf="selectionEvents.length > 0" class="selection-events">
 						<!-- List of events -->
-						<div *ngFor="let event of selectionEvents" #selectionEvent class="event selection-event" (click)="viewEvent(event.data._id); viewEventModal.show()">
+						<div
+							*ngFor="let event of selectionEvents"
+							#selectionEvent
+							class="event selection-event"
+							(click)="viewEvent(event.data._id); viewEventModal.show()"
+						>
 							<!-- Class info for each event -->
 							<div class="event-class">
 								<h4 class="event-class-name">{{ event.data.class?.name }}</h4>
-								<h5 class="event-class-teacher">{{ event.data.class?.teacher?.firstName || '' }} {{ event.data.class?.teacher?.lastName || '' }}</h5>
+								<h5 class="event-class-teacher">
+									{{ event.data.class?.teacher?.firstName || '' }}
+									{{ event.data.class?.teacher?.lastName || '' }}
+								</h5>
 							</div>
 							<!-- Actual box with event -->
-							<div class="event-content"
-								[class.text-dark] = "event?.data.class?.textDark"
+							<div
+								class="event-content"
+								[class.text-dark]="event?.data.class?.textDark"
 								[style.background]="event.data.class?.color || '#7F7F7F'"
-								[style.border-right-color]="darkenColor(event.data.class?.color, -20)"
-								[style.border-bottom-color]="darkenColor(event.data.class?.color, -20)">
+								[style.border-right-color]="
+									darkenColor(event.data.class?.color, -20)
+								"
+								[style.border-bottom-color]="
+									darkenColor(event.data.class?.color, -20)
+								"
+							>
 								<!-- Manage and Manipulate Event -->
 								<div class="event-manage btn-group">
 									<!-- View -->
 									<button class="btn btn-info btn-sm">
-										<fa-icon [icon]="['fas','ellipsis-h']"></fa-icon>
+										<fa-icon [icon]="['fas', 'ellipsis-h']"></fa-icon>
 									</button>
 									<!-- Edit -->
-									<button class="btn btn-warning btn-sm" (click)="viewEditEventModal(event.data._id, $event); editEventModal.show()" [disabled]="event.data?.canvas">
+									<button
+										class="btn btn-warning btn-sm"
+										(click)="
+											viewEditEventModal(event.data._id, $event);
+											editEventModal.show()
+										"
+										[disabled]="event.data?.canvas"
+									>
 										<fa-icon icon="edit"></fa-icon>
 									</button>
 									<!-- Delete -->
-									<button class="btn btn-danger btn-sm" (click)="deleteEvent(event.data._id, $event)" [disabled]="event.data?.canvas">
+									<button
+										class="btn btn-danger btn-sm"
+										(click)="deleteEvent(event.data._id, $event)"
+										[disabled]="event.data?.canvas"
+									>
 										<fa-icon icon="times"></fa-icon>
 									</button>
 									<!-- Cross Out -->
-									<button class="btn btn-success btn-sm" (click)="crossoutEvent(event.data._id, $event)">
+									<button
+										class="btn btn-success btn-sm"
+										(click)="crossoutEvent(event.data._id, $event)"
+									>
 										<fa-icon icon="strikethrough"></fa-icon>
 									</button>
 								</div>
@@ -233,10 +398,24 @@
 								<div class="event-desc" [innerHTML]="event.data.desc"></div>
 
 								<!-- Extremely sophisticated svg red cross -->
-								<svg [class.cross-animated]="event?.data?.checked"
-								class="svg-cross" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-								viewBox="0 0 960 560" style="enable-background:new 0 0 960 560" xml:space="preserve" preserveAspectRatio="none">
-									<path fill="#f00" class="path" d="M491.4,268.7c-14.7-8.5-28.7-16.6-42.7-24.6c-65.1-37.1-131.8-70.7-199.8-101.4c-46.6-21-93.7-41.1-140.3-62.2
+								<svg
+									[class.cross-animated]="event?.data?.checked"
+									class="svg-cross"
+									version="1.1"
+									id="Layer_1"
+									xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink"
+									x="0px"
+									y="0px"
+									viewBox="0 0 960 560"
+									style="enable-background: new 0 0 960 560"
+									xml:space="preserve"
+									preserveAspectRatio="none"
+								>
+									<path
+										fill="#f00"
+										class="path"
+										d="M491.4,268.7c-14.7-8.5-28.7-16.6-42.7-24.6c-65.1-37.1-131.8-70.7-199.8-101.4c-46.6-21-93.7-41.1-140.3-62.2
 										c-12.2-5.5-24-12.6-35.2-20.3c-4.5-3.1-7.7-9.2-10.3-14.6c-2.6-5.5,0.2-9.7,5.9-10.5c8.5-1.3,16.8,0.4,24.3,4.4
 										c33.6,17.6,68.2,32.8,102.8,48c48.8,21.5,97.3,43.8,144.8,68.3c58.9,30.4,116.6,63.3,174.8,95.3c3.7,2,6,1,9-0.6
 										c49.5-25.9,98.8-52.4,148.7-77.3c33.1-16.5,68.2-27.8,104.3-34.2c15.2-2.7,30.7-3.5,46.2-0.1c6.4,1.4,12.9,2.5,19.4,3.4
@@ -245,7 +424,8 @@
 										C718.4,386,756.3,417.6,795,448c12.7,10,25.1,20.3,37.6,30.5c2.7,2.2,6.5,4.4,4,8.9c-2.5,4.4-5.9,2.3-9.2,0.7
 										c-36.6-18-70.9-40.4-104.6-63.9c-42.9-30-85.3-60.9-128.3-90.8c-21.5-14.9-44-28.2-65.9-42.3c-3.2-2-5.7-2.3-9.1-0.4
 										C406.6,354.3,294,418.6,184.7,489c-1.9,1.2-4.3,2.3-6.4,2.3c-4.5,0.1-6.8-4.9-4.3-8.9c1.1-1.6,2.7-3,4.3-4.1
-										c53.3-38.1,105.9-77.3,160.1-113.9c45.6-30.8,93-58.6,139.6-87.6C482.2,274.3,486.4,271.8,491.4,268.7z"/>
+										c53.3-38.1,105.9-77.3,160.1-113.9c45.6-30.8,93-58.6,139.6-87.6C482.2,274.3,486.4,271.8,491.4,268.7z"
+									/>
 								</svg>
 							</div>
 						</div>
@@ -262,7 +442,12 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title pull-left">Create a Planner Event</h4>
-				<button type="button" class="close pull-right" (click)="createEventModal.hide()" aria-label="Close">
+				<button
+					type="button"
+					class="close pull-right"
+					(click)="createEventModal.hide()"
+					aria-label="Close"
+				>
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -272,19 +457,50 @@
 					<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
 				</div>
 				<form #createEventForm="ngForm" [hidden]="!mymicds.auth.isLoggedIn" novalidate>
-					<fieldset class="form-group" [class.has-danger]="createEventTitle.dirty && !createEventTitle.valid">
+					<fieldset
+						class="form-group"
+						[class.has-danger]="createEventTitle.dirty && !createEventTitle.valid"
+					>
 						<legend>Event Title</legend>
-						<input #createEventTitle="ngModel" class="form-control" [class.form-control-danger]="createEventTitle.dirty && !createEventTitle.valid" name="title" [(ngModel)]="createEventModel.title" placeholder="Title" required>
-						<p *ngIf="createEventTitle.dirty && !createEventTitle.valid" class="form-control-feedback">Title is required</p>
+						<input
+							#createEventTitle="ngModel"
+							class="form-control"
+							[class.form-control-danger]="
+								createEventTitle.dirty && !createEventTitle.valid
+							"
+							name="title"
+							[(ngModel)]="createEventModel.title"
+							placeholder="Title"
+							required
+						/>
+						<p
+							*ngIf="createEventTitle.dirty && !createEventTitle.valid"
+							class="form-control-feedback"
+						>
+							Title is required
+						</p>
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Description</legend>
-						<textarea class="form-control" name="desc" [(ngModel)]="createEventModel.desc" placeholder="Description" autocomplete="off" rows="5"></textarea>
+						<textarea
+							class="form-control"
+							name="desc"
+							[(ngModel)]="createEventModel.desc"
+							placeholder="Description"
+							autocomplete="off"
+							rows="5"
+						></textarea>
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Class</legend>
-						<select class="form-control" name="classId" [(ngModel)]="createEventModel.classId">
-							<option *ngFor="let class of classes" [value]="class._id">{{class.name}}</option>
+						<select
+							class="form-control"
+							name="classId"
+							[(ngModel)]="createEventModel.classId"
+						>
+							<option *ngFor="let class of classes" [value]="class._id">
+								{{ class.name }}
+							</option>
 							<option value="other" selected>Other</option>
 						</select>
 					</fieldset>
@@ -294,51 +510,75 @@
 							<div class="form-group hidden">
 								<div class="input-group">
 									<!-- this is disgusting and needs a TODO fix -->
-									<input name="datepicker"
-										 class="form-control"
-										 ngbDatepicker
-										 #datepicker="ngbDatepicker"
-										 [autoClose]="'outside'"
-										 (dateSelect)="onDateSelection($event)"
-										 [displayMonths]="2"
-										 [dayTemplate]="t"
-										 outsideDays="hidden"
-										 [startDate]="fromDate!"
-										 tabindex="-1">
+									<input
+										name="datepicker"
+										class="form-control"
+										ngbDatepicker
+										#datepicker="ngbDatepicker"
+										[autoClose]="'outside'"
+										(dateSelect)="onDateSelection($event)"
+										[displayMonths]="2"
+										[dayTemplate]="t"
+										outsideDays="hidden"
+										[startDate]="fromDate!"
+										tabindex="-1"
+									/>
 									<ng-template #t let-date let-focused="focused">
-									<span class="custom-day"
-										[class.focused]="focused"
-										[class.range]="isRange(date)"
-										[class.faded]="isHovered(date) || isInside(date)"
-										(mouseenter)="hoveredDate = date"
-										(mouseleave)="hoveredDate = null">
-										{{ date.day }}
-									</span>
-								  </ng-template>
+										<span
+											class="custom-day"
+											[class.focused]="focused"
+											[class.range]="isRange(date)"
+											[class.faded]="isHovered(date) || isInside(date)"
+											(mouseenter)="hoveredDate = date"
+											(mouseleave)="hoveredDate = null"
+										>
+											{{ date.day }}
+										</span>
+									</ng-template>
 								</div>
-							  </div>
-							  <div class="form-group">
+							</div>
+							<div class="form-group">
 								<div class="input-group">
-								  <input #dpFromDate
-										 class="form-control" placeholder="yyyy-mm-dd"
-										 name="dpFromDate"
-										 [value]="formatter.format(fromDate)"
-										 (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
-								  <div class="input-group-append">
-									<button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"> <fa-icon icon="calendar"></fa-icon></button>
-								  </div>
+									<input
+										#dpFromDate
+										class="form-control"
+										placeholder="yyyy-mm-dd"
+										name="dpFromDate"
+										[value]="formatter.format(fromDate)"
+										(input)="
+											fromDate = validateInput(fromDate, dpFromDate.value)
+										"
+									/>
+									<div class="input-group-append">
+										<button
+											class="btn btn-outline-secondary calendar"
+											(click)="datepicker.toggle()"
+											type="button"
+										>
+											<fa-icon icon="calendar"></fa-icon>
+										</button>
+									</div>
 								</div>
-							  </div>
-							  <div class="form-group ml-2">
+							</div>
+							<div class="form-group ml-2">
 								<div class="input-group">
-								  <input #dpToDate
-										 class="form-control" placeholder="yyyy-mm-dd"
-										 name="dpToDate"
-										 [value]="formatter.format(toDate)"
-										 (input)="toDate = validateInput(toDate, dpToDate.value)">
-								  <div class="input-group-append">
-									<button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"> <fa-icon icon="calendar"></fa-icon></button>
-								  </div>
+									<input
+										#dpToDate
+										class="form-control"
+										placeholder="yyyy-mm-dd"
+										name="dpToDate"
+										[value]="formatter.format(toDate)"
+										(input)="toDate = validateInput(toDate, dpToDate.value)"
+									/>
+									<div class="input-group-append">
+										<button
+											class="btn btn-outline-secondary calendar"
+											(click)="datepicker.toggle()"
+											type="button"
+										>
+											<fa-icon icon="calendar"></fa-icon>
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -346,7 +586,14 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" (click)="createEvent(); createEventModal.hide()" [disabled]="!createEventForm.valid">Create Event</button>
+				<button
+					type="button"
+					class="btn btn-primary"
+					(click)="createEvent(); createEventModal.hide()"
+					[disabled]="!createEventForm.valid"
+				>
+					Create Event
+				</button>
 			</div>
 		</div>
 	</div>
@@ -359,25 +606,71 @@
 			<div class="modal-header">
 				<h4 class="modal-title pull-left">
 					{{ viewEventObject?.title }}
-					<br>
-					<small class="text-muted">{{ formatEventDate(viewEventObject?.start, viewEventObject?.end) }}</small>
+					<br />
+					<small class="text-muted">{{
+						formatEventDate(viewEventObject?.start, viewEventObject?.end)
+					}}</small>
 				</h4>
-				<button type="button" class="close pull-right" (click)="viewEventModal.hide()" aria-label="Close">
+				<button
+					type="button"
+					class="close pull-right"
+					(click)="viewEventModal.hide()"
+					aria-label="Close"
+				>
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div *ngIf="viewEventObject?.desc?.length > 0" class="modal-body" [innerHTML]="viewEventObject?.desc"></div>
-			<div class="modal-footer" *ngIf="!$any(viewEventObject)?.canvas || viewEventObject?.link" [style.border-top]="viewEventObject?.desc?.length > 0 ? '' : 'none'">
+			<div
+				*ngIf="viewEventObject?.desc?.length > 0"
+				class="modal-body"
+				[innerHTML]="viewEventObject?.desc"
+			></div>
+			<div
+				class="modal-footer"
+				*ngIf="!$any(viewEventObject)?.canvas || viewEventObject?.link"
+				[style.border-top]="viewEventObject?.desc?.length > 0 ? '' : 'none'"
+			>
 				<!-- Button to x -->
-				<button class="btn btn-success" (click)="crossoutEvent(viewEventObject._id, $event)">
+				<button
+					class="btn btn-success"
+					(click)="crossoutEvent(viewEventObject._id, $event)"
+				>
 					{{ viewEventObject?.checked ? 'Mark as Incomplete' : 'Mark as Completed' }}
 				</button>
 				<!-- Button if there's a link and it's a Canvas Event -->
-				<a *ngIf="viewEventObject?.link && viewEventObject?.canvas" class="btn btn-info" [href]="viewEventObject.link" target="_blank">View Event on Canvas</a>
+				<a
+					*ngIf="viewEventObject?.link && viewEventObject?.canvas"
+					class="btn btn-info"
+					[href]="viewEventObject.link"
+					target="_blank"
+					>View Event on Canvas</a
+				>
 				<!-- Button if there's a link and it's NOT a Canvas Event -->
-				<a *ngIf="viewEventObject?.link && !viewEventObject?.canvas" class="btn btn-info" [href]="viewEventObject.link" target="_blank">View Event URL</a>
-				<button *ngIf="!viewEventObject?.canvas" class="btn btn-warning" (click)="viewEventModal.hide(); viewEditEventModal(viewEventObject._id, $event); editEventModal.show()">Edit</button>
-				<button *ngIf="!viewEventObject?.canvas" class="btn btn-danger" (click)="deleteEvent(viewEventObject._id, $event); viewEventModal.hide()">Delete</button>
+				<a
+					*ngIf="viewEventObject?.link && !viewEventObject?.canvas"
+					class="btn btn-info"
+					[href]="viewEventObject.link"
+					target="_blank"
+					>View Event URL</a
+				>
+				<button
+					*ngIf="!viewEventObject?.canvas"
+					class="btn btn-warning"
+					(click)="
+						viewEventModal.hide();
+						viewEditEventModal(viewEventObject._id, $event);
+						editEventModal.show()
+					"
+				>
+					Edit
+				</button>
+				<button
+					*ngIf="!viewEventObject?.canvas"
+					class="btn btn-danger"
+					(click)="deleteEvent(viewEventObject._id, $event); viewEventModal.hide()"
+				>
+					Delete
+				</button>
 			</div>
 		</div>
 	</div>
@@ -389,25 +682,61 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title pull-left">Edit a Planner Event</h4>
-				<button type="button" class="close pull-right" (click)="editEventModal.hide()" aria-label="Close">
+				<button
+					type="button"
+					class="close pull-right"
+					(click)="editEventModal.hide()"
+					aria-label="Close"
+				>
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
 				<form #editEventForm="ngForm" novalidate>
-					<fieldset class="form-group" [class.has-danger]="editEventTitle.dirty && !editEventTitle.valid">
+					<fieldset
+						class="form-group"
+						[class.has-danger]="editEventTitle.dirty && !editEventTitle.valid"
+					>
 						<legend>Event Title</legend>
-						<input #editEventTitle="ngModel" class="form-control" [class.form-control-danger]="editEventTitle.dirty && !editEventTitle.valid" name="title" [(ngModel)]="editEventModel.title" placeholder="Title" required>
-						<p *ngIf="editEventTitle.dirty && !editEventTitle.valid" class="form-control-feedback">Title is required</p>
+						<input
+							#editEventTitle="ngModel"
+							class="form-control"
+							[class.form-control-danger]="
+								editEventTitle.dirty && !editEventTitle.valid
+							"
+							name="title"
+							[(ngModel)]="editEventModel.title"
+							placeholder="Title"
+							required
+						/>
+						<p
+							*ngIf="editEventTitle.dirty && !editEventTitle.valid"
+							class="form-control-feedback"
+						>
+							Title is required
+						</p>
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Description</legend>
-						<textarea class="form-control" name="desc" [(ngModel)]="editEventModel.desc" placeholder="Description" autocomplete="off" rows="5"></textarea>
+						<textarea
+							class="form-control"
+							name="desc"
+							[(ngModel)]="editEventModel.desc"
+							placeholder="Description"
+							autocomplete="off"
+							rows="5"
+						></textarea>
 					</fieldset>
 					<fieldset class="form-group">
 						<legend>Event Class</legend>
-						<select class="form-control" name="classId" [(ngModel)]="editEventModel.classId">
-							<option *ngFor="let class of classes" [value]="class._id">{{class.name}}</option>
+						<select
+							class="form-control"
+							name="classId"
+							[(ngModel)]="editEventModel.classId"
+						>
+							<option *ngFor="let class of classes" [value]="class._id">
+								{{ class.name }}
+							</option>
 							<option value="other" selected>Other</option>
 						</select>
 					</fieldset>
@@ -417,53 +746,75 @@
 							<div class="form-group hidden">
 								<div class="input-group">
 									<!-- this is disgusting and needs a TODO fix -->
-								  <input name="editdatepicker"
-										 class="form-control"
-										 ngbDatepicker
-										 #editdatepicker="ngbDatepicker"
-										 [autoClose]="'outside'"
-										 (dateSelect)="onDateSelection($event)"
-										 [displayMonths]="2"
-										 [dayTemplate]="t"
-										 outsideDays="hidden"
-										 [startDate]="fromDate!"
-										 tabindex="-1">
-								  <ng-template #t let-date let-focused="focused">
-									<span class="custom-day"
-										  [class.focused]="focused"
-										  [class.range]="isRange(date)"
-										  [class.faded]="isHovered(date) || isInside(date)"
-										  (mouseenter)="hoveredDate = date"
-										  (mouseleave)="hoveredDate = null">
-									  {{ date.day }}
-									</span>
-								  </ng-template>
+									<input
+										name="editdatepicker"
+										class="form-control"
+										ngbDatepicker
+										#editdatepicker="ngbDatepicker"
+										[autoClose]="'outside'"
+										(dateSelect)="onDateSelection($event)"
+										[displayMonths]="2"
+										[dayTemplate]="t"
+										outsideDays="hidden"
+										[startDate]="fromDate!"
+										tabindex="-1"
+									/>
+									<ng-template #t let-date let-focused="focused">
+										<span
+											class="custom-day"
+											[class.focused]="focused"
+											[class.range]="isRange(date)"
+											[class.faded]="isHovered(date) || isInside(date)"
+											(mouseenter)="hoveredDate = date"
+											(mouseleave)="hoveredDate = null"
+										>
+											{{ date.day }}
+										</span>
+									</ng-template>
 								</div>
-							  </div>
-							  <div class="form-group">
+							</div>
+							<div class="form-group">
 								<div class="input-group">
-								  <input #dpFromDate
-										 class="form-control" placeholder="yyyy-mm-dd"
-										 name="dpFromDate"
-										 [value]="formatter.format(fromDate)"
-										 (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
-								  <div class="input-group-append">
-									<button class="btn btn-outline-secondary calendar" (click)="editdatepicker.toggle()" type="button">
-										<fa-icon icon="calendar"></fa-icon>
-									</button>
-								  </div>
+									<input
+										#dpFromDate
+										class="form-control"
+										placeholder="yyyy-mm-dd"
+										name="dpFromDate"
+										[value]="formatter.format(fromDate)"
+										(input)="
+											fromDate = validateInput(fromDate, dpFromDate.value)
+										"
+									/>
+									<div class="input-group-append">
+										<button
+											class="btn btn-outline-secondary calendar"
+											(click)="editdatepicker.toggle()"
+											type="button"
+										>
+											<fa-icon icon="calendar"></fa-icon>
+										</button>
+									</div>
 								</div>
-							  </div>
-							  <div class="form-group ml-2">
+							</div>
+							<div class="form-group ml-2">
 								<div class="input-group">
-								  <input #dpToDate
-										 class="form-control" placeholder="yyyy-mm-dd"
-										 name="dpToDate"
-										 [value]="formatter.format(toDate)"
-										 (input)="toDate = validateInput(toDate, dpToDate.value)">
-								  <div class="input-group-append">
-									<button class="btn btn-outline-secondary calendar" (click)="editdatepicker.toggle()" type="button"><fa-icon icon="calendar"></fa-icon></button>
-								  </div>
+									<input
+										#dpToDate
+										class="form-control"
+										placeholder="yyyy-mm-dd"
+										name="dpToDate"
+										[value]="formatter.format(toDate)"
+										(input)="toDate = validateInput(toDate, dpToDate.value)"
+									/>
+									<div class="input-group-append">
+										<button
+											class="btn btn-outline-secondary calendar"
+											(click)="editdatepicker.toggle()"
+											type="button"
+										>
+											<fa-icon icon="calendar"></fa-icon>
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -471,7 +822,14 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" (click)="editEvent(); editEventModal.hide()" [disabled]="!editEventForm.valid">Edit Event</button>
+				<button
+					type="button"
+					class="btn btn-primary"
+					(click)="editEvent(); editEventModal.hide()"
+					[disabled]="!editEventForm.valid"
+				>
+					Edit Event
+				</button>
 			</div>
 		</div>
 	</div>

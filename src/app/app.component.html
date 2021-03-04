@@ -14,8 +14,18 @@
 <mymicds-summer *ngIf="showSummer" [(showSummer)]="showSummer"></mymicds-summer>
 
 <div *ngIf="admin" class="prompt fadein">
-	<h3 class="animated" [class.fadein]="messageSequence >= 1" [class.bounceInRight]="messageSequence >= 1">{{ messages[0] }}</h3>
-	<h1 class="animated" [class.fadein]="messageSequence >= 2" [class.slideInUp]="messageSequence >= 2">
+	<h3
+		class="animated"
+		[class.fadein]="messageSequence >= 1"
+		[class.bounceInRight]="messageSequence >= 1"
+	>
+		{{ messages[0] }}
+	</h3>
+	<h1
+		class="animated"
+		[class.fadein]="messageSequence >= 2"
+		[class.slideInUp]="messageSequence >= 2"
+	>
 		{{ messages[1] }}
 	</h1>
 </div>

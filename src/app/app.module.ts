@@ -2,8 +2,8 @@ import { MyMICDS } from '@mymicds/sdk';
 import { MyMICDSFactory } from './common/mymicds-sdk';
 
 import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
-import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -11,29 +11,28 @@ import { appRoutingProviders, routing } from './app.routing';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import { AngularFittextModule } from 'angular-fittext';
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
+import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import * as Sentry from '@sentry/angular';
 
-import { AppComponent } from './app.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
+import { AppComponent } from './app.component';
 import { ConfettiComponent } from './components/confetti/confetti.component';
-import { SummerComponent } from './components/summer/summer.component';
 import { QuotesComponent } from './components/quotes/quotes.component';
+import { SummerComponent } from './components/summer/summer.component';
 
 import { AlertService } from './services/alert.service';
 import { BackgroundService } from './services/background.service';
 // import { RealtimeService } from './services/realtime.service';
 
 // newly created modules
-import { SharedModule } from './shared/shared.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
 	declarations: [
@@ -71,22 +70,22 @@ import { environment } from '../environments/environment';
 		{
 			provide: ErrorHandler,
 			useValue: Sentry.createErrorHandler({
-				showDialog: true,
+				showDialog: true
 			})
 		},
 		{
 			provide: Sentry.TraceService,
-			deps: [Router],
+			deps: [Router]
 		},
 		{
 			provide: APP_INITIALIZER,
+			// eslint-disable-next-line @typescript-eslint/no-empty-function
 			useFactory: () => () => {},
 			deps: [Sentry.TraceService],
-			multi: true,
-		},
+			multi: true
+		}
 	],
-	bootstrap: [AppComponent],
-
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 	constructor(library: FaIconLibrary) {

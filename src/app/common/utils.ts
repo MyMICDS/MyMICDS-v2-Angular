@@ -14,9 +14,7 @@ export function capitalize(str: string) {
  */
 
 export function capitalizeURL(str: string) {
-	return str.split(/-|\//)
-		.map(capitalize)
-		.join(' ');
+	return str.split(/[-/]/).map(capitalize).join(' ');
 }
 
 /*
@@ -24,14 +22,14 @@ export function capitalizeURL(str: string) {
  */
 
 export function isAlphabetic(str: string) {
-	return /^[a-zA-Z()\-]*$/.test(str);
+	return /^[a-zA-Z()-]*$/.test(str);
 }
 
 /*
  * Returns the type of something
  */
 
-export function typeOf(something: any) {
+export function typeOf(something: unknown) {
 	return typeof something;
 }
 
@@ -50,9 +48,13 @@ export function contains<T>(haystack: T[], needle: T) {
  * Determines if two objects are equal to each other
  */
 
-export function isEqual(a: any, b: any) {
-	if (typeof a !== 'object') { return null; }
-	if (typeof b !== 'object') { return null; }
+export function isEqual(a: Record<string, unknown>, b: Record<string, unknown>) {
+	if (typeof a !== 'object') {
+		return null;
+	}
+	if (typeof b !== 'object') {
+		return null;
+	}
 	// Create arrays of property names
 	const aProps = Object.getOwnPropertyNames(a);
 	const bProps = Object.getOwnPropertyNames(b);
@@ -84,9 +86,7 @@ export function isEqual(a: any, b: any) {
  * Does it work? Yes.
  */
 
-/* tslint:disable:no-bitwise */
-export function darkenColor(color: string, amt: number) {
-
+export function darkenColor(color: string | null, amt: number) {
 	if (typeof color !== 'string') {
 		color = '#7F7F7F';
 	}
@@ -108,7 +108,7 @@ export function darkenColor(color: string, amt: number) {
 		r = 0;
 	}
 
-	let b = ((num >> 8) & 0x00FF) + amt;
+	let b = ((num >> 8) & 0x00ff) + amt;
 
 	if (b > 255) {
 		b = 255;
@@ -116,7 +116,7 @@ export function darkenColor(color: string, amt: number) {
 		b = 0;
 	}
 
-	let g = (num & 0x0000FF) + amt;
+	let g = (num & 0x0000ff) + amt;
 
 	if (g > 255) {
 		g = 255;
@@ -124,10 +124,10 @@ export function darkenColor(color: string, amt: number) {
 		g = 0;
 	}
 
-	return (usePound ? '#' : '') + String('000000' + (g | (b << 8) | (r << 16)).toString(16)).slice(-6);
-
+	return (
+		(usePound ? '#' : '') + String('000000' + (g | (b << 8) | (r << 16)).toString(16)).slice(-6)
+	);
 }
-/* tslint:enable:no-bitwise */
 
 /*
  * Converts a hex color to an array of RGB values
@@ -136,16 +136,14 @@ export function darkenColor(color: string, amt: number) {
 export function hexToRgb(hex: string) {
 	// Expand shorthand form (e.g. '03F') to full form (e.g. '0033FF')
 	const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-	hex = hex.replace(shorthandRegex, function(_, r, g, b) {
+	hex = hex.replace(shorthandRegex, (_, r: string, g: string, b: string) => {
 		return r + r + g + g + b + b;
 	});
 
 	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	return result ? [
-		parseInt(result[1], 16),
-		parseInt(result[2], 16),
-		parseInt(result[3], 16)
-	] : null;
+	return result
+		? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)]
+		: null;
 }
 
 /*
@@ -175,7 +173,8 @@ export const rainbowSafeWord = '#C01025';
  */
 
 export function rainbowCanvasGradient(width: number, height: number): CanvasGradient {
-	const gradient = document.createElement('canvas')
+	const gradient = document
+		.createElement('canvas')
 		.getContext('2d')!
 		.createLinearGradient(0, 0, width, height);
 
@@ -215,7 +214,7 @@ export const months = [
 ];
 
 /**
- * Get the ordinal suffic of a number (Ex. 1st, 2nd, 3rd)
+ * Get the ordinal suffix of a number (Ex. 1st, 2nd, 3rd)
  * https://stackoverflow.com/a/13627586/4594858
  */
 

@@ -1,8 +1,8 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import * as moment from 'moment';
 import { months } from '../common/utils';
+import * as moment from 'moment';
 
 import { PlannerComponent } from './planner/planner.component';
 
@@ -31,11 +31,7 @@ const plannerRoutes: Routes = [
 ];
 
 @NgModule({
-	imports: [
-		RouterModule.forChild(plannerRoutes)
-	],
-	exports: [
-		RouterModule
-	]
+	imports: [RouterModule.forChild(plannerRoutes)],
+	exports: [RouterModule]
 })
-export class PlannerRoutingModule { }
+export class PlannerRoutingModule {}

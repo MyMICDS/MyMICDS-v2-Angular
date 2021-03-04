@@ -1,16 +1,14 @@
 import { Action, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { defaultTitleFunction } from './app.routing';
 import { filter, map, switchMap } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 import * as Sentry from '@sentry/angular';
 
-import { SubscriptionsComponent } from './common/subscriptions-component';
 import { AlertService } from './services/alert.service';
-
-declare const ga: any;
+import { SubscriptionsComponent } from './common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-app',
@@ -18,7 +16,6 @@ declare const ga: any;
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent extends SubscriptionsComponent implements OnInit {
-
 	admin = false;
 	messages: string[] = [];
 	messageSequence = 0;
@@ -76,8 +73,12 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 		// Error handling for MyMICDS SDK
 		this.addSubscription(
 			this.mymicds.errors.subscribe(error => {
-				if ([Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(error.action!)) {
-					this.router.navigate(['/login']);
+				if (
+					[Action.LOGIN_EXPIRED, Action.NOT_LOGGED_IN, Action.UNAUTHORIZED].includes(
+						error.action!
+					)
+				) {
+					void this.router.navigate(['/login']);
 				}
 
 				switch (error.action) {
@@ -86,11 +87,13 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 						break;
 
 					case Action.NOT_LOGGED_IN:
-						this.alertService.addWarning('You are not logged in! You must be logged in access to this.');
+						this.alertService.addWarning(
+							'You are not logged in! You must be logged in access to this.'
+						);
 						break;
 
 					case Action.UNAUTHORIZED:
-						this.alertService.addWarning('Not so fast! You don\'t have access to this.');
+						this.alertService.addWarning("Not so fast! You don't have access to this.");
 						break;
 
 					default:
@@ -118,24 +121,25 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 
 		// Dynamic browser page title
 		this.addSubscription(
-			this.router.events.pipe(
-				filter(event => event instanceof NavigationEnd),
-				switchMap(event => {
-					// Keep going down until we get to the bottom-most first child
-					// (so that we can get data from children roots)
-					let currentRoute = this.route;
-					while (currentRoute.firstChild) {
-						currentRoute = currentRoute.firstChild;
-					}
-					return currentRoute.data.pipe(
-						// Combine it with previous event data
-						map(data => {
-							return { data, event };
-						})
-					);
-				}),
-			).subscribe(
-				({ data, event }) => {
+			this.router.events
+				.pipe(
+					filter(event => event instanceof NavigationEnd),
+					switchMap(event => {
+						// Keep going down until we get to the bottom-most first child
+						// (so that we can get data from children roots)
+						let currentRoute = this.route;
+						while (currentRoute.firstChild) {
+							currentRoute = currentRoute.firstChild;
+						}
+						return currentRoute.data.pipe(
+							// Combine it with previous event data
+							map(data => {
+								return { data, event };
+							})
+						);
+					})
+				)
+				.subscribe(({ data, event }) => {
 					const newURL = (<NavigationEnd>event).urlAfterRedirects;
 
 					let title;
@@ -155,8 +159,7 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 
 					// Google Analytics track pageviews
 					ga('send', 'pageview', (event as NavigationEnd).urlAfterRedirects);
-				}
-			)
+				})
 		);
 	}
 }

@@ -55,7 +55,7 @@
 			font-weight: 300;
 
 			span {
-				margin: .4rem;
+				margin: 0.4rem;
 			}
 
 			.fa {
@@ -80,7 +80,6 @@
 			border-right: 1px solid rgba($sophisticated-white, 0.5);
 		}
 	}
-
 
 	.table-container {
 		flex-grow: 1;
@@ -108,7 +107,8 @@
 					font-weight: 800;
 				}
 
-				th, td {
+				th,
+				td {
 					&.start,
 					&.end {
 						white-space: nowrap;

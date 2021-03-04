@@ -9,9 +9,11 @@ export class Alert {
 	}
 
 	equals(another: Alert) {
-		return this.type === another.type
-			&& this.title === another.title
-			&& this.content === another.content;
+		return (
+			this.type === another.type &&
+			this.title === another.title &&
+			this.content === another.content
+		);
 	}
 }
 

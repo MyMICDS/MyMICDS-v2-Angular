@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 declare global {
 	interface Window {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		twttr: any;
 	}
 }
@@ -13,38 +14,16 @@ declare global {
 	styleUrls: ['./twitter.component.scss']
 })
 export class TwitterComponent implements OnInit {
-
 	@Input() fixedHeight: boolean;
 
-	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef<HTMLElement>;
 	resizeSensor: ResizeSensor;
 
 	get moduleHeight(): number {
 		if (this.fixedHeight) {
 			return this.moduleContainer.nativeElement.clientHeight;
-		} else {
-			return 420;
 		}
-	}
-
-	constructor() { }
-
-	ngOnInit() {
-		this.loadTwitter();
-		window.twttr.ready(() => {
-			this.createTwitter();
-
-			let resizeTimeout: NodeJS.Timeout | null = null;
-			this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => {
-				if (resizeTimeout) { clearTimeout(resizeTimeout); }
-				if (this.fixedHeight) {
-					resizeTimeout = setTimeout(() => {
-						this.deleteTwitter();
-						this.createTwitter();
-					}, 1000);
-				}
-			});
-		});
+		return 420;
 	}
 
 	private createTwitter(height: number = this.moduleHeight) {
@@ -65,7 +44,7 @@ export class TwitterComponent implements OnInit {
 
 	private deleteTwitter() {
 		const container = this.moduleContainer.nativeElement;
-		for (const child of container.children) {
+		for (const child of Array.from(container.children)) {
 			if (!child.classList.contains('resize-sensor')) {
 				container.removeChild(child);
 			}
@@ -73,22 +52,46 @@ export class TwitterComponent implements OnInit {
 	}
 
 	private loadTwitter() {
-		window.twttr = (function(d, s, id) {
-			let js: HTMLScriptElement, fjs = d.getElementsByTagName(s)[0],
-				t = window.twttr || {};
-			if (d.getElementById(id)) { return t; }
+		/* eslint-disable */
+		window.twttr = (function (d, s, id) {
+			let js: HTMLScriptElement;
+			const fjs = d.getElementsByTagName(s)[0];
+			const t = window.twttr || {};
+			if (d.getElementById(id)) {
+				return t;
+			}
 			js = d.createElement(s) as HTMLScriptElement;
 			js.id = id;
 			js.src = 'https://platform.twitter.com/widgets.js';
 			fjs.parentNode!.insertBefore(js, fjs);
 
 			t._e = [];
-			t.ready = function(f: any) {
+			t.ready = function (f: any) {
 				t._e.push(f);
 			};
 
 			return t;
-		}(document, 'script', 'twitter-wjs'));
+		})(document, 'script', 'twitter-wjs');
+		/* eslint-enable */
 	}
 
+	ngOnInit() {
+		this.loadTwitter();
+		window.twttr.ready(() => {
+			this.createTwitter();
+
+			let resizeTimeout: NodeJS.Timeout | null = null;
+			this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => {
+				if (resizeTimeout) {
+					clearTimeout(resizeTimeout);
+				}
+				if (this.fixedHeight) {
+					resizeTimeout = setTimeout(() => {
+						this.deleteTwitter();
+						this.createTwitter();
+					}, 1000);
+				}
+			});
+		});
+	}
 }

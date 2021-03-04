@@ -1,13 +1,12 @@
 import { MyMICDS, School } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
 import { ElementQueries } from 'css-element-queries';
+import * as moment from 'moment';
 
-import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 import { AlertService } from '../../../services/alert.service';
 import { DayLunch } from '../../../common/day-lunch';
-
+import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-simplified-lunch',
@@ -15,7 +14,6 @@ import { DayLunch } from '../../../common/day-lunch';
 	styleUrls: ['./simplified-lunch.component.scss']
 })
 export class SimplifiedLunchComponent extends SubscriptionsComponent implements OnInit {
-
 	loading = true;
 	todaysLunch: DayLunch | null = null;
 	school: School = 'upperschool';
@@ -34,7 +32,9 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 			this.mymicds.user.$.subscribe(data => {
 				if (!data) {
 					if (data === null) {
-						this.alertService.addWarning('We couldn\'t determine your grade. Automatically selected Upper School lunch.');
+						this.alertService.addWarning(
+							"We couldn't determine your grade. Automatically selected Upper School lunch."
+						);
 					}
 					return;
 				}
@@ -55,34 +55,35 @@ export class SimplifiedLunchComponent extends SubscriptionsComponent implements 
 		}
 
 		this.addSubscription(
-			this.mymicds.lunch.get({
-				year : getDate.year(),
-				month: getDate.month() + 1,
-				day  : getDate.date()
-			}).subscribe(({ lunch }) => {
-				// Stop loading
-				this.loading = false;
+			this.mymicds.lunch
+				.get({
+					year: getDate.year(),
+					month: getDate.month() + 1,
+					day: getDate.date()
+				})
+				.subscribe(({ lunch }) => {
+					// Stop loading
+					this.loading = false;
 
-				if (dayOfWeek === 6 || dayOfWeek === 0) {
-					getDate.day(1);
-				}
-				let lunchIndex = getDate.format('YYYY[-]MM[-]DD');
-				let dayLunch = lunch[lunchIndex] || { };
+					if (dayOfWeek === 6 || dayOfWeek === 0) {
+						getDate.day(1);
+					}
+					const lunchIndex = getDate.format('YYYY[-]MM[-]DD');
+					const dayLunch = lunch[lunchIndex] || {};
 
-				this.todaysLunch = {
-					date: {
-						weekday: getDate.format('dddd'),
-						date: getDate.format('MMMM Do[,] YYYY'),
-						today: true
-					},
-					lunch: dayLunch
-				};
-			})
+					this.todaysLunch = {
+						date: {
+							weekday: getDate.format('dddd'),
+							date: getDate.format('MMMM Do[,] YYYY'),
+							today: true
+						},
+						lunch: dayLunch
+					};
+				})
 		);
 	}
 
 	lunchClassMaker(classInput: string) {
 		return classInput.toLowerCase().replace(/ /, '-');
 	}
-
 }

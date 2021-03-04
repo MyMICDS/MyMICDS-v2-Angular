@@ -4,13 +4,30 @@
 	</div>
 </div>
 <div *ngIf="!loading" class="lunch-container container">
-
 	<!-- School Selection -->
 	<div class="school-selection">
 		<div class="btn-group">
-			<button class="lowerschool btn btn-secondary" [class.active]="school === 'lowerschool'" (click)="changeSchool('lowerschool')">Lower School</button>
-			<button class="middleschool btn btn-secondary" [class.active]="school === 'middleschool'" (click)="changeSchool('middleschool')">Middle School</button>
-			<button class="upperschool btn btn-secondary" [class.active]="school === 'upperschool'" (click)="changeSchool('upperschool')">Upper School</button>
+			<button
+				class="lowerschool btn btn-secondary"
+				[class.active]="school === 'lowerschool'"
+				(click)="changeSchool('lowerschool')"
+			>
+				Lower School
+			</button>
+			<button
+				class="middleschool btn btn-secondary"
+				[class.active]="school === 'middleschool'"
+				(click)="changeSchool('middleschool')"
+			>
+				Middle School
+			</button>
+			<button
+				class="upperschool btn btn-secondary"
+				[class.active]="school === 'upperschool'"
+				(click)="changeSchool('upperschool')"
+			>
+				Upper School
+			</button>
 		</div>
 	</div>
 
@@ -18,19 +35,17 @@
 	<div class="week-navigation">
 		<button mymicds-blur class="previous-week" (click)="previousWeek()">
 			<span>
-				<fa-icon [icon]="['fas','angle-left']"></fa-icon>
+				<fa-icon [icon]="['fas', 'angle-left']"></fa-icon>
 				Previous Week
 			</span>
 		</button>
 
-		<button mymicds-blur class="current-week" (click)="currentWeek()">
-			Current Week
-		</button>
+		<button mymicds-blur class="current-week" (click)="currentWeek()">Current Week</button>
 
 		<button mymicds-blur class="next-week" (click)="nextWeek()">
 			<span>
 				Next Week
-				<fa-icon [icon]="['fas','angle-right']"></fa-icon>
+				<fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
 			</span>
 		</button>
 	</div>
@@ -38,7 +53,12 @@
 	<!-- Actual Lunch -->
 	<div class="lunch-week">
 		<!-- Loop through Weekdays -->
-		<div mymicds-blur *ngFor="let day of lunch" class="lunch-day" [class.today]="day.date.today">
+		<div
+			mymicds-blur
+			*ngFor="let day of lunch"
+			class="lunch-day"
+			[class.today]="day.date.today"
+		>
 			<!-- Within each weekday, loop through the schools -->
 			<div *ngFor="let schoolName of schools">
 				<!-- Only show school lunch if it's selected -->
@@ -56,10 +76,18 @@
 						</div>
 						<!-- Loop through menu and display lists -->
 						<div *ngIf="day.lunch[schoolName]" class="lunch">
-							<div *ngFor="let data of day.lunch[schoolName].categories | values" class="lunch-category">
+							<div
+								*ngFor="let data of day.lunch[schoolName].categories | values"
+								class="lunch-category"
+							>
 								<h3>{{ data.key }}</h3>
 								<ul>
-									<li *ngFor="let item of data.value" [ngClass]="lunchClassMaker(data.key)">{{ item }}</li>
+									<li
+										*ngFor="let item of data.value"
+										[ngClass]="lunchClassMaker(data.key)"
+									>
+										{{ item }}
+									</li>
 								</ul>
 							</div>
 						</div>

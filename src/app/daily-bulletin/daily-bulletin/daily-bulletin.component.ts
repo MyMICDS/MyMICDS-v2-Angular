@@ -1,9 +1,9 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
+import { Component, OnInit } from '@angular/core';
 import { contains } from '../../common/utils';
+import * as moment from 'moment';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
@@ -13,7 +13,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./daily-bulletin.component.scss']
 })
 export class DailyBulletinComponent extends SubscriptionsComponent implements OnInit {
-
 	loading = true;
 
 	bulletins: string[] = [];
@@ -23,7 +22,7 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 	bulletinIndex = 0;
 
 	parse = false;
-	parsedBulletin: any;
+	// parsedBulletin: any;
 
 	constructor(private mymicds: MyMICDS, private router: Router, private route: ActivatedRoute) {
 		super();
@@ -62,8 +61,7 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 		if (!clearURL) {
 			navURL += `/${this.bulletins[index]}`;
 		}
-		this.router.navigate([navURL]);
-		// this.ngZone.run(() => this.router.navigate([navURL])).then();
+		void this.router.navigate([navURL]);
 
 		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.pdf';
 		this.bulletinDate = moment(this.bulletins[index]);

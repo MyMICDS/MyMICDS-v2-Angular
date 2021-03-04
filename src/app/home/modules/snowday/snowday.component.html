@@ -9,24 +9,22 @@
 		<div class="snowday-days" [class.vertical]="moduleHeight > moduleWidth">
 			<div *ngFor="let day of snowdayData | values" class="snowday-day">
 				<div class="snowday-date">
-					{{ day.key | momentDate:'EEEE, MMMM d':'America/Chicago' }}
+					{{ day.key | momentDate: 'EEEE, MMMM d':'America/Chicago' }}
 				</div>
 				<div class="snowday-percent" *ngIf="day.value.chance > 0">
 					{{ day.value.chance | round }}%
 				</div>
-				<div class="snowday-percent" *ngIf="day.value.chance <= 0">
-					0%
-				</div>
-				<div class="snowday-label">
-					Chance of Snowday
-				</div>
+				<div class="snowday-percent" *ngIf="day.value.chance <= 0">0%</div>
+				<div class="snowday-label">Chance of Snowday</div>
 				<div class="snowday-message">
 					{{ day.value.message }}
 				</div>
 			</div>
 		</div>
 		<div class="powered-by-container">
-			<a class="powered-by" href="https://snowdaycalculator.com" target="_blank">Powered by SnowdayCalculator.com</a>
+			<a class="powered-by" href="https://snowdaycalculator.com" target="_blank"
+				>Powered by SnowdayCalculator.com</a
+			>
 		</div>
 	</div>
 </div>

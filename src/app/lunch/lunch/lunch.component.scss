@@ -169,15 +169,15 @@
 							}
 
 							&.pizza-station:before {
-								content: '🍕'
+								content: '🍕';
 							}
 
 							&.soup:before {
-								content: '🍲'
+								content: '🍲';
 							}
 
 							&.dessert:before {
-								content: '🍩'
+								content: '🍩';
 							}
 						}
 					}
@@ -191,7 +191,7 @@
   Media Queries
 --------------------------- */
 
-@media screen and (min-width:544px) {
+@media screen and (min-width: 544px) {
 	.lunch-container {
 		.school-selection .btn {
 			font-size: inherit;

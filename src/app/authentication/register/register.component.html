@@ -6,53 +6,95 @@
 	<!-- Success Response -->
 	<div mymicds-blur *ngIf="submitted && registerResponse === true" class="register-response">
 		<h1>Confirmation Email Sent!</h1>
-		<p>Please wait a few minutes for the email to come through. If it isn't in your inbox, check your spam.</p>
+		<p>
+			Please wait a few minutes for the email to come through. If it isn't in your inbox,
+			check your spam.
+		</p>
 		<fa-icon icon="check" size="5x"></fa-icon>
-		<a class="gmail btn btn-lg btn-block btn-info" href="https://mail.google.com">Take me to Gmail</a>
+		<a class="gmail btn btn-lg btn-block btn-info" href="https://mail.google.com"
+			>Take me to Gmail</a
+		>
 	</div>
 	<!-- Failure Response -->
-	<div mymicds-blur *ngIf="submitted && typeOf(registerResponse) === 'string'" class="register-response">
-		<h1>{{registerResponse}}</h1>
+	<div
+		mymicds-blur
+		*ngIf="submitted && typeOf(registerResponse) === 'string'"
+		class="register-response"
+	>
+		<h1>{{ registerResponse }}</h1>
 		<fa-icon icon="times" size="5x"></fa-icon>
-		<p><a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error keeps happening.</p>
+		<p>
+			<a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error
+			keeps happening.
+		</p>
 	</div>
 </div>
 
 <div mymicds-blur *ngIf="!submitted" class="register-form">
 	<div class="register-header">
 		<h1>Register</h1>
-		<img src="/assets/logo/logo.svg">
+		<img src="/assets/logo/logo.svg" />
 	</div>
 	<form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
 		<fieldset class="form-group">
 			<legend>Username</legend>
 			<div class="form-element input-group">
-				<input class="form-control" formControlName="user" placeholder="Username">
+				<input class="form-control" formControlName="user" placeholder="Username" />
 				<div class="input-group-append">
 					<div class="input-group-text">@micds.org</div>
 				</div>
 			</div>
-			<p class="form-text" [class.text-danger]="registerForm.controls.user.dirty && registerForm.controls.user.invalid">
-				Your username is the prefix of your MICDS email. This typically <strong>does not</strong> contain numbers or weird symbols.
+			<p
+				class="form-text"
+				[class.text-danger]="
+					registerForm.controls.user.dirty && registerForm.controls.user.invalid
+				"
+			>
+				Your username is the prefix of your MICDS email. This typically
+				<strong>does not</strong> contain numbers or weird symbols.
 			</p>
 		</fieldset>
 		<fieldset class="form-group">
 			<legend>Password</legend>
-			<input type="password" class="form-element form-control" formControlName="password" placeholder="Password">
-			<input type="password" class="form-element form-control" formControlName="confirmPassword" placeholder="Confirm Password">
-			<div *ngIf="registerForm.errors?.mismatchedPasswords" class="text-danger">Passwords do not match</div>
-			<p class="form-text">MyMICDS.net is not affiliated with Mary Institute and Saint Louis Country Day School. We recommend you use a different password than your normal school one. <a routerLink="/about" fragment="disclaimer">Learn more here!</a></p>
+			<input
+				type="password"
+				class="form-element form-control"
+				formControlName="password"
+				placeholder="Password"
+			/>
+			<input
+				type="password"
+				class="form-element form-control"
+				formControlName="confirmPassword"
+				placeholder="Confirm Password"
+			/>
+			<div *ngIf="registerForm.errors?.mismatchedPasswords" class="text-danger">
+				Passwords do not match
+			</div>
+			<p class="form-text">
+				MyMICDS.net is not affiliated with Mary Institute and Saint Louis Country Day
+				School. We recommend you use a different password than your normal school one.
+				<a routerLink="/about" fragment="disclaimer">Learn more here!</a>
+			</p>
 		</fieldset>
 		<fieldset class="form-group">
 			<legend>Name</legend>
-			<input class="form-element form-control" formControlName="firstName" placeholder="First Name">
-			<input class="form-element form-control" formControlName="lastName" placeholder="Last Name">
+			<input
+				class="form-element form-control"
+				formControlName="firstName"
+				placeholder="First Name"
+			/>
+			<input
+				class="form-element form-control"
+				formControlName="lastName"
+				placeholder="Last Name"
+			/>
 		</fieldset>
 		<fieldset class="grad-year form-group">
 			<legend>Grade</legend>
 			<div class="teacher checkbox">
 				<label>
-					<input type="checkbox" formControlName="teacher">
+					<input type="checkbox" formControlName="teacher" />
 					I am a Teacher
 				</label>
 			</div>
@@ -64,10 +106,14 @@
 			<div *ngIf="!registerForm?.controls?.teacher.value" class="student">
 				<div class="form-element">Choose your graduation year</div>
 				<select class="form-control" formControlName="gradYear">
-					<option *ngFor="let year of gradeRange; let grade = index" [ngValue]="year">Class of {{ year }} ({{ 12 - grade | gradePipe }})</option>
+					<option *ngFor="let year of gradeRange; let grade = index" [ngValue]="year">
+						Class of {{ year }} ({{ 12 - grade | gradePipe }})
+					</option>
 				</select>
 			</div>
 		</fieldset>
-		<button class="btn btn-primary btn-lg btn-block" [disabled]="!registerForm.valid">Register</button>
+		<button class="btn btn-primary btn-lg btn-block" [disabled]="!registerForm.valid">
+			Register
+		</button>
 	</form>
 </div>

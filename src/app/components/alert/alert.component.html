@@ -1,10 +1,15 @@
 {{ alerts }}
 <div class="container" *ngIf="alerts.length > 0">
-	<div *ngFor="let alert of alerts" class="alert alert-{{alert.type}}" [class.dismissed]="alertsDismissed[alert.id]" role="alert">
+	<div
+		*ngFor="let alert of alerts"
+		class="alert alert-{{ alert.type }}"
+		[class.dismissed]="alertsDismissed[alert.id]"
+		role="alert"
+	>
 		<button type="button" class="close" (click)="dismiss(alert.id)" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
-		<strong>{{alert.title}} </strong>
+		<strong>{{ alert.title }} </strong>
 		<span [innerHTML]="alert.content"></span>
 		<!-- <span *ngIf="alert.repeat > 1"> (x{{ alert.repeat }})</span> -->
 	</div>

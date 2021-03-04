@@ -1,6 +1,6 @@
-import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './common/auth.guard';
 import { CanDeactivateGuard } from './common/canDeactivate.guard';
+import { RouterModule, Routes } from '@angular/router';
 
 import { capitalizeURL } from './common/utils';
 
@@ -22,68 +22,61 @@ export const appRoutes: Routes = [
 	{
 		path: '',
 		redirectTo: '/home',
-		pathMatch: 'full',
+		pathMatch: 'full'
 	},
 	{
 		path: 'quote',
-		component: QuotesComponent,
+		component: QuotesComponent
 	},
 	{
 		path: 'alert-debug',
-		component: AlertDebugComponent,
+		component: AlertDebugComponent
 	},
 	{
 		path: 'about',
-		loadChildren: () =>
-			import('./about/about.module').then((m) => m.AboutModule)
+		loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
 	},
 	{
 		path: 'campus',
-		loadChildren: () =>
-			import('./campus-life/campus-life.module').then((m) => m.CampusLifeModule)
+		loadChildren: () => import('./campus-life/campus-life.module').then(m => m.CampusLifeModule)
 	},
 	{
 		path: 'home',
-		loadChildren: () =>
-			import('./home/home.module').then((m) => m.HomeModule)
+		loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
 	},
 	{
 		path: 'planner',
-		loadChildren: () =>
-			import('./planner/planner.module').then((m) => m.PlannerModule)
+		loadChildren: () => import('./planner/planner.module').then(m => m.PlannerModule)
 	},
 	{
 		path: 'lunch',
-		loadChildren: () =>
-			import('./lunch/lunch.module').then((m) => m.LunchModule)
+		loadChildren: () => import('./lunch/lunch.module').then(m => m.LunchModule)
 	},
 	{
 		path: 'reset-password',
 		loadChildren: () =>
-			import('./reset-password/reset-password.module').then((m) => m.ResetPasswordModule)
+			import('./reset-password/reset-password.module').then(m => m.ResetPasswordModule)
 	},
 	{
 		path: 'confirm',
-		loadChildren: () =>
-			import('./confirm/confirm.module').then((m) => m.ConfirmModule)
+		loadChildren: () => import('./confirm/confirm.module').then(m => m.ConfirmModule)
 	},
 	{
 		path: 'settings',
-		loadChildren: () =>
-			import('./settings/settings.module').then((m) => m.SettingsModule)
+		loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule)
 	},
 	{
 		path: 'unsubscribe',
 		loadChildren: () =>
-			import('./unsubscribe/unsubscribe.module').then((m) => m.UnsubscribeModule)
+			import('./unsubscribe/unsubscribe.module').then(m => m.UnsubscribeModule)
 	},
 	{
 		path: 'daily-bulletin',
 		loadChildren: () =>
-			import('./daily-bulletin/daily-bulletin.module').then((m) => m.DailyBulletinModule)
+			import('./daily-bulletin/daily-bulletin.module').then(m => m.DailyBulletinModule)
 	}
 ];
 
-export const appRoutingProviders: any[] = [AuthGuard, CanDeactivateGuard];
+export const appRoutingProviders = [AuthGuard, CanDeactivateGuard];
 
 export const routing = RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' });

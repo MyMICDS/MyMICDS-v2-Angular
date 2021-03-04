@@ -2,23 +2,40 @@
 	<div mymicds-blur class="login-form">
 		<div class="login-header">
 			<h1>Login</h1>
-			<img src="assets/logo/logo.svg">
+			<img src="assets/logo/logo.svg" />
 		</div>
 		<form #loginForm="ngForm" (ngSubmit)="login()" novalidate>
 			<div class="form-element input-group">
-				<input class="form-control" [(ngModel)]="loginModel.user" name="username" placeholder="Username" required>
+				<input
+					class="form-control"
+					[(ngModel)]="loginModel.user"
+					name="username"
+					placeholder="Username"
+					required
+				/>
 				<div class="input-group-append">
 					<div class="input-group-text">@micds.org</div>
 				</div>
 			</div>
-			<input type="password" class="form-element form-control" [(ngModel)]="loginModel.password" name="password" placeholder="Password" required>
+			<input
+				type="password"
+				class="form-element form-control"
+				[(ngModel)]="loginModel.password"
+				name="password"
+				placeholder="Password"
+				required
+			/>
 			<label>
-				<input type="checkbox" [(ngModel)]="loginModel.remember" name="remember">
+				<input type="checkbox" [(ngModel)]="loginModel.remember" name="remember" />
 				Remember Me
 			</label>
 			<a class="forgot-password" routerLink="/forgot-password">Forgot Password?</a>
-			<button class="btn btn-success btn-lg btn-block" [disabled]="!loginForm.valid">Login</button>
-			<button routerLink="/register" class="btn btn-outline-primary btn-block">Register</button>
+			<button class="btn btn-success btn-lg btn-block" [disabled]="!loginForm.valid">
+				Login
+			</button>
+			<button routerLink="/register" class="btn btn-outline-primary btn-block">
+				Register
+			</button>
 		</form>
 	</div>
 </div>

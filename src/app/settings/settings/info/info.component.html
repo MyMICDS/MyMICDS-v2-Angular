@@ -3,15 +3,15 @@
 	<fieldset class="form-group">
 		<legend>Name</legend>
 		<div class="full-name form-inline">
-			<input class="form-control" formControlName="firstName" placeholder="First Name">
-			<input class="form-control" formControlName="lastName" placeholder="Last Name">
+			<input class="form-control" formControlName="firstName" placeholder="First Name" />
+			<input class="form-control" formControlName="lastName" placeholder="Last Name" />
 		</div>
 	</fieldset>
 	<fieldset class="grad-year form-group">
 		<legend>Grade</legend>
 		<div class="teacher checkbox">
 			<label>
-				<input type="checkbox" formControlName="teacher">
+				<input type="checkbox" formControlName="teacher" />
 				I am a Teacher
 			</label>
 		</div>
@@ -23,9 +23,13 @@
 		<div *ngIf="!infoForm.controls.teacher.value" class="student">
 			<span>Choose your graduation year</span>
 			<select class="form-control" formControlName="gradYear">
-				<option *ngFor="let year of gradeRange; let grade = index" [value]="year">Class of {{ year }} ({{ 12 - grade | gradePipe }})</option>
+				<option *ngFor="let year of gradeRange; let grade = index" [value]="year">
+					Class of {{ year }} ({{ 12 - grade | gradePipe }})
+				</option>
 			</select>
 		</div>
 	</fieldset>
-	<button class="btn btn-info" [disabled]="!infoForm.valid || !valueChanged()">Save Changes</button>
+	<button class="btn btn-info" [disabled]="!infoForm.valid || !valueChanged()">
+		Save Changes
+	</button>
 </form>

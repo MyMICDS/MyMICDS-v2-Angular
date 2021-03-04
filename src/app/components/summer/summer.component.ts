@@ -1,19 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
 	selector: 'mymicds-summer',
 	templateUrl: './summer.component.html',
 	styleUrls: ['./summer.component.scss']
 })
-export class SummerComponent implements OnInit {
-
+export class SummerComponent {
 	@Input() showSummer: boolean;
 	@Output() showSummerChange = new EventEmitter<boolean>();
-
-	constructor() { }
-
-	ngOnInit() {
-	}
 
 	continue() {
 		console.log('click!');
@@ -21,5 +15,4 @@ export class SummerComponent implements OnInit {
 		this.showSummerChange.emit(false);
 		sessionStorage.setItem('shownSummer', 'true');
 	}
-
 }

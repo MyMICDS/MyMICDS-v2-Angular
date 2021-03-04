@@ -1,55 +1,78 @@
 <div #moduleContainer class="module-container">
 	<div [hidden]="!showDate || (progressType === 'circular' && moduleHeight < 320)" class="today">
 		<div class="date">
-			<h2 class="date-full">{{ today | momentDate:'EEEE, MMMM d, y':'America/Chicago' }}</h2>
-			<h2 class="date-full short">{{ today | momentDate:'EEE, MMM d, y':'America/Chicago' }}</h2>
-			<h3 class="date-numbered">{{ today | momentDate:'dd.MM.yyyy':'America/Chicago' }}</h3>
+			<h2 class="date-full">{{ today | momentDate: 'EEEE, MMMM d, y':'America/Chicago' }}</h2>
+			<h2 class="date-full short">
+				{{ today | momentDate: 'EEE, MMM d, y':'America/Chicago' }}
+			</h2>
+			<h3 class="date-numbered">{{ today | momentDate: 'dd.MM.yyyy':'America/Chicago' }}</h3>
 		</div>
 		<div class="day">
-			<h2 class="time">{{ today | momentDate:'h:mm:ss':'America/Chicago' }}</h2>
+			<h2 class="time">{{ today | momentDate: 'h:mm:ss':'America/Chicago' }}</h2>
 			<h3 class="day-rotation">{{ schedule?.day | dayRotation }}</h3>
 		</div>
 	</div>
 	<div class="progress-container">
 		<div class="progress-day-container">
-			<div #spinnyThingy class="progress-day badge badge-primary">{{ schoolPercent! | schoolPercentage }}</div>
+			<div #spinnyThingy class="progress-day badge badge-primary">
+				{{ schoolPercent! | schoolPercentage }}
+			</div>
 		</div>
 		<div [hidden]="progressType !== 'circular'" class="progress-circular">
-			<div *ngIf="schoolPercent && 0 < schoolPercent && schoolPercent < 100" class="progress-percentage">
-				<span class="class-label" [style.font-size]="classLabelFontSize + 'px'">{{ currentClass }} is</span>
-				<span class="class-percent" [style.font-size]="classPercentFontSize + 'px'">{{ currentClassPercent }}%</span>
+			<div
+				*ngIf="schoolPercent && 0 < schoolPercent && schoolPercent < 100"
+				class="progress-percentage"
+			>
+				<span class="class-label" [style.font-size]="classLabelFontSize + 'px'"
+					>{{ currentClass }} is</span
+				>
+				<span class="class-percent" [style.font-size]="classPercentFontSize + 'px'"
+					>{{ currentClassPercent }}%</span
+				>
 				<span class="class-label" [style.font-size]="classLabelFontSize + 'px'">Done</span>
 			</div>
-			<div *ngIf="!schoolPercent || schoolPercent === 0 || schoolPercent === 100" class="progress-percentage">
-				<span class="class-label" [style.font-size]="classLabelFontSize + 'px'">School is</span>
-				<span class="school-done" [style.font-size]="schoolDoneFontSize + 'px'">Not in Session.</span>
+			<div
+				*ngIf="!schoolPercent || schoolPercent === 0 || schoolPercent === 100"
+				class="progress-percentage"
+			>
+				<span class="class-label" [style.font-size]="classLabelFontSize + 'px'"
+					>School is</span
+				>
+				<span class="school-done" [style.font-size]="schoolDoneFontSize + 'px'"
+					>Not in Session.</span
+				>
 			</div>
 			<div class="circular-container">
 				<canvas #progressCanvas class="progress-chart"></canvas>
 			</div>
 		</div>
-		<div [hidden]="progressType !== 'linear'"
+		<div
+			[hidden]="progressType !== 'linear'"
 			class="progress-linear progress"
-			[class.vertical]="moduleHeight > moduleWidth">
-
+			[class.vertical]="moduleHeight > moduleWidth"
+		>
 			<!-- Horizontal Progress Bar -->
 			<ng-container *ngIf="moduleWidth >= moduleHeight">
-				<div *ngFor="let progress of linearProgress"
+				<div
+					*ngFor="let progress of linearProgress"
 					class="progress-bar"
 					[style.width]="progress.progressWidth + '%'"
 					[style.background-color]="progress.color"
 					[ngbTooltip]="progress.className + ': ' + progress.percentage + '%'"
-					container="body"></div>
+					container="body"
+				></div>
 			</ng-container>
 
 			<!-- Vertical Progress Bar -->
 			<ng-container *ngIf="moduleHeight > moduleWidth">
-				<div *ngFor="let progress of linearProgress"
+				<div
+					*ngFor="let progress of linearProgress"
 					class="progress-bar"
 					[style.height]="progress.progressWidth + '%'"
 					[style.background-color]="progress.color"
 					[ngbTooltip]="progress.className + ': ' + progress.percentage + '%'"
-					container="body"></div>
+					container="body"
+				></div>
 			</ng-container>
 		</div>
 	</div>

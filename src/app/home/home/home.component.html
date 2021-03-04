@@ -12,10 +12,20 @@
 <div *ngIf="editMode" class="manage-menu">
 	<div class="manage-buttons">
 		<button class="btn btn-success edit-button" (click)="exitEditMode()">Done</button>
-		<button class="btn btn-info save-button" (click)="saveModules()" [disabled]="!mymicds.auth.isLoggedIn || !detectChanges() || savingModuleLayout">
+		<button
+			class="btn btn-info save-button"
+			(click)="saveModules()"
+			[disabled]="!mymicds.auth.isLoggedIn || !detectChanges() || savingModuleLayout"
+		>
 			{{ savingModuleLayout ? 'Saving...' : 'Save Changes' }}
 		</button>
-		<button class="btn btn-danger" (click)="saveModules([])" [disabled]="!mymicds.auth.isLoggedIn">Reset Layout</button>
+		<button
+			class="btn btn-danger"
+			(click)="saveModules([])"
+			[disabled]="!mymicds.auth.isLoggedIn"
+		>
+			Reset Layout
+		</button>
 	</div>
 	<p mymicds-blur--dark class="manage-help">
 		<fa-icon icon="info-circle"></fa-icon>
@@ -24,7 +34,12 @@
 </div>
 
 <div #moduleContainer class="container">
-	<div *ngIf="!editMode && announcement.length > 0 && showAnnouncement" class="announcement alert alert-info" [class.dismissed]="dismissAnnouncement" role="alert">
+	<div
+		*ngIf="!editMode && announcement.length > 0 && showAnnouncement"
+		class="announcement alert alert-info"
+		[class.dismissed]="dismissAnnouncement"
+		role="alert"
+	>
 		<button type="button" class="close" (click)="dismissAlert()" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -39,77 +54,115 @@
 	</div>
 
 	<!-- Regular module grid -->
-	<div *ngIf="(editMode && mymicds.auth.isLoggedIn) || (!editMode && moduleWidth >= gridsterOptions.responsiveOptions![1].minWidth!)" class="grid-container">
+	<div
+		*ngIf="
+			(editMode && mymicds.auth.isLoggedIn) ||
+			(!editMode && moduleWidth >= gridsterOptions.responsiveOptions![1].minWidth!)
+		"
+		class="grid-container"
+	>
 		<ngx-gridster #gridster [options]="gridsterOptions">
-			<ngx-gridster-item #gridItem *ngFor="let module of moduleLayout; let i = index"
+			<ngx-gridster-item
+				#gridItem
+				*ngFor="let module of moduleLayout; let i = index"
 				[options]="gridsterItemOptions"
-				[(x)]="module.column" [xSm]="module.column" [xMd]="module.column" [xLg]="module.column"
-				[(y)]="module.row" [ySm]="module.row" [yMd]="module.row" [yLg]="module.row"
+				[(x)]="module.column"
+				[xSm]="module.column"
+				[xMd]="module.column"
+				[xLg]="module.column"
+				[(y)]="module.row"
+				[ySm]="module.row"
+				[yMd]="module.row"
+				[yLg]="module.row"
 				[(w)]="module.width"
 				[(h)]="module.height"
 				[dragAndDrop]="editMode"
 				[resizable]="editMode"
-				(change)="updateModulePositions()">
+				(change)="updateModulePositions()"
+			>
+				<mymicds-module-container
+					[type]="module.type"
+					[inputs]="module.options"
+					[moduleId]="module._id"
+					[fixedHeight]="true"
+				></mymicds-module-container>
 
-				<mymicds-module-container [type]="module.type" [inputs]="module.options" [moduleId]="module._id" [fixedHeight]="true"></mymicds-module-container>
-
-				<div *ngIf="editMode" mymicds-blur--dark class="edit-module-menu" [class.popover-open]="modulePopoverBtn?.isOpen()">
+				<div
+					*ngIf="editMode"
+					mymicds-blur--dark
+					class="edit-module-menu"
+					[class.popover-open]="modulePopoverBtn?.isOpen()"
+				>
 					<button class="edit-module-delete" (click)="deleteModule(i)">&times;</button>
-					<button [hidden]="moduleOptionsIsEmpty(module.options)"
+					<button
+						[hidden]="moduleOptionsIsEmpty(module.options)"
 						class="edit-module-config"
 						[ngbPopover]="configModuleTemplate"
 						#modulePopoverBtn="ngbPopover"
 						[autoClose]="false"
 						popoverTitle="Configure Module"
 						container="body"
-						placement="bottom">
-
+						placement="bottom"
+					>
 						<fa-icon icon="cog"></fa-icon>
 						Configure
 					</button>
 					<div class="edit-module-resize">
 						<!-- Resize Me! -->
-						<fa-icon [icon]="['fas','expand-alt']" flip="horizontal" size="2x"></fa-icon>
+						<fa-icon
+							[icon]="['fas', 'expand-alt']"
+							flip="horizontal"
+							size="2x"
+						></fa-icon>
 					</div>
 					<div class="edit-module-drag">
-						<fa-icon [icon]="['fas','arrows-alt']"></fa-icon>
+						<fa-icon [icon]="['fas', 'arrows-alt']"></fa-icon>
 						Drag Me!
 					</div>
 				</div>
 
 				<ng-template #configModuleTemplate>
-					<mymicds-module-options [type]="module.type" [options]="module.options" (optionsChange)="module.options = $event"></mymicds-module-options>
+					<mymicds-module-options
+						[type]="module.type"
+						[options]="module.options"
+						(optionsChange)="module.options = $event"
+					></mymicds-module-options>
 				</ng-template>
-
 			</ngx-gridster-item>
 		</ngx-gridster>
 	</div>
 	<!-- Collapsed module grid -->
-	<div *ngIf="!editMode && moduleWidth < gridsterOptions.responsiveOptions![1].minWidth!" class="collapsed-grid">
-		<mymicds-module-container *ngFor="let module of moduleLayout"
+	<div
+		*ngIf="!editMode && moduleWidth < gridsterOptions.responsiveOptions![1].minWidth!"
+		class="collapsed-grid"
+	>
+		<mymicds-module-container
+			*ngFor="let module of moduleLayout"
 			[type]="module.type"
 			[inputs]="module.options"
 			[moduleId]="module._id"
-			[fixedHeight]="false"></mymicds-module-container>
+			[fixedHeight]="false"
+		></mymicds-module-container>
 	</div>
 </div>
 <div *ngIf="editMode && mymicds.auth.isLoggedIn" class="modules-menu" mymicds-blur--dark>
 	<p>Drag a module onto the grid to add</p>
-	<div ngxGridsterItemPrototype
+	<div
+		ngxGridsterItemPrototype
 		*ngFor="let name of moduleNames"
 		class="drag-module"
 		[config]="{ helper: true }"
 		[w]="modules[name].defaultWidth"
 		[h]="modules[name].defaultHeight"
 		(drop)="addModule($event, name)"
-		(enter)="onDragOver($event)">
-
+		(enter)="onDragOver($event)"
+	>
 		<div class="module-label">
 			<fa-icon [icon]="modules[name].icon"></fa-icon>
 			{{ modules[name].displayName }}
 		</div>
 
-		<div class="gridster-item-inner" style="width: 0; height: 0;">
+		<div class="gridster-item-inner" style="width: 0; height: 0">
 			<div mymicds-blur class="module-preview">
 				<fa-icon [icon]="modules[name].icon"></fa-icon>
 				{{ modules[name].displayName }}

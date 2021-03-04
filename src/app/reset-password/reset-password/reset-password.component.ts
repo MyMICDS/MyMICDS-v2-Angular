@@ -1,9 +1,9 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { confirmPassword } from '../../common/form-validation';
+import { FormBuilder, Validators } from '@angular/forms';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -14,7 +14,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	typeOf = typeOf;
 
@@ -24,10 +23,13 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 	user: string;
 	hash: string;
 
-	resetForm = this.formBuilder.group({
-		password: ['', Validators.required],
-		confirmPassword: ['', Validators.required]
-	}, { validator: confirmPassword('password', 'confirmPassword') });
+	resetForm = this.formBuilder.group(
+		{
+			password: ['', Validators.required],
+			confirmPassword: ['', Validators.required]
+		},
+		{ validator: confirmPassword('password', 'confirmPassword') }
+	);
 
 	constructor(
 		private mymicds: MyMICDS,
@@ -41,7 +43,7 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 	ngOnInit() {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
-			this.router.navigate(['/home']);
+			void this.router.navigate(['/home']);
 			return;
 		}
 
@@ -61,19 +63,20 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 	resetPassword() {
 		this.submitted = true;
 		this.addSubscription(
-			this.mymicds.auth.resetPassword({
-				user: this.user,
-				password: this.resetForm.controls.password.value,
-				hash: this.hash
-			}).subscribe(
-				() => {
-					this.resetResponse = true;
-				},
-				error => {
-					this.resetResponse = error.message;
-				}
-			)
+			this.mymicds.auth
+				.resetPassword({
+					user: this.user,
+					password: this.resetForm.controls.password.value,
+					hash: this.hash
+				})
+				.subscribe(
+					() => {
+						this.resetResponse = true;
+					},
+					error => {
+						this.resetResponse = error.message;
+					}
+				)
 		);
 	}
-
 }

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, Input, ViewChild, ViewContainerRef } from '@angular/core';
 import { config, ModuleConfig } from '../../home/modules/module-config';
 
 @Component({
@@ -7,13 +7,14 @@ import { config, ModuleConfig } from '../../home/modules/module-config';
 	styleUrls: ['./module-container.component.scss']
 })
 export class ModuleContainerComponent {
-	private currentModuleRef: ComponentRef<any> | null = null;
+	private currentModuleRef: ComponentRef<unknown> | null = null;
 	private currentModuleType: string | null = null;
+	private currentInputs: { [key: string]: unknown };
+
 	currentModuleConfig: ModuleConfig | null = null;
 
-	private currentInputs: { [key: string]: any };
-
-	@ViewChild('module', { read: ViewContainerRef, static: true }) dynamicModuleContainer: ViewContainerRef;
+	@ViewChild('module', { read: ViewContainerRef, static: true })
+	dynamicModuleContainer: ViewContainerRef;
 
 	@Input()
 	set type(type: string) {
@@ -27,7 +28,9 @@ export class ModuleContainerComponent {
 
 			this.currentModuleConfig = config[type];
 
-			const factory = this.resolver.resolveComponentFactory(this.currentModuleConfig.component);
+			const factory = this.resolver.resolveComponentFactory(
+				this.currentModuleConfig.component
+			);
 			this.dynamicModuleContainer.clear();
 			this.currentModuleRef = this.dynamicModuleContainer.createComponent(factory);
 		}
@@ -41,7 +44,7 @@ export class ModuleContainerComponent {
 	}
 
 	@Input()
-	set inputs(inputs: { [key: string]: any }) {
+	set inputs(inputs: { [key: string]: unknown }) {
 		if (this.currentModuleRef) {
 			Object.assign(this.currentModuleRef.instance, inputs);
 		}
@@ -62,6 +65,5 @@ export class ModuleContainerComponent {
 		}
 	}
 
-	constructor(private resolver: ComponentFactoryResolver) { }
-
+	constructor(private resolver: ComponentFactoryResolver) {}
 }

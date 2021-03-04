@@ -1,6 +1,7 @@
 @import '../../../../styles/settings';
 
-h3, form {
+h3,
+form {
 	color: $sophisticated-white;
 }
 
@@ -28,7 +29,7 @@ form {
 
 			.line {
 				height: 1px;
-				width:100%;
+				width: 100%;
 				border-bottom: 1px solid $sophisticated-white;
 			}
 

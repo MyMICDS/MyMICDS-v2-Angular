@@ -1,11 +1,20 @@
 import { DateRange, GetBreaksResponse, GetPortalDayRotationResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { state, style, trigger } from '@angular/animations';
-import { combineLatest } from 'rxjs';
 import { AngularFittextDirective } from 'angular-fittext';
-import ResizeSensor from 'css-element-queries/src/ResizeSensor';
+import { combineLatest } from 'rxjs';
+import {
+	Component,
+	ElementRef,
+	Input,
+	OnDestroy,
+	OnInit,
+	QueryList,
+	ViewChild,
+	ViewChildren
+} from '@angular/core';
+import { state, style, trigger } from '@angular/animations';
 import * as moment from 'moment';
+import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 import { SubscriptionsComponent } from '../../../common/subscriptions-component';
 
@@ -25,31 +34,43 @@ export enum COUNTDOWN_MODE {
 	styleUrls: ['./countdown.component.scss'],
 	animations: [
 		trigger('shaking', [
-			state('none', style({
-				animation: 'none'
-			})),
-			state('small', style({
-				animation: '0.8s infinite linear shaking-small'
-			})),
-			state('medium', style({
-				animation: '0.7s infinite linear shaking-medium'
-			})),
-			state('large', style({
-				animation: '0.6s infinite linear shaking-large'
-			})),
+			state(
+				'none',
+				style({
+					animation: 'none'
+				})
+			),
+			state(
+				'small',
+				style({
+					animation: '0.8s infinite linear shaking-small'
+				})
+			),
+			state(
+				'medium',
+				style({
+					animation: '0.7s infinite linear shaking-medium'
+				})
+			),
+			state(
+				'large',
+				style({
+					animation: '0.6s infinite linear shaking-large'
+				})
+			)
 		])
 	]
 })
 export class CountdownComponent extends SubscriptionsComponent implements OnInit, OnDestroy {
-
-	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	@ViewChildren(AngularFittextDirective) private fittexts: QueryList<AngularFittextDirective>;
-	resizeSensor: ResizeSensor;
 	private _mode: string;
 	private _shake: boolean;
 	private _schoolDays: boolean;
 	private _eventLabel: string;
 	private _countdownTo: Date;
+
+	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
+	resizeSensor: ResizeSensor;
 
 	countdownInterval: NodeJS.Timer;
 	dayRotation: GetPortalDayRotationResponse['days'];
@@ -118,7 +139,9 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 
 	ngOnInit() {
 		setTimeout(() => this.onResize());
-		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () => this.onResize());
+		this.resizeSensor = new ResizeSensor(this.moduleContainer.nativeElement, () =>
+			this.onResize()
+		);
 
 		this.countdownInterval = setInterval(() => {
 			this.calculate();
@@ -157,7 +180,11 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 		}
 		switch (this.mode) {
 			case COUNTDOWN_MODE.TIME_OFF:
-				this.displayCountdown = this.nextTimeOff(...Object.keys(this.breaks).map(k => this.breaks[k as keyof GetBreaksResponse['breaks']]));
+				this.displayCountdown = this.nextTimeOff(
+					...Object.keys(this.breaks).map(
+						k => this.breaks[k as keyof GetBreaksResponse['breaks']]
+					)
+				);
 				this.displayLabel = 'Time off School';
 				break;
 			case COUNTDOWN_MODE.START:
@@ -187,9 +214,9 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 		if (this.displayCountdown === null || moment().isAfter(this.displayCountdown)) {
 			this.finished = true;
 			return;
-		} else {
-			this.finished = false;
 		}
+			this.finished = false;
+
 
 		if (this.schoolDays) {
 			if (!this.dayRotation) {
@@ -254,13 +281,14 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 			const pointerDate = pointer.date().toString();
 
 			// Check if current pointer exists in day rotation
-			if (this.dayRotation && this.dayRotation[pointerYear]
-				&& this.dayRotation[pointerYear][pointerMonth]
-				&& this.dayRotation[pointerYear][pointerMonth][pointerDate]) {
-
+			if (
+				this.dayRotation &&
+				this.dayRotation[pointerYear] &&
+				this.dayRotation[pointerYear][pointerMonth] &&
+				this.dayRotation[pointerYear][pointerMonth][pointerDate]
+			) {
 				// Check if pointer is current day
 				if (pointer.isSame(moment(), 'day')) {
-
 					let beginOfSchool;
 					if (moment().day() === 3) {
 						beginOfSchool = moment().hour(9).minute(0);
@@ -290,5 +318,4 @@ export class CountdownComponent extends SubscriptionsComponent implements OnInit
 
 		return days;
 	}
-
 }

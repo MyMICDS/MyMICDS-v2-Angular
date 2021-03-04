@@ -11,7 +11,6 @@ import { SubscriptionsComponent } from '../../../common/subscriptions-component'
 	styleUrls: ['./weather.component.scss']
 })
 export class WeatherComponent extends SubscriptionsComponent implements OnInit {
-
 	weather: Weather | null = null;
 	// Weather object converted to metric
 	weatherMetric: Weather | null = null;
@@ -22,19 +21,8 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 		super();
 	}
 
-	ngOnInit() {
-		ElementQueries.init();
-
-		this.addSubscription(
-			this.mymicds.weather.get().subscribe(({ weather }) => {
-				this.weather = weather;
-				this.weatherMetric = this.convertToMetric(weather);
-			})
-		);
-	}
-
 	private convertToMetric(weather: Weather) {
-		let metric: Weather = {
+		const metric: Weather = {
 			temperature: this.convertTemperature(weather.temperature),
 			temperatureLow: this.convertTemperature(weather.temperatureLow),
 			temperatureHigh: this.convertTemperature(weather.temperatureHigh),
@@ -43,7 +31,7 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 			windSpeed: this.convertWindspeed(weather.windSpeed),
 			windDir: weather.windDir,
 			weatherIcon: weather.weatherIcon
-		}
+		};
 		return metric;
 	}
 
@@ -57,4 +45,14 @@ export class WeatherComponent extends SubscriptionsComponent implements OnInit {
 		return Number((mh * 1.609344).toPrecision(2));
 	}
 
+	ngOnInit() {
+		ElementQueries.init();
+
+		this.addSubscription(
+			this.mymicds.weather.get().subscribe(({ weather }) => {
+				this.weather = weather;
+				this.weatherMetric = this.convertToMetric(weather);
+			})
+		);
+	}
 }

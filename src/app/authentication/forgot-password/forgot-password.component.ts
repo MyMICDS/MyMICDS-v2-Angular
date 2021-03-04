@@ -1,8 +1,8 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { isAlphabetic, typeOf } from '../../common/utils';
+import { Router } from '@angular/router';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
@@ -12,7 +12,6 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 	styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	isAlphabetic = isAlphabetic;
 	typeOf = typeOf;
@@ -28,8 +27,7 @@ export class ForgotPasswordComponent extends SubscriptionsComponent implements O
 	ngOnInit() {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
-			this.router.navigate(['/home']);
-			return;
+			void this.router.navigate(['/home']);
 		}
 	}
 
@@ -51,5 +49,4 @@ export class ForgotPasswordComponent extends SubscriptionsComponent implements O
 		this.submitted = false;
 		this.forgotResponse = null;
 	}
-
 }

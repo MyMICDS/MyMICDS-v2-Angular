@@ -12,9 +12,16 @@
 				</select>
 			</div>
 			<div class="form-group">
-				<textarea formControlName="submission" class="form-control" row="4" placeholder="Describe your inquiry here."></textarea>
+				<textarea
+					formControlName="submission"
+					class="form-control"
+					row="4"
+					placeholder="Describe your inquiry here."
+				></textarea>
 			</div>
-			<button class="btn btn-success btn-lg btn-block" [disabled]="!suggestionsForm.valid">Submit</button>
+			<button class="btn btn-success btn-lg btn-block" [disabled]="!suggestionsForm.valid">
+				Submit
+			</button>
 		</form>
 	</div>
 	<!-- Loading Screen -->
@@ -24,14 +31,23 @@
 	<!-- Success Response -->
 	<div mymicds-blur *ngIf="submitted && suggestionResponse === true" class="suggestions-response">
 		<h1>Success!</h1>
-		<p>The MyMICDS Development Team is working on it. We'll try to send you a follow-up email.</p>
+		<p>
+			The MyMICDS Development Team is working on it. We'll try to send you a follow-up email.
+		</p>
 		<fa-icon icon="check" size="5x"></fa-icon>
 		<p>Thanks for helping improve the site!</p>
 	</div>
 	<!-- Failure Response -->
-	<div mymicds-blur *ngIf="submitted && typeOf(suggestionResponse) === 'string'" class="suggestions-response">
-		<h1>{{suggestionResponse}}</h1>
+	<div
+		mymicds-blur
+		*ngIf="submitted && typeOf(suggestionResponse) === 'string'"
+		class="suggestions-response"
+	>
+		<h1>{{ suggestionResponse }}</h1>
 		<fa-icon icon="times" size="5x"></fa-icon>
-		<p><a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error keeps happening.</p>
+		<p>
+			<a (click)="resubmitForm()">Try again</a> or contact support if an unexpected error
+			keeps happening.
+		</p>
 	</div>
 </div>

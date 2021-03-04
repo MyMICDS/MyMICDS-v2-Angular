@@ -33,7 +33,7 @@
 	}
 }
 
-.about-body>div {
+.about-body > div {
 	border-radius: 5px;
 	margin-bottom: 0.5rem;
 }
@@ -182,7 +182,7 @@
 
 @media screen and (min-width: 544px) {
 	.about-header {
-		padding: 1rem 6rem
+		padding: 1rem 6rem;
 	}
 
 	.stats {

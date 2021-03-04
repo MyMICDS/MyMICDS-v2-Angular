@@ -1,8 +1,18 @@
 <h3 class="title">
 	URL Settings
-	<a *ngIf="userInfo?.migrateToVeracross" class="veracross-update badge badge-danger" routerLink="/help">Update to Veracross!</a>
+	<a
+		*ngIf="userInfo?.migrateToVeracross"
+		class="veracross-update badge badge-danger"
+		routerLink="/help"
+		>Update to Veracross!</a
+	>
 </h3>
-<form class="form-portal" #portalCalendarForm="ngForm" (ngSubmit)="changePortalCalendarURL()" novalidate>
+<form
+	class="form-portal"
+	#portalCalendarForm="ngForm"
+	(ngSubmit)="changePortalCalendarURL()"
+	novalidate
+>
 	<label for="portal-calendar-url">Portal 'My Calendar' URL</label>
 	<div class="input-group">
 		<input
@@ -14,14 +24,32 @@
 			name="portalCalendarURL"
 			placeholder="Portal Calendar URL"
 			autocomplete="off"
-			required>
+			required
+		/>
 		<span class="input-group-append">
-			<button class="btn btn-info" [disabled]="!portalCalendarForm.valid || portalCalendarSaving">{{ portalCalendarSaving ? 'Saving...' : 'Save' }}</button>
+			<button
+				class="btn btn-info"
+				[disabled]="!portalCalendarForm.valid || portalCalendarSaving"
+			>
+				{{ portalCalendarSaving ? 'Saving...' : 'Save' }}
+			</button>
 		</span>
 	</div>
-	<div *ngIf="portalCalendarResponse?.length > 0" class="form-text" [class.text-success]="portalCalendarValid" [class.text-danger]="portalCalendarValid === false">{{ portalCalendarResponse }}</div>
+	<div
+		*ngIf="portalCalendarResponse?.length > 0"
+		class="form-text"
+		[class.text-success]="portalCalendarValid"
+		[class.text-danger]="portalCalendarValid === false"
+	>
+		{{ portalCalendarResponse }}
+	</div>
 </form>
-<form class="form-portal" #portalClassesForm="ngForm" (ngSubmit)="changePortalClassesURL()" novalidate>
+<form
+	class="form-portal"
+	#portalClassesForm="ngForm"
+	(ngSubmit)="changePortalClassesURL()"
+	novalidate
+>
 	<label for="portal-classes-url">Portal 'All Classes' URL</label>
 	<div class="input-group">
 		<input
@@ -33,20 +61,37 @@
 			name="portalClassesURL"
 			placeholder="Portal Classes URL"
 			autocomplete="off"
-			required>
+			required
+		/>
 		<span class="input-group-append">
-			<button class="btn btn-info" [disabled]="!portalClassesForm.valid || portalClassesSaving">{{ portalClassesSaving ? 'Saving...' : 'Save' }}</button>
+			<button
+				class="btn btn-info"
+				[disabled]="!portalClassesForm.valid || portalClassesSaving"
+			>
+				{{ portalClassesSaving ? 'Saving...' : 'Save' }}
+			</button>
 		</span>
 	</div>
-	<div *ngIf="portalClassesURL?.length > 0" class="form-text" [class.text-success]="portalClassesValid" [class.text-danger]="portalClassesValid === false">{{ portalClassesResponse }}</div>
+	<div
+		*ngIf="portalClassesURL?.length > 0"
+		class="form-text"
+		[class.text-success]="portalClassesValid"
+		[class.text-danger]="portalClassesValid === false"
+	>
+		{{ portalClassesResponse }}
+	</div>
 </form>
 <p class="form-text text-muted">
 	Submit your Portal URLs to integrate your schedule into the site.
-	<br>
+	<br />
 	<a routerLink="/settings/help">Find out how to get your Portal URL.</a>
 </p>
 <ng-container *ngIf="userInfo?.portalURLClasses || userInfo?.portalURLCalendar">
-	<button class="btn btn-danger" (click)="updatePortalFeed()" [disabled]="portalFeedUpdateLoading">
+	<button
+		class="btn btn-danger"
+		(click)="updatePortalFeed()"
+		[disabled]="portalFeedUpdateLoading"
+	>
 		{{ portalFeedUpdateLoading ? 'Updating...' : 'Update Portal Feed' }}
 	</button>
 	<p class="form-text text-muted">Automatically updates every 24 hours</p>
@@ -68,20 +113,34 @@
 			name="canvasURL"
 			placeholder="Canvas URL"
 			autocomplete="off"
-			required>
+			required
+		/>
 		<span class="input-group-append">
-			<button class="btn btn-info" [disabled]="!canvasForm.valid || canvasSaving">{{ canvasSaving ? 'Saving...' : 'Save' }}</button>
+			<button class="btn btn-info" [disabled]="!canvasForm.valid || canvasSaving">
+				{{ canvasSaving ? 'Saving...' : 'Save' }}
+			</button>
 		</span>
 	</div>
-	<div *ngIf="canvasURL?.length > 0" class="form-text" [class.text-success]="canvasValid" [class.text-danger]="canvasValid === false">{{ canvasResponse }}</div>
+	<div
+		*ngIf="canvasURL?.length > 0"
+		class="form-text"
+		[class.text-success]="canvasValid"
+		[class.text-danger]="canvasValid === false"
+	>
+		{{ canvasResponse }}
+	</div>
 </form>
 <p class="form-text text-muted">
 	Submit your Canvas URL to integrate your homework assignments into our digital planner.
-	<br>
+	<br />
 	<a routerLink="/settings/help">Find out how to get your Canvas URL.</a>
 </p>
 <ng-container *ngIf="userInfo?.canvasURL">
-	<button class="btn btn-danger" (click)="updateCanvasFeed()" [disabled]="canvasFeedUpdateLoading">
+	<button
+		class="btn btn-danger"
+		(click)="updateCanvasFeed()"
+		[disabled]="canvasFeedUpdateLoading"
+	>
 		{{ canvasFeedUpdateLoading ? 'Updating...' : 'Update Canvas Feed' }}
 	</button>
 	<p class="form-text text-muted">Automatically updates every 6 hours</p>

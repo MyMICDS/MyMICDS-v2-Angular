@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
 import interact from 'interactjs';
@@ -11,18 +11,21 @@ import interact from 'interactjs';
 })
 export class ModuleInspectorComponent implements OnInit, OnDestroy {
 
-	moduleNames = Object.keys(config);
-	modules = config;
-	private _selectedModuleType = this.moduleNames[0];
-
-	moduleOptions: Options = getDefaultOptions(this.selectedModuleType);
 	private _moduleWidth = 1000;
 	private _moduleHeight = 500;
 	private _fixedHeight = true;
 
 	private updateURLTimeout: NodeJS.Timer;
 
+	moduleNames = Object.keys(config);
+	modules = config;
+
+	moduleOptions: Options = getDefaultOptions(this.selectedModuleType);
+
 	moduleInteractable: Interact.Interactable;
+
+	// eslint-disable-next-line @typescript-eslint/member-ordering
+	private _selectedModuleType = this.moduleNames[0];
 
 	get selectedModuleType() {
 		return this._selectedModuleType;
@@ -57,10 +60,24 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 		this.updateURL();
 	}
 
-	constructor(private router: Router, private route: ActivatedRoute) { }
+	constructor(private router: Router, private route: ActivatedRoute) {}
+
+	private updateURL() {
+		// Add timeout so inspector doesn't lag out when resizing
+		clearTimeout(this.updateURLTimeout);
+		this.updateURLTimeout = setTimeout(() => {
+			void this.router.navigate(['/home/module-inspector'], {
+				queryParams: {
+					type: this.selectedModuleType,
+					width: this.moduleWidth,
+					height: this.moduleHeight,
+					fixedHeight: this.fixedHeight
+				}
+			});
+		}, 500);
+	}
 
 	ngOnInit() {
-
 		// See if there's URL parameters
 		const params = this.route.snapshot.queryParams;
 		if (params.type) {
@@ -84,7 +101,7 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 					bottom: '.resize-icon'
 				}
 			})
-			.on('resizemove', (event: any) => {
+			.on('resizemove', (event: Interact.ResizeEvent) => {
 				this.moduleWidth = event.rect.width;
 				this.moduleHeight = event.rect.height;
 
@@ -97,7 +114,7 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		(this.moduleInteractable as any).unset();
+		this.moduleInteractable.unset();
 	}
 
 	setDefaultOptions(type: string) {
@@ -105,22 +122,6 @@ export class ModuleInspectorComponent implements OnInit, OnDestroy {
 	}
 
 	updateOptions(options: Options) {
-		// this.moduleOptions = JSON.parse(JSON.stringify(options));
+		this.moduleOptions = JSON.parse(JSON.stringify(options));
 	}
-
-	private updateURL() {
-		// Add timeout so inspector doesn't lag out when resizing
-		clearTimeout(this.updateURLTimeout);
-		this.updateURLTimeout = setTimeout(() => {
-			this.router.navigate(['/home/module-inspector'], {
-				queryParams: {
-					type: this.selectedModuleType,
-					width: this.moduleWidth,
-					height: this.moduleHeight,
-					fixedHeight: this.fixedHeight
-				}
-			});
-		}, 500);
-	}
-
 }

@@ -1,14 +1,28 @@
 import { MyMICDS, MyMICDSModule, MyMICDSModuleType } from '@mymicds/sdk';
 
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GridsterComponent, GridsterItemComponent, IGridsterOptions } from 'angular2gridster';
+import {
+	AfterViewInit,
+	Component,
+	ElementRef,
+	OnInit,
+	QueryList,
+	ViewChild,
+	ViewChildren
+} from '@angular/core';
+import {
+	GridListItem,
+	GridsterComponent,
+	GridsterItemComponent,
+	GridsterService,
+	IGridsterOptions
+} from 'angular2gridster';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
+import { AlertService } from '../../services/alert.service';
 import { config, getDefaultOptions } from '../modules/module-config';
 import { Options } from '../modules/module-options';
-import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-home',
@@ -16,15 +30,14 @@ import { AlertService } from '../../services/alert.service';
 	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends SubscriptionsComponent implements OnInit, AfterViewInit {
-
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	moduleWidth: number;
 	moduleHeight: number;
 	resizeSensor: ResizeSensor;
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
-	// tslint:disable-next-line:max-line-length
-	announcement = 'With remote learning, class schedules are a little mixed up. In order for us to give you the most accurate information we can, <strong>please make sure you have your Portal calendar saved.</strong> Check the <a class="alert-link" href="/settings">settings</a> page for more information.';
+	announcement =
+		'With remote learning, class schedules are a little mixed up. In order for us to give you the most accurate information we can, <strong>please make sure you have your Portal calendar saved.</strong> Check the <a class="alert-link" href="/settings">settings</a> page for more information.';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 	editMode = false;
@@ -119,11 +132,13 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 				// Engagement announcements
 				if (!this.announcement) {
 					if (user.migrateToVeracross) {
-						// tslint:disable-next-line:max-line-length
-						this.announcement = `Hey there! <strong>It appears you haven\'t migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
+						this.announcement = `Hey there! <strong>It appears you haven't migrated your schedule feed with the new Veracross portal!</strong> To get the most out of MyMICDS, go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.</strong>`;
 					} else if (lacks.length > 0) {
-						// tslint:disable-next-line:max-line-length
-						this.announcement = `Hey there! <strong>It appears you haven\'t integrated your ${lacks.join(' or ')} ${lacks.length > 1 ? 'feeds' : 'feed'} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
+						this.announcement = `Hey there! <strong>It appears you haven't integrated your ${lacks.join(
+							' or '
+						)} ${
+							lacks.length > 1 ? 'feeds' : 'feed'
+						} to get the most out of MyMICDS.</strong> Go to the <a class="alert-link" href="/settings">Settings Page</a> and follow the directions under 'URL Settings'.`;
 					}
 				}
 			})
@@ -141,7 +156,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	dismissAlert() {
 		// How long CSS delete animation is in milliseconds
-		let animationTime = 200;
+		const animationTime = 200;
 		this.dismissAnnouncement = true;
 
 		// Wait until animation is done before actually removing from array
@@ -152,12 +167,15 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	exitEditMode() {
 		if (this.detectChanges()) {
-			// tslint:disable-next-line:max-line-length
-			if (!confirm('It looks like you have some unsaved changes. Are you sure you want to quit without saving your layout or module options?')) {
+			if (
+				!confirm(
+					'It looks like you have some unsaved changes. Are you sure you want to quit without saving your layout or module options?'
+				)
+			) {
 				return;
 			}
 		}
-		this.router.navigate(['/home']);
+		void this.router.navigate(['/home']);
 	}
 
 	// In edit mode, detect if layout has changed from saved layout in back-end
@@ -179,21 +197,20 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	// Save current moduleLayout in the back-end
 	saveModules(saveModules = this.moduleLayout) {
 		this.savingModuleLayout = true;
-		this.mymicds.modules.update({ modules: saveModules })
-			.subscribe(
-				({ modules }) => {
-					this.savingModuleLayout = false;
-					this.updateModuleLayout(modules);
-					this.alertService.addSuccess('Successfully saved module layout!');
-				},
-				() => {
-					this.savingModuleLayout = false;
-				}
-			);
+		this.mymicds.modules.update({ modules: saveModules }).subscribe(
+			({ modules }) => {
+				this.savingModuleLayout = false;
+				this.updateModuleLayout(modules);
+				this.alertService.addSuccess('Successfully saved module layout!');
+			},
+			() => {
+				this.savingModuleLayout = false;
+			}
+		);
 	}
 
 	// When the user drops a module label onto the grid
-	addModule(event: any, moduleName: MyMICDSModuleType) {
+	addModule(event: { item: GridListItem }, moduleName: MyMICDSModuleType) {
 		this.moduleLayout.push({
 			type: moduleName,
 			row: event.item.y,
@@ -225,19 +242,25 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	}
 
 	// When a module label is dragged over the grid
-	onDragOver(event: any) {
+	onDragOver(event: { item: GridListItem; gridster: GridsterService }) {
 		event.item.itemPrototype.$element.classList.add('dragging');
 
 		const size = event.item.calculateSize(event.gridster);
-		const preview = event.item.itemPrototype.$element.getElementsByClassName('gridster-item-inner')[0];
+		const preview = event.item.itemPrototype.$element.getElementsByClassName(
+			'gridster-item-inner'
+		)[0] as HTMLElement;
 
 		preview.style.width = `${size.width}px`;
 		preview.style.height = `${size.height}px`;
 	}
 
-	moduleOptionsIsEmpty(options: { [key: string]: any }) {
+	moduleOptionsIsEmpty(options: { [key: string]: unknown }) {
 		// console.log('see if empty', options);
-		return typeof options !== 'object' || options === undefined || options === null || Object.keys(options).length === 0;
+		return (
+			typeof options !== 'object' ||
+			options === undefined ||
+			options === null ||
+			Object.keys(options).length === 0
+		);
 	}
-
 }

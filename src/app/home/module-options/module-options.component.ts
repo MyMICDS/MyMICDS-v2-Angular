@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { contains } from '../../common/utils';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { config, getDefaultOptions } from '../modules/module-config';
-import { OptionsConfig, Options } from '../modules/module-options';
+import { contains } from '../../common/utils';
+import { Options, OptionsConfig } from '../modules/module-options';
 
 @Component({
 	selector: 'mymicds-module-options',
@@ -43,8 +43,6 @@ export class ModuleOptionsComponent {
 		this._options = Object.assign({}, getDefaultOptions(this.type), this.options, newOptions);
 	}
 
-	constructor() { }
-
 	valueChanged() {
 		// Loop through all options and only emit ones valid
 		const validOptions: Options = {};
@@ -57,5 +55,4 @@ export class ModuleOptionsComponent {
 		this.validOptions = validOptions;
 		this.optionsChange.emit(validOptions);
 	}
-
 }

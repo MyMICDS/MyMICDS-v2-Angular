@@ -1,23 +1,24 @@
 import { OptionsConfig, OptionValue } from './module-options';
 
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
-import { CountdownComponent, COUNTDOWN_MODE } from './countdown/countdown.component';
+import { COLOR, StickynotesComponent } from './stickynotes/stickynotes.component';
+import { COUNTDOWN_MODE, CountdownComponent } from './countdown/countdown.component';
 import { GpaCalculatorComponent } from './gpa-calculator/gpa-calculator.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ScheduleComponent } from './schedule/schedule.component';
-import { SimplifiedLunchComponent} from './simplified-lunch/simplified-lunch.component';
+import { SimplifiedLunchComponent } from './simplified-lunch/simplified-lunch.component';
 import { SimplifiedScheduleComponent } from './simplified-schedule/simplified-schedule.component';
 import { SnowdayComponent } from './snowday/snowday.component';
-import { StickynotesComponent, COLOR } from './stickynotes/stickynotes.component';
 import { TwitterComponent } from './twitter/twitter.component';
 import { WeatherComponent } from './weather/weather.component';
 
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
+import { Type } from '@angular/core';
 
 // We need a static array for the app module component entries
 // Not even looping through the config will work because Angular AoT complains
-export const moduleComponents: any[] = [
+export const moduleComponents = [
 	BookmarksComponent,
 	CountdownComponent,
 	GpaCalculatorComponent,
@@ -108,7 +109,7 @@ export const config: Config = {
 						}
 					]
 				},
-				default: COUNTDOWN_MODE.END,
+				default: COUNTDOWN_MODE.END
 			},
 			eventLabel: {
 				label: 'Label',
@@ -221,7 +222,7 @@ export const config: Config = {
 	},
 	twitter: {
 		displayName: 'Twitter',
-		icon: faTwitter, // iconDefiniton used since it's in a different icon pack
+		icon: faTwitter, // iconDefinition used since it's in a different icon pack
 		component: TwitterComponent,
 		defaultHeight: 2,
 		defaultWidth: 1,
@@ -268,7 +269,7 @@ export interface Config {
 export interface ModuleConfig {
 	displayName: string;
 	icon: string | IconDefinition;
-	component: any;
+	component: Type<unknown>;
 	defaultHeight: number;
 	defaultWidth: number;
 	background?: string;

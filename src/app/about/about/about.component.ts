@@ -2,8 +2,8 @@ import { GetStatsResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import prisma from 'prisma';
 import Chart from 'chart.js';
+import prisma from 'prisma';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
@@ -28,9 +28,7 @@ declare global {
 	templateUrl: './about.component.html',
 	styleUrls: ['./about.component.scss']
 })
-
 export class AboutComponent extends SubscriptionsComponent implements OnInit {
-
 	activeDevelopers: Developer[] = [
 		{
 			firstName: 'Nick',
@@ -103,14 +101,14 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 	// Line Chart for registered users over time
 	lineCtx: HTMLCanvasElement;
 	lineChart: Chart;
-	lineDataSets: Object[] = [];
-	lineData: Object[] = [];
+	lineDataSets: Chart.ChartDataSets[] = [];
+	lineData: Chart.ChartPoint[] = [];
 
 	// Pie Chart for percentage of users visited today
 	pieCtx: HTMLCanvasElement;
 	pieChart: Chart;
 	pieData: number[] = [];
-	pieDataSets: Object[] = [];
+	pieDataSets: Chart.ChartDataSets[] = [];
 	pieBgColors: string[] = [];
 
 	viewingVisits = false;
@@ -134,14 +132,14 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				this.stats = data.stats;
 
 				// Loop through grades to insert into line chart
-				for (let gradYear of Object.keys(this.stats.registered.gradYears)) {
+				for (const gradYear of Object.keys(this.stats.registered.gradYears)) {
 					// Keep track of total users at each point in time
 					let accountSum = 0;
 					this.lineData = [];
-					let dates = Object.keys(this.stats.registered.gradYears[gradYear]);
+					const dates = Object.keys(this.stats.registered.gradYears[gradYear]);
 
 					// Sort the dates people registered at
-					let mappedDates = dates.map(function (date, i) {
+					const mappedDates = dates.map((date, i) => {
 						return {
 							index: i,
 							value: new Date(date).valueOf()
@@ -150,19 +148,21 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 					mappedDates.sort((a, b) => {
 						return a.value - b.value;
 					});
-					let sortedDates = mappedDates.map(function (el) {
+					const sortedDates = mappedDates.map((el) => {
 						return dates[el.index];
 					});
 
 					// Loop through sorted dates and add up total accounts
 					for (let i = 0; i < sortedDates.length; i++) {
-						let accountNumber = this.stats.registered.gradYears[gradYear][sortedDates[i]];
+						const accountNumber = this.stats.registered.gradYears[gradYear][
+							sortedDates[i]
+						];
 						accountSum += accountNumber;
-						let registerCountDate = moment(sortedDates[i]);
+						const registerCountDate = moment(sortedDates[i]);
 						this.lineData.push({ x: registerCountDate, y: accountSum });
 					}
 
-					let gradeString = this.gradYearToGradeString(gradYear);
+					const gradeString = this.gradYearToGradeString(gradYear);
 
 					// Push data to line chart
 					this.lineDataSets.push({
@@ -174,14 +174,14 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 						pointHoverBackgroundColor: '#fff',
 						pointHoverRadius: 5,
 						pointHoverBorderWidth: 2,
-						pointHitRadius: 10,
+						pointHitRadius: 10
 					});
 				}
 
 				// Process data for pie chart
-				for (let gradYear of Object.keys(this.stats.visitedToday.gradYears)) {
+				for (const gradYear of Object.keys(this.stats.visitedToday.gradYears)) {
 					this.pieData.push(this.stats.visitedToday.gradYears[gradYear]);
-					let gradeString = this.gradYearToGradeString(gradYear);
+					const gradeString = this.gradYearToGradeString(gradYear);
 					this.gradeNames.push(gradeString);
 					this.pieBgColors.push(prisma(gradeString).hex);
 				}
@@ -196,7 +196,9 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				// Initialize Charts
 				setTimeout(() => {
 					// Initialize Line Chart
-					this.lineCtx = document.getElementById('registerCountChart') as HTMLCanvasElement;
+					this.lineCtx = document.getElementById(
+						'registerCountChart'
+					) as HTMLCanvasElement;
 					this.lineChart = new Chart(this.lineCtx, {
 						type: 'line',
 						data: {
@@ -204,21 +206,22 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 						},
 						options: {
 							scales: {
-								xAxes: [{
-									type: 'time',
-									time: {
-										displayFormats: {
-											quarter: 'MMM YYYY'
+								xAxes: [
+									{
+										type: 'time',
+										time: {
+											displayFormats: {
+												quarter: 'MMM YYYY'
+											}
 										}
 									}
-								}]
+								]
 							}
 						}
 					});
 
 					// Initialize Pie Chart
 					this.pieCtx = document.getElementById('visitedTodayChart') as HTMLCanvasElement;
-					// @ts-ignore
 					this.pieChart = new Chart(this.pieCtx, {
 						type: 'pie',
 						data: {
@@ -241,10 +244,9 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				return 'Teacher';
 			} else if (this.gradeRange[i] === Number(gradYear)) {
 				gradeNumber = 12 - i;
-				return 'Grade ' + gradeNumber.toString() + ' (' + gradYear + ')';
+				return `Grade ${gradeNumber} (${gradYear})`;
 			}
 		}
-		return 'Graduated' + ' (' + gradYear + ')';
+		return `Graduated (${gradYear})`;
 	}
-
 }

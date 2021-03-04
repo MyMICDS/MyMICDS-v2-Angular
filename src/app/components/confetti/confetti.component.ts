@@ -3,7 +3,7 @@
  * http://codepen.io/iprodev/full/azpWBr
  */
 
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import ResizeSensor from 'css-element-queries/src/ResizeSensor';
 
 // Math constants
@@ -16,7 +16,7 @@ const sin = Math.sin;
 
 const DEG_TO_RAD = PI / 180;
 
-let retina = window.devicePixelRatio;
+const retina = window.devicePixelRatio;
 
 const colors = [
 	['#df0049', '#660671'],
@@ -25,31 +25,24 @@ const colors = [
 	['#ffd200', '#b06c00']
 ];
 
-
 @Component({
 	selector: 'mymicds-confetti',
 	templateUrl: './confetti.component.html',
 	styleUrls: ['./confetti.component.scss']
 })
 export class ConfettiComponent implements OnInit {
-
 	@ViewChild('moduleContainer', { static: true }) moduleContainer: ElementRef;
 	@ViewChild('confetti', { static: true }) canvas: ElementRef;
 	confetti: ConfettiContext;
 
-	constructor() { }
-
 	ngOnInit() {
 		this.confetti = new ConfettiContext(this.canvas.nativeElement);
 		this.confetti.start();
-		// tslint:disable-next-line:no-unused-expression
 		new ResizeSensor(this.moduleContainer.nativeElement, () => this.confetti.resize());
 	}
-
 }
 
 class Vector2 {
-
 	static Lerp(_vec0: Vector2, _vec1: Vector2, _t: number) {
 		return new Vector2((_vec1.x - _vec0.x) * _t + _vec0.x, (_vec1.y - _vec0.y) * _t + _vec0.y);
 	}
@@ -59,10 +52,10 @@ class Vector2 {
 	}
 
 	static SqrDistance(_vec0: Vector2, _vec1: Vector2) {
-		let x = _vec0.x - _vec1.x;
-		let y = _vec0.y - _vec1.y;
+		const x = _vec0.x - _vec1.x;
+		const y = _vec0.y - _vec1.y;
 		// return (x * x + y * y + z * z);
-		return (x * x + y * y);
+		return x * x + y * y;
 	}
 
 	static Scale(_vec0: Vector2, _vec1: Vector2) {
@@ -78,7 +71,7 @@ class Vector2 {
 	}
 
 	static ClampMagnitude(_vec0: Vector2, _len: number) {
-		let vecNorm = _vec0.Normalized();
+		const vecNorm = _vec0.Normalized();
 		return new Vector2(vecNorm.x * _len, vecNorm.y * _len);
 	}
 
@@ -87,7 +80,7 @@ class Vector2 {
 		return new Vector2(_vec0.x - _vec1.x, _vec0.y - _vec1.y);
 	}
 
-	constructor(public x: number, public y: number) { }
+	constructor(public x: number, public y: number) {}
 
 	Length() {
 		return sqrt(this.SqrLength());
@@ -118,18 +111,18 @@ class Vector2 {
 	}
 
 	Normalize() {
-		let sqrLen = this.SqrLength();
+		const sqrLen = this.SqrLength();
 		if (sqrLen !== 0) {
-			let factor = 1.0 / sqrt(sqrLen);
+			const factor = 1.0 / sqrt(sqrLen);
 			this.x *= factor;
 			this.y *= factor;
 		}
 	}
 
 	Normalized() {
-		let sqrLen = this.SqrLength();
+		const sqrLen = this.SqrLength();
 		if (sqrLen !== 0) {
-			let factor = 1.0 / sqrt(sqrLen);
+			const factor = 1.0 / sqrt(sqrLen);
 			return new Vector2(this.x * factor, this.y * factor);
 		}
 		return new Vector2(0, 0);
@@ -137,7 +130,6 @@ class Vector2 {
 }
 
 class EulerMass {
-
 	position: Vector2;
 	force = new Vector2(0, 0);
 	velocity = new Vector2(0, 0);
@@ -151,9 +143,9 @@ class EulerMass {
 	}
 
 	Integrate(_dt: number) {
-		let acc = this.CurrentForce(this.position);
+		const acc = this.CurrentForce();
 		acc.Div(this.mass);
-		let posDelta = new Vector2(this.velocity.x, this.velocity.y);
+		const posDelta = new Vector2(this.velocity.x, this.velocity.y);
 		posDelta.Mul(_dt);
 		this.position.Add(posDelta);
 		acc.Mul(_dt);
@@ -161,31 +153,29 @@ class EulerMass {
 		this.force = new Vector2(0, 0);
 	}
 
-	CurrentForce(_pos: Vector2) {
-		let totalForce = new Vector2(this.force.x, this.force.y);
-		let speed = this.velocity.Length();
-		let dragVel = new Vector2(this.velocity.x, this.velocity.y);
+	CurrentForce() {
+		const totalForce = new Vector2(this.force.x, this.force.y);
+		const speed = this.velocity.Length();
+		const dragVel = new Vector2(this.velocity.x, this.velocity.y);
 		dragVel.Mul(this.drag * this.mass * speed);
 		totalForce.Sub(dragVel);
 		return totalForce;
 	}
-
 }
 
 class ConfettiPaper {
-
 	static bounds = new Vector2(0, 0);
 
 	pos: Vector2;
-	rotationSpeed = (random() * 600 + 800);
+	rotationSpeed = random() * 600 + 800;
 	angle = DEG_TO_RAD * random() * 360;
 	rotation = DEG_TO_RAD * random() * 360;
 	cosA = 1.0;
 	size = 5.0;
-	oscillationSpeed = (random() * 1.5 + 0.5);
+	oscillationSpeed = random() * 1.5 + 0.5;
 	xSpeed = 40.0;
-	ySpeed = (random() * 60 + 50.0);
-	corners = new Array();
+	ySpeed = random() * 60 + 50.0;
+	corners: Vector2[] = [];
 	time = random();
 	frontColor: string;
 	backColor: string;
@@ -198,8 +188,8 @@ class ConfettiPaper {
 		this.backColor = colors[ci][1];
 
 		for (let i = 0; i < 4; i++) {
-			let dx = cos(this.angle + DEG_TO_RAD * (i * 90 + 45));
-			let dy = sin(this.angle + DEG_TO_RAD * (i * 90 + 45));
+			const dx = cos(this.angle + DEG_TO_RAD * (i * 90 + 45));
+			const dy = sin(this.angle + DEG_TO_RAD * (i * 90 + 45));
 			this.corners[i] = new Vector2(dx, dy);
 		}
 	}
@@ -223,18 +213,22 @@ class ConfettiPaper {
 			_g.fillStyle = this.backColor;
 		}
 		_g.beginPath();
-		_g.moveTo((this.pos.x + this.corners[0].x * this.size) * retina, (this.pos.y + this.corners[0].y * this.size * this.cosA) * retina);
+		_g.moveTo(
+			(this.pos.x + this.corners[0].x * this.size) * retina,
+			(this.pos.y + this.corners[0].y * this.size * this.cosA) * retina
+		);
 		for (let i = 1; i < 4; i++) {
-			_g.lineTo((this.pos.x + this.corners[i].x * this.size) * retina, (this.pos.y + this.corners[i].y * this.size * this.cosA) * retina);
+			_g.lineTo(
+				(this.pos.x + this.corners[i].x * this.size) * retina,
+				(this.pos.y + this.corners[i].y * this.size * this.cosA) * retina
+			);
 		}
 		_g.closePath();
 		_g.fill();
 	}
-
 }
 
 class ConfettiRibbon {
-
 	static bounds = new Vector2(0, 0);
 
 	particles: EulerMass[] = [];
@@ -244,11 +238,11 @@ class ConfettiRibbon {
 	yOff: number;
 	position: Vector2;
 	prevPosition: Vector2;
-	velocityInherit = (random() * 2 + 4);
+	velocityInherit = random() * 2 + 4;
 	time = random() * 100;
-	oscillationSpeed = (random() * 2 + 2);
-	oscillationDistance = (random() * 40 + 40);
-	ySpeed = (random() * 40 + 80);
+	oscillationSpeed = random() * 2 + 2;
+	oscillationDistance = random() * 40 + 40;
+	ySpeed = random() * 40 + 80;
 
 	constructor(
 		x: number,
@@ -264,14 +258,19 @@ class ConfettiRibbon {
 		this.frontColor = colors[ci][0];
 		this.backColor = colors[ci][1];
 
-		this.xOff = (cos(DEG_TO_RAD * angle) * thickness);
-		this.yOff = (sin(DEG_TO_RAD * angle) * thickness);
+		this.xOff = cos(DEG_TO_RAD * angle) * thickness;
+		this.yOff = sin(DEG_TO_RAD * angle) * thickness;
 
 		this.position = new Vector2(x, y);
 		this.prevPosition = new Vector2(x, y);
 
 		for (let i = 0; i < this.particleCount; i++) {
-			this.particles[i] = new EulerMass(x, y - i * this.particleDist, this.particleMass, this.particleDrag);
+			this.particles[i] = new EulerMass(
+				x,
+				y - i * this.particleDist,
+				this.particleMass,
+				this.particleDrag
+			);
 		}
 	}
 
@@ -281,12 +280,12 @@ class ConfettiRibbon {
 		this.position.y += this.ySpeed * _dt;
 		this.position.x += cos(this.time) * this.oscillationDistance * _dt;
 		this.particles[0].position = this.position;
-		let dX = this.prevPosition.x - this.position.x;
-		let dY = this.prevPosition.y - this.position.y;
-		let delta = sqrt(dX * dX + dY * dY);
+		const dX = this.prevPosition.x - this.position.x;
+		const dY = this.prevPosition.y - this.position.y;
+		const delta = sqrt(dX * dX + dY * dY);
 		this.prevPosition = new Vector2(this.position.x, this.position.y);
 		for (i = 1; i < this.particleCount; i++) {
-			let dirP = Vector2.Sub(this.particles[i - 1].position, this.particles[i].position);
+			const dirP = Vector2.Sub(this.particles[i - 1].position, this.particles[i].position);
 			dirP.Normalize();
 			dirP.Mul((delta / _dt) * this.velocityInherit);
 			this.particles[i].AddForce(dirP);
@@ -295,7 +294,7 @@ class ConfettiRibbon {
 			this.particles[i].Integrate(_dt);
 		}
 		for (i = 1; i < this.particleCount; i++) {
-			let rp2 = new Vector2(this.particles[i].position.x, this.particles[i].position.y);
+			const rp2 = new Vector2(this.particles[i].position.x, this.particles[i].position.y);
 			rp2.Sub(this.particles[i - 1].position);
 			rp2.Normalize();
 			rp2.Mul(this.particleDist);
@@ -314,27 +313,40 @@ class ConfettiRibbon {
 		this.velocityInherit = random() * 2 + 4;
 		this.time = random() * 100;
 		this.oscillationSpeed = random() * 2.0 + 1.5;
-		this.oscillationDistance = (random() * 40 + 40);
+		this.oscillationDistance = random() * 40 + 40;
 		this.ySpeed = random() * 40 + 80;
-		let ci = round(random() * (colors.length - 1));
+		const ci = round(random() * (colors.length - 1));
 		this.frontColor = colors[ci][0];
 		this.backColor = colors[ci][1];
-		this.particles = new Array();
+		this.particles = [];
 		for (let i = 0; i < this.particleCount; i++) {
-			this.particles[i] = new EulerMass(this.position.x, this.position.y - i * this.particleDist, this.particleMass, this.particleDrag);
+			this.particles[i] = new EulerMass(
+				this.position.x,
+				this.position.y - i * this.particleDist,
+				this.particleMass,
+				this.particleDrag
+			);
 		}
 	}
 
 	Draw(_g: CanvasRenderingContext2D) {
 		for (let i = 0; i < this.particleCount - 1; i++) {
-			let p0 = new Vector2(this.particles[i].position.x + this.xOff, this.particles[i].position.y + this.yOff);
-			let p1 = new Vector2(this.particles[i + 1].position.x + this.xOff, this.particles[i + 1].position.y + this.yOff);
+			const p0 = new Vector2(
+				this.particles[i].position.x + this.xOff,
+				this.particles[i].position.y + this.yOff
+			);
+			const p1 = new Vector2(
+				this.particles[i + 1].position.x + this.xOff,
+				this.particles[i + 1].position.y + this.yOff
+			);
 			if (
 				this.Side(
 					this.particles[i].position.x,
 					this.particles[i].position.y,
 					this.particles[i + 1].position.x,
-					this.particles[i + 1].position.y, p1.x, p1.y
+					this.particles[i + 1].position.y,
+					p1.x,
+					p1.y
 				) < 0
 			) {
 				_g.fillStyle = this.frontColor;
@@ -345,38 +357,68 @@ class ConfettiRibbon {
 			}
 			if (i === 0) {
 				_g.beginPath();
-				_g.moveTo(this.particles[i].position.x * retina, this.particles[i].position.y * retina);
-				_g.lineTo(this.particles[i + 1].position.x * retina, this.particles[i + 1].position.y * retina);
-				_g.lineTo(((this.particles[i + 1].position.x + p1.x) * 0.5) * retina, ((this.particles[i + 1].position.y + p1.y) * 0.5) * retina);
+				_g.moveTo(
+					this.particles[i].position.x * retina,
+					this.particles[i].position.y * retina
+				);
+				_g.lineTo(
+					this.particles[i + 1].position.x * retina,
+					this.particles[i + 1].position.y * retina
+				);
+				_g.lineTo(
+					(this.particles[i + 1].position.x + p1.x) * 0.5 * retina,
+					(this.particles[i + 1].position.y + p1.y) * 0.5 * retina
+				);
 				_g.closePath();
 				_g.stroke();
 				_g.fill();
 				_g.beginPath();
 				_g.moveTo(p1.x * retina, p1.y * retina);
 				_g.lineTo(p0.x * retina, p0.y * retina);
-				_g.lineTo(((this.particles[i + 1].position.x + p1.x) * 0.5) * retina, ((this.particles[i + 1].position.y + p1.y) * 0.5) * retina);
+				_g.lineTo(
+					(this.particles[i + 1].position.x + p1.x) * 0.5 * retina,
+					(this.particles[i + 1].position.y + p1.y) * 0.5 * retina
+				);
 				_g.closePath();
 				_g.stroke();
 				_g.fill();
 			} else if (i === this.particleCount - 2) {
 				_g.beginPath();
-				_g.moveTo(this.particles[i].position.x * retina, this.particles[i].position.y * retina);
-				_g.lineTo(this.particles[i + 1].position.x * retina, this.particles[i + 1].position.y * retina);
-				_g.lineTo(((this.particles[i].position.x + p0.x) * 0.5) * retina, ((this.particles[i].position.y + p0.y) * 0.5) * retina);
+				_g.moveTo(
+					this.particles[i].position.x * retina,
+					this.particles[i].position.y * retina
+				);
+				_g.lineTo(
+					this.particles[i + 1].position.x * retina,
+					this.particles[i + 1].position.y * retina
+				);
+				_g.lineTo(
+					(this.particles[i].position.x + p0.x) * 0.5 * retina,
+					(this.particles[i].position.y + p0.y) * 0.5 * retina
+				);
 				_g.closePath();
 				_g.stroke();
 				_g.fill();
 				_g.beginPath();
 				_g.moveTo(p1.x * retina, p1.y * retina);
 				_g.lineTo(p0.x * retina, p0.y * retina);
-				_g.lineTo(((this.particles[i].position.x + p0.x) * 0.5) * retina, ((this.particles[i].position.y + p0.y) * 0.5) * retina);
+				_g.lineTo(
+					(this.particles[i].position.x + p0.x) * 0.5 * retina,
+					(this.particles[i].position.y + p0.y) * 0.5 * retina
+				);
 				_g.closePath();
 				_g.stroke();
 				_g.fill();
 			} else {
 				_g.beginPath();
-				_g.moveTo(this.particles[i].position.x * retina, this.particles[i].position.y * retina);
-				_g.lineTo(this.particles[i + 1].position.x * retina, this.particles[i + 1].position.y * retina);
+				_g.moveTo(
+					this.particles[i].position.x * retina,
+					this.particles[i].position.y * retina
+				);
+				_g.lineTo(
+					this.particles[i + 1].position.x * retina,
+					this.particles[i + 1].position.y * retina
+				);
 				_g.lineTo(p1.x * retina, p1.y * retina);
 				_g.lineTo(p0.x * retina, p0.y * retina);
 				_g.closePath();
@@ -387,12 +429,11 @@ class ConfettiRibbon {
 	}
 
 	Side(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number) {
-		return ((x1 - x2) * (y3 - y2) - (y1 - y2) * (x3 - x2));
+		return (x1 - x2) * (y3 - y2) - (y1 - y2) * (x3 - x2);
 	}
 }
 
 class ConfettiContext {
-
 	canvasParent: HTMLElement;
 	context: CanvasRenderingContext2D;
 	interval: number;
@@ -414,7 +455,7 @@ class ConfettiContext {
 		private ribbonPaperThick = 8,
 		private confettiPaperCount = 95
 	) {
-		this.duration = (1 / this.speed);
+		this.duration = 1 / this.speed;
 		this.canvasParent = canvas.parentNode as HTMLElement;
 		this.canvasWidth = this.canvasParent.offsetWidth;
 		this.canvasHeight = this.canvasParent.offsetHeight;
@@ -424,22 +465,24 @@ class ConfettiContext {
 
 		ConfettiRibbon.bounds = new Vector2(this.canvasWidth, this.canvasHeight);
 		for (let i = 0; i < confettiRibbonCount; i++) {
-			this.confettiRibbons[i] =
-				new ConfettiRibbon(
-					random() * this.canvasWidth,
-					-random() * this.canvasHeight * 2,
-					ribbonPaperCount,
-					ribbonPaperDist,
-					ribbonPaperThick,
-					45,
-					1,
-					0.05
-				);
+			this.confettiRibbons[i] = new ConfettiRibbon(
+				random() * this.canvasWidth,
+				-random() * this.canvasHeight * 2,
+				ribbonPaperCount,
+				ribbonPaperDist,
+				ribbonPaperThick,
+				45,
+				1,
+				0.05
+			);
 		}
 
 		ConfettiPaper.bounds = new Vector2(this.canvasWidth, this.canvasHeight);
 		for (let i = 0; i < confettiPaperCount; i++) {
-			this.confettiPapers[i] = new ConfettiPaper(random() * this.canvasWidth, random() * this.canvasHeight);
+			this.confettiPapers[i] = new ConfettiPaper(
+				random() * this.canvasWidth,
+				random() * this.canvasHeight
+			);
 		}
 	}
 
@@ -475,5 +518,4 @@ class ConfettiContext {
 			this.update();
 		});
 	}
-
 }

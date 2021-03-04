@@ -1,18 +1,16 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { debounceTime } from 'rxjs/operators';
-import { Options, OptionConfig, OptionValue } from '../../modules/module-options';
+import { OptionConfig, Options, OptionValue } from '../../modules/module-options';
 
-import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { NgbDateAdapter, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
 	selector: 'mymicds-module-option',
 	templateUrl: './module-option.component.html',
 	styleUrls: ['./module-option.component.scss'],
-	providers: [
-		{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}
-	]
+	providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class ModuleOptionComponent {
 	private _config: OptionConfig;
@@ -34,7 +32,8 @@ export class ModuleOptionComponent {
 	}
 	set config(newValue: OptionConfig) {
 		this._config = newValue;
-		this.select = (typeof this.config.type === 'object' && typeof this.config.type.name !== 'undefined');
+		this.select =
+			typeof this.config.type === 'object' && typeof this.config.type.name !== 'undefined';
 		this.checkIfShow();
 	}
 
@@ -54,7 +53,7 @@ export class ModuleOptionComponent {
 		this.valueChange.pipe(debounceTime(50));
 	}
 
-	changeDate(date: Date) {
+	changeDate() {
 		this.valueChange.emit(this.value);
 	}
 

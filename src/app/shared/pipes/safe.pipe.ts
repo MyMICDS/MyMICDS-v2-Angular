@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Pipe, PipeTransform } from '@angular/core';
 
 /*
  * Bypasses Angular 2's sanitization to display things like URLs for iframes.
@@ -11,9 +11,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 	name: 'safeHtml'
 })
 export class SafeHtmlPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustHtml(value);
 	}
 }
@@ -22,9 +22,9 @@ export class SafeHtmlPipe implements PipeTransform {
 	name: 'safeScript'
 })
 export class SafeScriptPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustScript(value);
 	}
 }
@@ -33,9 +33,9 @@ export class SafeScriptPipe implements PipeTransform {
 	name: 'safeStyle'
 })
 export class SafeStylePipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustStyle(value);
 	}
 }
@@ -44,9 +44,9 @@ export class SafeStylePipe implements PipeTransform {
 	name: 'safeUrl'
 })
 export class SafeUrlPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustUrl(value);
 	}
 }
@@ -55,9 +55,9 @@ export class SafeUrlPipe implements PipeTransform {
 	name: 'safeResourceUrl'
 })
 export class SafeResourceUrlPipe implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) { }
+	constructor(private sanitizer: DomSanitizer) {}
 
-	transform(value: any) {
+	transform(value: string) {
 		return this.sanitizer.bypassSecurityTrustResourceUrl(value);
 	}
 }

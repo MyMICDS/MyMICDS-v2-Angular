@@ -1,4 +1,4 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '../common/auth.guard';
@@ -19,11 +19,7 @@ const aboutRoutes: Routes = [
 ];
 
 @NgModule({
-	imports: [
-		RouterModule.forChild(aboutRoutes)
-	],
-	exports: [
-		RouterModule
-	]
+	imports: [RouterModule.forChild(aboutRoutes)],
+	exports: [RouterModule]
 })
-export class AboutRoutingModule { }
+export class AboutRoutingModule {}

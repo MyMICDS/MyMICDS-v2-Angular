@@ -1,11 +1,11 @@
 import { MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { typeOf } from '../../common/utils';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 @Component({
 	selector: 'mymicds-confirm',
@@ -13,7 +13,6 @@ import { AlertService } from '../../services/alert.service';
 	styleUrls: ['./confirm.component.scss']
 })
 export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	typeOf = typeOf;
 	confirmResponse: boolean | string;
@@ -22,7 +21,8 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 		private mymicds: MyMICDS,
 		private router: Router,
 		private route: ActivatedRoute,
-		private alertService: AlertService) {
+		private alertService: AlertService
+	) {
 		super();
 	}
 
@@ -30,7 +30,7 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 		// Check if user is already logged in
 		if (this.mymicds.auth.isLoggedIn) {
 			this.alertService.addSuccess('You are already logged in!');
-			this.router.navigate(['/home']);
+			void this.router.navigate(['/home']);
 			return;
 		}
 
@@ -57,5 +57,4 @@ export class ConfirmComponent extends SubscriptionsComponent implements OnInit {
 			)
 		);
 	}
-
 }

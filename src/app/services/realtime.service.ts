@@ -6,17 +6,12 @@ import * as io from 'socket.io-client';
 
 @Injectable()
 export class RealtimeService {
-
-	private socket;
-
-	constructor() {
-		this.socket = io(environment.realtimeURL);
-	}
+	private socket = io(environment.realtimeURL);
 
 	// Listens to a specific event
 	listen(event: string) {
-		return Observable.create(observer => {
-			this.socket.on(event, (...args) => {
+		return new Observable(observer => {
+			this.socket.on(event, (...args: unknown[]) => {
 				observer.next(...args);
 			});
 		});
@@ -24,15 +19,15 @@ export class RealtimeService {
 
 	// Listens to a specific event only once
 	once(event: string) {
-		return Observable.create(observer => {
-			this.socket.once(event, (...args) => {
+		return new Observable(observer => {
+			this.socket.once(event, (...args: unknown[]) => {
 				observer.next(...args);
 			});
 		});
 	}
 
 	// Emit a socket.io event
-	emit(event: string, ...args) {
+	emit(event: string, ...args: unknown[]) {
 		if (this.socket) {
 			this.socket.emit(event, ...args);
 		}

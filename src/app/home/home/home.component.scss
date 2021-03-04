@@ -19,7 +19,8 @@
 
 	pointer-events: none;
 
-	a, button {
+	a,
+	button {
 		pointer-events: all;
 	}
 
@@ -39,7 +40,7 @@
 		padding: 0.25rem;
 		border-radius: 0.25rem;
 		color: $sophisticated-white;
-		text-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+		text-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 	}
 }
 
@@ -63,7 +64,6 @@
 		margin: -($blur-margin / 2);
 
 		ngx-gridster-item {
-
 			mymicds-module-container {
 				height: 100%;
 				z-index: -1;
@@ -94,7 +94,8 @@
 					opacity: 1;
 				}
 
-				a, button {
+				a,
+				button {
 					padding: 0;
 
 					background: none;

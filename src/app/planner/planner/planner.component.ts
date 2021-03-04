@@ -7,34 +7,40 @@ import {
 	PlannerEvent
 } from '@mymicds/sdk';
 
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { fromEvent, Subject } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
-import * as moment from 'moment';
-import {NgbDate, NgbCalendar, NgbDateParserFormatter, NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { contains, darkenColor, rainbowCSSGradient, rainbowSafeWord } from '../../common/utils';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { fromEvent, Subject } from 'rxjs';
+import {
+	NgbCalendar,
+	NgbDate,
+	NgbDateAdapter,
+	NgbDateNativeAdapter,
+	NgbDateParserFormatter
+} from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 
-import { SubscriptionsComponent } from '../../common/subscriptions-component';
 import { AlertService } from '../../services/alert.service';
+import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
 type DailyEvents = Array<{
-	inside: { included: boolean, continueLeft: boolean, continueRight: boolean },
-	data: PlannerEvent
+	inside: { included: boolean; continueLeft: boolean; continueRight: boolean };
+	data: PlannerEvent;
 }>;
 
 type WeekFormat = Array<{
 	date: {
-		object: moment.Moment,
-		display: string
-	},
-	events: PlannerEvent[]
+		object: moment.Moment;
+		display: string;
+	};
+	events: PlannerEvent[];
 }>;
 
 type MonthFormat = Array<{
-	date: moment.Moment,
-	today: boolean,
-	events: DailyEvents
+	date: moment.Moment;
+	today: boolean;
+	events: DailyEvents;
 }>[];
 
 type EventsInput = Omit<AddPlannerEventParameters, 'start' | 'end'> & { dates: [Date, Date] };
@@ -43,24 +49,13 @@ type EventsInput = Omit<AddPlannerEventParameters, 'start' | 'end'> & { dates: [
 	selector: 'mymicds-planner',
 	templateUrl: './planner.component.html',
 	styleUrls: ['./planner.component.scss'],
-	providers: [
-		{provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}
-	]
+	providers: [{ provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class PlannerComponent extends SubscriptionsComponent implements OnInit {
-
 	// We need to include this to use in HTML
 	public darkenColor = darkenColor;
 
-	weekdays = [
-		'Sunday',
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday'
-	];
+	weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 	plannerLoading = true;
 	canvasLoading = true;
@@ -90,7 +85,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	formattedMonth: MonthFormat | null = null;
 	// Events that are ending within 7 days
 	comingUp: WeekFormat | null = null;
-
 
 	// List of events to show up in selection
 	selectionEvents: DailyEvents = [];
@@ -123,28 +117,6 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	fromDate: NgbDate | null;
 	toDate: NgbDate | null;
 
-	// Array of total events
-	get events(): PlannerEvent[] {
-		return this.plannerEvents.concat(this.canvasEvents)
-			.map(event => {
-				// Check if it should be rainbow color
-				if (event.class && event.class.color && event.class.color.toUpperCase() === rainbowSafeWord) {
-					event.class.color = rainbowCSSGradient();
-					event.class.textDark = true;
-				}
-				return event;
-			});
-	}
-
-	get canvasRefreshTime() {
-		if (this.canvasEvents.length === 0) {
-			return null;
-		}
-
-		// They should all refresh at the same time so it doesn't matter which one you choose
-		return this.canvasEvents[0].createdAt;
-	}
-
 	constructor(
 		public mymicds: MyMICDS,
 		private router: Router,
@@ -157,22 +129,64 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		super();
 	}
 
+	// Array of total events
+	get events(): PlannerEvent[] {
+		return this.plannerEvents.concat(this.canvasEvents).map(event => {
+			// Check if it should be rainbow color
+			if (
+				event.class &&
+				event.class.color &&
+				event.class.color.toUpperCase() === rainbowSafeWord
+			) {
+				event.class.color = rainbowCSSGradient();
+				event.class.textDark = true;
+			}
+			return event;
+		});
+	}
+
+	get canvasRefreshTime() {
+		if (this.canvasEvents.length === 0) {
+			return null;
+		}
+
+		// They should all refresh at the same time so it doesn't matter which one you choose
+		return this.canvasEvents[0].createdAt;
+	}
+
+	private updatePlannerEvents(plannerEvents = this.plannerEvents) {
+		this.plannerEvents = plannerEvents;
+		// Format events to be displayed on planner
+		this.formattedMonth = this.formatMonth(this.calendarMonth, this.events);
+
+		if (this.selectionDate) {
+			this.selectionEvents = this.eventsForDay(this.selectionDate, this.events);
+		}
+
+		this.comingUp = this.formatWeek(this.events);
+	}
+
+	private formatEventData(eventModel: EventsInput) {
+		const eventParams: AddPlannerEventParameters = Object.assign({}, eventModel);
+		eventParams.start = moment(eventModel.dates[0]);
+		eventParams.end = moment(eventModel.dates[1]);
+		return eventParams;
+	}
+
 	ngOnInit() {
 		this.calendarMonth = moment();
 		this.updatePlannerEvents();
 
 		// Change the month and year according to the route parameters
 		this.addSubscription(
-			this.route.params.subscribe(
-				params => {
-					if (params.year) {
-						this.calendarMonth.year(params.year);
-					}
-					if (params.month) {
-						this.calendarMonth.month(params.month - 1);
-					}
+			this.route.params.subscribe(params => {
+				if (params.year) {
+					this.calendarMonth.year(params.year);
 				}
-			)
+				if (params.month) {
+					this.calendarMonth.month(params.month - 1);
+				}
+			})
 		);
 
 		// Get day rotation
@@ -209,24 +223,26 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 			// Canvas refresh
 			this.addSubscription(
-				this.triggerCanvasRefresh.pipe(
-					tap(() => this.canvasLoading = true),
-					switchMap(() => this.mymicds.feeds.updateCanvasCache()),
-					switchMap(() => this.mymicds.canvas.getEvents())
-				).subscribe(
-					data => {
-						this.canvasLoading = false;
-						if (data.hasURL) {
-							this.canvasEvents = data.events;
-						} else {
-							this.canvasEvents = [];
+				this.triggerCanvasRefresh
+					.pipe(
+						tap(() => (this.canvasLoading = true)),
+						switchMap(() => this.mymicds.feeds.updateCanvasCache()),
+						switchMap(() => this.mymicds.canvas.getEvents())
+					)
+					.subscribe(
+						data => {
+							this.canvasLoading = false;
+							if (data.hasURL) {
+								this.canvasEvents = data.events;
+							} else {
+								this.canvasEvents = [];
+							}
+							this.updatePlannerEvents();
+						},
+						() => {
+							this.canvasLoading = false;
 						}
-						this.updatePlannerEvents();
-					},
-					() => {
-						this.canvasLoading = false;
-					}
-				)
+					)
 			);
 		} else {
 			// User not logged in
@@ -236,17 +252,14 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 		// PlannerEvent to trigger deselect of day
 		this.addSubscription(
-			fromEvent(document, 'click').pipe(
-				map((event: any) => {
-					if (event.target.className.split) {
-						return event.target.className.split(' ');
-					}
-					return [];
-				}),
-				filter((className: string[]) => contains(className, 'planner-interface'))
-			).subscribe(() => {
-				this.deselectDay();
-			})
+			fromEvent(document, 'click')
+				.pipe(
+					map(event => (event.target as HTMLElement).className.split(' ')),
+					filter((className: string[]) => contains(className, 'planner-interface'))
+				)
+				.subscribe(() => {
+					this.deselectDay();
+				})
 		);
 	}
 
@@ -267,38 +280,29 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
+	// Returns the object of a specific event. You must call getEvents() first!
+
 	refreshCanvas() {
 		this.triggerCanvasRefresh.next();
 	}
 
-	private updatePlannerEvents(plannerEvents = this.plannerEvents) {
-		this.plannerEvents = plannerEvents;
-		// Format events to be displayed on planner
-		this.formattedMonth = this.formatMonth(this.calendarMonth, this.events);
-
-		if (this.selectionDate) {
-			this.selectionEvents = this.eventsForDay(this.selectionDate, this.events);
-		}
-
-		this.comingUp = this.formatWeek(this.events);
-	}
-
-	// Returns the object of a specific event. You must call getEvents() first!
 	// Returns null if id isn't valid
 	getEvent(id: string) {
 		for (let i = 0; i < this.events.length; i++) {
-			let event = this.events[i];
-			if (event._id === id) { return event; }
+			const event = this.events[i];
+			if (event._id === id) {
+				return event;
+			}
 		}
 		return null;
 	}
 
 	// Returns an array of events organized for the calendar
 	formatMonth(date: moment.Moment, events: PlannerEvent[]) {
-		let formattedMonth: MonthFormat = [];
-		let today = moment();
-		let iterationDate = this.beginOfPlanner(date);
-		let weeksInPlanner = this.weeksInPlanner(date);
+		const formattedMonth: MonthFormat = [];
+		const today = moment();
+		const iterationDate = this.beginOfPlanner(date);
+		const weeksInPlanner = this.weeksInPlanner(date);
 
 		// Add week
 		for (let i = 0; i < weeksInPlanner; i++) {
@@ -306,9 +310,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 			// Loop through days in week
 			for (let j = 0; j < this.weekdays.length; j++) {
-
 				// Get events for this iteration date
-				let dayEvents = this.eventsForDay(iterationDate, events);
+				const dayEvents = this.eventsForDay(iterationDate, events);
 
 				formattedMonth[i][j] = {
 					date: iterationDate.clone(),
@@ -329,20 +332,20 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	}
 
 	formatWeek(events: PlannerEvent[]) {
-		let formattedWeek: WeekFormat = [];
+		const formattedWeek: WeekFormat = [];
 		// How many days ahead to include
-		let daysForward = 7;
+		const daysForward = 7;
 		// What day to start
-		let comingDay = moment();
+		const comingDay = moment();
 
 		// Loop through each day within the next week
 		for (let i = 0; i < daysForward; i++) {
 			comingDay.add(1, 'day');
-			let validEvents = [];
+			const validEvents = [];
 
 			// Loop through events
 			for (let j = 0; j < events.length; j++) {
-				let event = events[j];
+				const event = events[j];
 
 				// Check if event ends on this day
 				if (comingDay.isSame(event.end, 'day')) {
@@ -353,8 +356,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 			// If any events, add day to formattedWeek
 			if (validEvents.length > 0) {
-				let weekdayDate = comingDay.clone();
-				let weekdayDisplay = weekdayDate.calendar(undefined, {
+				const weekdayDate = comingDay.clone();
+				const weekdayDisplay = weekdayDate.calendar(undefined, {
 					sameDay: '[Today]',
 					nextDay: '[Tomorrow]',
 					nextWeek: 'dddd',
@@ -378,11 +381,11 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Lists all the events for a given day
 	eventsForDay(date: moment.Moment, events: PlannerEvent[]) {
-		let dayEvents: DailyEvents = [];
+		const dayEvents: DailyEvents = [];
 		// Loop through events and see if any are included for this specific day
 		for (let i = 0; i < events.length; i++) {
-			let event = events[i];
-			let inside = this.dayInsideEvent(date, event);
+			const event = events[i];
+			const inside = this.dayInsideEvent(date, event);
 
 			// If event is included in the day, add to dayEvents array!
 			if (inside.included) {
@@ -395,26 +398,45 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 		// Sort events in array
 		dayEvents.sort((a, b) => {
-
 			// Events that start first should be put first
-			if (a.data.start < b.data.start) { return -1; }
-			if (a.data.start > b.data.start) { return 1; }
+			if (a.data.start < b.data.start) {
+				return -1;
+			}
+			if (a.data.start > b.data.start) {
+				return 1;
+			}
 
 			// Events have same start. Organize by end.
-			if (a.data.end < b.data.end) { return -1; }
-			if (a.data.end > b.data.end) { return 1; }
+			if (a.data.end < b.data.end) {
+				return -1;
+			}
+			if (a.data.end > b.data.end) {
+				return 1;
+			}
 
 			// Events have same start and end. Organize by name.
-			if (a.data.title < b.data.title) { return -1; }
-			if (a.data.title > b.data.title) { return 1; }
+			if (a.data.title < b.data.title) {
+				return -1;
+			}
+			if (a.data.title > b.data.title) {
+				return 1;
+			}
 
 			// Events have same start, end and name. Organize by description.
-			if (a.data.desc < b.data.desc) { return -1; }
-			if (a.data.desc > b.data.desc) { return 1; }
+			if (a.data.desc < b.data.desc) {
+				return -1;
+			}
+			if (a.data.desc > b.data.desc) {
+				return 1;
+			}
 
 			// Events have same start, end, name, and descripton. Organize by id.
-			if (a.data._id < b.data._id) { return -1; }
-			if (a.data._id > b.data._id) { return 1; }
+			if (a.data._id < b.data._id) {
+				return -1;
+			}
+			if (a.data._id > b.data._id) {
+				return 1;
+			}
 
 			// We cannot have the same id, so at this point they're basically the same.
 			return 0;
@@ -425,10 +447,13 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	// Determine if an event falls into a specific date.
 	dayInsideEvent(date: moment.Moment, event: PlannerEvent) {
-		let eventStart = moment(event.start);
-		let eventEnd = moment(event.end);
+		const eventStart = moment(event.start);
+		const eventEnd = moment(event.end);
 
-		let included = date.isBetween(eventStart, eventEnd, 'day') || date.isSame(eventStart, 'day') || date.isSame(eventEnd, 'day');
+		const included =
+			date.isBetween(eventStart, eventEnd, 'day') ||
+			date.isSame(eventStart, 'day') ||
+			date.isSame(eventEnd, 'day');
 		let continueLeft = false;
 		let continueRight = false;
 
@@ -442,7 +467,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		}
 
 		return {
-			included,     // Whether event should be displayed
+			included, // Whether event should be displayed
 			continueLeft, // Multi-day event that spans to left as well (and isn't Sunday)
 			continueRight // Multi-day event that spans to the right as well (and isn't Saturday)
 		};
@@ -458,32 +483,30 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		return date.clone().endOf('month').day(6);
 	}
 
-	// Returns the number of weeks included in a month
-	weeksInPlanner(date: moment.Moment) {
-		let beginDate = this.beginOfPlanner(date);
-		let endDate = this.endOfPlanner(date);
-		return endDate.diff(beginDate, 'weeks') + 1;
-	}
-
 	/*
 	 * Calendar Navigation
 	 */
 
+	// Returns the number of weeks included in a month
+	weeksInPlanner(date: moment.Moment) {
+		const beginDate = this.beginOfPlanner(date);
+		const endDate = this.endOfPlanner(date);
+		return endDate.diff(beginDate, 'weeks') + 1;
+	}
+
 	previousMonth() {
 		this.calendarMonth.subtract(1, 'months');
-		this.router.navigate(['/planner', this.calendarMonth.year(), this.calendarMonth.month() + 1]);
+		void this.router.navigate([
+			'/planner',
+			this.calendarMonth.year(),
+			this.calendarMonth.month() + 1
+		]);
 		this.updatePlannerEvents();
 	}
 
 	currentMonth() {
 		this.calendarMonth = moment();
-		this.router.navigate(['/planner']);
-		this.updatePlannerEvents();
-	}
-
-	nextMonth() {
-		this.calendarMonth.add(1, 'months');
-		this.router.navigate(['/planner', this.calendarMonth.year(), this.calendarMonth.month() + 1]);
+		void this.router.navigate(['/planner']);
 		this.updatePlannerEvents();
 	}
 
@@ -491,9 +514,18 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	 * Select Day
 	 */
 
+	nextMonth() {
+		this.calendarMonth.add(1, 'months');
+		void this.router.navigate([
+			'/planner',
+			this.calendarMonth.year(),
+			this.calendarMonth.month() + 1
+		]);
+		this.updatePlannerEvents();
+	}
+
 	// TODO: These types are from inferred usage. Why are non-moment objects being passed in?
 	selectDay(date: number | moment.Moment | null, event?: Event) {
-
 		// Make sure it's a valid moment.js object
 		if (!moment.isMoment(date)) {
 			return;
@@ -513,13 +545,13 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.selectionEvents = this.eventsForDay(this.selectionDate, this.events);
 	}
 
-	deselectDay() {
-		this.selectionDate = null;
-	}
-
 	/*
 	 * Create PlannerEvent
 	 */
+
+	deselectDay() {
+		this.selectionDate = null;
+	}
 
 	resetCreateEventForm() {
 		this.createEventModel = {
@@ -529,13 +561,20 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			dates: [new Date(), new Date()]
 		};
 		if (this.selectionDate) {
-			this.createEventModel.dates[0] = this.createEventModel.dates[1] = moment(this.selectionDate).toDate();
+			this.createEventModel.dates[0] = this.createEventModel.dates[1] = moment(
+				this.selectionDate
+			).toDate();
 		}
 	}
 
+	/*
+	 * View PlannerEvent
+	 */
+
 	createEvent() {
 		this.addSubscription(
-			this.mymicds.planner.addEvent(this.formatEventData(this.createEventModel))
+			this.mymicds.planner
+				.addEvent(this.formatEventData(this.createEventModel))
 				.subscribe(({ events }) => {
 					this.alertService.addSuccess('Added event to planner!');
 					this.updatePlannerEvents(events);
@@ -543,13 +582,13 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		);
 	}
 
-	/*
-	 * View PlannerEvent
-	 */
-
 	viewEvent(id: string) {
 		this.viewEventObject = this.getEvent(id);
 	}
+
+	/*
+	 * Edit PlannerEvent
+	 */
 
 	formatEventDate(start: moment.Moment, end: moment.Moment) {
 		start = moment(start);
@@ -557,20 +596,15 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 		if (start.isSame(end, 'day')) {
 			return start.format('MMM D, Y');
-		} else {
-			return `${start.format('MMM D, Y')} - ${end.format('MMM D, Y')}`;
 		}
+		return `${start.format('MMM D, Y')} - ${end.format('MMM D, Y')}`;
 	}
-
-	/*
-	 * Edit PlannerEvent
-	 */
 
 	viewEditEventModal(id: string, event: Event) {
 		// Make sure it doesn't trigger the viewEvent()
 		event.stopPropagation();
 
-		let eventObj = this.getEvent(id)!;
+		const eventObj = this.getEvent(id)!;
 
 		let classId = 'other';
 		if (eventObj.class) {
@@ -581,24 +615,25 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 			id: eventObj._id,
 			title: eventObj.title,
 			desc: eventObj.desc,
-			classId: classId,
+			classId,
 			dates: [moment(eventObj.start).toDate(), moment(eventObj.end).toDate()]
 		};
 	}
 
+	/*
+	 * Delete PlannerEvent
+	 */
+
 	editEvent() {
 		this.addSubscription(
-			this.mymicds.planner.addEvent(this.formatEventData(this.editEventModel))
+			this.mymicds.planner
+				.addEvent(this.formatEventData(this.editEventModel))
 				.subscribe(({ events }) => {
 					this.alertService.addSuccess('Edited event in planner!');
 					this.updatePlannerEvents(events);
 				})
 		);
 	}
-
-	/*
-	 * Delete PlannerEvent
-	 */
 
 	deleteEvent(id: string, event: Event) {
 		// Make sure it doesn't trigger the viewEvent()
@@ -613,15 +648,8 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 					}
 				}
 				this.updatePlannerEvents();
-			})
+			});
 		}
-	}
-
-	private formatEventData(eventModel: EventsInput): AddPlannerEventParameters {
-		const eventParams: any = Object.assign({}, eventModel);
-		eventParams.start = moment(eventModel.dates[0]);
-		eventParams.end = moment(eventModel.dates[1]);
-		return eventParams;
 	}
 
 	// Crossout PlannerEvent
@@ -663,31 +691,46 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 
 	onDateSelection(date: NgbDate) {
 		if (!this.fromDate && !this.toDate) {
-		  this.fromDate = date;
+			this.fromDate = date;
 		} else if (this.fromDate && !this.toDate && date && date.after(this.fromDate)) {
-		  this.toDate = date;
-		  this.createEventModel.dates = [this.dateAdapter.toModel(this.fromDate)!, this.dateAdapter.toModel(this.toDate)!]
+			this.toDate = date;
+			this.createEventModel.dates = [
+				this.dateAdapter.toModel(this.fromDate)!,
+				this.dateAdapter.toModel(this.toDate)!
+			];
 		} else {
-		  this.toDate = null;
-		  this.fromDate = date;
+			this.toDate = null;
+			this.fromDate = date;
 		}
-	  }
+	}
 
-	  isHovered(date: NgbDate) {
-		return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
-	  }
+	isHovered(date: NgbDate) {
+		return (
+			this.fromDate &&
+			!this.toDate &&
+			this.hoveredDate &&
+			date.after(this.fromDate) &&
+			date.before(this.hoveredDate)
+		);
+	}
 
-	  isInside(date: NgbDate) {
+	isInside(date: NgbDate) {
 		return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-	  }
+	}
 
-	  isRange(date: NgbDate) {
-		return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
-	  }
+	isRange(date: NgbDate) {
+		return (
+			date.equals(this.fromDate) ||
+			(this.toDate && date.equals(this.toDate)) ||
+			this.isInside(date) ||
+			this.isHovered(date)
+		);
+	}
 
-	  validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
+	validateInput(currentValue: NgbDate | null, input: string): NgbDate | null {
 		const parsed = this.formatter.parse(input);
-		return parsed && this.calendar.isValid(NgbDate.from(parsed)) ? NgbDate.from(parsed) : currentValue;
-	  }
-
+		return parsed && this.calendar.isValid(NgbDate.from(parsed))
+			? NgbDate.from(parsed)
+			: currentValue;
+	}
 }

@@ -1,13 +1,9 @@
 <div #moduleContainer class="module-container" [class.vertical]="!isHorizontal">
 	<h1 class="display-4">
-		<ng-container *ngIf="schedule?.day">
-			Day {{ schedule.day }}
-		</ng-container>
-		<ng-container *ngIf="schedule?.special">
-			Special Schedule
-		</ng-container>
+		<ng-container *ngIf="schedule?.day"> Day {{ schedule.day }} </ng-container>
+		<ng-container *ngIf="schedule?.special"> Special Schedule </ng-container>
 		<ng-container *ngIf="!schedule?.day">
-			{{ scheduleDate.toDate() | momentDate:'MMMM d':'America/Chicago' }}
+			{{ scheduleDate.toDate() | momentDate: 'MMMM d':'America/Chicago' }}
 		</ng-container>
 	</h1>
 	<h3>Upcoming Classes</h3>
@@ -25,14 +21,23 @@
 			<p>No more classes! 🎉</p>
 		</div>
 		<!-- Actual list of classes -->
-		<div #scheduleQueue
+		<div
+			#scheduleQueue
 			class="schedule"
 			[style.flex-direction]="isHorizontal ? 'row' : 'column'"
-			[style.height]="isHorizontal ? '' : '100%'">
-				<ng-container *ngFor="let block of schedule?.classes; let i = index">
-				<div #displayBlock class="block" [hidden]="startIndex > i || i >= (startIndex + showNBlocks)">
+			[style.height]="isHorizontal ? '' : '100%'"
+		>
+			<ng-container *ngFor="let block of schedule?.classes; let i = index">
+				<div
+					#displayBlock
+					class="block"
+					[hidden]="startIndex > i || i >= startIndex + showNBlocks"
+				>
 					<h3>{{ block.class?.name }}</h3>
-					<div>{{ block.start | momentDate:'shortTime':'America/Chicago' }} - {{ block.end | momentDate:'shortTime':'America/Chicago' }}</div>
+					<div>
+						{{ block.start | momentDate: 'shortTime':'America/Chicago' }} -
+						{{ block.end | momentDate: 'shortTime':'America/Chicago' }}
+					</div>
 				</div>
 			</ng-container>
 		</div>

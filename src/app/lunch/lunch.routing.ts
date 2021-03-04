@@ -1,4 +1,4 @@
-import { NgModule }             from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { LunchComponent } from './lunch/lunch.component';
@@ -11,11 +11,7 @@ const lunchRoutes: Routes = [
 ];
 
 @NgModule({
-	imports: [
-		RouterModule.forChild(lunchRoutes)
-	],
-	exports: [
-		RouterModule
-	]
+	imports: [RouterModule.forChild(lunchRoutes)],
+	exports: [RouterModule]
 })
-export class LunchRoutingModule { }
+export class LunchRoutingModule {}

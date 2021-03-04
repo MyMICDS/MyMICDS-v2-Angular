@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { capitalize } from '../../common/utils';
+import { Pipe, PipeTransform } from '@angular/core';
 
 /*
  * Capitalize a string
@@ -9,9 +9,7 @@ import { capitalize } from '../../common/utils';
 	name: 'capitalize'
 })
 export class CapitalizePipe implements PipeTransform {
-
 	transform(value: string): string {
 		return capitalize(value);
 	}
-
 }

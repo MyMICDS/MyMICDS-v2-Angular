@@ -7,12 +7,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 	styleUrls: ['./bookmarks.component.scss']
 })
 export class BookmarksComponent implements OnInit {
-
 	@Input() label: string;
 	@Input() icon: string;
 	@Input() url: string;
-
-	constructor() { }
 
 	ngOnInit() {
 		// Check for legacy FA4 icons
@@ -31,5 +28,4 @@ export class BookmarksComponent implements OnInit {
 			}
 		}
 	}
-
 }

@@ -8,10 +8,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 	name: 'compassDirection'
 })
 export class CompassDirectionPipe implements PipeTransform {
-
-	transform(value: number, args?: any): any {
-
-		let directions = [
+	transform(value: number) {
+		const directions = [
 			'North',
 			'North Northeast',
 			'Northeast',
@@ -30,15 +28,14 @@ export class CompassDirectionPipe implements PipeTransform {
 			'North Northwest'
 		];
 
-		let interval = 360 / directions.length;
+		const interval = 360 / directions.length;
 
 		// Find out what section of the compass you are in
-		let section = Math.round(moduloFixed(value, 360) / interval);
+		const section = Math.round(moduloFixed(value, 360) / interval);
 		return directions[section % directions.length];
 	}
-
 }
 
 function moduloFixed(num: number, modulo: number) {
-	return ((num % modulo) + modulo ) % modulo;
+	return ((num % modulo) + modulo) % modulo;
 }
