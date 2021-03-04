@@ -17,7 +17,8 @@
       },
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "@mymicds"
+        "@mymicds",
+        "prettier"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
