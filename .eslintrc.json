@@ -16,43 +16,32 @@
         "createDefaultProgram": true
       },
       "extends": [
-        "plugin:@angular-eslint/ng-cli-compat",
-        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/recommended",
+        "@mymicds"
       ],
       "rules": {
-        "@typescript-eslint/dot-notation": "off",
-        "@typescript-eslint/explicit-member-accessibility": [
-          "off",
-          {
-            "accessibility": "explicit"
+        "@angular-eslint/component-selector": [
+          "warn", {
+            "prefix": "mymicds"
           }
         ],
-        "@typescript-eslint/member-delimiter-style": [
-          "off",
-          {
-            "multiline": {
-              "delimiter": "none",
-              "requireLast": true
-            },
-            "singleline": {
-              "delimiter": "semi",
-              "requireLast": false
-            }
+        "@typescript-eslint/member-ordering": [
+          "warn", {
+            "default": [
+              "private-field",
+              "protected-field",
+              "public-field",
+              "private-method",
+              "protected-method",
+              "public-method"
+            ]
           }
         ],
-        "@typescript-eslint/no-inferrable-types": "error",
-        "@typescript-eslint/semi": [
-          "off",
-          null
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/unbound-method": [
+          "error", { "ignoreStatic": true }
         ],
-        "brace-style": [
-          "error",
-          "1tbs"
-        ],
-        "id-blacklist": "off",
-        "id-match": "off",
-        "no-redeclare": "error",
+        "prefer-arrow/prefer-arrow-functions": "off",
         "no-underscore-dangle": "off"
       }
     },
