@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
 	selector: 'mymicds-bookmarks',
@@ -14,12 +15,19 @@ export class BookmarksComponent implements OnInit {
 	constructor() { }
 
 	ngOnInit() {
-		const isOutlineIcon = this.icon.substring(this.icon.length - 2, this.icon.length) == '-o'
-		if (this.icon.includes('fa-')) { // If it's an outline icon from FA4 (fa-envelope-o), remove the 'fa' and 'o'
-			this.icon = this.icon.substring(3)
+		// Check for legacy FA4 icons
+		if (this.icon.includes('fa-')) {
+			// Remove 'fa-' prefix
+			this.icon = this.icon.substring(3);
 
-			if (isOutlineIcon) {
-				this.icon = this.icon.substring(0, this.icon.length - 2)
+			// Remove '-o' suffix if icon contains it
+			if (this.icon.substring(this.icon.length - 2, this.icon.length) === '-o') {
+				this.icon = this.icon.substring(0, this.icon.length - 2);
+			}
+
+			// If there's no matching FA5 icon, use 'bookmark' as a fallback
+			if (!Object.values(fas).some(i => this.icon === i.iconName)) {
+				this.icon = 'bookmark';
 			}
 		}
 	}
