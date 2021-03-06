@@ -254,8 +254,15 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 		this.addSubscription(
 			fromEvent(document, 'click')
 				.pipe(
-					map(event => (event.target as HTMLElement).className.split(' ')),
-					filter((className: string[]) => contains(className, 'planner-interface'))
+					map(event => {
+						// sometimes the target can be on an SVG element (i.e. an FA icon)
+						// where the className isn't a string
+						if (event.target instanceof HTMLElement) {
+							return event.target.className.split(' ');
+						}
+						return [];
+					}),
+					filter(className => contains(className, 'planner-interface'))
 				)
 				.subscribe(() => {
 					this.deselectDay();
