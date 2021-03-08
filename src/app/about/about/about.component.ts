@@ -1,6 +1,6 @@
 import { GetStatsResponse, MyMICDS } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import Chart from 'chart.js';
 import prisma from 'prisma';
@@ -113,6 +113,9 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 
 	viewingVisits = false;
 
+	@ViewChild('registerCountChart') registerCountChart: ElementRef<HTMLCanvasElement>;
+	@ViewChild('visitedTodayChart') visitedTodayChart: ElementRef<HTMLCanvasElement>;
+
 	constructor(private mymicds: MyMICDS) {
 		super();
 	}
@@ -148,7 +151,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 					mappedDates.sort((a, b) => {
 						return a.value - b.value;
 					});
-					const sortedDates = mappedDates.map((el) => {
+					const sortedDates = mappedDates.map(el => {
 						return dates[el.index];
 					});
 
@@ -196,9 +199,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 				// Initialize Charts
 				setTimeout(() => {
 					// Initialize Line Chart
-					this.lineCtx = document.getElementById(
-						'registerCountChart'
-					) as HTMLCanvasElement;
+					this.lineCtx = this.registerCountChart.nativeElement;
 					this.lineChart = new Chart(this.lineCtx, {
 						type: 'line',
 						data: {
@@ -221,7 +222,7 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 					});
 
 					// Initialize Pie Chart
-					this.pieCtx = document.getElementById('visitedTodayChart') as HTMLCanvasElement;
+					this.pieCtx = this.visitedTodayChart.nativeElement;
 					this.pieChart = new Chart(this.pieCtx, {
 						type: 'pie',
 						data: {

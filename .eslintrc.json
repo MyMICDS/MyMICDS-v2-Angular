@@ -43,6 +43,16 @@
           "error", { "ignoreStatic": true }
         ],
         "prefer-arrow/prefer-arrow-functions": "off",
+        "no-restricted-syntax": ["error",
+          {
+            "selector": "MemberExpression[object.name='document'][property.name='getElementById']",
+            "message": "Do not use document.getElementById directly, use Angular @ViewChild/ViewChildren decorators instead."
+          },
+          {
+            "selector": "ForInStatement",
+            "message": "Do not use for..in statements, iterate over Object.keys() instead."
+          }
+        ],
         "no-underscore-dangle": "off"
       }
     },
