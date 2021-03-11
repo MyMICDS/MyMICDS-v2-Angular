@@ -17,7 +17,9 @@ export class SettingsComponent extends SubscriptionsComponent implements OnInit 
 	ngOnInit() {
 		this.addSubscription(
 			this.mymicds.auth.$.subscribe(data => {
-				this.username = data!.user;
+				if (data) {
+					this.username = data.user;
+				}
 			})
 		);
 	}
