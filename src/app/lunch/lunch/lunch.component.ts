@@ -105,11 +105,10 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 					// Scroll to current day (particularly for mobile)
 					for (let i = 0; i < this.lunch.length; i++) {
 						if (this.lunch[i].date.today) {
-							const todayRef = this.lunchDays.get(i);
 							// somehow doesn't always exist, just check first
-							if (todayRef) {
-								todayRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
-							}
+							this.lunchDays
+								.get(i)
+								?.nativeElement.scrollIntoView({ behavior: 'smooth' });
 						}
 					}
 				})
