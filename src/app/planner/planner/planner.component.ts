@@ -684,7 +684,7 @@ export class PlannerComponent extends SubscriptionsComponent implements OnInit {
 	selectDayEvent(id: string) {
 		for (let i = 0; i < this.selectionEvents.length; i++) {
 			if (this.selectionEvents[i].data._id === id) {
-				this.eventEls.get(i)!.nativeElement.scrollIntoView({ behavior: 'smooth' });
+				this.eventEls.get(i)?.nativeElement.scrollIntoView({ behavior: 'smooth' });
 				// shine the element
 				break;
 			}
