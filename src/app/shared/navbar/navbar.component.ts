@@ -42,11 +42,6 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 			auth: true
 		},
 		{
-			url: '/campus',
-			name: 'Campus Life',
-			icon: 'graduation-cap'
-		},
-		{
 			url: '/about',
 			name: 'About',
 			icon: 'info'
