@@ -438,399 +438,384 @@
 
 <!-- Modal for creating events -->
 <ng-template #createEventModal let-modal class="create-event-modal modal fade" tabindex="-1">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title pull-left">Create a Planner Event</h4>
-				<button
-					type="button"
-					class="close pull-right"
-					(click)="modal.dismiss()"
-					aria-label="Close"
-				>
-					<span aria-hidden="true">&times;</span>
-				</button>
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title pull-left">Create a Planner Event</h4>
+			<button
+				type="button"
+				class="close pull-right"
+				(click)="modal.dismiss()"
+				aria-label="Close"
+			>
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div *ngIf="!mymicds.auth.isLoggedIn" class="create-event-register">
+				<p>Using the planner requires a MyMICDS Account!</p>
+				<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
 			</div>
-			<div class="modal-body">
-				<div *ngIf="!mymicds.auth.isLoggedIn" class="create-event-register">
-					<p>Using the planner requires a MyMICDS Account!</p>
-					<a class="btn btn-primary btn-lg" routerLink="/register">Register Now</a>
-				</div>
-				<form #createEventForm="ngForm" [hidden]="!mymicds.auth.isLoggedIn" novalidate>
-					<fieldset
-						class="form-group"
-						[class.has-danger]="createEventTitle.dirty && !createEventTitle.valid"
+			<form #createEventForm="ngForm" [hidden]="!mymicds.auth.isLoggedIn" novalidate>
+				<fieldset
+					class="form-group"
+					[class.has-danger]="createEventTitle.dirty && !createEventTitle.valid"
+				>
+					<legend>Event Title</legend>
+					<input
+						#createEventTitle="ngModel"
+						class="form-control"
+						[class.form-control-danger]="
+							createEventTitle.dirty && !createEventTitle.valid
+						"
+						name="title"
+						[(ngModel)]="createEventModel.title"
+						placeholder="Title"
+						required
+					/>
+					<p
+						*ngIf="createEventTitle.dirty && !createEventTitle.valid"
+						class="form-control-feedback"
 					>
-						<legend>Event Title</legend>
-						<input
-							#createEventTitle="ngModel"
-							class="form-control"
-							[class.form-control-danger]="
-								createEventTitle.dirty && !createEventTitle.valid
-							"
-							name="title"
-							[(ngModel)]="createEventModel.title"
-							placeholder="Title"
-							required
-						/>
-						<p
-							*ngIf="createEventTitle.dirty && !createEventTitle.valid"
-							class="form-control-feedback"
-						>
-							Title is required
-						</p>
-					</fieldset>
-					<fieldset class="form-group">
-						<legend>Event Description</legend>
-						<textarea
-							class="form-control"
-							name="desc"
-							[(ngModel)]="createEventModel.desc"
-							placeholder="Description"
-							autocomplete="off"
-							rows="5"
-						></textarea>
-					</fieldset>
-					<fieldset class="form-group">
-						<legend>Event Class</legend>
-						<select
-							class="form-control"
-							name="classId"
-							[(ngModel)]="createEventModel.classId"
-						>
-							<option *ngFor="let class of classes" [value]="class._id">
-								{{ class.name }}
-							</option>
-							<option value="other" selected>Other</option>
-						</select>
-					</fieldset>
-					<fieldset class="form-group">
-						<legend>Event Date</legend>
-						<div class="event-date btn-group">
-							<div class="form-group hidden">
-								<div class="input-group">
-									<!-- this is disgusting and needs a TODO fix -->
-									<input
-										name="datepicker"
-										class="form-control"
-										ngbDatepicker
-										#datepicker="ngbDatepicker"
-										[autoClose]="'outside'"
-										(dateSelect)="onDateSelection($event)"
-										[displayMonths]="2"
-										[dayTemplate]="t"
-										outsideDays="hidden"
-										[startDate]="fromDate!"
-										tabindex="-1"
-									/>
-									<ng-template #t let-date let-focused="focused">
-										<span
-											class="custom-day"
-											[class.focused]="focused"
-											[class.range]="isRange(date)"
-											[class.faded]="isHovered(date) || isInside(date)"
-											(mouseenter)="hoveredDate = date"
-											(mouseleave)="hoveredDate = null"
-										>
-											{{ date.day }}
-										</span>
-									</ng-template>
-								</div>
+						Title is required
+					</p>
+				</fieldset>
+				<fieldset class="form-group">
+					<legend>Event Description</legend>
+					<textarea
+						class="form-control"
+						name="desc"
+						[(ngModel)]="createEventModel.desc"
+						placeholder="Description"
+						autocomplete="off"
+						rows="5"
+					></textarea>
+				</fieldset>
+				<fieldset class="form-group">
+					<legend>Event Class</legend>
+					<select
+						class="form-control"
+						name="classId"
+						[(ngModel)]="createEventModel.classId"
+					>
+						<option *ngFor="let class of classes" [value]="class._id">
+							{{ class.name }}
+						</option>
+						<option value="other" selected>Other</option>
+					</select>
+				</fieldset>
+				<fieldset class="form-group">
+					<legend>Event Date</legend>
+					<div class="event-date btn-group">
+						<div class="form-group hidden">
+							<div class="input-group">
+								<!-- this is disgusting and needs a TODO fix -->
+								<input
+									name="datepicker"
+									class="form-control"
+									ngbDatepicker
+									#datepicker="ngbDatepicker"
+									[autoClose]="'outside'"
+									(dateSelect)="onDateSelection($event)"
+									[displayMonths]="2"
+									[dayTemplate]="t"
+									outsideDays="hidden"
+									[startDate]="fromDate!"
+									tabindex="-1"
+								/>
+								<ng-template #t let-date let-focused="focused">
+									<span
+										class="custom-day"
+										[class.focused]="focused"
+										[class.range]="isRange(date)"
+										[class.faded]="isHovered(date) || isInside(date)"
+										(mouseenter)="hoveredDate = date"
+										(mouseleave)="hoveredDate = null"
+									>
+										{{ date.day }}
+									</span>
+								</ng-template>
 							</div>
-							<div class="form-group">
-								<div class="input-group">
-									<input
-										#dpFromDate
-										class="form-control"
-										placeholder="yyyy-mm-dd"
-										name="dpFromDate"
-										[value]="formatter.format(fromDate)"
-										(input)="
-											fromDate = validateInput(fromDate, dpFromDate.value)
-										"
-									/>
-									<div class="input-group-append">
-										<button
-											class="btn btn-outline-secondary calendar"
-											(click)="datepicker.toggle()"
-											type="button"
-										>
-											<fa-icon icon="calendar"></fa-icon>
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class="form-group ml-2">
-								<div class="input-group">
-									<input
-										#dpToDate
-										class="form-control"
-										placeholder="yyyy-mm-dd"
-										name="dpToDate"
-										[value]="formatter.format(toDate)"
-										(input)="toDate = validateInput(toDate, dpToDate.value)"
-									/>
-									<div class="input-group-append">
-										<button
-											class="btn btn-outline-secondary calendar"
-											(click)="datepicker.toggle()"
-											type="button"
-										>
-											<fa-icon icon="calendar"></fa-icon>
-										</button>
-									</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<input
+									#dpFromDate
+									class="form-control"
+									placeholder="yyyy-mm-dd"
+									name="dpFromDate"
+									[value]="formatter.format(fromDate)"
+									(input)="fromDate = validateInput(fromDate, dpFromDate.value)"
+								/>
+								<div class="input-group-append">
+									<button
+										class="btn btn-outline-secondary calendar"
+										(click)="datepicker.toggle()"
+										type="button"
+									>
+										<fa-icon icon="calendar"></fa-icon>
+									</button>
 								</div>
 							</div>
 						</div>
-					</fieldset>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button
-					type="button"
-					class="btn btn-primary"
-					(click)="createEvent(); modal.dismiss()"
-					[disabled]="!createEventForm.valid"
-				>
-					Create Event
-				</button>
-			</div>
+						<div class="form-group ml-2">
+							<div class="input-group">
+								<input
+									#dpToDate
+									class="form-control"
+									placeholder="yyyy-mm-dd"
+									name="dpToDate"
+									[value]="formatter.format(toDate)"
+									(input)="toDate = validateInput(toDate, dpToDate.value)"
+								/>
+								<div class="input-group-append">
+									<button
+										class="btn btn-outline-secondary calendar"
+										(click)="datepicker.toggle()"
+										type="button"
+									>
+										<fa-icon icon="calendar"></fa-icon>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button
+				type="button"
+				class="btn btn-primary"
+				(click)="createEvent(); modal.dismiss()"
+				[disabled]="!createEventForm.valid"
+			>
+				Create Event
+			</button>
 		</div>
 	</div>
 </ng-template>
 
 <!-- Modal for viewing events -->
 <ng-template #viewEventModal let-modal class="view-event-modal modal fade" tabindex="-1">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title pull-left">
-					{{ viewEventObject?.title }}
-					<br />
-					<small class="text-muted">{{
-						formatEventDate(viewEventObject?.start, viewEventObject?.end)
-					}}</small>
-				</h4>
-				<button
-					type="button"
-					class="close pull-right"
-					(click)="modal.dismiss()"
-					aria-label="Close"
-				>
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div
-				*ngIf="viewEventObject?.desc?.length > 0"
-				class="modal-body"
-				[innerHTML]="viewEventObject?.desc"
-			></div>
-			<div
-				class="modal-footer"
-				*ngIf="!$any(viewEventObject)?.canvas || viewEventObject?.link"
-				[style.border-top]="viewEventObject?.desc?.length > 0 ? '' : 'none'"
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title pull-left">
+				{{ viewEventObject?.title }}
+				<br />
+				<small class="text-muted">{{
+					formatEventDate(viewEventObject?.start, viewEventObject?.end)
+				}}</small>
+			</h4>
+			<button
+				type="button"
+				class="close pull-right"
+				(click)="modal.dismiss()"
+				aria-label="Close"
 			>
-				<!-- Button to x -->
-				<button
-					class="btn btn-success"
-					(click)="crossoutEvent(viewEventObject._id, $event)"
-				>
-					{{ viewEventObject?.checked ? 'Mark as Incomplete' : 'Mark as Completed' }}
-				</button>
-				<!-- Button if there's a link and it's a Canvas Event -->
-				<a
-					*ngIf="viewEventObject?.link && viewEventObject?.canvas"
-					class="btn btn-info"
-					[href]="viewEventObject.link"
-					target="_blank"
-					>View Event on Canvas</a
-				>
-				<!-- Button if there's a link and it's NOT a Canvas Event -->
-				<a
-					*ngIf="viewEventObject?.link && !viewEventObject?.canvas"
-					class="btn btn-info"
-					[href]="viewEventObject.link"
-					target="_blank"
-					>View Event URL</a
-				>
-				<button
-					*ngIf="!viewEventObject?.canvas"
-					class="btn btn-warning"
-					(click)="
-						modal.dismiss();
-						viewEditEventModal(viewEventObject._id, $event);
-						openModal(editEventModal)
-					"
-				>
-					Edit
-				</button>
-				<button
-					*ngIf="!viewEventObject?.canvas"
-					class="btn btn-danger"
-					(click)="deleteEvent(viewEventObject._id, $event); modal.dismiss()"
-				>
-					Delete
-				</button>
-			</div>
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div
+			*ngIf="viewEventObject?.desc?.length > 0"
+			class="modal-body"
+			[innerHTML]="viewEventObject?.desc"
+		></div>
+		<div
+			class="modal-footer"
+			*ngIf="!$any(viewEventObject)?.canvas || viewEventObject?.link"
+			[style.border-top]="viewEventObject?.desc?.length > 0 ? '' : 'none'"
+		>
+			<!-- Button to x -->
+			<button class="btn btn-success" (click)="crossoutEvent(viewEventObject._id, $event)">
+				{{ viewEventObject?.checked ? 'Mark as Incomplete' : 'Mark as Completed' }}
+			</button>
+			<!-- Button if there's a link and it's a Canvas Event -->
+			<a
+				*ngIf="viewEventObject?.link && viewEventObject?.canvas"
+				class="btn btn-info"
+				[href]="viewEventObject.link"
+				target="_blank"
+				>View Event on Canvas</a
+			>
+			<!-- Button if there's a link and it's NOT a Canvas Event -->
+			<a
+				*ngIf="viewEventObject?.link && !viewEventObject?.canvas"
+				class="btn btn-info"
+				[href]="viewEventObject.link"
+				target="_blank"
+				>View Event URL</a
+			>
+			<button
+				*ngIf="!viewEventObject?.canvas"
+				class="btn btn-warning"
+				(click)="
+					modal.dismiss();
+					viewEditEventModal(viewEventObject._id, $event);
+					openModal(editEventModal)
+				"
+			>
+				Edit
+			</button>
+			<button
+				*ngIf="!viewEventObject?.canvas"
+				class="btn btn-danger"
+				(click)="deleteEvent(viewEventObject._id, $event); modal.dismiss()"
+			>
+				Delete
+			</button>
 		</div>
 	</div>
 </ng-template>
 
 <!-- Modal for editing events -->
 <ng-template #editEventModal let-modal class="edit-event-modal modal fade" tabindex="-1">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title pull-left">Edit a Planner Event</h4>
-				<button
-					type="button"
-					class="close pull-right"
-					(click)="modal.dismiss()"
-					aria-label="Close"
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title pull-left">Edit a Planner Event</h4>
+			<button
+				type="button"
+				class="close pull-right"
+				(click)="modal.dismiss()"
+				aria-label="Close"
+			>
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<form #editEventForm="ngForm" novalidate>
+				<fieldset
+					class="form-group"
+					[class.has-danger]="editEventTitle.dirty && !editEventTitle.valid"
 				>
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form #editEventForm="ngForm" novalidate>
-					<fieldset
-						class="form-group"
-						[class.has-danger]="editEventTitle.dirty && !editEventTitle.valid"
+					<legend>Event Title</legend>
+					<input
+						#editEventTitle="ngModel"
+						class="form-control"
+						[class.form-control-danger]="editEventTitle.dirty && !editEventTitle.valid"
+						name="title"
+						[(ngModel)]="editEventModel.title"
+						placeholder="Title"
+						required
+					/>
+					<p
+						*ngIf="editEventTitle.dirty && !editEventTitle.valid"
+						class="form-control-feedback"
 					>
-						<legend>Event Title</legend>
-						<input
-							#editEventTitle="ngModel"
-							class="form-control"
-							[class.form-control-danger]="
-								editEventTitle.dirty && !editEventTitle.valid
-							"
-							name="title"
-							[(ngModel)]="editEventModel.title"
-							placeholder="Title"
-							required
-						/>
-						<p
-							*ngIf="editEventTitle.dirty && !editEventTitle.valid"
-							class="form-control-feedback"
-						>
-							Title is required
-						</p>
-					</fieldset>
-					<fieldset class="form-group">
-						<legend>Event Description</legend>
-						<textarea
-							class="form-control"
-							name="desc"
-							[(ngModel)]="editEventModel.desc"
-							placeholder="Description"
-							autocomplete="off"
-							rows="5"
-						></textarea>
-					</fieldset>
-					<fieldset class="form-group">
-						<legend>Event Class</legend>
-						<select
-							class="form-control"
-							name="classId"
-							[(ngModel)]="editEventModel.classId"
-						>
-							<option *ngFor="let class of classes" [value]="class._id">
-								{{ class.name }}
-							</option>
-							<option value="other" selected>Other</option>
-						</select>
-					</fieldset>
-					<fieldset class="form-group">
-						<legend>Event Date</legend>
-						<div class="event-date btn-group">
-							<div class="form-group hidden">
-								<div class="input-group">
-									<!-- this is disgusting and needs a TODO fix -->
-									<input
-										name="editdatepicker"
-										class="form-control"
-										ngbDatepicker
-										#editdatepicker="ngbDatepicker"
-										[autoClose]="'outside'"
-										(dateSelect)="onDateSelection($event)"
-										[displayMonths]="2"
-										[dayTemplate]="t"
-										outsideDays="hidden"
-										[startDate]="fromDate!"
-										tabindex="-1"
-									/>
-									<ng-template #t let-date let-focused="focused">
-										<span
-											class="custom-day"
-											[class.focused]="focused"
-											[class.range]="isRange(date)"
-											[class.faded]="isHovered(date) || isInside(date)"
-											(mouseenter)="hoveredDate = date"
-											(mouseleave)="hoveredDate = null"
-										>
-											{{ date.day }}
-										</span>
-									</ng-template>
-								</div>
+						Title is required
+					</p>
+				</fieldset>
+				<fieldset class="form-group">
+					<legend>Event Description</legend>
+					<textarea
+						class="form-control"
+						name="desc"
+						[(ngModel)]="editEventModel.desc"
+						placeholder="Description"
+						autocomplete="off"
+						rows="5"
+					></textarea>
+				</fieldset>
+				<fieldset class="form-group">
+					<legend>Event Class</legend>
+					<select
+						class="form-control"
+						name="classId"
+						[(ngModel)]="editEventModel.classId"
+					>
+						<option *ngFor="let class of classes" [value]="class._id">
+							{{ class.name }}
+						</option>
+						<option value="other" selected>Other</option>
+					</select>
+				</fieldset>
+				<fieldset class="form-group">
+					<legend>Event Date</legend>
+					<div class="event-date btn-group">
+						<div class="form-group hidden">
+							<div class="input-group">
+								<!-- this is disgusting and needs a TODO fix -->
+								<input
+									name="editdatepicker"
+									class="form-control"
+									ngbDatepicker
+									#editdatepicker="ngbDatepicker"
+									[autoClose]="'outside'"
+									(dateSelect)="onDateSelection($event)"
+									[displayMonths]="2"
+									[dayTemplate]="t"
+									outsideDays="hidden"
+									[startDate]="fromDate!"
+									tabindex="-1"
+								/>
+								<ng-template #t let-date let-focused="focused">
+									<span
+										class="custom-day"
+										[class.focused]="focused"
+										[class.range]="isRange(date)"
+										[class.faded]="isHovered(date) || isInside(date)"
+										(mouseenter)="hoveredDate = date"
+										(mouseleave)="hoveredDate = null"
+									>
+										{{ date.day }}
+									</span>
+								</ng-template>
 							</div>
-							<div class="form-group">
-								<div class="input-group">
-									<input
-										#dpFromDate
-										class="form-control"
-										placeholder="yyyy-mm-dd"
-										name="dpFromDate"
-										[value]="formatter.format(fromDate)"
-										(input)="
-											fromDate = validateInput(fromDate, dpFromDate.value)
-										"
-									/>
-									<div class="input-group-append">
-										<button
-											class="btn btn-outline-secondary calendar"
-											(click)="editdatepicker.toggle()"
-											type="button"
-										>
-											<fa-icon icon="calendar"></fa-icon>
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class="form-group ml-2">
-								<div class="input-group">
-									<input
-										#dpToDate
-										class="form-control"
-										placeholder="yyyy-mm-dd"
-										name="dpToDate"
-										[value]="formatter.format(toDate)"
-										(input)="toDate = validateInput(toDate, dpToDate.value)"
-									/>
-									<div class="input-group-append">
-										<button
-											class="btn btn-outline-secondary calendar"
-											(click)="editdatepicker.toggle()"
-											type="button"
-										>
-											<fa-icon icon="calendar"></fa-icon>
-										</button>
-									</div>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<input
+									#dpFromDate
+									class="form-control"
+									placeholder="yyyy-mm-dd"
+									name="dpFromDate"
+									[value]="formatter.format(fromDate)"
+									(input)="fromDate = validateInput(fromDate, dpFromDate.value)"
+								/>
+								<div class="input-group-append">
+									<button
+										class="btn btn-outline-secondary calendar"
+										(click)="editdatepicker.toggle()"
+										type="button"
+									>
+										<fa-icon icon="calendar"></fa-icon>
+									</button>
 								</div>
 							</div>
 						</div>
-					</fieldset>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button
-					type="button"
-					class="btn btn-primary"
-					(click)="editEvent(); modal.dismiss()"
-					[disabled]="!editEventForm.valid"
-				>
-					Edit Event
-				</button>
-			</div>
+						<div class="form-group ml-2">
+							<div class="input-group">
+								<input
+									#dpToDate
+									class="form-control"
+									placeholder="yyyy-mm-dd"
+									name="dpToDate"
+									[value]="formatter.format(toDate)"
+									(input)="toDate = validateInput(toDate, dpToDate.value)"
+								/>
+								<div class="input-group-append">
+									<button
+										class="btn btn-outline-secondary calendar"
+										(click)="editdatepicker.toggle()"
+										type="button"
+									>
+										<fa-icon icon="calendar"></fa-icon>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button
+				type="button"
+				class="btn btn-primary"
+				(click)="editEvent(); modal.dismiss()"
+				[disabled]="!editEventForm.valid"
+			>
+				Edit Event
+			</button>
 		</div>
 	</div>
 </ng-template>
