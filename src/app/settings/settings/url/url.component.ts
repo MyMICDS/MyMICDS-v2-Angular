@@ -1,6 +1,6 @@
 import { GetUserInfoResponse, MyMICDS } from '@mymicds/sdk';
 
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { debounceTime, filter, switchMap } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
 
@@ -16,6 +16,7 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 	userInfo: GetUserInfoResponse | null = null;
 
 	// Canvas URL Form
+	@ViewChild('canvasUrl') canvasInput: ElementRef<HTMLInputElement>;
 	canvasURL: string | null;
 	canvasValid: boolean | null;
 	canvasResponse: string;
@@ -24,12 +25,14 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 	canvasFeedUpdateLoading = false;
 
 	// Portal Classes URL Form
+	@ViewChild('portalClassesUrl') portalClassesInput: ElementRef<HTMLInputElement>;
 	portalClassesURL: string | null;
 	portalClassesValid: boolean | null;
 	portalClassesResponse: string;
 	portalClassesSaving = false;
 
 	// Portal Calendar URL Form
+	@ViewChild('portalCalendarUrl') portalCalendarInput: ElementRef<HTMLInputElement>;
 	portalCalendarURL: string | null;
 	portalCalendarValid: boolean | null;
 	portalCalendarResponse: string;
@@ -72,91 +75,67 @@ export class UrlComponent extends SubscriptionsComponent implements OnInit, Afte
 	}
 
 	ngAfterViewInit() {
-		/*
-		 * @TODO
-		 * This is, yet again, one of those things that I can't get to work no matter what I try.
-		 * The ngAfterViewInit lifecycle hook _should_ have loaded the DOM, but the input variables return null.
-		 * I even put a setTimeout of 1000, and they still return null.
-		 * The only way I've found is to have an interval, which the DOM elements are retrieved
-		 * always on the second time.
-		 */
+		// Subscribe to Portal and Canvas URL inputs to test URLs
 
-		const interval = setInterval(() => {
-			// Get URL inputs
-			const portalClassesInput = document.getElementById('portal-classes-url');
-			const portalCalendarInput = document.getElementById('portal-calendar-url');
-			const canvasInput = document.getElementById('canvas-url');
-
-			// Keep trying until DOM is loaded
-			if (!portalClassesInput || !portalCalendarInput || !canvasInput) {
-				return;
-			}
-			clearInterval(interval);
-
-			// Subscribe to Portal and Canvas URL inputs to test URL
-			this.addSubscription(
-				fromEvent(portalClassesInput, 'keyup')
-					.pipe(
-						filter(
-							() =>
-								(this.portalClassesURL &&
-									this.portalClassesURL.length > 0) as boolean
-						),
-						debounceTime(250),
-						switchMap(() => {
-							this.portalClassesValid = null;
-							this.portalClassesResponse = 'Validating...';
-							return this.mymicds.portal.testClassesURL({
-								url: this.portalClassesURL!
-							});
-						})
-					)
-					.subscribe(data => {
-						this.portalClassesValid = data.valid === true;
-						this.portalClassesResponse = data.valid === true ? 'Valid!' : data.valid;
+		this.addSubscription(
+			fromEvent(this.portalClassesInput.nativeElement, 'keyup')
+				.pipe(
+					filter(
+						() => (this.portalClassesURL && this.portalClassesURL.length > 0) as boolean
+					),
+					debounceTime(250),
+					switchMap(() => {
+						this.portalClassesValid = null;
+						this.portalClassesResponse = 'Validating...';
+						return this.mymicds.portal.testClassesURL({
+							url: this.portalClassesURL!
+						});
 					})
-			);
+				)
+				.subscribe(data => {
+					this.portalClassesValid = data.valid === true;
+					this.portalClassesResponse = data.valid === true ? 'Valid!' : data.valid;
+				})
+		);
 
-			this.addSubscription(
-				fromEvent(portalCalendarInput, 'keyup')
-					.pipe(
-						filter(
-							() =>
-								(this.portalCalendarURL &&
-									this.portalCalendarURL.length > 0) as boolean
-						),
-						debounceTime(250),
-						switchMap(() => {
-							this.portalCalendarValid = null;
-							this.portalCalendarResponse = 'Validating...';
-							return this.mymicds.portal.testCalendarURL({
-								url: this.portalCalendarURL!
-							});
-						})
-					)
-					.subscribe(data => {
-						this.portalCalendarValid = data.valid === true;
-						this.portalCalendarResponse = data.valid === true ? 'Valid!' : data.valid;
+		this.addSubscription(
+			fromEvent(this.portalCalendarInput.nativeElement, 'keyup')
+				.pipe(
+					filter(
+						() =>
+							(this.portalCalendarURL && this.portalCalendarURL.length > 0) as boolean
+					),
+					debounceTime(250),
+					switchMap(() => {
+						this.portalCalendarValid = null;
+						this.portalCalendarResponse = 'Validating...';
+						return this.mymicds.portal.testCalendarURL({
+							url: this.portalCalendarURL!
+						});
 					})
-			);
+				)
+				.subscribe(data => {
+					this.portalCalendarValid = data.valid === true;
+					this.portalCalendarResponse = data.valid === true ? 'Valid!' : data.valid;
+				})
+		);
 
-			this.addSubscription(
-				fromEvent(canvasInput, 'keyup')
-					.pipe(
-						filter(() => (this.canvasURL && this.canvasURL.length > 0) as boolean),
-						debounceTime(250),
-						switchMap(() => {
-							this.canvasValid = null;
-							this.canvasResponse = 'Validating...';
-							return this.mymicds.canvas.testURL({ url: this.canvasURL! });
-						})
-					)
-					.subscribe(data => {
-						this.canvasValid = data.valid === true;
-						this.canvasResponse = data.valid === true ? 'Valid!' : data.valid;
+		this.addSubscription(
+			fromEvent(this.canvasInput.nativeElement, 'keyup')
+				.pipe(
+					filter(() => (this.canvasURL && this.canvasURL.length > 0) as boolean),
+					debounceTime(250),
+					switchMap(() => {
+						this.canvasValid = null;
+						this.canvasResponse = 'Validating...';
+						return this.mymicds.canvas.testURL({ url: this.canvasURL! });
 					})
-			);
-		}, 1);
+				)
+				.subscribe(data => {
+					this.canvasValid = data.valid === true;
+					this.canvasResponse = data.valid === true ? 'Valid!' : data.valid;
+				})
+		);
 	}
 
 	/*

@@ -1,6 +1,6 @@
 import { MyMICDS, School } from '@mymicds/sdk';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import * as moment from 'moment';
 
 import { AlertService } from '../../services/alert.service';
@@ -20,6 +20,8 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 
 	schools: School[] = ['upperschool', 'middleschool', 'lowerschool'];
 	school = this.schools[0];
+
+	@ViewChildren('lunchDay') lunchDays: QueryList<ElementRef<HTMLDivElement>>;
 
 	constructor(private mymicds: MyMICDS, private alertService: AlertService) {
 		super();
@@ -103,12 +105,10 @@ export class LunchComponent extends SubscriptionsComponent implements OnInit {
 					// Scroll to current day (particularly for mobile)
 					for (let i = 0; i < this.lunch.length; i++) {
 						if (this.lunch[i].date.today) {
-							setTimeout(() => {
-								const todayEl = document
-									.getElementsByClassName('lunch-day')
-									.item(i)!;
-								todayEl.scrollIntoView({ behavior: 'smooth' });
-							}, 0);
+							// somehow doesn't always exist, just check first
+							this.lunchDays
+								.get(i)
+								?.nativeElement.scrollIntoView({ behavior: 'smooth' });
 						}
 					}
 				})
