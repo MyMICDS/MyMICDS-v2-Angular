@@ -37,10 +37,6 @@ export const appRoutes: Routes = [
 		loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
 	},
 	{
-		path: 'campus',
-		loadChildren: () => import('./campus-life/campus-life.module').then(m => m.CampusLifeModule)
-	},
-	{
 		path: 'home',
 		loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
 	},

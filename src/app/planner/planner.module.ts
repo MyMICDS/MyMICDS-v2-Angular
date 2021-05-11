@@ -4,13 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { PlannerComponent } from './planner/planner.component';
 
-import { BsDatepickerModule, DatepickerModule } from 'ngx-bootstrap/datepicker';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -27,12 +23,7 @@ import { PlannerRoutingModule } from './planner.routing';
 		FormsModule,
 		ColorPickerModule,
 		FontAwesomeModule,
-		NgbModule,
-		BsDropdownModule.forRoot(),
-		DatepickerModule.forRoot(),
-		ModalModule.forRoot(),
-		TimepickerModule.forRoot(),
-		BsDatepickerModule.forRoot()
+		NgbModule
 	],
 	providers: [ColorPickerService]
 })

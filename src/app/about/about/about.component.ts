@@ -38,13 +38,6 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 			image: 'assets/developers/nicks-ugliest-face.jpg'
 		},
 		{
-			firstName: 'Sebastian "Seabass"',
-			lastName: 'Neumann',
-			gradYear: 2021,
-			title: 'Full Stack Developer',
-			image: 'assets/developers/sebastians-ugly-face-new.jpg'
-		},
-		{
 			firstName: 'Sam',
 			lastName: 'Baumohl',
 			gradYear: 2022,
@@ -54,6 +47,12 @@ export class AboutComponent extends SubscriptionsComponent implements OnInit {
 	];
 
 	alumni: Developer[] = [
+		{
+			firstName: 'Sebastian',
+			lastName: 'Neumann',
+			gradYear: 2021,
+			title: 'Front-End Developer'
+		},
 		{
 			firstName: 'Tanay',
 			lastName: 'Chandak',
