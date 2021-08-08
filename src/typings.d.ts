@@ -5,4 +5,4 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let System: any;
 
-declare module 'prisma';
+declare module '@rapid7/prisma';

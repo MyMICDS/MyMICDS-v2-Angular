@@ -3,7 +3,7 @@ import { GetStatsResponse, MyMICDS } from '@mymicds/sdk';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import Chart from 'chart.js';
-import prisma from 'prisma';
+import prisma from '@rapid7/prisma';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
 
