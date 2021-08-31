@@ -44,6 +44,14 @@
 	<p mymicds-blur *ngIf="!loading && bulletins.length === 0" class="bulletin-message">
 		There are no Daily Bulletins!
 	</p>
+
+	<!-- Broken Notice -->
+	<p mymicds-blur class="bulletin-message">
+		Due to limitations on Google Drive and published documents, it is no longer possible for
+		MyMICDS to record daily bulletins. This page will not longer be updated. Apologies for the
+		inconvenience.
+	</p>
+
 	<!-- Embeded PDF -->
 	<!-- <object *ngIf="!loading && bulletins.length > 0" class="bulletin-pdf" [data]="bulletinURL | safeResourceUrl"></object> -->
 	<pdf-viewer
