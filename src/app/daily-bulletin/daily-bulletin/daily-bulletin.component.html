@@ -2,54 +2,17 @@
 	<div mymicds-blur class="bulletin-header">
 		<h1>Daily Bulletin</h1>
 		<!-- Bulletin navigation bar -->
-		<div class="bulletin-navigation">
-			<button
-				mymicds-blur
-				class="previous-bulletin"
-				routerLink="/daily-bulletin"
-				(click)="previousBulletin()"
-				[disabled]="bulletinIndex === bulletins.length - 1"
-			>
-				<span>
-					<fa-icon icon="angle-left"></fa-icon>
-					Previous
-				</span>
-			</button>
-
-			<button mymicds-blur class="current-bulletin" (click)="currentBulletin()">
-				<span>{{ bulletinDate.toDate() | momentDate: 'EEEE':'America/Chicago' }}</span>
-				<span>{{ bulletinDate.toDate() | momentDate: 'MMM d, y':'America/Chicago' }}</span>
-			</button>
-
-			<button
-				mymicds-blur
-				class="next-bulletin"
-				routerLink="/daily-bulletin"
-				(click)="nextBulletin()"
-				[disabled]="bulletinIndex === 0"
-			>
-				<span>
-					Next
-					<fa-icon icon="angle-right"></fa-icon>
-				</span>
-			</button>
-		</div>
-		<button routerLink="/daily-bulletin/archives" class="btn btn-info btn-lg">
-			See Archived Bulletins
-		</button>
+		<div class="bulletin-navigation"></div>
 	</div>
+	<a class="btn btn-primary btn-lg">Bulletin for January 3rd, 2022</a>
+	<button routerLink="/daily-bulletin/archives" class="btn btn-info btn-lg">
+		See Archived Bulletins
+	</button>
 	<!-- Loading -->
 	<p mymicds-blur *ngIf="loading" class="bulletin-message">Fetching the Daily Bulletins...</p>
 	<!-- No Daily Bulletins -->
 	<p mymicds-blur *ngIf="!loading && bulletins.length === 0" class="bulletin-message">
 		There are no Daily Bulletins!
-	</p>
-
-	<!-- Broken Notice -->
-	<p mymicds-blur class="bulletin-message">
-		Due to limitations on Google Drive and published documents, it is no longer possible for
-		MyMICDS to record daily bulletins. This page will no longer be updated. Apologies for the
-		inconvenience.
 	</p>
 
 	<!-- Embeded PDF -->

@@ -32,7 +32,7 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 		this.parse = !!this.route.snapshot.data.parse;
 
 		this.addSubscription(
-			this.mymicds.dailyBulletin.getList().subscribe(bulletinsData => {
+			this.mymicds.dailyBulletin.getTxtList().subscribe(bulletinsData => {
 				this.loading = false;
 				this.bulletinBaseURL = bulletinsData.baseURL;
 				this.bulletins = bulletinsData.bulletins;
@@ -63,25 +63,10 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 		}
 		void this.router.navigate([navURL]);
 
-		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.pdf';
+		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.txt';
 		this.bulletinDate = moment(this.bulletins[index]);
-	}
 
-	previousBulletin() {
-		if (this.bulletinIndex < this.bulletins.length - 1) {
-			this.setBulletin(++this.bulletinIndex);
-		}
-	}
-
-	currentBulletin() {
-		this.bulletinIndex = 0;
-		this.setBulletin(this.bulletinIndex, true);
-	}
-
-	nextBulletin() {
-		if (this.bulletinIndex > 0) {
-			this.setBulletin(--this.bulletinIndex);
-		}
+		console.log(fs.readFileSync(this.bulletinURL, 'utf-8'));
 	}
 
 	getParsedBulletin() {

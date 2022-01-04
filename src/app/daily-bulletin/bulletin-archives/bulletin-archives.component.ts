@@ -21,7 +21,7 @@ export class BulletinArchivesComponent extends SubscriptionsComponent implements
 
 	ngOnInit() {
 		this.addSubscription(
-			this.mymicds.dailyBulletin.getList().subscribe(data => {
+			this.mymicds.dailyBulletin.getPdfList().subscribe(data => {
 				this.bulletins = data.bulletins;
 				this.baseURL = data.baseURL;
 
