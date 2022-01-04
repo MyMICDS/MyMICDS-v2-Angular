@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+// Import math module for division
+@use 'sass:math';
+
 // Planner Styles
 @import '../app/planner/planner/event-selection';
 
@@ -66,10 +69,10 @@ button {
 // Fix for Gridster (homepage modules)
 .gridster-item-inner {
 	position: absolute;
-	top: $blur-margin / 2;
-	right: $blur-margin / 2;
-	bottom: $blur-margin / 2;
-	left: $blur-margin / 2;
+	top: math.div($blur-margin, 2);
+	right: math.div($blur-margin, 2);
+	bottom: math.div($blur-margin, 2);
+	left: math.div($blur-margin, 2);
 
 	.gridster-item-resizable-handler {
 		&.handle-s,
@@ -99,10 +102,10 @@ button {
 
 .position-highlight .inner {
 	position: absolute;
-	top: $blur-margin / 2;
-	bottom: $blur-margin / 2;
-	left: $blur-margin / 2;
-	right: $blur-margin / 2;
+	top: math.div($blur-margin, 2);
+	bottom: math.div($blur-margin, 2);
+	left: math.div($blur-margin, 2);
+	right: math.div($blur-margin, 2);
 
 	background-color: rgba($sophisticated-white, 0.5);
 	border: 1px solid rgba($sophisticated-white, 0.75);

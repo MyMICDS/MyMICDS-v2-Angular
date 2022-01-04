@@ -37,7 +37,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
 	announcement =
-		'The daily dulletin has been fixed. It will now feature a link to the most recent bulletin!';
+		'The daily bulletin has been fixed and now features a link to the most recent bulletin!';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 	editMode = false;
