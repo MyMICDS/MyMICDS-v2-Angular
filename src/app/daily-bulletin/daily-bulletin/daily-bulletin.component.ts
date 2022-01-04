@@ -15,11 +15,9 @@ import { SubscriptionsComponent } from '../../common/subscriptions-component';
 export class DailyBulletinComponent extends SubscriptionsComponent implements OnInit {
 	loading = true;
 
-	bulletins: string[] = [];
+	bulletin: string;
 	bulletinBaseURL = '';
-	bulletinURL = '';
 	bulletinDate: moment.Moment = moment();
-	bulletinIndex = 0;
 
 	parse = false;
 	// parsedBulletin: any;
@@ -32,54 +30,12 @@ export class DailyBulletinComponent extends SubscriptionsComponent implements On
 		this.parse = !!this.route.snapshot.data.parse;
 
 		this.addSubscription(
-			this.mymicds.dailyBulletin.getTxtList().subscribe(bulletinsData => {
+			this.mymicds.dailyBulletin.getGDocBulletin().subscribe(bulletinsData => {
 				this.loading = false;
 				this.bulletinBaseURL = bulletinsData.baseURL;
-				this.bulletins = bulletinsData.bulletins;
-
-				// Check if a specific bulletin was supplied in the url. By default use most recent bulletin.
-				const params = this.route.snapshot.params;
-				if (params.bulletin && contains(this.bulletins, params.bulletin)) {
-					this.bulletinIndex = this.bulletins.indexOf(params.bulletin);
-				}
-
-				this.setBulletin(this.bulletinIndex, !params.bulletin);
-
-				// Possibly parse
-				if (this.parse) {
-					this.getParsedBulletin();
-				}
+				this.bulletin = bulletinsData.bulletin;
+				this.bulletinDate = moment(bulletinsData.bulletinDate);
 			})
 		);
-	}
-
-	setBulletin(index: number, clearURL = false) {
-		let navURL = '/daily-bulletin';
-		if (this.parse) {
-			navURL += '/parse';
-		}
-		if (!clearURL) {
-			navURL += `/${this.bulletins[index]}`;
-		}
-		void this.router.navigate([navURL]);
-
-		this.bulletinURL = this.bulletinBaseURL + '/' + this.bulletins[index] + '.txt';
-		this.bulletinDate = moment(this.bulletins[index]);
-
-		console.log(fs.readFileSync(this.bulletinURL, 'utf-8'));
-	}
-
-	getParsedBulletin() {
-		console.error('Cannot parse Daily Bulletin!');
-		// this.addSubscription(
-		// 	this.mymicds.dailyBulletin.parse(this.bulletins[this.bulletinIndex]).subscribe(
-		// 		parsed => {
-		// 			this.parsedBulletin = parsed;
-		// 		},
-		// 		error => {
-		// 			this.alertService.addAlert('danger', 'Parse Bulletin Error!', error);
-		// 		}
-		// 	)
-		// );
 	}
 }

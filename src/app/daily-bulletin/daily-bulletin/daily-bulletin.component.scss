@@ -20,52 +20,6 @@
 		h1 {
 			font-weight: 600;
 		}
-
-		.bulletin-navigation {
-			margin-bottom: 0.5rem;
-			display: flex;
-
-			.previous-bulletin,
-			.current-bulletin,
-			.next-bulletin {
-				width: 100%;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-
-				border: none;
-				color: $sophisticated-white;
-
-				&:hover {
-					color: darken($sophisticated-white, 20%);
-				}
-				&:active,
-				&[disabled] {
-					cursor: not-allowed;
-					color: darken($sophisticated-white, 40%);
-				}
-			}
-
-			.previous-bulletin,
-			.next-bulletin {
-				font-weight: 300;
-				font-size: 1.2rem;
-
-				.fa {
-					margin: 0 0.5rem;
-				}
-			}
-
-			.current-bulletin {
-				padding: 0 0.5rem;
-				display: flex;
-				flex-direction: column;
-
-				font-size: 1rem;
-				border-left: 1px solid rgba($sophisticated-white, 0.5);
-				border-right: 1px solid rgba($sophisticated-white, 0.5);
-			}
-		}
 	}
 
 	.bulletin-message {
@@ -75,24 +29,9 @@
 		font-weight: 600;
 	}
 
-	.bulletin-pdf {
-		max-width: 100%;
-		display: block;
-
-		::ng-deep .page {
-			box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-		}
-	}
-
-	.parse-debug {
-		display: block;
-		margin-bottom: 1rem;
-		padding: 0.5rem;
-		text-align: left;
-
-		pre {
-			white-space: pre-wrap;
-		}
+	a {
+		width: 95%;
+		margin: auto;
 	}
 }
 
@@ -103,16 +42,6 @@
 	.container {
 		.bulletin-header {
 			width: 40rem;
-
-			.bulletin-navigation {
-				.previous-bulletin,
-				.next-bulletin {
-					font-size: 2rem;
-				}
-				.current-bulletin {
-					font-size: 1.5rem;
-				}
-			}
 		}
 	}
 }
