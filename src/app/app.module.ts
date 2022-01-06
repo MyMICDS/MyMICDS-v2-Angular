@@ -21,7 +21,6 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
 import { AppComponent } from './app.component';
 import { ConfettiComponent } from './components/confetti/confetti.component';
-import { QuotesComponent } from './components/quotes/quotes.component';
 import { SummerComponent } from './components/summer/summer.component';
 
 import { AlertService } from './services/alert.service';
@@ -40,8 +39,7 @@ import { SharedModule } from './shared/shared.module';
 		AlertComponent,
 		AlertDebugComponent,
 		ConfettiComponent,
-		SummerComponent,
-		QuotesComponent
+		SummerComponent
 	],
 	imports: [
 		BrowserModule,

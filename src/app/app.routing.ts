@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { capitalizeURL } from './common/utils';
 
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
-import { QuotesComponent } from './components/quotes/quotes.component';
 
 /**
  * Title functions
@@ -25,8 +24,9 @@ export const appRoutes: Routes = [
 		pathMatch: 'full'
 	},
 	{
-		path: 'quote',
-		component: QuotesComponent
+		path: '**',
+		pathMatch: 'full',
+		redirectTo: '/home'
 	},
 	{
 		path: 'alert-debug',
