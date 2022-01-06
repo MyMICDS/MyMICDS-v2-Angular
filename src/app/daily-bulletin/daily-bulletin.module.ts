@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 import { BulletinArchivesComponent } from './bulletin-archives/bulletin-archives.component';
 import { DailyBulletinComponent } from './daily-bulletin/daily-bulletin.component';
@@ -14,13 +13,7 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
 	declarations: [DailyBulletinComponent, BulletinArchivesComponent],
-	imports: [
-		CommonModule,
-		SharedModule,
-		DailybulletinRoutingModule,
-		FontAwesomeModule,
-		PdfViewerModule
-	]
+	imports: [CommonModule, SharedModule, DailybulletinRoutingModule, FontAwesomeModule]
 })
 export class DailyBulletinModule {
 	constructor(library: FaIconLibrary) {
