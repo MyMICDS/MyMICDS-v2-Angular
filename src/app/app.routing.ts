@@ -24,11 +24,6 @@ export const appRoutes: Routes = [
 		pathMatch: 'full'
 	},
 	{
-		path: '**',
-		pathMatch: 'full',
-		redirectTo: '/home'
-	},
-	{
 		path: 'alert-debug',
 		component: AlertDebugComponent
 	},
@@ -70,6 +65,11 @@ export const appRoutes: Routes = [
 		path: 'daily-bulletin',
 		loadChildren: () =>
 			import('./daily-bulletin/daily-bulletin.module').then(m => m.DailyBulletinModule)
+	},
+	{
+		path: '**', // If you add another route, insert it ABOVE this.
+		pathMatch: 'full',
+		redirectTo: '/home'
 	}
 ];
 
