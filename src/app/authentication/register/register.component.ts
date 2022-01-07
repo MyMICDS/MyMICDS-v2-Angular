@@ -19,7 +19,7 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 
 	registerForm = this.formBuilder.group(
 		{
-			user: ['', [Validators.required, Validators.pattern(/^[a-z-]+$/)]],
+			user: ['', [Validators.required, Validators.pattern(/^[a-z-0-9]+$/)]],
 			password: ['', Validators.required],
 			confirmPassword: ['', Validators.required],
 			firstName: ['', Validators.required],
