@@ -50,7 +50,6 @@ import { SharedModule } from '../shared/shared.module';
 		WeatherComponent,
 		ModuleInspectorComponent
 	],
-	entryComponents: moduleComponents,
 	imports: [
 		CommonModule,
 		FontAwesomeModule,

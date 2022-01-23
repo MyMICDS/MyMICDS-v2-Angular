@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { capitalizeURL } from './common/utils';
 
 import { AlertDebugComponent } from './components/alert-debug/alert-debug.component';
-import { QuotesComponent } from './components/quotes/quotes.component';
 
 /**
  * Title functions
@@ -23,10 +22,6 @@ export const appRoutes: Routes = [
 		path: '',
 		redirectTo: '/home',
 		pathMatch: 'full'
-	},
-	{
-		path: 'quote',
-		component: QuotesComponent
 	},
 	{
 		path: 'alert-debug',
@@ -70,6 +65,11 @@ export const appRoutes: Routes = [
 		path: 'daily-bulletin',
 		loadChildren: () =>
 			import('./daily-bulletin/daily-bulletin.module').then(m => m.DailyBulletinModule)
+	},
+	{
+		path: '**', // If you add another route, insert it ABOVE this.
+		pathMatch: 'full',
+		redirectTo: '/home'
 	}
 ];
 
