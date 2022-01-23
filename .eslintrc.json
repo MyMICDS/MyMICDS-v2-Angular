@@ -22,6 +22,12 @@
         "plugin:@angular-eslint/recommended--extra"
       ],
       "rules": {
+        "@typescript-eslint/no-non-null-assertion": [
+          "off"
+        ],
+        "@typescript-eslint/no-unsafe-argument": [
+          "warn"
+        ],
         "@angular-eslint/component-selector": [
           "warn",
           {
