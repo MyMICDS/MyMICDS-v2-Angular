@@ -36,8 +36,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	resizeSensor: ResizeSensor;
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
-	announcement =
-		'The daily bulletin has been fixed and now features a link to the most recent bulletin!';
+	announcement = '';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 	editMode = false;
