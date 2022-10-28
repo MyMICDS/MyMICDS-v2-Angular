@@ -8,9 +8,9 @@ export class GradePipePipe implements PipeTransform {
 	transform(value: number) {
 		switch (value) {
 			case -1:
-				return 'SK';
-			case 0:
 				return 'JK';
+			case 0:
+				return 'SK';
 			default:
 				return `${value}${ordinalSuffix(value)} Grade`;
 		}
