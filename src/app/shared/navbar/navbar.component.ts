@@ -31,6 +31,11 @@ export class NavbarComponent extends SubscriptionsComponent implements OnInit {
 			icon: 'calendar'
 		},
 		{
+			url: '/daily-bulletin',
+			name: 'Daily Bulletin',
+			icon: 'bullhorn'
+		},
+		{
 			url: '/settings',
 			name: 'Settings',
 			icon: 'cog',
