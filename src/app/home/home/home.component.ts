@@ -36,7 +36,7 @@ export class HomeComponent extends SubscriptionsComponent implements OnInit, Aft
 	resizeSensor: ResizeSensor;
 
 	// Possibly show announcement (leave announcement as empty string for no announcement!)
-	announcement = '';
+	announcement = 'The planner feature is now fixed! Please re link your Veracross if it still doesnt work.';
 	dismissAnnouncement = false;
 	showAnnouncement = true;
 	editMode = false;
