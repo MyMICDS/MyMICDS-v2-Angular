@@ -1,4 +1,4 @@
-import { MyMICDS } from '@mymicds/sdk';
+import { MyMICDS, RegisterParameters } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import { confirmRegister } from '../../common/form-validation';
@@ -59,8 +59,11 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 
 	register() {
 		this.submitted = true;
+		// Remove confirmPassword from the form values
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { confirmPassword, ...registrationInfo } = this.registerForm.value;
 		this.addSubscription(
-			this.mymicds.auth.register(this.registerForm.value, true).subscribe(
+			this.mymicds.auth.register(registrationInfo as RegisterParameters, true).subscribe(
 				() => {
 					this.registerResponse = true;
 				},
