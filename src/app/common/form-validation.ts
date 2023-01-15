@@ -3,7 +3,7 @@
  * @TODO Find out a better way and remove this clustertruck
  */
 
-import { FormGroup, ValidatorFn } from '@angular/forms';
+import { UntypedFormGroup, ValidatorFn } from '@angular/forms';
 
 export function confirmRegister(passwordParams: string[], gradeParams: string[]): ValidatorFn {
 	return group => {
@@ -33,8 +33,8 @@ export function confirmRegister(passwordParams: string[], gradeParams: string[])
 
 export function confirmPassword(passwordKey: string, confirmPasswordKey: string): ValidatorFn {
 	return group => {
-		const password = (group as FormGroup).controls[passwordKey];
-		const confirmation = (group as FormGroup).controls[confirmPasswordKey];
+		const password = (group as UntypedFormGroup).controls[passwordKey];
+		const confirmation = (group as UntypedFormGroup).controls[confirmPasswordKey];
 
 		if (password.value !== confirmation.value) {
 			return { mismatchedPasswords: true };
@@ -50,8 +50,8 @@ export function confirmPassword(passwordKey: string, confirmPasswordKey: string)
 
 export function confirmGrade(gradYearKey: string, teacherKey: string): ValidatorFn {
 	return group => {
-		const gradYear = (group as FormGroup).controls[gradYearKey];
-		const teacher = (group as FormGroup).controls[teacherKey];
+		const gradYear = (group as UntypedFormGroup).controls[gradYearKey];
+		const teacher = (group as UntypedFormGroup).controls[teacherKey];
 
 		if (!teacher.value && !gradYear.value) {
 			return { invalidGrade: true };

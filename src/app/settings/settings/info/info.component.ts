@@ -1,7 +1,7 @@
 import { ChangeUserInfoParameters, GetUserInfoResponse, MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 
 import { AlertService } from '../../../services/alert.service';
 import { confirmGrade } from '../../../common/form-validation';
@@ -30,7 +30,7 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 
 	constructor(
 		private mymicds: MyMICDS,
-		private formBuilder: FormBuilder,
+		private formBuilder: UntypedFormBuilder,
 		private alertService: AlertService
 	) {
 		super();
@@ -110,9 +110,11 @@ export class InfoComponent extends SubscriptionsComponent implements OnInit, OnD
 	changeInfo() {
 		// Create new info object
 		const newInfo: ChangeUserInfoParameters = {};
-		(['firstName', 'lastName', 'gradYear', 'teacher'] as Array<
-			keyof ChangeUserInfoParameters
-		>).forEach(key => {
+		(
+			['firstName', 'lastName', 'gradYear', 'teacher'] as Array<
+				keyof ChangeUserInfoParameters
+			>
+		).forEach(key => {
 			newInfo[key] = this.infoForm.controls[key].value;
 		});
 

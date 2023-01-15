@@ -1,7 +1,7 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 
 import { AlertService } from '../../../services/alert.service';
 import { confirmPassword } from '../../../common/form-validation';
@@ -25,7 +25,7 @@ export class ChangePasswordComponent extends SubscriptionsComponent {
 	constructor(
 		private mymicds: MyMICDS,
 		private alertService: AlertService,
-		private formBuilder: FormBuilder
+		private formBuilder: UntypedFormBuilder
 	) {
 		super();
 	}

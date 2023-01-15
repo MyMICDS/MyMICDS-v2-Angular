@@ -1,7 +1,7 @@
 import { MyMICDS } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -19,9 +19,9 @@ export class SuggestionsComponent extends SubscriptionsComponent implements OnIn
 	suggestionResponse: unknown = null;
 	user: string;
 
-	suggestionsForm: FormGroup;
+	suggestionsForm: UntypedFormGroup;
 
-	constructor(private mymicds: MyMICDS, private fb: FormBuilder) {
+	constructor(private mymicds: MyMICDS, private fb: UntypedFormBuilder) {
 		super();
 	}
 

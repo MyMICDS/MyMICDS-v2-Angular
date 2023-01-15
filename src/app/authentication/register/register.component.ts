@@ -2,7 +2,7 @@ import { MyMICDS, RegisterParameters } from '@mymicds/sdk';
 
 import { Component, OnInit } from '@angular/core';
 import { confirmRegister } from '../../common/form-validation';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { typeOf } from '../../common/utils';
 
@@ -38,7 +38,7 @@ export class RegisterComponent extends SubscriptionsComponent implements OnInit 
 	constructor(
 		private mymicds: MyMICDS,
 		private router: Router,
-		private formBuilder: FormBuilder
+		private formBuilder: UntypedFormBuilder
 	) {
 		super();
 	}

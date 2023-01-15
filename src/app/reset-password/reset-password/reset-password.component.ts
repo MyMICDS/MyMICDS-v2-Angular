@@ -3,7 +3,7 @@ import { MyMICDS } from '@mymicds/sdk';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { confirmPassword } from '../../common/form-validation';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { typeOf } from '../../common/utils';
 
 import { SubscriptionsComponent } from '../../common/subscriptions-component';
@@ -34,7 +34,7 @@ export class ResetPasswordComponent extends SubscriptionsComponent implements On
 	constructor(
 		private mymicds: MyMICDS,
 		private router: Router,
-		private formBuilder: FormBuilder,
+		private formBuilder: UntypedFormBuilder,
 		private route: ActivatedRoute
 	) {
 		super();
