@@ -142,7 +142,7 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 				.subscribe(({ data, event }) => {
 					const newURL = (<NavigationEnd>event).urlAfterRedirects;
 
-					let title;
+					let title: string;
 					switch (typeof data.title) {
 						case 'string':
 							title = data.title;
@@ -156,9 +156,6 @@ export class AppComponent extends SubscriptionsComponent implements OnInit {
 					}
 
 					this.titleService.setTitle(title);
-
-					// Google Analytics track pageviews
-					ga('send', 'pageview', (event as NavigationEnd).urlAfterRedirects);
 				})
 		);
 	}

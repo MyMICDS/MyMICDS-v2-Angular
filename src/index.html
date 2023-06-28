@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<base href="/">
-		<meta charset="utf-8">
+		<base href="/" />
+		<meta charset="utf-8" />
 		<title>MyMICDS</title>
 		<!-- Looking for the full code? Check the "Inspect Element" menu! -->
 
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="description" content="MyMICDS.net for all of your MyMICDS.needs">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="MyMICDS.net for all of your MyMICDS.needs" />
 
-		<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png">
-		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
-		<link rel="manifest" href="/assets/favicons/manifest.json">
-		<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#a61d35">
-		<link rel="shortcut icon" href="/assets/favicons/favicon.ico">
-		<meta name="apple-mobile-web-app-title" content="MyMICDS">
-		<meta name="application-name" content="MyMICDS">
-		<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml">
-		<meta name="theme-color" content="#a61d35">
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png" />
+		<link rel="manifest" href="/assets/favicons/manifest.json" />
+		<link rel="mask-icon" href="/assets/favicons/safari-pinned-tab.svg" color="#a61d35" />
+		<link rel="shortcut icon" href="/assets/favicons/favicon.ico" />
+		<meta name="apple-mobile-web-app-title" content="MyMICDS" />
+		<meta name="application-name" content="MyMICDS" />
+		<meta name="msapplication-config" content="/assets/favicons/browserconfig.xml" />
+		<meta name="theme-color" content="#a61d35" />
 
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800"
+		/>
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en"></script>
 		<!-- Enable bootstrap 4 theme -->
-		<script>window.__theme = 'bs4';</script>
+		<script>
+			window.__theme = 'bs4';
+		</script>
 		<style>
 			.loading-container {
 				position: absolute;
@@ -51,7 +56,8 @@
 			.loading-container .loading .img-container img {
 				width: 5rem;
 				border-radius: 5rem;
-				animation: getUncomfortablyBigger 1.5s cubic-bezier(0.785, 0.135, 0.15, 0.86) infinite alternate;
+				animation: getUncomfortablyBigger 1.5s cubic-bezier(0.785, 0.135, 0.15, 0.86)
+					infinite alternate;
 			}
 
 			@keyframes rotate {
@@ -85,21 +91,22 @@
 			<div class="loading-container">
 				<div mymicds-blur class="loading">
 					<div class="img-container">
-						<img src="/assets/logo/logo.svg">
+						<img src="/assets/logo/logo.svg" />
 					</div>
 					<h1>MyMICDS.net is MyMICDS.loading...</h1>
 				</div>
 			</div>
 		</mymicds-app>
-		<!-- Google Analytics -->
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-KTP7ZK29GS"></script>
 		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-			ga('create', 'UA-84767987-1', 'auto');
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'G-KTP7ZK29GS');
 		</script>
-		<!-- End Google Analytics -->
 		<noscript>Please enable JavaScript to continue using this application.</noscript>
 	</body>
 </html>
